@@ -42,6 +42,9 @@ dependencies {
 
     implementation(Dep.Coroutine.core)
     implementation(Dep.Coroutine.android)
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
     testImplementation(Dep.Coroutine.test)
 
     implementation(Dep.Android.core)
@@ -63,6 +66,9 @@ dependencies {
     implementation(Dep.Retrofit.converterMoshi)
     implementation(Dep.Moshi.core)
     implementation(Dep.Moshi.kotlin)
+
+    implementation platform(Dep.Firebase.bom)
+    implementation(Dep.Firebase.analytics)
 
     implementation(Dep.timber)
 
