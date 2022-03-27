@@ -1,17 +1,24 @@
+import com.depromeet.baton.App
+import com.depromeet.baton.Dep
+
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+    id 'dagger.hilt.android.plugin'
+    id 'com.google.gms.google-services'
 }
 
 android {
-    compileSdk 31
+    compileSdk App.compileSdk
 
     defaultConfig {
         applicationId "com.depromeet.baton"
-        minSdk 24
-        targetSdk 31
-        versionCode 1
-        versionName "1.0"
+        minSdk App.minSdk
+        targetSdk App.targetSdk
+        versionCode App.versionCode
+        versionName App.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -33,11 +40,35 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'com.google.android.material:material:1.5.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    implementation(Dep.Coroutine.core)
+    implementation(Dep.Coroutine.android)
+    testImplementation(Dep.Coroutine.test)
+
+    implementation(Dep.Android.core)
+    implementation(Dep.Android.appcompat)
+    implementation(Dep.Android.material)
+    implementation(Dep.Android.constraintLayout)
+
+    implementation(Dep.Lifecycle.viewModel)
+    implementation(Dep.Lifecycle.runtime)
+    implementation(Dep.Lifecycle.savedState)
+
+    implementation(Dep.Dagger.hiltAndroid)
+    kapt(Dep.Dagger.hiltCompiler)
+
+    implementation(Dep.OkHttp.core)
+    implementation(Dep.OkHttp.loggingInterceptor)
+    implementation(Dep.OkHttp.mockWebServer)
+    implementation(Dep.Retrofit.core)
+    implementation(Dep.Retrofit.converterMoshi)
+    implementation(Dep.Moshi.core)
+    implementation(Dep.Moshi.kotlin)
+
+    implementation(Dep.timber)
+
+    testImplementation(Dep.Test.junit)
+    androidTestImplementation(Dep.AndroidTest.core)
+    androidTestImplementation(Dep.AndroidTest.rules)
+    androidTestImplementation(Dep.AndroidTest.runner)
+    androidTestImplementation(Dep.AndroidTest.junitExt)
 }
