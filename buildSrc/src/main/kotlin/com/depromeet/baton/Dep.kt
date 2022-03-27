@@ -29,6 +29,7 @@ object Dep {
         const val material = "com.google.android.material:material:1.5.0"
 
         const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.3"
+        const val fragment = "androidx.fragment:fragment-ktx:1.4.1"
 
         const val navigationCompose = "androidx.navigation:navigation-compose:2.4.0"
         const val hiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:1.0.0"
@@ -40,6 +41,7 @@ object Dep {
         const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:$version"
         const val savedState = "androidx.lifecycle:lifecycle-viewmodel-savedstate:$version"
         const val compose = "androidx.lifecycle:lifecycle-viewmodel-compose:$version"
+        const val livedata = "androidx.lifecycle:lifecycle-livedata-ktx:2.5.0-alpha05"
     }
 
     object Room {
