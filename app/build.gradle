@@ -74,6 +74,8 @@ dependencies {
     implementation(Dep.Firebase.analytics)
     implementation(Dep.Firebase.messaging)
 
+    implementation("com.naver.maps:map-sdk:3.14.0") //NAVER_SDK
+    
     implementation(Dep.timber)
 
     testImplementation(Dep.Test.junit)
