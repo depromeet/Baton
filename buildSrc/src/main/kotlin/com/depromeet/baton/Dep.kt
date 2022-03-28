@@ -128,6 +128,7 @@ object Dep {
     object Firebase {
         const val bom = "com.google.firebase:firebase-bom:29.0.4"
         const val analytics = "com.google.firebase:firebase-analytics-ktx"
+        const val messaging = "com.google.firebase:firebase-messaging-ktx:23.0.0"
     }
 
     const val timber = "com.jakewharton.timber:timber:5.0.1"
