@@ -25,7 +25,7 @@ class FirebaseMessagingService : FirebaseMessagingService() {
         val title = remoteMessage.notification?.title
         val message = remoteMessage.notification?.body
 
-        if (remoteMessage.notification?.body?.isNotEmpty() == true) {
+        if (!message.isNullOrEmpty()) {
             Timber.d("notice 타이틀: $title")
             Timber.d("notice 바디: $message")
             sendNotiNotification(remoteMessage)
