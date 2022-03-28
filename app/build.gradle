@@ -72,6 +72,7 @@ dependencies {
 
     implementation platform(Dep.Firebase.bom)
     implementation(Dep.Firebase.analytics)
+    implementation(Dep.Firebase.messaging)
 
     implementation(Dep.timber)
 
