@@ -10,6 +10,9 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
 android {
     compileSdk App.compileSdk
 
@@ -19,6 +22,10 @@ android {
         targetSdk App.targetSdk
         versionCode App.versionCode
         versionName App.versionName
+
+        buildConfigField "String", "NAVER_SDK_CLIENT_KEY", properties['naver_sdk_client_key']
+        manifestPlaceholders = [NAVER_SDK_CLIENT_KEY : naver_sdk_client_key ]
+                // local properties에 naver_sdk_client_key = "fwvv87bc6y" 추가
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -74,8 +81,9 @@ dependencies {
     implementation(Dep.Firebase.analytics)
     implementation(Dep.Firebase.messaging)
 
-    implementation("com.naver.maps:map-sdk:3.14.0") //NAVER_SDK
-    
+   // implementation("com.android.support:appcompat-v7:27.0.0")
+    implementation("com.naver.maps:map-sdk:3.14.0")  //NAVER_SDK
+
     implementation(Dep.timber)
 
     testImplementation(Dep.Test.junit)
