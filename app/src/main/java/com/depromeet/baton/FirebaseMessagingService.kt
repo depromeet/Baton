@@ -40,8 +40,7 @@ class FirebaseMessagingService : FirebaseMessagingService() {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
         val pendingIntent = PendingIntent.getActivity(
-            this, uniId, intent, PendingIntent.FLAG_ONE_SHOT
-        )
+            this, uniId, intent, PendingIntent.FLAG_MUTABLE)
 
         val channelId = "노티피케이션 메시지"
 
