@@ -15,11 +15,4 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-   <!-- <fragment
-        android:id="@+id/map_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:name="com.naver.maps.map.MapFragment" />
-        //Naver 지도 테스트용 -->
-
 </androidx.constraintlayout.widget.ConstraintLayout>
