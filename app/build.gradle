@@ -10,10 +10,13 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 android {
+
+    def keystorePropertiesFile = rootProject.file("keystore.properties")
+    def keystoreProperties = new Properties()
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
     compileSdk App.compileSdk
 
     defaultConfig {
@@ -23,9 +26,8 @@ android {
         versionCode App.versionCode
         versionName App.versionName
 
-        buildConfigField "String", "NAVER_SDK_CLIENT_KEY", properties['naver_sdk_client_key']
-        manifestPlaceholders = [NAVER_SDK_CLIENT_KEY : naver_sdk_client_key ]
-                // local properties에 naver_sdk_client_key = "fwvv87bc6y" 추가
+        buildConfigField "String", "NAVER_SDK_CLIENT_KEY", keystoreProperties['NAVER_SDK_CLIENT_KEY']
+        manifestPlaceholders = [NAVER_SDK_CLIENT_KEY : keystoreProperties['NAVER_SDK_CLIENT_KEY'] ]
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
