@@ -25,7 +25,7 @@ class FirebaseMessagingService : FirebaseMessagingService() {
         val title = remoteMessage.notification?.title
         val message = remoteMessage.notification?.body
 
-        if (remoteMessage.notification?.body?.isNotEmpty() == true) {
+        if (!message.isNullOrEmpty()) {
             Timber.d("notice 타이틀: $title")
             Timber.d("notice 바디: $message")
             sendNotiNotification(remoteMessage)
@@ -40,8 +40,7 @@ class FirebaseMessagingService : FirebaseMessagingService() {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
         val pendingIntent = PendingIntent.getActivity(
-            this, uniId, intent, PendingIntent.FLAG_ONE_SHOT
-        )
+            this, uniId, intent, PendingIntent.FLAG_MUTABLE)
 
         val channelId = "노티피케이션 메시지"
 
