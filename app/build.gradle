@@ -10,7 +10,13 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
+
 android {
+
+    def keystorePropertiesFile = rootProject.file("keystore.properties")
+    def keystoreProperties = new Properties()
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
     compileSdk App.compileSdk
 
     defaultConfig {
@@ -19,6 +25,9 @@ android {
         targetSdk App.targetSdk
         versionCode App.versionCode
         versionName App.versionName
+
+        buildConfigField "String", "NAVER_SDK_CLIENT_KEY", keystoreProperties['NAVER_SDK_CLIENT_KEY']
+        manifestPlaceholders = [NAVER_SDK_CLIENT_KEY : keystoreProperties['NAVER_SDK_CLIENT_KEY'] ]
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -73,6 +82,8 @@ dependencies {
     implementation platform(Dep.Firebase.bom)
     implementation(Dep.Firebase.analytics)
     implementation(Dep.Firebase.messaging)
+
+    implementation(Dep.naver_sdk)
 
     implementation(Dep.timber)
 
