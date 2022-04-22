@@ -15,10 +15,6 @@
         android:theme="@style/Theme.MyApplication"
        >
 
-        <meta-data
-            android:name="com.naver.maps.map.CLIENT_ID"
-            android:value="${NAVER_SDK_CLIENT_KEY}" />
-
         <activity
             android:name=".presentation.sample.SampleActivity"
             android:exported="false" />
@@ -27,7 +23,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

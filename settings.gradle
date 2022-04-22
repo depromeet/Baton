@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Baton"
 include ':app'
+include ':map_module'

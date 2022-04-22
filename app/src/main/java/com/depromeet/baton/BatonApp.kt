@@ -10,8 +10,6 @@ class BatonApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        NaverMapSdk.getInstance(this).client =
-            NaverMapSdk.NaverCloudPlatformClient(BuildConfig.NAVER_SDK_CLIENT_KEY)
         initLogger()
     }
 

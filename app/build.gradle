@@ -26,9 +26,6 @@ android {
         versionCode App.versionCode
         versionName App.versionName
 
-        buildConfigField "String", "NAVER_SDK_CLIENT_KEY", keystoreProperties['NAVER_SDK_CLIENT_KEY']
-        manifestPlaceholders = [NAVER_SDK_CLIENT_KEY : keystoreProperties['NAVER_SDK_CLIENT_KEY'] ]
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -53,8 +50,11 @@ android {
 
 dependencies {
 
+
+    implementation project(path: ':map_module', configuration: 'default')
     implementation(Dep.Coroutine.core)
     implementation(Dep.Coroutine.android)
+ //   implementation project(path: ':')
     testImplementation(Dep.Coroutine.test)
 
     implementation(Dep.Android.core)
