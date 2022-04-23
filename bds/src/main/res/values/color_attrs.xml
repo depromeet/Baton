@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="primary90" format="reference|color" />
+    <attr name="primary80" format="reference|color" />
+    <attr name="primary70" format="reference|color" />
+    <attr name="primary60" format="reference|color" />
+    <attr name="primary" format="reference|color" />
+    <attr name="primary40" format="reference|color" />
+    <attr name="primary30" format="reference|color" />
+    <attr name="primary20" format="reference|color" />
+    <attr name="primary10" format="reference|color" />
+    <attr name="primary5" format="reference|color" />
+
+    <attr name="secondary90" format="reference|color" />
+    <attr name="secondary80" format="reference|color" />
+    <attr name="secondary70" format="reference|color" />
+    <attr name="secondary60" format="reference|color" />
+    <attr name="secondary" format="reference|color" />
+    <attr name="secondary40" format="reference|color" />
+    <attr name="secondary30" format="reference|color" />
+    <attr name="secondary20" format="reference|color" />
+    <attr name="secondary10" format="reference|color" />
+
+    <attr name="like" format="reference|color" />
+    <attr name="dim" format="reference|color" />
+    <attr name="background" format="reference|color" />
+    <attr name="error" format="reference|color" />
+    <attr name="success" format="reference|color" />
+    <attr name="information" format="reference|color" />
+</resources>
