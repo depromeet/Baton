@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="BatonTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="primary90">@color/blue90</item>
+        <item name="primary80">@color/blue80</item>
+        <item name="primary70">@color/blue70</item>
+        <item name="primary60">@color/blue60</item>
+        <item name="primary">@color/blue50</item>
+        <item name="primary40">@color/blue40</item>
+        <item name="primary30">@color/blue30</item>
+        <item name="primary20">@color/blue20</item>
+        <item name="primary10">@color/blue10</item>
+        <item name="primary5">@color/blue5</item>
+
+        <item name="secondary90">@color/orange90</item>
+        <item name="secondary80">@color/orange80</item>
+        <item name="secondary70">@color/orange70</item>
+        <item name="secondary60">@color/orange60</item>
+        <item name="secondary">@color/orange50</item>
+        <item name="secondary40">@color/orange40</item>
+        <item name="secondary30">@color/orange30</item>
+        <item name="secondary20">@color/orange20</item>
+        <item name="secondary10">@color/orange10</item>
+
+        <item name="like">@color/like</item>
+        <item name="dim">@color/dim</item>
+        <item name="background">@color/bg10</item>
+        <item name="error">@color/error</item>
+        <item name="success">@color/success</item>
+        <item name="information">@color/information</item>
+    </style>
+</resources>
