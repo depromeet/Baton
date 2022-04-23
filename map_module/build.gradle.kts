@@ -68,6 +68,8 @@ dependencies {
     implementation(Dep.Android.core)
     implementation(Dep.Android.appcompat)
     implementation(Dep.Android.material)
+    implementation(Dep.Android.constraintLayout)
+    implementation(Dep.Android.fragment)
 
     implementation(Dep.Lifecycle.viewModel)
     implementation(Dep.Lifecycle.runtime)
@@ -93,5 +95,6 @@ dependencies {
 
 
     //Naver SDK
-    implementation(Dep.naver_sdk)
+    implementation(Dep.Map.naver_sdk)
+    implementation(Dep.Map.gms_location)
 }

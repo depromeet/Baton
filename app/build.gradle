@@ -51,7 +51,7 @@ android {
 dependencies {
 
 
-    implementation project(path: ':map_module', configuration: 'default')
+    implementation project(path: ':map_module')
     implementation(Dep.Coroutine.core)
     implementation(Dep.Coroutine.android)
  //   implementation project(path: ':')
@@ -83,7 +83,7 @@ dependencies {
     implementation(Dep.Firebase.analytics)
     implementation(Dep.Firebase.messaging)
 
-    implementation(Dep.naver_sdk)
+    implementation(Dep.Map.naver_sdk)
 
     implementation(Dep.timber)
 
