@@ -23,7 +23,7 @@
 
     <attr name="like" format="reference|color" />
     <attr name="dim" format="reference|color" />
-    <attr name="background" format="reference|color" />
+    <attr name="bds_background" format="reference|color" />
     <attr name="error" format="reference|color" />
     <attr name="success" format="reference|color" />
     <attr name="information" format="reference|color" />

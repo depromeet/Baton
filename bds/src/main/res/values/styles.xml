@@ -25,7 +25,7 @@
 
         <item name="like">@color/like</item>
         <item name="dim">@color/dim</item>
-        <item name="background">@color/bg10</item>
+        <item name="bds_background">@color/bg10</item>
         <item name="error">@color/error</item>
         <item name="success">@color/success</item>
         <item name="information">@color/information</item>
