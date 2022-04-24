@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="display1" format="reference" />
+    <attr name="display2" format="reference" />
+    <attr name="display3" format="reference" />
+    <attr name="display4" format="reference" />
+
+    <attr name="headline1" format="reference" />
+    <attr name="headline2" format="reference" />
+    <attr name="headline3" format="reference" />
+    <attr name="headline4" format="reference" />
+
+    <attr name="body1" format="reference" />
+    <attr name="body2" format="reference" />
+    <attr name="body3" format="reference" />
+    <attr name="body4" format="reference" />
+
+    <attr name="caption1" format="reference" />
+    <attr name="caption2" format="reference" />
+    <attr name="caption3" format="reference" />
+    <attr name="caption4" format="reference" />
+</resources>

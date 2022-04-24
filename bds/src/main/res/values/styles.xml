@@ -29,5 +29,25 @@
         <item name="error">@color/error</item>
         <item name="success">@color/success</item>
         <item name="information">@color/information</item>
+
+        <item name="display1">@style/Typography.D1.Bold</item>
+        <item name="display2">@style/Typography.D2.Bold</item>
+        <item name="display3">@style/Typography.D3.Bold</item>
+        <item name="display4">@style/Typography.D4.Bold</item>
+
+        <item name="headline1">@style/Typography.H1.Bold</item>
+        <item name="headline2">@style/Typography.H2.Bold</item>
+        <item name="headline3">@style/Typography.H3.Bold</item>
+        <item name="headline4">@style/Typography.H4.Bold</item>
+
+        <item name="body1">@style/Typography.B1.Medium</item>
+        <item name="body2">@style/Typography.B1.Regular</item>
+        <item name="body3">@style/Typography.B2.Medium</item>
+        <item name="body4">@style/Typography.B2.Regular</item>
+
+        <item name="caption1">@style/Typography.C1.Medium</item>
+        <item name="caption2">@style/Typography.C1.Regular</item>
+        <item name="caption3">@style/Typography.C2.Medium</item>
+        <item name="caption4">@style/Typography.C2.Regular</item>
     </style>
 </resources>
