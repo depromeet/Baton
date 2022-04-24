@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- https://pl.kotl.in/mu-bTAhHy -->
+<resources>
+
+    <style name="Typography">
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+
+    <style name="Typography.D1">
+        <item name="android:textSize">40sp</item>
+        <item name="lineHeight">52sp</item>
+    </style>
+
+
+    <style name="Typography.D1.Bold">
+        <item name="android:fontFamily">@font/spo_bold</item>
+    </style>
+
+
+    <style name="Typography.D2">
+        <item name="android:textSize">36sp</item>
+        <item name="lineHeight">46sp</item>
+    </style>
+
+
+    <style name="Typography.D2.Bold">
+        <item name="android:fontFamily">@font/spo_bold</item>
+    </style>
+
+
+    <style name="Typography.D3">
+        <item name="android:textSize">28sp</item>
+        <item name="lineHeight">38sp</item>
+    </style>
+
+
+    <style name="Typography.D3.Bold">
+        <item name="android:fontFamily">@font/spo_bold</item>
+    </style>
+
+
+    <style name="Typography.D4">
+        <item name="android:textSize">24sp</item>
+        <item name="lineHeight">28sp</item>
+    </style>
+
+
+    <style name="Typography.D4.Bold">
+        <item name="android:fontFamily">@font/spo_bold</item>
+    </style>
+
+
+    <style name="Typography.H1">
+        <item name="android:textSize">20sp</item>
+        <item name="lineHeight">28sp</item>
+    </style>
+
+
+    <style name="Typography.H1.Bold">
+        <item name="android:fontFamily">@font/spo_bold</item>
+    </style>
+
+
+    <style name="Typography.H2">
+        <item name="android:textSize">16sp</item>
+        <item name="lineHeight">22sp</item>
+    </style>
+
+
+    <style name="Typography.H2.Bold">
+        <item name="android:fontFamily">@font/spo_bold</item>
+    </style>
+
+
+    <style name="Typography.H3">
+        <item name="android:textSize">14sp</item>
+        <item name="lineHeight">20sp</item>
+    </style>
+
+
+    <style name="Typography.H3.Bold">
+        <item name="android:fontFamily">@font/spo_bold</item>
+    </style>
+
+
+    <style name="Typography.H4">
+        <item name="android:textSize">12sp</item>
+        <item name="lineHeight">18sp</item>
+    </style>
+
+
+    <style name="Typography.H4.Bold">
+        <item name="android:fontFamily">@font/spo_bold</item>
+    </style>
+
+
+    <style name="Typography.B1">
+        <item name="android:textSize">16sp</item>
+        <item name="lineHeight">24sp</item>
+    </style>
+
+
+    <style name="Typography.B1.Medium">
+        <item name="android:fontFamily">@font/spo_medium</item>
+    </style>
+
+
+    <style name="Typography.B1.Regular">
+        <item name="android:fontFamily">@font/spo_regular</item>
+    </style>
+
+
+    <style name="Typography.B2">
+        <item name="android:textSize">14sp</item>
+        <item name="lineHeight">20sp</item>
+    </style>
+
+
+    <style name="Typography.B2.Medium">
+        <item name="android:fontFamily">@font/spo_medium</item>
+    </style>
+
+
+    <style name="Typography.B2.Regular">
+        <item name="android:fontFamily">@font/spo_regular</item>
+    </style>
+
+
+    <style name="Typography.C1">
+        <item name="android:textSize">12sp</item>
+        <item name="lineHeight">18sp</item>
+    </style>
+
+
+    <style name="Typography.C1.Medium">
+        <item name="android:fontFamily">@font/spo_medium</item>
+    </style>
+
+
+    <style name="Typography.C1.Regular">
+        <item name="android:fontFamily">@font/spo_regular</item>
+    </style>
+
+
+    <style name="Typography.C2">
+        <item name="android:textSize">10sp</item>
+        <item name="lineHeight">15sp</item>
+    </style>
+
+
+    <style name="Typography.C2.Medium">
+        <item name="android:fontFamily">@font/spo_medium</item>
+    </style>
+
+
+    <style name="Typography.C2.Regular">
+        <item name="android:fontFamily">@font/spo_regular</item>
+    </style>
+</resources>
