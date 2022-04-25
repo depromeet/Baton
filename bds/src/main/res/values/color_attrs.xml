@@ -21,6 +21,17 @@
     <attr name="secondary20" format="reference|color" />
     <attr name="secondary10" format="reference|color" />
 
+    <attr name="grey_scale90" format="reference|color" />
+    <attr name="grey_scale80" format="reference|color" />
+    <attr name="grey_scale70" format="reference|color" />
+    <attr name="grey_scale60" format="reference|color" />
+    <attr name="grey_scale50" format="reference|color" />
+    <attr name="grey_scale40" format="reference|color" />
+    <attr name="grey_scale30" format="reference|color" />
+
+    <attr name="bk100" format="reference|color" />
+    <attr name="wh100" format="reference|color" />
+
     <attr name="like" format="reference|color" />
     <attr name="dim" format="reference|color" />
     <attr name="bds_background" format="reference|color" />
