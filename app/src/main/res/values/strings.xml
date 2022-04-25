@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name">Baton</string>
-    
+
     <string name="main_home">홈</string>
     <string name="main_search">검색</string>
     <string name="main_chatting">채팅</string>
     <string name="main_mypage">마이페이지</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
