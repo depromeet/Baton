@@ -31,6 +31,9 @@
         <item name="grey_scale40">@color/gy40</item>
         <item name="grey_scale30">@color/gy30</item>
 
+        <item name="bk100">@color/bk100</item>
+        <item name="wh100">@color/wh100</item>
+
         <item name="like">@color/like</item>
         <item name="dim">@color/dim</item>
         <item name="bds_background">@color/bg10</item>
