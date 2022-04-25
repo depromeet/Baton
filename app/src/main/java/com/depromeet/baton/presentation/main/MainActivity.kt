@@ -1,6 +1,7 @@
 package com.depromeet.baton.presentation.main
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ActivityMainBinding
 import com.depromeet.baton.presentation.base.BaseActivity
@@ -8,7 +9,6 @@ import com.depromeet.baton.presentation.ui.chatting.ChattingFragment
 import com.depromeet.baton.presentation.ui.home.HomeFragment
 import com.depromeet.baton.presentation.ui.mypage.MyPageFragment
 import com.depromeet.baton.presentation.ui.search.SearchFragment
-import com.depromeet.baton.util.replace
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -53,5 +53,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             }
             false
         }
+    }
+
+    private fun replace(fragment: Fragment) {
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fcv_main, fragment, null)
+            .commit()
     }
 }
