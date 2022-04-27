@@ -6,7 +6,8 @@ import java.util.Properties
 
 
 plugins {
-    id("com.android.application")
+    id ("com.android.application")
+    //id ("com.android.library")
     id("org.jetbrains.kotlin.android")
     id ("kotlin-kapt")
     id ("kotlin-parcelize")
@@ -21,6 +22,7 @@ android {
     val keystorePropertiesFile = rootProject.file("keystore.properties")
     val keystoreProperties = Properties()
     keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+
 
     defaultConfig {
         applicationId = "com.depromeet.baton.map_module"
@@ -66,6 +68,7 @@ android {
 
 dependencies {
 
+    implementation(project(":bds"))
     implementation(Dep.Android.core)
     implementation(Dep.Android.appcompat)
     implementation(Dep.Android.material)

@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 class GPSDataSource @Inject constructor (applicationContext: Context){
 
-    private val REQUEST_INTERVAL = 1000 as Long
+    private val REQUEST_INTERVAL:Long = 1000
 
     private val fusedLocationProviderClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(applicationContext)  //자동으로 gps값을 받아온다.
     private var locationCallback: LocationCallback? =null
