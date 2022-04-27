@@ -1,0 +1,30 @@
+name: Android CI
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  build:
+    uses: ./.github/workflows/launch_gradle_commands.yml
+    secrets:
+      GOOGLE_SERVICES: ${{ secrets.GOOGLE_SERVICES }}
+      KEYSTORE_PROPERTIES: ${{ secrets.KEYSTORE_PROPERTIES }}
+    with:
+      commands: build
+#
+#    steps:
+#    - uses: actions/checkout@v3
+#    - name: set up JDK 11
+#      uses: actions/setup-java@v3
+#      with:
+#        java-version: '11'
+#        distribution: 'temurin'
+#        cache: gradle
+
+#    - name: Grant execute permission for gradlew
+#      run: chmod +x gradlew
+#    - name: Build with Gradle
+#      run: ./gradlew build
