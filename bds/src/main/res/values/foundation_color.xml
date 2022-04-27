@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="blue90">#001D7A</color>
+    <color name="blue80">#002993</color>
+    <color name="blue70">#003AB7</color>
+    <color name="blue60">#004EDB</color>
+    <color name="blue50">#0066FF</color>
+    <color name="blue40">#3F94FF</color>
+    <color name="blue30">#66AFFF</color>
+    <color name="blue20">#99CEFF</color>
+    <color name="blue10">#CCE8FF</color>
+    <color name="blue5">#EAF6FF</color>
+
+    <color name="orange90">#7A0A06</color>
+    <color name="orange80">#93180B</color>
+    <color name="orange70">#B72D12</color>
+    <color name="orange60">#DB461A</color>
+    <color name="orange50">#FF6524</color>
+    <color name="orange40">#FF965A</color>
+    <color name="orange30">#FFB47B</color>
+    <color name="orange20">#FFD3A7</color>
+    <color name="orange10">#FFEBD3</color>
+
+    <color name="gy90">#25272B</color>
+    <color name="gy80">#44474B</color>
+    <color name="gy70">#656A71</color>
+    <color name="gy60">#9FA4AB</color>
+    <color name="gy50">#CFD1D5</color>
+    <color name="gy40">#E7E8EA</color>
+    <color name="gy30">#F4F4F5</color>
+
+    <color name="bk100">#000000</color>
+    <color name="wh100">#ffffff</color>
+
+    <color name="like">#FB515C</color>
+    <color name="dim">#99000000</color>
+
+    <color name="bg10">#F7F7F7</color>
+
+    <color name="error">#E7272D</color>
+    <color name="success">#249F42</color>
+    <color name="information">#1D98F9</color>
+</resources>

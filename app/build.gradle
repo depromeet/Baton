@@ -53,6 +53,8 @@ android {
 
 dependencies {
 
+    implementation(project(":bds"))
+
     implementation(Dep.Coroutine.core)
     implementation(Dep.Coroutine.android)
     testImplementation(Dep.Coroutine.test)
