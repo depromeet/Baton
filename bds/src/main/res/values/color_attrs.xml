@@ -4,7 +4,7 @@
     <attr name="primary80" format="reference|color" />
     <attr name="primary70" format="reference|color" />
     <attr name="primary60" format="reference|color" />
-    <attr name="primary" format="reference|color" />
+    <attr name="primary50" format="reference|color" />
     <attr name="primary40" format="reference|color" />
     <attr name="primary30" format="reference|color" />
     <attr name="primary20" format="reference|color" />
