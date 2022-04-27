@@ -6,8 +6,7 @@ import java.util.Properties
 
 
 plugins {
-    id ("com.android.application")
-    //id ("com.android.library")
+    id ("com.android.library")
     id("org.jetbrains.kotlin.android")
     id ("kotlin-kapt")
     id ("kotlin-parcelize")
@@ -25,11 +24,9 @@ android {
 
 
     defaultConfig {
-        applicationId = "com.depromeet.baton.map_module"
+
         minSdk = App.minSdk
         targetSdk = App.targetSdk
-        versionCode = App.versionCode
-        versionName = App.versionName
 
         buildConfigField( "String", "NAVER_SDK_CLIENT_KEY", keystoreProperties["NAVER_SDK_CLIENT_KEY"].toString())
         manifestPlaceholders ["NAVER_SDK_CLIENT_KEY"]= keystoreProperties["NAVER_SDK_CLIENT_KEY"].toString()

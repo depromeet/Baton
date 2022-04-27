@@ -51,11 +51,9 @@ android {
 dependencies {
 
     implementation(project(":bds"))
-    implementation project(path: ':map_module')
-    //api project (":map_module")
+    implementation project(':map_module')
     implementation(Dep.Coroutine.core)
     implementation(Dep.Coroutine.android)
- //   implementation project(path: ':')
     testImplementation(Dep.Coroutine.test)
 
     implementation(Dep.Android.core)

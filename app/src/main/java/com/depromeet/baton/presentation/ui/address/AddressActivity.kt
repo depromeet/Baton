@@ -1,4 +1,4 @@
-package com.depromeet.baton.map.presentation
+package com.depromeet.baton.presentation.ui.address
 
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -7,17 +7,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.depromeet.baton.map.databinding.ActivityMapBinding
+import com.depromeet.baton.databinding.ActivityAddressBinding
 import com.depromeet.baton.map.util.NetworkResult
 import com.depromeet.baton.map.util.UiState
-import com.google.android.material.snackbar.Snackbar
-import com.naver.maps.map.*
+import com.naver.maps.map.NaverMap
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-
 @AndroidEntryPoint
-class MapActivity  : AppCompatActivity() {
+class AddressActivity  : AppCompatActivity() {
     companion object {
         val PERMISSION_REQUEST = 99
         lateinit var naverMap: NaverMap
@@ -28,10 +26,10 @@ class MapActivity  : AppCompatActivity() {
         //권한 가져오기
     }
 
-    val mapViewModel by viewModels<MapViewModel>()
+    val mapViewModel by viewModels<AddressViewModel>()
 
-    private val binding: ActivityMapBinding by lazy {
-        ActivityMapBinding.inflate(layoutInflater)
+    private val binding: ActivityAddressBinding by lazy {
+        ActivityAddressBinding.inflate(layoutInflater)
     }
 
 

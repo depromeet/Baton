@@ -1,4 +1,4 @@
-package com.depromeet.baton.map.presentation
+package com.depromeet.baton.presentation.ui.address
 
 import androidx.lifecycle.*
 import com.depromeet.baton.map.domain.usecase.GetAddressUseCase
@@ -6,13 +6,14 @@ import com.depromeet.baton.map.util.NetworkResult
 import com.depromeet.baton.map.util.UiState
 import com.naver.maps.geometry.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class MapViewModel  @Inject constructor(
+class AddressViewModel  @Inject constructor(
     private val addressUseCase: GetAddressUseCase,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel(){
@@ -26,29 +27,8 @@ class MapViewModel  @Inject constructor(
 
     //현재 내 위치 정보 받아오기
     fun getMyAddress()= viewModelScope.launch {
-        _address.value =NetworkResult.Loading()
+        _address.value = NetworkResult.Loading()
         addressUseCase.getMyAddress().collect{
-             values ->
-            when(values){
-                is NetworkResult.Success ->{
-                    Timber.e(values.data)
-                    _address.value =values
-                    _uiState.value = UiState.Success(values)
-                    addressUseCase.stopLocationUpdate()
-                }
-                is NetworkResult.Error ->{
-                    Timber.e(values.message)
-                }
-                is NetworkResult.Loading->{
-                    _uiState.value = UiState.Loading
-                }
-            }
-        }
-    }
-
-    fun gpsToAddress (location : LatLng) = viewModelScope.launch {
-        _address.value =NetworkResult.Loading()
-        addressUseCase.gpsConverter(location).collect{
                 values ->
             when(values){
                 is NetworkResult.Success ->{
@@ -67,5 +47,25 @@ class MapViewModel  @Inject constructor(
         }
     }
 
+    fun gpsToAddress (location : LatLng) = viewModelScope.launch {
+        _address.value = NetworkResult.Loading()
+        addressUseCase.gpsConverter(location).collect{
+                values ->
+            when(values){
+                is NetworkResult.Success ->{
+                    Timber.e(values.data)
+                    _address.value =values
+                    _uiState.value = UiState.Success(values)
+                    addressUseCase.stopLocationUpdate()
+                }
+                is NetworkResult.Error ->{
+                    Timber.e(values.message)
+                }
+                is NetworkResult.Loading->{
+                    _uiState.value = UiState.Loading
+                }
+            }
+        }
+    }
 
 }
