@@ -12,8 +12,8 @@
     <string name="home_banner_title_one">바통 이용법을</string>
     <string name="home_banner_title_two">안내해드려요!</string>
     <string name="home_banner_see_more">자세히 보기</string>
-    <string name="home_gym_ticket">헬스권</string>
-    <string name="home_pt_ticket">PT이용권</string>
+    <string name="home_gym">헬스권</string>
+    <string name="home_pt">PT이용권</string>
     <string name="home_pilates">필라테스</string>
     <string name="home_etc">기타</string>
     <string name="home_near_ticket">내 근처 양도권</string>
@@ -30,11 +30,11 @@
     <string name="filter_alignment_bookmark">북마크 많은순</string>
     <string name="filter_alignment_term">기간 많은순</string>
 
-    <string name="filter_transfer_right_kind">양도권 종류</string>
-    <string name="filter_transfer_right_kind_gym">헬스 회원권</string>
-    <string name="filter_transfer_right_kind_pt">PT 이용권</string>
-    <string name="filter_transfer_right_kind_pilates_yoga">필라테스/요가</string>
-    <string name="filter_transfer_right_kind_etc">기타</string>
+    <string name="filter_ticket_kind">양도권 종류</string>
+    <string name="filter_ticket_gym">헬스 회원권</string>
+    <string name="filter_ticket_pt">PT 이용권</string>
+    <string name="filter_ticket_pilates_yoga">필라테스/요가</string>
+    <string name="filter_ticket_etc">기타</string>
 
     <string name="filter_term">기간</string>
     <string name="filter_term_explain">양도권 종류를 먼저 선택해주세요.</string>
