@@ -1,4 +1,4 @@
-package com.depromeet.baton.di
+package com.depromeet.baton.presentation.di
 
 import com.squareup.moshi.Moshi
 import dagger.Module
