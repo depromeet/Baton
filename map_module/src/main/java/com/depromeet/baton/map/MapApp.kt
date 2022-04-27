@@ -2,8 +2,12 @@ package com.depromeet.baton.map
 
 import android.app.Application
 import com.naver.maps.map.NaverMapSdk
+import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
+
+
+@HiltAndroidApp
 class MapApp: Application() {
     override fun onCreate() {
         super.onCreate()

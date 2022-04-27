@@ -1,6 +1,7 @@
 package com.depromeet.baton
 
 import android.app.Application
+import com.naver.maps.map.BuildConfig
 import com.naver.maps.map.NaverMapSdk
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber

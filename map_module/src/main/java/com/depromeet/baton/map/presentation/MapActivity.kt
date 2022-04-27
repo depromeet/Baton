@@ -1,96 +1,92 @@
 package com.depromeet.baton.map.presentation
 
+import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.depromeet.baton.map.BuildConfig
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.depromeet.baton.map.databinding.ActivityMapBinding
-import com.naver.maps.geometry.Tm128
+import com.depromeet.baton.map.util.NetworkResult
+import com.depromeet.baton.map.util.UiState
+import com.google.android.material.snackbar.Snackbar
 import com.naver.maps.map.*
-import com.naver.maps.map.overlay.Marker
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
-class MapActivity  : AppCompatActivity()  , OnMapReadyCallback {
-    companion object{
+
+@AndroidEntryPoint
+class MapActivity  : AppCompatActivity() {
+    companion object {
+        val PERMISSION_REQUEST = 99
         lateinit var naverMap: NaverMap
+        var permissions = arrayOf(
+            android.Manifest.permission.ACCESS_FINE_LOCATION,
+            android.Manifest.permission.ACCESS_COARSE_LOCATION
+        )
+        //권한 가져오기
     }
-    private val binding  : ActivityMapBinding by lazy {
+
+    val mapViewModel by viewModels<MapViewModel>()
+
+    private val binding: ActivityMapBinding by lazy {
         ActivityMapBinding.inflate(layoutInflater)
     }
-  //  private val viewModel: SampleViewModel by viewModels()
 
-    private val CLIENT_ID = BuildConfig.NAVER_API_CLIENT_ID_KEY
-    private val SECRET_KEY = BuildConfig.NAVER_API_CLIENT_SECRET_KEY
-    val _searchPos = MutableLiveData<Pos>(Pos(306985,545308))
-    val searchPos : LiveData<Pos> get() = _searchPos
-    lateinit var mapView: MapView
-    val TAG="NAVER TEST"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        mapView = binding.mapView
-        mapView.onCreate(savedInstanceState)
-        mapView.getMapAsync(this)
 
-        init()
+        setObserver()
+
+        if (isPermitted()) fetchData()
+        else requestPermissions(permissions, PERMISSION_REQUEST)//권한 확인
+
+
     }
 
-    override fun onMapReady(naverMap: NaverMap) {
-        MapActivity .naverMap= naverMap
-        val tm128= Tm128(searchPos.value?.xpos!!.toDouble(), searchPos.value?.ypos!!.toDouble())
-        val latLng= tm128.toLatLng()
-        var camPos = CameraPosition(
-            latLng,
-            13.0
-        )
-        val marker = Marker()
-        marker.position = tm128.toLatLng()
-        marker.map = Companion.naverMap
 
+    private fun isPermitted(): Boolean {
+        for (perm in permissions)
+            if (checkSelfPermission(perm) != PackageManager.PERMISSION_GRANTED) return false
+        return true
+    }//권한을 허락 받아야함
 
-        naverMap.cameraPosition = camPos
-    }
+    fun  setObserver() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    mapViewModel.uiState.collect {
+                        when (it) {
+                            UiState.Loading -> {
+                                //TODO : do something
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
-    fun init(){
-        binding.searchBtn.setOnClickListener {
-            val query = binding.searchEdittext.text.toString()
-            getResultSearch(query)
+        mapViewModel.address.observe(this) { response ->
+            when (response) {
+                is NetworkResult.Success -> {
+
+                }
+                is NetworkResult.Error -> {
+                    // show error message
+                }
+                is NetworkResult.Loading -> {
+
+                }
+            }
         }
     }
 
-    fun getResultSearch( query : String) {
-//        val apiInterface: NaverApiInterface = ApiClient.instance!!.create(NaverApiInterface ::class.java)
-//        apiInterface.getSearchResult(CLIENT_ID, SECRET_KEY, "local.json", query,5)?.enqueue(object :
-//            Callback<NaverLocalResponse> {
-//            override fun onResponse(call: Call<NaverLocalResponse>?, response: Response<NaverLocalResponse>) {
-//                if (response.isSuccessful() && response.body() != null) {
-//                    val result= response.body()!!
-//                    Log.e(TAG, "성공 : $result")
-//                    val pos = Pos(result.items.get(0).mapx, result.items.get(0).mapy)
-//                    _searchPos.value =pos
-//                    val tm128= Tm128(searchPos.value?.xpos!!.toDouble(), searchPos.value?.ypos!!.toDouble())
-//
-//                    Log.e(TAG, "pos : " + searchPos.value )
-//                    var list = ""
-//                    result.items.forEach {
-//                            it -> list =  list.plus("[매장]:"+it.title+"/"+it.address+'\n')
-//                    }
-//                    Log.e(TAG, list)
-//                    binding.resultTv.text=list
-//
-//                } else {
-//                    Log.e(TAG, "실패 : " + response.body())
-//                }
-//            }
-//            override fun onFailure(call: Call<NaverLocalResponse>?, t: Throwable) {
-//                Log.e(TAG, "에러 : " + t.message)
-//            }
-//        })
+
+    private fun fetchData() {
+        mapViewModel.getMyAddress()
     }
+
 }
-data class Pos (
-    var xpos : Int=0,
-    var ypos : Int =0
-)
