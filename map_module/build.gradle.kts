@@ -34,6 +34,7 @@ android {
 
         buildConfigField ("String", "NAVER_API_CLIENT_ID_KEY", keystoreProperties["NAVER_API_CLIENT_ID_KEY"].toString())
         buildConfigField ("String", "NAVER_API_CLIENT_SECRET_KEY", keystoreProperties["NAVER_API_CLIENT_SECRET_KEY"].toString())
+        buildConfigField ("String", "KAKAO_REST_API_KEY", keystoreProperties["KAKAO_REST_API_KEY"].toString())
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -84,6 +85,8 @@ dependencies {
     implementation(Dep.OkHttp.mockWebServer)
     implementation(Dep.Retrofit.core)
     implementation(Dep.Retrofit.converterMoshi)
+    implementation(Dep.Moshi.core)
+    implementation(Dep.Moshi.kotlin)
 
     implementation(Dep.timber)
 
