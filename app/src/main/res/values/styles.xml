@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--  Home Chip Button  -->
+    <style name="Chip.Entry" parent="Widget.MaterialComponents.Chip.Entry">
+        <item name="chipBackgroundColor">?wh100</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="closeIconSize">@dimen/dimen12</item>
+        <item name="closeIconStartPadding">0dp</item>
+        <item name="closeIconEndPadding">@dimen/dimen8</item>
+        <item name="checkedIconVisible">false</item>
+        <item name="closeIcon">@drawable/ic_chevron_down_resize</item>
+        <item name="closeIconTint">@color/selector_chip_text_color</item>
+        <item name="android:textColor">@color/selector_chip_text_color</item>
+        <item name="chipCornerRadius">@dimen/dimen24</item>
+        <item name="chipStrokeColor">@color/selector_chip_stroke_color</item>
+        <item name="ensureMinTouchTargetSize">false</item>
+        <item name="textStartPadding">@dimen/dimen12</item>
+    </style>
+</resources>
