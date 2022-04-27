@@ -4,8 +4,6 @@
     package="com.depromeet.baton">
 
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name=".BatonApp"
@@ -20,6 +18,9 @@
         <activity
             android:name=".presentation.sample.SampleActivity"
             android:exported="false" />
+        <activity
+            android:name=".presentation.ui.address.AddressActivity"
+            android:exported="true"/>
         <activity
             android:name=".presentation.main.MainActivity"
             android:exported="true">
