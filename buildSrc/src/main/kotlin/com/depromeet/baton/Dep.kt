@@ -136,6 +136,14 @@ object Dep {
         const val gms_location="com.google.android.gms:play-services-location:17.1.0"
     }
 
+    object XmlParser{
+        const val tickaroo = "com.tickaroo.tikxml:annotation:0.8.13"
+        const val tickaroo_core = "com.tickaroo.tikxml:core:0.8.13"
+        const val tickaroo_retrofit = "com.tickaroo.tikxml:retrofit-converter:0.8.13"
+        const val tickaroo_processor= "com.tickaroo.tikxml:processor:0.8.13"
+    }
+
+
     const val timber = "com.jakewharton.timber:timber:5.0.1"
     const val snapper = "dev.chrisbanes.snapper:snapper:<version>"
 }
