@@ -1,16 +1,12 @@
-package com.depromeet.baton.presentation.sample
+package com.depromeet.baton.map.data.service
 
-import com.google.gson.GsonBuilder
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-
-
-object ApiClient {
+object NaverApiClient {
     private const val BASE_URL = "https://openapi.naver.com/v1/"
     private var retrofit: Retrofit? = null
     val instance: Retrofit?
@@ -26,5 +22,3 @@ object ApiClient {
             return retrofit
         }
 }
-
-

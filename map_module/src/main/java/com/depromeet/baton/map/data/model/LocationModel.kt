@@ -1,7 +1,8 @@
 package com.depromeet.baton.map.data.model
 
 import android.location.Location
-import com.depromeet.baton.map.domain.entity.AddressEntity
+import com.depromeet.baton.map.domain.entity.LocationEntity
+
 
 class LocationModel {
     val location : Location
@@ -13,6 +14,6 @@ class LocationModel {
         longitude=location.longitude
         latitude=location.latitude
     }
-    fun mapToDomain() : AddressEntity = AddressEntity(location.latitude, location.longitude)
+    fun mapToDomain() : LocationEntity = LocationEntity(location.latitude, location.longitude)
 
 }

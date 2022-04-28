@@ -1,6 +1,5 @@
 package com.depromeet.baton.map.base.di
 
-import com.depromeet.baton.map.BuildConfig
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides

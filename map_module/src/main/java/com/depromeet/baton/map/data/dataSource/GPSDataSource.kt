@@ -25,6 +25,7 @@ class GPSDataSource @Inject constructor (applicationContext: Context){
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(result: LocationResult) {
                 result ?: return
+                Timber.e("get => ${result.lastLocation}")
                 for ((i, location) in result.locations.withIndex()) {
                     trySend(LocationModel(result.lastLocation))
                 }
@@ -42,6 +43,7 @@ class GPSDataSource @Inject constructor (applicationContext: Context){
             interval = REQUEST_INTERVAL //1초에 한번씩 GPS 요청
         }
         if(locationCallback != null)
+
         fusedLocationProviderClient.requestLocationUpdates(
             locationRequest,
             locationCallback!!,

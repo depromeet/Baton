@@ -1,6 +1,7 @@
 package com.depromeet.baton.map.domain.usecase
 
 import com.depromeet.baton.map.domain.entity.AddressEntity
+import com.depromeet.baton.map.domain.entity.LocationEntity
 import com.depromeet.baton.map.domain.repository.AddressRepository
 import com.depromeet.baton.map.util.NetworkResult
 import com.depromeet.baton.map.util.NetworkResultMapper
@@ -28,10 +29,10 @@ class GetAddressUseCase @Inject constructor(private val repository : AddressRepo
         repository.stopAddressRequest()
     }
 
-    inner class AddressMapper() : NetworkResultMapper<AddressEntity,String>{
-        override fun mapper(input: NetworkResult<AddressEntity>): NetworkResult<String> {
-            if(input is NetworkResult.Success) input.data?.let {  return NetworkResult.Success<String>(it.mapToUi()) }
-            return NetworkResult.Error<String>(input.message.toString())
+    inner class AddressMapper() : NetworkResultMapper<LocationEntity,AddressEntity>{
+        override fun mapper(input: NetworkResult<LocationEntity>): NetworkResult<AddressEntity> {
+            if(input is NetworkResult.Success) input.data?.let {  return NetworkResult.Success<AddressEntity>(it.mapToUi()) }
+            return NetworkResult.Error<AddressEntity>(input.message.toString())
         }
     }
 }

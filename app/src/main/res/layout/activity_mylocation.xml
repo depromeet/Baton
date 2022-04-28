@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.depromeet.baton.presentation.ui.address.AddressViewModel" />
+    </data>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/address_location_header"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen56"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:gravity="center"
+                    android:text="현재위치"
+                    android:textColor="@color/gy80"
+                    android:fontFamily="@font/spo_bold"
+                    android:textSize="@dimen/dimen16"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="다음"
+                    android:textSize="@dimen/dimen16"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@color/gy30"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="이 위치로 변경할까요?"
+                android:textColor="@color/gy80"
+                android:fontFamily="@font/spo_bold"
+                android:textSize="@dimen/dimen16"
+                android:layout_marginLeft="@dimen/dimen16"
+                android:layout_marginTop="@dimen/dimen24"
+                />
+
+            <TextView
+                android:id="@+id/address_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.address.data.address}"
+                android:textColor="@color/gy80"
+                android:fontFamily="@font/spo_bold"
+                android:textSize="@dimen/dimen16"
+                android:layout_marginLeft="@dimen/dimen16"
+                android:layout_marginTop="@dimen/dimen24"
+                />
+
+            <TextView
+                android:id="@+id/roadAddress_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="도로명주소"
+                android:textColor="@color/gy60"
+                android:fontFamily="@font/spo_bold"
+                android:textSize="@dimen/dimen12"
+                android:layout_marginLeft="@dimen/dimen16"
+                android:layout_marginTop="@dimen/dimen12"
+                />
+
+            <EditText
+                android:id="@+id/address_detail_et"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen42"
+                android:layout_marginHorizontal="@dimen/dimen16"
+                android:layout_marginTop="@dimen/dimen12"
+                android:visibility="invisible"
+                android:background="@color/gy30"
+                android:hint=" 상세 주소 입력란"
+                tools:ignore="TouchTargetSizeCheck" />
+
+        </LinearLayout>
+        <ProgressBar
+            android:id="@+id/location_progress"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:visibility="visible"
+            />
+    </FrameLayout>
+
+</layout>

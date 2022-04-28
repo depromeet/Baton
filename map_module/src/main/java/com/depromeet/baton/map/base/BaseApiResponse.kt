@@ -2,6 +2,7 @@ package com.depromeet.baton.map.base
 
 import com.depromeet.baton.map.util.NetworkResult
 import retrofit2.Response
+import timber.log.Timber
 
 abstract class BaseApiResponse {
     suspend fun <T> safeApiCall(apiCall: suspend () -> Response<T>): NetworkResult<T> {

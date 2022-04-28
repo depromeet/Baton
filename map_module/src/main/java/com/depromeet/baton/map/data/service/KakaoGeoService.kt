@@ -1,8 +1,9 @@
 package com.depromeet.baton.map.data
 
-import com.depromeet.baton.map.BuildConfig
+
 import com.depromeet.baton.map.data.model.KakaoGeoResponse
 import com.depromeet.baton.map.data.service.KakaoApiClient
+import com.depromeet.map.BuildConfig
 import retrofit2.*
 import retrofit2.http.GET
 import retrofit2.http.Header

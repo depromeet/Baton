@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.depromeet.baton.presentation.ui.address.AddressViewModel" />
+    </data>
+    <LinearLayout
+        android:background="@color/wh100"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <include
+            android:id="@+id/address_toolbar"
+            layout="@layout/address_header"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="선택된 위치"
+            android:textColor="@color/gy80"
+            android:fontFamily="@font/spo_bold"
+            android:textSize="@dimen/dimen16"
+            android:layout_marginLeft="@dimen/dimen16"
+            android:layout_marginTop="@dimen/dimen24"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen56"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:gravity="center"
+            android:text="주소를 추가해 주세요"
+            android:textColor="@color/gy70"
+            android:fontFamily="@font/spo_medium"
+            android:textSize="@dimen/dimen16"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen48"
+            android:paddingHorizontal="@dimen/dimen16"
+            android:orientation="horizontal"
+            android:gravity="center"
+            >
+            <Button
+                android:id="@+id/current_location_btn"
+                android:layout_width="@dimen/dimen160"
+                android:layout_height="match_parent"
+                android:minHeight="0dp"
+                android:text="현재위치"
+                android:clickable="false"
+                >
+            </Button>
+            <Button
+                android:id="@+id/search_location_btn"
+                android:layout_width="@dimen/dimen160"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:minHeight="0dp"
+                android:text="위치검색"
+                >
+            </Button>
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

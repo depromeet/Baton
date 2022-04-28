@@ -1,12 +1,11 @@
 package com.depromeet.baton.map.data.repositoryImpl
 
-import android.location.Location
 import com.depromeet.baton.map.base.BaseApiResponse
 import com.depromeet.baton.map.data.KakaoGeoService
 import com.depromeet.baton.map.data.dataSource.GPSDataSource
 import com.depromeet.baton.map.data.model.KakaoGeoModel
 import com.depromeet.baton.map.data.model.KakaoGeoResponse
-import com.depromeet.baton.map.domain.entity.AddressEntity
+import com.depromeet.baton.map.domain.entity.LocationEntity
 import com.depromeet.baton.map.domain.repository.AddressRepository
 import com.depromeet.baton.map.util.NetworkResult
 import com.naver.maps.geometry.LatLng
@@ -18,7 +17,7 @@ class AddressRepositoryImpl  @Inject constructor(private val gpsDataSource:GPSDa
     AddressRepository, BaseApiResponse() {
     private val kakaoGeoService =KakaoGeoService()
 
-    override suspend fun getLocation() :Flow<NetworkResult<AddressEntity>> =flow<NetworkResult<AddressEntity>>{
+    override suspend fun getLocation() :Flow<NetworkResult<LocationEntity>> =flow<NetworkResult<LocationEntity>>{
         gpsDataSource.getLocation().collect{
                 it-> emit(NetworkResult.Success(it.mapToDomain()))
         }
@@ -26,13 +25,13 @@ class AddressRepositoryImpl  @Inject constructor(private val gpsDataSource:GPSDa
         emit(NetworkResult.Error(e.toString()))
     }
 
-    override suspend  fun getMyAddress() :Flow<NetworkResult<AddressEntity>> = flow {
+    override suspend  fun getMyAddress() :Flow<NetworkResult<LocationEntity>> = flow {
          gpsDataSource.getLocation().collect{
             getKakaoApiResult( it.location.latitude,it.location.longitude).collect{
-                result-> emit(checkApiResult( it.location.latitude,it.location.longitude,result))
+               result -> emit(checkApiResult( it.location.latitude,it.location.longitude,result))
             }
         }
-    }.catch { e -> NetworkResult.Error<AddressEntity>(e.toString()) }.flowOn(Dispatchers.IO)
+    }.catch { e -> NetworkResult.Error<LocationEntity>(e.toString()) }.flowOn(Dispatchers.IO)
 
 
     //Kakao Api 호출
@@ -42,11 +41,11 @@ class AddressRepositoryImpl  @Inject constructor(private val gpsDataSource:GPSDa
         }.catch { e -> emit(NetworkResult.Error(e.toString())) }.flowOn(Dispatchers.IO)
 
 
-    private fun checkApiResult(_latitude : Double,  _longitude :Double,request :NetworkResult<KakaoGeoResponse>) :  NetworkResult<AddressEntity > {
+    private fun checkApiResult(_latitude : Double,  _longitude :Double,request :NetworkResult<KakaoGeoResponse>) :  NetworkResult<LocationEntity > {
         return if(request.data?.meta!!.total_count ==0 ) NetworkResult.Error("위치정보를 찾을 수 없습니다")
         else {
             val result= KakaoGeoModel(_latitude,_longitude,request)
-            NetworkResult.Success<AddressEntity>(result.mapToDomain(result.roadAddress))
+            NetworkResult.Success<LocationEntity>(result.mapToDomain())
         }
     }
 
@@ -55,12 +54,12 @@ class AddressRepositoryImpl  @Inject constructor(private val gpsDataSource:GPSDa
     }
 
     override suspend fun GPStoAddress(location : LatLng)  =
-        flow<NetworkResult<AddressEntity>>{
+        flow<NetworkResult<LocationEntity>>{
             getKakaoApiResult (location.latitude,location.longitude)
                 .collect{
                     emit(checkApiResult( location.latitude,location.longitude,it))
                 }
-        }.catch { e -> NetworkResult.Error<AddressEntity>(e.toString()) }.flowOn(Dispatchers.IO)
+        }.catch { e -> NetworkResult.Error<LocationEntity>(e.toString()) }.flowOn(Dispatchers.IO)
 
 
    /* override fun AddresstoGPS(address: String){

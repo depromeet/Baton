@@ -1,6 +1,7 @@
 package com.depromeet.baton.presentation.ui.address
 
 import androidx.lifecycle.*
+import com.depromeet.baton.map.domain.entity.AddressEntity
 import com.depromeet.baton.map.domain.usecase.GetAddressUseCase
 import com.depromeet.baton.map.util.NetworkResult
 import com.depromeet.baton.map.util.UiState
@@ -18,12 +19,12 @@ class AddressViewModel  @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel(){
 
-    private val _uiState = MutableStateFlow<UiState>(UiState.Loading)
-    val uiState: StateFlow<UiState>
+    private val _uiState = MutableStateFlow<UiState<AddressEntity>>(UiState.Loading())
+    val uiState: StateFlow<UiState<AddressEntity>>
         get() = _uiState
 
-    private val _address : MutableLiveData<NetworkResult<String>> = MutableLiveData()
-    val address: LiveData<NetworkResult<String>> = _address
+    private val _address : MutableLiveData<NetworkResult<AddressEntity>> = MutableLiveData()
+    val address: LiveData<NetworkResult<AddressEntity>> = _address
 
     //현재 내 위치 정보 받아오기
     fun getMyAddress()= viewModelScope.launch {
@@ -32,16 +33,16 @@ class AddressViewModel  @Inject constructor(
                 values ->
             when(values){
                 is NetworkResult.Success ->{
-                    Timber.e(values.data)
+                    Timber.e("${values.data?.address } ,${values.data?.roadAddress }")
                     _address.value =values
-                    _uiState.value = UiState.Success(values)
+                    _uiState.value = UiState.Success(values.data!!)
                     addressUseCase.stopLocationUpdate()
                 }
                 is NetworkResult.Error ->{
                     Timber.e(values.message)
                 }
                 is NetworkResult.Loading->{
-                    _uiState.value = UiState.Loading
+                    _uiState.value = UiState.Loading()
                 }
             }
         }
@@ -53,16 +54,16 @@ class AddressViewModel  @Inject constructor(
                 values ->
             when(values){
                 is NetworkResult.Success ->{
-                    Timber.e(values.data)
+                    Timber.e("${values.data?.address}")
                     _address.value =values
-                    _uiState.value = UiState.Success(values)
+                    _uiState.value = UiState.Success(values.data!!)
                     addressUseCase.stopLocationUpdate()
                 }
                 is NetworkResult.Error ->{
                     Timber.e(values.message)
                 }
                 is NetworkResult.Loading->{
-                    _uiState.value = UiState.Loading
+                    _uiState.value = UiState.Loading()
                 }
             }
         }

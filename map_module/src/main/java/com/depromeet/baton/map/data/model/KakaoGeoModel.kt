@@ -1,9 +1,7 @@
 package com.depromeet.baton.map.data.model
 
-import android.location.Location
-import com.depromeet.baton.map.domain.entity.AddressEntity
+import com.depromeet.baton.map.domain.entity.LocationEntity
 import com.depromeet.baton.map.util.NetworkResult
-import retrofit2.Response
 
 class KakaoGeoModel(_lat : Double, _long: Double, _response: NetworkResult<KakaoGeoResponse>) {
     var response = _response
@@ -18,5 +16,5 @@ class KakaoGeoModel(_lat : Double, _long: Double, _response: NetworkResult<Kakao
         }
     }
 
-    fun mapToDomain(address : String?) : AddressEntity = AddressEntity(latitude, longitude,roadAddress)
+    fun mapToDomain() : LocationEntity = LocationEntity(latitude, longitude, address, roadAddress)
 }

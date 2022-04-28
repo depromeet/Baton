@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.depromeet.baton.presentation.ui.address.AddressViewModel" />
+    </data>
+    <LinearLayout
+        android:background="@color/wh100"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <include
+            android:id="@+id/address_toolbar"
+            layout="@layout/address_header"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen42"
+            android:layout_marginHorizontal="@dimen/dimen16"
+            android:background="@color/gy30"
+            android:hint="임시 Edittext"
+            tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen48"
+            android:layout_marginLeft="@dimen/dimen16"
+            android:layout_marginTop="@dimen/dimen12">
+            <ImageView
+                android:id="@+id/my_location_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_my_location"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="현재 위치로 설정"
+                android:textColor="@color/gy80"
+                android:fontFamily="@font/spo_medium"
+                android:textSize="@dimen/dimen16"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/my_location_iv"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@color/gy30"
+            />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen56"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:gravity="center_vertical"
+            android:text="이렇게 검색해보세요."
+            android:textColor="@color/gy70"
+            android:fontFamily="@font/spo_medium"
+            android:textSize="@dimen/dimen16"
+            android:layout_marginHorizontal="@dimen/dimen16"
+            />
+
+
+    </LinearLayout>
+</layout>
