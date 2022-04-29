@@ -2,19 +2,55 @@
 <resources>
 
     <!--  Home Chip Button  -->
-    <style name="Chip.Entry" parent="Widget.MaterialComponents.Chip.Entry">
+    <style name="MaterialComponents.Chip.Entry" parent="Widget.MaterialComponents.Chip.Entry">
         <item name="chipBackgroundColor">?wh100</item>
         <item name="chipStrokeWidth">1dp</item>
+        <item name="android:textAppearance">?body4</item>
         <item name="closeIconSize">@dimen/dimen12</item>
         <item name="closeIconStartPadding">0dp</item>
         <item name="closeIconEndPadding">@dimen/dimen8</item>
         <item name="checkedIconVisible">false</item>
-        <item name="closeIcon">@drawable/ic_chevron_down_resize</item>
-        <item name="closeIconTint">@color/selector_chip_text_color</item>
-        <item name="android:textColor">@color/selector_chip_text_color</item>
+        <item name="closeIcon">@drawable/ic_filter_resize</item>-->
+        <item name="closeIconTint">@color/selector_grey_scale60_primary50</item>
+        <item name="android:textColor">@color/selector_grey_scale70_primary50</item>
         <item name="chipCornerRadius">@dimen/dimen24</item>
-        <item name="chipStrokeColor">@color/selector_chip_stroke_color</item>
+        <item name="chipStrokeColor">@color/selector_grey_scale40_primary50</item>
         <item name="ensureMinTouchTargetSize">false</item>
         <item name="textStartPadding">@dimen/dimen12</item>
+    </style>
+
+    <!--  Filter BottomSheetDialog  -->
+    <style name="BottomSheetDialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowTitleStyle">@null</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <!--  Filter TabLayout  -->
+    <style name="TabWidget" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="tabTextAppearance">?headline2</item>
+        <item name="tabIndicatorHeight">0dp</item>
+        <item name="tabSelectedTextColor">?grey_scale80</item>
+        <item name="tabTextColor">?grey_scale60</item>
+    </style>
+
+    <!--  Filter Chip Button  -->
+    <style name="MaterialComponents.Chip.Filter" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="chipBackgroundColor">@color/selector_wh100_primary50</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="checkedIcon">@null</item>
+        <item name="textStartPadding">@dimen/dimen12</item>
+        <item name="textEndPadding">@dimen/dimen12</item>
+        <item name="chipSpacingHorizontal">@dimen/dimen12</item>
+        <item name="chipMinHeight">@dimen/dimen40</item>
+        <item name="android:textColor">@color/selector_grey_scale60_wh100</item>
+        <item name="android:textAppearance">?body3</item>
+        <item name="chipCornerRadius">@dimen/dimen8</item>
+        <item name="chipStrokeColor">@color/selector_grey_scale40_wh100</item>
+        <item name="ensureMinTouchTargetSize">false</item>
     </style>
 </resources>
