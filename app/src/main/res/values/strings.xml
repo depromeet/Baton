@@ -17,10 +17,12 @@
     <string name="home_pilates">필라테스</string>
     <string name="home_etc">기타</string>
     <string name="home_near_ticket">내 근처 양도권</string>
+    <string name="home_alert_count">1</string>
 
     <!--  Bottom Filter Dialog  -->
     <string name="filter_reset">필터 초기화</string>
     <string name="filter_search">검색</string>
+    <string name="filter_search_result">(120건)</string>
 
     <string name="filter_alignment">정렬 순</string>
     <string name="filter_alignment_distance">가까운 거리순</string>
@@ -31,6 +33,8 @@
     <string name="filter_alignment_term">기간 많은순</string>
 
     <string name="filter_ticket_kind">양도권 종류</string>
+    <string name="filter_ticket_kind_select">종류를 선택해주세요</string>
+    <string name="filter_ticket_kind_explain">(중복 선택 가능)</string>
     <string name="filter_ticket_gym">헬스 회원권</string>
     <string name="filter_ticket_pt">PT 이용권</string>
     <string name="filter_ticket_pilates_yoga">필라테스/요가</string>
@@ -46,6 +50,11 @@
     <string name="filter_term_remaining">남은 기간</string>
     <string name="filter_term_zero_month">0개월</string>
     <string name="filter_term_six_months">6개월</string>
+
+    <string name="filter_price">가격</string>
+    <string name="filter_price_zero">0원</string>
+    <string name="filter_price_one_million_five_hundred_thousand">1,500,000</string>
+    <string name="filter_price_all">전체</string>
 
     <string name="filter_transaction_method">거래방법</string>
     <string name="filter_transaction_method_select">거래 방식 선택</string>
