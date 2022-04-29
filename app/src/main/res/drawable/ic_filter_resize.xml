@@ -3,6 +3,6 @@
     <item
         android:width="12dp"
         android:height="10dp"
-        android:drawable="@drawable/ic_chevron_down" />
+        android:drawable="@drawable/ic_filter" />
 </layer-list>
 
