@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.depromeet.baton.domain.model.FilterType" />
+
+        <variable
+            name="filterViewModel"
+            type="com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".presentation.ui.filter.view.TicketKindFragment">
+
+        <TextView
+            android:id="@+id/tv_ticket_kind_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/filter_ticket_kind_select"
+            android:textAppearance="?body3"
+            android:textColor="?grey_scale70"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_ticket_kind_explain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen2"
+            android:text="@string/filter_ticket_kind_explain"
+            android:textAppearance="?caption1"
+            android:textColor="?grey_scale60"
+            app:layout_constraintBottom_toBottomOf="@id/tv_ticket_kind_select"
+            app:layout_constraintStart_toEndOf="@id/tv_ticket_kind_select"
+            app:layout_constraintTop_toTopOf="@id/tv_ticket_kind_select" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_group_ticket_kind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen12"
+            app:chipSpacingVertical="@dimen/dimen12"
+            app:layout_constraintStart_toStartOf="@id/tv_ticket_kind_select"
+            app:layout_constraintTop_toBottomOf="@id/tv_ticket_kind_select">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_ticket_kind_gym"
+                style="@style/MaterialComponents.Chip.Filter"
+                itemType="@{FilterType.TicketKind}"
+                viewModel="@{filterViewModel}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="@{filterViewModel.isGymChecked}"
+                android:text="@string/filter_ticket_gym" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_ticket_kind_pt"
+                style="@style/MaterialComponents.Chip.Filter"
+                itemType="@{FilterType.TicketKind}"
+                viewModel="@{filterViewModel}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="@{filterViewModel.isPtChecked}"
+                android:text="@string/filter_ticket_pt" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_ticket_kind_pilates_yoga"
+                style="@style/MaterialComponents.Chip.Filter"
+                itemType="@{FilterType.TicketKind}"
+                viewModel="@{filterViewModel}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="@{filterViewModel.isPilatesYogaChecked}"
+                android:text="@string/filter_ticket_pilates_yoga" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_ticket_kind_etc"
+                style="@style/MaterialComponents.Chip.Filter"
+                itemType="@{FilterType.TicketKind}"
+                viewModel="@{filterViewModel}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="@{filterViewModel.isEtcChecked}"
+                android:text="@string/filter_ticket_etc" />
+        </com.google.android.material.chip.ChipGroup>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
