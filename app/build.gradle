@@ -64,6 +64,7 @@ dependencies {
     implementation(Dep.Android.material)
     implementation(Dep.Android.constraintLayout)
     implementation(Dep.Android.fragment)
+    implementation(Dep.Android.legacy)
 
     implementation(Dep.Lifecycle.viewModel)
     implementation(Dep.Lifecycle.runtime)
