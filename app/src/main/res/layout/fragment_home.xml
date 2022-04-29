@@ -5,6 +5,15 @@
 
     <data>
 
+        <import type="com.depromeet.baton.domain.model.FilterType" />
+
+        <variable
+            name="homeFragment"
+            type="com.depromeet.baton.presentation.ui.home.view.HomeFragment" />
+
+        <variable
+            name="filterViewModel"
+            type="com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,17 +30,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:id="@+id/iv_home_logo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dimen24"
-                    android:src="@drawable/ic_logo"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_home_location"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/tv_home_location" />
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/tv_home_location"
@@ -41,19 +40,55 @@
                     android:text="@string/home_title_location"
                     android:textAppearance="?headline2"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/iv_home_notifications"
-                    app:layout_constraintStart_toStartOf="@+id/iv_home_logo"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:id="@+id/iv_home_notifications"
+                    android:id="@+id/iv_home_more"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/dimen24"
-                    android:src="@drawable/ic_notifications"
+                    android:layout_marginStart="@dimen/dimen8"
+                    android:src="@drawable/ic_more_line_24"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_home_location"
+                    app:layout_constraintStart_toEndOf="@+id/tv_home_location"
+                    app:layout_constraintTop_toTopOf="@id/tv_home_location" />
+
+                <ImageView
+                    android:id="@+id/iv_home_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dimen16"
+                    android:src="@drawable/ic_search_line_24"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_home_location"
+                    app:layout_constraintEnd_toStartOf="@+id/iv_home_bell"
+                    app:layout_constraintTop_toTopOf="@id/tv_home_location" />
+
+                <ImageView
+                    android:id="@+id/iv_home_bell"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dimen16"
+                    android:src="@drawable/ic_bell_line_24"
                     app:layout_constraintBottom_toBottomOf="@id/tv_home_location"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/tv_home_location" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_home_alert"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen8"
+                    android:layout_marginBottom="@dimen/dimen12"
+                    android:background="@drawable/ic_item_alert_default_1_9"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:text="@string/home_alert_count"
+                    android:textAppearance="?caption3"
+                    android:textColor="?wh100"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_home_bell"
+                    app:layout_constraintStart_toStartOf="@id/iv_home_bell"
+                    app:layout_constraintTop_toTopOf="@id/iv_home_bell" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.appbar.MaterialToolbar>
@@ -101,18 +136,28 @@
                         android:id="@+id/btn_home_more"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dimen16"
+                        android:layout_marginTop="@dimen/dimen24"
                         android:layout_marginBottom="@dimen/dimen36"
-                        android:background="@drawable/temp_button"
+                        android:background="@drawable/outlined_default_small"
                         android:minWidth="0dp"
                         android:minHeight="0dp"
                         android:paddingHorizontal="@dimen/dimen16"
                         android:paddingVertical="@dimen/dimen8"
                         android:text="@string/home_banner_see_more"
-                        android:textAppearance="?headline4"
+                        android:textAppearance="?caption1"
+                        android:textColor="?grey_scale90"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="@id/tv_home_banner_title_two"
                         app:layout_constraintTop_toBottomOf="@id/tv_home_banner_title_two" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/dimen24"
+                        android:src="@drawable/img_baton"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -120,60 +165,90 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/dimen16"
-                    android:layout_marginTop="@dimen/dimen24"
+                    android:layout_marginTop="@dimen/dimen28"
                     app:layout_constraintTop_toBottomOf="@id/ctl_home_banner">
 
-                    <View
-                        android:id="@+id/view_home_specific_gym"
-                        android:layout_width="72dp"
+                    <LinearLayout
+                        android:id="@+id/ll_home_specific_gym"
+                        android:layout_width="0dp"
                         android:layout_height="72dp"
-                        android:background="?primary30"
+                        android:layout_marginBottom="@dimen/dimen4"
+                        android:background="@drawable/temp_btn_home_specific"
+                        android:gravity="center"
+                        app:layout_constraintBottom_toTopOf="@id/tv_home_specific_gym"
+                        app:layout_constraintEnd_toStartOf="@id/ll_home_specific_pt"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/iv_home_specific_gym"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_health" />
+
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/tv_home_specific_gym"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dimen8"
                         android:text="@string/home_gym"
                         android:textAppearance="?caption1"
-                        android:textColor="?bk100"
-                        app:layout_constraintEnd_toEndOf="@id/view_home_specific_gym"
-                        app:layout_constraintStart_toStartOf="@id/view_home_specific_gym"
-                        app:layout_constraintTop_toBottomOf="@id/view_home_specific_gym" />
+                        android:textColor="?grey_scale80"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/ll_home_specific_gym"
+                        app:layout_constraintStart_toStartOf="@id/ll_home_specific_gym" />
 
-                    <View
-                        android:id="@+id/view_home_specific_pt"
-                        android:layout_width="72dp"
-                        android:layout_height="72dp"
-                        android:background="?primary30"
-                        app:layout_constraintEnd_toStartOf="@+id/view_home_specific_pilates"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/view_home_specific_gym"
-                        app:layout_constraintTop_toTopOf="parent" />
+                    <LinearLayout
+                        android:id="@+id/ll_home_specific_pt"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="@dimen/dimen24"
+                        android:layout_marginBottom="@dimen/dimen4"
+                        android:background="@drawable/temp_btn_home_specific"
+                        android:gravity="center"
+                        app:layout_constraintBottom_toTopOf="@id/tv_home_specific_pt"
+                        app:layout_constraintEnd_toStartOf="@+id/ll_home_specific_pilates"
+                        app:layout_constraintStart_toEndOf="@+id/ll_home_specific_gym"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/iv_home_specific_pt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_pt" />
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/tv_home_specific_pt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dimen8"
                         android:text="@string/home_pt"
                         android:textAppearance="?caption1"
-                        android:textColor="?bk100"
-                        app:layout_constraintEnd_toEndOf="@id/view_home_specific_pt"
-                        app:layout_constraintStart_toStartOf="@id/view_home_specific_pt"
-                        app:layout_constraintTop_toBottomOf="@id/view_home_specific_pt" />
+                        android:textColor="?grey_scale80"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/ll_home_specific_pt"
+                        app:layout_constraintStart_toStartOf="@id/ll_home_specific_pt" />
 
-                    <View
-                        android:id="@+id/view_home_specific_pilates"
-                        android:layout_width="72dp"
-                        android:layout_height="72dp"
-                        android:background="?primary30"
-                        app:layout_constraintEnd_toStartOf="@+id/view_home_specific_etc"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/view_home_specific_pt"
-                        app:layout_constraintTop_toTopOf="parent" />
+                    <LinearLayout
+                        android:id="@+id/ll_home_specific_pilates"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="@dimen/dimen24"
+                        android:layout_marginBottom="@dimen/dimen4"
+                        android:background="@drawable/temp_btn_home_specific"
+                        android:gravity="center"
+                        app:layout_constraintBottom_toTopOf="@id/tv_home_specific_pilates"
+                        app:layout_constraintEnd_toStartOf="@+id/ll_home_specific_etc"
+                        app:layout_constraintStart_toEndOf="@+id/ll_home_specific_pt"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/iv_home_specific_pilates"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_pilates" />
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/tv_home_specific_pilates"
@@ -182,41 +257,53 @@
                         android:layout_marginTop="@dimen/dimen8"
                         android:text="@string/home_pilates"
                         android:textAppearance="?caption1"
-                        android:textColor="?bk100"
-                        app:layout_constraintEnd_toEndOf="@id/view_home_specific_pilates"
-                        app:layout_constraintStart_toStartOf="@id/view_home_specific_pilates"
-                        app:layout_constraintTop_toBottomOf="@id/view_home_specific_pilates" />
+                        android:textColor="?grey_scale80"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/ll_home_specific_pilates"
+                        app:layout_constraintStart_toStartOf="@id/ll_home_specific_pilates" />
 
-                    <View
-                        android:id="@+id/view_home_specific_etc"
-                        android:layout_width="72dp"
-                        android:layout_height="72dp"
-                        android:background="?primary30"
+                    <LinearLayout
+                        android:id="@+id/ll_home_specific_etc"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="@dimen/dimen24"
+                        android:layout_marginBottom="@dimen/dimen4"
+                        android:background="@drawable/temp_btn_home_specific"
+                        android:gravity="center"
+                        app:layout_constraintBottom_toTopOf="@id/tv_home_specific_etc"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintStart_toEndOf="@id/ll_home_specific_pilates"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/iv_home_specific_etc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_etc" />
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/tv_home_specific_etc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dimen8"
                         android:text="@string/home_etc"
                         android:textAppearance="?caption1"
-                        android:textColor="?bk100"
-                        app:layout_constraintEnd_toEndOf="@id/view_home_specific_etc"
-                        app:layout_constraintStart_toStartOf="@id/view_home_specific_etc"
-                        app:layout_constraintTop_toBottomOf="@id/view_home_specific_etc" />
+                        android:textColor="?grey_scale80"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/ll_home_specific_etc"
+                        app:layout_constraintStart_toStartOf="@id/ll_home_specific_etc" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
                     android:id="@+id/tv_home_near_ticket"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen24"
+                    android:layout_marginTop="@dimen/dimen28"
                     android:text="@string/home_near_ticket"
                     android:textAppearance="?headline1"
+                    android:textColor="?grey_scale90"
                     app:layout_constraintStart_toStartOf="@id/ctl_home_specific_ticket"
-                    app:layout_constraintTop_toBottomOf="@id/ctl_home_specific_ticket" />
+                    app:layout_constraintTop_toBottomOf="@+id/ctl_home_specific_ticket" />
 
                 <HorizontalScrollView
                     android:id="@+id/hsv_home"
@@ -230,7 +317,7 @@
                     app:layout_constraintTop_toBottomOf="@id/tv_home_near_ticket">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
                         <com.google.android.material.chip.ChipGroup
@@ -243,53 +330,64 @@
 
                             <com.google.android.material.chip.Chip
                                 android:id="@+id/chip_home_alignment"
-                                style="@style/Chip.Entry"
+                                style="@style/MaterialComponents.Chip.Entry"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/dimen16"
-                                android:text="@string/filter_alignment"
-                                android:textAppearance="?body3" />
+                                android:onClick="@{()->homeFragment.setFilterChipClickListener(FilterType.Alignment)}"
+                                android:text="@string/filter_alignment"/>
 
                             <com.google.android.material.chip.Chip
                                 android:id="@+id/chip_home_ticket_kind"
-                                style="@style/Chip.Entry"
+                                style="@style/MaterialComponents.Chip.Entry"
+                                filterType="@{FilterType.TicketKind}"
+                                viewModel="@{filterViewModel}"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/filter_ticket_kind"
-                                android:textAppearance="?body3" />
+                                android:checked="@{filterViewModel.isTicketKindFiltered}"
+                                android:onClick="@{()->homeFragment.setFilterChipClickListener(FilterType.TicketKind)}"
+                                android:text="@string/filter_ticket_kind" />
 
                             <com.google.android.material.chip.Chip
                                 android:id="@+id/chip_home_term"
-                                style="@style/Chip.Entry"
+                                style="@style/MaterialComponents.Chip.Entry"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/filter_term"
-                                android:textAppearance="?body3" />
+                                android:onClick="@{()->homeFragment.setFilterChipClickListener(FilterType.Term)}"
+                                android:text="@string/filter_term" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_home_price"
+                                style="@style/MaterialComponents.Chip.Entry"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:onClick="@{()->homeFragment.setFilterChipClickListener(FilterType.Price)}"
+                                android:text="@string/filter_price" />
 
                             <com.google.android.material.chip.Chip
                                 android:id="@+id/chip_home_transaction_method"
-                                style="@style/Chip.Entry"
+                                style="@style/MaterialComponents.Chip.Entry"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/filter_transaction_method"
-                                android:textAppearance="?body3" />
+                                android:onClick="@{()->homeFragment.setFilterChipClickListener(FilterType.TransactionMethod)}"
+                                android:text="@string/filter_transaction_method"/>
 
                             <com.google.android.material.chip.Chip
                                 android:id="@+id/chip_home_additional_options"
-                                style="@style/Chip.Entry"
+                                style="@style/MaterialComponents.Chip.Entry"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/filter_additional_options"
-                                android:textAppearance="?body3" />
+                                android:onClick="@{()->homeFragment.setFilterChipClickListener(FilterType.AdditionalOptions)}"
+                                android:text="@string/filter_additional_options" />
 
                             <com.google.android.material.chip.Chip
                                 android:id="@+id/chip_home_filter_hashtag"
-                                style="@style/Chip.Entry"
+                                style="@style/MaterialComponents.Chip.Entry"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="@dimen/dimen16"
-                                android:text="@string/filter_hashtag"
-                                android:textAppearance="?body3" />
+                                android:onClick="@{()->homeFragment.setFilterChipClickListener(FilterType.HashTag)}"
+                                android:text="@string/filter_hashtag" />
                         </com.google.android.material.chip.ChipGroup>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -299,7 +397,7 @@
                     android:id="@+id/rv_home"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen8"
+                    android:layout_marginTop="@dimen/dimen12"
                     android:nestedScrollingEnabled="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/ctl_home_specific_ticket"
@@ -319,7 +417,7 @@
             android:layout_marginEnd="@dimen/dimen24"
             android:layout_marginBottom="@dimen/dimen12"
             android:backgroundTint="?primary50"
-            android:src="@drawable/ic_pencil"
+            android:src="@drawable/ic_add_line_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:tint="@null">
