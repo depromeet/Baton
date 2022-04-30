@@ -1,3 +1,5 @@
+package com.depromeet.bds.component
+
 import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.drawable.Drawable
