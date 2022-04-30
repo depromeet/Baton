@@ -6,7 +6,7 @@
         <item name="primary80">@color/blue80</item>
         <item name="primary70">@color/blue70</item>
         <item name="primary60">@color/blue60</item>
-        <item name="primary">@color/blue50</item>
+        <item name="primary50">@color/blue50</item>
         <item name="primary40">@color/blue40</item>
         <item name="primary30">@color/blue30</item>
         <item name="primary20">@color/blue20</item>
@@ -17,7 +17,7 @@
         <item name="secondary80">@color/orange80</item>
         <item name="secondary70">@color/orange70</item>
         <item name="secondary60">@color/orange60</item>
-        <item name="secondary">@color/orange50</item>
+        <item name="secondary50">@color/orange50</item>
         <item name="secondary40">@color/orange40</item>
         <item name="secondary30">@color/orange30</item>
         <item name="secondary20">@color/orange20</item>
