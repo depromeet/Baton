@@ -8,9 +8,6 @@ import androidx.core.content.withStyledAttributes
 import androidx.core.view.isVisible
 import com.depromeet.bds.R
 import com.depromeet.bds.databinding.BdsComponentFilterBinding
-import getResourceIdOrNull
-import setTextAppearanceCompat
-import toDrawable
 
 class BdsFilter @JvmOverloads constructor(
     context: Context,
