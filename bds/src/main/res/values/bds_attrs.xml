@@ -14,4 +14,11 @@
         <attr name="bds_startDrawable" format="reference" />
         <attr name="bds_endDrawable" format="reference" />
     </declare-styleable>
+
+    <declare-styleable name="BdsButton">
+        <attr name="isEnabled" />
+        <attr name="bds_text" />
+        <attr name="bds_startDrawable" />
+        <attr name="bds_endDrawable" />
+    </declare-styleable>
 </resources>

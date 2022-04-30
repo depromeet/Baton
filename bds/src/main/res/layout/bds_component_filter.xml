@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:addStatesFromChildren="true"
     android:background="@drawable/bds_filter_background"
     android:gravity="center"
     android:orientation="horizontal">
@@ -17,6 +16,7 @@
         android:layout_marginTop="6dp"
         android:layout_marginEnd="2dp"
         android:layout_marginBottom="6dp"
+        android:duplicateParentState="true"
         app:tint="@color/selector_bds_filter_tint_color" />
 
     <View
@@ -31,6 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         android:layout_marginBottom="6dp"
+        android:duplicateParentState="true"
         android:textAppearance="?body4"
         android:textColor="@color/selector_bds_filter_text_color"
         tools:text="낮은 가격 순" />
@@ -49,5 +50,6 @@
         android:layout_marginTop="6dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="6dp"
+        android:duplicateParentState="true"
         app:tint="@color/selector_bds_filter_tint_color" />
 </LinearLayout>
