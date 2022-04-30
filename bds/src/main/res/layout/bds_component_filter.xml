@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:addStatesFromChildren="true"
+    android:background="@drawable/bds_filter_background"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/iv_start_drawable"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="6dp"
+        app:tint="@color/selector_bds_filter_tint_color" />
+
+    <View
+        android:id="@+id/v_start_margin"
+        android:layout_width="12dp"
+        android:layout_height="1px"
+        tools:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:textAppearance="?body4"
+        android:textColor="@color/selector_bds_filter_text_color"
+        tools:text="낮은 가격 순" />
+
+    <View
+        android:id="@+id/v_end_margin"
+        android:layout_width="12dp"
+        android:layout_height="1px"
+        tools:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/iv_end_drawable"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="6dp"
+        app:tint="@color/selector_bds_filter_tint_color" />
+</LinearLayout>
