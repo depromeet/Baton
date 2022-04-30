@@ -3,6 +3,7 @@
     <declare-styleable name="BdsView">
         <attr name="isSelected" format="boolean" />
         <attr name="isEnabled" format="boolean" />
+        <attr name="isFilled" format="boolean" />
         <attr name="bds_textAppearance" format="reference" />
     </declare-styleable>
 
@@ -21,4 +22,16 @@
         <attr name="bds_startDrawable" />
         <attr name="bds_endDrawable" />
     </declare-styleable>
+
+    <declare-styleable name="BdsSearchBar">
+        <attr name="isSelected" />
+        <attr name="isEnabled" />
+        <attr name="isFilled" />
+        <attr name="bds_text" />
+        <attr name="bds_placeholder_text" format="string" />
+        <attr name="bds_endDrawable" />
+    </declare-styleable>
+
+
+
 </resources>

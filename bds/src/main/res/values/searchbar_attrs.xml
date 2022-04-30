@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="BdsView">
-        <attr name="isSelected" format="boolean" />
-        <attr name="isEnabled" format="boolean" />
-        <attr name="bds_textAppearance" format="reference" />
-    </declare-styleable>
+    <attr name="bdsSearchBarNormalBorderColor" format="color" />
+    <attr name="bdsSearchBarFocusedBorderColor" format="color" />
+    <attr name="bdsSearchBarFilledBorderColor" format="color" />
 
-    <declare-styleable name="BdsSearchBar">
-        <attr name="isSelected" />
-        <attr name="isEnabled" />
-        <attr name="bds_textAppearance" format="reference" />
-        <attr name="bds_text" format="string" />
-        <attr name="bds_startDrawable" format="reference" />
-        <attr name="bds_endDrawable" format="reference" />
-    </declare-styleable>
+    <attr name="bdsSearchBarNormalTextColor" format="color" />
+    <attr name="bdsSearchBarFocusedTextColor" format="color" />
+
+    <attr name="bdsSearchBarTextAppearance" format="reference" />
+
 </resources>
