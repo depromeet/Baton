@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="30dp"
+    android:background="#ff85ca">
+
+    <com.depromeet.bds.component.BdsSearchBar
+        android:theme="@style/Theme.Bds.SearchBar.Primary"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        app:bds_text="입력한 텍스트"
+        app:isEnabled="true"
+        app:bds_endDrawable="@drawable/ic_cancel_filled_20"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp"/>
+
+    <com.depromeet.bds.component.BdsSearchBar
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:theme="@style/Theme.Bds.SearchBar.Primary"
+        app:bds_placeholder_text="플레이스홀더"
+        app:isEnabled="true"
+        app:bds_endDrawable="@drawable/ic_cancel_filled_20"
+        app:isFilled="true"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp"/>
+
+
+    <com.depromeet.bds.component.BdsSearchBar
+        android:theme="@style/Theme.Bds.SearchBar.Primary"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        app:bds_placeholder_text="플레이스홀더"
+        app:isSelected="true"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp"/>
+
+    <com.depromeet.bds.component.BdsSearchBar
+        android:theme="@style/Theme.Bds.SearchBar.Secondary"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        app:bds_text="입력한 텍스트"
+        app:isEnabled="true"
+        app:bds_endDrawable="@drawable/ic_cancel_filled_20"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp"/>
+
+    <com.depromeet.bds.component.BdsSearchBar
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:theme="@style/Theme.Bds.SearchBar.Secondary"
+        app:bds_placeholder_text="플레이스홀더"
+        app:isFilled="true"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp"/>
+
+
+    <com.depromeet.bds.component.BdsSearchBar
+        android:theme="@style/Theme.Bds.SearchBar.Secondary"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        app:bds_placeholder_text="플레이스홀더"
+        app:isSelected="true"
+        />
+
+
+</LinearLayout>
