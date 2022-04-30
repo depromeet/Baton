@@ -8,9 +8,6 @@ import androidx.core.content.withStyledAttributes
 import androidx.core.view.isVisible
 import com.depromeet.bds.R
 import com.depromeet.bds.databinding.BdsComponentButtonBinding
-import getResourceIdOrNull
-import setTextAppearanceCompat
-import toDrawable
 
 class BdsButton @JvmOverloads constructor(
     context: Context,
