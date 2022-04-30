@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="bdsButtonPressedBackground" format="color" />
+    <attr name="bdsButtonDisabledBackground" format="color" />
+    <attr name="bdsButtonDefaultBackground" format="color" />
+
+    <attr name="bdsButtonPressedBorderColor" format="color" />
+    <attr name="bdsButtonDisabledBorderColor" format="color" />
+    <attr name="bdsButtonDefaultBorderColor" format="color" />
+
+    <attr name="bdsButtonPressedTextColor" format="color" />
+    <attr name="bdsButtonDisabledTextColor" format="color" />
+    <attr name="bdsButtonDefaultTextColor" format="color" />
+
+    <attr name="bdsButtonTextAppearance" format="reference" />
+
+    <attr name="bdsButtonTopMargin" format="dimension" />
+    <attr name="bdsButtonEndMargin" format="dimension" />
+    <attr name="bdsButtonStartMargin" format="dimension" />
+    <attr name="bdsButtonBottomMargin" format="dimension" />
+
+    <attr name="bdsButtonIconSize" format="dimension" />
+</resources>
