@@ -3,7 +3,9 @@
     <dimen name="dimen2">2dp</dimen>
     <dimen name="dimen4">4dp</dimen>
     <dimen name="dimen8">8dp</dimen>
+    <dimen name="dimen10">10dp</dimen>
     <dimen name="dimen12">12dp</dimen>
+    <dimen name="dimen14">14dp</dimen>
     <dimen name="dimen16">16dp</dimen>
     <dimen name="dimen24">24dp</dimen>
     <dimen name="dimen28">28dp</dimen>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Bds.PrimaryButton" parent="BatonTheme">
+        <item name="bdsButtonDefaultBackground">?primary50</item>
+        <item name="bdsButtonPressedBackground">?primary60</item>
+        <item name="bdsButtonDisabledBackground">?primary5</item>
+
+        <item name="bdsButtonDefaultBorderColor">@android:color/transparent</item>
+        <item name="bdsButtonPressedBorderColor">@android:color/transparent</item>
+        <item name="bdsButtonDisabledBorderColor">@android:color/transparent</item>
+
+        <item name="bdsButtonDefaultTextColor">?wh100</item>
+        <item name="bdsButtonPressedTextColor">?wh100</item>
+        <item name="bdsButtonDisabledTextColor">?primary20</item>
+    </style>
+
+    <style name="Theme.Bds.PrimaryButton.Large">
+        <item name="theme">@style/Theme.Bds.LargeButton</item>
+    </style>
+
+    <style name="Theme.Bds.PrimaryButton.Medium">
+        <item name="theme">@style/Theme.Bds.MediumButton</item>
+    </style>
+
+    <style name="Theme.Bds.PrimaryButton.Small">
+        <item name="theme">@style/Theme.Bds.SmallButton</item>
+    </style>
+
+    <style name="Theme.Bds.SecondaryButton" parent="BatonTheme">
+        <item name="bdsButtonDefaultBackground">?grey_scale80</item>
+        <item name="bdsButtonPressedBackground">?bk100</item>
+        <item name="bdsButtonDisabledBackground">?grey_scale40</item>
+
+        <item name="bdsButtonDefaultBorderColor">@android:color/transparent</item>
+        <item name="bdsButtonPressedBorderColor">@android:color/transparent</item>
+        <item name="bdsButtonDisabledBorderColor">@android:color/transparent</item>
+
+        <item name="bdsButtonDefaultTextColor">?wh100</item>
+        <item name="bdsButtonPressedTextColor">?wh100</item>
+        <item name="bdsButtonDisabledTextColor">?grey_scale60</item>
+    </style>
+
+    <style name="Theme.Bds.SecondaryButton.Large">
+        <item name="theme">@style/Theme.Bds.LargeButton</item>
+    </style>
+
+    <style name="Theme.Bds.SecondaryButton.Medium">
+        <item name="theme">@style/Theme.Bds.MediumButton</item>
+    </style>
+
+    <style name="Theme.Bds.SecondaryButton.Small">
+        <item name="theme">@style/Theme.Bds.SmallButton</item>
+    </style>
+
+    <style name="Theme.Bds.OutlinedButton" parent="BatonTheme">
+        <item name="bdsButtonDefaultBackground">?wh100</item>
+        <item name="bdsButtonPressedBackground">?grey_scale30</item>
+        <item name="bdsButtonDisabledBackground">?wh100</item>
+
+        <item name="bdsButtonDefaultBorderColor">?grey_scale40</item>
+        <item name="bdsButtonPressedBorderColor">?grey_scale40</item>
+        <item name="bdsButtonDisabledBorderColor">?grey_scale40</item>
+
+        <item name="bdsButtonDefaultTextColor">?grey_scale90</item>
+        <item name="bdsButtonPressedTextColor">?grey_scale90</item>
+        <item name="bdsButtonDisabledTextColor">?grey_scale50</item>
+    </style>
+
+    <style name="Theme.Bds.OutlinedButton.Large">
+        <item name="theme">@style/Theme.Bds.LargeButton</item>
+    </style>
+
+    <style name="Theme.Bds.OutlinedButton.Medium">
+        <item name="theme">@style/Theme.Bds.MediumButton</item>
+    </style>
+
+    <style name="Theme.Bds.OutlinedButton.Small">
+        <item name="theme">@style/Theme.Bds.SmallButton</item>
+    </style>
+
+    <style name="Theme.Bds.TertiaryButton" parent="BatonTheme">
+        <item name="bdsButtonDefaultBackground">?bds_background</item>
+        <item name="bdsButtonPressedBackground">?grey_scale40</item>
+        <item name="bdsButtonDisabledBackground">?bds_background</item>
+
+        <item name="bdsButtonDefaultBorderColor">@android:color/transparent</item>
+        <item name="bdsButtonPressedBorderColor">@android:color/transparent</item>
+        <item name="bdsButtonDisabledBorderColor">@android:color/transparent</item>
+
+        <item name="bdsButtonDefaultTextColor">?grey_scale80</item>
+        <item name="bdsButtonPressedTextColor">?grey_scale90</item>
+        <item name="bdsButtonDisabledTextColor">?grey_scale50</item>
+    </style>
+
+    <style name="Theme.Bds.TertiaryButton.Large">
+        <item name="theme">@style/Theme.Bds.LargeButton</item>
+    </style>
+
+    <style name="Theme.Bds.TertiaryButton.Medium">
+        <item name="theme">@style/Theme.Bds.MediumButton</item>
+    </style>
+
+    <style name="Theme.Bds.TertiaryButton.Small">
+        <item name="theme">@style/Theme.Bds.SmallButton</item>
+    </style>
+
+    <style name="Theme.Bds.LargeButton" parent="">
+        <item name="bdsButtonTextAppearance">?body1</item>
+        <item name="bdsButtonTopMargin">@dimen/dimen12</item>
+        <item name="bdsButtonBottomMargin">@dimen/dimen12</item>
+        <item name="bdsButtonStartMargin">@dimen/dimen16</item>
+        <item name="bdsButtonEndMargin">@dimen/dimen16</item>
+        <item name="bdsButtonIconSize">20dp</item>
+    </style>
+
+    <style name="Theme.Bds.MediumButton" parent="">
+        <item name="bdsButtonTextAppearance">?body3</item>
+        <item name="bdsButtonTopMargin">@dimen/dimen10</item>
+        <item name="bdsButtonBottomMargin">@dimen/dimen10</item>
+        <item name="bdsButtonStartMargin">@dimen/dimen14</item>
+        <item name="bdsButtonEndMargin">@dimen/dimen14</item>
+        <item name="bdsButtonIconSize">18dp</item>
+    </style>
+
+    <style name="Theme.Bds.SmallButton" parent="">
+        <item name="bdsButtonTextAppearance">?caption1</item>
+        <item name="bdsButtonTopMargin">7dp</item>
+        <item name="bdsButtonBottomMargin">7dp</item>
+        <item name="bdsButtonStartMargin">@dimen/dimen12</item>
+        <item name="bdsButtonEndMargin">@dimen/dimen12</item>
+        <item name="bdsButtonIconSize">16dp</item>
+    </style>
+</resources>
