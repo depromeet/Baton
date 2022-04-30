@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?><!-- 백그라운드 컬러 stateList, textColor stateList -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bds_button_background"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingStart="?bdsButtonStartMargin"
+    android:paddingTop="?bdsButtonTopMargin"
+    android:paddingEnd="?bdsButtonEndMargin"
+    android:paddingBottom="?bdsButtonBottomMargin">
+
+    <ImageView
+        android:id="@+id/iv_start_drawable"
+        android:layout_width="?bdsButtonIconSize"
+        android:layout_height="?bdsButtonIconSize"
+        android:layout_marginEnd="2dp"
+        android:duplicateParentState="true"
+        app:tint="@color/selector_bds_button_text_color" />
+
+    <TextView
+        android:id="@+id/tv_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:duplicateParentState="true"
+        android:textAppearance="?bdsButtonTextAppearance"
+        android:textColor="@color/selector_bds_button_text_color"
+        tools:text="안녕하세요." />
+
+    <ImageView
+        android:id="@+id/iv_end_drawable"
+        android:layout_width="?bdsButtonIconSize"
+        android:layout_height="?bdsButtonIconSize"
+        android:layout_marginStart="2dp"
+        android:duplicateParentState="true"
+        app:tint="@color/selector_bds_button_text_color" />
+</LinearLayout>
