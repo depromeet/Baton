@@ -26,10 +26,9 @@
     <declare-styleable name="BdsSearchBar">
         <attr name="isSelected" />
         <attr name="isEnabled" />
-        <attr name="isFilled" />
+        <attr name="isFilled"  />
         <attr name="bds_text" />
         <attr name="bds_placeholder_text" format="string" />
-        <attr name="bds_endDrawable" />
     </declare-styleable>
 
 

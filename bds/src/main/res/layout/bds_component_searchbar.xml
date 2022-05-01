@@ -5,7 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/dimen48"
     android:background="@drawable/bds_searchbar_background"
-    android:paddingHorizontal="@dimen/dimen16">
+    android:paddingHorizontal="@dimen/dimen16"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    >
 
 
     <ImageView
