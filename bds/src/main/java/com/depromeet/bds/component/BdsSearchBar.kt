@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.withStyledAttributes
@@ -26,11 +27,13 @@ class BdsSearchBar @JvmOverloads constructor(
     private val binding = BdsComponentSearchbarBinding.inflate(layoutInflater, this, true)
     var textListener : TextListener? =null
     var keyboardListener : KeyBoardListener? =null
+    private var treeObserver : ViewTreeObserver.OnGlobalLayoutListener? =null
 
 
     interface KeyBoardListener{
         fun keyboardStatusListener() : Int
     }
+
     interface TextListener{
         fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int)
         fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int)
@@ -58,29 +61,15 @@ class BdsSearchBar @JvmOverloads constructor(
     }
 
     private fun initEvents(){
+        setKeyboardListener()
+        binding.searchBarEt.addTextChangedListener( BdsTextWatcher() ) //textwatcher 추가
+        searchBarStatusListener()
+    }
 
-         binding.searchBarEt.addTextChangedListener( BdsTextWatcher() )
-
-         binding.searchBarEt.viewTreeObserver.addOnGlobalLayoutListener {
-                when(keyboardListener?.keyboardStatusListener() ){
-                    KEYBOARD_SHOW -> {
-                       if(binding.searchBarEt.hasFocus()) {
-                           binding.root.isSelected = true
-                           binding.searchBarCancelIc.visibility=View.VISIBLE
-                       }
-                    }
-                    KEYBOARD_HIDE -> {
-                         binding.root.isSelected = false
-                         binding.searchBarCancelIc.visibility=View.GONE
-                    }
-                }
-            }
-
-
+    private fun searchBarStatusListener(){
         binding.searchBarEt.setOnFocusChangeListener { v, hasFocus ->
             when(hasFocus){
                 true ->{
-                    Log.e("focusable? true " , binding.searchBarEt.hasFocus().toString())
                     binding.root.isSelected = true
                     binding.searchBarCancelIc.visibility=View.VISIBLE
                 }
@@ -93,8 +82,8 @@ class BdsSearchBar @JvmOverloads constructor(
         }
 
         binding.searchBarCancelIc.setOnClickListener {
-                binding.searchBarEt.setText("")
-                binding.root.isEnabled=true
+            binding.searchBarEt.setText("")
+            binding.root.isEnabled=true
         }
     }
 
@@ -111,6 +100,32 @@ class BdsSearchBar @JvmOverloads constructor(
         override fun afterTextChanged(s: Editable?) {
             textListener?.afterTextChanged(s)
         }
+    }
+
+
+
+    private fun setKeyboardListener(){
+        treeObserver = ViewTreeObserver.OnGlobalLayoutListener {
+            when( keyboardListener?.keyboardStatusListener() ){
+                KEYBOARD_SHOW -> {
+                    if(binding.searchBarEt.hasFocus()) {
+                        binding.root.isSelected = true
+                        binding.searchBarCancelIc.visibility=View.VISIBLE
+                    }
+                }
+                KEYBOARD_HIDE -> {
+                    binding.root.isSelected = false
+                    binding.searchBarCancelIc.visibility=View.GONE
+                }
+            }
+        }
+
+        binding.searchBarEt.viewTreeObserver.addOnGlobalLayoutListener(treeObserver)
+
+    }
+
+    fun removeKeyboardListener(){
+       binding.searchBarEt.viewTreeObserver.removeOnGlobalLayoutListener(treeObserver)
     }
 
     companion object{
