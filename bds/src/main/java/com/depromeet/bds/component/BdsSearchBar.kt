@@ -1,48 +1,120 @@
 package com.depromeet.bds.component
 
 import android.content.Context
+import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.LinearLayout
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.withStyledAttributes
 import androidx.core.view.isVisible
-import androidx.core.widget.doOnTextChanged
 import com.depromeet.bds.R
 import com.depromeet.bds.databinding.BdsComponentSearchbarBinding
+
 
 class BdsSearchBar @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
     defStyleRes: Int = 0,
-) : LinearLayout(context, attrs, defStyleAttr, defStyleRes) {
+) : LinearLayout(context, attrs, defStyleAttr, defStyleRes){
 
     private val layoutInflater = LayoutInflater.from(context)
     private val binding = BdsComponentSearchbarBinding.inflate(layoutInflater, this, true)
+    var textListener : TextListener? =null
+    var keyboardListener : KeyBoardListener? =null
+
+
+    interface KeyBoardListener{
+        fun keyboardStatusListener() : Int
+    }
+    interface TextListener{
+        fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int)
+        fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int)
+        fun afterTextChanged(s: Editable?)
+    }
 
     init {
 
         context.withStyledAttributes(attrs, R.styleable.BdsSearchBar) {
             binding.searchBarEt.setText(getString(R.styleable.BdsSearchBar_bds_text))
             binding.searchBarEt.hint = getString(R.styleable.BdsSearchBar_bds_placeholder_text)
-            val endIconResId = getResourceIdOrNull(R.styleable.BdsSearchBar_bds_endDrawable)
-
-            binding.searchBarCancelIc.isVisible = endIconResId!= null
-            binding.searchBarCancelIc.setImageDrawable(endIconResId.toDrawable(context))
+            binding.searchBarCancelIc.isVisible = getBoolean(R.styleable.BdsSearchBar_isSelected, false)
         }
 
         context.withStyledAttributes(attrs, R.styleable.BdsView) {
             binding.searchBarEt.setTextAppearanceCompat(
                 getResourceId(R.styleable.BdsView_bds_textAppearance, 0)
             )
-
             binding.root.isEnabled = getBoolean(R.styleable.BdsView_isEnabled, true)
             binding.root.isSelected = getBoolean(R.styleable.BdsView_isSelected, false)
-            binding.root.isSelected = getBoolean(R.styleable.BdsView_isFilled, false)
 
         }
 
+        initEvents()
     }
 
+    private fun initEvents(){
+
+         binding.searchBarEt.addTextChangedListener( BdsTextWatcher() )
+
+         binding.searchBarEt.viewTreeObserver.addOnGlobalLayoutListener {
+                when(keyboardListener?.keyboardStatusListener() ){
+                    KEYBOARD_SHOW -> {
+                       if(binding.searchBarEt.hasFocus()) {
+                           binding.root.isSelected = true
+                           binding.searchBarCancelIc.visibility=View.VISIBLE
+                       }
+                    }
+                    KEYBOARD_HIDE -> {
+                         binding.root.isSelected = false
+                         binding.searchBarCancelIc.visibility=View.GONE
+                    }
+                }
+            }
+
+
+        binding.searchBarEt.setOnFocusChangeListener { v, hasFocus ->
+            when(hasFocus){
+                true ->{
+                    Log.e("focusable? true " , binding.searchBarEt.hasFocus().toString())
+                    binding.root.isSelected = true
+                    binding.searchBarCancelIc.visibility=View.VISIBLE
+                }
+                else->{
+                    binding.searchBarEt.clearFocus()
+                    binding.root.isSelected = false
+                    binding.searchBarCancelIc.visibility=View.GONE
+                }
+            }
+        }
+
+        binding.searchBarCancelIc.setOnClickListener {
+                binding.searchBarEt.setText("")
+                binding.root.isEnabled=true
+        }
+    }
+
+
+    private inner class BdsTextWatcher() : TextWatcher{
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            textListener?.beforeTextChanged(s,start,count,after)
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            textListener?.onTextChanged(s,start,before,count)
+        }
+
+        override fun afterTextChanged(s: Editable?) {
+            textListener?.afterTextChanged(s)
+        }
+    }
+
+    companion object{
+        val KEYBOARD_SHOW =1
+        val KEYBOARD_HIDE =2
+    }
 }
