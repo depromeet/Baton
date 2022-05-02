@@ -15,7 +15,7 @@
     <attr name="secondary80" format="reference|color" />
     <attr name="secondary70" format="reference|color" />
     <attr name="secondary60" format="reference|color" />
-    <attr name="secondary" format="reference|color" />
+    <attr name="secondary50" format="reference|color" />
     <attr name="secondary40" format="reference|color" />
     <attr name="secondary30" format="reference|color" />
     <attr name="secondary20" format="reference|color" />
