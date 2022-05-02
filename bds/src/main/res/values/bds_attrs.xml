@@ -3,6 +3,11 @@
     <declare-styleable name="BdsView">
         <attr name="isSelected" format="boolean" />
         <attr name="isEnabled" format="boolean" />
+        <attr name="bds_textAppearance" />
+    </declare-styleable>
+
+    <declare-styleable name="BdsTextView">
+        <attr name="bds_text" format="string" />
         <attr name="bds_textAppearance" format="reference" />
     </declare-styleable>
 
@@ -10,7 +15,7 @@
         <attr name="isSelected" />
         <attr name="isEnabled" />
         <attr name="bds_textAppearance" />
-        <attr name="bds_text" format="string" />
+        <attr name="bds_text" />
         <attr name="bds_startDrawable" format="reference" />
         <attr name="bds_endDrawable" format="reference" />
     </declare-styleable>
@@ -20,5 +25,14 @@
         <attr name="bds_text" />
         <attr name="bds_startDrawable" />
         <attr name="bds_endDrawable" />
+    </declare-styleable>
+
+    <declare-styleable name="BdsChoiceChip">
+        <attr name="bds_text" />
+        <attr name="isOn" format="boolean" />
+        <attr name="shape" format="enum">
+            <enum name="outlined" value="0" />
+            <enum name="filled" value="1" />
+        </attr>
     </declare-styleable>
 </resources>
