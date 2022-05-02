@@ -28,7 +28,7 @@
         android:layout_height="@dimen/dimen20"
         android:layout_marginLeft="@dimen/dimen8"
         android:background="@android:color/transparent"
-        android:singleLine="true"
+        android:maxLines="1"
         android:lineHeight="@dimen/dimen20"
         android:text="텍스트 입력중"
         android:textAppearance="?body4"
@@ -38,7 +38,8 @@
         app:layout_constraintEnd_toStartOf="@id/search_bar_cancel_ic"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginRight="@dimen/dimen8"
-        android:inputType="textMultiLine|textNoSuggestions"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
         />
 
     <!--TODO : android:textColorHighlight  -->
