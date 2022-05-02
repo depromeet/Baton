@@ -1,21 +1,17 @@
 package com.depromeet.bds.component
 
-import android.app.Activity
 import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewTreeObserver
 import android.widget.LinearLayout
 import androidx.core.content.withStyledAttributes
 import androidx.core.view.isVisible
 import com.depromeet.bds.R
 import com.depromeet.bds.databinding.BdsComponentSearchbarBinding
-import com.google.android.material.internal.ContextUtils.getActivity
-import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
-import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
+
 
 
 class BdsSearchBar @JvmOverloads constructor(
