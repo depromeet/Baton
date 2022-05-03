@@ -5,15 +5,6 @@
 
     <data>
 
-        <import type="com.depromeet.baton.domain.model.FilterType" />
-
-        <variable
-            name="homeFragment"
-            type="com.depromeet.baton.presentation.ui.home.view.HomeFragment" />
-
-        <variable
-            name="filterViewModel"
-            type="com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -305,93 +296,15 @@
                     app:layout_constraintStart_toStartOf="@id/ctl_home_specific_ticket"
                     app:layout_constraintTop_toBottomOf="@+id/ctl_home_specific_ticket" />
 
-                <HorizontalScrollView
-                    android:id="@+id/hsv_home"
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/fcv_home"
+                    android:name="com.depromeet.baton.presentation.ui.filter.view.FilterChipFragment"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen12"
-                    android:overScrollMode="never"
-                    android:scrollbars="none"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_home_near_ticket">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <com.google.android.material.chip.ChipGroup
-                            android:id="@+id/chip_group_home"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            app:chipSpacingHorizontal="@dimen/dimen8"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent">
-
-                            <com.google.android.material.chip.Chip
-                                android:id="@+id/chip_home_alignment"
-                                style="@style/MaterialComponents.Chip.Entry"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/dimen16"
-                                android:onClick="@{()->homeFragment.setFilterChipClickListener(FilterType.Alignment)}"
-                                android:text="@string/filter_alignment"/>
-
-                            <com.google.android.material.chip.Chip
-                                android:id="@+id/chip_home_ticket_kind"
-                                style="@style/MaterialComponents.Chip.Entry"
-                                filterType="@{FilterType.TicketKind}"
-                                viewModel="@{filterViewModel}"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:checked="@{filterViewModel.isTicketKindFiltered}"
-                                android:onClick="@{()->homeFragment.setFilterChipClickListener(FilterType.TicketKind)}"
-                                android:text="@string/filter_ticket_kind" />
-
-                            <com.google.android.material.chip.Chip
-                                android:id="@+id/chip_home_term"
-                                style="@style/MaterialComponents.Chip.Entry"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:onClick="@{()->homeFragment.setFilterChipClickListener(FilterType.Term)}"
-                                android:text="@string/filter_term" />
-
-                            <com.google.android.material.chip.Chip
-                                android:id="@+id/chip_home_price"
-                                style="@style/MaterialComponents.Chip.Entry"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:onClick="@{()->homeFragment.setFilterChipClickListener(FilterType.Price)}"
-                                android:text="@string/filter_price" />
-
-                            <com.google.android.material.chip.Chip
-                                android:id="@+id/chip_home_transaction_method"
-                                style="@style/MaterialComponents.Chip.Entry"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:onClick="@{()->homeFragment.setFilterChipClickListener(FilterType.TransactionMethod)}"
-                                android:text="@string/filter_transaction_method"/>
-
-                            <com.google.android.material.chip.Chip
-                                android:id="@+id/chip_home_additional_options"
-                                style="@style/MaterialComponents.Chip.Entry"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:onClick="@{()->homeFragment.setFilterChipClickListener(FilterType.AdditionalOptions)}"
-                                android:text="@string/filter_additional_options" />
-
-                            <com.google.android.material.chip.Chip
-                                android:id="@+id/chip_home_filter_hashtag"
-                                style="@style/MaterialComponents.Chip.Entry"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="@dimen/dimen16"
-                                android:onClick="@{()->homeFragment.setFilterChipClickListener(FilterType.HashTag)}"
-                                android:text="@string/filter_hashtag" />
-                        </com.google.android.material.chip.ChipGroup>
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </HorizontalScrollView>
+                    app:layout_constraintTop_toBottomOf="@+id/tv_home_near_ticket" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_home"
@@ -402,7 +315,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/ctl_home_specific_ticket"
                     app:layout_constraintStart_toStartOf="@+id/ctl_home_specific_ticket"
-                    app:layout_constraintTop_toBottomOf="@+id/hsv_home"
+                    app:layout_constraintTop_toBottomOf="@+id/fcv_home"
                     tools:itemCount="5"
                     tools:listitem="@layout/item_ticket">
 
