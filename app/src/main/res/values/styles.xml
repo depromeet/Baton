@@ -1,24 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--  Home Chip Button  -->
-    <style name="MaterialComponents.Chip.Entry" parent="Widget.MaterialComponents.Chip.Entry">
-        <item name="chipBackgroundColor">?wh100</item>
-        <item name="chipStrokeWidth">1dp</item>
-        <item name="android:textAppearance">?body4</item>
-        <item name="closeIconSize">@dimen/dimen12</item>
-        <item name="closeIconStartPadding">0dp</item>
-        <item name="closeIconEndPadding">@dimen/dimen8</item>
-        <item name="checkedIconVisible">false</item>
-        <item name="closeIcon">@drawable/ic_filter_resize</item>-->
-        <item name="closeIconTint">@color/selector_grey_scale60_primary50</item>
-        <item name="android:textColor">@color/selector_grey_scale70_primary50</item>
-        <item name="chipCornerRadius">@dimen/dimen24</item>
-        <item name="chipStrokeColor">@color/selector_grey_scale40_primary50</item>
-        <item name="ensureMinTouchTargetSize">false</item>
-        <item name="textStartPadding">@dimen/dimen12</item>
-    </style>
-
     <!--  Filter BottomSheetDialog  -->
     <style name="BottomSheetDialog">
         <item name="android:windowFrame">@null</item>
