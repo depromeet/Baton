@@ -3,8 +3,7 @@ package com.depromeet.baton.presentation.ui.filter
 import com.depromeet.baton.R
 import com.depromeet.baton.domain.model.TicketKind
 
-//bindingAdapter에서 사용
-fun getTicketKindFromCheckedId(checkedId: Int): TicketKind? {
+internal fun getTicketKindFromCheckedId(checkedId: Int): TicketKind? {
     return when (checkedId) {
         R.id.chip_ticket_kind_gym -> TicketKind.GYM
         R.id.chip_ticket_kind_pt -> TicketKind.PT
