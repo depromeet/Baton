@@ -20,16 +20,16 @@ class FilterViewModel @Inject constructor(
 
     private val _isTicketKindFiltered = MutableLiveData<Boolean>()
 
-    private val _isGymChecked = MutableLiveData<Boolean>()
+    private val _isGymChecked = MutableLiveData(false)
     val isGymChecked: LiveData<Boolean> = _isGymChecked
 
-    private val _isPtChecked = MutableLiveData<Boolean>()
+    private val _isPtChecked = MutableLiveData(false)
     val isPtChecked: LiveData<Boolean> = _isPtChecked
 
-    private val _isPilatesYogaChecked = MutableLiveData<Boolean>()
+    private val _isPilatesYogaChecked = MutableLiveData(false)
     val isPilatesYogaChecked: LiveData<Boolean> = _isPilatesYogaChecked
 
-    private val _isEtcChecked = MutableLiveData<Boolean>()
+    private val _isEtcChecked = MutableLiveData(false)
     val isEtcChecked: LiveData<Boolean> = _isEtcChecked
 
     /*position, list관련*/

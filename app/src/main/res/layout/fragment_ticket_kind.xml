@@ -5,7 +5,7 @@
 
     <data>
 
-        <import type="com.depromeet.baton.domain.model.FilterType" />
+        <import type="com.depromeet.baton.domain.model.TicketKind" />
 
         <variable
             name="filterViewModel"
@@ -39,55 +39,59 @@
             app:layout_constraintStart_toEndOf="@id/tv_ticket_kind_select"
             app:layout_constraintTop_toTopOf="@id/tv_ticket_kind_select" />
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chip_group_ticket_kind"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen12"
-            app:chipSpacingVertical="@dimen/dimen12"
-            app:layout_constraintStart_toStartOf="@id/tv_ticket_kind_select"
-            app:layout_constraintTop_toBottomOf="@id/tv_ticket_kind_select">
+            app:layout_constraintTop_toBottomOf="@id/tv_ticket_kind_explain">
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_ticket_kind_gym"
-                style="@style/MaterialComponents.Chip.Filter"
-                itemType="@{FilterType.TicketKind}"
-                viewModel="@{filterViewModel}"
+            <com.depromeet.bds.component.BdsChoiceChip
+                android:id="@+id/bdschoice_ticket_kind_gym"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="@{filterViewModel.isGymChecked}"
-                android:text="@string/filter_ticket_gym" />
+                android:onClick="@{()->filterViewModel.setTicketKind(TicketKind.GYM,!filterViewModel.isGymChecked)}"
+                app:bds_text="@string/filter_ticket_gym"
+                app:isOn="@{filterViewModel.isGymChecked}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shape="@{`outlined`}" />
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_ticket_kind_pt"
-                style="@style/MaterialComponents.Chip.Filter"
-                itemType="@{FilterType.TicketKind}"
-                viewModel="@{filterViewModel}"
+            <com.depromeet.bds.component.BdsChoiceChip
+                android:id="@+id/bdschoice_ticket_kind_pt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="@{filterViewModel.isPtChecked}"
-                android:text="@string/filter_ticket_pt" />
+                android:layout_marginStart="@dimen/dimen8"
+                android:onClick="@{()->filterViewModel.setTicketKind(TicketKind.PT,!filterViewModel.isPtChecked)}"
+                app:bds_text="@string/filter_ticket_pt"
+                app:isOn="@{filterViewModel.isPtChecked}"
+                app:layout_constraintStart_toEndOf="@id/bdschoice_ticket_kind_gym"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shape="@{`outlined`}" />
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_ticket_kind_pilates_yoga"
-                style="@style/MaterialComponents.Chip.Filter"
-                itemType="@{FilterType.TicketKind}"
-                viewModel="@{filterViewModel}"
+            <com.depromeet.bds.component.BdsChoiceChip
+                android:id="@+id/bdschoice_ticket_kind_pilates_yoga"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="@{filterViewModel.isPilatesYogaChecked}"
-                android:text="@string/filter_ticket_pilates_yoga" />
+                android:layout_marginStart="@dimen/dimen8"
+                android:onClick="@{()->filterViewModel.setTicketKind(TicketKind.PILATES_YOGA,!filterViewModel.isPilatesYogaChecked)}"
+                app:bds_text="@string/filter_ticket_pilates_yoga"
+                app:isOn="@{filterViewModel.isPilatesYogaChecked}"
+                app:layout_constraintStart_toEndOf="@id/bdschoice_ticket_kind_pt"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shape="@{`outlined`}" />
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_ticket_kind_etc"
-                style="@style/MaterialComponents.Chip.Filter"
-                itemType="@{FilterType.TicketKind}"
-                viewModel="@{filterViewModel}"
+            <com.depromeet.bds.component.BdsChoiceChip
+                android:id="@+id/bdschoice_ticket_kind_etc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="@{filterViewModel.isEtcChecked}"
-                android:text="@string/filter_ticket_etc" />
-        </com.google.android.material.chip.ChipGroup>
+                android:layout_marginTop="@dimen/dimen8"
+                android:onClick="@{()->filterViewModel.setTicketKind(TicketKind.ETC,!filterViewModel.isEtcChecked)}"
+                app:bds_text="@string/filter_ticket_etc"
+                app:isOn="@{filterViewModel.isEtcChecked}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bdschoice_ticket_kind_gym"
+                app:shape="@{`outlined`}" />
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
