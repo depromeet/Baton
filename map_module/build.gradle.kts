@@ -34,6 +34,7 @@ android {
         buildConfigField ("String", "NAVER_API_CLIENT_ID_KEY", keystoreProperties["NAVER_API_CLIENT_ID_KEY"].toString())
         buildConfigField ("String", "NAVER_API_CLIENT_SECRET_KEY", keystoreProperties["NAVER_API_CLIENT_SECRET_KEY"].toString())
         buildConfigField ("String", "KAKAO_REST_API_KEY", keystoreProperties["KAKAO_REST_API_KEY"].toString())
+        buildConfigField ("String", "ADDRESS_API_KEY", keystoreProperties["ADDRESS_API_KEY"].toString())
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -96,8 +97,17 @@ dependencies {
     androidTestImplementation(Dep.AndroidTest.runner)
     androidTestImplementation(Dep.AndroidTest.junitExt)
 
-
-    //Naver SDK
     implementation(Dep.Map.naver_sdk)
     implementation(Dep.Map.gms_location)
+
+    implementation(Dep.XmlParser.tickaroo)
+    implementation(Dep.XmlParser.tickaroo_core)
+    implementation(Dep.XmlParser.tickaroo_retrofit)
+    kapt(Dep.XmlParser.tickaroo_processor)
+
+    implementation(Dep.rxjava.rxjava2)
+    implementation(Dep.rxjava.rxjava2_android)
+    implementation(Dep.rxjava.rxjava2_adpater)
+    implementation(Dep.Retrofit.converterGson)
+
 }
