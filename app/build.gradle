@@ -61,6 +61,8 @@ dependencies {
     implementation(Dep.Android.material)
     implementation(Dep.Android.constraintLayout)
     implementation(Dep.Android.fragment)
+    implementation(Dep.Android.flexbox)
+
 
     implementation(Dep.Lifecycle.viewModel)
     implementation(Dep.Lifecycle.runtime)
@@ -91,4 +93,15 @@ dependencies {
     androidTestImplementation(Dep.AndroidTest.rules)
     androidTestImplementation(Dep.AndroidTest.runner)
     androidTestImplementation(Dep.AndroidTest.junitExt)
+
+
+    implementation(Dep.XmlParser.tickaroo)
+    implementation(Dep.XmlParser.tickaroo_core)
+    implementation(Dep.XmlParser.tickaroo_retrofit)
+    kapt(Dep.XmlParser.tickaroo_processor)
+
+    implementation(Dep.rxjava.rxjava2)
+    implementation(Dep.rxjava.rxjava2_android)
+    implementation(Dep.rxjava.rxjava2_adpater)
+    implementation(Dep.Retrofit.converterGson)
 }
