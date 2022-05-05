@@ -10,6 +10,3 @@ sealed class UIState{
     class Error(@StringRes val errorMsgId:Int = 0) : UIState()
 }
 
-enum class ErrorMessage(){
-
-}
