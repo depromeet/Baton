@@ -13,7 +13,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
-class AddressRepositoryImpl  @Inject constructor(private val gpsDataSource:GPSDataSource) :
+
+class AddressRepositoryImpl  @Inject constructor(
+    private val gpsDataSource: GPSDataSource
+) :
     AddressRepository, BaseApiResponse() {
     private val kakaoGeoService =KakaoGeoService()
 
@@ -26,9 +29,9 @@ class AddressRepositoryImpl  @Inject constructor(private val gpsDataSource:GPSDa
     }
 
     override suspend  fun getMyAddress() :Flow<NetworkResult<LocationEntity>> = flow {
-         gpsDataSource.getLocation().collect{
+        gpsDataSource.getLocation().collect{
             getKakaoApiResult( it.location.latitude,it.location.longitude).collect{
-               result -> emit(checkApiResult( it.location.latitude,it.location.longitude,result))
+                    result -> emit(checkApiResult( it.location.latitude,it.location.longitude,result))
             }
         }
     }.catch { e -> NetworkResult.Error<LocationEntity>(e.toString()) }.flowOn(Dispatchers.IO)
@@ -36,20 +39,21 @@ class AddressRepositoryImpl  @Inject constructor(private val gpsDataSource:GPSDa
 
     //Kakao Api 호출
     private  suspend fun getKakaoApiResult ( latitude : Double ,longitude : Double)
-        = flow{
-             emit(safeApiCall {  kakaoGeoService.getAddressFromLocation(longitude, latitude)!! })
-        }.catch { e -> emit(NetworkResult.Error(e.toString())) }.flowOn(Dispatchers.IO)
+            = flow{
+        emit( safeApiCall {  kakaoGeoService.getAddressFromLocation(longitude, latitude)!! })
+    }.catch { e -> emit(NetworkResult.Error(e.toString())) }.flowOn(Dispatchers.IO)
 
 
     private fun checkApiResult(_latitude : Double,  _longitude :Double,request :NetworkResult<KakaoGeoResponse>) :  NetworkResult<LocationEntity > {
-        return if(request.data?.meta!!.total_count ==0 ) NetworkResult.Error("위치정보를 찾을 수 없습니다")
-        else {
+     return if(request.data?.meta!!.total_count ==0 ) NetworkResult.Error("위치정보를 찾을 수 없습니다")
+     else {
             val result= KakaoGeoModel(_latitude,_longitude,request)
             NetworkResult.Success<LocationEntity>(result.mapToDomain())
         }
     }
 
-    override fun stopAddressRequest() : Unit{
+
+    override fun stopAddressRequest(){
         gpsDataSource.stopLocationUpdates()
     }
 
@@ -61,8 +65,4 @@ class AddressRepositoryImpl  @Inject constructor(private val gpsDataSource:GPSDa
                 }
         }.catch { e -> NetworkResult.Error<LocationEntity>(e.toString()) }.flowOn(Dispatchers.IO)
 
-
-   /* override fun AddresstoGPS(address: String){
-        TODO : gps -> address
-    }*/
 }
