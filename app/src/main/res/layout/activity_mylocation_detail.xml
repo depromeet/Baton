@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <include
+            android:id="@+id/detail_address_toolbar"
+            layout="@layout/address_header"/>
+        <TextView
+            android:id="@+id/roadAddress_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="도로명"
+            android:textColor="@color/gy90"
+            android:fontFamily="@font/spo_bold"
+            android:textSize="@dimen/dimen16"
+            android:lineHeight="@dimen/dimen22"
+            android:layout_marginHorizontal="@dimen/dimen16"
+            android:layout_marginTop="@dimen/dimen16"
+            />
+
+        <TextView
+            android:id="@+id/address_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="지번"
+            android:textColor="@color/gy60"
+            android:fontFamily="@font/spo_regular"
+            android:textSize="@dimen/dimen14"
+            android:lineHeight="@dimen/dimen20"
+            android:layout_marginHorizontal="@dimen/dimen16"
+            android:layout_marginTop="@dimen/dimen4"
+            />
+       <EditText
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_marginHorizontal="@dimen/dimen16"
+           android:layout_marginTop="@dimen/dimen32"
+           />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

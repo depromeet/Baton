@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewmodel"
-            type="com.depromeet.baton.presentation.ui.address.AddressViewModel" />
+            type="com.depromeet.baton.presentation.ui.address.viewmodel.SearchAddressViewModel" />
     </data>
     <LinearLayout
         android:background="@color/wh100"
@@ -16,11 +16,14 @@
             android:id="@+id/address_toolbar"
             layout="@layout/address_header"/>
 
+
         <EditText
+            android:id="@+id/search_address_et"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen42"
             android:layout_marginHorizontal="@dimen/dimen16"
-            android:background="@color/gy30"
+            android:layout_marginTop="@dimen/dimen16"
+            android:background="?grey_scale30"
             android:hint="임시 Edittext"
             tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck" />
 
@@ -30,25 +33,39 @@
             android:layout_marginLeft="@dimen/dimen16"
             android:layout_marginTop="@dimen/dimen12">
             <ImageView
-                android:id="@+id/my_location_iv"
+                android:id="@+id/address_search_my_location_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_my_location"
+                android:src="@drawable/ic_my_location_line_24"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:tint="?like"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="현재 위치로 설정"
-                android:textColor="@color/gy80"
-                android:fontFamily="@font/spo_medium"
-                android:textSize="@dimen/dimen16"
+                android:textColor="?grey_scale90"
+                android:textAppearance="?body3"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@id/my_location_iv"
+                app:layout_constraintStart_toEndOf="@id/address_search_my_location_iv"
                 app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginLeft="@dimen/dimen8"
+                />
+
+
+            <ImageView
+                android:id="@+id/address_search_back_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_line_16"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginRight="@dimen/dimen16"
+                app:tint="?grey_scale90"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -58,22 +75,41 @@
             android:background="@color/gy30"
             />
 
-
-        <TextView
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen56"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:gravity="center_vertical"
-            android:text="이렇게 검색해보세요."
-            android:textColor="@color/gy70"
-            android:fontFamily="@font/spo_medium"
-            android:textSize="@dimen/dimen16"
-            android:layout_marginHorizontal="@dimen/dimen16"
-            />
+            android:layout_height="wrap_content">
 
+            <RelativeLayout
+                app:emptyState="@{viewmodel.uiState }"
+                android:layout_marginHorizontal="@dimen/dimen16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <include layout="@layout/search_no_item_view" />
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/search_address_recycler"
+                app:uiState="@{viewmodel.uiState }"
+                android:layout_marginHorizontal="@dimen/dimen16"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/item_address_search"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:overScrollMode="never"
+                />
+
+
+            <RelativeLayout
+                app:defaultState="@{viewmodel.uiState}"
+                android:layout_marginHorizontal="@dimen/dimen16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <include layout="@layout/search_guide_view" />
+            </RelativeLayout>
+
+        </FrameLayout>
 
     </LinearLayout>
 </layout>

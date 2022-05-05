@@ -7,4 +7,8 @@
     <string name="main_mypage">마이페이지</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name ="road_address">도로명주소</string>
+    <string name="locaton_permission_alert">현재 위치를 파악하기 위해 위치 권한 접근이 필요합니다</string>
+
 </resources>

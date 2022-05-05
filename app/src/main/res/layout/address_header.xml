@@ -5,7 +5,19 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen56"
         >
+         <ImageButton
+             android:id="@+id/back_btn"
+             android:layout_width="@dimen/dimen24"
+             android:layout_height="@dimen/dimen24"
+             android:layout_marginStart="@dimen/dimen16"
+             android:src="@drawable/ic_arrow_back"
+             android:background="@android:color/transparent"
+             app:layout_constraintTop_toTopOf="parent"
+             app:layout_constraintBottom_toBottomOf="parent"
+             app:layout_constraintStart_toStartOf="parent" />
+
         <TextView
+            android:id="@+id/title_tv"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -13,10 +25,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:gravity="center"
-            android:text="위치 설정"
-            android:textColor="@color/gy80"
-            android:fontFamily="@font/spo_bold"
-            android:textSize="@dimen/dimen16"
+            android:text="Title"
+            android:textColor="?grey_scale90"
+            android:textAppearance="?headline2"
+            />
+        <TextView
+            android:id="@+id/next_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="다음"
+            android:textColor="@drawable/selector_appbar_next_color"
+            android:textAppearance="?body1"
+            android:layout_marginRight="@dimen/dimen18"
+            android:layout_marginVertical="@dimen/dimen16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

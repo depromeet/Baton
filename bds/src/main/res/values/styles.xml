@@ -60,5 +60,23 @@
         <item name="caption2">@style/Typography.C1.Regular</item>
         <item name="caption3">@style/Typography.C2.Medium</item>
         <item name="caption4">@style/Typography.C2.Regular</item>
+
+
+
     </style>
+
+    <style name="BatonProgress" parent="Widget.AppCompat.ProgressBar">
+        <item name="android:progressBackgroundTint">?grey_scale90</item>
+        <item name="android:progressTint">?primary40</item>
+        <item name="android:width">@dimen/dimen48</item>
+        <item name="android:height">@dimen/dimen48</item>
+    </style>
+    <style name="BatonProgressStyle">
+        <item name="theme">@style/BatonProgress</item>
+    </style>
+
 </resources>
+
+
+
+

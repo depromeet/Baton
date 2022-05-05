@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.depromeet.baton.presentation.ui.address.AddressViewModel" />
+            type="com.depromeet.baton.presentation.ui.address.viewmodel.MyLocationViewModel" />
     </data>
     <FrameLayout
         android:layout_width="match_parent"
@@ -15,34 +15,10 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/address_location_header"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen56"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:gravity="center"
-                    android:text="현재위치"
-                    android:textColor="@color/gy80"
-                    android:fontFamily="@font/spo_bold"
-                    android:textSize="@dimen/dimen16"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="다음"
-                    android:textSize="@dimen/dimen16"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+           <include
+               android:id="@+id/my_location_toolbar"
+               layout="@layout/address_header"/>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="5dp"
@@ -52,55 +28,43 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="이 위치로 변경할까요?"
-                android:textColor="@color/gy80"
-                android:fontFamily="@font/spo_bold"
-                android:textSize="@dimen/dimen16"
+                android:textColor="@color/gy70"
+                android:fontFamily="@font/spo_medium"
+                android:textSize="@dimen/dimen14"
                 android:layout_marginLeft="@dimen/dimen16"
-                android:layout_marginTop="@dimen/dimen24"
-                />
-
-            <TextView
-                android:id="@+id/address_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{viewModel.address.data.address}"
-                android:textColor="@color/gy80"
-                android:fontFamily="@font/spo_bold"
-                android:textSize="@dimen/dimen16"
-                android:layout_marginLeft="@dimen/dimen16"
-                android:layout_marginTop="@dimen/dimen24"
+                android:layout_marginTop="@dimen/dimen16"
                 />
 
             <TextView
                 android:id="@+id/roadAddress_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="도로명주소"
-                android:textColor="@color/gy60"
-                android:fontFamily="@font/spo_bold"
-                android:textSize="@dimen/dimen12"
-                android:layout_marginLeft="@dimen/dimen16"
-                android:layout_marginTop="@dimen/dimen12"
+                android:text="@{ viewModel.roadState}"
+                android:textColor="@color/gy90"
+                android:textAppearance="?headline2"
+                android:layout_marginHorizontal="@dimen/dimen16"
+                android:layout_marginTop="@dimen/dimen16"
                 />
 
-            <EditText
-                android:id="@+id/address_detail_et"
+            <TextView
+                android:id="@+id/address_tv"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen42"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.jibunState}"
+                android:textColor="@color/gy60"
+                android:fontFamily="@font/spo_regular"
+                android:textSize="@dimen/dimen14"
+                android:lineHeight="@dimen/dimen20"
                 android:layout_marginHorizontal="@dimen/dimen16"
-                android:layout_marginTop="@dimen/dimen12"
-                android:visibility="invisible"
-                android:background="@color/gy30"
-                android:hint=" 상세 주소 입력란"
-                tools:ignore="TouchTargetSizeCheck" />
-
+                android:layout_marginTop="@dimen/dimen4"
+                />
         </LinearLayout>
         <ProgressBar
             android:id="@+id/location_progress"
+            app:showOnLoading="@{viewModel.uiState}"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
-            android:visibility="visible"
             />
     </FrameLayout>
 

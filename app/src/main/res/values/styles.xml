@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Slider Custom -->
+    <style name="Widget.Baton.SeekBar" parent="Widget.AppCompat.SeekBar">
+        <item name="android:maxHeight">@dimen/dimen4</item>
+        <item name="android:progressDrawable">@drawable/slider</item>
+        <item name="android:thumb">@drawable/slider_pointer</item>
+        <item name="android:splitTrack">false</item>
+        <item name="android:thumbOffset">0dp</item>
+    </style>
+
+
+</resources>

@@ -2,17 +2,27 @@
 <resources>
     <dimen name="dimen2">2dp</dimen>
     <dimen name="dimen4">4dp</dimen>
+    <dimen name="dimen5">5dp</dimen>
     <dimen name="dimen8">8dp</dimen>
     <dimen name="dimen12">12dp</dimen>
+    <dimen name="dimen14">14dp</dimen>
+    <dimen name="dimen15">15dp</dimen>
     <dimen name="dimen16">16dp</dimen>
+    <dimen name="dimen18">18dp</dimen>
+    <dimen name="dimen20">20dp</dimen>
+    <dimen name="dimen22">22dp</dimen>
     <dimen name="dimen24">24dp</dimen>
+    <dimen name="dimen26">26dp</dimen>
+    <dimen name="dimen28">28dp</dimen>
     <dimen name="dimen32">32dp</dimen>
     <dimen name="dimen42">42dp</dimen>
     <dimen name="dimen48">48dp</dimen>
     <dimen name="dimen56">56dp</dimen>
+    <dimen name="dimen68">68dp</dimen>
     <dimen name="dimen96">96dp</dimen>
     <dimen name="dimen128">128dp</dimen>
     <dimen name="dimen160">160dp</dimen>
     <dimen name="dimen256">256dp</dimen>
+    <dimen name="dimen328">328dp</dimen>
     <dimen name="dimen512">512dp</dimen>
 </resources>
