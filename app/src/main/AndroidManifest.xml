@@ -4,6 +4,8 @@
     package="com.depromeet.baton">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name=".BatonApp"
@@ -15,22 +17,34 @@
         android:theme="@style/Theme.MyApplication"
         tools:replace="android:name">
 
+
+
+        <activity
+            android:name=".presentation.ui.address.view.MyLocationActivity"
+            android:exported="false"
+            />
+        <activity
+            android:name=".presentation.ui.address.view.MyLocationDetailActivity"
+            android:exported="false"
+            />
+        <activity
+            android:name=".presentation.ui.address.view.SearchAddressActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".presentation.ui.address.view.AddressActivity"
+            android:exported="true"/>
+
         <activity
             android:name=".presentation.sample.SampleActivity"
             android:exported="false" />
+
+
         <activity
             android:name=".presentation.main.MainActivity"
-            android:exported="true"
-          />
-        <activity
-            android:name=".presentation.ui.address.MyLocationActivity"
-            android:exported="true"
-            />
-        <activity
-            android:name=".presentation.ui.address.AddressActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
