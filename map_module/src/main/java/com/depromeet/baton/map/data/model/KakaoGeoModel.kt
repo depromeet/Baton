@@ -11,7 +11,11 @@ class KakaoGeoModel(_lat : Double, _long: Double, _response: NetworkResult<Kakao
     var address =""
     init{
         if(response.data?.meta!!.total_count !=0){
-            roadAddress=_response.data!!.documents.get(0).road_address.address_name
+            roadAddress =
+                if( _response.data!!.documents.get(0).road_address !=null)
+                    _response.data!!.documents.get(0).road_address!!.address_name
+                else ""
+
             address=_response.data!!.documents.get(0).address.address_name
         }
     }

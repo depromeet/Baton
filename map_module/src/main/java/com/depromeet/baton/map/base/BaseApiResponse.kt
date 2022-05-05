@@ -1,11 +1,12 @@
 package com.depromeet.baton.map.base
 
+import com.depromeet.baton.map.data.model.AddressResult
 import com.depromeet.baton.map.util.NetworkResult
 import retrofit2.Response
 import timber.log.Timber
 
 abstract class BaseApiResponse {
-    suspend fun <T> safeApiCall(apiCall: suspend () -> Response<T>): NetworkResult<T> {
+    suspend fun <T> safeApiCall(apiCall:suspend() -> Response<T>): NetworkResult<T> {
         try {
             val response = apiCall()
             if (response.isSuccessful) {

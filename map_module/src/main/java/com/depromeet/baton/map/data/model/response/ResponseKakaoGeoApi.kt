@@ -13,7 +13,7 @@ data class KakaoGeoResponse (
 
     data class Documents (
         @SerializedName("road_address")
-        val road_address : RoadAddress,
+        val road_address : RoadAddress?,
         @SerializedName("address")
         val address :  KakaoAddress
     ){
