@@ -131,7 +131,15 @@
         <item name="bdsButtonEndMargin">@dimen/dimen12</item>
         <item name="bdsButtonIconSize">16dp</item>
     </style>
-    
+
+    <style name="Theme.Bds.SearchBar" parent="BatonTheme">
+        <item name="bdsSearchBarNormalTextColor">?grey_scale60</item>
+        <item name="bdsSearchBarFocusedTextColor">?grey_scale90</item>
+        <item name="bdsSearchBarTextAppearance">?body4</item>
+        <item name="android:textCursorDrawable">?grey_scale90</item>
+
+    </style>
+
     <style name="Theme.Bds.PrimarySearchBar"  parent="">
         <item name="bdsSearchBarNormalBorderColor">?grey_scale40</item>
         <item name="bdsSearchBarFocusedBorderColor">?primary50</item>
