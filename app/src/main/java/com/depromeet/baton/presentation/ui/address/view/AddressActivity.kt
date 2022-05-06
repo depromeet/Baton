@@ -132,7 +132,11 @@ class AddressActivity : BaseActivity<ActivityAddressBinding>(R.layout.activity_a
                         deniedPermission.add(permissions[id])
                     }
                 }
-                if(! isPermitted ) {
+                if(isPermitted){
+                    val intent = Intent(this, MyLocationActivity::class.java)
+                    startActivity(intent)
+                }
+                else {
                     //거부만 선택
                     if(ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[0]) ||
                         ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[1])){
