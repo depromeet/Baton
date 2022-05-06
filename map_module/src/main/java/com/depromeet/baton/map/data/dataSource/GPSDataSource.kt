@@ -2,6 +2,7 @@ package com.depromeet.baton.map.data.dataSource
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.location.Geocoder
 import android.os.Looper
 import com.depromeet.baton.map.data.model.LocationModel
 import com.google.android.gms.location.*
@@ -17,15 +18,15 @@ class GPSDataSource @Inject constructor (applicationContext: Context){
 
     private val fusedLocationProviderClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(applicationContext)  //자동으로 gps값을 받아온다.
     private var locationCallback: LocationCallback? =null
+    private val geocoder = Geocoder(applicationContext)
 
     fun getLocation() : Flow<LocationModel> = callbackFlow {
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(result: LocationResult) {
-                result ?: return
-                /*for ((i, location) in result.locations.withIndex()) {
+                Timber.e("get => ${result.lastLocation}")
+                for ((i, location) in result.locations.withIndex()) {
                     trySend(LocationModel(result.lastLocation))
-                }*/
-                trySend(LocationModel(result.lastLocation))
+                }
             }
         }
         setUpdateLocationListener()
@@ -40,12 +41,14 @@ class GPSDataSource @Inject constructor (applicationContext: Context){
             interval = REQUEST_INTERVAL //1초에 한번씩 GPS 요청
         }
         if(locationCallback != null)
+            fusedLocationProviderClient.requestLocationUpdates(
+                locationRequest,
+                locationCallback!!,
+                Looper.getMainLooper()
+            ).addOnFailureListener {
+                Timber.e(it.message.toString())
+            }
 
-        fusedLocationProviderClient.requestLocationUpdates(
-            locationRequest,
-            locationCallback!!,
-            Looper.getMainLooper()
-        )
     }
 
      fun stopLocationUpdates(){
