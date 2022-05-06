@@ -5,7 +5,7 @@
         <clip>
             <shape android:shape="rectangle">
                 <size android:height="@dimen/dimen4"/>
-             <solid  android:color="?primary" />
+             <solid  android:color="@color/blue50"/>
             </shape>
         </clip>
     </item>
