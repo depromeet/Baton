@@ -62,7 +62,6 @@
         <item name="caption4">@style/Typography.C2.Regular</item>
 
 
-
     </style>
 
     <style name="BatonProgress" parent="Widget.AppCompat.ProgressBar">
@@ -76,7 +75,6 @@
     </style>
 
 </resources>
-
 
 
 

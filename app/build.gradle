@@ -26,6 +26,12 @@ android {
         versionCode App.versionCode
         versionName App.versionName
 
+<<<<<<< HEAD
+=======
+        buildConfigField "String", "NAVER_SDK_CLIENT_KEY", keystoreProperties['NAVER_SDK_CLIENT_KEY']
+        manifestPlaceholders = [NAVER_SDK_CLIENT_KEY : keystoreProperties['NAVER_SDK_CLIENT_KEY'] ]
+
+>>>>>>> develop
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -51,7 +57,11 @@ android {
 dependencies {
 
     implementation(project(":bds"))
+<<<<<<< HEAD
     implementation project(':map_module')
+=======
+
+>>>>>>> develop
     implementation(Dep.Coroutine.core)
     implementation(Dep.Coroutine.android)
     testImplementation(Dep.Coroutine.test)
@@ -84,7 +94,11 @@ dependencies {
     implementation(Dep.Firebase.analytics)
     implementation(Dep.Firebase.messaging)
 
+<<<<<<< HEAD
     implementation(Dep.Map.naver_sdk)
+=======
+    implementation(Dep.naver_sdk)
+>>>>>>> develop
 
     implementation(Dep.timber)
 

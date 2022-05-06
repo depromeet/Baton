@@ -133,6 +133,7 @@ object Dep {
         const val messaging = "com.google.firebase:firebase-messaging-ktx:23.0.0"
     }
 
+
     object Map{
         const val naver_sdk = "com.naver.maps:map-sdk:3.14.0"
         const val gms_location="com.google.android.gms:play-services-location:17.1.0"
