@@ -40,13 +40,15 @@ class BdsSearchBar @JvmOverloads constructor(
         }
 
         context.withStyledAttributes(attrs, R.styleable.BdsView) {
-            binding.searchBarEt.setTextAppearanceCompat(
-                getResourceId(R.styleable.BdsView_bds_textAppearance, 0)
-            )
+
             binding.root.isEnabled = getBoolean(R.styleable.BdsView_isEnabled, true)
             binding.root.isSelected = getBoolean(R.styleable.BdsView_isSelected, false)
 
         }
+        context.withStyledAttributes(attrs, R.styleable.BdsTextView){
+            binding.searchBarEt.setTextAppearance( getResourceId(R.styleable.BdsView_bds_textAppearance, 0))
+        }
+
         initEvents()
 
     }
