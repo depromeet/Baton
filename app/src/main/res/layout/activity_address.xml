@@ -155,7 +155,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@{viewmodel.timeState}"
-                android:textColor="?secondary"
+                android:textColor="?secondary50"
                 android:textAppearance="?caption2"
                 />
 
