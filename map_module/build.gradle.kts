@@ -28,13 +28,13 @@ android {
         minSdk = App.minSdk
         targetSdk = App.targetSdk
 
-        buildConfigField( "String", "NAVER_SDK_CLIENT_KEY", keystoreProperties["NAVER_SDK_CLIENT_KEY"].toString())
+        buildConfigField( "String", "NAVER_SDK_CLIENT_KEY", "\"${keystoreProperties["NAVER_SDK_CLIENT_KEY"]}\"")
         manifestPlaceholders ["NAVER_SDK_CLIENT_KEY"]= keystoreProperties["NAVER_SDK_CLIENT_KEY"].toString()
 
-        buildConfigField ("String", "NAVER_API_CLIENT_ID_KEY", keystoreProperties["NAVER_API_CLIENT_ID_KEY"].toString())
-        buildConfigField ("String", "NAVER_API_CLIENT_SECRET_KEY", keystoreProperties["NAVER_API_CLIENT_SECRET_KEY"].toString())
-        buildConfigField ("String", "KAKAO_REST_API_KEY", keystoreProperties["KAKAO_REST_API_KEY"].toString())
-        buildConfigField ("String", "ADDRESS_API_KEY", keystoreProperties["ADDRESS_API_KEY"].toString())
+        buildConfigField ("String", "NAVER_API_CLIENT_ID_KEY", "\"${keystoreProperties["NAVER_API_CLIENT_ID_KEY"]}\"")
+        buildConfigField ("String", "NAVER_API_CLIENT_SECRET_KEY", "\"${keystoreProperties["NAVER_API_CLIENT_SECRET_KEY"]}\"")
+        buildConfigField ("String", "KAKAO_REST_API_KEY","\"${ keystoreProperties["KAKAO_REST_API_KEY"]}\"")
+        buildConfigField ("String", "ADDRESS_API_KEY", "\"${keystoreProperties["ADDRESS_API_KEY"]}\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
