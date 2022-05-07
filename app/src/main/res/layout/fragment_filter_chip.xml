@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="filterChipFragment"
+            type="com.depromeet.baton.presentation.ui.filter.view.FilterChipFragment" />
+
+        <variable
+            name="filterViewModel"
+            type="com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context="FilterChipFragment">
+
+        <HorizontalScrollView
+            android:id="@+id/hsv_home"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <com.depromeet.bds.component.BdsFilter
+                    android:id="@+id/bdsfilter_chip_zero"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen16"
+                    android:onClick="@{()->filterChipFragment.setFilterChipClickListener(0)}"
+                    app:bds_endDrawable="@drawable/ic_more_line_24"
+                    app:bds_text="@{filterViewModel.filterChipList[0].first}"
+                    app:bds_textAppearance="?body4"
+                    app:isSelected="@{filterViewModel.filterChipList[0].second}" />
+
+                <com.depromeet.bds.component.BdsFilter
+                    android:id="@+id/bdsfilter_chip_one"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen8"
+                    android:onClick="@{()->filterChipFragment.setFilterChipClickListener(1)}"
+                    app:bds_endDrawable="@drawable/ic_more_line_24"
+                    app:bds_text="@{filterViewModel.filterChipList[1].first}"
+                    app:bds_textAppearance="?body4"
+                    app:isSelected="@{filterViewModel.filterChipList[1].second}"
+                    app:layout_constraintStart_toEndOf="@id/bdsfilter_chip_zero"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.depromeet.bds.component.BdsFilter
+                    android:id="@+id/bdsfilter_chip_two"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen8"
+                    android:onClick="@{()->filterChipFragment.setFilterChipClickListener(2)}"
+                    app:bds_endDrawable="@drawable/ic_more_line_24"
+                    app:bds_text="@{filterViewModel.filterChipList[2].first}"
+                    app:bds_textAppearance="?body4"
+                    app:isSelected="@{filterViewModel.filterChipList[2].second}" />
+
+                <com.depromeet.bds.component.BdsFilter
+                    android:id="@+id/bdsfilter_chip_three"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen8"
+                    android:onClick="@{()->filterChipFragment.setFilterChipClickListener(3)}"
+                    app:bds_endDrawable="@drawable/ic_more_line_24"
+                    app:bds_text="@{filterViewModel.filterChipList[3].first}"
+                    app:bds_textAppearance="?body4"
+                    app:isSelected="@{filterViewModel.filterChipList[3].second}" />
+
+                <com.depromeet.bds.component.BdsFilter
+                    android:id="@+id/bdsfilter_chip_four"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen8"
+                    android:onClick="@{()->filterChipFragment.setFilterChipClickListener(4)}"
+                    app:bds_endDrawable="@drawable/ic_more_line_24"
+                    app:bds_text="@{filterViewModel.filterChipList[4].first}"
+                    app:bds_textAppearance="?body4"
+                    app:isSelected="@{filterViewModel.filterChipList[4].second}" />
+
+                <com.depromeet.bds.component.BdsFilter
+                    android:id="@+id/bdsfilter_chip_five"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen8"
+                    android:onClick="@{()->filterChipFragment.setFilterChipClickListener(5)}"
+                    app:bds_endDrawable="@drawable/ic_more_line_24"
+                    app:bds_text="@{filterViewModel.filterChipList[5].first}"
+                    app:bds_textAppearance="?body4"
+                    app:isSelected="@{filterViewModel.filterChipList[5].second}" />
+
+                <com.depromeet.bds.component.BdsFilter
+                    android:id="@+id/bdsfilter_chip_six"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen8"
+                    android:layout_marginEnd="@dimen/dimen16"
+                    android:onClick="@{()->filterChipFragment.setFilterChipClickListener(6)}"
+                    app:bds_endDrawable="@drawable/ic_more_line_24"
+                    app:bds_text="@{filterViewModel.filterChipList[6].first}"
+                    app:bds_textAppearance="?body4"
+                    app:isSelected="@{filterViewModel.filterChipList[6].second}" />
+            </LinearLayout>
+        </HorizontalScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

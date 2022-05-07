@@ -1,10 +1,92 @@
 <resources>
     <string name="app_name">Baton</string>
 
+    <!--  Main Activity  -->
     <string name="main_home">홈</string>
     <string name="main_search">검색</string>
     <string name="main_chatting">채팅</string>
     <string name="main_mypage">마이페이지</string>
+
+    <!--  Home Fragment  -->
+    <string name="home_title_location">경기도 용인</string>
+    <string name="home_banner_title_one">바통 이용법을</string>
+    <string name="home_banner_title_two">안내해드려요!</string>
+    <string name="home_banner_see_more">자세히 보기</string>
+    <string name="home_gym">헬스권</string>
+    <string name="home_pt">PT이용권</string>
+    <string name="home_pilates">필라테스</string>
+    <string name="home_etc">기타</string>
+    <string name="home_near_ticket">내 근처 양도권</string>
+    <string name="home_alert_count">1</string>
+
+    <!--  Bottom Filter Dialog  -->
+    <string name="filter_reset">필터 초기화</string>
+    <string name="filter_search">검색</string>
+    <string name="filter_search_result">(120건)</string>
+
+    <string name="filter_alignment">정렬 순</string>
+    <string name="filter_alignment_distance">가까운 거리순</string>
+    <string name="filter_alignment_low_price">낮은 가격순</string>
+    <string name="filter_alignment_high_price">높은 가격순</string>
+    <string name="filter_alignment_view">조회 많은순</string>
+    <string name="filter_alignment_bookmark">북마크 많은순</string>
+    <string name="filter_alignment_term">기간 많은순</string>
+
+    <string name="filter_ticket_kind">양도권 종류</string>
+    <string name="filter_ticket_kind_select">종류를 선택해주세요</string>
+    <string name="filter_ticket_kind_explain">(중복 선택 가능)</string>
+    <string name="filter_ticket_gym">헬스 회원권</string>
+    <string name="filter_ticket_pt">PT 이용권</string>
+    <string name="filter_ticket_pilates_yoga">필라테스/요가</string>
+    <string name="filter_ticket_etc">기타</string>
+
+    <string name="filter_term">기간</string>
+    <string name="filter_term_explain">양도권 종류를 먼저 선택해주세요.</string>
+    <string name="filter_term_select">양도권 종류 선택</string>
+    <string name="filter_term_times">횟수</string>
+    <string name="filter_term_zero_time">0회</string>
+    <string name="filter_term_all">전체</string>
+    <string name="filter_term_fifty_times">50회</string>
+    <string name="filter_term_remaining">남은 기간</string>
+    <string name="filter_term_zero_month">0개월</string>
+    <string name="filter_term_six_months">6개월</string>
+
+    <string name="filter_price">가격</string>
+    <string name="filter_price_zero">0원</string>
+    <string name="filter_price_one_million_five_hundred_thousand">1,500,000</string>
+    <string name="filter_price_all">전체</string>
+
+    <string name="filter_transaction_method">거래방법</string>
+    <string name="filter_transaction_method_select">거래 방식 선택</string>
+    <string name="filter_transaction_method_select_face">현장결제(대면)</string>
+    <string name="filter_transaction_method_select_non_face">선결제(비대면)</string>
+    <string name="filter_transaction_method_cost_select">양도비 선택</string>
+    <string name="filter_transaction_method_cost_select_seller">판매자 부담</string>
+    <string name="filter_transaction_method_cost_select_consumer">구매자 부담</string>
+
+    <string name="filter_additional_options">추가옵션</string>
+    <string name="filter_additional_options_select">회원권 추가 옵션 선택</string>
+    <string name="filter_additional_options_select_explain">(중복 선택 가능)</string>
+    <string name="filter_additional_options_shower_room">샤워실 포함</string>
+    <string name="filter_additional_options_locker_room">락카룸 포함</string>
+    <string name="filter_additional_options_sport_wear">운동복 포함</string>
+    <string name="filter_additional_options_gx">GX 포함</string>
+    <string name="filter_additional_options_re_transfer">재양도 가능</string>
+    <string name="filter_additional_options_refund">환불 가능</string>
+    <string name="filter_additional_options_holding">기간 홀딩 가능</string>
+    <string name="filter_additional_options_bargaining">가격네고 가능</string>
+
+    <string name="filter_hashtag">해시태그</string>
+    <string name="filter_hashtag_select">해시태그 선택</string>
+    <string name="filter_hashtag_select_explain">(최대3개)</string>
+    <string name="filter_hashtag_kind_teacher">&#35;친절한 선생님</string>
+    <string name="filter_hashtag_systematic_lesson">&#35;체계적인 수업</string>
+    <string name="filter_hashtag_customized_care">&#35;맞춤 케어</string>
+    <string name="filter_hashtag_wide_facility">&#35;넓은 시설</string>
+    <string name="filter_hashtag_various_instruments">&#35;다양한 기구</string>
+    <string name="filter_hashtag_pleasant_environment">&#35;쾌적한 환경</string>
+    <string name="filter_hashtag_quiet_atmosphere">&#35;조용한 분위기</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

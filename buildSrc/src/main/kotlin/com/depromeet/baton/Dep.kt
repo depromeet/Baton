@@ -34,6 +34,7 @@ object Dep {
 
         const val navigationCompose = "androidx.navigation:navigation-compose:2.4.0"
         const val hiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:1.0.0"
+        const val legacy = "androidx.legacy:legacy-support-v4:1.0.0"
     }
 
     object Lifecycle {

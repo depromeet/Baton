@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.depromeet.bds.component.BdsLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:duplicateParentState="true"
+    android:gravity="center_vertical"
+    app:bdsBackgroundColor="?wh100"
+    app:bdsBorderColor="@color/selector_bds_action_chip_content"
+    app:bdsBorderWidth="1dp"
+    app:bdsRadius="18dp">
+
+    <ImageView
+        android:layout_width="@dimen/dimen20"
+        android:layout_height="@dimen/dimen20"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:duplicateParentState="true"
+        app:srcCompat="@drawable/ic_refresh_line_24"
+        app:tint="@color/selector_bds_action_chip_content" />
+
+    <TextView
+        android:id="@+id/tv_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="6dp"
+        android:duplicateParentState="true"
+        android:textColor="@color/selector_bds_action_chip_content"
+        tools:text="초기화" />
+</com.depromeet.bds.component.BdsLinearLayout>

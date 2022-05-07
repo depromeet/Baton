@@ -140,16 +140,16 @@
 
     </style>
 
-    <style name="Theme.Bds.PrimarySearchBar"  parent="">
+    <style name="Theme.Bds.PrimarySearchBar" parent="">
         <item name="bdsSearchBarNormalBorderColor">?grey_scale40</item>
         <item name="bdsSearchBarFocusedBorderColor">?primary50</item>
         <item name="bdsSearchBarFilledBorderColor">?grey_scale40</item>
     </style>
 
-    <style name="Theme.Bds.SearchBar.Primary" >
-         <item name="theme">@style/Theme.Bds.PrimarySearchBar</item>
+    <style name="Theme.Bds.SearchBar.Primary">
+        <item name="theme">@style/Theme.Bds.PrimarySearchBar</item>
     </style>
-       
+
 
     <style name="Theme.Bds.SecondarySearchBar" parent="">
         <item name="bdsSearchBarNormalBorderColor">?grey_scale40</item>
@@ -161,5 +161,151 @@
         <item name="theme">@style/Theme.Bds.SecondarySearchBar</item>
     </style>
 
+    <style name="Theme.Bds.InputChip.Primary" parent="">
+        <item name="bdsInputChipBorderColor">?primary40</item>
+        <item name="bdsInputChipTextColor">?primary50</item>
+        <item name="bdsInputChipBackgroundColor">?wh100</item>
+        <item name="bdsInputChipBorderWidth">1dp</item>
+    </style>
+
+    <style name="Theme.Bds.InputChip.Primary.Default" />
+
+    <style name="Theme.Bds.InputChip.Primary.Filled">
+        <item name="bdsInputChipBackgroundColor">?primary5</item>
+        <item name="bdsInputChipBorderWidth">0dp</item>
+    </style>
+
+    <style name="Theme.Bds.InputChip.Secondary" parent="">
+        <item name="bdsInputChipBorderColor">?grey_scale50</item>
+        <item name="bdsInputChipTextColor">?grey_scale80</item>
+        <item name="bdsInputChipBackgroundColor">?wh100</item>
+        <item name="bdsInputChipBorderWidth">1dp</item>
+    </style>
+
+    <style name="Theme.Bds.InputChip.Secondary.Default" />
+
+    <style name="Theme.Bds.InputChip.Secondary.Filled">
+        <item name="bdsInputChipBackgroundColor">?grey_scale30</item>
+        <item name="bdsInputChipBorderWidth">0dp</item>
+    </style>
+
+    <style name="Theme.Bds.Tag" parent="">
+
+    </style>
+
+    <style name="Theme.Bds.Tag.Default" parent="">
+        <item name="bdsTagBorderColor">@android:color/transparent</item>
+        <item name="bdsTagRadius">@dimen/dimen4</item>
+    </style>
+
+    <style name="Theme.Bds.Tag.Default.Primary">
+        <item name="bdsTagBackgroundColor">?primary5</item>
+        <item name="bdsTagTextColor">?primary50</item>
+    </style>
+
+    <style name="Theme.Bds.Tag.Default.Primary.Large">
+        <item name="theme">@style/Theme.Bds.Tag.Default.Large</item>
+    </style>
+
+    <style name="Theme.Bds.Tag.Default.Primary.Medium">
+        <item name="theme">@style/Theme.Bds.Tag.Default.Medium</item>
+    </style>
+
+    <style name="Theme.Bds.Tag.Default.Primary.Small">
+        <item name="theme">@style/Theme.Bds.Tag.Default.Small</item>
+    </style>
+
+    <style name="Theme.Bds.Tag.Default.Grey">
+        <item name="bdsTagBackgroundColor">?grey_scale30</item>
+        <item name="bdsTagTextColor">?grey_scale70</item>
+    </style>
+
+    <style name="Theme.Bds.Tag.Default.Grey.Large">
+        <item name="theme">@style/Theme.Bds.Tag.Default.Large</item>
+    </style>
+
+    <style name="Theme.Bds.Tag.Default.Grey.Medium">
+        <item name="theme">@style/Theme.Bds.Tag.Default.Medium</item>
+    </style>
+
+    <style name="Theme.Bds.Tag.Default.Grey.Small">
+        <item name="theme">@style/Theme.Bds.Tag.Default.Small</item>
+    </style>
+
+    <style name="Theme.Bds.Tag.Default.Large" parent="">
+        <item name="bdsTagHorizontalPadding">@dimen/dimen8</item>
+        <item name="bdsTagVerticalPadding">@dimen/dimen4</item>
+        <item name="bdsTagTextAppearance">?body3</item>
+    </style>
+
+    <style name="Theme.Bds.Tag.Default.Medium" parent="">
+        <item name="bdsTagHorizontalPadding">6dp</item>
+        <item name="bdsTagVerticalPadding">@dimen/dimen4</item>
+        <item name="bdsTagTextAppearance">?caption1</item>
+    </style>
+
+    <style name="Theme.Bds.Tag.Default.Small" parent="">
+        <item name="bdsTagHorizontalPadding">@dimen/dimen4</item>
+        <item name="bdsTagVerticalPadding">@dimen/dimen2</item>
+        <item name="bdsTagTextAppearance">?caption3</item>
+    </style>
+
+    <style name="Theme.Bds.Tag.Line" parent="">
+        <item name="bdsTagRadius">@dimen/dimen4</item>
+    </style>
+
+    <style name="Theme.Bds.Tag.Line.Primary">
+        <item name="bdsTagBorderColor">?primary50</item>
+        <item name="bdsTagBackgroundColor">?wh100</item>
+        <item name="bdsTagTextColor">?primary50</item>
+    </style>
+
+    <style name="Theme.Bds.Tag.Line.Primary.Large">
+        <item name="theme">@style/Theme.Bds.Tag.Line.Large</item>
+    </style>
+
+    <style name="Theme.Bds.Tag.Line.Primary.Medium">
+        <item name="theme">@style/Theme.Bds.Tag.Line.Medium</item>
+    </style>
+
+    <style name="Theme.Bds.Tag.Line.Primary.Small">
+        <item name="theme">@style/Theme.Bds.Tag.Line.Small</item>
+    </style>
+
+    <style name="Theme.Bds.Tag.Line.Grey">
+        <item name="bdsTagBorderColor">?grey_scale70</item>
+        <item name="bdsTagBackgroundColor">?wh100</item>
+        <item name="bdsTagTextColor">?grey_scale70</item>
+    </style>
+
+    <style name="Theme.Bds.Tag.Line.Grey.Large">
+        <item name="theme">@style/Theme.Bds.Tag.Line.Large</item>
+    </style>
+
+    <style name="Theme.Bds.Tag.Line.Grey.Medium">
+        <item name="theme">@style/Theme.Bds.Tag.Line.Medium</item>
+    </style>
+
+    <style name="Theme.Bds.Tag.Line.Grey.Small">
+        <item name="theme">@style/Theme.Bds.Tag.Line.Small</item>
+    </style>
+
+    <style name="Theme.Bds.Tag.Line.Large" parent="">
+        <item name="bdsTagHorizontalPadding">@dimen/dimen10</item>
+        <item name="bdsTagVerticalPadding">@dimen/dimen4</item>
+        <item name="bdsTagTextAppearance">?body3</item>
+    </style>
+
+    <style name="Theme.Bds.Tag.Line.Medium" parent="">
+        <item name="bdsTagHorizontalPadding">@dimen/dimen8</item>
+        <item name="bdsTagVerticalPadding">@dimen/dimen4</item>
+        <item name="bdsTagTextAppearance">?caption1</item>
+    </style>
+
+    <style name="Theme.Bds.Tag.Line.Small" parent="">
+        <item name="bdsTagHorizontalPadding">6dp</item>
+        <item name="bdsTagVerticalPadding">@dimen/dimen2</item>
+        <item name="bdsTagTextAppearance">?caption3</item>
+    </style>
 
 </resources>

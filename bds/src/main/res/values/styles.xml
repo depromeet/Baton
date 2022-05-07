@@ -64,16 +64,13 @@
 
     </style>
 
-    <style name="BatonProgress" parent="Widget.AppCompat.ProgressBar">
-        <item name="android:progressBackgroundTint">?grey_scale90</item>
+    <style name="Widget.Bds.ProgressBar" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:progressBackgroundTint">?grey_scale40</item>
+        <item name="android:progressBackgroundTintMode">add</item>
         <item name="android:progressTint">?primary40</item>
-        <item name="android:width">@dimen/dimen48</item>
-        <item name="android:height">@dimen/dimen48</item>
     </style>
-    <style name="BatonProgressStyle">
-        <item name="theme">@style/BatonProgress</item>
-    </style>
-
 </resources>
 
 
