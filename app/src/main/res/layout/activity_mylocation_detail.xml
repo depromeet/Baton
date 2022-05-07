@@ -38,12 +38,14 @@
             android:layout_marginHorizontal="@dimen/dimen16"
             android:layout_marginTop="@dimen/dimen4"
             />
-       <EditText
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:layout_marginHorizontal="@dimen/dimen16"
-           android:layout_marginTop="@dimen/dimen32"
-           />
+        <com.depromeet.bds.component.BdsSearchBar
+            android:id="@+id/address_detail_et"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen48"
+            android:layout_marginHorizontal="@dimen/dimen16"
+            android:layout_marginTop="@dimen/dimen32"
+            android:theme="@style/Theme.Bds.SearchBar.Primary"
+            />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
 

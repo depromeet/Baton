@@ -16,6 +16,7 @@ import com.depromeet.baton.presentation.ui.address.SearchAddressAdapter
 import com.depromeet.baton.presentation.ui.address.viewmodel.SearchAddressViewModel
 import com.depromeet.baton.presentation.ui.address.model.AddressInfo
 import com.depromeet.baton.util.saveAddress
+import com.depromeet.bds.component.BdsSearchBar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -52,7 +53,7 @@ class SearchAddressActivity : BaseActivity<ActivitySearchAddressBinding>(R.layou
 
     private  fun setObserver() {
         searchAddressViewModel.searchAddress("")
-        binding.searchAddressEt.addTextChangedListener(object: TextWatcher{
+        binding.searchAddressEt.textListener= object : BdsSearchBar.TextListener {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -60,7 +61,7 @@ class SearchAddressActivity : BaseActivity<ActivitySearchAddressBinding>(R.layou
                 searchAddressViewModel.searchAddress(query)
             }
             override fun afterTextChanged(s: Editable?) {}
-        })
+        }
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {

@@ -16,16 +16,14 @@
             android:id="@+id/address_toolbar"
             layout="@layout/address_header"/>
 
-
-        <EditText
+        <com.depromeet.bds.component.BdsSearchBar
             android:id="@+id/search_address_et"
+            android:theme="@style/Theme.Bds.SearchBar.Primary"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen42"
+            android:layout_height="@dimen/dimen48"
             android:layout_marginHorizontal="@dimen/dimen16"
             android:layout_marginTop="@dimen/dimen16"
-            android:background="?grey_scale30"
-            android:hint="임시 Edittext"
-            tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck" />
+            />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

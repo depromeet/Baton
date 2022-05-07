@@ -31,7 +31,6 @@ class MyLocationActivity :BaseActivity<ActivityMylocationBinding>(R.layout.activ
 
     private fun initView(){
         binding.myLocationToolbar.titleTv.text="현재 위치"
-
     }
 
     private fun  setObserver() {

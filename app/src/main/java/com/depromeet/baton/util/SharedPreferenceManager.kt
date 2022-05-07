@@ -24,10 +24,19 @@ fun getAddress() : AddressEntity{
     return AddressEntity(jibun!!, road!!)
 }
 
+
+fun saveDetailAddress(detailAddress : String){
+    val editor = mSharedPreferences.edit()
+    editor.putString("detailAddress",detailAddress)
+    editor.apply()
+}
+
+
 fun saveSearchDistance(distance : String){
     val editor = mSharedPreferences.edit()
     editor.putString("searchDistance",distance)
     editor.apply()
 }
+
 
 fun getSearchDistance() :String? = mSharedPreferences.getString("searchDistance", "500m")

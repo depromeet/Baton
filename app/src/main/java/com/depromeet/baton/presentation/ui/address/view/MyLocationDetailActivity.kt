@@ -3,11 +3,15 @@ package com.depromeet.baton.presentation.ui.address.view
 import android.content.Intent
 import android.content.Intent.*
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Toast
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ActivityMylocationDetailBinding
 import com.depromeet.baton.presentation.base.BaseActivity
 import com.depromeet.baton.util.getAddress
+import com.depromeet.baton.util.saveDetailAddress
+import com.depromeet.bds.component.BdsSearchBar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,10 +27,12 @@ class MyLocationDetailActivity : BaseActivity<ActivityMylocationDetailBinding>(R
         binding.addressTv.text = getAddress().address
         binding.detailAddressToolbar.titleTv.text ="상세 주소 입력"
 
+
     }
 
     private fun setListener(){
         binding.detailAddressToolbar.nextTv.setOnClickListener {
+            saveDetailAddress( binding.addressDetailEt.getText())
             Toast.makeText(this,"위치 정보가 저장되었습니다",Toast.LENGTH_SHORT).show()
             val intent = Intent(this, AddressActivity::class.java)
             intent.setFlags(FLAG_ACTIVITY_CLEAR_TOP)
@@ -35,9 +41,6 @@ class MyLocationDetailActivity : BaseActivity<ActivityMylocationDetailBinding>(R
 
         }
 
-
     }
-
-
 
 }
