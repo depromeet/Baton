@@ -166,9 +166,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+
+            <!--  TODO  style="@style/Widget.Baton.SeekBar"-->
             <androidx.appcompat.widget.AppCompatSeekBar
                 android:id="@+id/distance_seekBar"
-                style="@style/Widget.Baton.SeekBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:elevation="@dimen/dimen4"
