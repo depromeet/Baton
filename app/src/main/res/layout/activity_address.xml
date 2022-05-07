@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.depromeet.baton.presentation.ui.address.viewmodel.AddressViewModel" />
+    </data>
+    <LinearLayout
+        android:background="?wh100"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <include
+            android:id="@+id/address_toolbar"
+            layout="@layout/address_header"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="현재 위치"
+            android:textColor="?grey_scale70"
+            android:textAppearance="?body3"
+            android:layout_marginLeft="@dimen/dimen16"
+            android:layout_marginTop="@dimen/dimen24"
+            />
+
+        <TextView
+            android:id="@+id/roadAddress_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="?grey_scale90"
+            android:textAppearance="?headline2"
+            android:layout_marginHorizontal="@dimen/dimen16"
+            android:layout_marginTop="@dimen/dimen16"
+            android:text="@{viewmodel.roadState}"
+            />
+
+        <TextView
+            android:id="@+id/address_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gy60"
+            android:textAppearance="?body4"
+            android:layout_marginHorizontal="@dimen/dimen16"
+            android:layout_marginTop="@dimen/dimen4"
+            android:text="@{viewmodel.jibunState}"
+            />
+       <GridLayout
+           android:layout_width="match_parent"
+           android:layout_height="@dimen/dimen48"
+           android:columnCount="2"
+           android:layout_gravity="center"
+           android:useDefaultMargins="true"
+           android:layout_marginHorizontal="@dimen/dimen16"
+           android:layout_marginTop="@dimen/dimen28"
+           >
+           <com.google.android.material.button.MaterialButton
+               android:id="@+id/current_location_btn"
+               android:layout_columnWeight="1"
+               android:layout_height="match_parent"
+               app:cornerRadius="@dimen/dimen8"
+               app:backgroundTint="@color/bg10"
+               app:iconGravity="textStart"
+               app:icon="@drawable/ic_my_location"
+               app:iconTint="@color/gy80"
+               android:backgroundTint="@color/bg10"
+               android:textColor="@color/gy80"
+               android:fontFamily="@font/spo_medium"
+               android:minHeight="0dp"
+               android:minWidth="0dp"
+               android:insetTop="0dp"
+               android:insetBottom="0dp"
+               android:text="현재 위치"
+               android:clickable="false"
+               />
+           <com.google.android.material.button.MaterialButton
+               android:id="@+id/search_location_btn"
+               android:layout_columnWeight="1"
+               android:layout_height="match_parent"
+               app:cornerRadius="@dimen/dimen8"
+               app:iconGravity="textStart"
+               app:icon="@drawable/ic_search_line_20"
+               app:iconTint="@color/gy80"
+               android:backgroundTint="@color/bg10"
+               android:textColor="@color/gy80"
+               android:fontFamily="@font/spo_medium"
+               android:minHeight="0dp"
+               android:minWidth="0dp"
+               android:insetTop="0dp"
+               android:insetBottom="0dp"
+               android:text="위치검색"
+
+               />
+
+       </GridLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen12"
+            android:layout_marginTop="@dimen/dimen24"
+            android:background="@color/bg10"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen24"
+            android:layout_marginBottom="@dimen/dimen16"
+            android:paddingHorizontal="@dimen/dimen16"
+            android:fontFamily="@font/spo_medium"
+            android:textSize="@dimen/dimen14"
+            android:textColor="@color/gy70"
+            android:lineHeight="@dimen/dimen20"
+            android:text="위치범위" />
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:justifyContent="space_between"
+            android:layout_gravity="center_vertical"
+            android:layout_marginHorizontal="@dimen/dimen16"
+            app:alignItems="center"
+            >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:textColor="?grey_scale90"
+                    android:textAppearance="?headline2"
+                    android:text="500m"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:textColor="?grey_scale90"
+                    android:textAppearance="?headline2"
+                    android:text=" ~ "/>
+                <TextView
+                    android:id="@+id/address_distance_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:textColor="?grey_scale90"
+                    android:textAppearance="?headline2"
+                    android:text="@{viewmodel.maxDistance}"
+                    />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/address_walking_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@{viewmodel.timeState}"
+                android:textColor="?secondary50"
+                android:textAppearance="?caption2"
+                />
+
+        </com.google.android.flexbox.FlexboxLayout>
+        <RelativeLayout
+            android:layout_marginHorizontal="@dimen/dimen16"
+            android:layout_marginTop="@dimen/dimen24"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <!--  TODO  style="@style/Widget.Baton.SeekBar"-->
+            <androidx.appcompat.widget.AppCompatSeekBar
+                android:id="@+id/distance_seekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="@dimen/dimen4"
+                android:max="3000"
+                android:minWidth="0dp"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp"
+                android:progress="0" />
+        </RelativeLayout>
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dimen16"
+            app:justifyContent="space_between"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?caption2"
+                android:textColor="?grey_scale60"
+                android:text="500m"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?caption2"
+                android:textColor="?grey_scale60"
+                android:text="1km"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?caption2"
+                android:textColor="?grey_scale60"
+                android:text="3km"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?caption2"
+                android:textColor="?grey_scale60"
+                android:text="5km"
+                />
+
+        </com.google.android.flexbox.FlexboxLayout>
+    </LinearLayout>
+
+</layout>

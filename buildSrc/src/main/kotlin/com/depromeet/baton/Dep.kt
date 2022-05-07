@@ -30,9 +30,11 @@ object Dep {
 
         const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.3"
         const val fragment = "androidx.fragment:fragment-ktx:1.4.1"
+        const val flexbox ="com.google.android.flexbox:flexbox:3.0.0"
 
         const val navigationCompose = "androidx.navigation:navigation-compose:2.4.0"
         const val hiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:1.0.0"
+        const val legacy = "androidx.legacy:legacy-support-v4:1.0.0"
     }
 
     object Lifecycle {
@@ -117,6 +119,7 @@ object Dep {
         const val core = "com.squareup.retrofit2:retrofit:$version"
         const val converterMoshi = "com.squareup.retrofit2:converter-moshi:$version"
         const val mock = "com.squareup.retrofit2:retrofit-mock:$version"
+        const val converterGson = "com.squareup.retrofit2:converter-gson:2.9.0"
     }
 
     object Moshi {
@@ -131,9 +134,33 @@ object Dep {
         const val messaging = "com.google.firebase:firebase-messaging-ktx:23.0.0"
     }
 
-    const val rangeSeekbar ="com.github.Jay-Goo:RangeSeekBar:v3.0.0"
 
     const val naver_sdk = "com.naver.maps:map-sdk:3.14.0"
+
+    object Map{
+        const val naver_sdk = "com.naver.maps:map-sdk:3.14.0"
+        const val gms_location="com.google.android.gms:play-services-location:17.1.0"
+    }
+
+    object XmlParser{
+        const val tickaroo = "com.tickaroo.tikxml:annotation:0.8.13"
+        const val tickaroo_core = "com.tickaroo.tikxml:core:0.8.13"
+        const val tickaroo_retrofit = "com.tickaroo.tikxml:retrofit-converter:0.8.13"
+        const val tickaroo_processor= "com.tickaroo.tikxml:processor:0.8.13"
+    }
+
+    object rxjava{
+        const val rxjava2= "io.reactivex.rxjava2:rxjava:2.2.2"
+        const val rxjava2_android = "io.reactivex.rxjava2:rxandroid:2.1.0"
+        const val rxjava2_adpater ="com.squareup.retrofit2:adapter-rxjava3:2.9.0"
+    }
+
+    object CustomLibrary{
+        const val rangeSeekbar ="com.github.Jay-Goo:RangeSeekBar:v3.0.0"
+        const val keyboardListener ="net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.3.0"
+
+    }
+
 
     const val timber = "com.jakewharton.timber:timber:5.0.1"
     const val snapper = "dev.chrisbanes.snapper:snapper:<version>"

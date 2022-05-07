@@ -86,7 +86,7 @@ class BdsChoiceChip @JvmOverloads constructor(
 
         val isOff = !isOn
         val borderColorAttrId = when {
-            isOff && isOutlined -> R.attr.grey_scale50
+            isOff && isOutlined -> R.attr.grey_scale40
             isOn && isOutlined -> R.attr.primary40
             isOff && isFilled -> R.attr.grey_scale40
             isOn && isFilled -> R.attr.primary20

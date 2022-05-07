@@ -10,9 +10,9 @@
 
     <ImageView
         android:id="@+id/iv_start_drawable"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="6dp"
         android:layout_marginEnd="2dp"
         android:layout_marginBottom="6dp"
@@ -44,11 +44,11 @@
 
     <ImageView
         android:id="@+id/iv_end_drawable"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="2dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="6dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="12dp"
         android:layout_marginBottom="6dp"
         android:duplicateParentState="true"
         app:tint="@color/selector_bds_filter_tint_color" />

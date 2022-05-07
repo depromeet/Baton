@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.depromeet.baton.presentation.ui.address.viewmodel.MyLocationViewModel" />
+    </data>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+           <include
+               android:id="@+id/my_location_toolbar"
+               layout="@layout/address_header"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@color/gy30"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="이 위치로 변경할까요?"
+                android:textColor="@color/gy70"
+                android:fontFamily="@font/spo_medium"
+                android:textSize="@dimen/dimen14"
+                android:layout_marginLeft="@dimen/dimen16"
+                android:layout_marginTop="@dimen/dimen16"
+                />
+
+            <TextView
+                android:id="@+id/roadAddress_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{ viewModel.roadState}"
+                android:textColor="@color/gy90"
+                android:textAppearance="?headline2"
+                android:layout_marginHorizontal="@dimen/dimen16"
+                android:layout_marginTop="@dimen/dimen16"
+                />
+
+            <TextView
+                android:id="@+id/address_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.jibunState}"
+                android:textColor="@color/gy60"
+                android:fontFamily="@font/spo_regular"
+                android:textSize="@dimen/dimen14"
+                android:lineHeight="@dimen/dimen20"
+                android:layout_marginHorizontal="@dimen/dimen16"
+                android:layout_marginTop="@dimen/dimen4"
+                />
+        </LinearLayout>
+        <ProgressBar
+            android:id="@+id/location_progress"
+            app:showOnLoading="@{viewModel.uiState}"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            />
+    </FrameLayout>
+
+</layout>

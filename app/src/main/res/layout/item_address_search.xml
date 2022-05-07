@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/dimen16"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/item_address_location_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/item_address_road_tv"
+        android:src="@drawable/ic_location_filled_16"
+        app:tint="?primary40"
+        />
+    <TextView
+        android:id="@+id/item_address_road_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="sample address"
+        android:textAppearance="?body1"
+        android:layout_marginLeft="@dimen/dimen4"
+        app:layout_constraintStart_toEndOf="@id/item_address_location_iv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/item_address_jibun_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="sample address"
+        android:textAppearance="?body4"
+        android:textColor="?grey_scale60"
+        app:layout_constraintStart_toStartOf="@id/item_address_road_tv"
+        app:layout_constraintTop_toBottomOf="@id/item_address_road_tv"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingBottom="@dimen/dimen16"
+        />
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1px"
+        android:paddingTop="@dimen/dimen12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/item_address_jibun_tv"
+        app:layout_constraintStart_toStartOf="@id/item_address_location_iv"
+        android:background="?wh100"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
