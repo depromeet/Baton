@@ -35,4 +35,14 @@
             <enum name="filled" value="1" />
         </attr>
     </declare-styleable>
+
+     <declare-styleable name="BdsSearchBar">
+        <attr name="isSelected" />
+        <attr name="isEnabled" />
+        <attr name="isFilled"  format="boolean" />
+        <attr name="bds_text" />
+        <attr name="bds_placeholder_text" format="string" />
+    </declare-styleable>
 </resources>
+
+

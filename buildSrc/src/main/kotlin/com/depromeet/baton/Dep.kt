@@ -133,6 +133,9 @@ object Dep {
         const val messaging = "com.google.firebase:firebase-messaging-ktx:23.0.0"
     }
 
+    const val keyboardListener ="net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.3.0"
+
+    const val naver_sdk = "com.naver.maps:map-sdk:3.14.0"
 
     object Map{
         const val naver_sdk = "com.naver.maps:map-sdk:3.14.0"
