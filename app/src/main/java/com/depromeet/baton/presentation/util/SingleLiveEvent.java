@@ -1,4 +1,4 @@
-package com.depromeet.baton.util;
+package com.depromeet.baton.presentation.util;
 
 import android.util.Log;
 
