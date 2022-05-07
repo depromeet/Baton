@@ -4,6 +4,18 @@
         <attr name="isSelected" format="boolean" />
         <attr name="isEnabled" format="boolean" />
         <attr name="bds_textAppearance" />
+
+        <attr name="bdsRadius" format="dimension" />
+        <attr name="bdsBorderColor" format="color" />
+        <attr name="bdsBorderWidth" format="dimension" />
+        <attr name="bdsBackgroundColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="BdsLinearLayout">
+        <attr name="bdsRadius" />
+        <attr name="bdsBorderColor" />
+        <attr name="bdsBorderWidth" />
+        <attr name="bdsBackgroundColor" />
     </declare-styleable>
 
     <declare-styleable name="BdsTextView">
@@ -36,12 +48,16 @@
         </attr>
     </declare-styleable>
 
-     <declare-styleable name="BdsSearchBar">
+    <declare-styleable name="BdsSearchBar">
         <attr name="isSelected" />
         <attr name="isEnabled" />
-        <attr name="isFilled"  format="boolean" />
+        <attr name="isFilled" format="boolean" />
         <attr name="bds_text" />
         <attr name="bds_placeholder_text" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="BdsInputChip">
+        <attr name="bds_text" />
     </declare-styleable>
 </resources>
 

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="bdsInputChipBorderColor" format="color" />
+    <attr name="bdsInputChipBorderWidth" format="dimension" />
+    <attr name="bdsInputChipBackgroundColor" format="color" />
+    <attr name="bdsInputChipTextColor" format="color" />
+</resources>
