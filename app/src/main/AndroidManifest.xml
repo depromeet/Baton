@@ -29,17 +29,15 @@
         <activity
             android:name=".presentation.ui.address.view.SearchAddressActivity"
             android:exported="false"/>
-  <!--      <activity
-            android:name=".presentation.ui.address.view.AddressActivity"
-            android:exported="true"/>-->
+
 
         <activity
             android:name=".presentation.sample.SampleActivity"
             android:exported="false" />
 
-        <activity android:name=".presentation.ui.address.view.AddressActivity"
-            android:exported="true"/>
-
+         <activity android:name=".presentation.ui.address.view.AddressActivity"
+            android:exported="false"/>
+       
         <activity
             android:name=".presentation.main.MainActivity"
             android:exported="true">
