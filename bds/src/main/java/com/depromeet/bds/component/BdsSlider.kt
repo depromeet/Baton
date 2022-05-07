@@ -28,7 +28,7 @@ class BdsSlider @JvmOverloads constructor(
         context.withStyledAttributes(attrs, R.styleable.BdsSlider) {
             binding.bdsSlider.progress = getInteger( R.styleable.BdsSlider_bds_progress,0)
             binding.bdsSlider.max = getInteger(R.styleable.BdsSlider_bds_max,0)
-            binding.bdsSlider.min = getInteger(R.styleable.BdsSlider_bds_min,0)
+
 
         }
 
