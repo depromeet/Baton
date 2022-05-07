@@ -64,6 +64,10 @@
         <attr name="bds_text" />
         <attr name="isEnabled" />
     </declare-styleable>
+
+    <declare-styleable name="BdsTag">
+        <attr name="bds_text" />
+    </declare-styleable>
 </resources>
 
 

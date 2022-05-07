@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="bdsTagRadius" format="dimension" />
+    <attr name="bdsTagTextColor" format="color" />
+    <attr name="bdsTagBackgroundColor" format="color"/>
+    <attr name="bdsTagBorderColor" format="color"/>
+
+    <attr name="bdsTagTextAppearance" format="reference"/>
+    <attr name="bdsTagHorizontalPadding" format="dimension"/>
+    <attr name="bdsTagVerticalPadding" format="dimension"/>
+</resources>
