@@ -26,8 +26,8 @@ android {
         versionCode App.versionCode
         versionName App.versionName
 
-        buildConfigField "String", "NAVER_SDK_CLIENT_KEY", keystoreProperties['NAVER_SDK_CLIENT_KEY']
-        manifestPlaceholders = [NAVER_SDK_CLIENT_KEY : keystoreProperties['NAVER_SDK_CLIENT_KEY'] ]
+        buildConfigField( "String", "NAVER_SDK_CLIENT_KEY", "\"${keystoreProperties["NAVER_SDK_CLIENT_KEY"]}\"")
+        manifestPlaceholders ["NAVER_SDK_CLIENT_KEY"]= keystoreProperties["NAVER_SDK_CLIENT_KEY"].toString()
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -65,6 +65,8 @@ dependencies {
     implementation(Dep.Android.constraintLayout)
     implementation(Dep.Android.fragment)
     implementation(Dep.Android.legacy)
+    implementation(Dep.keyboardListener)
+
 
     implementation(Dep.Lifecycle.viewModel)
     implementation(Dep.Lifecycle.runtime)
