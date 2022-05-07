@@ -61,4 +61,12 @@
         <item name="caption3">@style/Typography.C2.Medium</item>
         <item name="caption4">@style/Typography.C2.Regular</item>
     </style>
+
+    <style name="Widget.Bds.ProgressBar" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:progressBackgroundTint">?grey_scale40</item>
+        <item name="android:progressBackgroundTintMode">add</item>
+        <item name="android:progressTint">?primary40</item>
+    </style>
 </resources>
