@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="bdsSearchBarNormalBorderColor" format="color" />
+    <attr name="bdsSearchBarFocusedBorderColor" format="color" />
+    <attr name="bdsSearchBarFilledBorderColor" format="color" />
+
+    <attr name="bdsSearchBarNormalTextColor" format="color" />
+    <attr name="bdsSearchBarFocusedTextColor" format="color" />
+
+    <attr name="bdsSearchBarTextAppearance" format="reference" />
+
+</resources>
