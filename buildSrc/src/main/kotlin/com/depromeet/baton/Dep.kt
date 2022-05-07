@@ -131,6 +131,8 @@ object Dep {
         const val messaging = "com.google.firebase:firebase-messaging-ktx:23.0.0"
     }
 
+    const val rangeSeekbar ="com.github.Jay-Goo:RangeSeekBar:v3.0.0"
+
     const val naver_sdk = "com.naver.maps:map-sdk:3.14.0"
 
     const val timber = "com.jakewharton.timber:timber:5.0.1"
