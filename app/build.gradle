@@ -54,6 +54,7 @@ android {
 dependencies {
 
     implementation(project(":bds"))
+    implementation project(':map_module')
 
     implementation(Dep.Coroutine.core)
     implementation(Dep.Coroutine.android)
@@ -65,6 +66,7 @@ dependencies {
     implementation(Dep.Android.constraintLayout)
     implementation(Dep.Android.fragment)
     implementation(Dep.Android.legacy)
+    implementation(Dep.Android.flexbox)
     implementation(Dep.keyboardListener)
 
 
@@ -88,7 +90,7 @@ dependencies {
     implementation(Dep.Firebase.analytics)
     implementation(Dep.Firebase.messaging)
 
-    implementation(Dep.naver_sdk)
+    implementation(Dep.Map.naver_sdk)
 
     implementation(Dep.timber)
 
@@ -97,4 +99,15 @@ dependencies {
     androidTestImplementation(Dep.AndroidTest.rules)
     androidTestImplementation(Dep.AndroidTest.runner)
     androidTestImplementation(Dep.AndroidTest.junitExt)
+
+
+    implementation(Dep.XmlParser.tickaroo)
+    implementation(Dep.XmlParser.tickaroo_core)
+    implementation(Dep.XmlParser.tickaroo_retrofit)
+    kapt(Dep.XmlParser.tickaroo_processor)
+
+    implementation(Dep.rxjava.rxjava2)
+    implementation(Dep.rxjava.rxjava2_android)
+    implementation(Dep.rxjava.rxjava2_adpater)
+    implementation(Dep.Retrofit.converterGson)
 }
