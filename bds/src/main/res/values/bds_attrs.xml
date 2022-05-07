@@ -59,6 +59,11 @@
     <declare-styleable name="BdsInputChip">
         <attr name="bds_text" />
     </declare-styleable>
+
+    <declare-styleable name="BdsActionChip">
+        <attr name="bds_text" />
+        <attr name="isEnabled" />
+    </declare-styleable>
 </resources>
 
 

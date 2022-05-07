@@ -19,18 +19,12 @@ class BdsLinearLayout @JvmOverloads constructor(
         context.withStyledAttributes(attrs, R.styleable.BdsView) {
             val radius = getDimension(R.styleable.BdsView_bdsRadius, 0f)
             val borderWidth = getDimension(R.styleable.BdsView_bdsBorderWidth, 0f)
-            val borderColor = getColor(
-                R.styleable.BdsView_bdsBorderColor,
-                context.getColor(android.R.color.transparent)
-            )
-            val backgroundColor = getColor(
-                R.styleable.BdsView_bdsBackgroundColor,
-                context.getAttributeColor(R.attr.bds_background)
-            )
+            val borderColor = getColorStateList(R.styleable.BdsView_bdsBorderColor)
+            val backgroundColor = getColorStateList(R.styleable.BdsView_bdsBackgroundColor)
 
             val gradientDrawable = GradientDrawable().apply {
                 setStroke(borderWidth.toInt(), borderColor)
-                setColor(backgroundColor)
+                color = backgroundColor
                 cornerRadius = radius
             }
 
