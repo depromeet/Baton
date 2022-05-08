@@ -23,6 +23,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <ImageView
+                    android:id="@+id/iv_home_logo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen16"
+                    android:src="@drawable/ic_logo"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_home_location"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_home_location" />
+
                 <TextView
                     android:id="@+id/tv_home_location"
                     android:layout_width="wrap_content"
@@ -84,7 +94,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.appbar.MaterialToolbar>
 
-        <androidx.core.widget.NestedScrollView
+        <com.amar.library.ui.StickyScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -98,20 +108,32 @@
                     android:id="@+id/ctl_home_banner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?primary50"
+                    android:background="?primary90"
                     app:layout_constraintTop_toTopOf="parent">
+
+
+                    <TextView
+                        android:id="@+id/tv_home_banner_title_zero"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen32"
+                        android:layout_marginTop="@dimen/dimen36"
+                        android:text="@string/home_banner_title_zero"
+                        android:textAppearance="?caption2"
+                        android:textColor="?wh100"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/tv_home_banner_title_one"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dimen16"
-                        android:layout_marginTop="@dimen/dimen56"
+                        android:layout_marginTop="@dimen/dimen8"
                         android:text="@string/home_banner_title_one"
                         android:textAppearance="?display4"
                         android:textColor="?wh100"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintStart_toStartOf="@+id/tv_home_banner_title_zero"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_home_banner_title_zero" />
 
                     <TextView
                         android:id="@+id/tv_home_banner_title_two"
@@ -125,30 +147,30 @@
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btn_home_more"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dimen24"
-                        android:layout_marginBottom="@dimen/dimen36"
-                        android:background="@drawable/outlined_default_small"
+                        android:layout_marginTop="@dimen/dimen12"
+                        android:layout_marginEnd="@dimen/dimen56"
+                        android:layout_marginBottom="@dimen/dimen40"
+                        android:background="@drawable/temp_home_see_more"
                         android:minWidth="0dp"
                         android:minHeight="0dp"
                         android:paddingHorizontal="@dimen/dimen16"
-                        android:paddingVertical="@dimen/dimen8"
+                        android:paddingVertical="@dimen/dimen12"
                         android:text="@string/home_banner_see_more"
-                        android:textAppearance="?caption1"
-                        android:textColor="?grey_scale90"
+                        android:textAppearance="?caption3"
+                        android:textColor="?wh100"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/tv_home_banner_title_two"
                         app:layout_constraintStart_toStartOf="@id/tv_home_banner_title_two"
                         app:layout_constraintTop_toBottomOf="@id/tv_home_banner_title_two" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/dimen24"
-                        android:src="@drawable/img_baton"
+                        android:src="@drawable/ic_banner"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintEnd_toEndOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -321,7 +343,7 @@
 
                 </androidx.recyclerview.widget.RecyclerView>
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
+        </com.amar.library.ui.StickyScrollView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_home"
