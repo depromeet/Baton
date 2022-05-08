@@ -20,7 +20,7 @@
         tools:context="FilterChipFragment">
 
         <HorizontalScrollView
-            android:id="@+id/hsv_home"
+            android:id="@+id/hsv_bdsfilter"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:overScrollMode="never"
@@ -115,5 +115,52 @@
                     app:isSelected="@{filterViewModel.filterChipList[6].second}" />
             </LinearLayout>
         </HorizontalScrollView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/dimen12"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dimen16"
+            app:layout_constraintTop_toBottomOf="@+id/hsv_bdsfilter">
+
+            <TextView
+                android:id="@+id/tv_bdsfilter_all"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/search_option_all"
+                android:textAppearance="?body3"
+                android:textColor="@color/gy80"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_bdsfilter_all_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen2"
+                android:text="@{@string/search_option_count(filterViewModel.allCount.toString())}"
+                android:textAppearance="?body3"
+                android:textColor="@color/gy80"
+                app:layout_constraintStart_toEndOf="@id/tv_bdsfilter_all"
+                app:layout_constraintTop_toTopOf="@id/tv_bdsfilter_all" />
+
+            <ImageView
+                android:id="@+id/iv_bdsfilter_sorting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dimen2"
+                android:src="@drawable/ic_sorting_line_18"
+                app:layout_constraintEnd_toStartOf="@+id/tv_bdsfilter_sorting_alignment"
+                app:layout_constraintTop_toTopOf="@id/tv_bdsfilter_all" />
+
+            <TextView
+                android:id="@+id/tv_bdsfilter_sorting_alignment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/search_option_alignment"
+                android:textAppearance="?body3"
+                android:textColor="@color/gy80"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_bdsfilter_all" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

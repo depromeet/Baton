@@ -15,6 +15,9 @@ class FilterViewModel @Inject constructor(
     private val resourcesProvider: ResourcesProvider
 ) : BaseViewModel() {
 
+    private val _allCount = MutableLiveData<Int>(20)
+    val allCount: LiveData<Int> = _allCount
+
     /*양도권 종류*/
     private val _ticketKindList = ListLiveData<String>()
 
