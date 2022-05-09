@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.widget.FrameLayout
 import androidx.core.content.withStyledAttributes
 import com.depromeet.bds.R
-import com.depromeet.bds.databinding.BdsActionChipBinding
+import com.depromeet.bds.databinding.BdsComponentInputChipBinding
 
 class BdsActionChip @JvmOverloads constructor(
     context: Context,
@@ -15,12 +15,12 @@ class BdsActionChip @JvmOverloads constructor(
     defStyleRes: Int = 0,
 ) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
 
-    val binding: BdsActionChipBinding
+    val binding: com.depromeet.bds.databinding.BdsComponentActionChipBinding
 
     init {
 
         val layoutInflater = LayoutInflater.from(context)
-        binding = BdsActionChipBinding.inflate(layoutInflater, this, true)
+        binding = com.depromeet.bds.databinding.BdsComponentActionChipBinding.inflate(layoutInflater, this, true)
 
         context.withStyledAttributes(attrs, R.styleable.BdsTextView) {
             val text = getString(R.styleable.BdsTextView_bds_text)
