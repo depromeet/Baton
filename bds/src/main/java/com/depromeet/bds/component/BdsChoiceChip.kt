@@ -8,6 +8,9 @@ import android.widget.FrameLayout
 import androidx.core.content.withStyledAttributes
 import com.depromeet.bds.R
 import com.depromeet.bds.databinding.BdsComponentChoiceChipBinding
+import com.depromeet.bds.utils.getAttributeColor
+import com.depromeet.bds.utils.getAttributeStyle
+import com.depromeet.bds.utils.setTextAppearanceCompat
 import com.depromeet.bds.utils.toPx
 
 class BdsChoiceChip @JvmOverloads constructor(

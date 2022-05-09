@@ -1,4 +1,4 @@
-package com.depromeet.bds.component
+package com.depromeet.bds.utils
 
 import android.content.Context
 import android.content.res.TypedArray
