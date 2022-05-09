@@ -26,6 +26,7 @@
     <dimen name="dimen96">96dp</dimen>
     <dimen name="dimen128">128dp</dimen>
     <dimen name="dimen160">160dp</dimen>
+    <dimen name="dimen216">216dp</dimen>
     <dimen name="dimen256">256dp</dimen>
     <dimen name="dimen328">328dp</dimen>
     <dimen name="dimen512">512dp</dimen>

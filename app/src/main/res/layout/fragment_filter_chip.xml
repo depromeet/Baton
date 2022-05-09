@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="filterChipFragment"
             type="com.depromeet.baton.presentation.ui.filter.view.FilterChipFragment" />
@@ -19,13 +21,25 @@
         android:layout_height="wrap_content"
         tools:context="FilterChipFragment">
 
+        <com.depromeet.bds.component.BdsActionChip
+            android:id="@+id/bdsaction_chip_reset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen16"
+            android:onClick="@{()->filterViewModel.filterReset()}"
+            android:visibility="@{filterViewModel.isResetAndSearchValid ? View.VISIBLE : View.GONE}"
+            app:bds_text="초기화"
+            app:layout_constraintEnd_toStartOf="@id/hsv_bdsfilter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <HorizontalScrollView
             android:id="@+id/hsv_bdsfilter"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:overScrollMode="never"
             android:scrollbars="none"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/bdsaction_chip_reset"
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
@@ -33,14 +47,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-
                 <com.depromeet.bds.component.BdsFilter
                     android:id="@+id/bdsfilter_chip_zero"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dimen16"
                     android:onClick="@{()->filterChipFragment.setFilterChipClickListener(0)}"
-                    app:bds_endDrawable="@drawable/ic_more_line_24"
+                    android:paddingStart="@dimen/dimen8"
+                    app:bds_endDrawable="@drawable/selector_filter_chip_end_icon"
                     app:bds_text="@{filterViewModel.filterChipList[0].first}"
                     app:bds_textAppearance="?body4"
                     app:isSelected="@{filterViewModel.filterChipList[0].second}" />
@@ -51,7 +64,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen8"
                     android:onClick="@{()->filterChipFragment.setFilterChipClickListener(1)}"
-                    app:bds_endDrawable="@drawable/ic_more_line_24"
+                    app:bds_endDrawable="@drawable/selector_filter_chip_end_icon"
                     app:bds_text="@{filterViewModel.filterChipList[1].first}"
                     app:bds_textAppearance="?body4"
                     app:isSelected="@{filterViewModel.filterChipList[1].second}"
@@ -64,7 +77,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen8"
                     android:onClick="@{()->filterChipFragment.setFilterChipClickListener(2)}"
-                    app:bds_endDrawable="@drawable/ic_more_line_24"
+                    app:bds_endDrawable="@drawable/selector_filter_chip_end_icon"
                     app:bds_text="@{filterViewModel.filterChipList[2].first}"
                     app:bds_textAppearance="?body4"
                     app:isSelected="@{filterViewModel.filterChipList[2].second}" />
@@ -75,7 +88,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen8"
                     android:onClick="@{()->filterChipFragment.setFilterChipClickListener(3)}"
-                    app:bds_endDrawable="@drawable/ic_more_line_24"
+                    app:bds_endDrawable="@drawable/selector_filter_chip_end_icon"
                     app:bds_text="@{filterViewModel.filterChipList[3].first}"
                     app:bds_textAppearance="?body4"
                     app:isSelected="@{filterViewModel.filterChipList[3].second}" />
@@ -86,7 +99,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen8"
                     android:onClick="@{()->filterChipFragment.setFilterChipClickListener(4)}"
-                    app:bds_endDrawable="@drawable/ic_more_line_24"
+                    app:bds_endDrawable="@drawable/selector_filter_chip_end_icon"
                     app:bds_text="@{filterViewModel.filterChipList[4].first}"
                     app:bds_textAppearance="?body4"
                     app:isSelected="@{filterViewModel.filterChipList[4].second}" />
@@ -97,30 +110,19 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen8"
                     android:onClick="@{()->filterChipFragment.setFilterChipClickListener(5)}"
-                    app:bds_endDrawable="@drawable/ic_more_line_24"
+                    app:bds_endDrawable="@drawable/selector_filter_chip_end_icon"
                     app:bds_text="@{filterViewModel.filterChipList[5].first}"
                     app:bds_textAppearance="?body4"
                     app:isSelected="@{filterViewModel.filterChipList[5].second}" />
 
-                <com.depromeet.bds.component.BdsFilter
-                    android:id="@+id/bdsfilter_chip_six"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dimen8"
-                    android:layout_marginEnd="@dimen/dimen16"
-                    android:onClick="@{()->filterChipFragment.setFilterChipClickListener(6)}"
-                    app:bds_endDrawable="@drawable/ic_more_line_24"
-                    app:bds_text="@{filterViewModel.filterChipList[6].first}"
-                    app:bds_textAppearance="?body4"
-                    app:isSelected="@{filterViewModel.filterChipList[6].second}" />
             </LinearLayout>
         </HorizontalScrollView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/dimen12"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/dimen16"
+            android:layout_marginHorizontal="@dimen/dimen8"
+            android:layout_marginTop="@dimen/dimen12"
             app:layout_constraintTop_toBottomOf="@+id/hsv_bdsfilter">
 
             <TextView
@@ -129,7 +131,7 @@
                 android:layout_height="match_parent"
                 android:text="@string/search_option_all"
                 android:textAppearance="?body3"
-                android:textColor="@color/gy80"
+                android:textColor="?grey_scale80"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
@@ -158,7 +160,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/search_option_alignment"
                 android:textAppearance="?body3"
-                android:textColor="@color/gy80"
+                android:textColor="?grey_scale80"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tv_bdsfilter_all" />
         </androidx.constraintlayout.widget.ConstraintLayout>
