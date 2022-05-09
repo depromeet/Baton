@@ -3,6 +3,7 @@ package com.depromeet.bds.component
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.FrameLayout
 import androidx.core.content.withStyledAttributes
 import androidx.core.view.isVisible
@@ -49,5 +50,21 @@ class BdsTitleAppBar @JvmOverloads constructor(
             binding.button.isVisible = buttonTitle.isNullOrBlank().not()
             binding.button.text = buttonTitle
         }
+    }
+
+    fun setTitle(title: String) {
+        binding.tvTitle.text = title
+    }
+
+    fun setOnIconClick(listener: View.OnClickListener) {
+        binding.imageFirstIcon.setOnClickListener(listener)
+    }
+
+    fun setOnAdditionalIconClick(listener: View.OnClickListener) {
+        binding.imageSecondIcon.setOnClickListener(listener)
+    }
+
+    fun setOnButton(listener: View.OnClickListener) {
+        binding.button.setOnClickListener(listener)
     }
 }

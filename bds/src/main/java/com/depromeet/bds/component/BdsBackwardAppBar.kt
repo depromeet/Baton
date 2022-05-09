@@ -3,6 +3,7 @@ package com.depromeet.bds.component
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.withStyledAttributes
@@ -49,5 +50,21 @@ class BdsBackwardAppBar @JvmOverloads constructor(
             binding.vEmptyMargin.isVisible =
                 binding.imageIcon.isVisible.not() && binding.button.isVisible.not()
         }
+    }
+
+    fun setTitle(title: String) {
+        binding.tvTitle.text = title
+    }
+
+    fun setOnBackwardClick(listener: View.OnClickListener) {
+        binding.imageBackward.setOnClickListener(listener)
+    }
+
+    fun setOnIconClick(listener: View.OnClickListener) {
+        binding.imageIcon.setOnClickListener(listener)
+    }
+
+    fun setOnButton(listener: View.OnClickListener) {
+        binding.button.setOnClickListener(listener)
     }
 }
