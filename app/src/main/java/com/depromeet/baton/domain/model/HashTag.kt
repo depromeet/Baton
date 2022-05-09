@@ -1,13 +1,11 @@
 package com.depromeet.baton.domain.model
 
-import com.depromeet.baton.R
-
-enum class HashTag(val value: Int) {
-    KIND_TEACHER(R.string.filter_hashtag_kind_teacher),
-    SYSTEMATIC_LESSON(R.string.filter_hashtag_systematic_lesson),
-    CUSTOMIZED_CARE(R.string.filter_hashtag_customized_care),
-    WIDE_FACILITY(R.string.filter_hashtag_wide_facility),
-    VARIOUS_INSTRUMENTS(R.string.filter_hashtag_various_instruments),
-    PLEASANT_ENVIRONMENT(R.string.filter_hashtag_pleasant_environment),
-    QUIET_ATMOSPHERE(R.string.filter_hashtag_quiet_atmosphere),
+enum class HashTag(val value: String) {
+    KIND_TEACHER("&#35;친절한 선생님"),
+    SYSTEMATIC_LESSON("&#35;체계적인 수업"),
+    CUSTOMIZED_CARE("&#35;맞춤 케어"),
+    WIDE_FACILITY("&#35;넓은 시설"),
+    VARIOUS_INSTRUMENTS("&#35;다양한 기구"),
+    PLEASANT_ENVIRONMENT("&#35;쾌적한 환경"),
+    QUIET_ATMOSPHERE("&#35;조용한 분위기"),
 }

@@ -1,14 +1,12 @@
 package com.depromeet.baton.domain.model
 
-import com.depromeet.baton.R
-
-enum class AdditionalOptions(val value: Int) {
-    SHOWER_ROOM(R.string.filter_additional_options_shower_room),
-    LOCKER_ROOM(R.string.filter_additional_options_locker_room),
-    SPORT_WEAR(R.string.filter_additional_options_sport_wear),
-    GX(R.string.filter_additional_options_gx),
-    RE_TRANSFER(R.string.filter_additional_options_re_transfer),
-    REFUND(R.string.filter_additional_options_refund),
-    HOLDING(R.string.filter_additional_options_holding),
-    BARGAINING(R.string.filter_additional_options_bargaining),
+enum class AdditionalOptions(val value: String) {
+    SHOWER_ROOM("샤워실 포함"),
+    LOCKER_ROOM("락카룸 포함"),
+    SPORT_WEAR("운동복 포함"),
+    GX("GX 포함"),
+    RE_TRANSFER("재양도 가능"),
+    REFUND("환불 가능"),
+    HOLDING("기간 홀딩 가능"),
+    BARGAINING("가격 네고 가능"),
 }
