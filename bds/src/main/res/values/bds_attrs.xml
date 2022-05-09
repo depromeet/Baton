@@ -75,6 +75,11 @@
         <attr name="bds_additional_icon" format="reference" />
         <attr name="bds_button" format="string" />
     </declare-styleable>
+
+    <declare-styleable name="BdsBackwardAppBar">
+        <attr name="bds_title" />
+        <attr name="bds_icon" />
+        <attr name="bds_backward_icon" format="reference" />
+        <attr name="bds_button" />
+    </declare-styleable>
 </resources>
-
-
