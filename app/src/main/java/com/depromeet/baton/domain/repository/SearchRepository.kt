@@ -1,11 +1,9 @@
 package com.depromeet.baton.domain.repository
 
-import com.depromeet.baton.domain.model.HashTag
+import com.depromeet.baton.domain.model.BatonHashTag
 import com.depromeet.baton.domain.model.RecentSearchKeyword
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
@@ -18,7 +16,7 @@ class SearchRepository {
         }
     }
 
-    suspend fun getRecommendHashTags(): List<HashTag> {
+    suspend fun getRecommendHashTags(): List<BatonHashTag> {
         withContext(ioDispatcher) {
             TODO()
         }

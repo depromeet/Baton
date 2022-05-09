@@ -1,6 +1,6 @@
 package com.depromeet.baton.domain.model
 
-data class HashTag(
+data class BatonHashTag(
     val title: String
 ) {
 

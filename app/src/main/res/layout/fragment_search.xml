@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -12,10 +13,19 @@
         android:orientation="vertical"
         tools:context=".presentation.ui.SearchFragment">
 
-        <com.depromeet.bds.component.BdsSearchBar
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/Theme.Bds.SearchBar.Secondary" />
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="@dimen/dimen24"
+                android:layout_height="@dimen/dimen24"/>
+
+            <com.depromeet.bds.component.BdsSearchBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/Theme.Bds.SearchBar.Secondary" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
