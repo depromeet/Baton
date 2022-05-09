@@ -25,10 +25,10 @@ class BdsBackwardAppBar @JvmOverloads constructor(
         val layoutInflater = LayoutInflater.from(context)
         binding = BdsComponentBackwardAppBarBinding.inflate(layoutInflater, this, true)
 
-        context.withStyledAttributes(attrs, R.styleable.BdsTitleAppBar) {
-            val title = getString(R.styleable.BdsTitleAppBar_bds_title)
-            val iconResId = getDrawable(R.styleable.BdsTitleAppBar_bds_icon)
-            val buttonTitle = getString(R.styleable.BdsTitleAppBar_bds_button)
+        context.withStyledAttributes(attrs, R.styleable.BdsBackwardAppBar) {
+            val title = getString(R.styleable.BdsBackwardAppBar_bds_title)
+            val iconResId = getDrawable(R.styleable.BdsBackwardAppBar_bds_icon)
+            val buttonTitle = getString(R.styleable.BdsBackwardAppBar_bds_button)
             val backwardResId = getDrawable(R.styleable.BdsBackwardAppBar_bds_backward_icon)
                 ?: ContextCompat.getDrawable(context, R.drawable.ic_arrow_back)
 
