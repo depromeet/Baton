@@ -4,6 +4,8 @@
     package="com.depromeet.baton">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name=".BatonApp"
@@ -12,21 +14,34 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MyApplication" >
+        android:theme="@style/Theme.MyApplication"
+        tools:replace="android:name">
+        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+        <activity
+            android:name=".presentation.ui.address.view.MyLocationActivity"
+            android:exported="false"
+            />
+        <activity
+            android:name=".presentation.ui.address.view.MyLocationDetailActivity"
+            android:exported="false"
 
-        <meta-data
-            android:name="com.naver.maps.map.CLIENT_ID"
-            android:value="${NAVER_SDK_CLIENT_KEY}" />
+            />
+        <activity
+            android:name=".presentation.ui.address.view.SearchAddressActivity"
+            android:exported="false"/>
 
         <activity
             android:name=".presentation.sample.SampleActivity"
             android:exported="false" />
+
+         <activity android:name=".presentation.ui.address.view.AddressActivity"
+            android:exported="false"/>
+       
         <activity
             android:name=".presentation.main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

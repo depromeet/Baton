@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_marginHorizontal="@dimen/dimen16"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="tip"
+        android:textColor="?grey_scale90"
+        android:textAppearance="?headline2"
+        android:layout_marginBottom="@dimen/dimen12"
+        android:layout_marginTop="@dimen/dimen20"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="아래와 같은 조합으로 검색해보세요."
+        android:textAppearance="?body3"
+        android:textColor="?grey_scale60"
+        android:layout_marginBottom="@dimen/dimen16"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="도로명+ 건물번호"
+        android:textAppearance="?body3"
+        android:textColor="?grey_scale90"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="예)세종대로 12길3"
+        android:textColor="?primary40"
+        android:textAppearance="?caption2"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="지역명(동/리)+번지"
+        android:textAppearance="?body3"
+        android:textColor="?grey_scale90"
+        android:layout_marginTop="@dimen/dimen12"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="예)세종대로 12-3"
+        android:textColor="?primary40"
+        android:textAppearance="?caption2"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="건물명+아파트명"
+        android:textAppearance="?body3"
+        android:textColor="?grey_scale90"
+        android:layout_marginTop="@dimen/dimen12"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="예)바통빌딩 101동"
+        android:textColor="?primary40"
+        android:textAppearance="?caption2"
+        />
+
+</LinearLayout>

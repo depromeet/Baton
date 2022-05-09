@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 원형 시크바 컨트롤러 -->
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+<!-- Drop Shadow Stack -->
+    <item>
+        <shape android:shape="oval" android:useLevel="false">
+            <padding android:top="1dp" android:right="1dp" android:bottom="1dp" android:left="1dp" />
+             <solid android:color="#00CCCCCC" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="oval" android:useLevel="false">
+            <padding android:top="1dp" android:right="1dp" android:bottom="1dp" android:left="1dp" />
+            <solid android:color="#10CCCCCC" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="oval" android:useLevel="false">
+            <padding android:top="1dp" android:right="1dp" android:bottom="1dp" android:left="1dp" />
+            <solid android:color="#20CCCCCC" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="oval" android:useLevel="false">
+            <padding android:top="1dp" android:right="1dp" android:bottom="1dp" android:left="1dp" />
+            <solid android:color="#30CCCCCC" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="oval" android:useLevel="false">
+            <padding android:top="1dp" android:right="1dp" android:bottom="1dp" android:left="1dp" />
+            <solid android:color="#40CCCCCC" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="oval" android:useLevel="false">
+            <padding android:top="1dp" android:right="1dp" android:bottom="1dp" android:left="1dp" />
+            <solid android:color="#50CCCCCC" />
+        </shape>
+    </item>
+<!-- Background -->
+    <item>
+        <shape android:shape="oval"
+            android:useLevel="false">
+            <!-- 배경 -->
+            <solid android:color="@color/wh100"/>
+            <size
+                android:width="@dimen/dimen24"
+                android:height="@dimen/dimen24"/>
+        </shape>
+    </item>
+</layer-list>

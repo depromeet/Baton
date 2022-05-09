@@ -114,4 +114,8 @@ class BdsSearchBar @JvmOverloads constructor(
         else setSearchBarEnabled()
     }
 
+    fun getText() : String{
+        return binding.searchBarEt.text.toString()
+    }
+
 }

@@ -1,5 +1,6 @@
 import com.depromeet.baton.App
 import com.depromeet.baton.Dep
+import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 
 plugins {
     id("com.android.library")
@@ -45,4 +46,6 @@ dependencies {
     implementation(Dep.Android.material)
     implementation(Dep.Android.constraintLayout)
     implementation(Dep.Android.fragment)
+
+
 }

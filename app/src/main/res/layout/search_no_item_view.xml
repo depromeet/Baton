@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    >
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="검색 결과가 없어요"
+        android:textAppearance="?body1"
+        android:layout_marginTop="@dimen/dimen14"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="도로명,지번,건물명을 제대로"
+        android:layout_marginTop="@dimen/dimen5"
+        android:textAppearance="?body4"
+        android:textColor="?grey_scale60"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="입력했는지 다시 한번 확인해주세요!"
+        android:textAppearance="?body4"
+        android:textColor="?grey_scale60"
+        />
+</LinearLayout>

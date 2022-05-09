@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.depromeet.baton.presentation.ui.address.viewmodel.SearchAddressViewModel" />
+    </data>
+    <LinearLayout
+        android:background="@color/wh100"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <include
+            android:id="@+id/address_toolbar"
+            layout="@layout/address_header"/>
+
+        <com.depromeet.bds.component.BdsSearchBar
+            android:id="@+id/search_address_et"
+            android:theme="@style/Theme.Bds.SearchBar.Primary"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen48"
+            android:layout_marginHorizontal="@dimen/dimen16"
+            android:layout_marginTop="@dimen/dimen16"
+            />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen48"
+            android:layout_marginLeft="@dimen/dimen16"
+            android:layout_marginTop="@dimen/dimen12">
+            <ImageView
+                android:id="@+id/address_search_my_location_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_my_location_line_24"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:tint="?like"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="현재 위치로 설정"
+                android:textColor="?grey_scale90"
+                android:textAppearance="?body3"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/address_search_my_location_iv"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginLeft="@dimen/dimen8"
+                />
+
+
+            <ImageView
+                android:id="@+id/address_search_back_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_line_16"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginRight="@dimen/dimen16"
+                app:tint="?grey_scale90"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@color/gy30"
+            />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                app:emptyState="@{viewmodel.uiState }"
+                android:layout_marginHorizontal="@dimen/dimen16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <include layout="@layout/search_no_item_view" />
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/search_address_recycler"
+                app:uiState="@{viewmodel.uiState }"
+                android:layout_marginHorizontal="@dimen/dimen16"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/item_address_search"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:overScrollMode="never"
+                />
+
+
+            <RelativeLayout
+                app:defaultState="@{viewmodel.uiState}"
+                android:layout_marginHorizontal="@dimen/dimen16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <include layout="@layout/search_guide_view" />
+            </RelativeLayout>
+
+        </FrameLayout>
+
+    </LinearLayout>
+</layout>

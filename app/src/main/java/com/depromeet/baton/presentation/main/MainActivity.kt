@@ -6,7 +6,7 @@ import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ActivityMainBinding
 import com.depromeet.baton.presentation.base.BaseActivity
 import com.depromeet.baton.presentation.ui.chatting.ChattingFragment
-import com.depromeet.baton.presentation.ui.home.HomeFragment
+import com.depromeet.baton.presentation.ui.home.view.HomeFragment
 import com.depromeet.baton.presentation.ui.mypage.MyPageFragment
 import com.depromeet.baton.presentation.ui.search.SearchFragment
 import dagger.hilt.android.AndroidEntryPoint

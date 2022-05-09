@@ -8,6 +8,9 @@ import androidx.core.content.withStyledAttributes
 import androidx.core.view.isVisible
 import com.depromeet.bds.R
 import com.depromeet.bds.databinding.BdsComponentFilterBinding
+import com.depromeet.bds.utils.getResourceIdOrNull
+import com.depromeet.bds.utils.setTextAppearanceCompat
+import com.depromeet.bds.utils.toDrawable
 
 class BdsFilter @JvmOverloads constructor(
     context: Context,
@@ -16,11 +19,22 @@ class BdsFilter @JvmOverloads constructor(
     defStyleRes: Int = 0,
 ) : LinearLayout(context, attrs, defStyleAttr, defStyleRes) {
 
+    private val layoutInflater = LayoutInflater.from(context)
+    private val binding = BdsComponentFilterBinding.inflate(layoutInflater, this, true)
+
+    @get:JvmName("bdsFilterText")
+    @set:JvmName("bdsFilterText")
+    var text: String
+        get() = getText()
+        set(value) = setText(value)
+
+    @get:JvmName("bdsFilterIsSelected")
+    @set:JvmName("bdsFilterIsSelected")
+    var isSelected: Boolean
+        get() = getIsSelected()
+        set(value) = setIsSelected(value)
+
     init {
-
-        val layoutInflater = LayoutInflater.from(context)
-        val binding = BdsComponentFilterBinding.inflate(layoutInflater, this, true)
-
         context.withStyledAttributes(attrs, R.styleable.BdsFilter) {
             binding.tvText.text = getString(R.styleable.BdsFilter_bds_text)
 
@@ -44,5 +58,15 @@ class BdsFilter @JvmOverloads constructor(
             binding.root.isEnabled = getBoolean(R.styleable.BdsView_isEnabled, true)
             binding.root.isSelected = getBoolean(R.styleable.BdsView_isSelected, false)
         }
+    }
+
+    private fun getText() = binding.tvText.text.toString()
+    private fun setText(text: String) {
+        binding.tvText.text = text
+    }
+
+    private fun getIsSelected(): Boolean = binding.root.isSelected
+    private fun setIsSelected(isSelected: Boolean) {
+        binding.root.isSelected = isSelected
     }
 }
