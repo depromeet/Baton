@@ -8,23 +8,33 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentBottomFilterBinding
 import com.depromeet.baton.domain.model.FilterType
+import com.depromeet.baton.presentation.ui.filter.adapter.FilteredChipRvAdapter
 import com.depromeet.baton.presentation.ui.filter.adapter.TabLayoutAdapter
 import com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel
+import com.depromeet.baton.presentation.util.ChipSpacesItemDecoration
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class BottomFilterFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentBottomFilterBinding? = null
-    private val binding get()= _binding ?: error("View를 참조하기 위해 binding이 초기화되지 않았습니다.")
+    private val binding get() = _binding ?: error("View를 참조하기 위해 binding이 초기화되지 않았습니다.")
 
     private lateinit var tabLayoutAdapter: TabLayoutAdapter
     private val filterViewModel: FilterViewModel by activityViewModels()
+
+    @Inject
+    lateinit var chipSpacesItemDecoration: ChipSpacesItemDecoration
+
+    lateinit var filteredChipRvAdapter: FilteredChipRvAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,10 +47,12 @@ class BottomFilterFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.filterViewModel = filterViewModel
         initTabLayout()
+        setFilteredChipRvAdapter()
+        setSearchOnClickListener()
         setCurrentFilterPosition()
-        setFilterResetOnClickListener()
-        setFilterSearchOnClickListener()
+        setFilteredChipObserve()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -54,7 +66,6 @@ class BottomFilterFragment : BottomSheetDialogFragment() {
             val fragmentList = mutableListOf<Fragment>()
             for (filterType in filterTypeOrderList) {
                 when (filterType) {
-                    FilterType.Alignment.value -> fragmentList.add(AlignmentFragment())
                     FilterType.TicketKind.value -> fragmentList.add(TicketKindFragment())
                     FilterType.Term.value -> fragmentList.add(TermFragment())
                     FilterType.Price.value -> fragmentList.add(PriceFragment())
@@ -80,16 +91,27 @@ class BottomFilterFragment : BottomSheetDialogFragment() {
         }
     }
 
-    private fun setFilterResetOnClickListener() {
-        binding.btnBottomFilterReset.setOnClickListener {
-            filterViewModel.setCurrentFilterBottomPosition(binding.vpBottomFilter.currentItem)
-            filterViewModel.filterReset()
+    //검색버튼 클릭
+    private fun setSearchOnClickListener(){
+        binding.btnBottomFilterSearch.setOnClickListener {
+            dialog?.dismiss()
         }
     }
 
-    private fun setFilterSearchOnClickListener() {
-        binding.llBottomFilterSearch.setOnClickListener {
-            dismiss()
+    private fun setFilteredChipRvAdapter() {
+        with(binding) {
+            filteredChipRvAdapter = FilteredChipRvAdapter(filterViewModel ?: return, requireContext())
+
+            val linearLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            rvBottomFilter.layoutManager = linearLayoutManager
+            adapter = filteredChipRvAdapter
+            itemDecoration = chipSpacesItemDecoration
+        }
+    }
+
+    private fun setFilteredChipObserve() {
+        filterViewModel.filteredChipList.observe(viewLifecycleOwner) { filteredChipList ->
+            filteredChipRvAdapter.submitList(filteredChipList)
         }
     }
 
