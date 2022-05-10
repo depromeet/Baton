@@ -2,6 +2,7 @@ package com.depromeet.baton.presentation.ui.filter.view
 
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,10 +14,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentBottomFilterBinding
 import com.depromeet.baton.domain.model.FilterType
+import com.depromeet.baton.domain.model.TicketKind
 import com.depromeet.baton.presentation.ui.filter.adapter.FilteredChipRvAdapter
 import com.depromeet.baton.presentation.ui.filter.adapter.TabLayoutAdapter
 import com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel
 import com.depromeet.baton.presentation.util.ChipSpacesItemDecoration
+import com.depromeet.bds.utils.toPx
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.tabs.TabLayoutMediator
@@ -30,9 +33,6 @@ class BottomFilterFragment : BottomSheetDialogFragment() {
 
     private lateinit var tabLayoutAdapter: TabLayoutAdapter
     private val filterViewModel: FilterViewModel by activityViewModels()
-
-    @Inject
-    lateinit var chipSpacesItemDecoration: ChipSpacesItemDecoration
 
     lateinit var filteredChipRvAdapter: FilteredChipRvAdapter
 
@@ -91,9 +91,9 @@ class BottomFilterFragment : BottomSheetDialogFragment() {
         }
     }
 
-    //검색버튼 클릭
-    private fun setSearchOnClickListener(){
+    private fun setSearchOnClickListener() {
         binding.btnBottomFilterSearch.setOnClickListener {
+            filterViewModel.setFilterPosition()
             dialog?.dismiss()
         }
     }
@@ -101,19 +101,19 @@ class BottomFilterFragment : BottomSheetDialogFragment() {
     private fun setFilteredChipRvAdapter() {
         with(binding) {
             filteredChipRvAdapter = FilteredChipRvAdapter(filterViewModel ?: return, requireContext())
-
-            val linearLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            rvBottomFilter.layoutManager = linearLayoutManager
+            rvBottomFilter.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = filteredChipRvAdapter
-            itemDecoration = chipSpacesItemDecoration
+            itemDecoration = ChipSpacesItemDecoration(8.toPx())
         }
     }
 
     private fun setFilteredChipObserve() {
         filterViewModel.filteredChipList.observe(viewLifecycleOwner) { filteredChipList ->
-            filteredChipRvAdapter.submitList(filteredChipList)
+            filteredChipRvAdapter.submitList(filteredChipList?.map{it}) //TODO 이거 왜 매핑해줘야할까
+            Log.d("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡrrㅡㅡㅡㅡㅡㅡㅡ", filteredChipList.toString())
         }
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
