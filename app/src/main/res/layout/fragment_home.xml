@@ -317,10 +317,10 @@
                     android:id="@+id/rv_home"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/dimen16"
                     android:layout_marginTop="@dimen/dimen12"
                     android:nestedScrollingEnabled="false"
                     app:adapter="@{adapter}"
-                    android:layout_marginHorizontal="@dimen/dimen16"
                     app:itemDecoration="@{itemDecoration}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -328,7 +328,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/fcv_home"
                     app:spanCount="2"
                     tools:itemCount="5"
-                    tools:listitem="@layout/item_ticket_vertical">
+                    tools:listitem="@layout/item_ticket">
 
                 </androidx.recyclerview.widget.RecyclerView>
             </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,6 @@ import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentHomeBinding
-import com.depromeet.baton.databinding.ItemTicketVerticalBinding
 import com.depromeet.baton.presentation.base.BaseFragment
 import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter
 import com.depromeet.baton.presentation.util.TicketItemVerticalDecoration
@@ -18,14 +17,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             val ticketItemRvAdapter =
-                TicketItemRvAdapter<ItemTicketVerticalBinding>(
-                    R.layout.item_ticket_vertical,
-                )
+                TicketItemRvAdapter(TicketItemRvAdapter.SCROLL_TYPE_VERTICAL)
             val gridLayoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
 
             adapter = ticketItemRvAdapter
             itemDecoration = TicketItemVerticalDecoration()
             rvHome.layoutManager = gridLayoutManager
+
             ticketItemRvAdapter.submitList(
                 arrayListOf(
                     TicketItem("휴메이크 휘트니스 석촌점", "헬스", "123,000원", "50일 남음", "광진구 중곡동", "12m"),

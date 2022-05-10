@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:id="@+id/ctl_item_ticket_container"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ctl_ticket_item_card"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/card_column"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_item_ticket_card_badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/card_badge"
+                android:paddingHorizontal="@dimen/dimen8"
+                android:paddingVertical="@dimen/dimen4"
+                android:text="헬스"
+                android:textAppearance="?caption1"
+                android:textColor="@color/wh100"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/ibtn_item_ticket"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dimen36"
+                android:layout_marginTop="@dimen/dimen16"
+                android:layout_marginBottom="@dimen/dimen32"
+                android:background="@drawable/card_column"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:src="@drawable/ic_empty_etc_86"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_item_ticket_card_badge" />
+
+            <CheckedTextView
+                android:id="@+id/ctv_item_ticket_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dimen12"
+                android:layout_marginBottom="@dimen/dimen12"
+                android:checkMark="@drawable/selector_like"
+                android:checked="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen8"
+            app:layout_constraintStart_toStartOf="@+id/ctl_ticket_item_card"
+            app:layout_constraintTop_toBottomOf="@+id/ctl_ticket_item_card">
+
+            <TextView
+                android:id="@+id/tv_item_ticket_shop_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?headline4"
+                android:textColor="@color/gy70"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="휴메이크 휘트니스 석촌점" />
+
+            <TextView
+                android:id="@+id/tv_item_ticket_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen4"
+                android:textAppearance="?headline1"
+                android:textColor="@color/gy90"
+                app:layout_constraintStart_toStartOf="@+id/tv_item_ticket_shop_name"
+                app:layout_constraintTop_toBottomOf="@+id/tv_item_ticket_shop_name"
+                tools:text="123,000원" />
+
+            <TextView
+                android:id="@+id/tv_item_ticket_remaining_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen4"
+                android:textAppearance="?caption1"
+                android:textColor="?primary50"
+                app:layout_constraintStart_toStartOf="@id/tv_item_ticket_price"
+                app:layout_constraintTop_toBottomOf="@id/tv_item_ticket_price"
+                tools:text="50일 남음" />
+
+            <LinearLayout
+                android:id="@+id/ll_item_ticket_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen8"
+                app:layout_constraintStart_toStartOf="@+id/tv_item_ticket_remaining_day"
+                app:layout_constraintTop_toBottomOf="@+id/tv_item_ticket_remaining_day">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_location_filled_16" />
+
+                <TextView
+                    android:id="@+id/tv_item_ticket_place"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingStart="@dimen/dimen2"
+                    android:textAppearance="?caption1"
+                    android:textColor="@color/gy70"
+                    tools:text="광진구 중곡동" />
+
+                <TextView
+                    android:id="@+id/tv_item_ticket_distance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingStart="@dimen/dimen4"
+                    android:textAppearance="?caption2"
+                    android:textColor="?secondary50"
+                    tools:text="12m" />
+
+            </LinearLayout>
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/ll_item_ticket_bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen4"
+                app:alignContent="flex_start"
+                app:alignItems="flex_start"
+                app:flexWrap="wrap"
+                app:layout_constraintStart_toStartOf="@+id/ll_item_ticket_top"
+                app:layout_constraintTop_toBottomOf="@+id/ll_item_ticket_top">
+
+
+                <com.depromeet.bds.component.BdsTag
+                    android:layout_width="wrap_content"
+                    android:layout_marginStart="@dimen/dimen4"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/Theme.Bds.Tag.Default.Grey.Small"
+                    app:bds_text="체계적인 수업" />
+
+                <com.depromeet.bds.component.BdsTag
+                    android:layout_width="wrap_content"
+                    android:layout_marginStart="@dimen/dimen4"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/Theme.Bds.Tag.Default.Grey.Small"
+                    app:bds_text="친절한 선생님" />
+
+                <com.depromeet.bds.component.BdsTag
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/Theme.Bds.Tag.Default.Grey.Small"
+                    app:bds_text="+3" />
+            </com.google.android.flexbox.FlexboxLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
