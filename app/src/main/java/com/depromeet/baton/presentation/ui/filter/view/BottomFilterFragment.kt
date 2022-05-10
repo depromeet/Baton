@@ -9,12 +9,10 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentBottomFilterBinding
 import com.depromeet.baton.domain.model.FilterType
-import com.depromeet.baton.domain.model.TicketKind
 import com.depromeet.baton.presentation.ui.filter.adapter.FilteredChipRvAdapter
 import com.depromeet.baton.presentation.ui.filter.adapter.TabLayoutAdapter
 import com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel
@@ -24,7 +22,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class BottomFilterFragment : BottomSheetDialogFragment() {
