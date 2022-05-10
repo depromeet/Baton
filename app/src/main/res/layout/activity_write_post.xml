@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".presentation.ui.writepost.WritePostActivity">
+
+        <com.depromeet.bds.component.BdsBackwardAppBar
+            android:id="@+id/bds_backward_appbar_write_post"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            app:bds_backward_icon="@drawable/ic_close_line_16"
+            app:bds_title="판매글 등록"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/progressbar_write_post"
+            style="@style/Widget.Bds.ProgressBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:progress="25"
+            app:layout_constraintTop_toBottomOf="@id/bds_backward_appbar_write_post" />
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fcv_signup"
+            android:name="com.depromeet.baton.presentation.ui.writepost.PlaceRegisterFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/dimen16"
+            android:layout_marginTop="@dimen/dimen20"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="@id/progressbar_write_post" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -1,16 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <import type="com.depromeet.baton.domain.model.HashTag" />
+
+        <variable
+            name="filterViewModel"
+            type="com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.ui.filter.view.HashTagFragment">
+        tools:context=".presentation.ui.filter.view.TicketKindFragment">
 
+        <TextView
+            android:id="@+id/tv_hashtag_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/filter_hashtag_select"
+            android:textAppearance="?body3"
+            android:textColor="?grey_scale70"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_hashtag_select_explain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen4"
+            android:text="@string/filter_hashtag_select_explain"
+            android:textAppearance="?caption2"
+            android:textColor="?grey_scale70"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_hashtag_select"
+            app:layout_constraintStart_toEndOf="@id/tv_hashtag_select"
+            app:layout_constraintTop_toTopOf="@id/tv_hashtag_select" />
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen12"
+            app:alignContent="flex_start"
+            app:alignItems="flex_start"
+            app:flexWrap="wrap"
+            app:layout_constraintTop_toBottomOf="@id/tv_hashtag_select">
+
+            <com.depromeet.bds.component.BdsChoiceChip
+                android:id="@+id/bdschoice_hashtag_kind_teacher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?body3"
+                app:bds_text="@string/filter_hashtag_kind_teacher" />
+
+            <com.depromeet.bds.component.BdsChoiceChip
+                android:id="@+id/bdschoice_hashtag_systematic_lesson"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen8"
+                android:textAppearance="?body3"
+                app:bds_text="@string/filter_hashtag_systematic_lesson" />
+
+            <com.depromeet.bds.component.BdsChoiceChip
+                android:id="@+id/bdschoice_hashtag_customized_care"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen8"
+                android:textAppearance="?body3"
+                app:bds_text="@string/filter_hashtag_customized_care" />
+
+            <com.depromeet.bds.component.BdsChoiceChip
+                android:id="@+id/bdschoice_hashtag_wide_facility"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen8"
+                android:textAppearance="?body3"
+                app:bds_text="@string/filter_hashtag_wide_facility" />
+
+            <com.depromeet.bds.component.BdsChoiceChip
+                android:id="@+id/bdschoice_hashtag_various_instruments"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen8"
+                android:layout_marginTop="@dimen/dimen8"
+                android:textAppearance="?body3"
+                app:bds_text="@string/filter_hashtag_various_instruments" />
+
+            <com.depromeet.bds.component.BdsChoiceChip
+                android:id="@+id/bdschoice_hashtag_pleasant_environment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen8"
+                android:layout_marginTop="@dimen/dimen8"
+                android:textAppearance="?body3"
+                app:bds_text="@string/filter_hashtag_pleasant_environment" />
+
+            <com.depromeet.bds.component.BdsChoiceChip
+                android:id="@+id/bdschoice_hashtag_quiet_atmosphere"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen8"
+                android:textAppearance="?body3"
+                app:bds_text="@string/filter_hashtag_quiet_atmosphere" />
+
+
+        </com.google.android.flexbox.FlexboxLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>
