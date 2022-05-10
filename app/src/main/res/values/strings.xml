@@ -87,10 +87,47 @@
     <string name="filter_hashtag_pleasant_environment">&#35;쾌적한 환경</string>
     <string name="filter_hashtag_quiet_atmosphere">&#35;조용한 분위기</string>
 
+    <!-- 판매글 등록-장소 등록 -->
+    <string name="write_post">판매글 등록</string>
+    <string name="write_post_back">이전</string>
+    <string name="write_post_next">다음</string>
+    <string name="place_register">장소 등록</string>
+    <string name="place_register_explain">헬스장 이름이나 도로명 주소를 검색해주세요</string>
+    <string name="place_register_photo">사진</string>
+    <string name="place_register_photo_explain">회원권 사진을 함께 등록하면 신뢰도가 올라가요</string>
+    <string name="place_register_shop_name">이름</string>
+    <string name="place_register_shop_address">주소</string>
+
+    <!-- 판매글 등록-장소 등록 -->
+    <string name="membership_information">판매 회원권</string>
+    <string name="membership_information_explain">(1개만 선택 가능)</string>
+    <string name="membership_information_select">기간/횟수 선택</string>
+    <string name="membership_information_select_fixed_term">기간제</string>
+    <string name="membership_information_select_frequency_term">횟수제</string>
+    <string name="membership_information_input">남은기간/횟수 입력</string>
+    <string name="membership_information_price">가격</string>
+    <string name="membership_information_bargaining">가격 제안 가능</string>
+    <string name="membership_information_detail">상세 정보</string>
+    <string name="membership_information_detail_explain">선택사항</string>
+
+    <!-- 판매글 등록-거래방법-->
+    <string name="transaction_method_all">둘다 가능</string>
+    <string name="transaction_method_info">거래방법이 궁금해요</string>
+    <string name="transaction_method_info_answer1">현장결제</string>
+    <string name="transaction_method_info_answer2">는 판매자와 구매자가 헬스장을 방문해\n 계약 내용을 확인하고 현장에서 계좌이체 하는 것을 뜻해요.</string>
+    <string name="transaction_method_info_answer3">선결제</string>
+    <string name="transaction_method_info_answer4">는 판매자가 미리 헬스장에 양도의사를 밝힌 후\n구매자가 추후 이체 하거나 방문 전 미리 입금하는 것을 뜻해요.</string>
+    <string name="transaction_method_info_answer5">*거래 방법은 개인에 따라 달라질 수 있으니 참고만 해주세요.</string>
+
+    <!-- 판매글 등록-설명글-->
+    <string name="description">설명글</string>
+    <string name="description_hint">양도 이유, 회원권 정보, 거래방법 등을\n 자세히 입력하면 빠르게 판매할 수 있어요.</string>
+    <string name="description_character_limit">%s /100</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name ="road_address">도로명주소</string>
+    <string name="road_address">도로명주소</string>
     <string name="locaton_permission_alert">현재 위치를 파악하기 위해 위치 권한 접근이 필요합니다</string>
 
 </resources>
