@@ -39,6 +39,7 @@
             android:layout_height="wrap_content"
             android:overScrollMode="never"
             android:scrollbars="none"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/bdsaction_chip_reset"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -109,6 +110,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen8"
+                    android:paddingEnd="@dimen/dimen16"
                     android:onClick="@{()->filterChipFragment.setFilterChipClickListener(5)}"
                     app:bds_endDrawable="@drawable/selector_filter_chip_end_icon"
                     app:bds_text="@{filterViewModel.filterChipList[5].first}"
@@ -121,7 +123,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/dimen8"
+            android:layout_marginHorizontal="@dimen/dimen16"
             android:layout_marginTop="@dimen/dimen12"
             app:layout_constraintTop_toBottomOf="@+id/hsv_bdsfilter">
 

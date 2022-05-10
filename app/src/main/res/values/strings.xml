@@ -79,7 +79,7 @@
 
     <string name="filter_hashtag">해시태그</string>
     <string name="filter_hashtag_select">해시태그 선택</string>
-    <string name="filter_hashtag_select_explain">(최대3개)</string>
+    <string name="filter_hashtag_select_explain">(최대3개 선택 가능)</string>
     <string name="filter_hashtag_kind_teacher">&#35;친절한 선생님</string>
     <string name="filter_hashtag_systematic_lesson">&#35;체계적인 수업</string>
     <string name="filter_hashtag_customized_care">&#35;맞춤 케어</string>
