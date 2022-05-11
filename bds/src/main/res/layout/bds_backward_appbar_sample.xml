@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.depromeet.bds.component.BdsBackwardAppBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        app:bds_title="텍스트를 입력해주세요" />
+
+    <com.depromeet.bds.component.BdsBackwardAppBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        app:bds_icon="@drawable/ic_search_line_24"
+        app:bds_title="텍스트를 입력해주세요" />
+
+    <com.depromeet.bds.component.BdsBackwardAppBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        app:bds_button="확인"
+        app:bds_title="텍스트를 입력해주세요" />
+
+    <com.depromeet.bds.component.BdsBackwardAppBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        app:bds_backward_icon="@drawable/ic_close_line_16"
+        app:bds_title="텍스트를 입력해주세요" />
+</LinearLayout>
