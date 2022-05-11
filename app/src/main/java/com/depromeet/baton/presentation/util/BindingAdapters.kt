@@ -18,12 +18,14 @@ fun setBdsChoiceChip(view: BdsChoiceChip, isOn: Boolean, shape: String) {
     else view.setOnAndShape(isOn, 1)
 }
 
+
 @BindingAdapter("itemDecoration")
 fun RecyclerView.bindItemDecoration(itemDecoration: RecyclerView.ItemDecoration) {
     addItemDecoration(itemDecoration)
 }
 
-@BindingAdapter("rvAdapter")
+@BindingAdapter("adapter")
 fun RecyclerView.bindAdapter(adapter: RecyclerView.Adapter<*>) {
     this.adapter = adapter
 }
+
