@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.depromeet.bds.component.BdsLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="17dp"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:lines="1"
+        android:textAppearance="?headline2"
+        tools:text="텍스트를 입력해주세요텍스트를 입력해주세요" />
+
+    <ImageView
+        android:id="@+id/image_first_icon"
+        android:layout_width="@dimen/dimen24"
+        android:layout_height="@dimen/dimen24"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="gone"
+        tools:srcCompat="@drawable/ic_bell_line_24"
+        tools:visibility="visible" />
+
+    <View
+        android:id="@+id/v_margin_btw_icon"
+        android:visibility="gone"
+        android:layout_width="24dp"
+        android:layout_height="1px" />
+
+    <ImageView
+        android:id="@+id/image_second_icon"
+        android:layout_width="@dimen/dimen24"
+        android:layout_height="@dimen/dimen24"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="gone"
+        tools:srcCompat="@drawable/ic_search_line_24"
+        tools:visibility="visible" />
+
+    <!-- TODO: text button component 만들기? -->
+    <TextView
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:gravity="center"
+        android:paddingHorizontal="2dp"
+        android:paddingVertical="4dp"
+        android:textAppearance="?body1"
+        android:textColor="?primary50"
+        android:visibility="gone"
+        tools:text="확인"
+        tools:visibility="visible" />
+
+    <View
+        android:layout_width="@dimen/dimen16"
+        android:layout_height="1px" />
+
+</com.depromeet.bds.component.BdsLinearLayout>
