@@ -87,6 +87,7 @@
     </declare-styleable>
 
 
+
     <declare-styleable name="BdsTitleAppBar">
         <attr name="bds_title" format="string" />
         <attr name="bds_icon" format="reference" />
