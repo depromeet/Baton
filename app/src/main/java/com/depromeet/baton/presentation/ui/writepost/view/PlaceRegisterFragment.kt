@@ -17,27 +17,32 @@ class PlaceRegisterFragment : BaseFragment<FragmentPlaceRegisterBinding>(R.layou
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.placeRegisterFragment = this@PlaceRegisterFragment
-
-        setSearchBarLayout()
+        binding.includeChip.tvHashtagSelectExplain.text = "(선택사항)"
+        setSearchBar()
         setPlaceRegisterClickListener()
         setPictureSelectClickListener()
         setHashTagClickListener()
     }
 
-    private fun setSearchBarLayout() {
+    private fun setSearchBar() {
         with(binding) {
-            includeChip.tvHashtagSelectExplain.text = "(선택사항)"
-            includeBdsSearchbarOne.ctlSearchBarContainer.isClickable = false
             includeBdsSearchbarOne.searchBarEt.text = Editable.Factory.getInstance().newEditable("헬스장 이름이나 도로명 주소를 검색해주세요")
             includeBdsSearchbarOne.searchBarEt.isFocusable = false
-            includeBdsSearchbarOne.searchBarEt.isClickable = true
-            includeBdsSearchbarOne.searchBarEt.setTextColor(Color.GRAY) //TODO 색깔 왜이럼
+            includeBdsSearchbarOne.searchBarEt.setTextColor(Color.GRAY)
+            includeBdsSearchbarOne.searchBarCancelIc.visibility=View.GONE
         }
     }
 
     //TODO 장소등록->바텀싯   ->콜백받아서  이름/주소로 바뀌고 서치바 하나 더생김
     private fun setPlaceRegisterClickListener() {
-        binding.ctlPlaceRegisterSearchBar.setOnClickListener {
+        binding.includeBdsSearchbarOne.ctlSearchBarContainer.setOnClickListener {
+            val bottomFilterFragment = BottomFilterFragment()
+            bottomFilterFragment.show(
+                childFragmentManager,
+                bottomFilterFragment.tag
+            )
+        }
+        binding.includeBdsSearchbarOne.searchBarEt.setOnClickListener{
             val bottomFilterFragment = BottomFilterFragment()
             bottomFilterFragment.show(
                 childFragmentManager,
@@ -74,6 +79,4 @@ class PlaceRegisterFragment : BaseFragment<FragmentPlaceRegisterBinding>(R.layou
             }
         }
     }
-
-
 }
