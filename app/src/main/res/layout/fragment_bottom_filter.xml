@@ -68,7 +68,7 @@
                 android:id="@+id/rv_bottom_filter"
                 android:layout_width="match_parent"
                 android:layout_marginBottom="@dimen/dimen12"
-                app:rvAdapter="@{adapter}"
+                app:adapter="@{adapter}"
                 app:itemDecoration="@{itemDecoration}"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toTopOf="@id/view_bottom_filter_div_bottom"
