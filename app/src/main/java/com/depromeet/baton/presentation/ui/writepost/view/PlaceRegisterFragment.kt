@@ -10,8 +10,9 @@ import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentPlaceRegisterBinding
 import com.depromeet.baton.presentation.base.BaseFragment
 import com.depromeet.baton.presentation.ui.writepost.viewmodel.WritePostViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class PlaceRegisterFragment : BaseFragment<FragmentPlaceRegisterBinding>(R.layout.fragment_place_register) {
     private val writePostViewModel: WritePostViewModel by activityViewModels()
 

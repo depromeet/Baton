@@ -11,7 +11,9 @@ import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentDescriptionBinding
 import com.depromeet.baton.databinding.FragmentMembershipInformationBinding
 import com.depromeet.baton.presentation.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TicketInformationFragment : BaseFragment<FragmentMembershipInformationBinding>(R.layout.fragment_membership_information) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

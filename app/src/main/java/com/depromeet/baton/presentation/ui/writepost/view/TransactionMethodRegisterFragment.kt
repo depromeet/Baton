@@ -14,8 +14,9 @@ import com.depromeet.bds.utils.toPx
 import com.skydoves.balloon.*
 import com.skydoves.balloon.overlay.BalloonOverlayCircle
 import com.skydoves.balloon.overlay.BalloonOverlayRoundRect
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class TransactionMethodRegisterFragment : BaseFragment<FragmentTransactionMethodBinding>(com.depromeet.baton.R.layout.fragment_transaction_method) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
