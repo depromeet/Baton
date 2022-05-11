@@ -99,7 +99,7 @@
             android:id="@+id/iv_trasaction_method_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen24"
+            android:layout_marginTop="@dimen/dimen10"
             android:src="@drawable/ic_info_filled_20"
             app:layout_constraintEnd_toStartOf="@id/tv_transaction_method_info"
 
@@ -110,13 +110,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/transaction_method_info"
+            android:textAppearance="?caption3"
+            android:textColor="?grey_scale70"
             app:layout_constraintBottom_toBottomOf="@+id/iv_trasaction_method_info"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/iv_trasaction_method_info" />
 
+        <View
+            android:id="@+id/view_transaction_method_tooltip"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:background="@color/wh100"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_transaction_method_info" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_trasaction_method_info">
 

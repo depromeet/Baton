@@ -115,10 +115,12 @@
     <string name="transaction_method_info">거래방법이 궁금해요</string>
     <string name="transaction_method_refund">양도비</string>
     <string name="transaction_method_info_answer1">현장결제</string>
-    <string name="transaction_method_info_answer2">는 판매자와 구매자가 헬스장을 방문해\n 계약 내용을 확인하고 현장에서 계좌이체 하는 것을 뜻해요.</string>
-    <string name="transaction_method_info_answer3">선결제</string>
-    <string name="transaction_method_info_answer4">는 판매자가 미리 헬스장에 양도의사를 밝힌 후\n구매자가 추후 이체 하거나 방문 전 미리 입금하는 것을 뜻해요.</string>
-    <string name="transaction_method_info_answer5">*거래 방법은 개인에 따라 달라질 수 있으니 참고만 해주세요.</string>
+    <string name="transaction_method_info_answer2">는 판매자와 구매자가 헬스장을 방문해</string>
+    <string name="transaction_method_info_answer3"> 계약 내용을 확인하고 현장에서 계좌이체 하는 것을 뜻해요.</string>
+    <string name="transaction_method_info_answer4">선결제</string>
+    <string name="transaction_method_info_answer5">는 판매자가 미리 헬스장에 양도의사를 밝힌 후</string>
+    <string name="transaction_method_info_answer6">구매자가 추후 이체 하거나 방문 전 미리 입금하는 것을 뜻해요.</string>
+    <string name="transaction_method_info_answer7">*거래 방법은 개인에 따라 달라질 수 있으니 참고만 해주세요.</string>
 
     <!-- 판매글 등록-설명글-->
     <string name="description">설명글</string>
