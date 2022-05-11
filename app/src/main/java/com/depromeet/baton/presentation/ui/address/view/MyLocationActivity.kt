@@ -1,8 +1,12 @@
 package com.depromeet.baton.presentation.ui.address.view
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
+import android.widget.Button
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
+import androidx.databinding.BindingAdapter
 import androidx.lifecycle.Observer
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ActivityMylocationBinding
@@ -37,12 +41,12 @@ class MyLocationActivity :BaseActivity<ActivityMylocationBinding>(R.layout.activ
         locationViewModel.uiState.observe(this, Observer {
             when(it){
                 is UIState.HasData->{
-                    binding.myLocationToolbar.nextTv.setTextColor(getColor(com.depromeet.bds.R.color.blue50))
                     saveAddress(locationViewModel.roadState.value!!, locationViewModel.jibunState.value!!)
-                    binding.myLocationToolbar.nextTv.isEnabled=true
+                    binding.myLocationDoneBtn.isEnabled=true
+
                 }
                 else ->{
-                    binding.myLocationToolbar.nextTv.isEnabled=false
+                    binding.myLocationDoneBtn.isEnabled=false
                 }
             }
         })
@@ -60,12 +64,13 @@ class MyLocationActivity :BaseActivity<ActivityMylocationBinding>(R.layout.activ
     }
 
     private fun setListener(){
-        binding.myLocationToolbar.nextTv.setOnClickListener {
+        binding.myLocationDoneBtn.setOnClickListener {
             val intent = Intent(this, MyLocationDetailActivity::class.java)
             startActivity(intent)
         }
-        binding.myLocationToolbar.backBtn.setOnClickListener {
-            onBackPressed()
+        binding.myLocationSearchBtn.setOnClickListener {
+            val intent = Intent(this, SearchAddressActivity::class.java)
+            startActivity(intent)
         }
     }
 

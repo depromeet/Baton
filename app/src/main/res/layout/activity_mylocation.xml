@@ -58,6 +58,51 @@
                 android:layout_marginHorizontal="@dimen/dimen16"
                 android:layout_marginTop="@dimen/dimen4"
                 />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+            </LinearLayout>
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:layout_gravity="center"
+                android:useDefaultMargins="true"
+                >
+                <androidx.appcompat.widget.AppCompatButton
+                    android:theme="@style/Theme.Bds.TertiaryButton"
+                    android:id="@+id/my_location_search_btn"
+                    android:layout_columnWeight="1"
+                    android:layout_height="@dimen/dimen48"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginHorizontal="@dimen/dimen16"
+                    android:background="@drawable/bds_button_background"
+                    android:layout_marginBottom="@dimen/dimen16"
+                    android:textAlignment="center"
+                    android:text="위치검색"
+
+                    />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:theme="@style/Theme.Bds.PrimaryButton"
+                    android:id="@+id/my_location_done_btn"
+                    android:layout_columnWeight="1"
+                    android:layout_height="@dimen/dimen48"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginHorizontal="@dimen/dimen16"
+                    android:background="@drawable/bds_button_background"
+                    android:layout_marginBottom="@dimen/dimen16"
+                    android:textAlignment="center"
+                    android:text="다음"
+                    android:textColor="?wh100"
+                    />
+            </GridLayout>
+
         </LinearLayout>
         <ProgressBar
             android:id="@+id/location_progress"

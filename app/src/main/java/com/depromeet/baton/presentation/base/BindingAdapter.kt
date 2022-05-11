@@ -1,7 +1,11 @@
 package com.depromeet.baton.presentation.base
 
+import android.content.res.ColorStateList
 import android.view.View
+import android.widget.Button
 import android.widget.ProgressBar
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getColor
 import androidx.databinding.BindingAdapter
 
 @BindingAdapter("showOnLoading")
@@ -29,7 +33,6 @@ fun setBtnStateForLoadedContent(view: View,responseState: UIState) {
         else -> false
     }
 }
-
 
 
 @BindingAdapter("emptyState")

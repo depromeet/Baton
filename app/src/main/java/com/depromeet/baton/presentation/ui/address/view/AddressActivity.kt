@@ -22,6 +22,7 @@ import com.depromeet.baton.util.getAddress
 import com.depromeet.baton.util.getSearchDistance
 import com.depromeet.baton.util.saveSearchDistance
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 
 @AndroidEntryPoint
@@ -47,14 +48,22 @@ class AddressActivity : BaseActivity<ActivityAddressBinding>(R.layout.activity_a
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        Timber.e( "bundle => " + this.intent.getBooleanExtra("isChanged",false).toString())
+        initView()
+    }
+
+
     private fun initView(){
         binding.addressToolbar.titleTv.text="위치설정"
-        binding.addressToolbar.nextTv.visibility= View.GONE
         binding.roadAddressTv.text= getAddress().roadAddress
         binding.addressTv.text= "[지번]${getAddress().address}"
         binding.addressDistanceTv.text = getSearchDistance()
         binding.distanceSeekBar.setPadding(0, 0, 0, 0)
-        binding.distanceSeekBar.progress= addressViewModel.setDistanceProgress(getSearchDistance()!!)
+
+        binding.distanceSeekBar.setProgress(addressViewModel.setDistanceProgress(getSearchDistance()!!))
+        if( this.intent.getBooleanExtra("isChanged",false) ) binding.addressDoneBtn.visibility = View.VISIBLE
     }
 
 
@@ -77,7 +86,7 @@ class AddressActivity : BaseActivity<ActivityAddressBinding>(R.layout.activity_a
         }
 
 
-        binding.distanceSeekBar.setOnSeekBarChangeListener(object:SeekBar.OnSeekBarChangeListener{
+        binding.distanceSeekBar.addSeekbarChangeListener(object:SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if(progress <= 1000){
                      addressViewModel.distanceCalculator(progress, DistanceType.MAX1KM)

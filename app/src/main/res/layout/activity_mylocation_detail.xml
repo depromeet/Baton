@@ -8,8 +8,10 @@
 
     <LinearLayout
         android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
         <include
             android:id="@+id/detail_address_toolbar"
             layout="@layout/address_header"/>
@@ -46,7 +48,24 @@
             android:layout_marginTop="@dimen/dimen32"
             android:theme="@style/Theme.Bds.SearchBar.Primary"
             />
+
     </LinearLayout>
+    <androidx.appcompat.widget.AppCompatButton
+        android:theme="@style/Theme.Bds.PrimaryButton"
+        android:background="@drawable/bds_button_background"
+        android:id="@+id/detail_address_next_btn"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen48"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="@dimen/dimen16"
+        android:layout_marginBottom="@dimen/dimen16"
+        android:textAlignment="center"
+        android:text="다음"
+        android:textColor="?wh100"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

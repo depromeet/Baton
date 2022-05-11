@@ -37,7 +37,6 @@ class SearchAddressActivity : BaseActivity<ActivitySearchAddressBinding>(R.layou
     }
     private fun initView(){
         binding.addressToolbar.titleTv.text="위치검색"
-        binding.addressToolbar.nextTv.visibility= View.GONE
 
     }
 
