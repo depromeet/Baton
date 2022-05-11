@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:gravity="center"
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginVertical="@dimen/dimen16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/item_bottomsheet_check_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_check_line_20"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="?primary50"
+                android:visibility="invisible"
+                />
+            <TextView
+                android:id="@+id/item_bottomsheet_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/item_bottomsheet_check_iv"
+                android:layout_marginLeft="@dimen/dimen8"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="sample"
+                android:textAppearance="?body1"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
+</layout>
