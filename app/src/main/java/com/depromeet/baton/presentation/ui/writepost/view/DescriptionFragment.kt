@@ -15,6 +15,14 @@ class DescriptionFragment : BaseFragment<FragmentDescriptionBinding>(R.layout.fr
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setFocusListener()
+    }
 
+    private fun setFocusListener(){
+        binding.etDescription.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                binding.etDescription.setBackgroundResource(com.depromeet.bds.R.drawable.temp_textfield_chip_bacground)
+            }
+        }
     }
 }

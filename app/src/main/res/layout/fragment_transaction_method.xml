@@ -34,14 +34,65 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_transaction_method_all"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen8"
+                android:layout_marginEnd="@dimen/dimen4"
+                android:layout_marginBottom="@dimen/dimen36"
+                android:background="@drawable/temp_choice_chip_bacground"
+                android:includeFontPadding="false"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingVertical="@dimen/dimen8"
+                android:text="@string/transaction_method_all"
+                android:textAlignment="center"
+                android:textAppearance="?body3"
+                android:textColor="@color/gy70"
+                app:layout_constraintTop_toBottomOf="@id/btn_transaction_method_non_face"
+                app:layout_goneMarginEnd="@dimen/dimen4" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_transaction_method_face"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@color/selector_bds_filter_border"
-                android:text="dddddddddddd"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="@dimen/dimen8"
+                android:layout_marginEnd="@dimen/dimen4"
+                android:layout_marginBottom="@dimen/dimen36"
+                android:background="@drawable/temp_choice_chip_bacground"
+                android:includeFontPadding="false"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingVertical="@dimen/dimen8"
+                android:text="@string/filter_transaction_method_select_face"
+                android:textAlignment="center"
+                android:textAppearance="?body3"
+                android:textColor="@color/gy70"
+                app:layout_constraintEnd_toStartOf="@id/btn_transaction_method_non_face"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ctl_transaction_method" />
+                app:layout_constraintTop_toBottomOf="@id/tv_transaction_method"
+                app:layout_goneMarginEnd="@dimen/dimen4" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_transaction_method_non_face"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen4"
+                android:layout_marginTop="@dimen/dimen8"
+                android:background="@drawable/temp_choice_chip_bacground"
+                android:includeFontPadding="false"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingVertical="@dimen/dimen8"
+                android:text="@string/filter_transaction_method_select_non_face"
+                android:textAlignment="center"
+                android:textAppearance="?body3"
+                android:textColor="@color/gy70"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/btn_transaction_method_face"
+                app:layout_constraintTop_toBottomOf="@+id/tv_transaction_method" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView

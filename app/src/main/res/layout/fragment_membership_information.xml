@@ -58,7 +58,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dimen4"
+                        android:layout_marginTop="@dimen/dimen8"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_membership_info">
 
@@ -106,7 +106,7 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/ctl_membership_term"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ctl_membership_info">
@@ -122,50 +122,61 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <LinearLayout
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/bdschoice_membership_fixed_term"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dimen4"
+                        android:layout_marginTop="@dimen/dimen8"
+                        android:layout_marginEnd="@dimen/dimen4"
+                        android:layout_marginBottom="@dimen/dimen36"
+                        android:background="@drawable/temp_choice_chip_bacground"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:paddingHorizontal="@dimen/dimen56"
+                        android:paddingVertical="@dimen/dimen8"
+                        android:text="기간제"
+                        android:textAlignment="center"
+                        android:textAppearance="?body3"
+                        android:textColor="@color/gy70"
+                        app:layout_constraintEnd_toStartOf="@+id/bdschoice_membership_frequency_term"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_membership_term">
+                        app:layout_constraintTop_toBottomOf="@id/tv_membership_term" />
 
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/bdschoice_membership_frequency_term"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen4"
+                        android:background="@drawable/temp_choice_chip_bacground"
+                        android:gravity="center"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:paddingHorizontal="@dimen/dimen56"
+                        android:paddingVertical="@dimen/dimen8"
+                        android:text="횟수제"
+                        android:textAlignment="center"
+                        android:textAppearance="?body3"
+                        android:textColor="@color/gy70"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/bdschoice_membership_fixed_term"
+                        app:layout_constraintTop_toTopOf="@id/bdschoice_membership_fixed_term"
+                        app:layout_goneMarginStart="@dimen/dimen4" />
 
-                        <com.depromeet.bds.component.BdsChoiceChip
-                            android:id="@+id/bdschoice_membership_fixed_term"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:bds_text="@string/membership_information_select_fixed_term"
-                            app:isOn="@{false}"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:shape="@{`outlined`}" />
-
-                        <com.depromeet.bds.component.BdsChoiceChip
-                            android:id="@+id/bdschoice_membership_frequency_term"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/dimen8"
-                            app:bds_text="@string/membership_information_select_frequency_term"
-                            app:isOn="@{false}"
-                            app:layout_constraintStart_toEndOf="@id/bdschoice_ticket_kind_gym"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:shape="@{`outlined`}" />
-                    </LinearLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/ctl_membership_input"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen24"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ctl_membership_term">
+                    app:layout_constraintTop_toBottomOf="@+id/ctl_membership_term">
 
                     <TextView
                         android:id="@+id/tv_membership_input"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen24"
                         android:text="@string/membership_information_input"
                         android:textAppearance="?body3"
                         android:textColor="?grey_scale60"
@@ -174,11 +185,14 @@
 
 
                     <EditText
+                        android:id="@+id/et_membership_info_term"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dimen4"
-                        android:background="@null"
+                        android:layout_marginTop="@dimen/dimen8"
+                        android:background="@drawable/temp_choice_chip_bacground"
                         android:hint="잔여 기간을 입력해주세요"
+                        android:paddingHorizontal="@dimen/dimen16"
+                        android:paddingVertical="@dimen/dimen14"
                         android:textAppearance="?body3"
                         android:textColorHint="?grey_scale50"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -210,9 +224,11 @@
                         android:id="@+id/et_membership_info_price"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dimen4"
-                        android:background="@null"
+                        android:layout_marginTop="@dimen/dimen8"
+                        android:background="@drawable/temp_choice_chip_bacground"
                         android:hint="원"
+                        android:paddingHorizontal="@dimen/dimen16"
+                        android:paddingVertical="@dimen/dimen14"
                         android:textAppearance="?body3"
                         android:textColorHint="?grey_scale50"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -224,6 +240,7 @@
                         style="@style/Widget.Bds.CheckBox.Primary"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen8"
                         app:layout_constraintEnd_toStartOf="@id/tv_membership_info_bargaining"
                         app:layout_constraintTop_toBottomOf="@+id/et_membership_info_price" />
 
@@ -273,7 +290,7 @@
                         android:id="@+id/fbl_membership_info"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dimen4"
+                        android:layout_marginTop="@dimen/dimen8"
                         app:flexWrap="wrap"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

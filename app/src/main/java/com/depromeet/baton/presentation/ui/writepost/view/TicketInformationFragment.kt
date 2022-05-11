@@ -1,5 +1,7 @@
 package com.depromeet.baton.presentation.ui.writepost.view
 
+import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -36,14 +38,25 @@ class TicketInformationFragment : BaseFragment<FragmentMembershipInformationBind
             }
         }
     }
-    //판매회원권
+
+    //TODO Choic Chip 디자인시스템에 없음  일단 button만들어서 기간제만 처리
+    @SuppressLint("ResourceAsColor")
     private fun setTermClickListener() {
         with(binding) {
             bdschoiceMembershipFixedTerm.setOnClickListener {
-                bdschoiceMembershipFixedTerm.setOnAndShape(true, 0)
+                bdschoiceMembershipFixedTerm.setBackgroundResource(com.depromeet.bds.R.drawable.temp_choice_chip_background_selected)
+                bdschoiceMembershipFixedTerm.setTextColor(Color.parseColor("#0066FF"))
             }
-            bdschoiceMembershipFrequencyTerm.setOnClickListener {
-                bdschoiceMembershipFrequencyTerm.setOnAndShape(true, 0)
+            etMembershipInfoPrice.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) {
+                    etMembershipInfoPrice.setBackgroundResource(com.depromeet.bds.R.drawable.temp_textfield_chip_bacground)
+                }
+            }
+            etMembershipInfoTerm.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) {
+                    etMembershipInfoTerm.setBackgroundResource(com.depromeet.bds.R.drawable.temp_textfield_chip_bacground)
+                } else {
+                }
             }
         }
     }

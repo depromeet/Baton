@@ -23,17 +23,33 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-<!--        <com.depromeet.bds.component.BdsButton
+        <EditText
+            android:id="@+id/et_description"
+            android:layout_width="0dp"
+            android:layout_height="182dp"
+            android:layout_marginTop="@dimen/dimen8"
+            android:background="@drawable/temp_choice_chip_bacground"
+            android:gravity="top"
+            android:hint="@string/description_hint"
+            android:includeFontPadding="false"
+            android:maxLength="100"
+            android:padding="@dimen/dimen16"
+            android:paddingHorizontal="@dimen/dimen16"
+            android:paddingVertical="@dimen/dimen14"
+            android:textAppearance="?body4"
+            android:textColorHint="?grey_scale50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_description" />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dimen16"
-            android:theme="@style/Theme.Bds.PrimaryButton.Large"
-            app:bds_text="@string/write_post_next"
-            app:isEnabled="true"
-            android:paddingHorizontal="@dimen/dimen68"
-            android:background="@drawable/bds_button_background"
-            android:id="@+id/bds_button_description_next"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />-->
+            android:text="1/100"
+            android:layout_marginTop="@dimen/dimen8"
+            android:textAppearance="?body4"
+            android:textColor="?grey_scale50"
+            app:layout_constraintTop_toBottomOf="@id/et_description"
+            app:layout_constraintEnd_toEndOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
