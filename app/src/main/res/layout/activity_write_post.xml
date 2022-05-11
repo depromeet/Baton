@@ -5,12 +5,19 @@
 
     <data>
 
+        <variable
+            name="writePostViewModel"
+            type="com.depromeet.baton.presentation.ui.writepost.adapter.WritePostViewModel" />
+
+        <variable
+            name="writePost"
+            type="com.depromeet.baton.presentation.ui.writepost.view.WritePostActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.ui.writepost.WritePostActivity">
+        tools:context=".presentation.ui.writepost.view.WritePostActivity">
 
         <com.depromeet.bds.component.BdsBackwardAppBar
             android:id="@+id/bds_backward_appbar_write_post"
@@ -26,18 +33,46 @@
             style="@style/Widget.Bds.ProgressBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:progress="25"
-            app:layout_constraintTop_toBottomOf="@id/bds_backward_appbar_write_post" />
+            app:layout_constraintTop_toBottomOf="@id/bds_backward_appbar_write_post"
+            app:progress="@{writePostViewModel.currentPosition}" />
+
 
         <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fcv_signup"
-            android:name="com.depromeet.baton.presentation.ui.writepost.PlaceRegisterFragment"
+            android:id="@+id/fcv_write_post"
+            android:name="com.depromeet.baton.presentation.ui.filter.view.PriceFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginHorizontal="@dimen/dimen16"
             android:layout_marginTop="@dimen/dimen20"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="@dimen/dimen16"
+            app:layout_constraintBottom_toTopOf="@+id/bds_button_back"
             app:layout_constraintTop_toTopOf="@id/progressbar_write_post" />
+
+        <com.depromeet.bds.component.BdsButton
+            android:id="@+id/bds_button_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bds_button_background"
+            android:paddingHorizontal="@dimen/dimen32"
+            android:theme="@style/Theme.Bds.TertiaryButton.Large"
+            app:bds_text="@string/write_post_back"
+            app:isEnabled="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/fcv_write_post" />
+
+        <com.depromeet.bds.component.BdsButton
+            android:id="@+id/bds_buttton_place_register_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bds_button_background"
+            android:paddingHorizontal="@dimen/dimen68"
+            android:theme="@style/Theme.Bds.PrimaryButton.Large"
+            app:bds_text="@string/write_post_next"
+            app:isEnabled="true"
+            app:layout_constraintBottom_toBottomOf="@+id/bds_button_back"
+            app:layout_constraintEnd_toEndOf="@+id/fcv_write_post"
+            app:layout_constraintTop_toTopOf="@+id/bds_button_back" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
