@@ -1,4 +1,4 @@
-package com.depromeet.baton.presentation.ui.address
+package com.depromeet.baton.presentation.ui.writepost.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,9 +10,9 @@ import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ItemSearchShopBinding
 import com.depromeet.baton.presentation.ui.writepost.viewmodel.ShopInfo
 import com.depromeet.baton.presentation.ui.writepost.viewmodel.WritePostViewModel
+/*
 
-class SearchShopRvAdapter(
-    private val writePostViewModel: WritePostViewModel,
+class PhotoRvAdapter(
 ) :
     ListAdapter<ShopInfo, SearchShopRvAdapter.SearchShopViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchShopViewHolder {
@@ -46,4 +46,4 @@ class SearchShopRvAdapter(
                 oldItem.shopName == newItem.shopName
         }
     }
-}
+}*/
