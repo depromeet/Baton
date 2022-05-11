@@ -71,6 +71,7 @@
 
 
 
+
     <declare-styleable name="BdsSlider">
         <attr name="bds_progress" format="integer"/>
         <attr name="bds_max"  format="integer"/>
