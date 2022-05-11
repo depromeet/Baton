@@ -42,4 +42,8 @@ class BdsRangeSlider @JvmOverloads constructor(
         if(seekbarChangeListener != null)
             binding.bdsRangeSeekbar.setOnRangeChangedListener(seekbarChangeListener)
     }
+
+    fun setProgress(left: Float, right : Float){
+        binding.bdsRangeSeekbar.setProgress(left, right)
+    }
 }

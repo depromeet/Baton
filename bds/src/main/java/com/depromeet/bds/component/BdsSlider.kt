@@ -18,25 +18,30 @@ class BdsSlider @JvmOverloads constructor(
     defStyleRes: Int = 0,
 ) : LinearLayout(context, attrs, defStyleAttr, defStyleRes) {
 
-    var seekbarChangeListener : SeekBar.OnSeekBarChangeListener? =null
+
+    private val layoutInflater = LayoutInflater.from(context)
+    private  val binding = BdsComponentSliderBinding.inflate(layoutInflater, this, true)
 
 
     init {
-        val layoutInflater = LayoutInflater.from(context)
-        val binding = BdsComponentSliderBinding.inflate(layoutInflater, this, true)
-
         context.withStyledAttributes(attrs, R.styleable.BdsSlider) {
             binding.bdsSlider.progress = getInteger( R.styleable.BdsSlider_bds_progress,0)
             binding.bdsSlider.max = getInteger(R.styleable.BdsSlider_bds_max,0)
-
-
         }
 
         context.withStyledAttributes(attrs, R.styleable.BdsView) {
-
             binding.root.isEnabled = getBoolean(R.styleable.BdsView_isEnabled, true)
             binding.root.isSelected = getBoolean(R.styleable.BdsView_isSelected, false)
         }
-        binding.bdsSlider.setOnSeekBarChangeListener( seekbarChangeListener )
+
     }
+
+    fun addSeekbarChangeListener(seekbarChangeListener  : SeekBar.OnSeekBarChangeListener?){
+        binding.bdsSlider.setOnSeekBarChangeListener(seekbarChangeListener )
+    }
+
+    fun setProgress(value: Int){
+        binding.bdsSlider.progress=value
+    }
+
 }
