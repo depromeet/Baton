@@ -48,12 +48,5 @@ class BdsButton @JvmOverloads constructor(
             binding.root.isEnabled = getBoolean(R.styleable.BdsView_isEnabled, true)
         }
     }
-
-    fun setHorizontalMargin(margin: Float) {
-        val lp = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
-        lp.marginStart = margin.toPx().toInt()
-        lp.marginEnd = margin.toPx().toInt()
-        binding.tvText.layoutParams = lp
-    }
 }
 

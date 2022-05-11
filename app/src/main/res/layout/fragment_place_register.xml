@@ -5,19 +5,22 @@
 
     <data>
 
+        <variable
+            name="placeRegisterFragment"
+            type="com.depromeet.baton.presentation.ui.writepost.view.PlaceRegisterFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ctl_place_register"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:context=".presentation.ui.writepost.PlaceRegisterFragment">
+        android:layout_height="match_parent"
+        android:background="?wh100"
+        tools:context=".presentation.ui.writepost.view.PlaceRegisterFragment">
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/sv_place_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen20"
-            app:layout_constraintBottom_toTopOf="@+id/ctl_btn"
             app:layout_constraintTop_toTopOf="parent">
 
 
@@ -25,56 +28,61 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-
-                <LinearLayout
-                    android:id="@+id/ll_place_register"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/ctl_place_register_top"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
+
 
                     <TextView
                         android:id="@+id/tv_place_register"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/place_register"
-                        android:textAlignment="?body3"
-                        android:textColor="@color/gy60"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:textAppearance="?body3"
+                        android:textColor="?grey_scale60"
+                        app:layout_constraintStart_toStartOf="parent" />
 
-                    <com.depromeet.bds.component.BdsSearchBar
-                        android:id="@+id/bds_search_bar_first"
-                        android:layout_width="@dimen/dimen328"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="@dimen/dimen8"
-                        android:theme="@style/Theme.Bds.SearchBar.Primary"
-                        app:bds_placeholder_text="헬스장 이름이나 도로명 주소를 검색해주세요" />
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/ctl_place_register_search_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/tv_place_register">
 
-                    <com.depromeet.bds.component.BdsSearchBar
-                        android:id="@+id/bds_search_bar_second"
-                        android:layout_width="@dimen/dimen328"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="@dimen/dimen8"
-                        android:theme="@style/Theme.Bds.SearchBar.Primary"
-                        android:visibility="gone"
-                        app:bds_placeholder_text="헬스장 이름이나 도로명 주소를 검색해주세요" />
-                </LinearLayout>
+                        <include
+                            android:id="@+id/include_bds_searchbar_one"
+                            bds_text="헬스장 이름이나 도로명 주소를 검색해주세요"
+                            layout="@layout/bds_component_searchbar"
+                            android:theme="@style/Theme.Bds.SearchBar.Primary"
+                            app:layout_constraintEnd_toEndOf="parent" />
+
+                        <include
+                            android:id="@+id/include_bds_searchbar_two"
+                            layout="@layout/bds_component_searchbar"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/dimen48"
+                            android:visibility="gone"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/include_bds_searchbar_one" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/ctl_place_register_photo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen24"
-                    app:layout_constraintTop_toBottomOf="@id/ll_place_register">
+                    app:layout_constraintTop_toBottomOf="@id/ctl_place_register_top">
 
                     <TextView
                         android:id="@+id/place_register_photo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/place_register_photo"
-                        android:textAlignment="?body3"
+                        android:textAppearance="?body3"
                         android:textColor="?grey_scale60"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -82,8 +90,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="선택사항"
-                        android:textAlignment="?caption2"
+                        android:text="(선택사항)"
+                        android:textAppearance="?caption2"
                         android:textColor="?grey_scale60"
                         app:layout_constraintBottom_toBottomOf="@id/place_register_photo"
                         app:layout_constraintStart_toEndOf="@id/place_register_photo"
@@ -94,7 +102,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/place_register_photo_explain"
-                        android:textAlignment="?caption2"
+                        android:textAppearance="?caption2"
                         android:textColor="?grey_scale60"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/place_register_photo" />
@@ -111,7 +119,6 @@
                         android:paddingHorizontal="@dimen/dimen2"
                         android:paddingVertical="@dimen/dimen14"
                         android:text="0/5"
-                        android:textAlignment="?caption2"
                         android:textAppearance="?caption2"
                         android:textColor="?grey_scale70"
                         app:layout_constraintStart_toStartOf="parent"
@@ -133,35 +140,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/ctl_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/dimen16"
-            app:layout_constraintBottom_toBottomOf="parent">
-
-            <com.depromeet.bds.component.BdsButton
-                android:id="@+id/bds_btn_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:theme="@style/Theme.Bds.TertiaryButton.Large"
-                app:bds_text="@string/write_post_back"
-                app:isEnabled="false"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.depromeet.bds.component.BdsButton
-                android:id="@+id/bds_btn_next"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:theme="@style/Theme.Bds.PrimaryButton.Large"
-                app:bds_text="@string/write_post_next"
-                app:isEnabled="false"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

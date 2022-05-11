@@ -6,7 +6,7 @@ import android.view.View
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentHomeBinding
 import com.depromeet.baton.presentation.base.BaseFragment
-import com.depromeet.baton.presentation.ui.writepost.WritePostActivity
+import com.depromeet.baton.presentation.ui.writepost.view.WritePostActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

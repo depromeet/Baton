@@ -5,12 +5,16 @@
 
     <data>
 
+        <variable
+            name="membershipInformationFragment"
+            type="com.depromeet.baton.presentation.ui.writepost.view.TicketInformationFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.ui.writepost.MembershipInformationFragment">
+        android:background="?wh100"
+        tools:context=".presentation.ui.writepost.view.TicketInformationFragment">
 
         <ScrollView
             android:id="@+id/sv_membership_info"
@@ -173,7 +177,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen4"
-                        android:background="null"
+                        android:background="@null"
                         android:hint="잔여 기간을 입력해주세요"
                         android:textAppearance="?body3"
                         android:textColorHint="?grey_scale50"
@@ -207,7 +211,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen4"
-                        android:background="null"
+                        android:background="@null"
                         android:hint="원"
                         android:textAppearance="?body3"
                         android:textColorHint="?grey_scale50"
@@ -217,11 +221,9 @@
 
                     <CheckBox
                         android:id="@+id/checkbox_membership_info_bargaining"
+                        style="@style/Widget.Bds.CheckBox.Primary"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:includeFontPadding="false"
-                        android:minWidth="0dp"
-                        android:minHeight="0dp"
                         app:layout_constraintEnd_toStartOf="@id/tv_membership_info_bargaining"
                         app:layout_constraintTop_toBottomOf="@+id/et_membership_info_price" />
 
@@ -268,6 +270,7 @@
                         app:layout_constraintTop_toTopOf="@id/tv_membership_info_detail" />
 
                     <com.google.android.flexbox.FlexboxLayout
+                        android:id="@+id/fbl_membership_info"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen4"
@@ -278,15 +281,14 @@
 
                         <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/dimen8">
 
                             <CheckBox
                                 android:id="@+id/checkbox_membership_info_shower_room"
+                                style="@style/Widget.Bds.CheckBox.Primary"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:includeFontPadding="false"
-                                android:minWidth="0dp"
-                                android:minHeight="0dp"
                                 app:layout_constraintEnd_toStartOf="@id/tv_membership_info_bargaining"
                                 app:layout_constraintTop_toBottomOf="@+id/et_membership_info_price" />
 
@@ -302,15 +304,13 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/dimen8">
+                            android:layout_marginEnd="@dimen/dimen8">
 
                             <CheckBox
                                 android:id="@+id/checkbox_membership_info_locker_room"
+                                style="@style/Widget.Bds.CheckBox.Primary"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:includeFontPadding="false"
-                                android:minWidth="0dp"
-                                android:minHeight="0dp" />
+                                android:layout_height="wrap_content" />
 
                             <TextView
                                 android:id="@+id/tv_membership_info_locker_room"
@@ -325,15 +325,13 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/dimen8">
+                            android:layout_marginEnd="@dimen/dimen8">
 
                             <CheckBox
                                 android:id="@+id/checkbox_membership_info_sport_wear"
+                                style="@style/Widget.Bds.CheckBox.Primary"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:includeFontPadding="false"
-                                android:minWidth="0dp"
-                                android:minHeight="0dp" />
+                                android:layout_height="wrap_content" />
 
                             <TextView
                                 android:id="@+id/tv_membership_info_sport_wear"
@@ -343,18 +341,25 @@
                                 android:textAppearance="?body3"
                                 android:textColor="?grey_scale60" />
                         </LinearLayout>
+                    </com.google.android.flexbox.FlexboxLayout>
+
+                    <com.google.android.flexbox.FlexboxLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen10"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/fbl_membership_info">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/dimen8">
 
                             <CheckBox
                                 android:id="@+id/checkbox_membership_info_gx"
+                                style="@style/Widget.Bds.CheckBox.Primary"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:includeFontPadding="false"
-                                android:minWidth="0dp"
-                                android:minHeight="0dp" />
+                                android:layout_height="wrap_content" />
 
                             <TextView
                                 android:id="@+id/tv_membership_info_gx"
@@ -368,15 +373,13 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/dimen8">
+                            android:layout_marginEnd="@dimen/dimen8">
 
                             <CheckBox
                                 android:id="@+id/checkbox_membership_info_re_transfer"
+                                style="@style/Widget.Bds.CheckBox.Primary"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:includeFontPadding="false"
-                                android:minWidth="0dp"
-                                android:minHeight="0dp" />
+                                android:layout_height="wrap_content" />
 
                             <TextView
                                 android:id="@+id/tv_membership_info_re_transfer"
@@ -389,16 +392,13 @@
 
                         <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/dimen8">
+                            android:layout_height="wrap_content">
 
                             <CheckBox
                                 android:id="@+id/checkbox_membership_info_refund"
+                                style="@style/Widget.Bds.CheckBox.Primary"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:includeFontPadding="false"
-                                android:minWidth="0dp"
-                                android:minHeight="0dp" />
+                                android:layout_height="wrap_content" />
 
                             <TextView
                                 android:id="@+id/tv_membership_info_refund"
@@ -409,6 +409,7 @@
                                 android:textColor="?grey_scale60" />
                         </LinearLayout>
                     </com.google.android.flexbox.FlexboxLayout>
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

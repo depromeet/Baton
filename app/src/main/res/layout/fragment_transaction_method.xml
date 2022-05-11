@@ -5,11 +5,16 @@
 
     <data>
 
+        <variable
+            name="transactionMethodRegisterFragment"
+            type="com.depromeet.baton.presentation.ui.writepost.view.TransactionMethodRegisterFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
+        android:background="?wh100"
         tools:context=".presentation.ui.filter.view.TransactionMethodFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,136 +28,92 @@
                 android:id="@+id/tv_transaction_method"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/filter_transaction_method_select"
+                android:text="판매방식 선택"
                 android:textAppearance="?body3"
                 android:textColor="?grey_scale60"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.depromeet.bds.component.BdsChoiceChip
-                android:id="@+id/bdschoice_transaction_method_face"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dimen8"
-                app:bds_text="@string/filter_transaction_method_select_face"
-                app:isOn="@{false}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_transaction_method"
-                app:shape="@{`outlined`}" />
-
-            <com.depromeet.bds.component.BdsChoiceChip
-                android:id="@+id/bdschoice_transaction_method_non_face"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dimen8"
-                app:bds_text="@string/filter_transaction_method_select_non_face"
-                app:isOn="@{false}"
-                app:layout_constraintStart_toEndOf="@id/bdschoice_transaction_method_face"
-                app:layout_constraintTop_toTopOf="@id/bdschoice_transaction_method_face"
-                app:shape="@{`outlined`}" />
-
-            <com.depromeet.bds.component.BdsChoiceChip
-                android:id="@+id/bdschoice_transaction_method_all"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dimen8"
-                app:bds_text="@string/transaction_method_all"
-                app:isOn="@{false}"
-                app:layout_constraintTop_toBottomOf="@id/bdschoice_transaction_method_non_face"
-                app:shape="@{`outlined`}" />
-
-            <ImageView
-                android:id="@+id/ic_transaction_method_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/dimen4"
-                android:src="@drawable/ic_info_filled_20"
-                app:layout_constraintEnd_toStartOf="@+id/tv_transaction_method_info"
-                app:layout_constraintTop_toBottomOf="@id/bdschoice_transaction_method_all" />
-
             <TextView
-                android:id="@+id/tv_transaction_method_info"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/transaction_method_info"
-                android:textAppearance="?caption1"
-                android:textColor="?grey_scale70"
-                app:layout_constraintBottom_toBottomOf="@id/ic_transaction_method_info"
+                android:background="@color/selector_bds_filter_border"
+                android:text="dddddddddddd"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/ic_transaction_method_info" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ctl_transaction_method" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/iv_trasaction_method_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen24"
+            android:src="@drawable/ic_info_filled_20"
+            app:layout_constraintEnd_toStartOf="@id/tv_transaction_method_info"
+
+            app:layout_constraintTop_toBottomOf="@+id/ctl_transaction_method" />
+
+        <TextView
+            android:id="@+id/tv_transaction_method_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/transaction_method_info"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_trasaction_method_info"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_trasaction_method_info" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen24"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ctl_transaction_method">
+            app:layout_constraintTop_toBottomOf="@id/iv_trasaction_method_info">
 
             <TextView
                 android:id="@+id/tv_transaction_method_refund"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/transaction_method_refund"
+                android:text="양도비"
                 android:textAppearance="?body3"
                 android:textColor="?grey_scale60"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
-                android:id="@+id/ll_transaction_method_seller"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen4"
-                app:layout_constraintStart_toStartOf="@id/tv_transaction_method_refund"
+                android:layout_marginTop="@dimen/dimen8"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_transaction_method_refund">
 
                 <CheckBox
-                    android:id="@+id/checkbox_transaction_method_cost_select_seller"
+                    style="@style/Widget.Bds.CheckBox.Primary"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:includeFontPadding="false"
-                    android:minWidth="0dp"
-                    android:minHeight="0dp"
-                    app:layout_constraintEnd_toStartOf="@id/tv_membership_info_bargaining"
-                    app:layout_constraintTop_toBottomOf="@+id/et_membership_info_price" />
+                    android:layout_height="wrap_content" />
 
                 <TextView
-                    android:id="@+id/tv_transaction_method_cost_select_seller"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dimen8"
                     android:text="@string/filter_transaction_method_cost_select_seller"
                     android:textAppearance="?body3"
                     android:textColor="?grey_scale60" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dimen8"
-                app:layout_constraintStart_toEndOf="@+id/ll_transaction_method_seller"
-                app:layout_constraintTop_toTopOf="@+id/ll_transaction_method_seller">
 
                 <CheckBox
-                    android:id="@+id/checkbox_membership_info_shower_room"
+                    style="@style/Widget.Bds.CheckBox.Primary"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:includeFontPadding="false"
-                    android:minWidth="0dp"
-                    android:minHeight="0dp"
-                    app:layout_constraintEnd_toStartOf="@id/tv_membership_info_bargaining"
-                    app:layout_constraintTop_toBottomOf="@+id/et_membership_info_price" />
+                    android:layout_height="wrap_content" />
 
                 <TextView
-                    android:id="@+id/tv_membership_info_shower_room"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/filter_additional_options_shower_room"
+                    android:text="@string/filter_transaction_method_cost_select_consumer"
                     android:textAppearance="?body3"
                     android:textColor="?grey_scale60" />
+
+
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

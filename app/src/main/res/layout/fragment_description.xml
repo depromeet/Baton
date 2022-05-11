@@ -10,7 +10,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.ui.writepost.DescriptionFragment">
+        android:background="?wh100"
+        tools:context=".presentation.ui.writepost.view.DescriptionFragment">
 
         <TextView
             android:id="@+id/tv_description"
@@ -21,5 +22,18 @@
             android:textColor="?grey_scale60"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+<!--        <com.depromeet.bds.component.BdsButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen16"
+            android:theme="@style/Theme.Bds.PrimaryButton.Large"
+            app:bds_text="@string/write_post_next"
+            app:isEnabled="true"
+            android:paddingHorizontal="@dimen/dimen68"
+            android:background="@drawable/bds_button_background"
+            android:id="@+id/bds_button_description_next"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
