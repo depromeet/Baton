@@ -125,8 +125,7 @@
     <!-- 판매글 등록-설명글-->
     <string name="description">설명글</string>
     <string name="description_hint">양도 이유, 회원권 정보, 거래방법 등을\n자세히 입력하면 빠르게 판매할 수 있어요.</string>
-    <string name="description_character_limit">%s /100</string>
-
+    <string name="etFormat" >%1$d/100</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

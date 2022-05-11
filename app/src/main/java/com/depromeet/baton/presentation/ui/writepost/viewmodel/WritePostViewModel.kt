@@ -29,12 +29,17 @@ class WritePostViewModel @Inject constructor(
     private val _selectedShopInfo = MutableLiveData<ShopInfo>()
     val selectedShopInfo: LiveData<ShopInfo> = _selectedShopInfo
 
+    //선택 완료 이벤트
     private val _isShopSelected = SingleLiveEvent<Any>()
     val isShopSelected: LiveData<Any> = _isShopSelected
 
     //검색 결과 리스트
     private val _shopInfoList = MutableStateFlow<List<ShopInfo>>(ArrayList())
     val shopInfoList: StateFlow<List<ShopInfo>> = _shopInfoList.asStateFlow()
+
+    //글자 수 저장
+    private val _currentTextLength = MutableLiveData(0)
+    val currentTextLength: LiveData<Int> = _currentTextLength
 
     fun setNextLevel(nextLevel: Boolean = true) {
         if (nextLevel) { //다음버튼
@@ -81,6 +86,10 @@ class WritePostViewModel @Inject constructor(
     fun setSelectShop(shopInfo: ShopInfo) {
         _selectedShopInfo.value = shopInfo
         _isShopSelected.call()
+    }
+
+    fun setCurrentTextLength(length: Int) {
+        _currentTextLength.value = length
     }
 
     companion object {
