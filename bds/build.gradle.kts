@@ -46,6 +46,7 @@ dependencies {
     implementation(Dep.Android.material)
     implementation(Dep.Android.constraintLayout)
     implementation(Dep.Android.fragment)
+    implementation(Dep.CustomLibrary.rangeSeekbar)
 
 
 }
