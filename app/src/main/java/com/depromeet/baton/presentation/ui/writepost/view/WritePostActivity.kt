@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ActivityWritePostBinding
 import com.depromeet.baton.presentation.base.BaseActivity
-import com.depromeet.baton.presentation.ui.writepost.adapter.WritePostViewModel
+import com.depromeet.baton.presentation.ui.writepost.viewmodel.WritePostViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -32,7 +32,7 @@ class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activi
             writePostViewModel.setNextLevel(false)
             supportFragmentManager.popBackStack()
         }
-        writePostViewModel.currentPosition.observe(this) {
+        writePostViewModel.currentLevel.observe(this) {
             if (it == 0) finish()
         }
     }

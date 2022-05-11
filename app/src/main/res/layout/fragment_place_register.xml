@@ -60,15 +60,27 @@
                             android:theme="@style/Theme.Bds.SearchBar.Primary"
                             app:layout_constraintEnd_toEndOf="parent" />
 
+                        <TextView
+                            android:id="@+id/tv_place_register_address"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen24"
+                            android:text="주소"
+                            android:textAppearance="?body3"
+                            android:textColor="?grey_scale60"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/include_bds_searchbar_one" />
+
                         <include
                             android:id="@+id/include_bds_searchbar_two"
                             layout="@layout/bds_component_searchbar"
                             android:layout_width="0dp"
                             android:layout_height="@dimen/dimen48"
+                            android:layout_marginTop="@dimen/dimen8"
                             android:visibility="gone"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/include_bds_searchbar_one" />
+                            app:layout_constraintTop_toBottomOf="@id/tv_place_register_address" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -113,6 +125,7 @@
                         android:id="@+id/ibtn_place_register"
                         android:layout_width="@dimen/dimen68"
                         android:layout_height="@dimen/dimen68"
+                        android:layout_marginTop="@dimen/dimen8"
                         android:background="@drawable/bg_place_register_photo"
                         android:drawableTop="@drawable/ic_camera_filled_24"
                         android:maxWidth="0dp"
@@ -120,7 +133,6 @@
                         android:paddingHorizontal="@dimen/dimen2"
                         android:paddingVertical="@dimen/dimen14"
                         android:text="0/5"
-                        android:layout_marginTop="@dimen/dimen8"
                         android:textAppearance="?caption2"
                         android:textColor="?grey_scale70"
                         app:layout_constraintStart_toStartOf="parent"

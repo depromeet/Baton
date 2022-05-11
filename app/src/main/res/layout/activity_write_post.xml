@@ -7,7 +7,7 @@
 
         <variable
             name="writePostViewModel"
-            type="com.depromeet.baton.presentation.ui.writepost.adapter.WritePostViewModel" />
+            type="com.depromeet.baton.presentation.ui.writepost.viewmodel.WritePostViewModel" />
 
         <variable
             name="writePost"
@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/bds_backward_appbar_write_post"
-            app:progress="@{writePostViewModel.currentPosition}" />
+            app:progress="@{writePostViewModel.currentLevel}" />
 
 
         <androidx.fragment.app.FragmentContainerView

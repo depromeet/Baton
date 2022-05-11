@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/temp_bg_bottomsheet"
+        android:background="@drawable/bg_bottomsheet"
         tools:context=".presentation.ui.filter.view.BottomFilterFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -92,7 +92,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/dimen16"
-                    android:background="@drawable/temp_btn_bottom_filter_search"
+                    android:background="@drawable/temp_bg_search_bar"
                     android:gravity="center"
                     android:paddingHorizontal="@dimen/dimen56"
                     android:paddingVertical="@dimen/dimen12"
