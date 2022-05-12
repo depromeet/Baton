@@ -12,6 +12,7 @@
     android:layout_marginBottom="@dimen/dimen32"
     android:animateLayoutChanges="false"
     android:paddingTop="20dp"
+    android:paddingBottom="@dimen/dimen32"
     android:backgroundTint="?wh100"
     android:background="@drawable/bds_bottom_sheet_background"
     android:orientation="vertical">
@@ -23,14 +24,14 @@
         android:textAppearance="?headline2"
         android:text="title"
         android:gravity="center"
-        android:layout_marginVertical="@dimen/dimen16"
+
         />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="?grey_scale40"
-        android:layout_marginHorizontal="@dimen/dimen16"
+        android:layout_margin="@dimen/dimen16"
         />
 
     <androidx.recyclerview.widget.RecyclerView

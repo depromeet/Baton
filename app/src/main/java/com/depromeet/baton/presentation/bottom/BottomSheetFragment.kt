@@ -42,8 +42,7 @@ class BottomSheetFragment (
         val bottomSheet = dialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
         val behavior = BottomSheetBehavior.from<View>(bottomSheet!!)
         behavior.state = BottomSheetBehavior.STATE_DRAGGING
-
-        view?.findViewById<TextView>(R.id.bottom_sheet_title_tv).text= title
+        view.findViewById<TextView>(R.id.bottom_sheet_title_tv).text= title
         initAdapter()
 
     }
