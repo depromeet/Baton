@@ -21,23 +21,28 @@
                 android:layout_height="wrap_content">
 
                 <LinearLayout
+                    android:paddingTop="@dimen/dimen56"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <RelativeLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dimen256"
                         android:background="?grey_scale30"
-                        android:gravity="center">
+                        >
 
                         <ImageView
                             android:id="@+id/ticket_detail_empty_iv"
                             android:layout_width="@dimen/dimen86"
                             android:layout_height="@dimen/dimen86"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
                             android:src="@drawable/img_empty_health_86"
                             app:tint="?grey_scale60" />
-                    </RelativeLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -286,10 +291,11 @@
                             />
 
                         <com.google.android.flexbox.FlexboxLayout
-                            android:layout_width="250dp"
+                            android:layout_width="280dp"
                             android:layout_height="wrap_content"
                             android:layout_columnSpan="1"
                             android:layout_rowSpan="1"
+
                             app:flexWrap="wrap"
                             app:justifyContent="flex_start"
                             app:alignContent="center"
@@ -493,43 +499,43 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/dimen4"
-                            android:theme="@style/Theme.Bds.Tag.Line.Primary.Small"
+                            android:theme="@style/Theme.Bds.Tag.Line.Primary.Medium"
                             app:bds_text="#샤워실 포함" />
                         <com.depromeet.bds.component.BdsTag
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/dimen4"
-                            android:theme="@style/Theme.Bds.Tag.Line.Primary.Small"
+                            android:theme="@style/Theme.Bds.Tag.Line.Primary.Medium"
                             app:bds_text="#샤워실 포함" />
                         <com.depromeet.bds.component.BdsTag
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/dimen4"
-                            android:theme="@style/Theme.Bds.Tag.Line.Primary.Small"
+                            android:theme="@style/Theme.Bds.Tag.Line.Primary.Medium"
                             app:bds_text="#샤워실 포함" />
                         <com.depromeet.bds.component.BdsTag
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/dimen4"
-                            android:theme="@style/Theme.Bds.Tag.Line.Primary.Small"
+                            android:theme="@style/Theme.Bds.Tag.Line.Primary.Medium"
                             app:bds_text="#샤워실 포함" />
                         <com.depromeet.bds.component.BdsTag
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/dimen4"
-                            android:theme="@style/Theme.Bds.Tag.Line.Primary.Small"
+                            android:theme="@style/Theme.Bds.Tag.Line.Primary.Medium"
                             app:bds_text="#샤워실 포함" />
                         <com.depromeet.bds.component.BdsTag
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/dimen4"
-                            android:theme="@style/Theme.Bds.Tag.Line.Primary.Small"
+                            android:theme="@style/Theme.Bds.Tag.Line.Primary.Medium"
                             app:bds_text="#샤워실 포함" />
                         <com.depromeet.bds.component.BdsTag
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/dimen4"
-                            android:theme="@style/Theme.Bds.Tag.Line.Primary.Small"
+                            android:theme="@style/Theme.Bds.Tag.Line.Primary.Medium"
                             app:bds_text="#샤워실 포함" />
 
                     </com.google.android.flexbox.FlexboxLayout>
@@ -581,7 +587,7 @@
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            android:text="가입날Wk"
+                            android:text="가입날짜"
                             />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -605,9 +611,13 @@
                             android:textAppearance="?headline3"
                             />
                         <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/ticket_detail_rv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="@dimen/dimen16"
+                            tools:listitem="@layout/item_ticket"
+                            android:orientation="horizontal"
+                            tools:itemCount="10"
                             />
 
                     </LinearLayout>
@@ -643,6 +653,7 @@
                     />
                 <androidx.appcompat.widget.AppCompatButton
                     android:theme="@style/Theme.Bds.SecondaryButton"
+                    android:background="@drawable/bds_button_background"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/dimen48"
                     android:text="채팅하기"
@@ -653,7 +664,10 @@
                     android:layout_marginHorizontal="@dimen/dimen16"
                     android:minHeight="0dp"
                     android:minWidth="0dp"
+                    android:textColor="@color/selector_bds_button_text_color"
+
                     />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </FrameLayout>
