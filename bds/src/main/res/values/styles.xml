@@ -40,6 +40,7 @@
         <item name="error">@color/error</item>
         <item name="success">@color/success</item>
         <item name="information">@color/information</item>
+        <item name="bg10">@color/bg10</item>
 
         <item name="display1">@style/Typography.D1.Bold</item>
         <item name="display2">@style/Typography.D2.Bold</item>
