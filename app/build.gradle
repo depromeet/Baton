@@ -10,7 +10,6 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
-
 android {
 
     def keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -95,9 +94,9 @@ dependencies {
     implementation(Dep.timber)
     implementation(Dep.ballon)
     implementation(Dep.glide)
-    annotationProcessor "com.github.bumptech.glide:compiler:4.13.0"
-    implementation ("com.github.nguyenhoanglam:ImagePicker:1.5.2")
- // implementation("io.github.ParkSangGwon:tedimagepicker:1.1.10")
+    annotationProcessor(Dep.glide_compiler)
+    implementation(Dep.imagepicker)
+
     testImplementation(Dep.Test.junit)
     androidTestImplementation(Dep.AndroidTest.core)
     androidTestImplementation(Dep.AndroidTest.rules)
