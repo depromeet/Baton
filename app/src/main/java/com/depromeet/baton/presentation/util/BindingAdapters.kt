@@ -24,6 +24,7 @@ fun setWritePostPosition(view: ProgressBar, progress: Int) {
         2 -> view.progress = 50
         3 -> view.progress = 75
         4 -> view.progress = 100
+        5 -> view.progress = 100
         else -> view.progress = 0
     }
 }

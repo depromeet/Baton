@@ -7,6 +7,7 @@ import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ActivityWritePostBinding
 import com.depromeet.baton.presentation.base.BaseActivity
 import com.depromeet.baton.presentation.ui.writepost.viewmodel.WritePostViewModel
+import com.depromeet.baton.presentation.util.shortToast
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -45,11 +46,16 @@ class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activi
                     WritePostViewModel.GO_TO_MEMBERSHIP_INFO -> moveToNextLevel(MembershipformationFragment())
                     WritePostViewModel.GO_TO_TRANSACTION_METHOD -> moveToNextLevel(TransactionMethodRegisterFragment())
                     WritePostViewModel.GO_TO_DESCRIPTION -> moveToNextLevel(DescriptionFragment())
+                    WritePostViewModel.GO_TO_DONE -> {
+                        shortToast("완작 성료")  //TODO INTENT
+                        finish ()
+                    }
                 }
             }
         }
-        writePostViewModel.currentLevel.observe(this) {
-            if (it == 0) finish()
+        writePostViewModel.currentLevel.observe(this) { currentLevel ->
+            if (currentLevel == 0) finish()
+            if (currentLevel == 4) binding.btnWritePostNext.text = "완료"
         }
     }
 

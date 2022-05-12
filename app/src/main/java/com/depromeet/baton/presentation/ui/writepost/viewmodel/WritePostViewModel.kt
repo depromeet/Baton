@@ -52,6 +52,7 @@ class WritePostViewModel @Inject constructor(
                 1 -> nextLevelEvent(GO_TO_MEMBERSHIP_INFO)
                 2 -> nextLevelEvent(GO_TO_TRANSACTION_METHOD)
                 3 -> nextLevelEvent(GO_TO_DESCRIPTION)
+                4 -> nextLevelEvent(GO_TO_DONE)
             }
             _currentLevel.value = _currentLevel.value?.plus(1)
         } else {
@@ -105,5 +106,6 @@ class WritePostViewModel @Inject constructor(
         const val GO_TO_MEMBERSHIP_INFO = 2
         const val GO_TO_TRANSACTION_METHOD = 3
         const val GO_TO_DESCRIPTION = 4
+        const val GO_TO_DONE = 5
     }
 }

@@ -20,7 +20,7 @@ class TransactionMethodRegisterFragment : BaseFragment<FragmentTransactionMethod
         setToolTip()
     }
 
-    //TODO 디자인 시스템에 없음, Bds Choice Chip으로 변경
+    //TODO , Bds Choice Chip 디자인 시스템에 없음
     private fun setOnClickListener() {
         with(binding) {
             ctvTransactionMethodFace.setOnClickListener {
