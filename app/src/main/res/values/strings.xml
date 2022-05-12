@@ -93,4 +93,18 @@
     <string name ="road_address">도로명주소</string>
     <string name="locaton_permission_alert">현재 위치를 파악하기 위해 위치 권한 접근이 필요합니다</string>
 
+
+    <string-array  name="ticket_detail_bottomsheet_menu">
+        <item name = "ticket_detail_change_sales status_option">판매 상태 변경하기</item>
+        <item name = "ticket_detail_edit_option">판매 상태 변경하기</item>
+        <item name = "ticket_detail_delete_option">삭제하기</item>
+    </string-array >
+
+    <string-array  name="change_sales_status_bottomsheet_menu">
+        <item name = "ticket_detail_sale">판매중</item>
+        <item name = "ticket_detail_reserve">예약중</item>
+        <item name = "ticket_detail_completed">거래완료</item>
+    </string-array >
+
+
 </resources>
