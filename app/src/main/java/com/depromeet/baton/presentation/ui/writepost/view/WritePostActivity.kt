@@ -20,7 +20,7 @@ class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activi
         binding.writePostViewModel = writePostViewModel
 
         moveToNextLevel(PlaceRegisterFragment())
-        setNextLevel()
+        setObserve()
         setCloseWritePostOnClickListener()
         setBackBtnOnClickListener()
         setNextLevelBtnOnClickListener()
@@ -28,11 +28,7 @@ class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activi
 
     private fun setBackBtnOnClickListener() {
         binding.btnWritePostBack.setOnClickListener {
-            writePostViewModel.setNextLevel(false)
-            supportFragmentManager.popBackStack()
-        }
-        writePostViewModel.currentLevel.observe(this) {
-            if (it == 0) finish()
+            backToPreviousLevel()
         }
     }
 
@@ -42,15 +38,18 @@ class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activi
         }
     }
 
-    private fun setNextLevel() {
+    private fun setObserve() {
         writePostViewModel.viewEvent.observe(this) {
             it.getContentIfNotHandled()?.let { event ->
                 when (event) {
-                    WritePostViewModel.GO_TO_TICKET_INFO -> moveToNextLevel(TicketInformationFragment())
+                    WritePostViewModel.GO_TO_TICKET_INFO -> moveToNextLevel(MembershipformationFragment())
                     WritePostViewModel.GO_TO_TRANSACTION_METHOD -> moveToNextLevel(TransactionMethodRegisterFragment())
                     WritePostViewModel.GO_TO_DESCRIPTION -> moveToNextLevel(DescriptionFragment())
                 }
             }
+        }
+        writePostViewModel.currentLevel.observe(this) {
+            if (it == 0) finish()
         }
     }
 
@@ -62,8 +61,17 @@ class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activi
             .commit()
     }
 
+    private fun backToPreviousLevel() {
+        writePostViewModel.setNextLevel(false)
+        supportFragmentManager.popBackStack()
+    }
+
     private fun setCloseWritePostOnClickListener() {
         binding.bdsBackwardAppbarWritePost.setOnBackwardClick { finish() }
+    }
+
+    override fun onBackPressed() {
+        backToPreviousLevel()
     }
 }
 
