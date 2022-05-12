@@ -14,7 +14,7 @@ import com.depromeet.baton.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class TicketInformationFragment : BaseFragment<FragmentMembershipInformationBinding>(R.layout.fragment_membership_information) {
+class MembershipformationFragment : BaseFragment<FragmentMembershipInformationBinding>(R.layout.fragment_membership_information) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -23,7 +23,7 @@ class TicketInformationFragment : BaseFragment<FragmentMembershipInformationBind
         setTermClickListener()
     }
 
-    //판매회원권
+    //TODO Binding Adapter로 연결 판매회원권
     private fun setTicketKindClickListener() {
         with(binding) {
             bdschoiceMembershipInfoGym.setOnClickListener {
@@ -41,25 +41,27 @@ class TicketInformationFragment : BaseFragment<FragmentMembershipInformationBind
         }
     }
 
-    //TODO Choic Chip 디자인시스템에 없음  일단 button만들어서 기간제만 처리
-    @SuppressLint("ResourceAsColor")
+    //TODO 디자인 시스템에 없는 Choice Chip, CheckedTextView로 사용중/ textfield Bds로 변경
     private fun setTermClickListener() {
         with(binding) {
-            bdschoiceMembershipFixedTerm.setOnClickListener {
-                bdschoiceMembershipFixedTerm.setBackgroundResource(com.depromeet.bds.R.drawable.temp_choice_chip_background_selected)
-                bdschoiceMembershipFixedTerm.setTextColor(Color.parseColor("#0066FF"))
+            ctvMembershipFixedTerm.setOnClickListener {
+                ctvMembershipFixedTerm.toggle()
+            }
+            ctvMembershipFrequencyTerm.setOnClickListener {
+                ctvMembershipFrequencyTerm.toggle()
+            }
+            etMembershipInfoTerm.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) {
+                    etMembershipInfoTerm.setBackgroundResource(com.depromeet.bds.R.drawable.temp_textfield_chip_bacground)
+                }
             }
             etMembershipInfoPrice.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
                     etMembershipInfoPrice.setBackgroundResource(com.depromeet.bds.R.drawable.temp_textfield_chip_bacground)
                 }
             }
-            etMembershipInfoTerm.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-                if (hasFocus) {
-                    etMembershipInfoTerm.setBackgroundResource(com.depromeet.bds.R.drawable.temp_textfield_chip_bacground)
-                } else {
-                }
-            }
         }
+
+        //TODO CheckBox Bds로 변경
     }
 }

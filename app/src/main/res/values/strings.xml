@@ -107,8 +107,8 @@
     <string name="membership_information_input">남은기간/횟수 입력</string>
     <string name="membership_information_price">가격</string>
     <string name="membership_information_bargaining">가격 제안 가능</string>
-    <string name="membership_information_detail">상세 정보</string>
-    <string name="membership_information_detail_explain">선택사항</string>
+    <string name="membership_information_detail">추가옵션</string>
+    <string name="membership_information_detail_explain">(선택사항)</string>
 
     <!-- 판매글 등록-거래방법-->
     <string name="transaction_method_all">둘다 가능</string>

@@ -7,14 +7,14 @@
 
         <variable
             name="membershipInformationFragment"
-            type="com.depromeet.baton.presentation.ui.writepost.view.TicketInformationFragment" />
+            type="com.depromeet.baton.presentation.ui.writepost.view.MembershipformationFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?wh100"
-        tools:context=".presentation.ui.writepost.view.TicketInformationFragment">
+        tools:context=".presentation.ui.writepost.view.MembershipformationFragment">
 
         <ScrollView
             android:id="@+id/sv_membership_info"
@@ -122,45 +122,36 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/bdschoice_membership_fixed_term"
-                        android:layout_width="wrap_content"
+                    <CheckedTextView
+                        android:id="@+id/ctv_membership_fixed_term"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen8"
-                        android:layout_marginEnd="@dimen/dimen4"
+                        android:layout_marginEnd="@dimen/dimen8"
                         android:layout_marginBottom="@dimen/dimen36"
-                        android:background="@drawable/temp_choice_chip_bacground"
-                        android:minWidth="0dp"
-                        android:minHeight="0dp"
-                        android:paddingHorizontal="@dimen/dimen56"
+                        android:background="@drawable/temp_selector_choice_chip"
                         android:paddingVertical="@dimen/dimen8"
                         android:text="기간제"
                         android:textAlignment="center"
                         android:textAppearance="?body3"
-                        android:textColor="@color/gy70"
-                        app:layout_constraintEnd_toStartOf="@+id/bdschoice_membership_frequency_term"
+                        android:textColor="@color/selector_grey_scale70_primary50"
+                        app:layout_constraintEnd_toStartOf="@+id/ctv_membership_frequency_term"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_membership_term" />
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/bdschoice_membership_frequency_term"
+                    <CheckedTextView
+                        android:id="@+id/ctv_membership_frequency_term"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dimen4"
-                        android:background="@drawable/temp_choice_chip_bacground"
-                        android:gravity="center"
-                        android:minWidth="0dp"
-                        android:minHeight="0dp"
-                        android:paddingHorizontal="@dimen/dimen56"
+                        android:background="@drawable/temp_selector_choice_chip"
                         android:paddingVertical="@dimen/dimen8"
                         android:text="횟수제"
                         android:textAlignment="center"
                         android:textAppearance="?body3"
-                        android:textColor="@color/gy70"
+                        android:textColor="@color/selector_grey_scale70_primary50"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/bdschoice_membership_fixed_term"
-                        app:layout_constraintTop_toTopOf="@id/bdschoice_membership_fixed_term"
-                        app:layout_goneMarginStart="@dimen/dimen4" />
+                        app:layout_constraintStart_toEndOf="@id/ctv_membership_fixed_term"
+                        app:layout_constraintTop_toTopOf="@id/ctv_membership_fixed_term" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -363,7 +354,7 @@
                     <com.google.android.flexbox.FlexboxLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dimen10"
+                        android:layout_marginTop="@dimen/dimen8"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/fbl_membership_info">
 
