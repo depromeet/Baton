@@ -15,6 +15,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class BottomSheetFragment (
+    val title : String,
     var list: MutableList<CheckItem<String>>,
     var BottomSheetItem : Int,
     val itemClick: (Int) -> Unit) :
@@ -41,6 +42,8 @@ class BottomSheetFragment (
         val bottomSheet = dialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
         val behavior = BottomSheetBehavior.from<View>(bottomSheet!!)
         behavior.state = BottomSheetBehavior.STATE_DRAGGING
+
+        view?.findViewById<TextView>(R.id.bottom_sheet_title_tv).text= title
         initAdapter()
 
     }
@@ -59,6 +62,7 @@ class BottomSheetFragment (
 
     fun onClickDefaultItem(itemPos : Int){
         itemClick(itemPos)
+        dialog?.dismiss()
     }
 
     private fun initAdapter(){
