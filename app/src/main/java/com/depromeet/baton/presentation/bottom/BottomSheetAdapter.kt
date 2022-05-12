@@ -4,60 +4,84 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ItemBottomsheetBinding
-import timber.log.Timber
+import com.depromeet.baton.databinding.ItemBottomsheetCheckBinding
 
-class BottomSheetAdapter(private val itemClick: (Int) -> Unit): ListAdapter< CheckItem<String>, BottomSheetAdapter.ViewHolder>(
-    DiffUtil
-){
-    var oldCheckedPos :Int?= null
+class BottomSheetAdapter<B : ViewDataBinding>(
+    private val layout: Int,
+    private val itemClick: (Int) -> Unit
+) : ListAdapter<  CheckItem<String>, BottomSheetAdapter<B>.BottomSheetItemViewHolder<B>>
+    (DiffUtil) {
+    var oldCheckedPos: Int? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding: ItemBottomsheetBinding = DataBindingUtil.inflate(
-            LayoutInflater.from(parent.context),
-            R.layout.item_bottomsheet,
-            parent,
-            false
-        )
-        val viewHolder = ViewHolder(binding)
-        Timber.e("create")
-        binding.apply {
-            root.setOnClickListener {
-              //  binding.itemBottomsheetCheckIv.visibility = View.VISIBLE
-                itemClick(viewHolder.adapterPosition)
-            }
-        }
-        return viewHolder
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BottomSheetItemViewHolder<B> {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding: B = DataBindingUtil.inflate(layoutInflater, layout, parent, false)
+
+        return BottomSheetItemViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: BottomSheetItemViewHolder<B>, position: Int) {
         val item = getItem(position)
         holder.bind(item, position)
     }
 
 
-    inner class ViewHolder(val binding:  ItemBottomsheetBinding) :
+    inner class BottomSheetItemViewHolder<B : ViewDataBinding>(private val binding: B) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind( item: CheckItem<String>, pos : Int) {
-            Timber.e(item.toString()+"bind")
-            if(item.isChecked ==true) binding.itemBottomsheetCheckIv.visibility=View.VISIBLE
-            else binding.itemBottomsheetCheckIv.visibility=View.INVISIBLE
+        fun bind(item: CheckItem<String>, pos : Int) {
+            when (binding) {
+                //checklayout
+                is ItemBottomsheetCheckBinding -> {
 
-            binding.itemBottomsheetTv.text = item.data
+                    binding.root.setOnClickListener {
+                        itemClick(pos)
+                        binding.itemBottomsheetTv.isEnabled = true
+                    }
+
+                    if (item.isChecked == true){
+                        binding.itemBottomsheetCheckIv.visibility = View.VISIBLE
+                        binding.itemBottomsheetTv.isEnabled=true
+                    }
+                    else {
+                        binding.itemBottomsheetCheckIv.visibility = View.GONE
+                        binding.itemBottomsheetTv.isEnabled = false
+                    }
+                    binding.itemBottomsheetTv.text = item.data
+
+                }
+                //일반 레이아웃
+                is ItemBottomsheetBinding -> {
+                    binding.root.setOnClickListener {
+                        itemClick(pos)
+                    }
+                    binding.itemBottomsheetTv.text = item.data
+
+                }
+            }
         }
     }
 
     companion object {
         val DiffUtil = object : DiffUtil.ItemCallback<CheckItem<String>>() {
-            override fun areContentsTheSame(oldItem: CheckItem<String>, newItem: CheckItem<String>):Boolean{
-                return  oldItem.isChecked == newItem.isChecked && oldItem.data == newItem.data
+            override fun areContentsTheSame(
+                oldItem: CheckItem<String>,
+                newItem: CheckItem<String>
+            ): Boolean {
+                return oldItem.isChecked == newItem.isChecked && oldItem.data == newItem.data
             }
 
-            override fun areItemsTheSame(oldItem: CheckItem<String>, newItem: CheckItem<String>) :Boolean{
+            override fun areItemsTheSame(
+                oldItem: CheckItem<String>,
+                newItem: CheckItem<String>
+            ): Boolean {
                 return oldItem.isChecked == newItem.isChecked && oldItem.data == newItem.data
             }
 

@@ -8,23 +8,26 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.baton.R
+import com.depromeet.baton.databinding.ItemBottomsheetBinding
+import com.depromeet.baton.databinding.ItemBottomsheetCheckBinding
 import com.depromeet.baton.presentation.bottom.BottomSheetAdapter
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import timber.log.Timber
-import kotlin.reflect.jvm.internal.impl.util.Check
 
 class BottomSheetFragment (
     var list: MutableList<CheckItem<String>>,
+    var BottomSheetItem : Int,
     val itemClick: (Int) -> Unit) :
     BottomSheetDialogFragment() {
-    val TAG = "BOTTOM_SHEET"
-    private  var listAdapter: BottomSheetAdapter? = null
+
+    private  var checkItemAdapter : BottomSheetAdapter<ItemBottomsheetCheckBinding>? =null
+    private  var ItemAdapter : BottomSheetAdapter<ItemBottomsheetBinding>? =null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(BottomSheetDialogFragment.STYLE_NORMAL, com.depromeet.bds.R.style.BdsBottomSheetDialogTheme);
+
     }
 
     override fun onCreateView(
@@ -38,35 +41,50 @@ class BottomSheetFragment (
         val bottomSheet = dialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
         val behavior = BottomSheetBehavior.from<View>(bottomSheet!!)
         behavior.state = BottomSheetBehavior.STATE_DRAGGING
-
         initAdapter()
+
     }
 
-    fun listItemClicked(itemPos : Int){
+    fun onClickCheckItem(itemPos : Int){
         itemClick(itemPos)
-
-        val oldPos:Int?= listAdapter!!.oldCheckedPos
-        val changed = listAdapter!!.currentList.map{it.copy()}
-
+        val oldPos:Int?= checkItemAdapter!!.oldCheckedPos
+        val changed = checkItemAdapter!!.currentList.map{it.copy()}
         changed [itemPos].isChecked=true
         if(oldPos !==null)
             changed [oldPos].isChecked=false
+        checkItemAdapter!!.submitList(changed.toMutableList())
+        checkItemAdapter!!.oldCheckedPos = itemPos
 
-        listAdapter!!.submitList(changed.toMutableList())
-        listAdapter!!.oldCheckedPos = itemPos
+    }
 
-       // dialog?.dismiss()
+    fun onClickDefaultItem(itemPos : Int){
+        itemClick(itemPos)
     }
 
     private fun initAdapter(){
-        listAdapter = BottomSheetAdapter(){
-                selectedItem: Int-> listItemClicked(selectedItem)
+        when(BottomSheetItem ){
+            DEFAULT_ITEM_VIEW ->{
+                ItemAdapter= BottomSheetAdapter(DEFAULT_ITEM_VIEW ){
+                        selectedItem: Int-> onClickDefaultItem(selectedItem)
+                }
+                view?.findViewById<RecyclerView>(R.id.bottom_sheet_rv)?.adapter= ItemAdapter
+                ItemAdapter?.submitList(list.map { it.copy() }.toMutableList())
+
+            }
+
+            CHECK_ITEM_VIEW->{
+                checkItemAdapter = BottomSheetAdapter( CHECK_ITEM_VIEW){
+                        selectedItem: Int-> onClickCheckItem(selectedItem)
+                }
+                view?.findViewById<RecyclerView>(R.id.bottom_sheet_rv)?.adapter=checkItemAdapter
+                checkItemAdapter?.submitList(list.map { it.copy() }.toMutableList())
+
+            }
         }
-        setListItem(list)
-        view?.findViewById<RecyclerView>(R.id.bottom_sheet_rv)?.adapter=listAdapter
     }
 
-    fun setListItem(list : MutableList<CheckItem<String>>){
-        listAdapter?.submitList(list.map { it.copy() }.toMutableList())
+    companion object{
+        val DEFAULT_ITEM_VIEW = R.layout.item_bottomsheet
+        val CHECK_ITEM_VIEW = R.layout.item_bottomsheet_check
     }
 }

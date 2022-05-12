@@ -4,24 +4,35 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         android:gravity="center"
         >
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_marginVertical="@dimen/dimen16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/item_bottomsheet_check_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_check_line_20"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="?primary50"
+                android:visibility="gone"
+                />
             <TextView
                 android:id="@+id/item_bottomsheet_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/item_bottomsheet_check_iv"
                 android:layout_marginLeft="@dimen/dimen8"
                 app:layout_constraintTop_toTopOf="parent"
                 android:text="sample"
                 android:textAppearance="?body1"
-                android:textColor="?grey_scale90"
+                android:textColor="@color/selector_bottom_item"
                 />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </RelativeLayout>
 </layout>
