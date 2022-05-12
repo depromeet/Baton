@@ -73,12 +73,23 @@
         <item name="android:progressTint">?primary40</item>
     </style>
 
+    <!--TODO 임시 CheckBox-->
     <style name="Widget.Bds.CheckBox.Primary" parent="Widget.AppCompat.CompoundButton.CheckBox">
+
         <item name="android:minHeight">0dp</item>
         <item name="android:minWidth">0dp</item>
         <item name="android:button">@null</item>
         <item name="android:background">@drawable/selector_checkbox_default</item>
+    </style>
 
+    <!--TODO 디자인 시스템에 없는 Button-->
+    <style name="Widget.MaterialButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:button">@null</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="cornerRadius">@dimen/dimen8</item>
     </style>
 </resources>
 
