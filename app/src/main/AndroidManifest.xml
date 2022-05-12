@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.depromeet.baton" >
+    package="com.depromeet.baton">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -16,7 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
-        tools:replace="android:name" >
+        tools:replace="android:name">
         <activity
             android:name=".presentation.ui.writepost.view.WritePostActivity"
             android:exported="false" />
@@ -40,9 +40,11 @@
         <activity
             android:name=".presentation.ui.address.view.AddressActivity"
             android:exported="false" />
+        <activity android:name="com.nguyenhoanglam.imagepicker.ui.imagepicker.ImagePickerActivity"></activity>
+
         <activity
             android:name=".presentation.main.MainActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -53,7 +55,7 @@
         <service
             android:name=".FirebaseMessagingService"
             android:enabled="true"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

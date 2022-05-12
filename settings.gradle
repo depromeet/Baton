@@ -4,6 +4,7 @@ pluginManagement {
         google()
         mavenCentral()
         maven{ url "https://naver.jfrog.io/artifactory/maven/" }
+        maven { url 'https://jitpack.io' }
     }
 }
 dependencyResolutionManagement {
@@ -12,8 +13,10 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven{ url "https://naver.jfrog.io/artifactory/maven/" }
+        maven { url 'https://jitpack.io' }
     }
 }
+
 rootProject.name = "Baton"
 include ':app'
 include ':bds'

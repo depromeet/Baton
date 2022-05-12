@@ -1,5 +1,6 @@
 package com.depromeet.baton.presentation.ui.writepost.viewmodel
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -11,6 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import retrofit2.http.Url
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -36,6 +38,10 @@ class WritePostViewModel @Inject constructor(
     //검색 결과 리스트
     private val _shopInfoList = MutableStateFlow<List<ShopInfo>>(ArrayList())
     val shopInfoList: StateFlow<List<ShopInfo>> = _shopInfoList.asStateFlow()
+
+    //선택한 이미지 리스트
+    private val _selectedPhotoList = MutableLiveData<MutableList<Uri>>()
+    val selectedPhotoList: LiveData<MutableList<Uri>> = _selectedPhotoList
 
     //글자 수 저장
     private val _currentTextLength = MutableLiveData(0)
@@ -90,6 +96,10 @@ class WritePostViewModel @Inject constructor(
 
     fun setCurrentTextLength(length: Int) {
         _currentTextLength.value = length
+    }
+
+    fun setSelectedPhotoList(photoList: MutableList<Uri>) {
+        _selectedPhotoList.value = photoList
     }
 
     companion object {

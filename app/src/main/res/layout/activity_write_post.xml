@@ -45,34 +45,39 @@
             android:layout_marginHorizontal="@dimen/dimen16"
             android:layout_marginTop="@dimen/dimen20"
             android:layout_marginBottom="@dimen/dimen16"
-            app:layout_constraintBottom_toTopOf="@+id/bds_button_back"
+            app:layout_constraintBottom_toTopOf="@+id/btn_write_post_back"
             app:layout_constraintTop_toTopOf="@id/progressbar_write_post" />
 
-        <com.depromeet.bds.component.BdsButton
-            android:id="@+id/bds_button_back"
-            android:layout_width="wrap_content"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_write_post_back"
+            style="@style/Widget.MaterialButton"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/bds_button_background"
-            android:paddingHorizontal="@dimen/dimen32"
-            android:theme="@style/Theme.Bds.TertiaryButton.Large"
-            app:bds_text="@string/write_post_back"
-            app:isEnabled="true"
+            android:backgroundTint="?bg10"
+            android:paddingVertical="@dimen/dimen12"
+            android:text="@string/write_post_back"
+            android:textAppearance="?body1"
+            android:textColor="?grey_scale80"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_write_post_next"
             app:layout_constraintStart_toStartOf="@+id/fcv_write_post" />
 
-        <com.depromeet.bds.component.BdsButton
-            android:id="@+id/bds_buttton_place_register_next"
-            android:layout_width="wrap_content"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_write_post_next"
+            style="@style/Widget.MaterialButton"
+            android:layout_marginStart="@dimen/dimen12"
+            android:layout_width="@dimen/dimen204"
             android:layout_height="wrap_content"
-            android:background="@drawable/bds_button_background"
-            android:paddingHorizontal="@dimen/dimen68"
-            android:theme="@style/Theme.Bds.PrimaryButton.Large"
-            app:bds_text="@string/write_post_next"
-            app:isEnabled="true"
-            app:layout_constraintBottom_toBottomOf="@+id/bds_button_back"
+            android:backgroundTint="?primary50"
+            android:paddingVertical="@dimen/dimen12"
+            android:text="@string/write_post_next"
+            android:textAppearance="?body1"
+            android:textColor="?wh100"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_write_post_back"
             app:layout_constraintEnd_toEndOf="@+id/fcv_write_post"
-            app:layout_constraintTop_toTopOf="@+id/bds_button_back" />
+            app:layout_constraintStart_toEndOf="@id/btn_write_post_back"
+            app:layout_constraintTop_toTopOf="@+id/btn_write_post_back" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

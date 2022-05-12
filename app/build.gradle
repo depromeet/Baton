@@ -26,8 +26,8 @@ android {
         versionCode App.versionCode
         versionName App.versionName
 
-        buildConfigField( "String", "NAVER_SDK_CLIENT_KEY", "\"${keystoreProperties["NAVER_SDK_CLIENT_KEY"]}\"")
-        manifestPlaceholders ["NAVER_SDK_CLIENT_KEY"]= keystoreProperties["NAVER_SDK_CLIENT_KEY"].toString()
+        buildConfigField("String", "NAVER_SDK_CLIENT_KEY", "\"${keystoreProperties["NAVER_SDK_CLIENT_KEY"]}\"")
+        manifestPlaceholders["NAVER_SDK_CLIENT_KEY"] = keystoreProperties["NAVER_SDK_CLIENT_KEY"].toString()
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -94,7 +94,10 @@ dependencies {
 
     implementation(Dep.timber)
     implementation(Dep.ballon)
-
+    implementation(Dep.glide)
+    annotationProcessor "com.github.bumptech.glide:compiler:4.13.0"
+    implementation ("com.github.nguyenhoanglam:ImagePicker:1.5.2")
+ // implementation("io.github.ParkSangGwon:tedimagepicker:1.1.10")
     testImplementation(Dep.Test.junit)
     androidTestImplementation(Dep.AndroidTest.core)
     androidTestImplementation(Dep.AndroidTest.rules)

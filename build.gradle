@@ -1,6 +1,10 @@
 import com.depromeet.baton.Dep
 
 buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
     dependencies {
         classpath(Dep.Plugins.androidGradlePlugin)
         classpath(Dep.Plugins.kotlin)

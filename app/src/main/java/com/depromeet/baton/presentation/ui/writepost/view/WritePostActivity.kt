@@ -26,9 +26,8 @@ class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activi
         setNextLevelBtnOnClickListener()
     }
 
-    //TODO 뒤로가기
     private fun setBackBtnOnClickListener() {
-        binding.bdsButtonBack.setOnClickListener {
+        binding.btnWritePostBack.setOnClickListener {
             writePostViewModel.setNextLevel(false)
             supportFragmentManager.popBackStack()
         }
@@ -37,9 +36,8 @@ class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activi
         }
     }
 
-    //TODO 앞으로가기
     private fun setNextLevelBtnOnClickListener() {
-        binding.bdsButttonPlaceRegisterNext.setOnClickListener {
+        binding.btnWritePostNext.setOnClickListener {
             writePostViewModel.setNextLevel()
         }
     }

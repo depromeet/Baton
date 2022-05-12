@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="writePostViewModel"
+            type="com.depromeet.baton.presentation.ui.writepost.viewmodel.WritePostViewModel" />
+
+        <variable
             name="placeRegisterFragment"
             type="com.depromeet.baton.presentation.ui.writepost.view.PlaceRegisterFragment" />
     </data>
@@ -132,7 +136,7 @@
                         android:minWidth="0dp"
                         android:paddingHorizontal="@dimen/dimen2"
                         android:paddingVertical="@dimen/dimen14"
-                        android:text="0/5"
+                        android:text="@{@string/photoSizeFormat(writePostViewModel.selectedPhotoList.size)}"
                         android:textAppearance="?caption2"
                         android:textColor="?grey_scale70"
                         app:layout_constraintStart_toStartOf="parent"
@@ -165,6 +169,7 @@
                             layout="@layout/fragment_hash_tag"
                             android:textAppearance="?body3"
                             android:textColor="?grey_scale60" />
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>

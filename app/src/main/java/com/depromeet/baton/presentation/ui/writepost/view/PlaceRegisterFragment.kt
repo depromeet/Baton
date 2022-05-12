@@ -2,38 +2,47 @@ package com.depromeet.baton.presentation.ui.writepost.view
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
+import com.bumptech.glide.Glide
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentPlaceRegisterBinding
 import com.depromeet.baton.presentation.base.BaseFragment
+import com.depromeet.baton.presentation.ui.address.SearchShopRvAdapter
+import com.depromeet.baton.presentation.ui.writepost.adapter.PhotoRvAdapter
 import com.depromeet.baton.presentation.ui.writepost.viewmodel.WritePostViewModel
+import com.nguyenhoanglam.imagepicker.model.ImagePickerConfig
+import com.nguyenhoanglam.imagepicker.ui.camera.CameraModule
+import com.nguyenhoanglam.imagepicker.ui.imagepicker.registerImagePicker
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class PlaceRegisterFragment : BaseFragment<FragmentPlaceRegisterBinding>(R.layout.fragment_place_register) {
+class PlaceRegisterFragment : BaseFragment<com.depromeet.baton.databinding.FragmentPlaceRegisterBinding>(R.layout.fragment_place_register) {
     private val writePostViewModel: WritePostViewModel by activityViewModels()
+    private lateinit var photoRvAdapter: PhotoRvAdapter
 
     @SuppressLint("ResourceAsColor")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.placeRegisterFragment = this@PlaceRegisterFragment
-
+        binding.placeRegisterFragment=this
+        binding.writePostViewModel=writePostViewModel
         setSearchBar()
         selectedShopObserve()
         setPlaceRegisterClickListener()
         setPictureSelectClickListener()
+        setPhotoRvAdapter()
         setHashTagClickListener()
+        setSelectedPhtoObserve()
     }
 
     //SearchBar 초기 상태 세팅
@@ -112,7 +121,6 @@ class PlaceRegisterFragment : BaseFragment<FragmentPlaceRegisterBinding>(R.layou
         }
     }
 
-    //TODO 사진 선택->갤러리
     //TODO 1.선택하기 누르면
     private fun setPictureSelectClickListener() {
         binding.ibtnPlaceRegister.setOnClickListener {
@@ -135,25 +143,44 @@ class PlaceRegisterFragment : BaseFragment<FragmentPlaceRegisterBinding>(R.layou
         }
     }
 
+
     private fun startProcess() {
-        val intent = Intent().apply {
-            type = "image/*"
-            action = Intent.ACTION_GET_CONTENT
-        }
-        getResultText.launch(intent)  //TODO 3.선택한거 url로 바꾸기
+        val config = ImagePickerConfig(
+            statusBarColor = "#ffffff",
+            isLightStatusBar = true,
+            toolbarColor = "#ffffff",  //툴바칼라
+            toolbarTextColor = "#25272B", //툴바 텍스트 칼라
+            toolbarIconColor = "#25272B",
+            backgroundColor = "#ffffff", //배경칼라
+            selectedIndicatorColor = "#0066FF", //선택된 인디케이터 칼라
+            isFolderMode = false, //폴더로 보일꺼냐
+            isMultipleMode = true,
+            doneTitle = "확인",
+            isShowNumberIndicator = true,
+            maxSize = 5,
+            folderTitle = "사진 등록",
+            limitMessage = "ㅋㅋㅋ"
+        )
+        launcher.launch(config)
     }
 
-    //4.TODO  4. img->url로 바꾸는 중, 콜백 처리/중
-    private val getResultText =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) // 이거 deprecated 되지 않았나 ?
-        { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val url = result.data?.data
-                Timber.e("$url")
-                // TODO URL로 하고싶은거
-            } else if (result.resultCode == Activity.RESULT_CANCELED) {
-            } 
+    private val launcher = registerImagePicker { images ->
+        if (images.isNotEmpty()) {
+            writePostViewModel.setSelectedPhotoList(images.map { it.uri }.toMutableList())
         }
+    }
+
+    private fun setPhotoRvAdapter() {
+        photoRvAdapter = PhotoRvAdapter(requireContext())
+        binding.rvPlaceRegister.adapter = photoRvAdapter
+    }
+
+    private fun setSelectedPhtoObserve() {
+        writePostViewModel.selectedPhotoList.observe(viewLifecycleOwner) {
+            photoRvAdapter.submitList(it)
+        }
+    }
+
 
     //TODO 5.권한 없으면 받아오기
     private fun requestPermission() {
