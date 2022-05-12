@@ -2,18 +2,12 @@ package com.depromeet.baton.presentation.ui.writepost.view
 
 import android.annotation.SuppressLint
 import android.graphics.Color
-import android.graphics.Typeface
 import android.os.Bundle
-import android.view.Gravity
 import android.view.View
-import androidx.core.content.ContextCompat
 import com.depromeet.baton.databinding.FragmentTransactionMethodBinding
 import com.depromeet.baton.presentation.base.BaseFragment
 import com.depromeet.bds.R
-import com.depromeet.bds.utils.toPx
 import com.skydoves.balloon.*
-import com.skydoves.balloon.overlay.BalloonOverlayCircle
-import com.skydoves.balloon.overlay.BalloonOverlayRoundRect
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,16 +20,17 @@ class TransactionMethodRegisterFragment : BaseFragment<FragmentTransactionMethod
         setToolTip()
     }
 
-    //TODO Choice Chip
+    //TODO 디자인 시스템에 없음, Bds Choice Chip으로 변경
     private fun setOnClickListener() {
         with(binding) {
-            btnTransactionMethodFace.setOnClickListener {
-                btnTransactionMethodFace.setBackgroundResource(com.depromeet.bds.R.drawable.temp_choice_chip_background_selected)
-                btnTransactionMethodFace.setTextColor(Color.parseColor("#0066FF"))
+            ctvTransactionMethodFace.setOnClickListener {
+                ctvTransactionMethodFace.toggle()
             }
-            btnTransactionMethodNonFace.setOnClickListener {
-                btnTransactionMethodNonFace.setBackgroundResource(com.depromeet.bds.R.drawable.temp_choice_chip_background_selected)
-                btnTransactionMethodNonFace.setTextColor(Color.parseColor("#0066FF"))
+            ctvTransactionMethodNonFace.setOnClickListener {
+                ctvTransactionMethodNonFace.toggle()
+            }
+            ctvTransactionMethodAll.setOnClickListener {
+                ctvTransactionMethodAll.toggle()
             }
         }
     }
@@ -58,7 +53,7 @@ class TransactionMethodRegisterFragment : BaseFragment<FragmentTransactionMethod
                 .setPaddingTop(10)
                 .setPaddingBottom(10)
                 .setCornerRadius(4f)
-                .setBackgroundColorResource(R.color.bg10)
+                .setBackgroundColorResource(R.color.bg)
                 .setBalloonAnimation(BalloonAnimation.ELASTIC)
                 .setLayout(com.depromeet.baton.R.layout.tooltip)
                 .setLifecycleOwner(requireActivity())
@@ -66,4 +61,6 @@ class TransactionMethodRegisterFragment : BaseFragment<FragmentTransactionMethod
             balloon.showAsDropDown(binding.tvTransactionMethodInfo, 0, 0) //밑에서 뜨게
         }
     }
+
+    //TODO CheckBox Bds로 변경
 }
