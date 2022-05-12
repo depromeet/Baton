@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import retrofit2.http.Url
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -50,7 +49,7 @@ class WritePostViewModel @Inject constructor(
     fun setNextLevel(nextLevel: Boolean = true) {
         if (nextLevel) { //다음버튼
             when (_currentLevel.value) {
-                1 -> nextLevelEvent(GO_TO_TICKET_INFO)
+                1 -> nextLevelEvent(GO_TO_MEMBERSHIP_INFO)
                 2 -> nextLevelEvent(GO_TO_TRANSACTION_METHOD)
                 3 -> nextLevelEvent(GO_TO_DESCRIPTION)
             }
@@ -63,6 +62,7 @@ class WritePostViewModel @Inject constructor(
     //viewEvent관련
     private fun nextLevelEvent(level: Int) = viewEvent(level)
 
+    //TODO 데이터 collect
     fun searchPlace(query: String) {
         _shopInfoList.value = listOf(
             ShopInfo("투엑스 휘트니스 대치점", "서울 강남구 삼성로123"),
@@ -72,7 +72,6 @@ class WritePostViewModel @Inject constructor(
         )
         viewModelScope.launch {
             runCatching {
-                //TODO 데이터 collect
             }.onSuccess {
                 /*        searchShopUseCase.searchShop(query ).collect{
                             when(it){
@@ -103,9 +102,8 @@ class WritePostViewModel @Inject constructor(
     }
 
     companion object {
-        const val GO_TO_TICKET_INFO = 2
+        const val GO_TO_MEMBERSHIP_INFO = 2
         const val GO_TO_TRANSACTION_METHOD = 3
         const val GO_TO_DESCRIPTION = 4
-        const val SHOP_SELECTED = 5
     }
 }

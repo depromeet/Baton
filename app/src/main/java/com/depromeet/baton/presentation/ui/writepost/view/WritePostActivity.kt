@@ -42,7 +42,7 @@ class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activi
         writePostViewModel.viewEvent.observe(this) {
             it.getContentIfNotHandled()?.let { event ->
                 when (event) {
-                    WritePostViewModel.GO_TO_TICKET_INFO -> moveToNextLevel(MembershipformationFragment())
+                    WritePostViewModel.GO_TO_MEMBERSHIP_INFO -> moveToNextLevel(MembershipformationFragment())
                     WritePostViewModel.GO_TO_TRANSACTION_METHOD -> moveToNextLevel(TransactionMethodRegisterFragment())
                     WritePostViewModel.GO_TO_DESCRIPTION -> moveToNextLevel(DescriptionFragment())
                 }

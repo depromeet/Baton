@@ -42,7 +42,7 @@ class TransactionMethodRegisterFragment : BaseFragment<FragmentTransactionMethod
                 .setWidthRatio(1.0f)
                 .setHeight(BalloonSizeSpec.WRAP)
                 .setMarginTop(5) //꼬리랑 마진
-                .setMarginRight(8)  //마진
+                .setMarginRight(12)  //마진
                 .setMarginLeft(120)  //마진
                 .setTextSize(15f)
                 .setArrowPositionRules(ArrowPositionRules.ALIGN_ANCHOR)

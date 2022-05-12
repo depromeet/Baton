@@ -30,6 +30,7 @@ class PhotoRvAdapter(
         holder.bind(getItem(position), position)
     }
 
+    //TODO 사진 X버튼 클릭 구현
     inner class PhotoViewHolder(val binding: ItemPhotoBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Uri, position: Int) {

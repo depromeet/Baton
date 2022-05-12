@@ -22,8 +22,8 @@ class DescriptionFragment : BaseFragment<FragmentDescriptionBinding>(R.layout.fr
     private val writePostViewModel: WritePostViewModel by activityViewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setFocusListener()
         binding.writePostViewModel = writePostViewModel
+        setFocusListener()
     }
 
     //TODO TextField Bds로 변경
