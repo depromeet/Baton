@@ -55,10 +55,7 @@
 
         <activity
             android:name=".presentation.main.MainActivity"
-            android:exported="true"/>
-
-            <activity android:name=".presentation.ui.address.view.AddressActivity"
-                android:exported="true">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
