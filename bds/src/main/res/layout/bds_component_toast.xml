@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
             android:text="Hello World!"
-            android:textAppearance="?headline2"
+            android:textAppearance="?headline4"
             android:textColor="@color/wh100"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
