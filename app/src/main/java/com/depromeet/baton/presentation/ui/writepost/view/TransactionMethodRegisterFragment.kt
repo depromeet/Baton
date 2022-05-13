@@ -1,17 +1,16 @@
 package com.depromeet.baton.presentation.ui.writepost.view
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import com.depromeet.baton.databinding.FragmentTransactionMethodBinding
+import com.depromeet.baton.databinding.FragmentTransactionMethodRegisterBinding
 import com.depromeet.baton.presentation.base.BaseFragment
 import com.depromeet.bds.R
 import com.skydoves.balloon.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class TransactionMethodRegisterFragment : BaseFragment<FragmentTransactionMethodBinding>(com.depromeet.baton.R.layout.fragment_transaction_method) {
+class TransactionMethodRegisterFragment : BaseFragment<FragmentTransactionMethodRegisterBinding>(com.depromeet.baton.R.layout.fragment_transaction_method_register) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

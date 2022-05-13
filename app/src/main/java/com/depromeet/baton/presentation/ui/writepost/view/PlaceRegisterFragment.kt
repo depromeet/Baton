@@ -41,12 +41,12 @@ class PlaceRegisterFragment : BaseFragment<FragmentPlaceRegisterBinding>(R.layou
 
     //SearchBar 초기 레이아웃 상태 세팅
     private fun setInitLayout() {
-        with(binding.includeChip) {
+   /*     with(binding.includeChip) {
             tvHashtagSelectExplain.text = "(선택사항)"
             tvHashtagSelectExplain.setTextColor(ContextCompat.getColor(requireContext(), com.depromeet.bds.R.color.gy60))
             tvHashtagSelect.setTextColor(ContextCompat.getColor(requireContext(), com.depromeet.bds.R.color.gy60))
         }
-
+*/
         with(binding.includeBdsSearchbarOne) {
             searchBarEt.text = Editable.Factory.getInstance().newEditable("헬스장 이름이나 도로명 주소를 검색해주세요")
             searchBarEt.isFocusable = false
@@ -94,7 +94,7 @@ class PlaceRegisterFragment : BaseFragment<FragmentPlaceRegisterBinding>(R.layou
 
     //TODO 해시태그 선택 bindingAdapter로 구현 + ViewModel로 옮기기
     private fun setHashTagClickListener() {
-        with(binding.includeChip) {
+        with(binding) {
             bdschoiceHashtagKindTeacher.setOnClickListener {
                 bdschoiceHashtagKindTeacher.setOnAndShape(true, 0)
             }

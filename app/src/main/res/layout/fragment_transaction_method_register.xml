@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="transactionMethodRegisterFragment"
+            type="com.depromeet.baton.presentation.ui.writepost.view.TransactionMethodRegisterFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:background="?wh100"
+        tools:context=".presentation.ui.filter.view.TransactionMethodFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ctl_transaction_method"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_transaction_method"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="판매방식 선택"
+                android:textAppearance="?body3"
+                android:textColor="?grey_scale60"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <CheckedTextView
+                android:id="@+id/ctv_transaction_method_all"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen8"
+                android:layout_marginEnd="@dimen/dimen4"
+                android:layout_marginBottom="@dimen/dimen36"
+                android:background="@drawable/temp_selector_choice_chip"
+                android:paddingVertical="@dimen/dimen8"
+                android:text="@string/transaction_method_all"
+                android:textAlignment="center"
+                android:textAppearance="?body3"
+                android:textColor="@color/selector_grey_scale70_primary50"
+                app:layout_constraintTop_toBottomOf="@id/ctv_transaction_method_non_face"
+                app:layout_goneMarginEnd="@dimen/dimen4" />
+
+            <CheckedTextView
+                android:id="@+id/ctv_transaction_method_face"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen8"
+                android:layout_marginEnd="@dimen/dimen4"
+                android:layout_marginBottom="@dimen/dimen36"
+                android:background="@drawable/temp_selector_choice_chip"
+                android:paddingVertical="@dimen/dimen8"
+                android:text="@string/filter_transaction_method_select_face"
+                android:textAlignment="center"
+                android:textAppearance="?body3"
+                android:textColor="@color/selector_grey_scale70_primary50"
+                app:layout_constraintEnd_toStartOf="@id/ctv_transaction_method_non_face"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_transaction_method"
+                app:layout_goneMarginEnd="@dimen/dimen4" />
+
+            <CheckedTextView
+                android:id="@+id/ctv_transaction_method_non_face"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen4"
+                android:layout_marginTop="@dimen/dimen8"
+                android:background="@drawable/temp_selector_choice_chip"
+                android:paddingVertical="@dimen/dimen8"
+                android:text="@string/filter_transaction_method_select_non_face"
+                android:textAlignment="center"
+                android:textAppearance="?body3"
+                android:textColor="@color/selector_grey_scale70_primary50"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/ctv_transaction_method_face"
+                app:layout_constraintTop_toBottomOf="@+id/tv_transaction_method" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/iv_trasaction_method_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen10"
+            android:src="@drawable/ic_info_filled_20"
+            app:layout_constraintEnd_toStartOf="@id/tv_transaction_method_info"
+
+            app:layout_constraintTop_toBottomOf="@+id/ctl_transaction_method" />
+
+        <TextView
+            android:id="@+id/tv_transaction_method_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/transaction_method_info"
+            android:textAppearance="?caption3"
+            android:textColor="?grey_scale70"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_trasaction_method_info"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_trasaction_method_info" />
+
+        <View
+            android:id="@+id/view_transaction_method_tooltip"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:background="@color/wh100"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_transaction_method_info" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_trasaction_method_info">
+
+            <TextView
+                android:id="@+id/tv_transaction_method_refund"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="양도비"
+                android:textAppearance="?body3"
+                android:textColor="?grey_scale60"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen8"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_transaction_method_refund">
+
+                <CheckBox
+                    style="@style/Widget.Bds.CheckBox.Primary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dimen8"
+                    android:text="@string/filter_transaction_method_cost_select_seller"
+                    android:textAppearance="?body3"
+                    android:textColor="?grey_scale60" />
+
+                <CheckBox
+                    style="@style/Widget.Bds.CheckBox.Primary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/filter_transaction_method_cost_select_consumer"
+                    android:textAppearance="?body3"
+                    android:textColor="?grey_scale60" />
+
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
