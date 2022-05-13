@@ -14,7 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class BottomSheetFragment (
     val title : String,
-    var list: MutableList<MenuItem<String>>,
+    var list: MutableList<BottomMenuItem<String>>,
     var BottomSheetItem : Int,
     val itemClick: (Int) -> Unit) :
     BottomSheetDialogFragment() {
@@ -25,7 +25,7 @@ class BottomSheetFragment (
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(BottomSheetDialogFragment.STYLE_NORMAL, com.depromeet.bds.R.style.BdsBottomSheetDialogTheme);
+        setStyle(STYLE_NORMAL, com.depromeet.bds.R.style.BdsBottomSheetDialogTheme);
 
     }
 
@@ -45,7 +45,7 @@ class BottomSheetFragment (
 
     }
 
-    fun onClickCheckItem(itemPos : Int){
+    private fun onClickCheckItem(itemPos : Int){
         itemClick(itemPos)
         val oldPos:Int?= checkItemAdapter!!.oldCheckedPos
         val changed = checkItemAdapter!!.currentList.map{it.copy()}
@@ -57,7 +57,7 @@ class BottomSheetFragment (
 
     }
 
-    fun onClickDefaultItem(itemPos : Int){
+    private fun onClickDefaultItem(itemPos : Int){
         itemClick(itemPos)
         dialog?.dismiss()
     }

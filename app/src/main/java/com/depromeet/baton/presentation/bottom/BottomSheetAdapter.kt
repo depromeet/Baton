@@ -14,7 +14,7 @@ import com.depromeet.baton.databinding.ItemBottomsheetCheckBinding
 class BottomSheetAdapter<B : ViewDataBinding>(
     private val layout: Int,
     private val itemClick: (Int) -> Unit
-) : ListAdapter<  MenuItem<String>, BottomSheetAdapter<B>.BottomSheetItemViewHolder<B>>
+) : ListAdapter<  BottomMenuItem<String>, BottomSheetAdapter<B>.BottomSheetItemViewHolder<B>>
     (DiffUtil) {
     var oldCheckedPos: Int? = null
 
@@ -36,7 +36,7 @@ class BottomSheetAdapter<B : ViewDataBinding>(
 
     inner class BottomSheetItemViewHolder<B : ViewDataBinding>(private val binding: B) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: MenuItem<String>, pos : Int) {
+        fun bind(itemBottom: BottomMenuItem<String>, pos : Int) {
             when (binding) {
                 //checklayout
                 is ItemBottomsheetCheckBinding -> {
@@ -46,7 +46,7 @@ class BottomSheetAdapter<B : ViewDataBinding>(
                         binding.itemBottomsheetTv.isEnabled = true
                     }
 
-                    if (item.isChecked == true){
+                    if (itemBottom.isChecked == true){
                         binding.itemBottomsheetCheckIv.visibility = View.VISIBLE
                         binding.itemBottomsheetTv.isEnabled=true
                     }
@@ -54,7 +54,7 @@ class BottomSheetAdapter<B : ViewDataBinding>(
                         binding.itemBottomsheetCheckIv.visibility = View.GONE
                         binding.itemBottomsheetTv.isEnabled = false
                     }
-                    binding.itemBottomsheetTv.text = item.listItem
+                    binding.itemBottomsheetTv.text = itemBottom.listItem
 
                 }
                 //일반 레이아웃
@@ -62,7 +62,7 @@ class BottomSheetAdapter<B : ViewDataBinding>(
                     binding.root.setOnClickListener {
                         itemClick(pos)
                     }
-                    binding.itemBottomsheetTv.text = item.listItem
+                    binding.itemBottomsheetTv.text = itemBottom.listItem
 
                 }
             }
@@ -70,19 +70,19 @@ class BottomSheetAdapter<B : ViewDataBinding>(
     }
 
     companion object {
-        val DiffUtil = object : DiffUtil.ItemCallback<MenuItem<String>>() {
+        val DiffUtil = object : DiffUtil.ItemCallback<BottomMenuItem<String>>() {
             override fun areContentsTheSame(
-                oldItem: MenuItem<String>,
-                newItem: MenuItem<String>
+                oldItemBottom: BottomMenuItem<String>,
+                newItemBottom: BottomMenuItem<String>
             ): Boolean {
-                return oldItem.isChecked == newItem.isChecked && oldItem.listItem == newItem.listItem
+                return oldItemBottom.isChecked == newItemBottom.isChecked && oldItemBottom.listItem == newItemBottom.listItem
             }
 
             override fun areItemsTheSame(
-                oldItem: MenuItem<String>,
-                newItem: MenuItem<String>
+                oldItemBottom: BottomMenuItem<String>,
+                newItemBottom: BottomMenuItem<String>
             ): Boolean {
-                return oldItem.isChecked == newItem.isChecked && oldItem.listItem == newItem.listItem
+                return oldItemBottom.isChecked == newItemBottom.isChecked && oldItemBottom.listItem == newItemBottom.listItem
             }
 
         }
