@@ -4,17 +4,12 @@ import android.content.Intent
 import android.content.Intent.*
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.widget.Toast
-import androidx.core.os.bundleOf
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ActivityMylocationDetailBinding
 import com.depromeet.baton.presentation.base.BaseActivity
 import com.depromeet.baton.util.getAddress
 import com.depromeet.baton.util.saveDetailAddress
-import com.depromeet.bds.component.BdsSearchBar
-import com.google.android.material.internal.ContextUtils.getActivity
+import com.depromeet.bds.component.BdsToast
 import dagger.hilt.android.AndroidEntryPoint
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 
@@ -37,7 +32,7 @@ class MyLocationDetailActivity : BaseActivity<ActivityMylocationDetailBinding>(R
     private fun setListener(){
         binding.detailAddressNextBtn.setOnClickListener {
             saveDetailAddress( binding.addressDetailEt.getText())
-            Toast.makeText(this,"위치 정보가 저장되었습니다",Toast.LENGTH_SHORT).show()
+            this.BdsToast("위치 정보가 저장되었습니다", binding.detailAddressNextBtn.top).show()
             val intent = Intent(this, AddressActivity::class.java)
             intent.putExtra("isChanged",true)
             intent.setFlags(FLAG_ACTIVITY_CLEAR_TOP)
