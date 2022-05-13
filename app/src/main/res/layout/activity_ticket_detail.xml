@@ -22,6 +22,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/ticket_detail_footer"
                 android:layout_marginBottom="@dimen/dimen80"
+                android:overScrollMode="never"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -688,7 +689,7 @@
                 android:layout_gravity="bottom"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen80">
-                <CheckBox
+                <CheckedTextView
                     android:id="@+id/ticket_detail_like_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -696,8 +697,9 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:src="@drawable/selector_like"
-                    app:tint="?like"
+                    android:checkMark="@drawable/selector_like"
+                    android:checked="false"
+                    android:checkMarkTint="?like"
                     android:background="@null"
                     />
                 <androidx.appcompat.widget.AppCompatButton

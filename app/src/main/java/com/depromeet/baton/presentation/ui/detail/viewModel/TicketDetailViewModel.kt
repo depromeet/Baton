@@ -35,7 +35,7 @@ class TicketDetailViewModel @Inject constructor() : BaseViewModel() {
         _marketInfoState.value =MarketBasicInfo(
             sellerData,
             gymName = "휴메이크 휘트니스 석촌점",
-            price = "200,000d원",
+            price = "200,000원",
             canSuggest = true,
             registration_date = "22.05.02"+"가입",
             views = "260",

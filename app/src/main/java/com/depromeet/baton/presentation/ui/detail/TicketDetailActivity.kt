@@ -1,8 +1,11 @@
 package com.depromeet.baton.presentation.ui.detail
 
+import android.content.Intent
 import android.icu.lang.UCharacter
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.CheckedTextView
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -63,7 +66,6 @@ class TicketDetailActivity :BaseActivity<ActivityTicketDetailBinding>(R.layout.a
                     TicketItem("바톤휘트니스 대왕점", "헬스", "19,000원", "5일 남음", "광진구 중곡동", "12m"),
                 )
             )
-
         }
 
         //TODO : 판매자 & 구매자에 따라 화면 초기화 나누기
@@ -85,6 +87,14 @@ class TicketDetailActivity :BaseActivity<ActivityTicketDetailBinding>(R.layout.a
     }
 
 
+    private fun setLikeBtnClickListener(view: CheckedTextView) {
+        view.setOnClickListener {
+            view.toggle()
+        }
+    }
+
+
+
     private fun setObserver(){
         viewModel.uiState.observe(this, Observer{
             when(it){
@@ -103,9 +113,11 @@ class TicketDetailActivity :BaseActivity<ActivityTicketDetailBinding>(R.layout.a
 
     private fun setListener(){
 
+
         val menuList = resources.getStringArray(R.array.ticket_detail_bottomsheet_menu)
         val bottomMenu : MutableList<BottomMenuItem<String>> = menuList.map{ it -> BottomMenuItem(it)}.toMutableList()
         with(binding){
+            //메뉴버튼 bottomsheet
             ticketDetailToolbar.ticketToolbarMenuIc.setOnClickListener {
                 val bottomSheetFragment: BottomSheetFragment = BottomSheetFragment(
                     "글 메뉴", bottomMenu,
@@ -128,6 +140,14 @@ class TicketDetailActivity :BaseActivity<ActivityTicketDetailBinding>(R.layout.a
 
             ticketDetailToolbar.ticketToolbarBackIc.setOnClickListener {
                 onBackPressed()
+            }
+            //좋아요 toggle
+            setLikeBtnClickListener(ticketDetailLikeBtn)
+
+            ticketDetailUrlBtn.setOnClickListener {
+                val url = "http://naver.me/5dxygLoW"
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(intent);
             }
         }
     }
