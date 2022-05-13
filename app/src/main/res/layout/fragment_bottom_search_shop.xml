@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_bottomsheet"
+        tools:context=".presentation.ui.writepost.view.BottomSearchShopFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ctl_bottom_place_top"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen594"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <com.depromeet.bds.component.BdsSearchBar
+                android:id="@+id/bds_searchbar_bottom_place"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dimen48"
+                android:layout_marginStart="@dimen/dimen16"
+                android:layout_marginTop="@dimen/dimen12"
+                android:layout_marginEnd="@dimen/dimen12"
+                android:theme="@style/Theme.Bds.SearchBar.Secondary"
+                app:layout_constraintEnd_toStartOf="@+id/iv_bottom_search_close"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_bottom_search_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dimen16"
+                android:src="@drawable/ic_close_18"
+                app:layout_constraintBottom_toBottomOf="@+id/bds_searchbar_bottom_place"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/bds_searchbar_bottom_place" />
+
+            <View
+                android:id="@+id/view_bottom_place"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/dimen8"
+                android:background="?grey_scale40"
+                app:layout_constraintTop_toBottomOf="@id/bds_searchbar_bottom_place" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_bottom_place"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/dimen32"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toTopOf="@+id/tv_bottom_place_no_result"
+                app:layout_constraintEnd_toEndOf="@+id/iv_bottom_search_close"
+                app:layout_constraintStart_toStartOf="@+id/bds_searchbar_bottom_place"
+                app:layout_constraintTop_toBottomOf="@id/view_bottom_place"
+                tools:listitem="@layout/item_search_shop" />
+
+            <TextView
+                android:id="@+id/tv_bottom_place_no_result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen32"
+                android:layout_marginBottom="@dimen/dimen24"
+                android:background="@drawable/temp_bg_search_bar"
+                android:paddingHorizontal="@dimen/dimen14"
+                android:paddingVertical="@dimen/dimen12"
+                android:text="찾고있는 헬스장이 없나요?"
+                android:textAppearance="?body3"
+                android:textColor="?grey_scale80"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rv_bottom_place"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

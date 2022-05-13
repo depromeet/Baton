@@ -5,10 +5,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:orientation="horizontal"
-    app:bdsBackgroundColor="?bdsInputChipBackgroundColor"
-    app:bdsBorderColor="?bdsInputChipBorderColor"
-    app:bdsBorderWidth="?bdsInputChipBorderWidth"
+    app:bdsBackgroundColor="?primary5"
+    app:bdsBorderWidth="0dp"
     app:bdsRadius="@dimen/dimen24">
 
     <TextView
@@ -19,7 +17,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:textAppearance="?body3"
-        android:textColor="?bdsInputChipTextColor"
+        android:textColor="?primary50"
         tools:text="용인시 기흥구" />
 
     <ImageView
@@ -29,5 +27,5 @@
         android:layout_marginStart="2dp"
         android:layout_marginEnd="@dimen/dimen12"
         app:srcCompat="@drawable/ic_close_line_16"
-        app:tint="?bdsInputChipTextColor" />
+        app:tint="?primary50" />
 </com.depromeet.bds.component.BdsLinearLayout>

@@ -1,6 +1,10 @@
 import com.depromeet.baton.Dep
 
 buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
     dependencies {
         classpath(Dep.Plugins.androidGradlePlugin)
         classpath(Dep.Plugins.kotlin)
@@ -17,7 +21,6 @@ plugins {
     id 'com.android.library' version '7.1.0' apply false
     id 'org.jetbrains.kotlin.android' version '1.6.10' apply false
 }
-
 
 task clean(type: Delete) {
     delete rootProject.buildDir

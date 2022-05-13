@@ -10,7 +10,6 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
-
 android {
 
     def keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -26,8 +25,8 @@ android {
         versionCode App.versionCode
         versionName App.versionName
 
-        buildConfigField( "String", "NAVER_SDK_CLIENT_KEY", "\"${keystoreProperties["NAVER_SDK_CLIENT_KEY"]}\"")
-        manifestPlaceholders ["NAVER_SDK_CLIENT_KEY"]= keystoreProperties["NAVER_SDK_CLIENT_KEY"].toString()
+        buildConfigField("String", "NAVER_SDK_CLIENT_KEY", "\"${keystoreProperties["NAVER_SDK_CLIENT_KEY"]}\"")
+        manifestPlaceholders["NAVER_SDK_CLIENT_KEY"] = keystoreProperties["NAVER_SDK_CLIENT_KEY"].toString()
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -65,10 +64,10 @@ dependencies {
     implementation(Dep.Android.material)
     implementation(Dep.Android.constraintLayout)
     implementation(Dep.Android.fragment)
-    implementation(Dep.Android.legacy)
     implementation(Dep.Android.flexbox)
-    implementation(Dep.keyboardListener)
 
+    implementation(Dep.CustomLibrary.rangeSeekbar)
+    implementation(Dep.CustomLibrary.keyboardListener)
 
     implementation(Dep.Lifecycle.viewModel)
     implementation(Dep.Lifecycle.runtime)
@@ -77,6 +76,7 @@ dependencies {
 
     implementation(Dep.Dagger.hiltAndroid)
     kapt(Dep.Dagger.hiltCompiler)
+
 
     implementation(Dep.OkHttp.core)
     implementation(Dep.OkHttp.loggingInterceptor)
@@ -93,6 +93,12 @@ dependencies {
     implementation(Dep.Map.naver_sdk)
 
     implementation(Dep.timber)
+    implementation(Dep.ballon)
+    implementation(Dep.glide)
+    annotationProcessor(Dep.glide_compiler)
+    implementation(Dep.imagepicker)
+
+    implementation(Dep.stickyScrollView)
 
     testImplementation(Dep.Test.junit)
     androidTestImplementation(Dep.AndroidTest.core)

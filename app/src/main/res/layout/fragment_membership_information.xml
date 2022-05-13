@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="membershipInformationFragment"
+            type="com.depromeet.baton.presentation.ui.writepost.view.MembershipformationFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?wh100"
+        tools:context=".presentation.ui.writepost.view.MembershipformationFragment">
+
+        <ScrollView
+            android:id="@+id/sv_membership_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/ctl_membership_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/tv_membership_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/membership_information"
+                        android:textAppearance="?body3"
+                        android:textColor="?grey_scale60"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen4"
+                        android:text="@string/membership_information_explain"
+                        android:textAppearance="?caption2"
+                        android:textColor="?grey_scale60"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_membership_info"
+                        app:layout_constraintStart_toEndOf="@+id/tv_membership_info" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen8"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_membership_info">
+
+
+                        <com.depromeet.bds.component.BdsChoiceChip
+                            android:id="@+id/bdschoice_membership_info_gym"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:bds_text="@string/filter_ticket_gym"
+                            app:isOn="@{false}"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:shape="@{`outlined`}" />
+
+                        <com.depromeet.bds.component.BdsChoiceChip
+                            android:id="@+id/bdschoice_membership_info_pt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dimen8"
+                            app:bds_text="@string/filter_ticket_pt"
+                            app:isOn="@{false}"
+                            app:layout_constraintStart_toEndOf="@id/bdschoice_ticket_kind_gym"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:shape="@{`outlined`}" />
+
+                        <com.depromeet.bds.component.BdsChoiceChip
+                            android:id="@+id/bdschoice_membership_info_pilates"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dimen8"
+                            app:bds_text="필라테스"
+                            app:isOn="@{false}"
+                            app:shape="@{`outlined`}" />
+
+                        <com.depromeet.bds.component.BdsChoiceChip
+                            android:id="@+id/bdschoice_ticket_kind_etc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dimen8"
+                            app:bds_text="@string/filter_ticket_etc"
+                            app:isOn="@{false}"
+                            app:shape="@{`outlined`}" />
+                    </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/ctl_membership_term"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ctl_membership_info">
+
+                    <TextView
+                        android:id="@+id/tv_membership_term"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen24"
+                        android:text="@string/membership_information_select"
+                        android:textAppearance="?body3"
+                        android:textColor="?grey_scale60"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <CheckedTextView
+                        android:id="@+id/ctv_membership_fixed_term"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen8"
+                        android:layout_marginEnd="@dimen/dimen8"
+                        android:layout_marginBottom="@dimen/dimen36"
+                        android:background="@drawable/temp_selector_choice_chip"
+                        android:paddingVertical="@dimen/dimen8"
+                        android:text="기간제"
+                        android:textAlignment="center"
+                        android:textAppearance="?body3"
+                        android:textColor="@color/selector_grey_scale70_primary50"
+                        app:layout_constraintEnd_toStartOf="@+id/ctv_membership_frequency_term"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_membership_term" />
+
+                    <CheckedTextView
+                        android:id="@+id/ctv_membership_frequency_term"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/temp_selector_choice_chip"
+                        android:paddingVertical="@dimen/dimen8"
+                        android:text="횟수제"
+                        android:textAlignment="center"
+                        android:textAppearance="?body3"
+                        android:textColor="@color/selector_grey_scale70_primary50"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/ctv_membership_fixed_term"
+                        app:layout_constraintTop_toTopOf="@id/ctv_membership_fixed_term" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/ctl_membership_input"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ctl_membership_term">
+
+                    <TextView
+                        android:id="@+id/tv_membership_input"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen24"
+                        android:text="@string/membership_information_input"
+                        android:textAppearance="?body3"
+                        android:textColor="?grey_scale60"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <EditText
+                        android:id="@+id/et_membership_info_term"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen8"
+                        android:background="@drawable/temp_choice_chip_bacground"
+                        android:hint="잔여 기간을 입력해주세요"
+                        android:paddingHorizontal="@dimen/dimen16"
+                        android:paddingVertical="@dimen/dimen14"
+                        android:textAppearance="?body3"
+                        android:textColorHint="?grey_scale50"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_membership_input" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/ctl_membership_info_price"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ctl_membership_input">
+
+                    <TextView
+                        android:id="@+id/tv_membership_info_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen24"
+                        android:text="@string/membership_information_price"
+                        android:textAppearance="?body3"
+                        android:textColor="?grey_scale60"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <EditText
+                        android:id="@+id/et_membership_info_price"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen8"
+                        android:background="@drawable/temp_choice_chip_bacground"
+                        android:hint="원"
+                        android:paddingHorizontal="@dimen/dimen16"
+                        android:paddingVertical="@dimen/dimen14"
+                        android:textAppearance="?body3"
+                        android:textColorHint="?grey_scale50"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_membership_info_price" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox_membership_info_bargaining"
+                        style="@style/Widget.Bds.CheckBox.Primary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen8"
+                        app:layout_constraintEnd_toStartOf="@id/tv_membership_info_bargaining"
+                        app:layout_constraintTop_toBottomOf="@+id/et_membership_info_price" />
+
+                    <TextView
+                        android:id="@+id/tv_membership_info_bargaining"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/membership_information_bargaining"
+                        android:textAppearance="?caption1"
+                        android:textColor="?grey_scale60"
+                        app:layout_constraintBottom_toBottomOf="@+id/checkbox_membership_info_bargaining"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/et_membership_info_price"
+                        app:layout_constraintTop_toTopOf="@+id/checkbox_membership_info_bargaining" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen20"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ctl_membership_info_price">
+
+                    <TextView
+                        android:id="@+id/tv_membership_info_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/membership_information_detail"
+                        android:textAppearance="?body3"
+                        android:textColor="?grey_scale60"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_membership_info_detail_explain"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen4"
+                        android:text="@string/membership_information_detail_explain"
+                        android:textAppearance="?caption2"
+                        android:textColor="?grey_scale60"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_membership_info_detail"
+                        app:layout_constraintStart_toEndOf="@id/tv_membership_info_detail"
+                        app:layout_constraintTop_toTopOf="@id/tv_membership_info_detail" />
+
+                    <com.google.android.flexbox.FlexboxLayout
+                        android:id="@+id/fbl_membership_info"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen8"
+                        app:flexWrap="wrap"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_membership_info_detail">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/dimen8">
+
+                            <CheckBox
+                                android:id="@+id/checkbox_membership_info_shower_room"
+                                style="@style/Widget.Bds.CheckBox.Primary"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintEnd_toStartOf="@id/tv_membership_info_bargaining"
+                                app:layout_constraintTop_toBottomOf="@+id/et_membership_info_price" />
+
+                            <TextView
+                                android:id="@+id/tv_membership_info_shower_room"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/filter_additional_options_shower_room"
+                                android:textAppearance="?body3"
+                                android:textColor="?grey_scale60" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/dimen8">
+
+                            <CheckBox
+                                android:id="@+id/checkbox_membership_info_locker_room"
+                                style="@style/Widget.Bds.CheckBox.Primary"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:id="@+id/tv_membership_info_locker_room"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/filter_additional_options_locker_room"
+                                android:textAppearance="?body3"
+                                android:textColor="?grey_scale60"
+                                app:layout_constraintTop_toTopOf="@+id/checkbox_membership_info_bargaining" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/dimen8">
+
+                            <CheckBox
+                                android:id="@+id/checkbox_membership_info_sport_wear"
+                                style="@style/Widget.Bds.CheckBox.Primary"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:id="@+id/tv_membership_info_sport_wear"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/filter_additional_options_sport_wear"
+                                android:textAppearance="?body3"
+                                android:textColor="?grey_scale60" />
+                        </LinearLayout>
+                    </com.google.android.flexbox.FlexboxLayout>
+
+                    <com.google.android.flexbox.FlexboxLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen8"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/fbl_membership_info">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/dimen8">
+
+                            <CheckBox
+                                android:id="@+id/checkbox_membership_info_gx"
+                                style="@style/Widget.Bds.CheckBox.Primary"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:id="@+id/tv_membership_info_gx"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/filter_additional_options_gx"
+                                android:textAppearance="?body3"
+                                android:textColor="?grey_scale60" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/dimen8">
+
+                            <CheckBox
+                                android:id="@+id/checkbox_membership_info_re_transfer"
+                                style="@style/Widget.Bds.CheckBox.Primary"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:id="@+id/tv_membership_info_re_transfer"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/filter_additional_options_re_transfer"
+                                android:textAppearance="?body3"
+                                android:textColor="?grey_scale60" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <CheckBox
+                                android:id="@+id/checkbox_membership_info_refund"
+                                style="@style/Widget.Bds.CheckBox.Primary"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:id="@+id/tv_membership_info_refund"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/filter_additional_options_refund"
+                                android:textAppearance="?body3"
+                                android:textColor="?grey_scale60" />
+                        </LinearLayout>
+                    </com.google.android.flexbox.FlexboxLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+
+

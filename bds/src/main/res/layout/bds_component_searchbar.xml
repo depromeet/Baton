@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dimen48"
+    android:id="@+id/ctl_search_bar_container"
     android:background="@drawable/bds_searchbar_background"
     android:paddingHorizontal="@dimen/dimen16"
     android:focusable="true"

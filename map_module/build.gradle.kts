@@ -11,9 +11,7 @@ plugins {
     id ("kotlin-kapt")
     id ("kotlin-parcelize")
     id ("dagger.hilt.android.plugin")
-
 }
-
 
 android {
     compileSdk = App.compileSdk

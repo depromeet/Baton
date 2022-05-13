@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:insetTop="8dp">
+    <layer-list>
+        <!--시크바 배경-->
+        <item
+            android:id="@android:id/background"
+            android:height="@dimen/dimen4">
+            <shape android:shape="rectangle">
+                <solid android:color="?grey_scale40" />
+            </shape>
+        </item>
+
+        <!-- 시크바 진행 프로그레스 -->
+        <item
+            android:id="@android:id/progress"
+            android:height="@dimen/dimen4">
+            <scale android:scaleWidth="100%">
+                <shape android:shape="rectangle">
+                    <solid android:color="?primary40" />
+
+                </shape>
+            </scale>
+        </item>
+
+    </layer-list>
+</inset>
