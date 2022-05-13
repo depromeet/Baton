@@ -1,9 +1,11 @@
 package com.depromeet.baton.presentation.base
 
 import android.content.res.ColorStateList
+import android.graphics.Paint
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getColor
 import androidx.databinding.BindingAdapter
