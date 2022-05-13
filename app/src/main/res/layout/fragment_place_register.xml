@@ -195,11 +195,21 @@
                             android:id="@+id/tv_hashtag"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="해시태그 (선택사항)"
+                            android:text="해시태그"
                             android:textAppearance="?body3"
                             android:textColor="?grey_scale60"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="(선택사항)"
+                            android:textAppearance="?caption2"
+                            android:textColor="?grey_scale60"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_hashtag"
+                            app:layout_constraintStart_toEndOf="@id/tv_hashtag"
+                            app:layout_constraintTop_toTopOf="@id/tv_hashtag"/>
 
                         <com.google.android.flexbox.FlexboxLayout
                             android:layout_width="match_parent"

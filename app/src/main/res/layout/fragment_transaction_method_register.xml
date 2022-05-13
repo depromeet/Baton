@@ -39,7 +39,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen8"
-                android:layout_marginEnd="@dimen/dimen4"
                 android:layout_marginBottom="@dimen/dimen36"
                 android:background="@drawable/temp_selector_choice_chip"
                 android:paddingVertical="@dimen/dimen8"
