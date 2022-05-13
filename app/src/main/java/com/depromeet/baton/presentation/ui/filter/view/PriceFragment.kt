@@ -19,7 +19,6 @@ class PriceFragment : BaseFragment<FragmentPriceBinding>(R.layout.fragment_price
         super.onViewCreated(view, savedInstanceState)
         binding.filterViewModel = filterViewModel
         setRangeChangeListener()
-        setObserve()
         //제일 처음에 세팅해두기
         binding.bdsRangeslider.setProgress(0f, 1500000f)
     }
