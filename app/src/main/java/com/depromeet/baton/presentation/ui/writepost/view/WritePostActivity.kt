@@ -11,6 +11,7 @@ import com.depromeet.baton.presentation.base.BaseActivity
 import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
 import com.depromeet.baton.presentation.ui.writepost.viewmodel.WritePostViewModel
 import com.depromeet.baton.presentation.util.shortToast
+import com.depromeet.bds.component.BdsToast
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -48,7 +49,7 @@ class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activi
                     WritePostViewModel.GO_TO_TRANSACTION_METHOD -> moveToNextLevel(TransactionMethodRegisterFragment())
                     WritePostViewModel.GO_TO_DESCRIPTION -> moveToNextLevel(DescriptionFragment())
                     WritePostViewModel.GO_TO_DONE -> {
-                        shortToast("판매글 등록이 완료되었어요")
+                        this.BdsToast("판매글 작성이 완료됐어요",binding.btnWritePostBack.top).show()
                         startActivity(Intent(this, TicketDetailActivity::class.java))
                         finish()
                     }
