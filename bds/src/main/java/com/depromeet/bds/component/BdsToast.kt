@@ -1,5 +1,4 @@
 package com.depromeet.bds.component
-
 import android.content.Context
 import android.content.res.Resources
 import android.view.Gravity

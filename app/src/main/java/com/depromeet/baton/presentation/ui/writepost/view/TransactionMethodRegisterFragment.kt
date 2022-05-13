@@ -38,17 +38,17 @@ class TransactionMethodRegisterFragment : BaseFragment<FragmentTransactionMethod
     private fun setToolTip() {
         binding.tvTransactionMethodInfo.setOnClickListener {
             val balloon = Balloon.Builder(requireContext())
-                .setWidthRatio(1.0f)
                 .setHeight(BalloonSizeSpec.WRAP)
+                .setWidth(BalloonSizeSpec.WRAP)
                 .setMarginTop(5) //꼬리랑 마진
                 .setMarginRight(12)  //마진
-                .setMarginLeft(120)  //마진
                 .setTextSize(15f)
                 .setArrowPositionRules(ArrowPositionRules.ALIGN_ANCHOR)
                 .setArrowDrawableResource(R.drawable.ic_tooltip_subtract)
                 .setArrowSize(10)
                 .setArrowPosition(0.8f)
                 .setPaddingLeft(10)
+                .setPaddingRight(10)
                 .setPaddingTop(10)
                 .setPaddingBottom(10)
                 .setCornerRadius(4f)

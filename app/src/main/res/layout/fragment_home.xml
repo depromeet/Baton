@@ -186,17 +186,20 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/dimen16"
                     android:layout_marginTop="@dimen/dimen28"
-                    app:layout_constraintTop_toBottomOf="@id/ctl_home_banner">
+                    app:layout_constraintTop_toBottomOf="@id/ctl_home_banner"
+                    tools:layout_editor_absoluteX="16dp">
 
                     <LinearLayout
                         android:id="@+id/ll_home_specific_gym"
-                        android:layout_width="0dp"
-                        android:layout_height="72dp"
+                        android:layout_width="@dimen/dimen72"
+                        android:layout_height="@dimen/dimen72"
                         android:layout_marginBottom="@dimen/dimen4"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside"
                         android:background="@drawable/bg_home_specific"
                         android:gravity="center"
                         app:layout_constraintBottom_toTopOf="@id/tv_home_specific_gym"
-                        app:layout_constraintEnd_toStartOf="@id/ll_home_specific_pt"
+                        app:layout_constraintEnd_toStartOf="@+id/ll_home_specific_pt"
+                        app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
@@ -221,14 +224,14 @@
 
                     <LinearLayout
                         android:id="@+id/ll_home_specific_pt"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/dimen72"
                         android:layout_height="0dp"
-                        android:layout_marginStart="@dimen/dimen24"
                         android:layout_marginBottom="@dimen/dimen4"
                         android:background="@drawable/bg_home_specific"
                         android:gravity="center"
                         app:layout_constraintBottom_toTopOf="@id/tv_home_specific_pt"
                         app:layout_constraintEnd_toStartOf="@+id/ll_home_specific_pilates"
+                        app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toEndOf="@+id/ll_home_specific_gym"
                         app:layout_constraintTop_toTopOf="parent">
 
@@ -252,14 +255,14 @@
 
                     <LinearLayout
                         android:id="@+id/ll_home_specific_pilates"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/dimen72"
                         android:layout_height="0dp"
-                        android:layout_marginStart="@dimen/dimen24"
                         android:layout_marginBottom="@dimen/dimen4"
                         android:background="@drawable/bg_home_specific"
                         android:gravity="center"
                         app:layout_constraintBottom_toTopOf="@id/tv_home_specific_pilates"
                         app:layout_constraintEnd_toStartOf="@+id/ll_home_specific_etc"
+                        app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toEndOf="@+id/ll_home_specific_pt"
                         app:layout_constraintTop_toTopOf="parent">
 
@@ -284,15 +287,15 @@
 
                     <LinearLayout
                         android:id="@+id/ll_home_specific_etc"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/dimen72"
                         android:layout_height="0dp"
-                        android:layout_marginStart="@dimen/dimen24"
                         android:layout_marginBottom="@dimen/dimen4"
                         android:background="@drawable/bg_home_specific"
                         android:gravity="center"
                         app:layout_constraintBottom_toTopOf="@id/tv_home_specific_etc"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/ll_home_specific_pilates"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/ll_home_specific_pilates"
                         app:layout_constraintTop_toTopOf="parent">
 
                         <ImageView
