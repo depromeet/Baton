@@ -41,11 +41,12 @@ class SearchAddressActivity : BaseActivity<ActivitySearchAddressBinding>(R.layou
     }
 
     private fun setListener(){
-        binding.addressSearchBackIv.setOnClickListener {
+        binding.searchAddressSetLocation.setOnClickListener {
             val intent = Intent(this, MyLocationActivity::class.java)
             startActivity(intent)
             finish()
         }
+
     }
 
 

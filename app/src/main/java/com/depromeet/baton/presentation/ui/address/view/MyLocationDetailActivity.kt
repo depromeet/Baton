@@ -45,6 +45,10 @@ class MyLocationDetailActivity : BaseActivity<ActivityMylocationDetailBinding>(R
             finish()
         }
 
+        binding.detailAddressToolbar.backBtn.setOnClickListener {
+            onBackPressed()
+        }
+
         KeyboardVisibilityEvent.setEventListener(this) {
             binding.addressDetailEt.searchBarKeyBoardListener(it)
             binding.detailAddressNextBtn.isEnabled = !it

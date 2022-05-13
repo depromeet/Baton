@@ -52,51 +52,75 @@
                 android:layout_marginTop="@dimen/dimen4"
                 android:text="@{viewmodel.jibunState}"
                 />
+
             <GridLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen48"
+                android:layout_height="wrap_content"
                 android:columnCount="2"
                 android:layout_gravity="center"
                 android:useDefaultMargins="true"
                 android:layout_marginHorizontal="@dimen/dimen16"
                 android:layout_marginTop="@dimen/dimen28"
+                android:padding="0dp"
                 >
-                <com.google.android.material.button.MaterialButton
+                <LinearLayout
                     android:id="@+id/current_location_btn"
+                    android:theme="@style/Theme.Bds.TertiaryButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="@dimen/dimen12"
+                    android:backgroundTint="@color/selector_bds_button_background"
+                    android:background="@drawable/background_radius_8dp"
+                    android:clickable="true"
+                    android:gravity="center"
                     android:layout_columnWeight="1"
-                    android:layout_height="match_parent"
-                    app:cornerRadius="@dimen/dimen8"
-                    app:backgroundTint="@color/selector_tertiary_background"
-                    app:iconGravity="textStart"
-                    app:icon="@drawable/ic_my_location"
-                    app:iconTint="@color/gy80"
-                    android:textColor="@color/gy80"
-                    android:fontFamily="?body1"
-                    android:minHeight="0dp"
-                    android:minWidth="0dp"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp"
-                    android:text="현재 위치"
-                    android:clickable="false"
-                    />
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/search_location_btn"
-                    android:layout_columnWeight="1"
-                    android:layout_height="match_parent"
-                    app:cornerRadius="@dimen/dimen8"
-                    app:iconGravity="textStart"
-                    app:icon="@drawable/ic_search_line_20"
-                    app:iconTint="@color/gy80"
-                    app:backgroundTint="@color/selector_tertiary_background"
-                    android:textColor="@color/gy80"
-                    android:fontFamily="?body1"
-                    android:minHeight="0dp"
-                    android:minWidth="0dp"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp"
-                    android:text="위치검색"
+                    >
+                    <ImageView
+                        android:layout_width="@dimen/dimen20"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_my_location"
+                        app:tint="?grey_scale80"
+                        android:layout_alignRight="@id/location_tv"
+                        android:layout_marginRight="@dimen/dimen4"
+                        />
+                    <TextView
+                        android:theme="@style/Theme.Bds.TertiaryButton"
+                        android:id="@+id/location_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?body1"
+                        android:text="현재 위치"
+                        />
+                </LinearLayout>
 
-                    />
+                <LinearLayout
+                    android:id="@+id/search_location_btn"
+                    android:theme="@style/Theme.Bds.TertiaryButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingVertical="@dimen/dimen12"
+                    android:backgroundTint="@color/selector_bds_button_background"
+                    android:background="@drawable/background_radius_8dp"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:layout_columnWeight="1"
+
+                    >
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_search_line_20"
+                        app:tint="?grey_scale80"
+                        android:layout_marginRight="@dimen/dimen4"
+                        />
+                    <TextView
+                        android:theme="@style/Theme.Bds.TertiaryButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?body1"
+                        android:text="위치검색"
+                        />
+                </LinearLayout>
 
             </GridLayout>
             <View

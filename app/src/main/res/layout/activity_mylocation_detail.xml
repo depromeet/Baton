@@ -40,7 +40,7 @@
             android:layout_marginHorizontal="@dimen/dimen16"
             android:layout_marginTop="@dimen/dimen4"
             />
-        <com.depromeet.bds.component.BdsSearchBar
+        <com.depromeet.bds.component.TemporaryTextField
             android:id="@+id/address_detail_et"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen48"

@@ -13,7 +13,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toStartOf="@id/item_address_road_tv"
-        android:src="@drawable/ic_location_filled_16"
+        android:src="@drawable/ic_pin_filled_20"
         app:tint="?primary40"
         />
     <TextView
@@ -46,14 +46,15 @@
     <com.depromeet.bds.component.BdsButton
         android:id="@+id/item_address_select_btn"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/dimen32"
+        android:layout_height="wrap_content"
         android:theme="@style/Theme.Bds.OutlinedButton.Small"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/item_address_underline"
         app:bds_text="선택"
         />
     <View
+        android:id="@+id/item_address_underline"
         android:layout_width="wrap_content"
         android:layout_height="1px"
         android:paddingTop="@dimen/dimen12"
