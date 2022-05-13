@@ -50,15 +50,12 @@ class AddressActivity : BaseActivity<ActivityAddressBinding>(R.layout.activity_a
 
     override fun onResume() {
         super.onResume()
-        Timber.e( "bundle => " + this.intent.getBooleanExtra("isChanged",false).toString())
         initView()
     }
 
 
     private fun initView(){
         binding.addressToolbar.titleTv.text="위치설정"
-        binding.roadAddressTv.text= getAddress().roadAddress
-        binding.addressTv.text= "[지번]${getAddress().address}"
         binding.addressDistanceTv.text = getSearchDistance()
         binding.distanceSeekBar.setPadding(0, 0, 0, 0)
 
@@ -83,6 +80,14 @@ class AddressActivity : BaseActivity<ActivityAddressBinding>(R.layout.activity_a
         binding.searchLocationBtn.setOnClickListener {
             val intent = Intent(this, SearchAddressActivity::class.java)
             startActivity(intent)
+        }
+
+        binding.addressDoneBtn.setOnClickListener{
+            onBackPressed()
+        }
+
+        binding.addressToolbar.backBtn.setOnClickListener {
+            onBackPressed()
         }
 
 
