@@ -9,6 +9,7 @@
 
     <!--  Home Fragment  -->
     <string name="home_title_location">경기도 용인</string>
+    <string name="home_banner_title_zero">더 편리하고 빠르게 거래하는</string>
     <string name="home_banner_title_one">바통 이용법을</string>
     <string name="home_banner_title_two">안내해드려요!</string>
     <string name="home_banner_see_more">자세히 보기</string>
@@ -78,7 +79,7 @@
 
     <string name="filter_hashtag">해시태그</string>
     <string name="filter_hashtag_select">해시태그 선택</string>
-    <string name="filter_hashtag_select_explain">(최대3개)</string>
+    <string name="filter_hashtag_select_explain">(최대3개 선택 가능)</string>
     <string name="filter_hashtag_kind_teacher">&#35;친절한 선생님</string>
     <string name="filter_hashtag_systematic_lesson">&#35;체계적인 수업</string>
     <string name="filter_hashtag_customized_care">&#35;맞춤 케어</string>
@@ -86,6 +87,7 @@
     <string name="filter_hashtag_various_instruments">&#35;다양한 기구</string>
     <string name="filter_hashtag_pleasant_environment">&#35;쾌적한 환경</string>
     <string name="filter_hashtag_quiet_atmosphere">&#35;조용한 분위기</string>
+
 
     <!-- 판매글 등록-장소 등록 -->
     <string name="write_post">판매글 등록</string>
@@ -127,6 +129,12 @@
     <string name="description_hint">양도 이유, 회원권 정보, 거래방법 등을\n자세히 입력하면 빠르게 판매할 수 있어요.</string>
     <string name="descriptionFormat">%1$d/100</string>
     <string name="photoSizeFormat">%1$d/5</string>
+
+    <string name="search_option_alignment">정렬</string>
+    <string name="search_option_count">%s개</string>
+    <string name="search_option_all">전체</string>
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

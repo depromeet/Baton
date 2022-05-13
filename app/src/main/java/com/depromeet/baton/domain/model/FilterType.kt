@@ -1,7 +1,5 @@
 package com.depromeet.baton.domain.model
 
-import com.depromeet.baton.R
-
 enum class FilterType(var value: String) {
     Alignment("정렬"),
     TicketKind("양도권 종류"),

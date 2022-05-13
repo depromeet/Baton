@@ -98,6 +98,8 @@ dependencies {
     annotationProcessor(Dep.glide_compiler)
     implementation(Dep.imagepicker)
 
+    implementation(Dep.stickyScrollView)
+
     testImplementation(Dep.Test.junit)
     androidTestImplementation(Dep.AndroidTest.core)
     androidTestImplementation(Dep.AndroidTest.rules)

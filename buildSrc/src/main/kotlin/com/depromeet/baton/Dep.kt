@@ -169,4 +169,5 @@ object Dep {
     const val glide = "com.github.bumptech.glide:glide:4.13.0"
     const val glide_compiler = "com.github.bumptech.glide:compiler:4.13.0"
     const val imagepicker = "com.github.nguyenhoanglam:ImagePicker:1.5.2"
+    const val stickyScrollView="com.github.amarjain07:StickyScrollView:1.0.3"
 }
