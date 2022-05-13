@@ -54,7 +54,7 @@ class AddressActivity : BaseActivity<ActivityAddressBinding>(R.layout.activity_a
         binding.addressTv.text= "[지번]${getAddress().address}"
         binding.addressDistanceTv.text = getSearchDistance()
         binding.distanceSeekBar.setPadding(0, 0, 0, 0)
-        binding.distanceSeekBar.progress= addressViewModel.setDistanceProgress(getSearchDistance()!!)
+        binding.distanceSeekBar.setProgress( addressViewModel.setDistanceProgress(getSearchDistance()!!))
     }
 
 
@@ -77,7 +77,7 @@ class AddressActivity : BaseActivity<ActivityAddressBinding>(R.layout.activity_a
         }
 
 
-        binding.distanceSeekBar.setOnSeekBarChangeListener(object:SeekBar.OnSeekBarChangeListener{
+        binding.distanceSeekBar.addSeekbarChangeListener(object:SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if(progress <= 1000){
                      addressViewModel.distanceCalculator(progress, DistanceType.MAX1KM)
