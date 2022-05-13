@@ -40,6 +40,7 @@
                         android:background="?grey_scale30">
 
                         <FrameLayout
+                            android:background="@drawable/dummy2"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
 
@@ -47,6 +48,7 @@
                                 android:id="@+id/ticket_detail_photo_iv"
                                 android:layout_width="@dimen/dimen86"
                                 android:layout_height="@dimen/dimen86"
+                                android:visibility="gone"
                                 android:layout_gravity="center"
                                 android:src="@drawable/img_empty_health_86"
                                 app:tint="?grey_scale60" />
@@ -619,7 +621,7 @@
                             android:layout_width="@dimen/dimen40"
                             android:layout_height="@dimen/dimen40"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/empty_profile"
+                            android:src="@drawable/dummy_icon"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />

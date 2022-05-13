@@ -1,11 +1,13 @@
 package com.depromeet.baton.presentation.ui.writepost.view
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ActivityWritePostBinding
 import com.depromeet.baton.presentation.base.BaseActivity
+import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
 import com.depromeet.baton.presentation.ui.writepost.viewmodel.WritePostViewModel
 import com.depromeet.baton.presentation.util.shortToast
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,8 +49,9 @@ class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activi
                     WritePostViewModel.GO_TO_TRANSACTION_METHOD -> moveToNextLevel(TransactionMethodRegisterFragment())
                     WritePostViewModel.GO_TO_DESCRIPTION -> moveToNextLevel(DescriptionFragment())
                     WritePostViewModel.GO_TO_DONE -> {
-                        shortToast("완작 성료")  //TODO INTENT
-                        finish ()
+                        shortToast("판매글 등록이 완료되었어요")
+                        startActivity(Intent(this, TicketDetailActivity::class.java))
+                        finish()
                     }
                 }
             }

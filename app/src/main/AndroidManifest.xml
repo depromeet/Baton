@@ -19,7 +19,8 @@
         tools:replace="android:name">
         <activity
             android:name=".presentation.ui.writepost.view.WritePostActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
 
         <meta-data
             android:name="com.google.android.gms.version"

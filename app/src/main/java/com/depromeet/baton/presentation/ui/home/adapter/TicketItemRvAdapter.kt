@@ -64,6 +64,11 @@ class TicketItemRvAdapter(
                 root.setOnClickListener {
                     clickListener(item)
                 }
+
+                //todo 중간발표용 하트 클릭
+                if(position==2 || position==5){
+                    ctvItemTicketLike.isChecked=true
+                }
             }
         }
     }
