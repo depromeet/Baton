@@ -2,6 +2,7 @@ package com.depromeet.baton.presentation.util
 
 import android.widget.ProgressBar
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.bds.component.BdsChoiceChip
 import com.depromeet.bds.component.BdsFilter
 
@@ -28,3 +29,14 @@ fun setWritePostPosition(view: ProgressBar, progress: Int) {
         else -> view.progress = 0
     }
 }
+
+@BindingAdapter("itemDecoration")
+fun RecyclerView.bindItemDecoration(itemDecoration: RecyclerView.ItemDecoration) {
+    addItemDecoration(itemDecoration)
+}
+
+@BindingAdapter("adapter")
+fun RecyclerView.bindAdapter(adapter: RecyclerView.Adapter<*>) {
+    this.adapter = adapter
+}
+

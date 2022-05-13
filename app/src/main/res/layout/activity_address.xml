@@ -168,16 +168,12 @@
 
 
             <!--  TODO  style="@style/Widget.Baton.SeekBar"-->
-            <androidx.appcompat.widget.AppCompatSeekBar
+            <com.depromeet.bds.component.BdsSlider
                 android:id="@+id/distance_seekBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:elevation="@dimen/dimen4"
-                android:max="3000"
-                android:minWidth="0dp"
-                android:paddingLeft="0dp"
-                android:paddingRight="0dp"
-                android:progress="0" />
+                app:bds_progress="0"
+                app:bds_max="3000"/>
         </RelativeLayout>
         <com.google.android.flexbox.FlexboxLayout
             android:layout_width="match_parent"

@@ -1,0 +1,729 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.depromeet.baton.presentation.ui.detail.viewModel.TicketDetailViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/ticket_detail_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dimen80"
+                android:overScrollMode="never"
+                app:layout_constraintBottom_toTopOf="@id/ticket_detail_footer"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ticket_detail_toolbar">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/dimen56">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimen256"
+                        android:background="?grey_scale30">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:id="@+id/ticket_detail_photo_iv"
+                                android:layout_width="@dimen/dimen86"
+                                android:layout_height="@dimen/dimen86"
+                                android:layout_gravity="center"
+                                android:src="@drawable/img_empty_health_86"
+                                app:tint="?grey_scale60" />
+
+                            <LinearLayout
+                                android:id="@+id/ticket_detail_status_reserve"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="?dim"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:visibility="gone">
+
+                                <ImageView
+                                    android:layout_width="@dimen/dimen86"
+                                    android:layout_height="@dimen/dimen86"
+                                    android:src="@drawable/ic_time_line_48"
+                                    app:tint="?wh100" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="예약중"
+                                    android:textAppearance="?headline2"
+                                    android:textColor="?wh100" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/ticket_detail_status_soldout"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="?dim"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:visibility="gone">
+
+                                <ImageView
+                                    android:layout_width="@dimen/dimen86"
+                                    android:layout_height="@dimen/dimen86"
+                                    android:src="@drawable/ic_check_circle_line_48"
+                                    app:tint="?wh100" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="판매완료"
+                                    android:textAppearance="?headline2"
+                                    android:textColor="?wh100" />
+
+                            </LinearLayout>
+
+                        </FrameLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/dimen16">
+
+                        <TextView
+                            android:id="@+id/ticket_detail_gym_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{viewmodel.marketInfoState.gymName}"
+                            android:textAppearance="?headline2"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/ticket_detail_price_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen2"
+                            android:text="@{viewmodel.marketInfoState.price}"
+                            android:textAppearance="?display4"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/ticket_detail_gym_tv" />
+
+                        <TextView
+                            android:id="@+id/ticket_detail_suggest_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dimen8"
+                            android:paddingBottom="@dimen/dimen4"
+                            android:text="@{viewmodel.marketInfoState.canSuggest ? viewmodel.POSSIBLE : viewmodel.IMPOSSIBLE }"
+                            android:textAppearance="?caption4"
+                            android:textColor="?secondary50"
+                            app:layout_constraintBottom_toBottomOf="@id/ticket_detail_price_tv"
+                            app:layout_constraintStart_toEndOf="@id/ticket_detail_price_tv" />
+
+                        <ImageButton
+                            android:id="@+id/ticket_detail_url_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/ic_link_line_24"
+                            app:layout_constraintStart_toEndOf="@id/ticket_detail_gym_tv"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <com.google.android.flexbox.FlexboxLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/dimen16"
+                        app:justifyContent="space_between">
+
+                        <LinearLayout
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingStart="@dimen/dimen2"
+                                android:src="@drawable/ic_view_filled_16"
+                                app:tint="?grey_scale50" />
+
+                            <TextView
+                                android:id="@+id/ticket_detail_views_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{viewmodel.marketInfoState.views}"
+                                android:textAppearance="?caption1" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dimen8"
+                                android:paddingStart="@dimen/dimen2"
+                                android:src="@drawable/ic_like_filled_16"
+                                app:tint="?grey_scale50" />
+
+                            <TextView
+                                android:id="@+id/ticket_detail_likes_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{viewmodel.marketInfoState.likes}"
+                                android:textAppearance="?caption1" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="@dimen/dimen4"
+                                android:text="판매 등록일"
+                                android:textAppearance="?caption4"
+                                android:textColor="?grey_scale60" />
+
+                            <TextView
+                                android:id="@+id/ticket_detail_registration_date_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{viewmodel.marketInfoState.registration_date}"
+                                android:textAppearance="?caption4"
+                                android:textColor="?grey_scale60" />
+
+                        </LinearLayout>
+                    </com.google.android.flexbox.FlexboxLayout>
+
+                    <GridLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/dimen16"
+                        android:background="@drawable/ticket_detail_background"
+                        android:columnCount="2"
+                        android:padding="@dimen/dimen16"
+                        android:rowCount="6"
+                        android:useDefaultMargins="true">
+
+                        <TextView
+                            android:layout_rowSpan="1"
+                            android:layout_columnSpan="1"
+                            android:text="판매 종류"
+                            android:textAppearance="?caption1"
+                            android:textColor="?grey_scale60" />
+
+                        <TextView
+                            android:id="@+id/ticket_detail_ticketkind_tv"
+                            android:layout_rowSpan="1"
+                            android:layout_columnSpan="1"
+                            android:layout_marginLeft="@dimen/dimen12"
+                            android:text="헬스 회원권"
+                            android:textAppearance="?caption1"
+                            android:textColor="?grey_scale80" />
+
+                        <TextView
+                            android:layout_rowSpan="1"
+                            android:layout_columnSpan="1"
+                            android:text="남은 기간"
+                            android:textAppearance="?caption1"
+                            android:textColor="?grey_scale60" />
+
+                        <TextView
+                            android:id="@+id/ticket_detail_effective_tv"
+                            android:layout_rowSpan="1"
+                            android:layout_columnSpan="1"
+                            android:layout_marginLeft="@dimen/dimen12"
+                            android:text="60일"
+                            android:textAppearance="?caption1"
+                            android:textColor="?grey_scale80" />
+
+                        <TextView
+                            android:layout_rowSpan="2"
+                            android:layout_columnSpan="1"
+                            android:text="판매가"
+                            android:textAppearance="?caption1"
+                            android:textColor="?grey_scale60" />
+
+                        <TextView
+                            android:layout_rowSpan="1"
+                            android:layout_columnSpan="1"
+                            android:layout_marginLeft="@dimen/dimen12"
+                            android:text="@{viewmodel.marketInfoState.price}"
+                            android:textAppearance="?caption1"
+                            android:textColor="?grey_scale80" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_rowSpan="1"
+                            android:layout_columnSpan="1"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="@dimen/dimen18"
+                                android:layout_height="@dimen/dimen18"
+                                android:layout_marginRight="@dimen/dimen4"
+                                android:background="@drawable/background_radius_4dp"
+                                android:gravity="center"
+                                android:text="월"
+                                android:textAlignment="center"
+                                android:textAppearance="?caption3"
+                                android:textColor="?grey_scale70" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="100000원"
+                                android:textAppearance="?caption3" />
+
+                            >
+
+                            <TextView
+                                android:layout_width="@dimen/dimen18"
+                                android:layout_height="@dimen/dimen18"
+                                android:layout_marginLeft="@dimen/dimen8"
+                                android:layout_marginRight="@dimen/dimen4"
+                                android:background="@drawable/background_radius_4dp"
+                                android:gravity="center"
+                                android:text="일"
+                                android:textAlignment="center"
+                                android:textAppearance="?caption3"
+                                android:textColor="?grey_scale70" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="8000원"
+                                android:textAppearance="?caption3" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_rowSpan="1"
+                            android:layout_columnSpan="1"
+                            android:text="양도비"
+                            android:textAppearance="?caption1"
+                            android:textColor="?grey_scale60" />
+
+
+                        <TextView
+                            android:id="@+id/ticket_detail_transfer_tv"
+                            android:layout_rowSpan="1"
+                            android:layout_columnSpan="1"
+                            android:layout_marginLeft="@dimen/dimen12"
+                            android:text="@{viewmodel.ticketState.transferCoast}"
+                            android:textAppearance="?caption1"
+                            android:textColor="?grey_scale80" />
+
+                        <TextView
+                            android:layout_rowSpan="1"
+                            android:layout_columnSpan="1"
+                            android:text="회원권 정보"
+                            android:textAppearance="?caption1"
+                            android:textColor="?grey_scale60" />
+
+                        <com.google.android.flexbox.FlexboxLayout
+                            android:id="@+id/ticket_detail_tag_wrapper"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingRight="@dimen/dimen32"
+                            app:alignContent="center"
+                            app:flexWrap="wrap"
+                            app:justifyContent="flex_start">
+
+                            <com.depromeet.bds.component.BdsTag
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/dimen4"
+                                android:theme="@style/Theme.Bds.Tag.Default.Primary.Medium"
+                                app:bds_text="락카룸 포함" />
+
+                            <com.depromeet.bds.component.BdsTag
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/dimen4"
+                                android:theme="@style/Theme.Bds.Tag.Default.Primary.Medium"
+                                app:bds_text="운동복 포함" />
+
+                            <com.depromeet.bds.component.BdsTag
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/dimen4"
+                                android:theme="@style/Theme.Bds.Tag.Default.Primary.Medium"
+                                app:bds_text="샤워실 포함" />
+
+                            <com.depromeet.bds.component.BdsTag
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/dimen4"
+                                android:theme="@style/Theme.Bds.Tag.Default.Primary.Medium"
+                                app:bds_text="GX포함" />
+
+
+                            <com.depromeet.bds.component.BdsTag
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/dimen4"
+                                android:theme="@style/Theme.Bds.Tag.Default.Primary.Medium"
+                                app:bds_text="재양도 가능" />
+
+                            <com.depromeet.bds.component.BdsTag
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/dimen4"
+                                android:theme="@style/Theme.Bds.Tag.Default.Primary.Medium"
+                                app:bds_text="환불 가능" />
+
+
+                        </com.google.android.flexbox.FlexboxLayout>
+                    </GridLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimen12"
+                        android:background="?grey_scale30" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/dimen16"
+                        android:layout_marginTop="@dimen/dimen24"
+                        android:text="설명"
+                        android:textAppearance="?headline2"
+                        android:textColor="?grey_scale90" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/dimen16"
+                        android:text="@{viewmodel.marketInfoState.detailContent}"
+                        android:textAppearance="?body4" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?grey_scale40" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/dimen16"
+                        android:layout_marginTop="@dimen/dimen24"
+                        android:text="거래방법"
+                        android:textAppearance="?headline2"
+                        android:textColor="?grey_scale90" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/dimen16"
+                        android:text="현장결제/선결제 둘다 가능"
+                        android:textAppearance="?body4" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?grey_scale40" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/dimen16"
+                        android:layout_marginTop="@dimen/dimen24"
+                        android:text="헬스장 위치"
+                        android:textAppearance="?headline2"
+                        android:textColor="?grey_scale90" />
+
+                    <com.naver.maps.map.MapView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimen152"
+                        android:layout_marginHorizontal="@dimen/dimen16"
+                        android:layout_marginTop="@dimen/dimen8" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/dimen16">
+
+                        <ImageView
+                            android:id="@+id/ticket_locatoin_iv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_location_line_24"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="?grey_scale70" />
+
+                        <TextView
+                            android:id="@+id/ticket_detail_location_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{viewmodel.marketInfoState.gymName}"
+                            android:textAppearance="?headline2"
+                            app:layout_constraintStart_toEndOf="@id/ticket_locatoin_iv"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen2"
+                            android:text="현재 위치에서 100m 떨어짐"
+                            android:textAppearance="?caption3"
+                            android:textColor="?grey_scale60"
+                            app:layout_constraintStart_toStartOf="@id/ticket_detail_location_tv"
+                            app:layout_constraintTop_toBottomOf="@id/ticket_detail_location_tv" />
+
+                        <ImageButton
+                            android:id="@+id/ticket_detail_copy_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dimen4"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/ic_copy_line_16"
+                            app:layout_constraintStart_toEndOf="@id/ticket_detail_location_tv"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="?secondary50" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="복사"
+                            android:textAppearance="?caption3"
+                            android:textColor="?secondary50"
+                            app:layout_constraintStart_toEndOf="@id/ticket_detail_copy_btn"
+                            app:layout_constraintTop_toTopOf="parent"
+
+                            />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="@dimen/dimen16"
+                        android:background="?grey_scale40" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/dimen16"
+                        android:text="헬스장 추가 정보"
+                        android:textAppearance="?headline3"
+                        android:textColor="?grey_scale90" />
+
+                    <com.google.android.flexbox.FlexboxLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_rowSpan="1"
+                        android:layout_marginHorizontal="@dimen/dimen16"
+                        app:alignContent="center"
+                        app:flexWrap="wrap"
+                        app:justifyContent="flex_start"
+
+                        >
+
+                        <com.depromeet.bds.component.BdsTag
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dimen4"
+                            android:theme="@style/Theme.Bds.Tag.Line.Primary.Medium"
+                            app:bds_text="#샤워실 포함" />
+
+                        <com.depromeet.bds.component.BdsTag
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dimen4"
+                            android:theme="@style/Theme.Bds.Tag.Line.Primary.Medium"
+                            app:bds_text="#체계적인 수업" />
+
+                        <com.depromeet.bds.component.BdsTag
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dimen4"
+                            android:theme="@style/Theme.Bds.Tag.Line.Primary.Medium"
+                            app:bds_text="#맞춤 케어" />
+
+                        <com.depromeet.bds.component.BdsTag
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dimen4"
+                            android:theme="@style/Theme.Bds.Tag.Line.Primary.Medium"
+                            app:bds_text="#넓은 시설" />
+
+                        <com.depromeet.bds.component.BdsTag
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dimen4"
+                            android:theme="@style/Theme.Bds.Tag.Line.Primary.Medium"
+                            app:bds_text="#다양한 기구" />
+
+                        <com.depromeet.bds.component.BdsTag
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dimen4"
+                            android:theme="@style/Theme.Bds.Tag.Line.Primary.Medium"
+                            app:bds_text="#역세권" />
+
+                        <com.depromeet.bds.component.BdsTag
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dimen4"
+                            android:theme="@style/Theme.Bds.Tag.Line.Primary.Medium"
+                            app:bds_text="#샤람이 적은" />
+
+                    </com.google.android.flexbox.FlexboxLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="@dimen/dimen16"
+                        android:background="?grey_scale40" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/dimen16"
+                        android:text="판매자"
+                        android:textAppearance="?headline3"
+                        android:textColor="?grey_scale90" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimen40"
+                        android:layout_marginBottom="@dimen/dimen16"
+                        android:paddingHorizontal="@dimen/dimen16">
+
+                        <ImageView
+                            android:id="@+id/ticket_detail_profile_iv"
+                            android:layout_width="@dimen/dimen40"
+                            android:layout_height="@dimen/dimen40"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/empty_profile"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dimen10"
+                            android:text="@{viewmodel.marketInfoState.seller.nickname}"
+                            android:textAppearance="?body3"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/ticket_detail_profile_iv"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{viewmodel.marketInfoState.seller.joinDate}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="@dimen/dimen16"
+                        android:background="?grey_scale40" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/dimen16"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/dimen8"
+                            android:text="내 주변 양도권은 어떠세요?"
+                            android:textAppearance="?headline3" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/ticket_detail_rv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/dimen16"
+                            android:orientation="horizontal"
+                            android:overScrollMode="never"
+                            tools:listitem="@layout/item_ticket" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+            <include
+                android:id="@+id/ticket_detail_toolbar"
+                layout="@layout/ticket_header"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ticket_detail_footer"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen80"
+                android:layout_gravity="bottom"
+                android:background="?wh100">
+
+                <CheckedTextView
+                    android:id="@+id/ticket_detail_like_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen16"
+                    android:background="@null"
+                    android:checkMark="@drawable/selector_like"
+                    android:checked="false"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dimen48"
+                    android:layout_marginHorizontal="@dimen/dimen16"
+                    android:background="@drawable/bds_button_background"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:text="채팅하기"
+                    android:textColor="@color/selector_bds_button_text_color"
+                    android:theme="@style/Theme.Bds.SecondaryButton"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/ticket_detail_like_btn"
+                    app:layout_constraintTop_toTopOf="parent"
+
+                    />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </FrameLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

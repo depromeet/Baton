@@ -64,10 +64,10 @@ dependencies {
     implementation(Dep.Android.material)
     implementation(Dep.Android.constraintLayout)
     implementation(Dep.Android.fragment)
-    implementation(Dep.Android.legacy)
     implementation(Dep.Android.flexbox)
-    implementation(Dep.keyboardListener)
 
+    implementation(Dep.CustomLibrary.rangeSeekbar)
+    implementation(Dep.CustomLibrary.keyboardListener)
 
     implementation(Dep.Lifecycle.viewModel)
     implementation(Dep.Lifecycle.runtime)
@@ -76,6 +76,7 @@ dependencies {
 
     implementation(Dep.Dagger.hiltAndroid)
     kapt(Dep.Dagger.hiltCompiler)
+
 
     implementation(Dep.OkHttp.core)
     implementation(Dep.OkHttp.loggingInterceptor)

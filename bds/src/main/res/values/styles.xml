@@ -62,7 +62,6 @@
         <item name="caption3">@style/Typography.C2.Medium</item>
         <item name="caption4">@style/Typography.C2.Regular</item>
 
-
     </style>
 
     <style name="Widget.Bds.ProgressBar" parent="Widget.AppCompat.ProgressBar.Horizontal">
@@ -89,6 +88,15 @@
         <item name="android:button">@null</item>
         <item name="android:stateListAnimator">@null</item>
         <item name="cornerRadius">@dimen/dimen8</item>
+    </style>
+
+    <style name="BdsBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BdsBottomSheetStyle</item>
+    </style>
+
+    <style name="BdsBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+
     </style>
 </resources>
 

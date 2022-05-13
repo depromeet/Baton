@@ -40,7 +40,17 @@
         <activity
             android:name=".presentation.ui.address.view.AddressActivity"
             android:exported="false" />
-        <activity android:name="com.nguyenhoanglam.imagepicker.ui.imagepicker.ImagePickerActivity"></activity>
+        <activity
+            android:name="com.nguyenhoanglam.imagepicker.ui.imagepicker.ImagePickerActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".presentation.base.WebActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".presentation.ui.detail.TicketDetailActivity"
+            android:exported="false" />
 
         <activity
             android:name=".presentation.main.MainActivity"

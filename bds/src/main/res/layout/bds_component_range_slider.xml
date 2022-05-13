@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <com.jaygoo.widget.RangeSeekBar
+        android:id="@+id/bds_rangeSeekbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="1dp"
+        app:rsb_indicator_arrow_size="0dp"
+        app:rsb_min="0"
+        app:rsb_gravity="center"
+        app:rsb_indicator_background_color="@android:color/transparent"
+        app:rsb_indicator_show_mode="alwaysShow"
+        app:rsb_indicator_text_color="?wh100"
+        app:rsb_indicator_text_size="0dp"
+        app:rsb_indicator_padding_bottom="0dp"
+        app:rsb_progress_radius="0dp"
+        app:rsb_progress_height="@dimen/dimen4"
+        app:rsb_mode="range"
+        app:rsb_progress_default_color="?grey_scale40"
+        app:rsb_progress_color="?primary40"
+        app:rsb_thumb_height="33dp"
+        app:rsb_thumb_width="33dp"
+        app:rsb_thumb_drawable="@drawable/slider_pointer"/>
+
+
+
+</LinearLayout>

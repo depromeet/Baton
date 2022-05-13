@@ -134,8 +134,8 @@ object Dep {
         const val messaging = "com.google.firebase:firebase-messaging-ktx:23.0.0"
     }
 
-    const val keyboardListener = "net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.3.0"
 
+    const val keyboardListener = "net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.3.0"
     const val naver_sdk = "com.naver.maps:map-sdk:3.14.0"
 
     object Map {
@@ -154,6 +154,12 @@ object Dep {
         const val rxjava2 = "io.reactivex.rxjava2:rxjava:2.2.2"
         const val rxjava2_android = "io.reactivex.rxjava2:rxandroid:2.1.0"
         const val rxjava2_adpater = "com.squareup.retrofit2:adapter-rxjava3:2.9.0"
+    }
+
+    object CustomLibrary {
+        const val rangeSeekbar = "com.github.Jay-Goo:RangeSeekBar:v3.0.0"
+        const val keyboardListener = "net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.3.0"
+
     }
 
 
