@@ -62,4 +62,7 @@
             android:theme="@style/Theme.Bds.SearchBar.Secondary"
             app:isFilled="true"
             />
+
+
+  
  </LinearLayout>

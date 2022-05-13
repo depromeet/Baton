@@ -26,7 +26,7 @@ class SearchAddressAdapter (
         )
         val viewHolder = AddressViewHolder(binding)
         binding.apply {
-           root.setOnClickListener {
+           binding.itemAddressSelectBtn.setOnClickListener {
                 itemClick(getItem(viewHolder.adapterPosition)) //getItem()으로 아이템 가져옴
             }
         }

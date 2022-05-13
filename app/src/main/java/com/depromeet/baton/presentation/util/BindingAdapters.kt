@@ -3,7 +3,6 @@ package com.depromeet.baton.presentation.util
 import android.widget.ProgressBar
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.depromeet.bds.component.BdsActionChip
 import com.depromeet.bds.component.BdsChoiceChip
 import com.depromeet.bds.component.BdsFilter
 
