@@ -22,6 +22,7 @@ import com.depromeet.baton.util.getAddress
 import com.depromeet.baton.util.getSearchDistance
 import com.depromeet.baton.util.saveSearchDistance
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 
 @AndroidEntryPoint
@@ -47,14 +48,19 @@ class AddressActivity : BaseActivity<ActivityAddressBinding>(R.layout.activity_a
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        initView()
+    }
+
+
     private fun initView(){
         binding.addressToolbar.titleTv.text="위치설정"
-        binding.addressToolbar.nextTv.visibility= View.GONE
-        binding.roadAddressTv.text= getAddress().roadAddress
-        binding.addressTv.text= "[지번]${getAddress().address}"
         binding.addressDistanceTv.text = getSearchDistance()
         binding.distanceSeekBar.setPadding(0, 0, 0, 0)
-        binding.distanceSeekBar.setProgress( addressViewModel.setDistanceProgress(getSearchDistance()!!))
+
+        binding.distanceSeekBar.setProgress(addressViewModel.setDistanceProgress(getSearchDistance()!!))
+        if( this.intent.getBooleanExtra("isChanged",false) ) binding.addressDoneBtn.visibility = View.VISIBLE
     }
 
 
@@ -74,6 +80,14 @@ class AddressActivity : BaseActivity<ActivityAddressBinding>(R.layout.activity_a
         binding.searchLocationBtn.setOnClickListener {
             val intent = Intent(this, SearchAddressActivity::class.java)
             startActivity(intent)
+        }
+
+        binding.addressDoneBtn.setOnClickListener{
+            onBackPressed()
+        }
+
+        binding.addressToolbar.backBtn.setOnClickListener {
+            onBackPressed()
         }
 
 

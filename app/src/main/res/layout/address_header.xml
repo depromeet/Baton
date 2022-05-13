@@ -29,7 +29,7 @@
             android:textColor="?grey_scale90"
             android:textAppearance="?headline2"
             />
-        <TextView
+      <!--  <TextView
             android:id="@+id/next_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,6 +41,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            />
+            />-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 
