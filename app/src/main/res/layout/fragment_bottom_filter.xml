@@ -25,6 +25,7 @@
         tools:context=".presentation.ui.filter.view.BottomFilterFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
             android:id="@+id/ctl_bottom_filter_top"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen512"
