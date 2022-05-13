@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <variable
+            name="filterViewModel"
+            type="com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -11,6 +15,66 @@
         android:layout_height="match_parent"
         tools:context=".presentation.ui.filter.view.PriceFragment">
 
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/filter_price"
+            android:textAppearance="?body3"
+            android:textColor="?grey_scale70" />
+
+        <TextView
+            android:id="@+id/tv_price_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen8"
+            android:text="@{@string/price_range(filterViewModel.priceRange.first, filterViewModel.priceRange.second)}"
+            android:textAppearance="?headline2"
+            android:textColor="?grey_scale90"
+            app:layout_constraintStart_toStartOf="@id/tv_price"
+            app:layout_constraintTop_toBottomOf="@id/tv_price" />
+
+        <com.depromeet.bds.component.BdsRangeSlider
+            android:id="@+id/bds_rangeslider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:bds_range_max="1500000"
+            android:layout_marginTop="@dimen/dimen16"
+            app:bds_progress="20"
+            app:layout_constraintTop_toBottomOf="@id/tv_price_selected" />
+
+        <TextView
+            android:id="@+id/tv_slider_min"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen8"
+            android:text="0원"
+            android:textAppearance="?caption1"
+            android:textColor="?grey_scale60"
+            app:layout_constraintStart_toStartOf="@id/bds_rangeslider"
+            app:layout_constraintTop_toBottomOf="@id/bds_rangeslider" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="75만원"
+            android:textAppearance="?caption1"
+            android:textColor="?grey_scale60"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bds_rangeslider" />
+
+        <TextView
+            android:id="@+id/tv_slider_max"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen8"
+            android:layout_marginEnd="@dimen/dimen8"
+            android:text="150만원 이상"
+            android:textAppearance="?caption1"
+            android:textColor="?grey_scale60"
+            app:layout_constraintEnd_toEndOf="@id/bds_rangeslider"
+            app:layout_constraintTop_toBottomOf="@id/bds_rangeslider" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

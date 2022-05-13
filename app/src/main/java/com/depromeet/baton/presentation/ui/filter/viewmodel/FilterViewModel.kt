@@ -1,5 +1,7 @@
 package com.depromeet.baton.presentation.ui.filter.viewmodel
 
+import android.text.TextUtils
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.depromeet.baton.domain.model.*
@@ -8,6 +10,7 @@ import com.depromeet.baton.presentation.util.ListLiveData
 import com.depromeet.baton.presentation.util.MapListLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlin.math.round
 
 @HiltViewModel
 class FilterViewModel @Inject constructor(
@@ -105,6 +108,12 @@ class FilterViewModel @Inject constructor(
     private val _isQuietAtmosphereChecked = MutableLiveData(false)
     val isQuietAtmosphereChecked: LiveData<Boolean> = _isQuietAtmosphereChecked
 
+
+    //가격
+    private val _priceRange = MutableLiveData<Pair<String, String>>(Pair("전", "체"))
+    val priceRange: LiveData<Pair<String, String>> = _priceRange
+
+
     /*position, list관련*/
     //필터타입 순서 리스트
     val filterTypeOrderList = ListLiveData<String>()
@@ -198,11 +207,29 @@ class FilterViewModel @Inject constructor(
         setChipSatus(option, isChecked)
     }
 
+
+    fun setPrice(min: Float, max: Float) {
+        Log.d("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ", "$min" + "$max")
+        var minmin = min.toInt().toString() //12,344  1234550
+        when (minmin.length) {
+            5 -> { //만원
+                _priceRange.value = Pair(minmin.substring(0, 1) + "0000", max.toInt().toString())
+            }
+            6 -> { //십만원
+                _priceRange.value = Pair(minmin.substring(0, 2) + "0000", max.toInt().toString())
+            }
+            7->{ //십만원
+                _priceRange.value = Pair(minmin.substring(0, 3) + "0000", max.toInt().toString())
+            }
+        }
+    }
+
     private fun setChipSatus(type: Any, isChecked: Boolean) {
         updateChoiceChipCheckedStatus()
         updateFilterChipCheckedStatus()
         updateChipToFilteredChipList(type, isChecked)
     }
+
 
     //선택바뀔떄마다 해당 칩 하나라도 선택됐는지
     private fun updateFilterChipCheckedStatus() {
