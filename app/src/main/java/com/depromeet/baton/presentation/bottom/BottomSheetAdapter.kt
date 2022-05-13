@@ -14,7 +14,7 @@ import com.depromeet.baton.databinding.ItemBottomsheetCheckBinding
 class BottomSheetAdapter<B : ViewDataBinding>(
     private val layout: Int,
     private val itemClick: (Int) -> Unit
-) : ListAdapter<  CheckItem<String>, BottomSheetAdapter<B>.BottomSheetItemViewHolder<B>>
+) : ListAdapter<  MenuItem<String>, BottomSheetAdapter<B>.BottomSheetItemViewHolder<B>>
     (DiffUtil) {
     var oldCheckedPos: Int? = null
 
@@ -36,7 +36,7 @@ class BottomSheetAdapter<B : ViewDataBinding>(
 
     inner class BottomSheetItemViewHolder<B : ViewDataBinding>(private val binding: B) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: CheckItem<String>, pos : Int) {
+        fun bind(item: MenuItem<String>, pos : Int) {
             when (binding) {
                 //checklayout
                 is ItemBottomsheetCheckBinding -> {
@@ -54,7 +54,7 @@ class BottomSheetAdapter<B : ViewDataBinding>(
                         binding.itemBottomsheetCheckIv.visibility = View.GONE
                         binding.itemBottomsheetTv.isEnabled = false
                     }
-                    binding.itemBottomsheetTv.text = item.data
+                    binding.itemBottomsheetTv.text = item.listItem
 
                 }
                 //일반 레이아웃
@@ -62,7 +62,7 @@ class BottomSheetAdapter<B : ViewDataBinding>(
                     binding.root.setOnClickListener {
                         itemClick(pos)
                     }
-                    binding.itemBottomsheetTv.text = item.data
+                    binding.itemBottomsheetTv.text = item.listItem
 
                 }
             }
@@ -70,19 +70,19 @@ class BottomSheetAdapter<B : ViewDataBinding>(
     }
 
     companion object {
-        val DiffUtil = object : DiffUtil.ItemCallback<CheckItem<String>>() {
+        val DiffUtil = object : DiffUtil.ItemCallback<MenuItem<String>>() {
             override fun areContentsTheSame(
-                oldItem: CheckItem<String>,
-                newItem: CheckItem<String>
+                oldItem: MenuItem<String>,
+                newItem: MenuItem<String>
             ): Boolean {
-                return oldItem.isChecked == newItem.isChecked && oldItem.data == newItem.data
+                return oldItem.isChecked == newItem.isChecked && oldItem.listItem == newItem.listItem
             }
 
             override fun areItemsTheSame(
-                oldItem: CheckItem<String>,
-                newItem: CheckItem<String>
+                oldItem: MenuItem<String>,
+                newItem: MenuItem<String>
             ): Boolean {
-                return oldItem.isChecked == newItem.isChecked && oldItem.data == newItem.data
+                return oldItem.isChecked == newItem.isChecked && oldItem.listItem == newItem.listItem
             }
 
         }

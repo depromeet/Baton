@@ -5,18 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ItemBottomsheetBinding
 import com.depromeet.baton.databinding.ItemBottomsheetCheckBinding
-import com.depromeet.baton.presentation.bottom.BottomSheetAdapter
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class BottomSheetFragment (
     val title : String,
-    var list: MutableList<CheckItem<String>>,
+    var list: MutableList<MenuItem<String>>,
     var BottomSheetItem : Int,
     val itemClick: (Int) -> Unit) :
     BottomSheetDialogFragment() {
