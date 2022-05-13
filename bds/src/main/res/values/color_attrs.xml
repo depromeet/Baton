@@ -38,4 +38,5 @@
     <attr name="error" format="reference|color" />
     <attr name="success" format="reference|color" />
     <attr name="information" format="reference|color" />
+    <attr name="bg" format="reference|color" />
 </resources>

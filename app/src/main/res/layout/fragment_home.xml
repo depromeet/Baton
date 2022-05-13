@@ -364,6 +364,7 @@
             android:layout_marginBottom="@dimen/dimen12"
             android:backgroundTint="?primary50"
             android:src="@drawable/ic_add_line_24"
+            app:borderWidth="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:tint="@null">

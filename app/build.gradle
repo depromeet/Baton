@@ -10,7 +10,6 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
-
 android {
 
     def keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -94,6 +93,10 @@ dependencies {
     implementation(Dep.Map.naver_sdk)
 
     implementation(Dep.timber)
+    implementation(Dep.ballon)
+    implementation(Dep.glide)
+    annotationProcessor(Dep.glide_compiler)
+    implementation(Dep.imagepicker)
 
     implementation(Dep.stickyScrollView)
 

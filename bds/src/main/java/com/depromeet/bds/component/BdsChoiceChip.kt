@@ -5,6 +5,7 @@ import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
+import android.widget.LinearLayout
 import androidx.core.content.withStyledAttributes
 import com.depromeet.bds.R
 import com.depromeet.bds.databinding.BdsComponentChoiceChipBinding

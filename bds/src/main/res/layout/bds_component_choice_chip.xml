@@ -13,5 +13,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="텍스트"
-        tools:textAppearance="?body4" />
+        tools:textAppearance="?body3" />
 </FrameLayout>

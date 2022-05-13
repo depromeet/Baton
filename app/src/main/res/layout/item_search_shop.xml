@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/dimen16"
+        android:paddingVertical="@dimen/dimen12">
+
+
+        <TextView
+            android:id="@+id/tv_item_search_shop_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="sample address"
+            android:textAppearance="?body4"
+            android:textColorHint="?grey_scale90"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_item_search_shop_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen2"
+            android:text="sample address"
+            android:textAppearance="?caption2"
+            android:textColor="?grey_scale60"
+            app:layout_constraintStart_toStartOf="@id/tv_item_search_shop_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_search_shop_name" />
+
+        <TextView
+            android:id="@+id/tv_item_search_shop_address_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_place_register_photo"
+            android:paddingHorizontal="@dimen/dimen12"
+            android:paddingVertical="@dimen/dimen8"
+            android:text="선택"
+            android:textAppearance="?caption1"
+            android:textColor="?grey_scale90"
+            app:layout_constraintBottom_toBottomOf="@id/tv_item_search_shop_address"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_item_search_shop_name" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/bg">
+
+    <TextView
+        android:id="@+id/tv_tooltip_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/transaction_method_info_answer1"
+        android:textAppearance="?caption3"
+        android:textColor="?grey_scale90"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_tooltip_two"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/transaction_method_info_answer2"
+        android:textAppearance="?caption4"
+        android:textColor="?grey_scale70"
+        app:layout_constraintStart_toEndOf="@+id/tv_tooltip_one"
+        app:layout_constraintTop_toTopOf="@id/tv_tooltip_one" />
+
+    <TextView
+        android:id="@+id/tv_tooltip_three"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen4"
+        android:text="@string/transaction_method_info_answer3"
+        android:textAppearance="?caption4"
+        android:textColor="?grey_scale70"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_tooltip_two" />
+
+    <TextView
+        android:id="@+id/tv_tooltip_four"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen4"
+        android:text="@string/transaction_method_info_answer4"
+        android:textAppearance="?caption3"
+        android:textColor="?grey_scale90"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_tooltip_three" />
+
+    <TextView
+        android:id="@+id/tv_tooltip_five"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/transaction_method_info_answer5"
+        android:textAppearance="?caption4"
+        android:textColor="?grey_scale70"
+        app:layout_constraintStart_toEndOf="@id/tv_tooltip_four"
+        app:layout_constraintTop_toTopOf="@id/tv_tooltip_four" />
+
+    <TextView
+        android:id="@+id/tv_tooltip_six"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen4"
+        android:text="@string/transaction_method_info_answer6"
+        android:textAppearance="?caption4"
+        android:textColor="?grey_scale70"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_tooltip_five" />
+
+    <TextView
+        android:id="@+id/tv_tooltip_seven"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen4"
+        android:text="@string/transaction_method_info_answer7"
+        android:textAppearance="?caption4"
+        android:textColor="?secondary50"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_tooltip_six" />
+</androidx.constraintlayout.widget.ConstraintLayout>
