@@ -1,15 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="filterViewModel"
+            type="com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.ui.filter.view.TermFragment">
+        tools:context=".presentation.ui.filter.view.PriceFragment">
 
+        <TextView
+            android:id="@+id/tv_term"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="남은 횟수"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textAppearance="?body3"
+            android:textColor="?grey_scale70" />
+
+        <TextView
+            android:id="@+id/tv_term_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen8"
+            android:text="@{@string/term_range(filterViewModel.termRangeFormatted.first, filterViewModel.termRangeFormatted.second)}"
+            android:textAppearance="?headline2"
+            android:textColor="?grey_scale90"
+            android:visibility="@{filterViewModel.isTermRangeAll==true ? View.INVISIBLE : View.VISIBLE}"
+            app:layout_constraintStart_toStartOf="@id/tv_term"
+            app:layout_constraintTop_toBottomOf="@id/tv_term" />
+
+        <TextView
+            android:id="@+id/tv_term_selected_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen8"
+            android:text="전체"
+            android:textAppearance="?headline2"
+            android:textColor="?grey_scale90"
+            android:visibility="@{filterViewModel.isTermRangeAll==true ? View.VISIBLE : View.INVISIBLE}"
+            app:layout_constraintStart_toStartOf="@id/tv_term"
+            app:layout_constraintTop_toBottomOf="@id/tv_term" />
+
+        <com.depromeet.bds.component.BdsRangeSlider
+            android:id="@+id/bds_term_rangeslider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen16"
+            app:bds_progress="20"
+            app:bds_range_max="60"
+            app:layout_constraintTop_toBottomOf="@id/tv_term_selected" />
+
+        <TextView
+            android:id="@+id/tv_slider_min"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen8"
+            android:text="0원"
+            android:textAppearance="?caption1"
+            android:textColor="?grey_scale60"
+            app:layout_constraintStart_toStartOf="@id/bds_term_rangeslider"
+            app:layout_constraintTop_toBottomOf="@id/bds_term_rangeslider" />
+
+        <TextView
+            android:id="@+id/tv_term_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="30회"
+            android:textAppearance="?caption1"
+            android:textColor="?grey_scale60"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bds_term_rangeslider" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="@dimen/dimen8"
+            android:layout_marginBottom="@dimen/dimen4"
+            android:background="?grey_scale50"
+            app:layout_constraintBottom_toTopOf="@+id/tv_term_line"
+            app:layout_constraintEnd_toEndOf="@+id/tv_term_line"
+            app:layout_constraintStart_toStartOf="@+id/tv_term_line" />
+
+        <TextView
+            android:id="@+id/tv_slider_max"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen8"
+            android:layout_marginEnd="@dimen/dimen8"
+            android:text="60회 이상"
+            android:textAppearance="?caption1"
+            android:textColor="?grey_scale60"
+            app:layout_constraintEnd_toEndOf="@id/bds_term_rangeslider"
+            app:layout_constraintTop_toBottomOf="@id/bds_term_rangeslider" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

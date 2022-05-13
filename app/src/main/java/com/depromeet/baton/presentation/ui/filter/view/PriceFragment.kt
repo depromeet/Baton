@@ -20,7 +20,8 @@ class PriceFragment : BaseFragment<FragmentPriceBinding>(R.layout.fragment_price
         binding.filterViewModel = filterViewModel
         setRangeChangeListener()
         setObserve()
-        filterViewModel.priceRange.value?.let { binding.bdsRangeslider.setProgress(it.first, it.second) }
+        //제일 처음에 세팅해두기
+        binding.bdsRangeslider.setProgress(0f, 1500000f)
     }
 
 
@@ -48,12 +49,5 @@ class PriceFragment : BaseFragment<FragmentPriceBinding>(R.layout.fragment_price
             }
         }
         )
-    }
-
-    //위치 저장되어있어야함
-    private fun setObserve() {
-        filterViewModel.priceRange.observe(viewLifecycleOwner) {
-      //      binding.bdsRangeslider.setProgress(it.first, it.second)
-        }
     }
 }

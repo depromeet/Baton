@@ -11,6 +11,7 @@ import com.depromeet.baton.presentation.util.SingleLiveEvent
 import com.depromeet.baton.presentation.util.priceFormat
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlin.math.ceil
 
 @HiltViewModel
 class FilterViewModel @Inject constructor(
@@ -108,15 +109,27 @@ class FilterViewModel @Inject constructor(
     private val _isQuietAtmosphereChecked = MutableLiveData(false)
     val isQuietAtmosphereChecked: LiveData<Boolean> = _isQuietAtmosphereChecked
 
+    //기간
+    private val _termRangeFormatted = MutableLiveData<Pair<String, String>>(Pair("0", "60"))
+    val termRangeFormatted: LiveData<Pair<String, String>> = _termRangeFormatted
+
+    private val _termRange = MutableLiveData(Pair(0f, 60f))
+    val termRange: LiveData<Pair<Float, Float>> = _termRange
+
+    val isTermRangeAll = MutableLiveData<Boolean>(true)
+
+    private val isTermRangeFiltered = MutableLiveData<Boolean>()
 
     //가격
-    private val _priceRangeFormatted = MutableLiveData<Pair<String, String>>(Pair("0","15,000,000"))
+    private val _priceRangeFormatted = MutableLiveData<Pair<String, String>>(Pair("0", "15,000,000"))
     val priceRangeFormatted: LiveData<Pair<String, String>> = _priceRangeFormatted
 
-    private val _priceRange = MutableLiveData<Pair<Float, Float>>(Pair(0f, 1500000f))
+    private val _priceRange = MutableLiveData(Pair(0f, 1500000f))
     val priceRange: LiveData<Pair<Float, Float>> = _priceRange
 
-    val isPriceRangeAll = SingleLiveEvent<Boolean>()
+    val isPriceRangeAll = MutableLiveData<Boolean>(true)
+
+    private val isPriceRangeFiltered = MutableLiveData<Boolean>()
 
     /*position, list관련*/
     //필터타입 순서 리스트
@@ -149,8 +162,8 @@ class FilterViewModel @Inject constructor(
         //필터 순서, 필터 선택여부 동적관리 -> 여기서만 관리해주도록
         _filterChipList.value = mutableListOf(
             FilterType.TicketKind.value to (_isTicketKindFiltered.value ?: false),
-            FilterType.Term.value to false,
-            FilterType.Price.value to false,
+            FilterType.Term.value to (isTermRangeFiltered.value ?: false),
+            FilterType.Price.value to (isPriceRangeFiltered.value ?: false),
             FilterType.TransactionMethod.value to (_isTransactionMethodFiltered.value ?: false),
             FilterType.AdditionalOptions.value to (_isAdditionalOptionsFiltered.value ?: false),
             FilterType.HashTag.value to (_isHashTagFiltered.value ?: false),
@@ -170,6 +183,9 @@ class FilterViewModel @Inject constructor(
         additionalOptionsCheckedList.value?.clear()
         _filteredChipList.value?.clear()
         _filteredChipList.value = _filteredChipList.value
+        isPriceRangeAll.value = true  //가격 슬라이드 초기화
+        isPriceRangeFiltered.value = false
+        isTermRangeFiltered.value = false
 
         updateChoiceChipCheckedStatus()  //모든 초이스칩 초기화
         updateFilterChipCheckedStatus() //각 필터가 선택됐는지를 갱신
@@ -187,6 +203,8 @@ class FilterViewModel @Inject constructor(
     //초기화, 검색 valid 처리
     private fun updateResetAndSearchValid() {
         _isResetAndSearchValid.value = !_filteredChipList.value.isNullOrEmpty()
+                || isPriceRangeFiltered.value == true
+                || isTermRangeFiltered.value == true
     }
 
     /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ각 하위 항목 관리ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
@@ -211,16 +229,34 @@ class FilterViewModel @Inject constructor(
         setChipSatus(option, isChecked)
     }
 
+    //기간
+    fun setTerm(min: Float, max: Float) {
+        _termRange.value = Pair(min, max)
+        Log.d("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ", "$min+$max")
+        if (min == 0f && max == 60f) {  //전체 선택시
+            isTermRangeAll.value = true
+            isTermRangeFiltered.value = false
+        } else {
+            _termRangeFormatted.value = Pair(ceil(min).toInt().toString(), ceil(max).toInt().toString())
+            isTermRangeAll.value = false
+            isTermRangeFiltered.value = true
+        }
+        updateResetAndSearchValid()
+    }
 
+    //가격
     fun setPrice(min: Float, max: Float) {
         _priceRange.value = Pair(min, max)
-
+        Log.d("ㅡㅡㅡㅡㅡccㅡㅡㅡㅡㅡㅡ", "$min+$max")
         if (min == 0f && max == 1500000f) {  //전체 선택시
-            isPriceRangeAll.value=true
+            isPriceRangeAll.value = true
+            isPriceRangeFiltered.value = false
         } else {
             _priceRangeFormatted.value = Pair(priceFormat(min), priceFormat(max))
-            isPriceRangeAll.value=false
+            isPriceRangeAll.value = false
+            isPriceRangeFiltered.value = true
         }
+        updateResetAndSearchValid()
     }
 
     private fun setChipSatus(type: Any, isChecked: Boolean) {

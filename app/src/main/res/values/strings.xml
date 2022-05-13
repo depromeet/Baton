@@ -134,10 +134,8 @@
     <string name="search_option_count">%s개</string>
     <string name="search_option_all">전체</string>
     <string name="price_range">%s원 ~ %s원</string>
-=======
+    <string name="term_range">%s회 ~ %s회</string>
 
-
->>>>>>> develop
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
