@@ -1,6 +1,5 @@
 package com.depromeet.baton.presentation.ui.filter.viewmodel
 
-import android.text.TextUtils
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,9 +7,10 @@ import com.depromeet.baton.domain.model.*
 import com.depromeet.baton.presentation.base.BaseViewModel
 import com.depromeet.baton.presentation.util.ListLiveData
 import com.depromeet.baton.presentation.util.MapListLiveData
+import com.depromeet.baton.presentation.util.SingleLiveEvent
+import com.depromeet.baton.presentation.util.priceFormat
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlin.math.round
 
 @HiltViewModel
 class FilterViewModel @Inject constructor(
@@ -110,9 +110,13 @@ class FilterViewModel @Inject constructor(
 
 
     //가격
-    private val _priceRange = MutableLiveData<Pair<String, String>>(Pair("전", "체"))
-    val priceRange: LiveData<Pair<String, String>> = _priceRange
+    private val _priceRangeFormatted = MutableLiveData<Pair<String, String>>(Pair("0","15,000,000"))
+    val priceRangeFormatted: LiveData<Pair<String, String>> = _priceRangeFormatted
 
+    private val _priceRange = MutableLiveData<Pair<Float, Float>>(Pair(0f, 1500000f))
+    val priceRange: LiveData<Pair<Float, Float>> = _priceRange
+
+    val isPriceRangeAll = SingleLiveEvent<Boolean>()
 
     /*position, list관련*/
     //필터타입 순서 리스트
@@ -209,18 +213,13 @@ class FilterViewModel @Inject constructor(
 
 
     fun setPrice(min: Float, max: Float) {
-        Log.d("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ", "$min" + "$max")
-        var minmin = min.toInt().toString() //12,344  1234550
-        when (minmin.length) {
-            5 -> { //만원
-                _priceRange.value = Pair(minmin.substring(0, 1) + "0000", max.toInt().toString())
-            }
-            6 -> { //십만원
-                _priceRange.value = Pair(minmin.substring(0, 2) + "0000", max.toInt().toString())
-            }
-            7->{ //십만원
-                _priceRange.value = Pair(minmin.substring(0, 3) + "0000", max.toInt().toString())
-            }
+        _priceRange.value = Pair(min, max)
+
+        if (min == 0f && max == 1500000f) {  //전체 선택시
+            isPriceRangeAll.value=true
+        } else {
+            _priceRangeFormatted.value = Pair(priceFormat(min), priceFormat(max))
+            isPriceRangeAll.value=false
         }
     }
 

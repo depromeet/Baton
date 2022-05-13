@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="filterViewModel"
             type="com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel" />
@@ -28,9 +30,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen8"
-            android:text="@{@string/price_range(filterViewModel.priceRange.first, filterViewModel.priceRange.second)}"
+            android:text="@{@string/price_range(filterViewModel.priceRangeFormatted.first, filterViewModel.priceRangeFormatted.second)}"
             android:textAppearance="?headline2"
             android:textColor="?grey_scale90"
+            android:visibility="@{filterViewModel.isPriceRangeAll==true ? View.INVISIBLE : View.VISIBLE}"
+            app:layout_constraintStart_toStartOf="@id/tv_price"
+            app:layout_constraintTop_toBottomOf="@id/tv_price" />
+
+        <TextView
+            android:id="@+id/tv_price_selected_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen8"
+            android:text="전체"
+            android:textAppearance="?headline2"
+            android:textColor="?grey_scale90"
+            android:visibility="@{filterViewModel.isPriceRangeAll==true ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintStart_toStartOf="@id/tv_price"
             app:layout_constraintTop_toBottomOf="@id/tv_price" />
 
@@ -38,9 +53,9 @@
             android:id="@+id/bds_rangeslider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:bds_range_max="1500000"
             android:layout_marginTop="@dimen/dimen16"
             app:bds_progress="20"
+            app:bds_range_max="1500000"
             app:layout_constraintTop_toBottomOf="@id/tv_price_selected" />
 
         <TextView
