@@ -1,10 +1,14 @@
 package com.depromeet.baton.presentation.ui.home.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.CheckedTextView
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatImageButton
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -17,6 +21,7 @@ import com.depromeet.bds.utils.toPx
 
 class TicketItemRvAdapter(
     private val scrollType: String,
+    private val context: Context,
     private val clickListener: (TicketItem) -> Unit
 ) : ListAdapter<TicketItem, TicketItemRvAdapter.TicketItemViewHolder>(diffCallback) {
 
@@ -50,8 +55,11 @@ class TicketItemRvAdapter(
                 tvItemTicketRemainingDay.text = item.remainingDay
                 tvItemTicketPlace.text = item.place
                 tvItemTicketPrice.text = item.price
+                Glide.with(context)
+                    .load(item.img)
+                    .transform(CenterCrop(), RoundedCorners(4.toPx()))
+                    .into(binding.ibtnItemTicket)
 
-                setEmptyImage(position, ibtnItemTicket)
                 setLikeBtnClickListener(ctvItemTicketLike)
                 root.setOnClickListener {
                     clickListener(item)
@@ -60,13 +68,14 @@ class TicketItemRvAdapter(
         }
     }
 
+
     private fun setEmptyImage(position: Int, view: AppCompatImageButton) {
-        when (position % 4) {
-            0 -> view.setImageResource(R.drawable.ic_empty_health_86)
-            1 -> view.setImageResource(R.drawable.ic_empty_etc_86)
-            2 -> view.setImageResource(R.drawable.ic_empty_pt_86)
-            3 -> view.setImageResource(R.drawable.ic_empty_pilates_86)
-        }
+        /*     when (position % 4) {
+                 0 -> view.setImageResource(R.drawable.ic_empty_health_86)
+                 1 -> view.setImageResource(R.drawable.ic_empty_etc_86)
+                 2 -> view.setImageResource(R.drawable.ic_empty_pt_86)
+                 3 -> view.setImageResource(R.drawable.ic_empty_pilates_86)
+             }*/
     }
 
     private fun setLikeBtnClickListener(view: CheckedTextView) {

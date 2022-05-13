@@ -49,10 +49,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     private fun initView() {
         with(binding) {
             val ticketItemRvAdapter =
-                TicketItemRvAdapter(TicketItemRvAdapter.SCROLL_TYPE_HORIZONTAL) {
-                    startActivity(Intent(this@TicketDetailActivity, TicketDetailActivity::class.java).apply {
-                    })
-                }
+                TicketItemRvAdapter(TicketItemRvAdapter.SCROLL_TYPE_HORIZONTAL, this@TicketDetailActivity, ::setTicketItemClickListener)
             val mLayoutManager = LinearLayoutManager(this@TicketDetailActivity, LinearLayoutManager.HORIZONTAL, false)
 
             ticketDetailRv.addItemDecoration(TicketIteHorizontalDecoration())
@@ -61,11 +58,11 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
 
             ticketItemRvAdapter.submitList(
                 arrayListOf(
-                    TicketItem("휴메이크 휘트니스 석촌점", "헬스", "123,000원", "50일 남음", "광진구 중곡동", "12m"),
-                    TicketItem("테리온 휘트니스 당산점", "기타", "100,000원", "30일 남음", "영등포구 양평동", "12m"),
-                    TicketItem("진휘트니스 양평점", "헬스", "3,000원", "60일 남음", "광진구 중곡동", "12m"),
-                    TicketItem("휴메이크 휘트니스 석촌점", "필라테스", "223,000원", "4일 남음", "광진구 중곡동", "12m"),
-                    TicketItem("바톤휘트니스 대왕점", "헬스", "19,000원", "5일 남음", "광진구 중곡동", "12m"),
+                    TicketItem("테리온 휘트니스 당산점", "기타", "100,000원", "30일 남음", "영등포구 양평동", "12m", R.drawable.dummy2),
+                    TicketItem("진휘트니스 양평점", "헬스", "3,000원", "60일 남음", "광진구 중곡동", "12m", R.drawable.dummy3),
+                    TicketItem("휴메이크 휘트니스 석촌점", "필라테스", "223,000원", "4일 남음", "광진구 중곡동", "12m", R.drawable.dummy4),
+                    TicketItem("바톤휘트니스 대왕점", "헬스", "19,000원", "5일 남음", "광진구 중곡동", "12m", R.drawable.dummy1),
+                    TicketItem("휴메이크 휘트니스 석촌점", "필라테스", "223,000원", "4일 남음", "광진구 중곡동", "12m", R.drawable.dummy5),
                 )
             )
         }
@@ -223,6 +220,12 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
 
     enum class Seller_TicketDetailMenu {
         CHANGE_SALES_OPTION, EDIT_OPTION, DELETE_OPTION
+    }
+
+    private fun setTicketItemClickListener(ticketItem: TicketItem) {
+        startActivity(Intent(this@TicketDetailActivity, TicketDetailActivity::class.java).apply {
+            //TODO 게시글 id넘기기
+        })
     }
 }
 
