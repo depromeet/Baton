@@ -16,6 +16,13 @@ class BdsInputChip @JvmOverloads constructor(
 ) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
 
     val binding: BdsComponentInputChipBinding
+    var text: CharSequence?
+        get() {
+            return binding.tvText.text
+        }
+        set(value) {
+            binding.tvText.text = value
+        }
 
     init {
 
@@ -24,7 +31,11 @@ class BdsInputChip @JvmOverloads constructor(
 
         context.withStyledAttributes(attrs, R.styleable.BdsTextView) {
             val text = getString(R.styleable.BdsTextView_bds_text)
-            binding.tvText.text = text
+            this@BdsInputChip.text = text
         }
+    }
+
+    fun setOnXClick(listener: () -> Unit) {
+        binding.buttonX.setOnClickListener { listener() }
     }
 }

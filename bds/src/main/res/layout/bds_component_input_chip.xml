@@ -23,6 +23,7 @@
         tools:text="용인시 기흥구" />
 
     <ImageView
+        android:id="@+id/button_x"
         android:layout_width="@dimen/dimen16"
         android:layout_height="@dimen/dimen16"
         android:layout_marginStart="2dp"
