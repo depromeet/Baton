@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_view"
+    app:behavior_hideable="false"
+    app:behavior_peekHeight="0dp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:animateLayoutChanges="false"
+    android:paddingTop="20dp"
+    android:backgroundTint="?wh100"
+    android:background="@drawable/bds_bottom_sheet_background"
+    android:orientation="vertical">
+
+ <TextView
+       android:id="@+id/bottom_sheet_title_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?headline2"
+        android:text="title"
+        android:gravity="center"
+        android:layout_marginVertical="@dimen/dimen16"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?grey_scale40"
+        android:layout_marginHorizontal="@dimen/dimen16"
+        android:layout_marginBottom="@dimen/dimen12"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/bottom_sheet_rv"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_bottomsheet"
+        android:paddingBottom="@dimen/dimen32"
+        />
+
+
+</LinearLayout >

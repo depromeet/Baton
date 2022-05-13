@@ -33,7 +33,7 @@
         android:id="@+id/ticket_toolbar_menu_ic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_more_vert_filled_24"
+        android:src="@drawable/ic_more_horiz_filled_24"
         android:background="@null"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

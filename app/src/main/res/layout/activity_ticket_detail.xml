@@ -2,6 +2,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.depromeet.baton.presentation.ui.detail.viewModel.TicketDetailViewModel" />
+    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -31,17 +36,67 @@
                         android:layout_height="@dimen/dimen256"
                         android:background="?grey_scale30"
                         >
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
 
-                        <ImageView
-                            android:id="@+id/ticket_detail_empty_iv"
-                            android:layout_width="@dimen/dimen86"
-                            android:layout_height="@dimen/dimen86"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            android:src="@drawable/img_empty_health_86"
-                            app:tint="?grey_scale60" />
+                            <ImageView
+                                android:id="@+id/ticket_detail_photo_iv"
+                                android:layout_width="@dimen/dimen86"
+                                android:layout_height="@dimen/dimen86"
+                                android:layout_gravity="center"
+                                android:src="@drawable/img_empty_health_86"
+                                app:tint="?grey_scale60" />
+
+                            <LinearLayout
+                                android:id="@+id/ticket_detail_status_reserve"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:background="?dim"
+                                android:gravity="center"
+                                android:visibility="gone"
+                                >
+                                <ImageView
+                                    android:layout_width="@dimen/dimen86"
+                                    android:layout_height="@dimen/dimen86"
+                                    android:src="@drawable/ic_time_line_48"
+                                    app:tint="?wh100" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="?headline2"
+                                    android:textColor="?wh100"
+                                    android:text="예약중"
+                                    />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/ticket_detail_status_soldout"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:background="?dim"
+                                android:gravity="center"
+                                android:visibility="gone"
+                                >
+                                <ImageView
+                                    android:layout_width="@dimen/dimen86"
+                                    android:layout_height="@dimen/dimen86"
+                                    android:src="@drawable/ic_check_circle_line_48"
+                                    app:tint="?wh100" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="?headline2"
+                                    android:textColor="?wh100"
+                                    android:text="판매완료"
+                                    />
+
+                            </LinearLayout>
+
+                        </FrameLayout>
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -53,7 +108,7 @@
                             android:id="@+id/ticket_detail_gym_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="sample gym name"
+                            android:text="@{viewmodel.marketInfoState.gymName}"
                             android:textAppearance="?headline2"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -63,7 +118,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dimen2"
-                            android:text="10000원"
+                            android:text="@{viewmodel.marketInfoState.price}"
                             android:textAppearance="?display4"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/ticket_detail_gym_tv" />
@@ -77,10 +132,11 @@
                             app:layout_constraintBottom_toBottomOf="@id/ticket_detail_price_tv"
                             app:layout_constraintStart_toEndOf="@id/ticket_detail_price_tv"
                             android:layout_marginLeft="@dimen/dimen8"
-                            android:text="제안가능"
+                            android:text="@{viewmodel.marketInfoState.canSuggest ? viewmodel.POSSIBLE : viewmodel.IMPOSSIBLE }"
                             />
 
                         <ImageButton
+                            android:id="@+id/ticket_detail_url_btn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@drawable/ic_link_line_24"
@@ -108,10 +164,11 @@
                                 app:tint = "?grey_scale50"
                                 />
                             <TextView
+                                android:id="@+id/ticket_detail_views_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textAppearance="?caption1"
-                                android:text="275"/>
+                                android:text="257"/>
 
                             <ImageView
                                 android:layout_width="wrap_content"
@@ -121,10 +178,11 @@
                                 android:layout_marginLeft="@dimen/dimen8"
                                 />
                             <TextView
+                                android:id="@+id/ticket_detail_likes_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textAppearance="?caption1"
-                                android:text="275"/>
+                                android:text="30"/>
 
                         </LinearLayout>
                         <LinearLayout
@@ -139,11 +197,12 @@
                                 android:textColor="?grey_scale60"
                                 android:text="판매 등록일"/>
                             <TextView
+                                android:id="@+id/ticket_detail_registration_date_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textAppearance="?caption4"
                                 android:textColor="?grey_scale60"
-                                android:text="2022"/>
+                                android:text="@{viewmodel.marketInfoState.registration_date}"/>
 
                         </LinearLayout>
                     </com.google.android.flexbox.FlexboxLayout>
@@ -165,6 +224,7 @@
                             android:textColor="?grey_scale60"
                             />
                         <TextView
+                            android:id="@+id/ticket_detail_ticketkind_tv"
                             android:layout_columnSpan="1"
                             android:layout_rowSpan="1"
                             android:textAppearance="?caption1"
@@ -180,6 +240,7 @@
                             android:textColor="?grey_scale60"
                             />
                         <TextView
+                            android:id="@+id/ticket_detail_effective_tv"
                             android:layout_columnSpan="1"
                             android:layout_rowSpan="1"
                             android:textAppearance="?caption1"
@@ -198,7 +259,7 @@
                             android:layout_columnSpan="1"
                             android:layout_rowSpan="1"
                             android:textAppearance="?caption1"
-                            android:text="20000"
+                            android:text="@{viewmodel.marketInfoState.price}"
                             android:textColor="?grey_scale80"
                             android:layout_marginLeft="@dimen/dimen12"
                             />
@@ -225,7 +286,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textAppearance="?caption3"
-                                android:text="10000원"
+                                android:text="100000원"
                                 />
 
                             >
@@ -245,7 +306,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textAppearance="?caption3"
-                                android:text="10000원"
+                                android:text="8000원"
                                 />
 
                         </LinearLayout>
@@ -259,25 +320,11 @@
 
 
                         <TextView
+                            android:id="@+id/ticket_detail_transfer_tv"
                             android:layout_columnSpan="1"
                             android:layout_rowSpan="1"
                             android:textAppearance="?caption1"
-                            android:text="판매자 부담"
-                            android:textColor="?grey_scale80"
-                            android:layout_marginLeft="@dimen/dimen12"
-                            />
-                        <TextView
-                            android:layout_columnSpan="1"
-                            android:layout_rowSpan="1"
-                            android:textAppearance="?caption1"
-                            android:text="판매 종류"
-                            android:textColor="?grey_scale60"
-                            />
-                        <TextView
-                            android:layout_columnSpan="1"
-                            android:layout_rowSpan="1"
-                            android:textAppearance="?caption1"
-                            android:text="헬스 회원권"
+                            android:text="@{viewmodel.ticketState.transferCoast}"
                             android:textColor="?grey_scale80"
                             android:layout_marginLeft="@dimen/dimen12"
                             />
@@ -291,11 +338,10 @@
                             />
 
                         <com.google.android.flexbox.FlexboxLayout
-                            android:layout_width="280dp"
+                            android:id="@+id/ticket_detail_tag_wrapper"
+                            android:paddingRight="@dimen/dimen32"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_columnSpan="1"
-                            android:layout_rowSpan="1"
-
                             app:flexWrap="wrap"
                             app:justifyContent="flex_start"
                             app:alignContent="center"
@@ -306,7 +352,14 @@
                                 android:layout_height="wrap_content"
                                 android:layout_margin="@dimen/dimen4"
                                 android:theme="@style/Theme.Bds.Tag.Default.Primary.Medium"
-                                app:bds_text="샤워실 포함" />
+                                app:bds_text="락카룸 포함" />
+
+                            <com.depromeet.bds.component.BdsTag
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/dimen4"
+                                android:theme="@style/Theme.Bds.Tag.Default.Primary.Medium"
+                                app:bds_text="운동복 포함" />
 
                             <com.depromeet.bds.component.BdsTag
                                 android:layout_width="wrap_content"
@@ -320,28 +373,21 @@
                                 android:layout_height="wrap_content"
                                 android:layout_margin="@dimen/dimen4"
                                 android:theme="@style/Theme.Bds.Tag.Default.Primary.Medium"
-                                app:bds_text="샤워실 포함" />
-
-                            <com.depromeet.bds.component.BdsTag
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="@dimen/dimen4"
-                                android:theme="@style/Theme.Bds.Tag.Default.Primary.Medium"
-                                app:bds_text="샤워실 포함" />
+                                app:bds_text="GX포함" />
 
 
                             <com.depromeet.bds.component.BdsTag
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="@dimen/dimen4"
-                                app:bds_text="샤워실 포함"
+                                app:bds_text="재양도 가능"
                                 android:theme="@style/Theme.Bds.Tag.Default.Primary.Medium"
                                 />
                             <com.depromeet.bds.component.BdsTag
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="@dimen/dimen4"
-                                app:bds_text="샤워실 포함"
+                                app:bds_text="환불 가능"
                                 android:theme="@style/Theme.Bds.Tag.Default.Primary.Medium"
                                 />
 
@@ -367,7 +413,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textAppearance="?body4"
-                        android:text="설명 디프만_6조-바통 디프만_6조-바통디프만_6조-바통디프만_6조-바통"
+                        android:text="@{viewmodel.marketInfoState.detailContent}"
                         />
 
                     <View
@@ -432,7 +478,7 @@
                             android:id="@+id/ticket_detail_location_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="sample gym name"
+                            android:text="@{viewmodel.marketInfoState.gymName}"
                             android:textAppearance="?headline2"
                             app:layout_constraintStart_toEndOf="@id/ticket_locatoin_iv"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -506,37 +552,37 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/dimen4"
                             android:theme="@style/Theme.Bds.Tag.Line.Primary.Medium"
-                            app:bds_text="#샤워실 포함" />
+                            app:bds_text="#체계적인 수업" />
                         <com.depromeet.bds.component.BdsTag
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/dimen4"
                             android:theme="@style/Theme.Bds.Tag.Line.Primary.Medium"
-                            app:bds_text="#샤워실 포함" />
+                            app:bds_text="#맞춤 케어" />
                         <com.depromeet.bds.component.BdsTag
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/dimen4"
                             android:theme="@style/Theme.Bds.Tag.Line.Primary.Medium"
-                            app:bds_text="#샤워실 포함" />
+                            app:bds_text="#넓은 시설" />
                         <com.depromeet.bds.component.BdsTag
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/dimen4"
                             android:theme="@style/Theme.Bds.Tag.Line.Primary.Medium"
-                            app:bds_text="#샤워실 포함" />
+                            app:bds_text="#다양한 기구" />
                         <com.depromeet.bds.component.BdsTag
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/dimen4"
                             android:theme="@style/Theme.Bds.Tag.Line.Primary.Medium"
-                            app:bds_text="#샤워실 포함" />
+                            app:bds_text="#역세권" />
                         <com.depromeet.bds.component.BdsTag
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/dimen4"
                             android:theme="@style/Theme.Bds.Tag.Line.Primary.Medium"
-                            app:bds_text="#샤워실 포함" />
+                            app:bds_text="#샤람이 적은" />
 
                     </com.google.android.flexbox.FlexboxLayout>
                     <View
@@ -577,7 +623,7 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             android:textAppearance="?body3"
-                            android:text="닉네임"
+                            android:text="@{viewmodel.marketInfoState.seller.nickname}"
                             android:layout_marginStart="@dimen/dimen10"
                             />
 
@@ -587,7 +633,7 @@
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            android:text="가입날짜"
+                            android:text="@{viewmodel.marketInfoState.seller.joinDate}"
                             />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
