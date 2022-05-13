@@ -132,6 +132,7 @@
                             app:layout_constraintBottom_toBottomOf="@id/ticket_detail_price_tv"
                             app:layout_constraintStart_toEndOf="@id/ticket_detail_price_tv"
                             android:layout_marginLeft="@dimen/dimen8"
+                            android:paddingBottom="@dimen/dimen4"
                             android:text="@{viewmodel.marketInfoState.canSuggest ? viewmodel.POSSIBLE : viewmodel.IMPOSSIBLE }"
                             />
 
@@ -168,7 +169,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textAppearance="?caption1"
-                                android:text="257"/>
+                                android:text="@{viewmodel.marketInfoState.views}"/>
 
                             <ImageView
                                 android:layout_width="wrap_content"
@@ -182,7 +183,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textAppearance="?caption1"
-                                android:text="30"/>
+                                android:text="@{viewmodel.marketInfoState.likes}"/>
 
                         </LinearLayout>
                         <LinearLayout
@@ -193,6 +194,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginRight="@dimen/dimen4"
                                 android:textAppearance="?caption4"
                                 android:textColor="?grey_scale60"
                                 android:text="판매 등록일"/>
@@ -655,6 +657,7 @@
                             android:layout_height="wrap_content"
                             android:text="내 주변 양도권은 어떠세요?"
                             android:textAppearance="?headline3"
+                            android:layout_marginBottom="@dimen/dimen8"
                             />
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/ticket_detail_rv"
@@ -663,7 +666,7 @@
                             android:layout_marginBottom="@dimen/dimen16"
                             tools:listitem="@layout/item_ticket"
                             android:orientation="horizontal"
-                            tools:itemCount="10"
+                            android:overScrollMode="never"
                             />
 
                     </LinearLayout>
@@ -685,7 +688,7 @@
                 android:layout_gravity="bottom"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen80">
-                <ImageButton
+                <CheckBox
                     android:id="@+id/ticket_detail_like_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -693,7 +696,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:src="@drawable/ic_like_filled_30"
+                    android:src="@drawable/selector_like"
                     app:tint="?like"
                     android:background="@null"
                     />
