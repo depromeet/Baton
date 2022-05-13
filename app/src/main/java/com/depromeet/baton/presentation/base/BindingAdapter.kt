@@ -54,3 +54,11 @@ fun setUIStateForDefaultView(view: View,responseState: UIState) {
 
 }
 
+@BindingAdapter("underline")
+fun setUnderline(view: TextView, underline: Boolean) {
+    if (underline) {
+        view.paintFlags = view.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+    } else {
+        view.paintFlags = view.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
+    }
+}

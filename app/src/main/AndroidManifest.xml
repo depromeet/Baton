@@ -34,7 +34,7 @@
             android:exported="false" />
         <activity
             android:name=".presentation.ui.address.view.SearchAddressActivity"
-            android:exported="false" />
+            android:exported="false"/>
         <activity
             android:name=".presentation.sample.SampleActivity"
             android:exported="false" />
