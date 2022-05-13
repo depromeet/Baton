@@ -36,10 +36,11 @@
 
         <item name="like">@color/like</item>
         <item name="dim">@color/dim</item>
-        <item name="bds_background">@color/bg10</item>
+        <item name="bds_background">@color/bg</item>
         <item name="error">@color/error</item>
         <item name="success">@color/success</item>
         <item name="information">@color/information</item>
+        <item name="bg">@color/bg</item>
 
         <item name="display1">@style/Typography.D1.Bold</item>
         <item name="display2">@style/Typography.D2.Bold</item>
@@ -71,12 +72,31 @@
         <item name="android:progressTint">?primary40</item>
     </style>
 
+    <!--TODO 임시 CheckBox: MembershipInfoFragment, TransactionMethodFragment-->
+    <style name="Widget.Bds.CheckBox.Primary" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:button">@null</item>
+        <item name="android:background">@drawable/selector_checkbox_default</item>
+    </style>
+
+    <!--TODO 디자인 시스템에 없는 Button: WritePostActivity-->
+    <style name="Widget.MaterialButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:button">@null</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="cornerRadius">@dimen/dimen8</item>
+    </style>
+
     <style name="BdsBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/BdsBottomSheetStyle</item>
     </style>
 
     <style name="BdsBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
+
     </style>
 </resources>
 

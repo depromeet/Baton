@@ -1,12 +1,10 @@
 package com.depromeet.baton.domain.model
 
-import com.depromeet.baton.R
-
-enum class Alignment(val value: Int) {
-    DISTANCE(R.string.filter_alignment_distance),
-    LOW_PRICE(R.string.filter_alignment_low_price),
-    HIGH_PRICE(R.string.filter_alignment_high_price),
-    VIEW(R.string.filter_alignment_view),
-    BOOKMARK(R.string.filter_alignment_bookmark),
-    TERM(R.string.filter_alignment_term)
+enum class Alignment(val value: String) {
+    DISTANCE("가까운 거리순"),
+    LOW_PRICE("낮은 가격순"),
+    HIGH_PRICE("낮은 가격순"),
+    VIEW("조회 많은순"),
+    BOOKMARK("북마크 많은순"),
+    TERM("기간 많은순")
 }

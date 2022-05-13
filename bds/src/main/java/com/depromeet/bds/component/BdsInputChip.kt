@@ -17,6 +17,12 @@ class BdsInputChip @JvmOverloads constructor(
 
     val binding: BdsComponentInputChipBinding
 
+    @get:JvmName("bdsInputText")
+    @set:JvmName("bdsInputText")
+    var text: String
+        get() = getText()
+        set(value) = setText(value)
+
     init {
 
         val layoutInflater = LayoutInflater.from(context)
@@ -24,7 +30,16 @@ class BdsInputChip @JvmOverloads constructor(
 
         context.withStyledAttributes(attrs, R.styleable.BdsTextView) {
             val text = getString(R.styleable.BdsTextView_bds_text)
-            binding.tvText.text = text
+            this@BdsInputChip.text = text.toString()
         }
+    }
+
+    fun setOnXClick(listener: () -> Unit) {
+        binding.buttonX.setOnClickListener { listener() }
+    }
+
+    private fun getText() = binding.tvText.text.toString()
+    private fun setText(text: String) {
+        binding.tvText.text = text
     }
 }

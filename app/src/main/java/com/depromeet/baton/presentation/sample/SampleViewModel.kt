@@ -9,14 +9,14 @@ import javax.inject.Inject
 @HiltViewModel
 class SampleViewModel @Inject constructor() : BaseViewModel() {
 
-    private val _viewEvent: SingleLiveEvent<ViewEvent> = SingleLiveEvent()
-    val viewEvent: LiveData<ViewEvent> = _viewEvent
+    private val _sampleViewEvent: SingleLiveEvent<SampleViewEvent> = SingleLiveEvent()
+    val sampleViewEvent: LiveData<SampleViewEvent> = _sampleViewEvent
 
     fun doCommand() {
-        _viewEvent.postValue(ViewEvent.ShowToast("ShowToast event occurred"))
+        _sampleViewEvent.postValue(SampleViewEvent.ShowToast("ShowToast event occurred"))
     }
 
-    sealed class ViewEvent {
-        data class ShowToast(val message: String) : ViewEvent()
+    sealed class SampleViewEvent {
+        data class ShowToast(val message: String) : SampleViewEvent()
     }
 }
