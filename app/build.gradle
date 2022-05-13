@@ -69,6 +69,7 @@ dependencies {
 
     implementation(Dep.CustomLibrary.rangeSeekbar)
     implementation(Dep.CustomLibrary.keyboardListener)
+    implementation("com.airbnb.android:lottie:3.4.0")
 
     implementation(Dep.Lifecycle.viewModel)
     implementation(Dep.Lifecycle.runtime)

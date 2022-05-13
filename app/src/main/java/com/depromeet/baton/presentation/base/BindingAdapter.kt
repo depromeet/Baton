@@ -7,9 +7,10 @@ import android.widget.ProgressBar
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getColor
 import androidx.databinding.BindingAdapter
+import com.airbnb.lottie.LottieAnimationView
 
 @BindingAdapter("showOnLoading")
-fun ProgressBar.showOnLoading(responseState: UIState) {
+fun LottieAnimationView.showOnLoading(responseState: UIState) {
     visibility = if (responseState is UIState.Loading)
         View.VISIBLE
     else
