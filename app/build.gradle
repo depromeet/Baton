@@ -10,7 +10,6 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
-
 android {
 
     def keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -26,8 +25,8 @@ android {
         versionCode App.versionCode
         versionName App.versionName
 
-        buildConfigField( "String", "NAVER_SDK_CLIENT_KEY", "\"${keystoreProperties["NAVER_SDK_CLIENT_KEY"]}\"")
-        manifestPlaceholders ["NAVER_SDK_CLIENT_KEY"]= keystoreProperties["NAVER_SDK_CLIENT_KEY"].toString()
+        buildConfigField("String", "NAVER_SDK_CLIENT_KEY", "\"${keystoreProperties["NAVER_SDK_CLIENT_KEY"]}\"")
+        manifestPlaceholders["NAVER_SDK_CLIENT_KEY"] = keystoreProperties["NAVER_SDK_CLIENT_KEY"].toString()
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -95,6 +94,12 @@ dependencies {
     implementation(Dep.Map.naver_sdk)
 
     implementation(Dep.timber)
+    implementation(Dep.ballon)
+    implementation(Dep.glide)
+    annotationProcessor(Dep.glide_compiler)
+    implementation(Dep.imagepicker)
+
+    implementation(Dep.stickyScrollView)
 
     testImplementation(Dep.Test.junit)
     androidTestImplementation(Dep.AndroidTest.core)

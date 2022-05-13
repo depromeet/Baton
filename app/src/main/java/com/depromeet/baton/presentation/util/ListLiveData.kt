@@ -1,6 +1,8 @@
 package com.depromeet.baton.presentation.util
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.depromeet.baton.domain.model.HashTag
 
 class ListLiveData<T> : MutableLiveData<MutableList<T>?>() {
 
@@ -15,6 +17,12 @@ class ListLiveData<T> : MutableLiveData<MutableList<T>?>() {
         value = items
     }
 
+    fun addAll(item: List<T>) {
+        val items: MutableList<T>? = value
+        items?.addAll(item)
+        value = items
+    }
+
     fun remove(item: T) {
         val items: MutableList<T>? = value
         items?.remove(item)
@@ -25,6 +33,10 @@ class ListLiveData<T> : MutableLiveData<MutableList<T>?>() {
         val items: MutableList<T>? = value
         items?.clear()
         value = items
+    }
+
+    fun size(): Int {
+        return value?.size ?: 0
     }
 
     fun isListNotEmpty(): Boolean {

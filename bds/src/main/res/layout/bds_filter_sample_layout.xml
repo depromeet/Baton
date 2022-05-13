@@ -35,7 +35,7 @@
     <com.depromeet.bds.component.BdsFilter
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:bds_startDrawable="@drawable/ic_more_line_24"
+        app:bds_startDrawable="@drawable/ic_more_line_20"
         app:bds_text="초기화"
         app:bds_textAppearance="?body4"
         app:isSelected="true" />
@@ -43,7 +43,7 @@
     <com.depromeet.bds.component.BdsFilter
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:bds_endDrawable="@drawable/ic_more_line_24"
+        app:bds_endDrawable="@drawable/ic_more_line_20"
         app:bds_text="초기화"
         app:bds_textAppearance="?body4"
         app:isSelected="true" />

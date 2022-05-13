@@ -73,7 +73,6 @@ class SearchAddressActivity : BaseActivity<ActivitySearchAddressBinding>(R.layou
                 }
             }
         }
-
     }
 
 

@@ -5,12 +5,23 @@
 
     <data>
 
+        <variable
+            name="filterViewModel"
+            type="com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel" />
+
+        <variable
+            name="adapter"
+            type="com.depromeet.baton.presentation.ui.filter.adapter.FilteredChipRvAdapter" />
+
+        <variable
+            name="itemDecoration"
+            type="com.depromeet.baton.presentation.util.ChipSpacesItemDecoration" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/temp_bg_bottomsheet"
+        android:background="@drawable/bg_bottomsheet"
         tools:context=".presentation.ui.filter.view.BottomFilterFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -53,6 +64,17 @@
                 app:layout_constraintBottom_toBottomOf="@id/view_bottom_filter_div_bottom"
                 app:layout_constraintTop_toBottomOf="@id/view_bottom_filter_div_top" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_bottom_filter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dimen12"
+                app:adapter="@{adapter}"
+                app:itemDecoration="@{itemDecoration}"
+                app:layout_constraintBottom_toTopOf="@id/view_bottom_filter_div_bottom"
+                tools:itemCount="1" />
+
+
             <View
                 android:id="@+id/view_bottom_filter_div_bottom"
                 android:layout_width="match_parent"
@@ -75,55 +97,38 @@
                     android:layout_marginVertical="@dimen/dimen32"
                     android:layout_marginStart="@dimen/dimen24"
                     android:background="@android:color/transparent"
-                    android:drawableStart="@drawable/temp_ic_reset"
+                    android:drawableStart="@drawable/ic_reset"
                     android:drawablePadding="@dimen/dimen8"
+                    android:drawableTint="@color/selector_grey_scale80_grey_scale60"
+                    android:enabled="@{filterViewModel.isResetAndSearchValid}"
                     android:includeFontPadding="false"
                     android:minWidth="0dp"
                     android:minHeight="0dp"
+                    android:onClick="@{()->filterViewModel.filterReset()}"
                     android:text="@string/filter_reset"
                     android:textAppearance="?body3"
-                    android:textColor="?grey_scale60"
+                    android:textColor="@color/selector_grey_scale80_grey_scale60"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <LinearLayout
-                    android:id="@+id/ll_bottom_filter_search"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_bottom_filter_search"
+                    android:layout_width="@dimen/dimen216"
+                    android:layout_height="0dp"
+                    android:layout_marginVertical="@dimen/dimen16"
+                    android:layout_marginStart="@dimen/dimen26"
                     android:layout_marginEnd="@dimen/dimen16"
-                    android:background="@drawable/temp_btn_bottom_filter_search"
-                    android:gravity="center"
-                    android:paddingHorizontal="@dimen/dimen56"
-                    android:paddingVertical="@dimen/dimen12"
-                    app:layout_constraintBottom_toBottomOf="@+id/btn_bottom_filter_reset"
+                    android:background="@drawable/btn_filter_bottom_fixed"
+                    android:backgroundTint="@color/selector_grey_scale80_grey_scale40"
+                    android:enabled="@{filterViewModel.isResetAndSearchValid}"
+                    android:text="@string/filter_search"
+                    android:textAppearance="?body1"
+                    android:textColor="@color/selector_wh100_grey_scale60"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/btn_bottom_filter_reset">
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/tv_bottom_filter_search"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/filter_search"
-                        android:textAppearance="?headline2"
-                        android:textColor="?wh100"
-                        app:layout_constraintBottom_toBottomOf="@+id/view_home_filter_search"
-                        app:layout_constraintStart_toStartOf="@+id/view_home_filter_search"
-                        app:layout_constraintTop_toTopOf="@+id/view_home_filter_search" />
-
-                    <TextView
-                        android:id="@+id/tv_bottom_filter_search_result"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dimen4"
-                        android:text="@string/filter_search_result"
-                        android:textAppearance="?headline2"
-                        android:textColor="?wh100"
-                        app:layout_constraintBottom_toBottomOf="@+id/tv_bottom_filter_search"
-                        app:layout_constraintEnd_toEndOf="@+id/view_home_filter_search"
-                        app:layout_constraintTop_toTopOf="@+id/tv_bottom_filter_search" />
-
-                </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

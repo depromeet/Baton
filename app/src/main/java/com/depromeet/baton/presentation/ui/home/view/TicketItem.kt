@@ -6,5 +6,6 @@ data class TicketItem(
     val price: String,
     val remainingDay: String,
     val place: String,
-    val distance: String
+    val distance: String,
+    val img: Int
 )
