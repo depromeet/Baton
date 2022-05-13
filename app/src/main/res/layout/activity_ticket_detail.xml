@@ -458,6 +458,7 @@
                         android:textColor="?grey_scale90" />
 
                     <com.naver.maps.map.MapView
+                        android:id="@+id/ticket_detail_mapView"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dimen152"
                         android:layout_marginHorizontal="@dimen/dimen16"
