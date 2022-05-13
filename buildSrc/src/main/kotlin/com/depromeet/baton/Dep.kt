@@ -164,4 +164,5 @@ object Dep {
 
     const val timber = "com.jakewharton.timber:timber:5.0.1"
     const val snapper = "dev.chrisbanes.snapper:snapper:<version>"
+    const val stickyScrollView="com.github.amarjain07:StickyScrollView:1.0.3"
 }

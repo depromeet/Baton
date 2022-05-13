@@ -1,10 +1,8 @@
 package com.depromeet.baton.domain.model
 
-import com.depromeet.baton.R
-
-enum class TransactionMethod(val value: Int) {
-    FACE(R.string.filter_transaction_method_select_face),
-    NON_FACE(R.string.filter_transaction_method_select_non_face),
-    SELLER(R.string.filter_transaction_method_cost_select_seller),
-    CONSUMER(R.string.filter_transaction_method_cost_select_consumer),
+enum class TransactionMethod(val value: String) {
+    FACE("현장결제(대면)"),
+    NON_FACE("선결제(비대면)"),
+    SELLER("판매자 부담"),
+    CONSUMER("구매자 부담"),
 }
