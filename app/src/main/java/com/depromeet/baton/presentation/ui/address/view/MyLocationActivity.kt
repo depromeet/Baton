@@ -1,5 +1,6 @@
 package com.depromeet.baton.presentation.ui.address.view
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
@@ -15,6 +16,7 @@ import com.depromeet.baton.presentation.base.UIState
 import com.depromeet.baton.presentation.ui.address.viewmodel.MyLocationViewModel
 import com.depromeet.baton.util.saveAddress
 import com.google.android.material.snackbar.Snackbar
+import com.skydoves.balloon.*
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -43,6 +45,7 @@ class MyLocationActivity :BaseActivity<ActivityMylocationBinding>(R.layout.activ
         locationViewModel.uiState.observe(this, Observer {
             when(it){
                 is UIState.HasData->{
+                    setToolTip()
                     saveAddress(locationViewModel.roadState.value!!, locationViewModel.jibunState.value!!)
                     binding.myLocationDoneBtn.isEnabled=true
 
@@ -74,8 +77,33 @@ class MyLocationActivity :BaseActivity<ActivityMylocationBinding>(R.layout.activ
             val intent = Intent(this, SearchAddressActivity::class.java)
             startActivity(intent)
         }
+        binding.myLocationToolbar.backBtn.setOnClickListener {
+            onBackPressed()
+        }
     }
 
 
+    private fun setToolTip() {
+        val balloon = Balloon.Builder(this)
+            .setWidthRatio(0.0f)
+            .setHeight(BalloonSizeSpec.WRAP)
+            .setElevation(3)
+            .setMarginBottom(5)
+            .setMarginLeft(16)
+            .setTextSize(10f)
+            .setTextColor(getColor(com.depromeet.bds.R.color.gy90))
+            .setArrowPositionRules(ArrowPositionRules.ALIGN_ANCHOR)
+            .setArrowDrawableResource(com.depromeet.bds.R.drawable.ic_tooltip_subtract)
+            .setArrowSize(10)
+            .setArrowPosition(0.0f)
+            .setPadding(10)
+            .setCornerRadius(4f)
+            .setBackgroundColorResource(com.depromeet.bds.R.color.bg)
+            .setBalloonAnimation(BalloonAnimation.ELASTIC)
+            .setText("현재 위치가 아니신가요?")
+            .setLifecycleOwner(this)
+            .build()
+       binding.myLocationSearchBtn.showAlignTop(balloon,-100,0)
+    }
 
 }
