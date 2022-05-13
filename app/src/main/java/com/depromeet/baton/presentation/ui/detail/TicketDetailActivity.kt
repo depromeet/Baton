@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.CheckedTextView
 import androidx.activity.viewModels
+import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.depromeet.baton.BatonApp
@@ -32,11 +33,17 @@ import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 
 @AndroidEntryPoint
 class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.activity_ticket_detail),
     OnMapReadyCallback {
+
+    enum class Seller_TicketDetailMenu {
+        CHANGE_SALES_OPTION, EDIT_OPTION, DELETE_OPTION
+    }
+
     private val user = TicketOwner.SELLER  //임시 데이터
     private var ticketStatus = TicketStatus.SALE
 
@@ -82,6 +89,8 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
                     TicketItem("휴메이크 휘트니스 석촌점", "필라테스", "223,000원", "4일 남음", "광진구 중곡동", "12m", R.drawable.dummy5),
                 )
             )
+
+            ticketDetailToolbar.ticketToolbarTv.visibility = View.INVISIBLE
         }
 
         //TODO : 판매자 & 구매자에 따라 화면 초기화 나누기
@@ -100,6 +109,8 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
             TicketStatus.RESERVATION -> setReservation()
             TicketStatus.SOLDOUT -> setSoldOut()
         }
+
+
     }
 
 
@@ -163,6 +174,8 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 startActivity(intent);
             }
+
+            setScrollListener()
         }
     }
 
@@ -235,15 +248,23 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         binding.ticketDetailStatusSoldout.visibility = View.GONE
     }
 
-    enum class Seller_TicketDetailMenu {
-        CHANGE_SALES_OPTION, EDIT_OPTION, DELETE_OPTION
-    }
-
     private fun setTicketItemClickListener(ticketItem: TicketItem) {
         startActivity(Intent(this@TicketDetailActivity, TicketDetailActivity::class.java).apply {
             //TODO 게시글 id넘기기
         })
     }
+
+    private fun setScrollListener(){
+        binding.ticketDetailContent.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            if ((oldScrollY+binding.ticketDetailGymTv.top -scrollY) <=  binding.ticketDetailGymTv.top)
+                binding.ticketDetailToolbar.ticketToolbarTv.visibility = View.VISIBLE
+            else  binding.ticketDetailToolbar.ticketToolbarTv.visibility = View.INVISIBLE
+        })
+    }
+
+
+
+
 
     override fun onMapReady(map: NaverMap) {
         this.naverMap = map
