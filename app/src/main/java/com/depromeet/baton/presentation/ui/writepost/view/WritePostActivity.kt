@@ -2,6 +2,7 @@ package com.depromeet.baton.presentation.ui.writepost.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import com.depromeet.baton.R
@@ -21,8 +22,6 @@ class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activi
         super.onCreate(savedInstanceState)
         binding.writePost = this
         binding.writePostViewModel = writePostViewModel
-
-        moveToNextLevel(PlaceRegisterFragment())
         setObserve()
         setCloseWritePostOnClickListener()
         setBackBtnOnClickListener()
