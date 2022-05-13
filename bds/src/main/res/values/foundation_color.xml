@@ -36,7 +36,7 @@
     <color name="like">#FB515C</color>
     <color name="dim">#99000000</color>
 
-    <color name="bg10">#F7F7F7</color>
+    <color name="bg">#F7F7F7</color>
 
     <color name="error">#E7272D</color>
     <color name="success">#249F42</color>

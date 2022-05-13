@@ -4,14 +4,16 @@ import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.widget.EditText
 import android.widget.LinearLayout
 import androidx.core.content.withStyledAttributes
 import androidx.core.view.isVisible
 import com.depromeet.bds.R
 import com.depromeet.bds.databinding.BdsComponentSearchbarBinding
-
 
 
 class BdsSearchBar @JvmOverloads constructor(
@@ -29,6 +31,18 @@ class BdsSearchBar @JvmOverloads constructor(
         fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int)
         fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int)
         fun afterTextChanged(s: Editable?)
+    }
+
+    open class DefaultTextListener : TextListener{
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        }
+
+        override fun afterTextChanged(s: Editable?) {
+        }
+
     }
 
     init {
@@ -118,4 +132,14 @@ class BdsSearchBar @JvmOverloads constructor(
         return binding.searchBarEt.text.toString()
     }
 
+    fun setImeListener(listener: (EditText) -> Unit) {
+        binding.searchBarEt.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH
+                || event?.action == KeyEvent.ACTION_DOWN || event?.action == KeyEvent.KEYCODE_ENTER
+            ) {
+                listener(binding.searchBarEt)
+            }
+            true
+        }
+    }
 }

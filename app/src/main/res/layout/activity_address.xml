@@ -60,11 +60,11 @@
                android:layout_columnWeight="1"
                android:layout_height="match_parent"
                app:cornerRadius="@dimen/dimen8"
-               app:backgroundTint="@color/bg10"
+               app:backgroundTint="@color/bg"
                app:iconGravity="textStart"
                app:icon="@drawable/ic_my_location"
                app:iconTint="@color/gy80"
-               android:backgroundTint="@color/bg10"
+               android:backgroundTint="@color/bg"
                android:textColor="@color/gy80"
                android:fontFamily="@font/spo_medium"
                android:minHeight="0dp"
@@ -82,7 +82,7 @@
                app:iconGravity="textStart"
                app:icon="@drawable/ic_search_line_20"
                app:iconTint="@color/gy80"
-               android:backgroundTint="@color/bg10"
+               android:backgroundTint="@color/bg"
                android:textColor="@color/gy80"
                android:fontFamily="@font/spo_medium"
                android:minHeight="0dp"
@@ -98,7 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen12"
             android:layout_marginTop="@dimen/dimen24"
-            android:background="@color/bg10"
+            android:background="@color/bg"
             />
         <TextView
             android:layout_width="match_parent"
@@ -168,16 +168,12 @@
 
 
             <!--  TODO  style="@style/Widget.Baton.SeekBar"-->
-            <androidx.appcompat.widget.AppCompatSeekBar
+            <com.depromeet.bds.component.BdsSlider
                 android:id="@+id/distance_seekBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:elevation="@dimen/dimen4"
-                android:max="3000"
-                android:minWidth="0dp"
-                android:paddingLeft="0dp"
-                android:paddingRight="0dp"
-                android:progress="0" />
+                app:bds_progress="0"
+                app:bds_max="3000"/>
         </RelativeLayout>
         <com.google.android.flexbox.FlexboxLayout
             android:layout_width="match_parent"

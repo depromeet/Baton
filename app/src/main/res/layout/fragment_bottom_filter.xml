@@ -8,11 +8,11 @@
         <variable
             name="filterViewModel"
             type="com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel" />
-        
+
         <variable
             name="adapter"
             type="com.depromeet.baton.presentation.ui.filter.adapter.FilteredChipRvAdapter" />
-        
+
         <variable
             name="itemDecoration"
             type="com.depromeet.baton.presentation.util.ChipSpacesItemDecoration" />
@@ -67,10 +67,10 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_bottom_filter"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/dimen12"
                 app:adapter="@{adapter}"
                 app:itemDecoration="@{itemDecoration}"
-                android:layout_height="wrap_content"
                 app:layout_constraintBottom_toTopOf="@id/view_bottom_filter_div_bottom"
                 tools:itemCount="1" />
 
@@ -93,7 +93,6 @@
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_bottom_filter_reset"
                     android:layout_width="wrap_content"
-                    android:onClick="@{()->filterViewModel.filterReset()}"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="@dimen/dimen32"
                     android:layout_marginStart="@dimen/dimen24"
@@ -105,6 +104,7 @@
                     android:includeFontPadding="false"
                     android:minWidth="0dp"
                     android:minHeight="0dp"
+                    android:onClick="@{()->filterViewModel.filterReset()}"
                     android:text="@string/filter_reset"
                     android:textAppearance="?body3"
                     android:textColor="@color/selector_grey_scale80_grey_scale60"

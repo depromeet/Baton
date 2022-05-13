@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="writePostViewModel"
+            type="com.depromeet.baton.presentation.ui.writepost.viewmodel.WritePostViewModel" />
+
+        <variable
+            name="placeRegisterFragment"
+            type="com.depromeet.baton.presentation.ui.writepost.view.PlaceRegisterFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ctl_place_register"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?wh100"
+        tools:context=".presentation.ui.writepost.view.PlaceRegisterFragment">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/sv_place_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/ctl_place_register_top"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+
+                    <TextView
+                        android:id="@+id/tv_place_register"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/place_register"
+                        android:textAppearance="?body3"
+                        android:textColor="?grey_scale60"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/ctl_place_register_search_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen8"
+                        app:layout_constraintTop_toBottomOf="@id/tv_place_register">
+
+                        <include
+                            android:id="@+id/include_bds_searchbar_one"
+                            bds_text="헬스장 이름이나 도로명 주소를 검색해주세요"
+                            layout="@layout/bds_component_searchbar"
+                            android:theme="@style/Theme.Bds.SearchBar.Primary"
+                            app:layout_constraintEnd_toEndOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tv_place_register_address"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen24"
+                            android:text="주소"
+                            android:textAppearance="?body3"
+                            android:textColor="?grey_scale60"
+                            android:visibility="gone"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/include_bds_searchbar_one" />
+
+                        <include
+                            android:id="@+id/include_bds_searchbar_two"
+                            layout="@layout/bds_component_searchbar"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/dimen48"
+                            android:layout_marginTop="@dimen/dimen8"
+                            android:visibility="gone"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_place_register_address" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/ctl_place_register_photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen24"
+                    app:layout_constraintTop_toBottomOf="@id/ctl_place_register_top">
+
+                    <TextView
+                        android:id="@+id/place_register_photo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/place_register_photo"
+                        android:textAppearance="?body3"
+                        android:textColor="?grey_scale60"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen2"
+                        android:text="(선택사항)"
+                        android:textAppearance="?caption2"
+                        android:textColor="?grey_scale60"
+                        app:layout_constraintBottom_toBottomOf="@id/place_register_photo"
+                        app:layout_constraintStart_toEndOf="@id/place_register_photo"
+                        app:layout_constraintTop_toTopOf="@id/place_register_photo" />
+
+                    <TextView
+                        android:id="@+id/tv_place_register_explain"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen4"
+                        android:text="@string/place_register_photo_explain"
+                        android:textAppearance="?caption2"
+                        android:textColor="?grey_scale60"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/place_register_photo" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/ibtn_place_register"
+                        android:layout_width="@dimen/dimen68"
+                        android:layout_height="@dimen/dimen68"
+                        android:layout_marginTop="@dimen/dimen8"
+                        android:background="@drawable/bg_place_register_photo"
+                        android:drawableTop="@drawable/ic_camera_filled_24"
+                        android:maxWidth="0dp"
+                        android:minWidth="0dp"
+                        android:paddingHorizontal="@dimen/dimen2"
+                        android:paddingVertical="@dimen/dimen14"
+                        android:textAppearance="?caption2"
+                        android:textColor="?primary50"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_place_register_explain" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/dimen24"
+                        android:layout_marginTop="@dimen/dimen40"
+                        app:layout_constraintEnd_toEndOf="@id/ibtn_place_register"
+                        app:layout_constraintStart_toStartOf="@id/ibtn_place_register"
+                        app:layout_constraintTop_toTopOf="@id/ibtn_place_register">
+
+                        <TextView
+                            android:id="@+id/tv_place_register_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{String.valueOf(writePostViewModel.selectedPhotoList.size)}"
+                            android:textAppearance="?caption2"
+                            android:textColor="?primary50" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="/5"
+                            android:textAppearance="?caption2"
+                            android:textColor="?grey_scale70" />
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_place_register"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen8"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="@+id/ibtn_place_register"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1"
+                        app:layout_constraintStart_toEndOf="@id/ibtn_place_register"
+                        tools:itemCount="5"
+                        tools:listitem="@layout/item_photo" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/ctl_place_register_hashtag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen24"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ibtn_place_register">
+
+                        <TextView
+                            android:id="@+id/tv_hashtag"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="해시태그 (선택사항)"
+                            android:textAppearance="?body3"
+                            android:textColor="?grey_scale60"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.google.android.flexbox.FlexboxLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen12"
+                            app:alignContent="flex_start"
+                            app:alignItems="flex_start"
+                            app:flexWrap="wrap"
+                            app:layout_constraintTop_toBottomOf="@id/tv_hashtag">
+
+                            <com.depromeet.bds.component.BdsChoiceChip
+                                android:id="@+id/bdschoice_hashtag_kind_teacher"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?body3"
+                                app:bds_text="@string/filter_hashtag_kind_teacher" />
+
+                            <com.depromeet.bds.component.BdsChoiceChip
+                                android:id="@+id/bdschoice_hashtag_systematic_lesson"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dimen8"
+                                android:textAppearance="?body3"
+                                app:bds_text="@string/filter_hashtag_systematic_lesson" />
+
+                            <com.depromeet.bds.component.BdsChoiceChip
+                                android:id="@+id/bdschoice_hashtag_customized_care"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dimen8"
+                                android:textAppearance="?body3"
+                                app:bds_text="@string/filter_hashtag_customized_care" />
+
+                            <com.depromeet.bds.component.BdsChoiceChip
+                                android:id="@+id/bdschoice_hashtag_wide_facility"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dimen8"
+                                android:textAppearance="?body3"
+                                app:bds_text="@string/filter_hashtag_wide_facility" />
+
+                            <com.depromeet.bds.component.BdsChoiceChip
+                                android:id="@+id/bdschoice_hashtag_various_instruments"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dimen8"
+                                android:layout_marginTop="@dimen/dimen8"
+                                android:textAppearance="?body3"
+                                app:bds_text="@string/filter_hashtag_various_instruments" />
+
+                            <com.depromeet.bds.component.BdsChoiceChip
+                                android:id="@+id/bdschoice_hashtag_pleasant_environment"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dimen8"
+                                android:layout_marginTop="@dimen/dimen8"
+                                android:textAppearance="?body3"
+                                app:bds_text="@string/filter_hashtag_pleasant_environment" />
+
+                            <com.depromeet.bds.component.BdsChoiceChip
+                                android:id="@+id/bdschoice_hashtag_quiet_atmosphere"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dimen8"
+                                android:textAppearance="?body3"
+                                app:bds_text="@string/filter_hashtag_quiet_atmosphere" />
+
+
+                        </com.google.android.flexbox.FlexboxLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

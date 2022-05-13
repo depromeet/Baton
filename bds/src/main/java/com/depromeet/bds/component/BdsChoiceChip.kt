@@ -5,6 +5,7 @@ import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
+import android.widget.LinearLayout
 import androidx.core.content.withStyledAttributes
 import com.depromeet.bds.R
 import com.depromeet.bds.databinding.BdsComponentChoiceChipBinding
@@ -27,6 +28,13 @@ class BdsChoiceChip @JvmOverloads constructor(
         get() = shape == 0
     private val isFilled: Boolean
         get() = shape == 1
+    var text: CharSequence?
+        get() {
+            return binding.tvText.text
+        }
+        set(value) {
+            binding.tvText.text = value
+        }
 
     init {
 
@@ -40,7 +48,7 @@ class BdsChoiceChip @JvmOverloads constructor(
         }
 
         context.withStyledAttributes(attrs, R.styleable.BdsTextView) {
-            binding.tvText.text = getString(R.styleable.BdsTextView_bds_text)
+            text = getString(R.styleable.BdsTextView_bds_text)
             binding.tvText.setTextAppearanceCompat(
                 getResourceId(R.styleable.BdsView_bds_textAppearance, 0)
             )

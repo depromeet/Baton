@@ -1,5 +1,6 @@
 package com.depromeet.baton.presentation.util
 
+import android.widget.ProgressBar
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.bds.component.BdsActionChip
@@ -18,6 +19,17 @@ fun setBdsChoiceChip(view: BdsChoiceChip, isOn: Boolean, shape: String) {
     else view.setOnAndShape(isOn, 1)
 }
 
+@BindingAdapter("progress")
+fun setWritePostPosition(view: ProgressBar, progress: Int) {
+    when (progress) {
+        1 -> view.progress = 25
+        2 -> view.progress = 50
+        3 -> view.progress = 75
+        4 -> view.progress = 100
+        5 -> view.progress = 100
+        else -> view.progress = 0
+    }
+}
 
 @BindingAdapter("itemDecoration")
 fun RecyclerView.bindItemDecoration(itemDecoration: RecyclerView.ItemDecoration) {

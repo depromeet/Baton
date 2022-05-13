@@ -3,9 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.depromeet.baton">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".BatonApp"
@@ -16,33 +17,48 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         tools:replace="android:name">
-        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+        <activity
+            android:name=".presentation.ui.writepost.view.WritePostActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
         <activity
             android:name=".presentation.ui.address.view.MyLocationActivity"
-            android:exported="false"
-            />
+            android:exported="false" />
         <activity
             android:name=".presentation.ui.address.view.MyLocationDetailActivity"
-            android:exported="false"
-
-            />
+            android:exported="false" />
         <activity
             android:name=".presentation.ui.address.view.SearchAddressActivity"
             android:exported="false"/>
-
-
         <activity
             android:name=".presentation.sample.SampleActivity"
             android:exported="false" />
+        <activity
+            android:name=".presentation.ui.address.view.AddressActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.nguyenhoanglam.imagepicker.ui.imagepicker.ImagePickerActivity"
+            android:exported="false" />
 
-         <activity android:name=".presentation.ui.address.view.AddressActivity"
-            android:exported="false"/>
-       
+        <activity
+            android:name=".presentation.base.WebActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".presentation.ui.detail.TicketDetailActivity"
+            android:exported="false" />
+
         <activity
             android:name=".presentation.main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -51,11 +67,10 @@
             android:name=".FirebaseMessagingService"
             android:enabled="true"
             android:exported="true">
-
             <intent-filter>
-
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
     </application>
+
 </manifest>

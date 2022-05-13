@@ -30,8 +30,12 @@ class BdsInputChip @JvmOverloads constructor(
 
         context.withStyledAttributes(attrs, R.styleable.BdsTextView) {
             val text = getString(R.styleable.BdsTextView_bds_text)
-            binding.tvText.text = text
+            this@BdsInputChip.text = text.toString()
         }
+    }
+
+    fun setOnXClick(listener: () -> Unit) {
+        binding.buttonX.setOnClickListener { listener() }
     }
 
     private fun getText() = binding.tvText.text.toString()

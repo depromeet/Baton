@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="writePostViewModel"
+            type="com.depromeet.baton.presentation.ui.writepost.viewmodel.WritePostViewModel" />
+
+        <variable
+            name="writePost"
+            type="com.depromeet.baton.presentation.ui.writepost.view.WritePostActivity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".presentation.ui.writepost.view.WritePostActivity">
+
+        <com.depromeet.bds.component.BdsBackwardAppBar
+            android:id="@+id/bds_backward_appbar_write_post"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            app:bds_backward_icon="@drawable/ic_close_line_16"
+            app:bds_title="판매글 등록"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/progressbar_write_post"
+            style="@style/Widget.Bds.ProgressBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/bds_backward_appbar_write_post"
+            app:progress="@{writePostViewModel.currentLevel}" />
+
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fcv_write_post"
+            android:name="com.depromeet.baton.presentation.ui.filter.view.PriceFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/dimen16"
+            android:layout_marginTop="@dimen/dimen20"
+            android:layout_marginBottom="@dimen/dimen16"
+            app:layout_constraintBottom_toTopOf="@+id/btn_write_post_back"
+            app:layout_constraintTop_toTopOf="@id/progressbar_write_post" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_write_post_back"
+            style="@style/Widget.MaterialButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="?bg"
+            android:paddingVertical="@dimen/dimen12"
+            android:text="@string/write_post_back"
+            android:textAppearance="?body1"
+            android:textColor="?grey_scale80"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_write_post_next"
+            app:layout_constraintStart_toStartOf="@+id/fcv_write_post" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_write_post_next"
+            style="@style/Widget.MaterialButton"
+            android:layout_marginStart="@dimen/dimen12"
+            android:layout_width="@dimen/dimen204"
+            android:layout_height="wrap_content"
+            android:backgroundTint="?primary50"
+            android:paddingVertical="@dimen/dimen12"
+            android:text="@string/write_post_next"
+            android:textAppearance="?body1"
+            android:textColor="?wh100"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_write_post_back"
+            app:layout_constraintEnd_toEndOf="@+id/fcv_write_post"
+            app:layout_constraintStart_toEndOf="@id/btn_write_post_back"
+            app:layout_constraintTop_toTopOf="@+id/btn_write_post_back" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

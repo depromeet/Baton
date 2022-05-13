@@ -8,8 +8,8 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
         android:id="@+id/ctl_item_ticket_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,6 +20,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/ibtn_item_ticket"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dimen156"
+                android:background="@drawable/card_column"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:src="@drawable/ic_empty_etc_86"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_item_ticket_card_badge"
@@ -33,22 +46,6 @@
                 android:textColor="@color/wh100"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/ibtn_item_ticket"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/dimen36"
-                android:layout_marginTop="@dimen/dimen16"
-                android:layout_marginBottom="@dimen/dimen32"
-                android:background="@drawable/card_column"
-                android:minWidth="0dp"
-                android:minHeight="0dp"
-                android:src="@drawable/ic_empty_etc_86"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_item_ticket_card_badge" />
 
             <CheckedTextView
                 android:id="@+id/ctv_item_ticket_like"
@@ -151,15 +148,15 @@
 
                 <com.depromeet.bds.component.BdsTag
                     android:layout_width="wrap_content"
-                    android:layout_marginStart="@dimen/dimen4"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen4"
                     android:theme="@style/Theme.Bds.Tag.Default.Grey.Small"
                     app:bds_text="체계적인 수업" />
 
                 <com.depromeet.bds.component.BdsTag
                     android:layout_width="wrap_content"
-                    android:layout_marginStart="@dimen/dimen4"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen4"
                     android:theme="@style/Theme.Bds.Tag.Default.Grey.Small"
                     app:bds_text="친절한 선생님" />
 

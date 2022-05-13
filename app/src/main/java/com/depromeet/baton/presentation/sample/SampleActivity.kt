@@ -6,7 +6,6 @@ import androidx.activity.viewModels
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ActivitySampleBinding
 import com.depromeet.baton.presentation.base.BaseActivity
-import com.depromeet.baton.presentation.sample.SampleViewModel.ViewEvent
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,9 +19,9 @@ class SampleActivity : BaseActivity<ActivitySampleBinding>(R.layout.activity_sam
     }
 
     private fun initEvent() {
-        viewModel.viewEvent.observe(this) { event ->
+        viewModel.sampleViewEvent.observe(this) { event ->
             when (event) {
-                is ViewEvent.ShowToast -> {
+                is SampleViewModel.SampleViewEvent.ShowToast -> {
                     Toast.makeText(this, event.message, Toast.LENGTH_LONG).show()
                 }
             }
