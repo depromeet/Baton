@@ -47,6 +47,7 @@
             android:layout_marginHorizontal="@dimen/dimen16"
             android:layout_marginTop="@dimen/dimen32"
             android:theme="@style/Theme.Bds.SearchBar.Primary"
+            app:bds_placeholder_text="ex.바통아파트 12동 3456호"
             />
 
     </LinearLayout>

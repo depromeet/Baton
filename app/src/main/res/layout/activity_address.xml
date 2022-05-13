@@ -77,7 +77,7 @@
                     >
                     <ImageView
                         android:layout_width="@dimen/dimen20"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/dimen20"
                         android:src="@drawable/ic_my_location"
                         app:tint="?grey_scale80"
                         android:layout_alignRight="@id/location_tv"
@@ -127,7 +127,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen12"
                 android:layout_marginTop="@dimen/dimen24"
-                android:background="@color/bg10"
+                android:background="?bg"
                 />
             <TextView
                 android:layout_width="match_parent"
