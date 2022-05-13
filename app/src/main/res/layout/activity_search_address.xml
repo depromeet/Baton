@@ -26,6 +26,7 @@
             />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/search_address_set_location"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen48"
             android:layout_marginLeft="@dimen/dimen16"

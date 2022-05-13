@@ -156,10 +156,10 @@ object Dep {
         const val rxjava2_adpater = "com.squareup.retrofit2:adapter-rxjava3:2.9.0"
     }
 
-    object CustomLibrary {
-        const val rangeSeekbar = "com.github.Jay-Goo:RangeSeekBar:v3.0.0"
-        const val keyboardListener = "net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.3.0"
-
+    object CustomLibrary{
+        const val rangeSeekbar ="com.github.Jay-Goo:RangeSeekBar:v3.0.0"
+        const val keyboardListener ="net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.3.0"
+        const val lottie ="com.airbnb.android:lottie:3.4.0"
     }
 
 

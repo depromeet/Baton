@@ -1,34 +1,22 @@
-package com.depromeet.baton.presentation.ui.home.view
+package com.depromeet.baton.presentation.ui.search
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import com.depromeet.baton.R
-import com.depromeet.baton.databinding.FragmentHomeBinding
+import com.depromeet.baton.databinding.FragmentSearchDetailBinding
 import com.depromeet.baton.presentation.base.BaseFragment
-import com.depromeet.baton.presentation.ui.address.view.AddressActivity
 import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
-import com.depromeet.baton.presentation.ui.writepost.view.WritePostActivity
 import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter
+import com.depromeet.baton.presentation.ui.home.view.TicketItem
 import com.depromeet.baton.presentation.util.TicketItemVerticalDecoration
-import com.depromeet.baton.util.getAddress
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
+class SearchDetailFragment : BaseFragment<FragmentSearchDetailBinding>(R.layout.fragment_search_detail){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        setFloatingActionBtnClickListener()
         setTicketItemRvAdapter()
-    }
-
-    private fun setFloatingActionBtnClickListener() {
-        binding.fabHome.setOnClickListener {
-            startActivity(Intent(requireContext(), WritePostActivity::class.java))
-        }
     }
 
     private fun setTicketItemRvAdapter() {
@@ -52,11 +40,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     TicketItem("휴메이크 휘트니스 석촌점", "필라테스", "223,000원", "4일 남음", "광진구 중곡동", "12m", R.drawable.dummy7),
                 )
             )
-
-            tvHomeLocation.setOnClickListener {
-                val intent = Intent(requireContext(), AddressActivity::class.java)
-                startActivity(intent)
-            }
         }
     }
 
@@ -64,11 +47,5 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         startActivity(Intent(requireContext(), TicketDetailActivity::class.java).apply {
             //TODO 게시글 id넘기기
         })
-    }
-
-    override fun onResume() {
-        super.onResume()
-        binding.tvHomeLocation.text=  if(getAddress().roadAddress!="") getAddress().roadAddress.slice(0..5)+"..."
-        else "위치 설정"
     }
 }

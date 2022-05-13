@@ -37,16 +37,16 @@ class SearchAddressActivity : BaseActivity<ActivitySearchAddressBinding>(R.layou
     }
     private fun initView(){
         binding.addressToolbar.titleTv.text="위치검색"
-        binding.addressToolbar.nextTv.visibility= View.GONE
 
     }
 
     private fun setListener(){
-        binding.addressSearchBackIv.setOnClickListener {
+        binding.searchAddressSetLocation.setOnClickListener {
             val intent = Intent(this, MyLocationActivity::class.java)
             startActivity(intent)
             finish()
         }
+
     }
 
 
