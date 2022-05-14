@@ -1,16 +1,19 @@
 package com.depromeet.baton.presentation.ui.detail
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Intent
-import android.icu.lang.UCharacter
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.CheckedTextView
 import androidx.activity.viewModels
+import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.depromeet.baton.BatonApp
+import com.depromeet.baton.BatonApp.Companion.TAG
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ActivityTicketDetailBinding
 import com.depromeet.baton.domain.model.TicketStatus
@@ -19,31 +22,56 @@ import com.depromeet.baton.presentation.base.UIState
 import com.depromeet.baton.presentation.bottom.BottomMenuItem
 import com.depromeet.baton.presentation.bottom.BottomSheetFragment
 import com.depromeet.baton.presentation.bottom.BottomSheetFragment.Companion.CHECK_ITEM_VIEW
-import com.depromeet.baton.presentation.bottom.MenuItem
 import com.depromeet.baton.presentation.ui.detail.model.TicketOwner
 import com.depromeet.baton.presentation.ui.detail.viewModel.TicketDetailViewModel
 import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter
 import com.depromeet.baton.presentation.ui.home.view.TicketItem
 import com.depromeet.baton.presentation.util.TicketIteHorizontalDecoration
-import com.depromeet.baton.presentation.util.TicketItemVerticalDecoration
+import com.depromeet.bds.component.BdsToast
+import com.depromeet.bds.utils.toPx
+import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.CameraPosition
+import com.naver.maps.map.MapView
+import com.naver.maps.map.NaverMap
+import com.naver.maps.map.OnMapReadyCallback
+import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.OverlayImage
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 
 @AndroidEntryPoint
-class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.activity_ticket_detail) {
+class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.activity_ticket_detail),
+    OnMapReadyCallback {
+
+    enum class Seller_TicketDetailMenu {
+        CHANGE_SALES_OPTION, EDIT_OPTION, DELETE_OPTION
+    }
+
     private val user = TicketOwner.SELLER  //임시 데이터
     private var ticketStatus = TicketStatus.SALE
+
+    private lateinit var mapView: MapView
+    private lateinit var naverMap: NaverMap
+
 
     private val viewModel by viewModels<TicketDetailViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        mapView = findViewById(R.id.ticket_detail_mapView)
+        mapView.onCreate(savedInstanceState)
+        mapView.getMapAsync(this)
+
+
         binding.viewmodel = viewModel
         initView()
         setListener()
         setObserver()
     }
+
 
 
     private fun initView() {
@@ -65,6 +93,8 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
                     TicketItem("휴메이크 휘트니스 석촌점", "필라테스", "223,000원", "4일 남음", "광진구 중곡동", "12m", R.drawable.dummy5),
                 )
             )
+
+            ticketDetailToolbar.ticketToolbarTv.visibility = View.INVISIBLE
         }
 
         //TODO : 판매자 & 구매자에 따라 화면 초기화 나누기
@@ -83,6 +113,8 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
             TicketStatus.RESERVATION -> setReservation()
             TicketStatus.SOLDOUT -> setSoldOut()
         }
+
+
     }
 
 
@@ -111,10 +143,45 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     private fun setListener() {
 
 
+        with(binding) {
+            ticketDetailToolbar.ticketToolbarBackIc.setOnClickListener {
+                onBackPressed()
+            }
+            //좋아요 toggle
+            setLikeBtnClickListener(ticketDetailLikeBtn)
+
+            ticketDetailUrlBtn.setOnClickListener {
+                val url = "http://naver.me/5dxygLoW"
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(intent);
+            }
+
+            ticketDetailCopyBtn.setOnClickListener {
+                //TODO : 클립복사
+
+                val sample="http://naver.me/5dxygLoW"
+                createClipData(sample)
+            }
+
+            setOnMenuListener()
+            setScrollListener()
+        }
+    }
+
+    private fun createClipData(message: String){
+        val clipBoardManger : ClipboardManager = applicationContext.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+        val clipData = ClipData.newPlainText(TAG,message)
+        clipBoardManger.setPrimaryClip(clipData)
+
+        this@TicketDetailActivity.BdsToast("주소가 복사되었습니다", binding.ticketDetailFooter.top) .show()
+
+    }
+
+    private fun setOnMenuListener(){
         val menuList = resources.getStringArray(R.array.ticket_detail_bottomsheet_menu)
         val bottomMenu: MutableList<BottomMenuItem<String>> = menuList.map { it -> BottomMenuItem(it) }.toMutableList()
-        with(binding) {
-            //메뉴버튼 bottomsheet
+
+        with(binding){
             ticketDetailToolbar.ticketToolbarMenuIc.setOnClickListener {
                 val bottomSheetFragment: BottomSheetFragment = BottomSheetFragment(
                     "글 메뉴", bottomMenu,
@@ -133,18 +200,6 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
                     }
                 }
                 bottomSheetFragment.show(supportFragmentManager, BatonApp.TAG)
-            }
-
-            ticketDetailToolbar.ticketToolbarBackIc.setOnClickListener {
-                onBackPressed()
-            }
-            //좋아요 toggle
-            setLikeBtnClickListener(ticketDetailLikeBtn)
-
-            ticketDetailUrlBtn.setOnClickListener {
-                val url = "http://naver.me/5dxygLoW"
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                startActivity(intent);
             }
         }
     }
@@ -218,14 +273,82 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         binding.ticketDetailStatusSoldout.visibility = View.GONE
     }
 
-    enum class Seller_TicketDetailMenu {
-        CHANGE_SALES_OPTION, EDIT_OPTION, DELETE_OPTION
-    }
-
     private fun setTicketItemClickListener(ticketItem: TicketItem) {
         startActivity(Intent(this@TicketDetailActivity, TicketDetailActivity::class.java).apply {
             //TODO 게시글 id넘기기
         })
     }
+
+    private fun setScrollListener(){
+        binding.ticketDetailContent.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            if ((oldScrollY+binding.ticketDetailGymTv.top -scrollY) <=  binding.ticketDetailGymTv.top)
+                binding.ticketDetailToolbar.ticketToolbarTv.visibility = View.VISIBLE
+            else  binding.ticketDetailToolbar.ticketToolbarTv.visibility = View.INVISIBLE
+        })
+    }
+
+
+
+
+
+    override fun onMapReady(map: NaverMap) {
+        this.naverMap = map
+        //TODO API에서 받아오기
+        val position = LatLng(37.5027643, 127.097320)
+
+        val mCameraPosition = CameraPosition( position, 13.0,)
+        naverMap.cameraPosition=mCameraPosition
+        val marker =Marker()
+        setMark(marker, position, com.depromeet.bds.R.drawable.ic_pin_filled_24)
+
+    }
+
+    private fun setMark(marker: Marker, pos : LatLng, resourceID: Int) {
+        //아이콘 지정
+        marker.icon = (OverlayImage.fromResource(resourceID))
+        //마커 위치
+        marker.position=pos
+        //마커 표시
+        marker.map = naverMap
+
+        marker.height=30.toPx()
+        marker.width=30.toPx()
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mapView.onStart()
+    }
+    override fun onResume() {
+        super.onResume()
+        mapView.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mapView.onPause()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        mapView.onSaveInstanceState(outState)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mapView.onStop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mapView.onDestroy()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        mapView.onLowMemory()
+    }
+
 }
 
