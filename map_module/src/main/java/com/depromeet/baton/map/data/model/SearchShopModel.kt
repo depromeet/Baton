@@ -13,7 +13,7 @@ class SearchShopModel(_response : ResponseNaverLocal) {
         response.items.forEach {
             run{
                 if(it.category.contains("스포츠") || it.category.contains("운동")){
-                    val name = it.title.replace("<b>", "").replace("</b>", "")
+                    val name = it.title.replace("<b>", "").replace("</b>", " ")
                     val gps= Tm128(it.mapx.toDouble(), it.mapy.toDouble()).toLatLng()
                     val location = LocationEntity(gps.latitude, gps.longitude,it.address, it.roadAddress )
                     result.add(ShopEntity(name,it.link,it.category,location))
