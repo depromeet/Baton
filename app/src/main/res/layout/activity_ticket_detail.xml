@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewmodel"
             type="com.depromeet.baton.presentation.ui.detail.viewModel.TicketDetailViewModel" />
@@ -345,60 +344,15 @@
                             android:textAppearance="?caption1"
                             android:textColor="?grey_scale60" />
 
-                        <com.google.android.flexbox.FlexboxLayout
-                            android:id="@+id/ticket_detail_tag_wrapper"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingRight="@dimen/dimen32"
-                            app:alignContent="center"
-                            app:flexWrap="wrap"
-                            app:justifyContent="flex_start">
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/ticket_detail_infotag_rv"
+                            android:layout_width="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="fill"
+                            android:overScrollMode="never"
+                            tools:listitem="@layout/item_primary_tag" />
 
-                            <com.depromeet.bds.component.BdsTag
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="@dimen/dimen4"
-                                android:theme="@style/Theme.Bds.Tag.Default.Primary.Medium"
-                                app:bds_text="락카룸 포함" />
-
-                            <com.depromeet.bds.component.BdsTag
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="@dimen/dimen4"
-                                android:theme="@style/Theme.Bds.Tag.Default.Primary.Medium"
-                                app:bds_text="운동복 포함" />
-
-                            <com.depromeet.bds.component.BdsTag
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="@dimen/dimen4"
-                                android:theme="@style/Theme.Bds.Tag.Default.Primary.Medium"
-                                app:bds_text="샤워실 포함" />
-
-                            <com.depromeet.bds.component.BdsTag
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="@dimen/dimen4"
-                                android:theme="@style/Theme.Bds.Tag.Default.Primary.Medium"
-                                app:bds_text="GX포함" />
-
-
-                            <com.depromeet.bds.component.BdsTag
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="@dimen/dimen4"
-                                android:theme="@style/Theme.Bds.Tag.Default.Primary.Medium"
-                                app:bds_text="재양도 가능" />
-
-                            <com.depromeet.bds.component.BdsTag
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="@dimen/dimen4"
-                                android:theme="@style/Theme.Bds.Tag.Default.Primary.Medium"
-                                app:bds_text="환불 가능" />
-
-
-                        </com.google.android.flexbox.FlexboxLayout>
                     </GridLayout>
 
                     <View
@@ -539,67 +493,14 @@
                         android:textAppearance="?headline3"
                         android:textColor="?grey_scale90" />
 
-                    <com.google.android.flexbox.FlexboxLayout
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/ticket_detail_gymtag_rv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_rowSpan="1"
                         android:layout_marginHorizontal="@dimen/dimen16"
-                        app:alignContent="center"
-                        app:flexWrap="wrap"
-                        app:justifyContent="flex_start"
+                        tools:listitem="@layout/item_primary_outline_tag"
+                        />
 
-                        >
-
-                        <com.depromeet.bds.component.BdsTag
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/dimen4"
-                            android:theme="@style/Theme.Bds.Tag.Line.Primary.Medium"
-                            app:bds_text="#샤워실 포함" />
-
-                        <com.depromeet.bds.component.BdsTag
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/dimen4"
-                            android:theme="@style/Theme.Bds.Tag.Line.Primary.Medium"
-                            app:bds_text="#체계적인 수업" />
-
-                        <com.depromeet.bds.component.BdsTag
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/dimen4"
-                            android:theme="@style/Theme.Bds.Tag.Line.Primary.Medium"
-                            app:bds_text="#맞춤 케어" />
-
-                        <com.depromeet.bds.component.BdsTag
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/dimen4"
-                            android:theme="@style/Theme.Bds.Tag.Line.Primary.Medium"
-                            app:bds_text="#넓은 시설" />
-
-                        <com.depromeet.bds.component.BdsTag
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/dimen4"
-                            android:theme="@style/Theme.Bds.Tag.Line.Primary.Medium"
-                            app:bds_text="#다양한 기구" />
-
-                        <com.depromeet.bds.component.BdsTag
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/dimen4"
-                            android:theme="@style/Theme.Bds.Tag.Line.Primary.Medium"
-                            app:bds_text="#역세권" />
-
-                        <com.depromeet.bds.component.BdsTag
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/dimen4"
-                            android:theme="@style/Theme.Bds.Tag.Line.Primary.Medium"
-                            app:bds_text="#샤람이 적은" />
-
-                    </com.google.android.flexbox.FlexboxLayout>
 
                     <View
                         android:layout_width="match_parent"

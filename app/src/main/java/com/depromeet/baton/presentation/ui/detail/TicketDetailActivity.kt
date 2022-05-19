@@ -5,7 +5,6 @@ import android.content.ClipboardManager
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.CheckedTextView
 import androidx.activity.viewModels
@@ -16,6 +15,9 @@ import com.depromeet.baton.BatonApp
 import com.depromeet.baton.BatonApp.Companion.TAG
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ActivityTicketDetailBinding
+import com.depromeet.baton.databinding.ItemPrimaryOutlineTagBinding
+import com.depromeet.baton.databinding.ItemPrimaryTagBinding
+import com.depromeet.baton.domain.model.BatonHashTag
 import com.depromeet.baton.domain.model.TicketStatus
 import com.depromeet.baton.presentation.base.BaseActivity
 import com.depromeet.baton.presentation.base.UIState
@@ -29,6 +31,10 @@ import com.depromeet.baton.presentation.ui.home.view.TicketItem
 import com.depromeet.baton.presentation.util.TicketIteHorizontalDecoration
 import com.depromeet.bds.component.BdsToast
 import com.depromeet.bds.utils.toPx
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.MapView
@@ -37,14 +43,13 @@ import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 
 @AndroidEntryPoint
 class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.activity_ticket_detail),
     OnMapReadyCallback {
 
-    enum class Seller_TicketDetailMenu {
+    enum class TicketSaleStatusOption {
         CHANGE_SALES_OPTION, EDIT_OPTION, DELETE_OPTION
     }
 
@@ -53,6 +58,9 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
 
     private lateinit var mapView: MapView
     private lateinit var naverMap: NaverMap
+
+    private lateinit var ticketTagAdapter :TicketTagAdapter<ItemPrimaryTagBinding>
+    private lateinit var gymTagAdapter: TicketTagAdapter<ItemPrimaryOutlineTagBinding>
 
 
     private val viewModel by viewModels<TicketDetailViewModel>()
@@ -70,32 +78,14 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         initView()
         setListener()
         setObserver()
+        setListView()
     }
 
 
 
     private fun initView() {
-        with(binding) {
-            val ticketItemRvAdapter =
-                TicketItemRvAdapter(TicketItemRvAdapter.SCROLL_TYPE_HORIZONTAL, this@TicketDetailActivity, ::setTicketItemClickListener)
-            val mLayoutManager = LinearLayoutManager(this@TicketDetailActivity, LinearLayoutManager.HORIZONTAL, false)
 
-            ticketDetailRv.addItemDecoration(TicketIteHorizontalDecoration())
-            ticketDetailRv.adapter = ticketItemRvAdapter
-            ticketDetailRv.layoutManager = mLayoutManager
-
-            ticketItemRvAdapter.submitList(
-                arrayListOf(
-                    TicketItem("테리온 휘트니스 당산점", "기타", "100,000원", "30일 남음", "영등포구 양평동", "12m", R.drawable.dummy4),
-                    TicketItem("진휘트니스 양평점", "헬스", "3,000원", "60일 남음", "광진구 중곡동", "12m", R.drawable.dummy3),
-                    TicketItem("휴메이크 휘트니스 석촌점", "필라테스", "223,000원", "4일 남음", "광진구 중곡동", "12m", R.drawable.dummy2),
-                    TicketItem("바톤휘트니스 대왕점", "헬스", "19,000원", "5일 남음", "광진구 중곡동", "12m", R.drawable.dummy1),
-                    TicketItem("휴메이크 휘트니스 석촌점", "필라테스", "223,000원", "4일 남음", "광진구 중곡동", "12m", R.drawable.dummy5),
-                )
-            )
-
-            ticketDetailToolbar.ticketToolbarTv.visibility = View.INVISIBLE
-        }
+        binding.ticketDetailToolbar.ticketToolbarTv.visibility = View.INVISIBLE
 
         //TODO : 판매자 & 구매자에 따라 화면 초기화 나누기
         when (user) {
@@ -114,7 +104,68 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
             TicketStatus.SOLDOUT -> setSoldOut()
         }
 
+    }
 
+    private fun initTicketTag(){
+        ticketTagAdapter =TicketTagAdapter(
+            R.layout.item_primary_tag,
+            arrayListOf(BatonHashTag("친절한 선생님"),BatonHashTag("샤워실 포함") ,BatonHashTag("시설"),
+                BatonHashTag("깔끔한 시설")
+            ))
+
+        FlexboxLayoutManager(this).apply{
+            flexWrap = FlexWrap.WRAP
+            flexDirection=FlexDirection.ROW
+            justifyContent = JustifyContent.FLEX_START
+
+        }.let{
+            with(binding){
+                ticketDetailInfotagRv.layoutManager = it
+                ticketDetailInfotagRv.adapter =ticketTagAdapter
+            }
+        }
+    }
+
+    private fun initGymTag(){
+        gymTagAdapter =TicketTagAdapter(
+            R.layout.item_primary_outline_tag,
+            arrayListOf(BatonHashTag("친절한 선생님"),BatonHashTag("샤워실 포함") ,BatonHashTag("시설"),
+                BatonHashTag("깔끔한 시설")
+            ))
+
+        FlexboxLayoutManager(this).apply{
+            flexWrap = FlexWrap.WRAP
+            flexDirection=FlexDirection.ROW
+            justifyContent = JustifyContent.FLEX_START
+
+        }.let{
+            with(binding){
+                ticketDetailGymtagRv.layoutManager = it
+                ticketDetailGymtagRv.adapter = gymTagAdapter
+            }
+        }
+    }
+
+    private fun initShopMoreItem(){
+        with(binding) {
+            val ticketItemRvAdapter =
+                TicketItemRvAdapter(TicketItemRvAdapter.SCROLL_TYPE_HORIZONTAL, this@TicketDetailActivity, ::setTicketItemClickListener)
+            val mLayoutManager = LinearLayoutManager(this@TicketDetailActivity, LinearLayoutManager.HORIZONTAL, false)
+
+            ticketDetailRv.addItemDecoration(TicketIteHorizontalDecoration())
+            ticketDetailRv.adapter = ticketItemRvAdapter
+            ticketDetailRv.layoutManager = mLayoutManager
+
+            ticketItemRvAdapter.submitList(
+                arrayListOf(
+                    TicketItem("테리온 휘트니스 당산점", "기타", "100,000원", "30일 남음", "영등포구 양평동", "12m", R.drawable.dummy4),
+                    TicketItem("진휘트니스 양평점", "헬스", "3,000원", "60일 남음", "광진구 중곡동", "12m", R.drawable.dummy3),
+                    TicketItem("휴메이크 휘트니스 석촌점", "필라테스", "223,000원", "4일 남음", "광진구 중곡동", "12m", R.drawable.dummy2),
+                    TicketItem("바톤휘트니스 대왕점", "헬스", "19,000원", "5일 남음", "광진구 중곡동", "12m", R.drawable.dummy1),
+                    TicketItem("휴메이크 휘트니스 석촌점", "필라테스", "223,000원", "4일 남음", "광진구 중곡동", "12m", R.drawable.dummy5),
+                )
+            )
+        }
     }
 
 
@@ -139,10 +190,14 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         })
     }
 
+    private fun setListView(){
+        initTicketTag()
+        initGymTag()
+        initShopMoreItem()
+    }
+
 
     private fun setListener() {
-
-
         with(binding) {
             ticketDetailToolbar.ticketToolbarBackIc.setOnClickListener {
                 onBackPressed()
@@ -158,7 +213,6 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
 
             ticketDetailCopyBtn.setOnClickListener {
                 //TODO : 클립복사
-
                 val sample="http://naver.me/5dxygLoW"
                 createClipData(sample)
             }
@@ -172,7 +226,6 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         val clipBoardManger : ClipboardManager = applicationContext.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
         val clipData = ClipData.newPlainText(TAG,message)
         clipBoardManger.setPrimaryClip(clipData)
-
         this@TicketDetailActivity.BdsToast("주소가 복사되었습니다", binding.ticketDetailFooter.top) .show()
 
     }
@@ -188,13 +241,13 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
                     BottomSheetFragment.DEFAULT_ITEM_VIEW
                 ) {
                     when (it) {
-                        Seller_TicketDetailMenu.CHANGE_SALES_OPTION.ordinal -> {
+                        TicketSaleStatusOption.CHANGE_SALES_OPTION.ordinal -> {
                             showChangeSalesOptionDialog()
                         }
-                        Seller_TicketDetailMenu.EDIT_OPTION.ordinal -> {
+                        TicketSaleStatusOption.EDIT_OPTION.ordinal -> {
 
                         }
-                        Seller_TicketDetailMenu.DELETE_OPTION.ordinal -> {
+                        TicketSaleStatusOption.DELETE_OPTION.ordinal -> {
 
                         }
                     }
@@ -214,14 +267,13 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
                 BottomSheetFragment.DEFAULT_ITEM_VIEW
             ) {
                 when (it) {
-                    Seller_TicketDetailMenu.CHANGE_SALES_OPTION.ordinal -> {
+                    TicketSaleStatusOption.CHANGE_SALES_OPTION.ordinal -> {
                         showChangeSalesOptionDialog()
+                    }
+                    TicketSaleStatusOption.EDIT_OPTION.ordinal -> {
 
                     }
-                    Seller_TicketDetailMenu.EDIT_OPTION.ordinal -> {
-
-                    }
-                    Seller_TicketDetailMenu.DELETE_OPTION.ordinal -> {
+                    TicketSaleStatusOption.DELETE_OPTION.ordinal -> {
                     }
                 }
             }
