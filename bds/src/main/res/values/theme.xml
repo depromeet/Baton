@@ -251,7 +251,7 @@
     </style>
 
     <style name="Theme.Bds.Tag.Line" parent="">
-        <item name="bdsTagRadius">@dimen/dimen4</item>
+        <item name="bdsTagRadius">@dimen/dimen100</item>
     </style>
 
     <style name="Theme.Bds.Tag.Line.Primary">
