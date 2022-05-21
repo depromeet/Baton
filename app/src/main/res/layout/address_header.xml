@@ -29,18 +29,6 @@
             android:textColor="?grey_scale90"
             android:textAppearance="?headline2"
             />
-      <!--  <TextView
-            android:id="@+id/next_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="다음"
-            android:textColor="@drawable/selector_appbar_next_color"
-            android:textAppearance="?body1"
-            android:layout_marginRight="@dimen/dimen18"
-            android:layout_marginVertical="@dimen/dimen16"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />-->
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 

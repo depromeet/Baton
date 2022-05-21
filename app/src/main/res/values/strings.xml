@@ -149,11 +149,17 @@
         <item name = "ticket_detail_delete_option">삭제하기</item>
     </string-array >
 
+    <!-- 티켓 판매 상태 -->
     <string-array  name="ticketSaleStatus">
         <item name = "ticket_status_sale">판매중</item>
         <item name = "ticket_status_reserve">예약중</item>
         <item name = "ticket_status_completed">거래완료</item>
     </string-array >
+
+    <!--  마이페이지 티켓 메뉴 옵션  -->
+    <string name="mypage_ticket_menu_change">정보 수정하기</string>
+    <string name="mypage_ticket_menu_delete">삭제</string>
+
 
 
 </resources>

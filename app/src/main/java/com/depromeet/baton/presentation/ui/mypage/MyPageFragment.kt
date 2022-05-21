@@ -12,8 +12,16 @@ import com.depromeet.baton.presentation.base.BaseFragment
 
 class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page) {
 
+    private val saleHistoryFragment = SaleHistoryFragment()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initView()
 
+    }
+
+    private fun initView(){
+        binding.mypageSaleHistoryCd.setOnClickListener {
+            childFragmentManager.beginTransaction().replace(R.id.fragment_container_view,saleHistoryFragment).commit()
+        }
     }
 }

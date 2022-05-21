@@ -1,4 +1,4 @@
-package com.depromeet.baton.presentation.ui.mypage
+package com.depromeet.baton.presentation.ui.mypage.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
