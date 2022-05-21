@@ -65,6 +65,7 @@ dependencies {
     implementation(Dep.Android.constraintLayout)
     implementation(Dep.Android.fragment)
     implementation(Dep.Android.flexbox)
+    implementation(Dep.Android.splashscreen)
 
     implementation(Dep.CustomLibrary.rangeSeekbar)
     implementation(Dep.CustomLibrary.keyboardListener)

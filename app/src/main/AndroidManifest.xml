@@ -15,7 +15,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MyApplication"
+        android:theme="@style/Theme.App.Starting"
         tools:replace="android:name">
         <activity
             android:name=".presentation.ui.writepost.view.WritePostActivity"
