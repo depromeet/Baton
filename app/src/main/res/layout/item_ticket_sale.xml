@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout
         android:orientation="vertical"
-        android:paddingTop="@dimen/dimen20"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <androidx.appcompat.widget.Toolbar
@@ -25,12 +24,63 @@
                 app:cardCornerRadius="@dimen/dimen5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/item_sale_image_iv"
+                            android:layout_width="@dimen/dimen86"
+                            android:layout_height="@dimen/dimen86"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:src="@drawable/ic_empty_etc_86" />
+                        <TextView
+                            android:id="@+id/item_sale_badge_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/card_badge"
+                            android:paddingHorizontal="@dimen/dimen8"
+                            android:paddingVertical="@dimen/dimen4"
+                            android:text="헬스"
+                            android:textAppearance="?caption1"
+                            android:textColor="@color/wh100"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:id="@+id/item_sale_image_iv"
-                    android:layout_width="@dimen/dimen86"
-                    android:layout_height="@dimen/dimen86"
-                    android:src="@drawable/ic_empty_etc_86" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+                    <LinearLayout
+                        android:id="@+id/item_sale_status_view"
+                        android:layout_width="@dimen/dimen86"
+                        android:layout_height="@dimen/dimen86"
+                        android:background="?dim"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        >
+
+                        <ImageView
+                            android:id="@+id/item_sale_status_ic"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_time_line_20"
+                            app:tint="?wh100" />
+
+                        <TextView
+                            android:id="@+id/item_sale_status_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="예약중"
+                            android:layout_marginTop="@dimen/dimen4"
+                            android:textAppearance="?caption1"
+                            android:textColor="?wh100" />
+                    </LinearLayout>
+
+                </FrameLayout>
             </androidx.cardview.widget.CardView>
 
             <com.google.android.flexbox.FlexboxLayout

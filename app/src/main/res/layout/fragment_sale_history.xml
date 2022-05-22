@@ -8,11 +8,12 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.ui.mypage.SaleHistoryFragment"
+        tools:context=".presentation.ui.mypage.view.SaleHistoryFragment"
 
         >
 
         <com.depromeet.bds.component.BdsBackwardAppBar
+            android:id="@+id/sale_history_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/dimen12"

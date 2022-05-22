@@ -1,24 +1,26 @@
-package com.depromeet.baton.presentation.ui.mypage
+package com.depromeet.baton.presentation.ui.mypage.view
 
 import android.os.Bundle
 import android.view.*
-import android.widget.AdapterView
-import android.widget.ImageButton
 import android.widget.PopupMenu
-import android.widget.TextView
 import androidx.annotation.MenuRes
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.depromeet.baton.BatonApp
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentSaleTabBinding
-import com.depromeet.baton.domain.model.TicketStatus
 import com.depromeet.baton.presentation.base.BaseFragment
 import com.depromeet.baton.presentation.bottom.BottomMenuItem
 import com.depromeet.baton.presentation.bottom.BottomSheetFragment
-import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter
+import com.depromeet.baton.presentation.ui.mypage.SaleTicketItem
+import com.depromeet.baton.presentation.ui.mypage.SaleTicketListItem
 import com.depromeet.baton.presentation.ui.mypage.adapter.SaleTicketItemAdapter
 
 class SaleTabFragment : BaseFragment<FragmentSaleTabBinding>(R.layout.fragment_sale_tab){
+    private  val ticketItemRvAdapter by lazy {
+        SaleTicketItemAdapter(requireContext(), ::onClickMenuItemListener, ::onClickStatusMenuItemListener)
+    }
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -36,32 +38,45 @@ class SaleTabFragment : BaseFragment<FragmentSaleTabBinding>(R.layout.fragment_s
 
 
     private fun setTicketItemRv(){
-        val ticketItemRvAdapter =
-            SaleTicketItemAdapter(requireContext(), ::onClickMenuItemListener, ::onClickStatusMenuItemListener)
+
         val mLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.saleTabRv.adapter = ticketItemRvAdapter
         binding.saleTabRv.layoutManager = mLayoutManager
-        val dummy = arrayListOf<SaleTicketItem>(
-            SaleTicketItem("테리온 휘트니스 당산점", "기타", "100,000원", "30일 남음", "영등포구 양평동", "12m", R.drawable.dummy4,"판매중"),
-            SaleTicketItem("진휘트니스 양평점", "헬스", "3,000원", "60일 남음", "광진구 중곡동", "12m", R.drawable.dummy3,"판매중"),
-            SaleTicketItem("휴메이크 휘트니스 석촌점", "필라테스", "223,000원", "4일 남음", "광진구 중곡동", "12m", R.drawable.dummy2,"판매중"),
-            SaleTicketItem("바톤휘트니스 대왕점", "헬스", "19,000원", "5일 남음", "광진구 중곡동", "12m", R.drawable.dummy1,"판매중"),
-            SaleTicketItem("휴메이크 휘트니스 석촌점", "필라테스", "223,000원", "4일 남음", "광진구 중곡동", "12m", R.drawable.dummy5,"판매중"),
-        )
-        ticketItemRvAdapter.submitList(dummy)
 
+
+        //dummy
+        val dummy = arrayListOf<SaleTicketItem>(
+            SaleTicketItem("테리온 휘트니스 당산점", "기타", "100,000원", "30일 남음", "영등포구 양평동", "12m", R.drawable.dummy4,"2022.2.22","판매중"),
+            SaleTicketItem("진휘트니스 양평점", "헬스", "3,000원", "60일 남음", "광진구 중곡동", "12m", R.drawable.dummy3,"2022.2.22","판매중"),
+            SaleTicketItem("휴메이크 휘트니스 석촌점", "필라테스", "223,000원", "4일 남음", "광진구 중곡동", "12m", R.drawable.dummy2,"2022.2.22","판매중"),
+            SaleTicketItem("바톤휘트니스 대왕점", "헬스", "19,000원", "5일 남음", "광진구 중곡동", "12m", R.drawable.dummy1,"2022.2.22","판매중"),
+            SaleTicketItem("휴메이크 휘트니스 석촌점", "필라테스", "223,000원", "4일 남음", "광진구 중곡동", "12m", R.drawable.dummy5,"2022.2.22","판매중"),
+        )
+        val items : MutableList<SaleTicketListItem> = dummy.map{ i-> SaleTicketListItem.Item(i) }.toMutableList()
+        items.add(SaleTicketListItem.Footer(dummy.last()))
+        items.add(SaleTicketListItem.Header(dummy.last()))
+        items.addAll(dummy.map{i-> SaleTicketListItem.Item(i) })
+        ticketItemRvAdapter.submitList(items)
+
+    }
+
+
+    private fun observeListItems() {
+      /*  viewModel.ticketItem.observe(this) { items->
+            ticketItemRvAdapter.submitList(items)
+        }*/
     }
 
 
     //메뉴버튼 클릭
 
-    private fun onClickMenuItemListener(ticketItem : SaleTicketItem , view: View){
+    private fun onClickMenuItemListener(ticketItem : SaleTicketListItem, view: View){
         showMenu(view, R.menu.menu_mypage_ticekt)
     }
 
     //상태변경 클릭
 
-    private fun onClickStatusMenuItemListener(ticketItem : SaleTicketItem){
+    private fun onClickStatusMenuItemListener(ticketItem : SaleTicketListItem){
 
         //TODO 현재 ticket isChecked 처리
         val menuList = resources.getStringArray(R.array.ticketSaleStatus)
@@ -78,7 +93,7 @@ class SaleTabFragment : BaseFragment<FragmentSaleTabBinding>(R.layout.fragment_s
         bottomSheetFragment.show(requireActivity().supportFragmentManager, BatonApp.TAG)
     }
 
-
+    //TODO menu Custom
     private fun showMenu(v: View, @MenuRes menuRes: Int) {
 
         val popup = PopupMenu(requireContext(), v,Gravity.END, 0, com.depromeet.bds.R.style.BdsPopupMenuStyle)

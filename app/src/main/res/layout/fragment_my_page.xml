@@ -21,7 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/dimen16"
-                tools:context=".presentation.ui.mypage.MyPageFragment"
+                tools:context=".presentation.ui.mypage.view.MyPageFragment"
                 >
 
                 <LinearLayout
@@ -122,7 +122,7 @@
                             <androidx.cardview.widget.CardView
                                 android:id="@+id/mypage_sale_history_cd"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="@dimen/dimen72"
                                 android:backgroundTint="?primary5"
                                 app:cardCornerRadius="@dimen/dimen8"
                                 app:cardElevation="0dp">
@@ -153,8 +153,9 @@
                             android:orientation="vertical">
 
                             <androidx.cardview.widget.CardView
+                                android:id="@+id/mypage_purchase_cd"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="@dimen/dimen72"
                                 android:backgroundTint="?primary5"
                                 app:cardCornerRadius="@dimen/dimen8"
                                 app:cardElevation="0dp">
@@ -162,9 +163,8 @@
                                 <ImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:paddingVertical="@dimen/dimen24"
                                     android:layout_gravity="center"
-                                    android:src="@drawable/ic_frame" />
+                                    android:src="@drawable/ic_purchase_history" />
                             </androidx.cardview.widget.CardView>
 
                             <TextView
@@ -186,8 +186,9 @@
                             android:orientation="vertical">
 
                             <androidx.cardview.widget.CardView
+                                android:id="@+id/mypage_like_cd"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="@dimen/dimen72"
                                 android:backgroundTint="?primary5"
                                 app:cardCornerRadius="@dimen/dimen8"
                                 app:cardElevation="0dp">
@@ -195,16 +196,15 @@
                                 <ImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:paddingVertical="@dimen/dimen24"
                                     android:layout_gravity="center"
-                                    android:src="@drawable/ic_frame" />
+                                    android:src="@drawable/ic_like_product" />
                             </androidx.cardview.widget.CardView>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/dimen4"
-                                android:text="판매내역"
+                                android:text="관심상품"
                                 android:textAppearance="?caption1"
                                 android:textColor="?grey_scale70" />
                         </LinearLayout>

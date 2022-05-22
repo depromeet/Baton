@@ -1,4 +1,4 @@
-package com.depromeet.baton.presentation.ui.mypage
+package com.depromeet.baton.presentation.ui.mypage.view
 
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentSoldoutTabBinding

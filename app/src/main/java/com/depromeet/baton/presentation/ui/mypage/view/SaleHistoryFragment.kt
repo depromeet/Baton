@@ -1,4 +1,4 @@
-package com.depromeet.baton.presentation.ui.mypage
+package com.depromeet.baton.presentation.ui.mypage.view
 
 import android.os.Bundle
 import android.view.View
@@ -19,6 +19,11 @@ class SaleHistoryFragment  : BaseFragment<FragmentSaleHistoryBinding>(R.layout.f
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewPager()
+        setOnBackPressed()
+    }
+
+    private fun setOnBackPressed(){
+       binding.saleHistoryToolbar.setOnBackwardClick { parentFragmentManager.popBackStack()}
     }
 
     private fun initViewPager(){
@@ -34,5 +39,6 @@ class SaleHistoryFragment  : BaseFragment<FragmentSaleHistoryBinding>(R.layout.f
         }.attach()
 
     }
+
 
 }
