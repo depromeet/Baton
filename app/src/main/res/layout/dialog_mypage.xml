@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/background_radius_12dp"
+    android:backgroundTint="?wh100"
+    android:paddingHorizontal="@dimen/dimen24"
+    android:paddingTop="@dimen/dimen42"
+    android:gravity="center"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_img_empty_warning"
+        android:background="@null"
+        android:layout_marginBottom="@dimen/dimen22"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="정말 삭제하시겠습니까?"
+        android:textAppearance="?headline1"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="삭제 시 , 등록했던 정보가 전부 사라져요."
+        android:layout_marginTop="@dimen/dimen8"
+        android:textAppearance="?body3"
+        android:textColor="?grey_scale70"
+        />
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:layout_gravity="center"
+        android:useDefaultMargins="true"
+        android:layout_marginTop="@dimen/dimen22"
+        android:paddingBottom="@dimen/dimen32"
+
+        >
+        <androidx.appcompat.widget.AppCompatButton
+            android:theme="@style/Theme.Bds.TertiaryButton"
+            android:id="@+id/dialog_cancel"
+            android:layout_columnWeight="1"
+            android:layout_height="@dimen/dimen48"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginRight="@dimen/dimen8"
+            android:background="@drawable/bds_button_background"
+            android:textAlignment="center"
+            android:text="취소"
+            />
+        <androidx.appcompat.widget.AppCompatButton
+            android:theme="@style/Theme.Bds.SecondaryButton"
+            android:id="@+id/dialog_delete"
+            android:layout_columnWeight="1"
+            android:layout_height="@dimen/dimen48"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginLeft="@dimen/dimen8"
+            android:background="@drawable/bds_button_background"
+            android:textAlignment="center"
+            android:text="삭제"
+            android:textColor="?wh100"
+            />
+    </GridLayout>
+
+
+</LinearLayout>

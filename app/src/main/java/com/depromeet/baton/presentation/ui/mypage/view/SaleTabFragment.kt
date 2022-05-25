@@ -1,7 +1,9 @@
 package com.depromeet.baton.presentation.ui.mypage.view
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
+import android.widget.Button
 import android.widget.PopupMenu
 import androidx.annotation.MenuRes
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +22,8 @@ class SaleTabFragment : BaseFragment<FragmentSaleTabBinding>(R.layout.fragment_s
         SaleTicketItemAdapter(requireContext(), ::onClickMenuItemListener, ::onClickStatusMenuItemListener)
     }
 
+    private lateinit var alertDialog : AlertDialog
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,6 +31,7 @@ class SaleTabFragment : BaseFragment<FragmentSaleTabBinding>(R.layout.fragment_s
         savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true)
+        setAlertDialog()
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
@@ -123,10 +128,31 @@ class SaleTabFragment : BaseFragment<FragmentSaleTabBinding>(R.layout.fragment_s
                 true
             }
             R.id.mypage_ticket_menu_delete -> {
-                // Respond to context menu item 2 click.
+                alertDialog.show()
                 true
             }
             else -> super.onContextItemSelected(item)
         }
     }
+
+
+
+    private fun setAlertDialog(){
+        val layoutInflater = LayoutInflater.from(context)
+        val view = layoutInflater.inflate(R.layout.dialog_mypage, null)
+        alertDialog = AlertDialog.Builder(context, com.depromeet.bds.R.style.MyPageAlertDialog)
+            .setView(view)
+            .create()
+        val buttonCancel = view.findViewById<Button>(R.id.dialog_cancel)
+        val buttonConfirm = view.findViewById<Button>(R.id.dialog_delete)
+
+        buttonCancel.setOnClickListener {
+            alertDialog.dismiss()
+        }
+
+        buttonConfirm.setOnClickListener {
+            //TODO 삭제 API
+        }
+    }
+
 }
