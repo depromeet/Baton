@@ -101,4 +101,9 @@
         <attr name="bds_backward_icon" format="reference" />
         <attr name="bds_button" />
     </declare-styleable>
+
+    <declare-styleable name="BdsToggle">
+        <attr name="isEnabled" />
+        <attr name="isChecked" format="boolean" />
+    </declare-styleable>
 </resources>
