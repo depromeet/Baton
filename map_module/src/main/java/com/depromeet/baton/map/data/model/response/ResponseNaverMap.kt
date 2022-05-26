@@ -1,4 +1,4 @@
-package com.depromeet.baton.map.data.model
+package com.depromeet.baton.map.data.model.response
 
 data class ResponseNaverLocal(
     var lastBuildDate: String = "",
