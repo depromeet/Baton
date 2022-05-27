@@ -39,4 +39,3 @@ fun RecyclerView.bindItemDecoration(itemDecoration: RecyclerView.ItemDecoration)
 fun RecyclerView.bindAdapter(adapter: RecyclerView.Adapter<*>) {
     this.adapter = adapter
 }
-

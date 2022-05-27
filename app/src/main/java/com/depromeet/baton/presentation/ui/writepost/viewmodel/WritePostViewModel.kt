@@ -1,9 +1,11 @@
 package com.depromeet.baton.presentation.ui.writepost.viewmodel
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.depromeet.baton.map.domain.entity.ShopEntity
 import com.depromeet.baton.map.domain.usecase.SearchItem
 import com.depromeet.baton.map.domain.usecase.SearchShopUseCase
 import com.depromeet.baton.presentation.base.BaseViewModel
@@ -25,10 +27,6 @@ class WritePostViewModel @Inject constructor(
     private val _currentLevel = MutableLiveData(1)
     val currentLevel: LiveData<Int> = _currentLevel
 
-    //장소검색
-    private val _uiState = MutableLiveData<UIState>(UIState.Init)
-    val uiState: LiveData<UIState> get() = _uiState
-
     //선택한 장소
     private val _selectedShopInfo = MutableLiveData<ShopInfo>()
     val selectedShopInfo: LiveData<ShopInfo> = _selectedShopInfo
@@ -38,8 +36,12 @@ class WritePostViewModel @Inject constructor(
     val isShopSelected: LiveData<Any> = _isShopSelected
 
     //검색 결과 리스트
-    private val _shopInfoList = MutableStateFlow<List<ShopInfo>>(ArrayList())
-    val shopInfoList: StateFlow<List<ShopInfo>> = _shopInfoList.asStateFlow()
+    private val _shopInfoList = MutableStateFlow<ArrayList<ShopEntity>>(ArrayList())
+    val shopInfoList: StateFlow<ArrayList<ShopEntity>> = _shopInfoList
+
+    //_uiState
+    private val _uiState = MutableLiveData<UIState>(UIState.Init)
+    val uiState: LiveData<UIState> = _uiState
 
     //선택한 이미지 리스트
     private val _selectedPhotoList = MutableLiveData<MutableList<Uri>>()
@@ -63,31 +65,25 @@ class WritePostViewModel @Inject constructor(
         }
     }
 
-    //viewEvent관련
-    private fun nextLevelEvent(level: Int) = viewEvent(level)
-
-    //TODO 데이터 collect
     fun searchPlace(query: String) {
-      /*  _shopInfoList.value = listOf(
-            ShopInfo("투엑스 휘트니스 대치점", "서울 강남구 삼성로123"),
-            ShopInfo("투게더 휘트니스 양평점", "서울 영등포구 선유로141"),
-            ShopInfo("투웨이 필라테스 당산점", "서울 강동구 선유로323"),
-            ShopInfo("투스데이 헬스 개봉점", "서울 관악구 개봉로331"),
-        )*/
+        if (query == "") {
+            _uiState.value = UIState.Init
+            return
+        }
         viewModelScope.launch {
             runCatching {
             }.onSuccess {
-                        searchShopUseCase.searchShop(query ).collect{
-                            when(it){
-                                is SearchItem.Content ->{
-                                    _shopInfoList.value = it.data!!.map { i-> ShopInfo(i.name , i.location.address.roadAddress) }
-                                }
-                                is SearchItem.Empty -> {
-                                   // TODO : 비었을 때 처리
-                                   
-                                }
-                            }
+                searchShopUseCase.searchShop(query).collect {
+                    when (it) {
+                        is SearchItem.Content -> {
+                            _uiState.value = UIState.HasData
+                            _shopInfoList.value = it.data!!
                         }
+                        is SearchItem.Empty -> {
+                            _uiState.value = UIState.NoData
+                        }
+                    }
+                }
             }.onFailure {
                 _uiState.value = (UIState.Init)
                 Timber.e(it.toString())
@@ -95,6 +91,8 @@ class WritePostViewModel @Inject constructor(
         }
     }
 
+    private fun nextLevelEvent(level: Int) = viewEvent(level)
+    
     fun setSelectShop(shopInfo: ShopInfo) {
         _selectedShopInfo.value = shopInfo
         _isShopSelected.call()
@@ -115,3 +113,4 @@ class WritePostViewModel @Inject constructor(
         const val GO_TO_DONE = 5
     }
 }
+
