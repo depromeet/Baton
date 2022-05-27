@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_bottomsheet">
+
+        <com.depromeet.bds.component.BdsBackwardAppBar
+            android:id="@+id/bds_appbar_self_write"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="12dp"
+            app:bds_icon="@drawable/ic_close_line_24"
+            app:bds_title="직접 입력"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ctl_bottom_place_top"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/dimen16"
+            android:layout_marginTop="@dimen/dimen8"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bds_appbar_self_write">
+
+            <TextView
+                android:id="@+id/tv_self_write_center_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="센터명"
+                android:textAppearance="?body3"
+                android:textColor="?grey_scale60"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/et_self_write_center_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen8"
+                android:background="@drawable/temp_choice_chip_bacground"
+                android:hint="ex.바통휘트니스 센터"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:padding="@dimen/dimen16"
+                android:textAppearance="?body4"
+                android:textColor="?grey_scale90"
+                android:textColorHint="?grey_scale50"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_self_write_center_name"
+                tools:text="배고파 밥먹" />
+
+            <TextView
+                android:id="@+id/tv_self_write_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="지점"
+                android:textAppearance="?body3"
+                android:textColor="?grey_scale60"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/et_self_write_center_name" />
+
+            <EditText
+                android:id="@+id/et_self_write_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen8"
+                android:background="@drawable/temp_choice_chip_bacground"
+                android:hint="ex.강남점"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:padding="@dimen/dimen16"
+                android:textAppearance="?body4"
+                android:textColor="?grey_scale90"
+                android:textColorHint="?grey_scale50"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_self_write_location" />
+
+            <TextView
+                android:id="@+id/tv_self_write_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="주소"
+                android:textAppearance="?body3"
+                android:textColor="?grey_scale60"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/et_self_write_location" />
+
+            <TextView
+                android:id="@+id/tv_self_write_city"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen8"
+                android:layout_marginEnd="@dimen/dimen4"
+                android:background="@drawable/temp_choice_chip_bacground"
+                android:hint="시/도"
+                android:includeFontPadding="false"
+                android:padding="@dimen/dimen16"
+                android:textAppearance="?body4"
+                android:textColor="?grey_scale90"
+                android:textColorHint="?grey_scale50"
+                app:layout_constraintEnd_toStartOf="@+id/tv_self_write_region"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_self_write_address" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dimen12"
+                android:src="@drawable/ic_less_line_24"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_self_write_city"
+                app:layout_constraintEnd_toEndOf="@id/tv_self_write_city"
+                app:layout_constraintTop_toTopOf="@id/tv_self_write_city" />
+
+            <TextView
+                android:id="@+id/tv_self_write_region"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen4"
+                android:background="@drawable/temp_choice_chip_bacground"
+                android:hint="구"
+                android:includeFontPadding="false"
+                android:padding="@dimen/dimen16"
+                android:textAppearance="?body4"
+                android:textColor="?grey_scale90"
+                android:textColorHint="?grey_scale50"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_self_write_city"
+                app:layout_constraintTop_toTopOf="@+id/tv_self_write_city" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dimen12"
+                android:src="@drawable/ic_less_line_24"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_self_write_region"
+                app:layout_constraintEnd_toEndOf="@id/tv_self_write_region"
+                app:layout_constraintTop_toTopOf="@id/tv_self_write_region" />
+
+            <EditText
+                android:id="@+id/et_self_write_detail_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen8"
+                android:background="@drawable/temp_choice_chip_bacground"
+                android:hint="나머지 상세주소를 입력해주세요"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:padding="@dimen/dimen16"
+                android:textAppearance="?body4"
+                android:textColor="?grey_scale90"
+                android:textColorHint="?grey_scale50"
+                app:layout_constraintTop_toBottomOf="@+id/tv_self_write_region"
+                tools:text="영등포구 영등포 영등포의 영등포" />
+
+            <TextView
+                android:id="@+id/tv_self_write_explain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen8"
+                android:text="지번, 도로명, 건물명과 같이 정확한 주소를 입력해주세요"
+                android:textAppearance="?caption2"
+                android:textColor="?grey_scale60"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+
+                app:layout_constraintTop_toBottomOf="@id/et_self_write_detail_address" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_write_post_next"
+                style="@style/Widget.MaterialButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dimen16"
+                android:backgroundTint="?primary50"
+                android:paddingVertical="@dimen/dimen16"
+                android:text="확인"
+                android:textAppearance="?body1"
+                android:textColor="?wh100"
+                app:layout_constraintBottom_toBottomOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

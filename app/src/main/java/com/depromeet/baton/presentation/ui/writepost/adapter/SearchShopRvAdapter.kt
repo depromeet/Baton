@@ -33,7 +33,6 @@ class SearchShopRvAdapter(
             with(binding) {
                 tvItemSearchShopName.text = item.name
                 tvItemSearchShopAddress.text = item.name
-                Log.e("ㅡㅡㅡㅡㅡㅡshopInfoListㅡㅡㅡㅡ",item.name)
                 tvItemSearchShopAddressSelect.setOnClickListener {
                     writePostViewModel.setSelectShop(ShopInfo(tvItemSearchShopName.text.toString(), tvItemSearchShopAddress.text.toString()))
                 }
