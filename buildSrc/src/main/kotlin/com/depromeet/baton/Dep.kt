@@ -32,10 +32,20 @@ object Dep {
         const val fragment = "androidx.fragment:fragment-ktx:1.4.1"
         const val flexbox = "com.google.android.flexbox:flexbox:3.0.0"
 
-        const val navigationCompose = "androidx.navigation:navigation-compose:2.4.0"
         const val hiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:1.0.0"
         const val legacy = "androidx.legacy:legacy-support-v4:1.0.0"
         const val splashscreen = "androidx.core:core-splashscreen:1.0.0-beta02"
+    }
+
+    object Navigation {
+        private const val version = "2.4.2"
+
+        const val fragmentKtx ="androidx.navigation:navigation-fragment-ktx:$version"
+        const val uiKtx = "androidx.navigation:navigation-ui-ktx:$version"
+        const val testing = "androidx.navigation:navigation-testing:$version"
+        const val navigationCompose = "androidx.navigation:navigation-compose:$version"
+
+        const val safeArgsGradlePlugin = "androidx.navigation:navigation-safe-args-gradle-plugin:$version"
     }
 
     object Lifecycle {
@@ -162,7 +172,6 @@ object Dep {
         const val keyboardListener ="net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.3.0"
         const val lottie ="com.airbnb.android:lottie:3.4.0"
     }
-
 
     const val timber = "com.jakewharton.timber:timber:5.0.1"
     const val snapper = "dev.chrisbanes.snapper:snapper:<version>"

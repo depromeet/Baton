@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="uiState"
+            type="com.depromeet.baton.presentation.ui.sign.SignUpTermUiState" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/dimen16">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="바통서비스 이용약관에\n동의해주세요."
+                    android:textAppearance="?headline1"
+                    android:textColor="?grey_scale80" />
+
+                <com.depromeet.bds.component.BdsLinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:onClick="@{_ -> uiState.onClickAgreeAll.invoke()}"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"
+                    app:bdsBackgroundColor="?bds_background"
+                    app:bdsRadius="10dp">
+
+                    <CheckBox
+                        style="@style/Widget.Bds.CheckBox.Primary"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:checked="@{uiState.agreeAll}"
+                        android:clickable="false" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:text="전체 동의"
+                        android:textAppearance="?body1"
+                        android:textColor="?grey_scale90" />
+                </com.depromeet.bds.component.BdsLinearLayout>
+
+                <CheckedTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:checked="@{uiState.agreeAge}"
+                    android:drawableStart="@drawable/ic_check_line_20"
+                    android:drawablePadding="12dp"
+                    android:drawableTint="@color/selector_grey_scale40_primary50"
+                    android:onClick="@{_ -> uiState.onClickAgreeAge.invoke()}"
+                    android:text="[필수] 만 14세 이상"
+                    android:textAppearance="?body4"
+                    android:textColor="?grey_scale80" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp">
+
+                    <CheckedTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="@{uiState.agreeService}"
+                        android:drawableStart="@drawable/ic_check_line_20"
+                        android:drawablePadding="12dp"
+                        android:drawableTint="@color/selector_grey_scale40_primary50"
+                        android:onClick="@{_ -> uiState.onClickAgreeService.invoke()}"
+                        android:text="[필수] 서비스 이용약관 동의"
+                        android:textAppearance="?body4"
+                        android:textColor="?grey_scale80" />
+
+                    <!-- TODO: Bds Button 교체 필요 -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:onClick="@{_ -> uiState.onClickServiceDetail.invoke()}"
+                        android:text="보기"
+                        android:textAppearance="?caption1"
+                        android:textColor="?grey_scale80" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp">
+
+                    <CheckedTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="@{uiState.agreePrivacy}"
+                        android:drawableStart="@drawable/ic_check_line_20"
+                        android:drawablePadding="12dp"
+                        android:drawableTint="@color/selector_grey_scale40_primary50"
+                        android:onClick="@{_ -> uiState.onClickAgreePrivacy.invoke()}"
+                        android:text="[필수] 개인정보 처리방침 동의"
+                        android:textAppearance="?body4"
+                        android:textColor="?grey_scale80" />
+
+                    <!-- TODO: Bds Button 교체 필요 -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:onClick="@{_ -> uiState.onClickPrivacyDetail.invoke()}"
+                        android:text="보기"
+                        android:textAppearance="?caption1"
+                        android:textColor="?grey_scale80" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <com.depromeet.bds.component.BdsButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:layout_margin="16dp"
+            android:enabled="@{uiState.enabled}"
+            android:onClick="@{_ -> uiState.onSubmit.invoke()}"
+            android:theme="@style/Theme.Bds.PrimaryButton.Large"
+            app:bds_text="동의하고 가입하기" />
+    </FrameLayout>
+</layout>

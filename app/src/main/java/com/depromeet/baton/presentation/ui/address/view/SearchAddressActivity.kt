@@ -3,8 +3,6 @@ package com.depromeet.baton.presentation.ui.address.view
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
-import android.text.TextWatcher
-import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -77,7 +75,7 @@ class SearchAddressActivity : BaseActivity<ActivitySearchAddressBinding>(R.layou
 
 
     private fun setAdapter(){
-        listAdapter = SearchAddressAdapter(searchAddressViewModel) { selectedItem: AddressInfo ->
+        listAdapter = SearchAddressAdapter { selectedItem: AddressInfo ->
             listItemClicked(
                 selectedItem
             )

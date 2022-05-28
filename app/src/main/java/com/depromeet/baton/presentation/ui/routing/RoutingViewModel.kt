@@ -18,7 +18,7 @@ class RoutingViewModel @Inject constructor() : BaseViewModel() {
 
     init {
 
-        addViewEvent(ViewEvent.ToHome)
+        addViewEvent(ViewEvent.ToLogIn)
     }
 
     private fun addViewEvent(viewEvent: ViewEvent) {

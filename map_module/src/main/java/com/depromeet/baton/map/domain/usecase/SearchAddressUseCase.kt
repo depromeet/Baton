@@ -4,6 +4,7 @@ import com.depromeet.baton.map.domain.entity.AddressEntity
 import com.depromeet.baton.map.domain.repository.AddressRepository
 import com.depromeet.baton.map.domain.repository.SearchAddressRepository
 import com.depromeet.baton.map.util.NetworkResult
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import timber.log.Timber
 import javax.inject.Inject
@@ -21,6 +22,12 @@ class SearchAddressUseCase @Inject constructor(private val repository : SearchAd
                 }
             }
         }
+    }
+
+    //BEAN: repository 측 에러를 그대로 올릴 수 있어야한다. 일단은 empty 로 처리
+    suspend fun suspendSearchAddress(query: String): List<AddressEntity> {
+        val result = repository.searchAddress(query).first()
+        return result.data?.mapToUi()?.toList().orEmpty()
     }
 }
 

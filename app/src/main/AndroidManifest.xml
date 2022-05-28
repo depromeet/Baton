@@ -18,9 +18,22 @@
         android:theme="@style/Theme.MyApplication"
         tools:replace="android:name">
         <activity
+            android:name=".presentation.ui.sign.AddAccountActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.sign.PrivacyTermDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.sign.ServiceTermDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.sign.SignActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
             android:name="com.depromeet.baton.presentation.ui.routing.RoutingActivity"
-            android:theme="@style/Theme.App.Starting"
-            android:exported="true" >
+            android:exported="true"
+            android:theme="@style/Theme.App.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

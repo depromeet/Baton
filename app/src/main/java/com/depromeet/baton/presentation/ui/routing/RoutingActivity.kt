@@ -1,6 +1,7 @@
 package com.depromeet.baton.presentation.ui.routing
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
@@ -11,9 +12,15 @@ import com.depromeet.baton.databinding.ActivityRoutingBinding
 import com.depromeet.baton.presentation.base.BaseActivity
 import com.depromeet.baton.presentation.main.MainActivity
 import com.depromeet.baton.presentation.ui.routing.RoutingViewModel.ViewEvent
+import com.depromeet.baton.presentation.ui.sign.SignActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import timber.log.Timber
 
 @AndroidEntryPoint
 class RoutingActivity : BaseActivity<ActivityRoutingBinding>(R.layout.activity_routing) {
@@ -30,10 +37,13 @@ class RoutingActivity : BaseActivity<ActivityRoutingBinding>(R.layout.activity_r
         setContentView(binding.root)
 
         splashScreen.setOnExitAnimationListener {
+            Timber.d("beanbean > splash 종료")
             onSplashEnd.tryEmit(Unit)
         }
 
-        onSplashEnd.combine(viewModel.viewEvents) { _, events -> events}
+        onSplashEnd
+            .onEach { delay(300L) }
+            .combine(viewModel.viewEvents) { _, events -> events }
             .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
             .onEach { handleViewEvents(it) }
             .launchIn(lifecycleScope)
@@ -45,7 +55,9 @@ class RoutingActivity : BaseActivity<ActivityRoutingBinding>(R.layout.activity_r
                 ViewEvent.ToHome -> {
                     MainActivity.start(this)
                 }
-                ViewEvent.ToLogIn -> TODO()
+                ViewEvent.ToLogIn -> {
+                    SignActivity.start(this)
+                }
             }
             viewModel.consumeViewEvent(viewEvent)
         }

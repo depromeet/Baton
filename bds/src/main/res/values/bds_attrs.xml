@@ -101,4 +101,13 @@
         <attr name="bds_backward_icon" format="reference" />
         <attr name="bds_button" />
     </declare-styleable>
+
+    <declare-styleable name="BdsComponentTextField">
+        <attr name="bds_label" format="string" />
+        <attr name="bds_success_message" format="string" />
+        <attr name="bds_error_message" format="string" />
+        <attr name="bds_helper_message" format="string" />
+        <attr name="bds_right_icon" format="reference" />
+        <attr name="bds_helper_textColor" format="color" />
+    </declare-styleable>
 </resources>

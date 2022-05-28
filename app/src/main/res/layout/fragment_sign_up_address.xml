@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="uiState"
+            type="com.depromeet.baton.presentation.ui.sign.SignUpAddressUiState" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="24dp"
+                android:text="주소를 설정해주세요"
+                android:textAppearance="?headline1"
+                android:textColor="?grey_scale80" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="2dp"
+                android:text="집, 회사로 설정하면 근처 헬스장 매물을 확인할 수 있어요."
+                android:textAppearance="?caption2"
+                android:textColor="?grey_scale60" />
+
+            <com.depromeet.bds.component.BdsSearchBar
+                android:id="@+id/search_address_et"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen48"
+                android:layout_marginHorizontal="@dimen/dimen16"
+                android:layout_marginTop="14dp"
+                android:theme="@style/Theme.Bds.SearchBar.Primary" />
+
+            <LinearLayout
+                android:id="@+id/search_address_set_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:onClick="@{_ -> uiState.onSetCurrentLocationClick.invoke()}"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/address_search_my_location_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="12dp"
+                    android:src="@drawable/ic_my_location_line_24"
+                    app:tint="?like" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="12dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:text="현재 위치로 설정"
+                    android:textAppearance="?body3"
+                    android:textColor="?grey_scale90" />
+
+                <ImageView
+                    android:id="@+id/address_search_back_iv"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_arrow_line_16"
+                    app:tint="?grey_scale90" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen12"
+                android:background="?bg" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:isVisible="@{uiState.addressNotFoundVisible}">
+
+                    <include layout="@layout/search_no_item_view" />
+                </RelativeLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/search_address_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:overScrollMode="never"
+                    app:isVisible="@{uiState.addressListVisible}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_address_search" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:isVisible="@{uiState.tipVisible}">
+
+                    <include layout="@layout/search_guide_view" />
+                </RelativeLayout>
+            </FrameLayout>
+        </LinearLayout>
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/my_location_progress"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            app:isVisible="@{uiState.addressLoading}"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="spinner.json"
+            app:lottie_loop="true" />
+    </FrameLayout>
+</layout>

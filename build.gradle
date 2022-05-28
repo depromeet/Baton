@@ -11,7 +11,7 @@ buildscript {
         classpath(Dep.Plugins.hilt)
         classpath(Dep.Plugins.googleService)
         classpath(Dep.Plugins.spotless)
-
+        classpath(Dep.Navigation.safeArgsGradlePlugin)
     }
 }
 

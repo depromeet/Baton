@@ -155,5 +155,6 @@
         <item name="ticket_status_completed">거래완료</item>
     </string-array>
 
+    <string name="sign_up">회원 가입</string>
 
 </resources>
