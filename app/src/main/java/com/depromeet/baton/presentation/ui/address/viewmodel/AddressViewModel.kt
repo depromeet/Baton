@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.depromeet.baton.util.getAddress
 import com.depromeet.baton.util.getDetailAddress
-import com.depromeet.baton.util.getSearchDistance
+import com.depromeet.baton.util.getMaxDistance
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -33,8 +33,8 @@ class AddressViewModel  @Inject constructor(): ViewModel(){
             _detailState.value = "${getDetailAddress()}"
         }
 
-        if(getSearchDistance()!="500m"){
-            val distance =getSearchDistance()!!
+        if(getMaxDistance()!="500m"){
+            val distance =getMaxDistance()!!
             _maxDistance.value = distance
             _timeState.value =  "걸어서 ${getWalkingTime(distance)}분"
         }

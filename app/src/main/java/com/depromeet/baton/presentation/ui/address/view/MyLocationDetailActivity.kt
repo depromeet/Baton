@@ -25,8 +25,6 @@ class MyLocationDetailActivity : BaseActivity<ActivityMylocationDetailBinding>(R
         binding.roadAddressTv.text= getAddress().roadAddress
         binding.addressTv.text = getAddress().address
         binding.detailAddressToolbar.titleTv.text ="상세 주소 입력"
-
-
     }
 
     private fun setListener(){

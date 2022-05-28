@@ -18,12 +18,10 @@ import com.depromeet.baton.databinding.ActivityAddressBinding
 import com.depromeet.baton.presentation.base.BaseActivity
 import com.depromeet.baton.presentation.ui.address.viewmodel.AddressViewModel
 import com.depromeet.baton.presentation.ui.address.viewmodel.DistanceType
-import com.depromeet.baton.util.getAddress
-import com.depromeet.baton.util.getSearchDistance
-import com.depromeet.baton.util.saveSearchDistance
+import com.depromeet.baton.util.getMaxDistance
+import com.depromeet.baton.util.saveMaxDistance
 import com.depromeet.bds.component.BdsToast
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 
 @AndroidEntryPoint
@@ -57,10 +55,10 @@ class AddressActivity : BaseActivity<ActivityAddressBinding>(R.layout.activity_a
 
     private fun initView(){
         binding.addressToolbar.titleTv.text="위치설정"
-        binding.addressDistanceTv.text = getSearchDistance()
+        binding.addressDistanceTv.text = getMaxDistance()
         binding.distanceSeekBar.setPadding(0, 0, 0, 0)
 
-        binding.distanceSeekBar.setProgress(addressViewModel.setDistanceProgress(getSearchDistance()!!))
+        binding.distanceSeekBar.setProgress(addressViewModel.setDistanceProgress(getMaxDistance()!!))
         if( this.intent.getBooleanExtra("isChanged",false) ) binding.addressDoneBtn.visibility = View.VISIBLE
     }
 
@@ -103,7 +101,7 @@ class AddressActivity : BaseActivity<ActivityAddressBinding>(R.layout.activity_a
                 else{
                    addressViewModel.distanceCalculator(progress, DistanceType.MAX5KM)
                 }
-                saveSearchDistance( binding.addressDistanceTv.text.toString() )
+                saveMaxDistance( binding.addressDistanceTv.text.toString() )
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}

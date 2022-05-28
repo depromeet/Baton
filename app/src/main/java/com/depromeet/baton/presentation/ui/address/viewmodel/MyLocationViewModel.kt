@@ -2,6 +2,7 @@ package com.depromeet.baton.presentation.ui.address.viewmodel
 
 import androidx.lifecycle.*
 import com.depromeet.baton.map.domain.entity.AddressEntity
+import com.depromeet.baton.map.domain.entity.LocationEntity
 import com.depromeet.baton.map.domain.usecase.GetAddressUseCase
 import com.depromeet.baton.map.domain.usecase.SearchAddressUseCase
 import com.depromeet.baton.map.domain.usecase.SearchItem
@@ -10,6 +11,7 @@ import com.depromeet.baton.map.util.NetworkResult
 import com.depromeet.baton.presentation.base.UIState
 import com.depromeet.baton.util.getAddress
 import com.depromeet.baton.util.saveAddress
+import com.depromeet.baton.util.saveLocation
 import com.naver.maps.geometry.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
@@ -33,8 +35,8 @@ class MyLocationViewModel @Inject constructor(
     private val _jibunState = MutableLiveData<String>("[지번]")
     val jibunState: LiveData<String> get() = _jibunState
 
-    private val _res: MutableLiveData<NetworkResult<AddressEntity>> = MutableLiveData()
-    val res: LiveData<NetworkResult<AddressEntity>> = _res
+    private val _res: MutableLiveData<NetworkResult<LocationEntity>> = MutableLiveData()
+    val res: LiveData<NetworkResult<LocationEntity>> = _res
 
     private val _snackbarText = MutableLiveData<Event<String>>()
     val snackbarText: LiveData<Event<String>> = _snackbarText
@@ -45,7 +47,6 @@ class MyLocationViewModel @Inject constructor(
             if (getAddress().roadAddress == "") "도로명 주소" else getAddress().roadAddress
         _jibunState.value =
             if (getAddress().address == "") "[지번]" else "[지번]" + getAddress().address
-
     }
 
     //현재 내 위치 정보 받아오기
@@ -56,16 +57,17 @@ class MyLocationViewModel @Inject constructor(
         addressUseCase.getMyAddress().collect { values ->
             when (values) {
                 is NetworkResult.Success -> {
-                    Timber.e("${values.data?.address} ,${values.data?.roadAddress}")
+                    Timber.e("${values.data?.address} ,${values.data?.address?.roadAddress}")
                     _res.value = values
-                    if (values.data!!.roadAddress == "") {
-                        getRoadAddress(values.data!!.address)
+                    if (values.data!!.address.roadAddress == "") {
+                        getRoadAddress(values.data!!.address.address)
                     } else {
-                        _roadState.value = values.data!!.roadAddress
-                        _jibunState.value = "[지번]${values.data!!.address}"
+                        _roadState.value = values.data!!.address.roadAddress
+                        _jibunState.value = "[지번]${values.data!!.address.address}"
                         _uiState.value = (UIState.HasData)
                         addressUseCase.stopLocationUpdate()
-                        saveAddress(values.data!!.roadAddress, values.data!!.address)
+                        saveAddress(values.data!!.address.roadAddress, values.data!!.address.address)
+                        saveLocation(values.data!!.location)
                     }
                 }
                 is NetworkResult.Error -> {
@@ -112,11 +114,11 @@ class MyLocationViewModel @Inject constructor(
         addressUseCase.gpsConverter(location).collect { values ->
             when (values) {
                 is NetworkResult.Success -> {
-                    if (values.data!!.roadAddress == "") {
-                        getRoadAddress(values.data!!.address)
+                    if (values.data!!.address.roadAddress == "") {
+                        getRoadAddress(values.data!!.address.address)
                     } else {
-                        _roadState.value = values.data!!.roadAddress
-                        _jibunState.value = values.data!!.address
+                        _roadState.value = values.data!!.address.roadAddress
+                        _jibunState.value = values.data!!.address.address
                         _uiState.value = (UIState.HasData)
                     }
                 }

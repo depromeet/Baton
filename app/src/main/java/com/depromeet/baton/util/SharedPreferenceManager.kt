@@ -2,6 +2,7 @@ package com.depromeet.baton.util
 
 import com.depromeet.baton.BatonApp.Companion.mSharedPreferences
 import com.depromeet.baton.map.domain.entity.AddressEntity
+import com.naver.maps.geometry.LatLng
 
 fun saveAddress(road : String, jibun : String){
     val editor = mSharedPreferences.edit()
@@ -36,12 +37,25 @@ fun getDetailAddress() :String{
     return detail!!
 }
 
-
-fun saveSearchDistance(distance : String){
+fun saveLocation(latLng: LatLng){
     val editor = mSharedPreferences.edit()
-    editor.putString("searchDistance",distance)
+    editor.putFloat("latitude",latLng.latitude.toFloat())
+    editor.putFloat("longitude",latLng.longitude.toFloat())
+    editor.apply()
+}
+
+fun getLocation():LatLng{
+    val latLng :LatLng = LatLng(mSharedPreferences.getFloat("latitude",0F).toDouble(),mSharedPreferences.getFloat("latitude",0F).toDouble())
+    return latLng
+}
+
+
+fun saveMaxDistance(distance : String){
+    val editor = mSharedPreferences.edit()
+    editor.putString("maxDistance",distance)
     editor.apply()
 }
 
 
-fun getSearchDistance() :String? = mSharedPreferences.getString("searchDistance", "500m")
+fun getMaxDistance() :String? = mSharedPreferences.getString("maxDistance", "500m")
+
