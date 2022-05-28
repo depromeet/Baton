@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.depromeet.baton.util.getAddress
+import com.depromeet.baton.util.getDetailAddress
 import com.depromeet.baton.util.getSearchDistance
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -15,8 +16,8 @@ class AddressViewModel  @Inject constructor(): ViewModel(){
     private val _roadState = MutableLiveData<String>("도로명 주소")
     val roadState : LiveData<String> get()=_roadState
 
-    private val _jibunState = MutableLiveData<String>("[지번]")
-    val jibunState : LiveData<String> get()=_jibunState
+    private val _detailState = MutableLiveData<String>("")
+    val detailState : LiveData<String> get()=_detailState
 
     //도보 시간
     private val _timeState = MutableLiveData<String>("걸어서 8분")
@@ -29,7 +30,7 @@ class AddressViewModel  @Inject constructor(): ViewModel(){
     init {
         if(getAddress().roadAddress !="" && getAddress().address !=""){
             _roadState.value = getAddress().roadAddress
-            _jibunState.value = "[지번]${getAddress().address}"
+            _detailState.value = "${getDetailAddress()}"
         }
 
         if(getSearchDistance()!="500m"){

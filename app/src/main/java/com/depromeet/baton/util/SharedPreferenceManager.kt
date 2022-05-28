@@ -31,6 +31,11 @@ fun saveDetailAddress(detailAddress : String){
     editor.apply()
 }
 
+fun getDetailAddress() :String{
+    val detail = mSharedPreferences.getString("detailAddress","")
+    return detail!!
+}
+
 
 fun saveSearchDistance(distance : String){
     val editor = mSharedPreferences.edit()
