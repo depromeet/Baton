@@ -1,6 +1,5 @@
 package com.depromeet.baton.presentation.ui.mypage.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -13,6 +12,7 @@ import com.depromeet.baton.databinding.ItemProfileIconBinding
 import com.depromeet.baton.presentation.ui.mypage.model.ProfileIcon
 import com.depromeet.baton.presentation.ui.mypage.model.ProfileIconItem
 import com.depromeet.baton.presentation.ui.mypage.viewmodel.ProfileViewModel
+import com.nguyenhoanglam.imagepicker.model.Image
 
 class ProfileIconAdapter(
     private val viewModel: ProfileViewModel,
@@ -27,6 +27,8 @@ class ProfileIconAdapter(
         val toggleList = ArrayList<ProfileIconItem> ()
         toggleList.addAll(initList.map { it.clone() })
         toggleList[position].isChecked=true
+        toggleList[0].isChecked=false
+
         if(beforeChecked!=-1) toggleList[beforeChecked].isChecked=false
         beforeChecked = position
         return toggleList
@@ -74,14 +76,19 @@ class ProfileIconAdapter(
     inner class ProfileCameraViewHolder(private val binding : ItemProfileCameraBinding):
         ProfileViewHolder(binding){
         override fun bind(item: ProfileIconItem?, position: Int) {
-            binding.profileCamera.setOnClickListener { cameraClick }
+            binding.profileCamera.setOnClickListener {
+                binding.profileCamera.isSelected = true
+                cameraClick()
+                binding.profileCamera.isSelected=false
+            }
+            binding.profileCamera.isSelected = getItem(position).isChecked
         }
     }
 
     fun onClickImage(position: Int, item : ProfileIconItem){
         itemClick(item.icon!!, position)
         submitList(toggle(position).toList())
-        viewModel.onClickImage(item.icon!!)
+        viewModel.onClickEmotion(item.icon!!)
     }
 
     companion object {

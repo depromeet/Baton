@@ -19,11 +19,12 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
     private val saleHistoryFragment = SaleHistoryFragment()
     private val purchaseHistoryFragment = PurchaseHistoryFragment()
     private val likeTicketFragment = LikeTicketFragment()
-    private val profileEditFragment = ProfileFragment(profileViewModel)
+    private val profileEditFragment by lazy{ ProfileFragment(profileViewModel) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
+        setObserver()
     }
 
     private fun initView(){
@@ -40,6 +41,12 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             mypageProfileIv.setOnClickListener {
                 replaceFragment(profileEditFragment)
             }
+        }
+    }
+
+    private fun setObserver(){
+        profileViewModel.profileImageUri.observe(viewLifecycleOwner){
+            binding.mypageProfileIv.setImageURI(it)
         }
     }
 
