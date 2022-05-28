@@ -50,20 +50,19 @@ class AddressViewModel  @Inject constructor(): ViewModel(){
             DistanceType.MAX1KM -> {
                 resultMeter = value * 500 / 1000.0F + 500.0F
                 _maxDistance.value= String.format("%1.0f",(resultMeter)) +"m"
-                saveMaxDistance(resultMeter.toInt(),"m")
             }
            DistanceType.MAX3KM ->{
                resultMeter =  value%1000 *2 +1000.0F
                 _maxDistance.value=  String.format("%1.1f",(resultMeter/1000.0)) +"km"
-               saveMaxDistance(resultMeter.toInt(),"km")
             }
            DistanceType.MAX5KM ->{
                resultMeter = (value % 2000 ) * 2 + 3000.0F
                _maxDistance.value=  String.format("%1.1f",(resultMeter/1000.0)) +"km"
-               saveMaxDistance(resultMeter.toInt(),"km")
+
             }
         }
         _timeState.value = "걸어서 ${getWalkingTime( maxDistance.value!!)}분"
+        saveMaxDistance(resultMeter.toInt())
         return resultMeter
     }
 

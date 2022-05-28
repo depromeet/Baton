@@ -1,8 +1,8 @@
 package com.depromeet.baton.util
 
-class MaxDistance( _distance : Int , _unit :String){
+class MaxDistance( _distance : Int ){
     val distance = _distance  //m로 변환된 값
-    val unit = _unit
+    val unit = if(distance>=1000) "km" else "m"
 
     fun getKM() :Float{
         return if(distance>=1000)distance.toFloat() /1000.0f
@@ -12,7 +12,7 @@ class MaxDistance( _distance : Int , _unit :String){
     fun getM() : Int = distance
 
     fun getMaxDistanceWithUnit() : String {
-        return if(distance>=1000)
+        return if(unit=="km")
             String.format("%1.1f",(distance.toFloat()/1000.0f))+unit
         else distance.toString()+unit
     } // unit을 고려해 출력 ex) 1.3km , 900m

@@ -14,10 +14,13 @@ import com.depromeet.baton.databinding.ActivityMylocationBinding
 import com.depromeet.baton.presentation.base.BaseActivity
 import com.depromeet.baton.presentation.base.UIState
 import com.depromeet.baton.presentation.ui.address.viewmodel.MyLocationViewModel
+import com.depromeet.baton.util.getLocation
 import com.depromeet.baton.util.saveAddress
+import com.depromeet.baton.util.saveLocation
 import com.google.android.material.snackbar.Snackbar
 import com.skydoves.balloon.*
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 
 @AndroidEntryPoint
@@ -48,7 +51,6 @@ class MyLocationActivity :BaseActivity<ActivityMylocationBinding>(R.layout.activ
                     setToolTip()
                     saveAddress(locationViewModel.roadState.value!!, locationViewModel.jibunState.value!!)
                     binding.myLocationDoneBtn.isEnabled=true
-
                 }
                 else ->{
                     binding.myLocationDoneBtn.isEnabled=false
