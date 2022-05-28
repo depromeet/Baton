@@ -50,12 +50,17 @@ fun getLocation():LatLng{
 }
 
 
-fun saveMaxDistance(distance : String){
+fun saveMaxDistance(distance : Int , unit : String){
     val editor = mSharedPreferences.edit()
-    editor.putString("maxDistance",distance)
+    editor.putInt("maxDistance",distance)
+    editor.putString("distanceUnit",unit)
     editor.apply()
 }
 
 
-fun getMaxDistance() :String? = mSharedPreferences.getString("maxDistance", "500m")
+fun getMaxDistance() : MaxDistance{
+    val distance = mSharedPreferences.getInt("maxDistance", 500)
+    val unit =  mSharedPreferences.getString("distanceUnit","m")!!
+    return MaxDistance(distance, unit)
+}
 

@@ -22,6 +22,7 @@ import com.depromeet.baton.util.getMaxDistance
 import com.depromeet.baton.util.saveMaxDistance
 import com.depromeet.bds.component.BdsToast
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 
 @AndroidEntryPoint
@@ -55,7 +56,7 @@ class AddressActivity : BaseActivity<ActivityAddressBinding>(R.layout.activity_a
 
     private fun initView(){
         binding.addressToolbar.titleTv.text="위치설정"
-        binding.addressDistanceTv.text = getMaxDistance()
+        binding.addressDistanceTv.text = getMaxDistance().getMaxDistanceWithUnit()
         binding.distanceSeekBar.setPadding(0, 0, 0, 0)
 
         binding.distanceSeekBar.setProgress(addressViewModel.setDistanceProgress(getMaxDistance()!!))
@@ -101,7 +102,7 @@ class AddressActivity : BaseActivity<ActivityAddressBinding>(R.layout.activity_a
                 else{
                    addressViewModel.distanceCalculator(progress, DistanceType.MAX5KM)
                 }
-                saveMaxDistance( binding.addressDistanceTv.text.toString() )
+
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -154,7 +155,6 @@ class AddressActivity : BaseActivity<ActivityAddressBinding>(R.layout.activity_a
                     if(ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[0]) ||
                         ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[1])){
                         // 권한이 필요하다는 토스트 메시지를 띄운다
-                        //TODO : Toast custom 적용
                         this.BdsToast(resources.getString(R.string.locaton_permission_alert)).show()
                         // 권한을 다시 요청한다
                         requestPermissions(deniedPermission.toArray(arrayOfNulls<String>(deniedPermission.size)), PERMISSION_REQUEST)

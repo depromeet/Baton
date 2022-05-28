@@ -3,10 +3,9 @@ package com.depromeet.baton.presentation.ui.address.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.depromeet.baton.util.getAddress
-import com.depromeet.baton.util.getDetailAddress
-import com.depromeet.baton.util.getMaxDistance
+import com.depromeet.baton.util.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,10 +32,10 @@ class AddressViewModel  @Inject constructor(): ViewModel(){
             _detailState.value = "${getDetailAddress()}"
         }
 
-        if(getMaxDistance()!="500m"){
+        if(getMaxDistance().getMaxDistanceWithUnit()!="500m"){
             val distance =getMaxDistance()!!
-            _maxDistance.value = distance
-            _timeState.value =  "걸어서 ${getWalkingTime(distance)}분"
+            _maxDistance.value = distance.getMaxDistanceWithUnit()
+            _timeState.value =  "걸어서 ${getWalkingTime(distance.getMaxDistanceWithUnit())}분"
         }
     }
 
@@ -51,15 +50,17 @@ class AddressViewModel  @Inject constructor(): ViewModel(){
             DistanceType.MAX1KM -> {
                 resultMeter = value * 500 / 1000.0F + 500.0F
                 _maxDistance.value= String.format("%1.0f",(resultMeter)) +"m"
-
+                saveMaxDistance(resultMeter.toInt(),"m")
             }
            DistanceType.MAX3KM ->{
                resultMeter =  value%1000 *2 +1000.0F
                 _maxDistance.value=  String.format("%1.1f",(resultMeter/1000.0)) +"km"
+               saveMaxDistance(resultMeter.toInt(),"km")
             }
            DistanceType.MAX5KM ->{
                resultMeter = (value % 2000 ) * 2 + 3000.0F
                _maxDistance.value=  String.format("%1.1f",(resultMeter/1000.0)) +"km"
+               saveMaxDistance(resultMeter.toInt(),"km")
             }
         }
         _timeState.value = "걸어서 ${getWalkingTime( maxDistance.value!!)}분"
@@ -67,9 +68,9 @@ class AddressViewModel  @Inject constructor(): ViewModel(){
     }
 
 
-     fun setDistanceProgress(distance : String) : Int{
-        if(distance.contains("km")){
-            val value = distance.substring(0,distance.indexOf("km")).toFloat()
+     fun setDistanceProgress(distance : MaxDistance) : Int{
+        if(distance.unit=="km"){
+            val value = distance.getKM()
             if(value< 3.0){
                 /*MAX3KM*/
                 val process = value - 1.0 // MAK1KM
@@ -84,8 +85,8 @@ class AddressViewModel  @Inject constructor(): ViewModel(){
         }else{
             //m 단위
             /*MAX1KM*/
-            val value = distance.substring(0,distance.indexOf("m")).toFloat()
-            return value.toInt()-500
+            val value = distance.getM()
+            return (value-500)*1000 /500
         }
     }
 
