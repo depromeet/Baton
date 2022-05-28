@@ -3,13 +3,13 @@
     <item android:state_checked="true">
         <shape android:dither="true" android:shape="rectangle" android:useLevel="false" android:visible="true">
             <solid android:color="@color/selector_bds_toggle_on" />
-            <corners android:radius="16dp" />
+            <corners android:radius="32dp" />
             <stroke android:width="@dimen/dimen2"  android:color="@color/selector_bds_toggle_on" ></stroke>
         </shape>
     </item>
     <item android:state_checked="false">
         <shape android:dither="true" android:shape="rectangle" android:useLevel="false" android:visible="true">
-            <corners android:radius="16dp" />
+            <corners android:radius="32dp" />
             <solid
                 android:color="@color/selector_bds_toggle_off" />
             <stroke android:width="@dimen/dimen2"  android:color="@color/selector_bds_toggle_off" ></stroke>
