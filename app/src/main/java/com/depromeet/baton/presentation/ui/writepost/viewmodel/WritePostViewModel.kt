@@ -4,6 +4,8 @@ import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.depromeet.baton.map.domain.usecase.SearchItem
+import com.depromeet.baton.map.domain.usecase.SearchShopUseCase
 import com.depromeet.baton.presentation.base.BaseViewModel
 import com.depromeet.baton.presentation.base.UIState
 import com.depromeet.baton.presentation.util.SingleLiveEvent
@@ -17,6 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WritePostViewModel @Inject constructor(
+    private val searchShopUseCase: SearchShopUseCase
 ) : BaseViewModel() {
     //작성중인 포지션
     private val _currentLevel = MutableLiveData(1)
@@ -65,23 +68,26 @@ class WritePostViewModel @Inject constructor(
 
     //TODO 데이터 collect
     fun searchPlace(query: String) {
-        _shopInfoList.value = listOf(
+      /*  _shopInfoList.value = listOf(
             ShopInfo("투엑스 휘트니스 대치점", "서울 강남구 삼성로123"),
             ShopInfo("투게더 휘트니스 양평점", "서울 영등포구 선유로141"),
             ShopInfo("투웨이 필라테스 당산점", "서울 강동구 선유로323"),
             ShopInfo("투스데이 헬스 개봉점", "서울 관악구 개봉로331"),
-        )
+        )*/
         viewModelScope.launch {
             runCatching {
             }.onSuccess {
-                /*        searchShopUseCase.searchShop(query ).collect{
+                        searchShopUseCase.searchShop(query ).collect{
                             when(it){
-                                is ShopItem.Content ->{
+                                is SearchItem.Content ->{
+                                    _shopInfoList.value = it.data!!.map { i-> ShopInfo(i.name , i.location.address.roadAddress) }
                                 }
-                                is ShopItem.Empty -> {
+                                is SearchItem.Empty -> {
+                                   // TODO : 비었을 때 처리
+                                   
                                 }
                             }
-                        }*/
+                        }
             }.onFailure {
                 _uiState.value = (UIState.Init)
                 Timber.e(it.toString())

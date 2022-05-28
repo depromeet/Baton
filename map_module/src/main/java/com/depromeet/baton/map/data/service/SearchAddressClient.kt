@@ -36,14 +36,3 @@ object SearchAddressClient {
 
 }
 
-
- class CustomInterceptor : Interceptor {
-    override fun intercept(chain: Interceptor.Chain): Response {
-        Log.d("TEST", "${chain.request().method} - ${chain.request().url}")
-
-        val request = chain.request().newBuilder().addHeader("Accept-Encoding", "identity").build()
-        val response = chain.proceed(request)
-
-        return response
-    }
-}
