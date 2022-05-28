@@ -458,6 +458,7 @@
                         android:textColor="?grey_scale90" />
 
                     <com.naver.maps.map.MapView
+                        android:id="@+id/ticket_detail_mapView"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dimen152"
                         android:layout_marginHorizontal="@dimen/dimen16"
@@ -495,29 +496,33 @@
                             android:textColor="?grey_scale60"
                             app:layout_constraintStart_toStartOf="@id/ticket_detail_location_tv"
                             app:layout_constraintTop_toBottomOf="@id/ticket_detail_location_tv" />
+                            <LinearLayout
+                                android:id="@+id/ticket_detail_copy_btn"
+                                app:layout_constraintBottom_toBottomOf="@+id/ticket_locatoin_iv"
+                                app:layout_constraintStart_toEndOf="@id/ticket_detail_location_tv"
+                                app:layout_constraintTop_toTopOf="@+id/ticket_locatoin_iv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+                                <ImageButton
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/dimen4"
+                                    android:background="@android:color/transparent"
+                                    android:src="@drawable/ic_copy_line_16"
+                                    app:tint="?secondary50" />
 
-                        <ImageButton
-                            android:id="@+id/ticket_detail_copy_btn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/dimen4"
-                            android:background="@android:color/transparent"
-                            android:src="@drawable/ic_copy_line_16"
-                            app:layout_constraintBottom_toBottomOf="@+id/ticket_locatoin_iv"
-                            app:layout_constraintStart_toEndOf="@id/ticket_detail_location_tv"
-                            app:layout_constraintTop_toTopOf="@+id/ticket_locatoin_iv"
-                            app:tint="?secondary50" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="복사"
+                                    android:textAppearance="?caption3"
+                                    android:textColor="?secondary50"
+                                    app:layout_constraintBottom_toBottomOf="@+id/ticket_detail_copy_btn"
+                                    app:layout_constraintStart_toEndOf="@id/ticket_detail_copy_btn"
+                                    app:layout_constraintTop_toTopOf="@+id/ticket_detail_copy_btn" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="복사"
-                            android:textAppearance="?caption3"
-                            android:textColor="?secondary50"
-                            app:layout_constraintBottom_toBottomOf="@+id/ticket_detail_copy_btn"
-                            app:layout_constraintStart_toEndOf="@id/ticket_detail_copy_btn"
+                            </LinearLayout>
 
-                            app:layout_constraintTop_toTopOf="@+id/ticket_detail_copy_btn" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <View

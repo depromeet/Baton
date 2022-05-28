@@ -1,5 +1,6 @@
 package com.depromeet.baton.presentation.ui.address.view
 
+
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -8,7 +9,6 @@ import android.os.Bundle
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
 import android.view.View
 import android.widget.SeekBar
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
@@ -21,6 +21,7 @@ import com.depromeet.baton.presentation.ui.address.viewmodel.DistanceType
 import com.depromeet.baton.util.getAddress
 import com.depromeet.baton.util.getSearchDistance
 import com.depromeet.baton.util.saveSearchDistance
+import com.depromeet.bds.component.BdsToast
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -156,7 +157,7 @@ class AddressActivity : BaseActivity<ActivityAddressBinding>(R.layout.activity_a
                         ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[1])){
                         // 권한이 필요하다는 토스트 메시지를 띄운다
                         //TODO : Toast custom 적용
-                        Toast.makeText(this,resources.getString(R.string.locaton_permission_alert),Toast.LENGTH_SHORT).show()
+                        this.BdsToast(resources.getString(R.string.locaton_permission_alert)).show()
                         // 권한을 다시 요청한다
                         requestPermissions(deniedPermission.toArray(arrayOfNulls<String>(deniedPermission.size)), PERMISSION_REQUEST)
                     }

@@ -134,14 +134,11 @@
 
             </LinearLayout>
 
-            <com.google.android.flexbox.FlexboxLayout
+            <LinearLayout
                 android:id="@+id/ll_item_ticket_bottom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen4"
-                app:alignContent="flex_start"
-                app:alignItems="flex_start"
-                app:flexWrap="wrap"
                 app:layout_constraintStart_toStartOf="@+id/ll_item_ticket_top"
                 app:layout_constraintTop_toBottomOf="@+id/ll_item_ticket_top">
 
@@ -160,12 +157,7 @@
                     android:theme="@style/Theme.Bds.Tag.Default.Grey.Small"
                     app:bds_text="친절한 선생님" />
 
-                <com.depromeet.bds.component.BdsTag
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:theme="@style/Theme.Bds.Tag.Default.Grey.Small"
-                    app:bds_text="+3" />
-            </com.google.android.flexbox.FlexboxLayout>
+            </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

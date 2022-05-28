@@ -110,8 +110,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen8"
-                    android:paddingEnd="@dimen/dimen16"
                     android:onClick="@{()->filterChipFragment.setFilterChipClickListener(5)}"
+                    android:paddingEnd="@dimen/dimen16"
                     app:bds_endDrawable="@drawable/selector_filter_chip_end_icon"
                     app:bds_text="@{filterViewModel.filterChipList[5].first}"
                     app:bds_textAppearance="?body4"
@@ -124,13 +124,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/dimen16"
-            android:layout_marginTop="@dimen/dimen12"
             app:layout_constraintTop_toBottomOf="@+id/hsv_bdsfilter">
 
             <TextView
                 android:id="@+id/tv_bdsfilter_all"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:paddingTop="@dimen/dimen12"
                 android:text="@string/search_option_all"
                 android:textAppearance="?body3"
                 android:textColor="?grey_scale80"
@@ -144,27 +144,38 @@
                 android:text="@{@string/search_option_count(filterViewModel.allCount.toString())}"
                 android:textAppearance="?body3"
                 android:textColor="@color/gy80"
-                app:layout_constraintStart_toEndOf="@id/tv_bdsfilter_all"
-                app:layout_constraintTop_toTopOf="@id/tv_bdsfilter_all" />
+                app:layout_constraintBottom_toBottomOf="@+id/tv_bdsfilter_all"
+                app:layout_constraintStart_toEndOf="@id/tv_bdsfilter_all" />
 
-            <ImageView
-                android:id="@+id/iv_bdsfilter_sorting"
+            <LinearLayout
+                android:id="@+id/ll_filter_chip_align"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/dimen2"
-                android:src="@drawable/ic_sorting_line_18"
-                app:layout_constraintEnd_toStartOf="@+id/tv_bdsfilter_sorting_alignment"
-                app:layout_constraintTop_toTopOf="@id/tv_bdsfilter_all" />
-
-            <TextView
-                android:id="@+id/tv_bdsfilter_sorting_alignment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/search_option_alignment"
-                android:textAppearance="?body3"
-                android:textColor="?grey_scale80"
+                android:paddingStart="@dimen/dimen20"
+                android:paddingTop="@dimen/dimen12"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_bdsfilter_all" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/iv_bdsfilter_sorting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dimen2"
+                    android:src="@drawable/ic_sorting_line_18"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_bdsfilter_sorting_alignment"
+                    app:layout_constraintTop_toTopOf="@id/tv_bdsfilter_all" />
+
+                <TextView
+                    android:id="@+id/tv_bdsfilter_sorting_alignment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/search_option_alignment"
+                    android:textAppearance="?body3"
+                    android:textColor="?grey_scale80"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_bdsfilter_all" />
+            </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
