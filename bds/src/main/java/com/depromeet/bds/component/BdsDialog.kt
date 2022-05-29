@@ -20,11 +20,9 @@ class BdsDialog @JvmOverloads constructor(
     private val layoutInflater = LayoutInflater.from(context)
     val view = layoutInflater.inflate(R.layout.bds_component_dialog, null)
     init {
-
         alertDialog = AlertDialog.Builder(context, R.style.BdsDialogStyle)
             .setView(view)
             .create()
-
     }
 
     fun setSingleDialog(onClickConfirm :()-> Unit){
@@ -32,7 +30,7 @@ class BdsDialog @JvmOverloads constructor(
         view?.findViewById<Button>(R.id.bds_dialog_single_confirm_btn)?.setOnClickListener { onClickConfirm() }
     }
 
-    fun setHorizonDialog(onClickConfirm :()-> Unit , onClickCancel :()-> Unit){
+    fun setHorizonDialog(onClickConfirm :()-> Unit , onClickCancel :()-> Unit)  {
         view?.findViewById<LinearLayout>(R.id.bds_dialog_two_horizon)?.visibility=View.VISIBLE
         view?.findViewById<Button>(R.id.bds_dialog_horizon_confirm_btn)?.setOnClickListener { onClickConfirm() }
         view?.findViewById<Button>(R.id.bds_dialog_horizon_cancel_btn)?.setOnClickListener {
@@ -50,15 +48,15 @@ class BdsDialog @JvmOverloads constructor(
         }
     }
 
-    fun setDialogImage(res: Int){
+    fun setImage(res: Int){
         view?.findViewById<ImageView>(R.id.bds_dialog_iv)?.setImageResource(res)
     }
 
-    fun setDialogTitle(title : String){
+    fun setTitle(title : String){
         view?.findViewById<TextView>(R.id.bds_dialog_title_tv)?.setText(title)
     }
 
-    fun setDialogContent(content : String){
+    fun setContent(content : String){
         view?.findViewById<TextView>(R.id.bds_dialog_content_tv)?.setText(content)
     }
 
