@@ -1,7 +1,13 @@
 package com.depromeet.baton.presentation.bottom
 
 
-data class BottomMenuItem<T>(
-    val listItem: T? = null,
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+data class BottomMenuItem(
+    var listItem: String? = null,
     var isChecked: Boolean? = null
-)
+) :Parcelable
+
+
