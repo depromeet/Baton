@@ -55,21 +55,20 @@ class BottomSearchContainerFragment : BottomSheetDialogFragment() {
     }
 
     private fun changeFragment() {
-
         writePostViewModel.viewEvent.observe(viewLifecycleOwner) {
             it.getContentIfNotHandled().let { event ->
                 when (event) {
                     WritePostViewModel.SEARCH_SHOP -> {
                         childFragmentManager.beginTransaction()
                             .addToBackStack(null)
-                            .replace(R.id.fcv_bottom_search, bottomSearchShopFragment, "friendMainCard")
+                            .replace(R.id.fcv_bottom_search, bottomSearchShopFragment, "bottomSearchShopFragment")
                             .commit()
                     }
 
                     WritePostViewModel.SELF_WRITE -> {
                         childFragmentManager.beginTransaction()
                             .addToBackStack(null)
-                            .replace(R.id.fcv_bottom_search, bottomSelfWriteFragment, "friendMainCard")
+                            .replace(R.id.fcv_bottom_search, bottomSelfWriteFragment, "bottomSelfWriteFragment")
                             .commit()
                     }
                     WritePostViewModel.DIALOG_DISMISS -> dialog?.dismiss()

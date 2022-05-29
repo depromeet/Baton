@@ -96,56 +96,67 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/et_self_write_location" />
 
-            <TextView
-                android:id="@+id/tv_self_write_city"
+            <Spinner
+                android:id="@+id/spinner_self_write_city"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen8"
+                android:layout_height="@dimen/dimen48"
+                android:layout_marginVertical="@dimen/dimen8"
                 android:layout_marginEnd="@dimen/dimen4"
-                android:background="@drawable/temp_choice_chip_bacground"
-                android:hint="시/도"
-                android:includeFontPadding="false"
-                android:padding="@dimen/dimen16"
+                android:background="@drawable/bg_region_spinner"
+                android:spinnerMode="dropdown"
                 android:textAppearance="?body4"
                 android:textColor="?grey_scale90"
-                android:textColorHint="?grey_scale50"
-                app:layout_constraintEnd_toStartOf="@+id/tv_self_write_region"
+                app:layout_constraintBottom_toTopOf="@+id/et_self_write_detail_address"
+                app:layout_constraintEnd_toStartOf="@+id/spinner_self_write_region"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_self_write_address" />
 
+
             <ImageView
+                android:id="@+id/imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/dimen12"
                 android:src="@drawable/ic_less_line_24"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_self_write_city"
-                app:layout_constraintEnd_toEndOf="@id/tv_self_write_city"
-                app:layout_constraintTop_toTopOf="@id/tv_self_write_city" />
+                app:layout_constraintBottom_toBottomOf="@+id/spinner_self_write_city"
+                app:layout_constraintEnd_toEndOf="@id/spinner_self_write_city"
+                app:layout_constraintTop_toTopOf="@id/spinner_self_write_city" />
+
+            <Spinner
+                android:id="@+id/spinner_self_write_region"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dimen48"
+                android:layout_marginVertical="@dimen/dimen8"
+                android:layout_marginStart="@dimen/dimen4"
+                android:background="@drawable/bg_region_spinner"
+                android:spinnerMode="dropdown"
+                android:textAppearance="?body4"
+                android:textColor="?grey_scale90"
+                app:layout_constraintBottom_toTopOf="@+id/et_self_write_detail_address"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/spinner_self_write_city" />
 
             <TextView
                 android:id="@+id/tv_self_write_region"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dimen4"
-                android:background="@drawable/temp_choice_chip_bacground"
-                android:hint="구"
-                android:includeFontPadding="false"
-                android:padding="@dimen/dimen16"
+                android:layout_marginStart="@dimen/dimen16"
+                android:text="구"
                 android:textAppearance="?body4"
-                android:textColor="?grey_scale90"
-                android:textColorHint="?grey_scale50"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/tv_self_write_city"
-                app:layout_constraintTop_toTopOf="@+id/tv_self_write_city" />
+                android:textColor="?grey_scale50"
+                app:layout_constraintBottom_toBottomOf="@+id/spinner_self_write_region"
+                app:layout_constraintStart_toStartOf="@+id/spinner_self_write_region"
+                app:layout_constraintTop_toTopOf="@+id/spinner_self_write_region" />
 
             <ImageView
+                android:id="@+id/imageView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/dimen12"
                 android:src="@drawable/ic_less_line_24"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_self_write_region"
-                app:layout_constraintEnd_toEndOf="@id/tv_self_write_region"
-                app:layout_constraintTop_toTopOf="@id/tv_self_write_region" />
+                app:layout_constraintBottom_toBottomOf="@+id/spinner_self_write_region"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/spinner_self_write_region" />
 
             <EditText
                 android:id="@+id/et_self_write_detail_address"
@@ -160,7 +171,7 @@
                 android:textAppearance="?body4"
                 android:textColor="?grey_scale90"
                 android:textColorHint="?grey_scale50"
-                app:layout_constraintTop_toBottomOf="@+id/tv_self_write_region"
+                app:layout_constraintTop_toBottomOf="@+id/spinner_self_write_city"
                 tools:text="영등포구 영등포 영등포의 영등포" />
 
             <TextView

@@ -49,7 +49,7 @@ class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activi
                     WritePostViewModel.GO_TO_TRANSACTION_METHOD -> moveToNextLevel(TransactionMethodRegisterFragment())
                     WritePostViewModel.GO_TO_DESCRIPTION -> moveToNextLevel(DescriptionFragment())
                     WritePostViewModel.GO_TO_DONE -> {
-                        this.BdsToast("판매글 작성이 완료됐어요",binding.btnWritePostBack.top).show()
+                        this.BdsToast("판매글 작성이 완료됐어요", binding.btnWritePostBack.top).show()
                         startActivity(Intent(this, TicketDetailActivity::class.java))
                         finish()
                     }
@@ -76,7 +76,11 @@ class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activi
     }
 
     private fun setCloseWritePostOnClickListener() {
-        binding.bdsBackwardAppbarWritePost.setOnBackwardClick { finish() }
+
+        binding.bdsBackwardAppbarWritePost.setOnBackwardClick {
+            this.BdsToast("작성하던 글이 임시저장 됐어요.", binding.btnWritePostBack.top).show()
+            finish()
+        }
     }
 
     override fun onBackPressed() {

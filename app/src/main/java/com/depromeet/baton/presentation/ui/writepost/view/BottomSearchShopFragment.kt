@@ -105,7 +105,6 @@ class BottomSearchShopFragment : BottomSheetDialogFragment() {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     writePostViewModel.shopInfoList.collect { shopInfoList ->
                         if (isNotEmpty()) searchShopRvAdapter.submitList(shopInfoList)
-
                     }
                 }
             }
