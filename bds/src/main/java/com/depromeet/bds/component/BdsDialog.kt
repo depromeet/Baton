@@ -10,14 +10,14 @@ import com.depromeet.bds.R
 
 class BdsDialog @JvmOverloads constructor(
     context: Context,
-    type : Int,
+    type : DialogType,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
     defStyleRes: Int = 0,
 ): LinearLayout(context, attrs, defStyleAttr, defStyleRes) {
     private var alertDialog : AlertDialog? = null
     private val layoutInflater = LayoutInflater.from(context)
-    val view = layoutInflater.inflate(type, null)
+    val view = layoutInflater.inflate(type.view, null)
     init {
         alertDialog = AlertDialog.Builder(context, R.style.BdsDialogStyle)
             .setView(view)
@@ -69,11 +69,9 @@ class BdsDialog @JvmOverloads constructor(
         alertDialog?.dismiss()
     }
 
-    companion object{
-        enum class DialogType(val view : Int){
-            PRIMARY (R.layout.bds_component_dialog),
-            SECONDARY(R.layout.bds_component_secondary_dialog)
-        }
-    }
+}
 
+enum class DialogType(val view : Int){
+    PRIMARY (R.layout.bds_component_dialog),
+    SECONDARY(R.layout.bds_component_secondary_dialog)
 }
