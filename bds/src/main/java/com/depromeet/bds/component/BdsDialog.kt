@@ -53,10 +53,12 @@ class BdsDialog @JvmOverloads constructor(
     }
 
     fun setTitle(title : String){
+        view?.findViewById<TextView>(R.id.bds_dialog_title_tv)?.visibility=View.VISIBLE
         view?.findViewById<TextView>(R.id.bds_dialog_title_tv)?.setText(title)
     }
 
     fun setContent(content : String){
+        view?.findViewById<TextView>(R.id.bds_dialog_content_tv)?.visibility=View.VISIBLE
         view?.findViewById<TextView>(R.id.bds_dialog_content_tv)?.setText(content)
     }
 

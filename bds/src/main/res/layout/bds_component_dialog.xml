@@ -22,9 +22,9 @@
         android:id="@+id/bds_dialog_title_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Title"
         android:gravity="center"
         android:textAppearance="?headline1"
+        android:visibility="gone"
         />
     <TextView
         android:id="@+id/bds_dialog_content_tv"
@@ -35,6 +35,7 @@
         android:textAppearance="?body3"
         android:textColor="?grey_scale70"
         android:layout_marginBottom="@dimen/dimen22"
+        android:visibility="gone"
         />
 
     <LinearLayout
