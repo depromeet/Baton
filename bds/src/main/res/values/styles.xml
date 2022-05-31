@@ -62,12 +62,6 @@
         <item name="caption3">@style/Typography.C2.Medium</item>
         <item name="caption4">@style/Typography.C2.Regular</item>
 
-
-
-        <item name="popupMenuStyle">@style/BdsPopupMenuStyle</item>
-        <item name="android:popupMenuStyle">@style/BdsPopupMenuStyle</item>
-
-
     </style>
 
     <style name="Widget.Bds.ProgressBar" parent="Widget.AppCompat.ProgressBar.Horizontal">
@@ -104,19 +98,24 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
-    <style name="BdsPopupMenuStyle" parent="Widget.AppCompat.PopupMenu.Overflow">
-        <item name="android:dropDownHorizontalOffset">-8dp</item>
-        <item name="android:dropDownVerticalOffset">-8dp</item>
-        <item name="android:fontFamily">@font/spo_medium</item>
-        <item name="android:textColor">?primary50</item>
+
+    <style name="BdsPopupMenuStyle" parent="Widget.MaterialComponents.PopupMenu">
+        <item name="android:popupBackground">@drawable/background_popup</item>
         <item name="android:textAppearance">?body1</item>
-        <item name="android:windowBackground">@drawable/background_radius_8dp</item>
+        <item name="android:paddingRight">0dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">?grey_scale80</item>
+        <item name="android:textSize">@dimen/dimen16</item>
+        <item name="android:fontFamily">@font/spo_medium</item>
+        <item name="android:overlapAnchor">true</item>
+        <item name="android:dropDownVerticalOffset">-8dp</item>
     </style>
+
 
     <style name="MyPageAlertDialog">
         <item name="android:windowBackground">@android:color/transparent</item>
- <!--       <item name="android:windowMinWidthMajor">100%</item>
-        <item name="android:windowMinWidthMinor">100%</item>-->
         <item name="android:windowIsFloating">true</item>
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:colorBackground">?dim</item>

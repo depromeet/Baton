@@ -14,6 +14,11 @@
         <item name="android:statusBarColor" >@android:color/transparent</item>
         <item name="android:windowLightStatusBar">true</item>
         <!-- Customize your theme here. -->
+        <item name="popupMenuBackground">@drawable/background_popup</item>
+        <item name="popupMenuStyle">@style/BdsPopupMenuStyle</item>
+        <item name="android:popupMenuStyle">@style/BdsPopupMenuStyle</item>
+
+
     </style>
 
 </resources>

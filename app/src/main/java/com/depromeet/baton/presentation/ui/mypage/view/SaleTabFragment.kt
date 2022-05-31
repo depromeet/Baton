@@ -100,11 +100,10 @@ class SaleTabFragment : BaseFragment<FragmentSaleTabBinding>(R.layout.fragment_s
 
     //TODO menu Custom
     private fun showMenu(v: View, @MenuRes menuRes: Int) {
-
-        val popup = PopupMenu(requireContext(), v,Gravity.END, 0, com.depromeet.bds.R.style.BdsPopupMenuStyle)
+        val wrapper = ContextThemeWrapper(requireContext(), com.depromeet.bds.R.style.BdsPopupMenuStyle)
+        val popup = PopupMenu(wrapper, v,Gravity.END)
         popup.menuInflater.inflate(menuRes, popup.menu)
-
-
+        
         popup.setOnMenuItemClickListener {
             onContextItemSelected(it)
         }
