@@ -3,7 +3,6 @@ package com.depromeet.baton.presentation.ui.writepost.view
 import android.app.Dialog
 import android.os.Bundle
 import android.text.Editable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +10,11 @@ import android.widget.FrameLayout
 import androidx.core.view.isNotEmpty
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentBottomSearchShopBinding
-import com.depromeet.baton.presentation.base.UIState
 import com.depromeet.baton.presentation.ui.address.SearchShopRvAdapter
 import com.depromeet.baton.presentation.ui.writepost.viewmodel.WritePostViewModel
 import com.depromeet.bds.component.BdsSearchBar
@@ -52,6 +49,7 @@ class BottomSearchShopFragment : BottomSheetDialogFragment() {
         setShopSelectedObserve()
         setCloseBtnOnClickListener()
         setInputField()
+        goToSelfWriteFragment()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -74,13 +72,13 @@ class BottomSearchShopFragment : BottomSheetDialogFragment() {
 
     private fun setCloseBtnOnClickListener() {
         binding.ivBottomSearchClose.setOnClickListener {
-            dialog?.dismiss()
+            writePostViewModel.setSearchShopPosition(WritePostViewModel.DIALOG_DISMISS)
         }
     }
 
     private fun setShopSelectedObserve() {
         writePostViewModel.isShopSelected.observe(this) {
-            dialog?.dismiss()
+            writePostViewModel.setSearchShopPosition(WritePostViewModel.DIALOG_DISMISS)
         }
     }
 
@@ -107,9 +105,19 @@ class BottomSearchShopFragment : BottomSheetDialogFragment() {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     writePostViewModel.shopInfoList.collect { shopInfoList ->
                         if (isNotEmpty()) searchShopRvAdapter.submitList(shopInfoList)
-
                     }
                 }
+            }
+        }
+    }
+
+    private fun goToSelfWriteFragment() {
+        with(binding) {
+            bdsBtnBottomSearchNoResult.setOnClickListener {
+                writePostViewModel?.setSearchShopPosition(WritePostViewModel.SELF_WRITE)
+            }
+            bdsBtnBottomSearchSelfWrite.setOnClickListener {
+                writePostViewModel?.setSearchShopPosition(WritePostViewModel.SELF_WRITE)
             }
         }
     }
@@ -120,5 +128,4 @@ class BottomSearchShopFragment : BottomSheetDialogFragment() {
         _binding = null
     }
 }
-
 

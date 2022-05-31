@@ -21,7 +21,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ctl_bottom_place_top"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen594"
+            android:layout_height="match_parent"
             app:layout_constraintTop_toTopOf="parent">
 
 
@@ -114,6 +114,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/iv_bottom_place_no_result_found" />
 
                 <com.depromeet.bds.component.BdsButton
+                    android:id="@+id/bds_btn_bottom_search_self_write"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen16"
@@ -125,16 +126,16 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.depromeet.bds.component.BdsButton
-                android:id="@+id/tv_bottom_place_no_result"
+                android:id="@+id/bds_btn_bottom_search_no_result"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/dimen128"
                 android:theme="@style/Theme.Bds.TertiaryButton.Medium"
                 app:bds_text="찾고있는 헬스장이 없나요?"
-                app:uiState="@{writePostViewModel.uiState }"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/ctl_bottom_search_result_exist"
-                app:layout_constraintStart_toStartOf="@+id/ctl_bottom_search_result_exist" />
+                app:layout_constraintStart_toStartOf="@+id/ctl_bottom_search_result_exist"
+                app:uiState="@{writePostViewModel.uiState }" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

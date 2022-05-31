@@ -10,6 +10,8 @@ import com.depromeet.baton.map.domain.usecase.SearchItem
 import com.depromeet.baton.map.domain.usecase.SearchShopUseCase
 import com.depromeet.baton.presentation.base.BaseViewModel
 import com.depromeet.baton.presentation.base.UIState
+import com.depromeet.baton.presentation.ui.writepost.view.BottomSearchContainerFragment
+import com.depromeet.baton.presentation.util.Event
 import com.depromeet.baton.presentation.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -51,17 +53,28 @@ class WritePostViewModel @Inject constructor(
     private val _currentTextLength = MutableLiveData(0)
     val currentTextLength: LiveData<Int> = _currentTextLength
 
+    private val _searchShopPositionEvent = MutableLiveData<Event<String>>()
+    val searchShopPositionEvent: LiveData<Event<String>> = _searchShopPositionEvent
+
     fun setNextLevel(nextLevel: Boolean = true) {
         if (nextLevel) { //다음버튼
             when (_currentLevel.value) {
-                1 -> nextLevelEvent(GO_TO_MEMBERSHIP_INFO)
-                2 -> nextLevelEvent(GO_TO_TRANSACTION_METHOD)
-                3 -> nextLevelEvent(GO_TO_DESCRIPTION)
-                4 -> nextLevelEvent(GO_TO_DONE)
+                1 -> viewEvent(GO_TO_MEMBERSHIP_INFO)
+                2 -> viewEvent(GO_TO_TRANSACTION_METHOD)
+                3 -> viewEvent(GO_TO_DESCRIPTION)
+                4 -> viewEvent(GO_TO_DONE)
             }
             _currentLevel.value = _currentLevel.value?.plus(1)
         } else {
             _currentLevel.value = _currentLevel.value?.minus(1)
+        }
+    }
+
+    fun setSearchShopPosition(position: String) {
+        when (position) {
+            SEARCH_SHOP -> viewEvent(SEARCH_SHOP)
+            SELF_WRITE -> viewEvent(SELF_WRITE)
+            DIALOG_DISMISS -> viewEvent(DIALOG_DISMISS)
         }
     }
 
@@ -91,8 +104,6 @@ class WritePostViewModel @Inject constructor(
         }
     }
 
-    private fun nextLevelEvent(level: Int) = viewEvent(level)
-    
     fun setSelectShop(shopInfo: ShopInfo) {
         _selectedShopInfo.value = shopInfo
         _isShopSelected.call()
@@ -111,6 +122,17 @@ class WritePostViewModel @Inject constructor(
         const val GO_TO_TRANSACTION_METHOD = 3
         const val GO_TO_DESCRIPTION = 4
         const val GO_TO_DONE = 5
+
+        const val SEARCH_SHOP = "SEARCH_SHOP"
+        const val SELF_WRITE = "SELF_WRITE"
+        const val DIALOG_DISMISS = "DIALOG_DISMISS"
     }
+
+    private val _selfWriteViewEvent: SingleLiveEvent<Any> = SingleLiveEvent()
+    val selfWriteViewEvent: LiveData<Any> = _selfWriteViewEvent
+
+    private val _searchShopBackClickViewEvent: SingleLiveEvent<Any> = SingleLiveEvent()
+    val searchShopBackClickViewEvent: LiveData<Any> = _searchShopBackClickViewEvent
+
 }
 
