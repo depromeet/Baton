@@ -118,7 +118,6 @@ class BottomFilterFragment : BottomSheetDialogFragment() {
     private fun setFilteredChipObserve() {
         filterViewModel.filteredChipList.observe(viewLifecycleOwner) { filteredChipList ->
             filteredChipRvAdapter.submitList(filteredChipList?.map{it}) //TODO 이거 왜 매핑해줘야할까
-            Log.d("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡrrㅡㅡㅡㅡㅡㅡㅡ", filteredChipList.toString())
         }
     }
 

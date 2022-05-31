@@ -35,7 +35,7 @@
             android:text="@{@string/price_range(filterViewModel.priceRangeFormatted.first, filterViewModel.priceRangeFormatted.second)}"
             android:textAppearance="?headline2"
             android:textColor="?grey_scale90"
-            android:visibility="@{filterViewModel.isPriceRangeAll==true ? View.INVISIBLE : View.VISIBLE}"
+            android:visibility="@{filterViewModel.isPriceFiltered==true ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintStart_toStartOf="@id/tv_price"
             app:layout_constraintTop_toBottomOf="@id/tv_price" />
 
@@ -47,7 +47,7 @@
             android:text="전체"
             android:textAppearance="?headline2"
             android:textColor="?grey_scale90"
-            android:visibility="@{filterViewModel.isPriceRangeAll==true ? View.VISIBLE : View.INVISIBLE}"
+            android:visibility="@{filterViewModel.isPriceFiltered==true ? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintStart_toStartOf="@id/tv_price"
             app:layout_constraintTop_toBottomOf="@id/tv_price" />
 
@@ -56,7 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen16"
-            app:bds_progress="20"
+            app:bds_progress="1500000"
             app:bds_range_max="1500000"
             app:layout_constraintTop_toBottomOf="@id/tv_price_selected" />
 

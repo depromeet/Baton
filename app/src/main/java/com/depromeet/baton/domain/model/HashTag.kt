@@ -6,6 +6,10 @@ enum class HashTag(val value: String) {
     CUSTOMIZED_CARE("#맞춤 케어"),
     WIDE_FACILITY("#넓은 시설"),
     VARIOUS_INSTRUMENTS("#다양한 기구"),
+    NEW_INSTRUMENTS("#최신 기구"),
+    CROWDED("#사람이 많은"),
+    FEW_PEOPLE("#사람이 적은"),
     PLEASANT_ENVIRONMENT("#쾌적한 환경"),
     QUIET_ATMOSPHERE("#조용한 분위기"),
+    STATION_AREA("#역세권"),
 }

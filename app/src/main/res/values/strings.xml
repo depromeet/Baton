@@ -35,10 +35,10 @@
 
     <string name="filter_ticket_kind">양도권 종류</string>
     <string name="filter_ticket_kind_select">종류를 선택해주세요</string>
-    <string name="filter_ticket_kind_explain">(중복 선택 가능)</string>
+    <string name="filter_ticket_kind_explain">(복수 선택 가능)</string>
     <string name="filter_ticket_gym">헬스 회원권</string>
     <string name="filter_ticket_pt">PT 이용권</string>
-    <string name="filter_ticket_pilates_yoga">필라테스/요가</string>
+    <string name="filter_ticket_pilates_yoga">필라테스 회원권</string>
     <string name="filter_ticket_etc">기타</string>
 
     <string name="filter_term">기간</string>
@@ -61,32 +61,37 @@
     <string name="filter_transaction_method_select">거래 방식 선택</string>
     <string name="filter_transaction_method_select_face">현장결제(대면)</string>
     <string name="filter_transaction_method_select_non_face">선결제(비대면)</string>
+    <string name="filter_transaction_method_cost_select_na">해당 없음</string>
     <string name="filter_transaction_method_cost_select">양도비 선택</string>
     <string name="filter_transaction_method_cost_select_seller">판매자 부담</string>
     <string name="filter_transaction_method_cost_select_consumer">구매자 부담</string>
 
     <string name="filter_additional_options">추가옵션</string>
     <string name="filter_additional_options_select">회원권 추가 옵션 선택</string>
-    <string name="filter_additional_options_select_explain">(중복 선택 가능)</string>
+    <string name="filter_additional_options_select_explain">(복수 선택 가능)</string>
     <string name="filter_additional_options_shower_room">샤워실 포함</string>
     <string name="filter_additional_options_locker_room">락카룸 포함</string>
     <string name="filter_additional_options_sport_wear">운동복 포함</string>
     <string name="filter_additional_options_gx">GX 포함</string>
     <string name="filter_additional_options_re_transfer">재양도 가능</string>
     <string name="filter_additional_options_refund">환불 가능</string>
-    <string name="filter_additional_options_holding">기간 홀딩 가능</string>
-    <string name="filter_additional_options_bargaining">가격네고 가능</string>
+    <string name="filter_additional_options_holding">홀딩(휴회)완료</string>
+    <string name="filter_additional_options_bargaining">가격 제안 가능</string>
 
     <string name="filter_hashtag">해시태그</string>
     <string name="filter_hashtag_select">해시태그 선택</string>
-    <string name="filter_hashtag_select_explain">(최대3개 선택 가능)</string>
+    <string name="filter_hashtag_select_explain">(최대 3개 선택 가능)</string>
     <string name="filter_hashtag_kind_teacher">&#35;친절한 선생님</string>
     <string name="filter_hashtag_systematic_lesson">&#35;체계적인 수업</string>
     <string name="filter_hashtag_customized_care">&#35;맞춤 케어</string>
     <string name="filter_hashtag_wide_facility">&#35;넓은 시설</string>
     <string name="filter_hashtag_various_instruments">&#35;다양한 기구</string>
+    <string name="filter_hashtag_new_instruments">&#35;최신기구</string>
+    <string name="filter_hashtag_crowded">&#35;사람이 많은</string>
+    <string name="filter_hashtag_few_people">&#35;사람이 적은</string>
     <string name="filter_hashtag_pleasant_environment">&#35;쾌적한 환경</string>
     <string name="filter_hashtag_quiet_atmosphere">&#35;조용한 분위기</string>
+    <string name="filter_hashtag_station_area">&#35;역세권</string>
 
 
     <!-- 판매글 등록-장소 등록 -->
@@ -134,7 +139,8 @@
     <string name="search_option_count">%s개</string>
     <string name="search_option_all">전체</string>
     <string name="price_range">%s원 ~ %s원</string>
-    <string name="term_range">%s회 ~ %s회</string>
+    <string name="pt_term_range">%s회 ~ %s회</string>
+    <string name="gym_term_range">%s개월 ~ %s개월</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -143,17 +149,17 @@
     <string name="locaton_permission_alert">현재 위치를 파악하기 위해 위치 권한 접근이 필요합니다</string>
 
 
-    <string-array  name="ticket_detail_bottomsheet_menu">
-        <item name = "ticket_detail_change_sales status_option">판매 상태 변경하기</item>
-        <item name = "ticket_detail_edit_option">수정하기</item>
-        <item name = "ticket_detail_delete_option">삭제하기</item>
-    </string-array >
+    <string-array name="ticket_detail_bottomsheet_menu">
+        <item name="ticket_detail_change_sales status_option">판매 상태 변경하기</item>
+        <item name="ticket_detail_edit_option">수정하기</item>
+        <item name="ticket_detail_delete_option">삭제하기</item>
+    </string-array>
 
-    <string-array  name="ticketSaleStatus">
-        <item name = "ticket_status_sale">판매중</item>
-        <item name = "ticket_status_reserve">예약중</item>
-        <item name = "ticket_status_completed">거래완료</item>
-    </string-array >
+    <string-array name="ticketSaleStatus">
+        <item name="ticket_status_sale">판매중</item>
+        <item name="ticket_status_reserve">예약중</item>
+        <item name="ticket_status_completed">거래완료</item>
+    </string-array>
 
 
 </resources>

@@ -2,15 +2,12 @@ package com.depromeet.baton.presentation.ui.filter.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.depromeet.baton.domain.model.AdditionalOptions
-import com.depromeet.baton.domain.model.HashTag
-import com.depromeet.baton.domain.model.TicketKind
-import com.depromeet.baton.domain.model.TransactionMethod
+import com.depromeet.baton.domain.model.*
+import com.depromeet.baton.presentation.ui.filter.view.TermFragment
 import com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel
 import com.depromeet.bds.component.BdsInputChip
 
@@ -42,10 +39,16 @@ class FilteredChipRvAdapter(
                     filterViewModel.setTicketKind(chip)
                 }
             }
-            chip as? TransactionMethod -> {
+            chip as? TradeType -> {
                 view.text = chip.value
                 view.setOnClickListener {
-                    filterViewModel.setTransactionMethod(chip)
+                    filterViewModel.setTradeType(chip)
+                }
+            }
+            chip as? TransferFee -> {
+                view.text = chip.value
+                view.setOnClickListener {
+                    filterViewModel.setTransferFeeType(chip)
                 }
             }
             chip as? AdditionalOptions -> {
@@ -59,6 +62,20 @@ class FilteredChipRvAdapter(
                 view.text = chip.value
                 view.setOnClickListener {
                     filterViewModel.setHashTag(chip)
+                }
+            }
+            else -> {
+                view.text = chip as String
+                view.setOnClickListener {
+                    if (view.text.contains("회")) {
+                        filterViewModel.setPtTerm(TermFragment.MIN, TermFragment.PT_MAX)
+                    }
+                    if (view.text.contains("개월")) {
+                        filterViewModel.setGymTerm(TermFragment.MIN, TermFragment.GYM_MAX)
+                    }
+                    if (view.text.contains("원")) {
+                        filterViewModel.setPrice(TermFragment.MIN, TermFragment.PRICE_MAX)
+                    }
                 }
             }
         }

@@ -1,55 +1,65 @@
 package com.depromeet.baton.presentation.ui.filter.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.depromeet.baton.R
-import com.depromeet.baton.databinding.FragmentPriceBinding
+import com.depromeet.baton.databinding.FragmentGymTermBinding
 import com.depromeet.baton.presentation.base.BaseFragment
 import com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel
 import com.jaygoo.widget.OnRangeChangedListener
 import com.jaygoo.widget.RangeSeekBar
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
+import java.lang.Exception
 
 @AndroidEntryPoint
-class PriceFragment : BaseFragment<FragmentPriceBinding>(R.layout.fragment_price) {
+class GymTermFragment : BaseFragment<FragmentGymTermBinding>(R.layout.fragment_gym_term) {
     private val filterViewModel: FilterViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.filterViewModel = filterViewModel
+
         initView()
         setSliderResetObserve()
         setRangeChangeListener()
     }
 
     private fun initView() {
-        binding.bdsRangeslider.setProgress(
-            filterViewModel.priceRange.value?.first ?: TermFragment.MIN,
-            filterViewModel.priceRange.value?.second ?: TermFragment.PRICE_MAX
-        )
+        try {
+            binding.bdsTermRangesliderGym.setProgress(
+                filterViewModel.gymTermRange.value?.first ?: TermFragment.MIN,
+                filterViewModel.gymTermRange.value?.second ?: TermFragment.GYM_MAX
+            )
+        } catch (e: Exception) {
+            setRangeChangeListener()
+            Timber.e(e.message)
+        }
     }
 
-    private fun setPriceInitSlider() {
-        binding.bdsRangeslider.setProgress(TermFragment.MIN, TermFragment.PRICE_MAX)
+
+    private fun setGymInitSlider() {
+        binding.bdsTermRangesliderGym.setProgress(TermFragment.MIN, TermFragment.GYM_MAX)
     }
 
     private fun setSliderResetObserve() {
-        filterViewModel.isPriceFiltered.observe(viewLifecycleOwner) {
-            if (!it && binding.tvPriceSelectedAll.visibility == View.INVISIBLE) {
-                binding.tvPriceSelectedAll.visibility = View.VISIBLE
-                setPriceInitSlider()
+        filterViewModel.isGymTermFiltered.observe(viewLifecycleOwner) {
+            if (!it && binding.tvTermSelectedAllGym.visibility == View.INVISIBLE) {
+                binding.tvTermSelectedAllGym.visibility = View.VISIBLE
+                setGymInitSlider()
             }
         }
     }
 
     private fun setRangeChangeListener() {
-        binding.bdsRangeslider.addRangeChangeListener(object : OnRangeChangedListener {
+        binding.bdsTermRangesliderGym.addRangeChangeListener(object : OnRangeChangedListener {
             override fun onRangeChanged(
                 rangeSeekBar: RangeSeekBar, leftValue: Float,
                 rightValue: Float, isFromUser: Boolean
             ) {
-                filterViewModel.setPrice(leftValue, rightValue)
+                filterViewModel.setGymTerm(leftValue, rightValue)
             }
 
             override fun onStartTrackingTouch(
