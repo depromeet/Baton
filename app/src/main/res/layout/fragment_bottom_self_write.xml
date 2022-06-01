@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="uiState"
+            type="com.depromeet.baton.presentation.ui.writepost.view.SelfWriteAddressUiState" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,157 +25,145 @@
             app:bds_title="직접 입력"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/ctl_bottom_place_top"
+        <LinearLayout
+            android:id="@+id/ll_self_write"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/dimen16"
             android:layout_marginTop="@dimen/dimen8"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@+id/bds_appbar_self_write">
 
-            <TextView
-                android:id="@+id/tv_self_write_center_name"
-                android:layout_width="wrap_content"
+            <com.depromeet.bds.component.BdsComponentTextField
+                android:id="@+id/bds_textfield_center_name"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="센터명"
-                android:textAppearance="?body3"
-                android:textColor="?grey_scale60"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_marginTop="@dimen/dimen24"
 
-            <EditText
-                android:id="@+id/et_self_write_center_name"
+                app:bds_label="센터명">
+
+                <EditText
+                    style="@style/Widget.Bds.TextFieldInnerEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:afterTextChanged="@{it -> uiState.onCenterNameChanged.invoke(it)}"
+                    android:hint="ex.바통 휘트니스 센터"
+                    android:inputType="none" />
+            </com.depromeet.bds.component.BdsComponentTextField>
+
+            <com.depromeet.bds.component.BdsComponentTextField
+                android:id="@+id/bds_textfield_center_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen24"
+                app:bds_label="센터명">
+
+                <EditText
+                    style="@style/Widget.Bds.TextFieldInnerEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:afterTextChanged="@{it -> uiState.onCenterChanged.invoke(it)}"
+                    android:hint="강남점"
+                    android:inputType="none" />
+            </com.depromeet.bds.component.BdsComponentTextField>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_self_write_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen24"
+            android:text="주소"
+            android:textAppearance="?body3"
+            android:textColor="?grey_scale60"
+            app:layout_constraintStart_toStartOf="@+id/ll_self_write"
+            app:layout_constraintTop_toBottomOf="@+id/ll_self_write" />
+
+        <Spinner
+            android:id="@+id/spinner_self_write_city"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dimen48"
+            android:layout_marginVertical="@dimen/dimen8"
+            android:layout_marginEnd="@dimen/dimen4"
+            android:background="@drawable/bg_region_spinner"
+            android:textAppearance="?body4"
+            android:textColor="?grey_scale90"
+            app:layout_constraintEnd_toStartOf="@+id/spinner_self_write_region"
+            app:layout_constraintStart_toStartOf="@+id/tv_self_write_address"
+            app:layout_constraintTop_toBottomOf="@id/tv_self_write_address" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dimen12"
+            android:src="@drawable/ic_less_line_24"
+            app:layout_constraintBottom_toBottomOf="@+id/spinner_self_write_city"
+            app:layout_constraintEnd_toEndOf="@id/spinner_self_write_city"
+            app:layout_constraintTop_toTopOf="@id/spinner_self_write_city" />
+
+        <Spinner
+            android:id="@+id/spinner_self_write_region"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dimen48"
+            android:layout_marginStart="@dimen/dimen4"
+            android:background="@drawable/bg_region_spinner"
+            android:spinnerMode="dropdown"
+            android:textAppearance="?body4"
+            android:textColor="?grey_scale90"
+            app:layout_constraintEnd_toEndOf="@+id/ll_self_write"
+            app:layout_constraintStart_toEndOf="@id/spinner_self_write_city"
+            app:layout_constraintTop_toTopOf="@+id/spinner_self_write_city" />
+
+        <TextView
+            android:id="@+id/tv_self_write_region"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen16"
+            android:text="구"
+            android:textAppearance="?body4"
+            android:textColor="?grey_scale50"
+            app:layout_constraintBottom_toBottomOf="@+id/spinner_self_write_region"
+            app:layout_constraintStart_toStartOf="@+id/spinner_self_write_region"
+            app:layout_constraintTop_toTopOf="@+id/spinner_self_write_region" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dimen12"
+            android:src="@drawable/ic_less_line_24"
+            app:layout_constraintBottom_toBottomOf="@+id/spinner_self_write_region"
+            app:layout_constraintEnd_toEndOf="@id/spinner_self_write_region"
+            app:layout_constraintTop_toTopOf="@+id/spinner_self_write_region" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/spinner_self_write_region"
+            app:layout_constraintStart_toStartOf="@id/spinner_self_write_city"
+            app:layout_constraintTop_toBottomOf="@+id/spinner_self_write_city">
+
+
+            <com.depromeet.bds.component.BdsComponentTextField
+                android:id="@+id/bds_textfield_center_address_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen8"
-                android:background="@drawable/temp_choice_chip_bacground"
-                android:hint="ex.바통휘트니스 센터"
-                android:includeFontPadding="false"
-                android:maxLines="1"
-                android:padding="@dimen/dimen16"
-                android:textAppearance="?body4"
-                android:textColor="?grey_scale90"
-                android:textColorHint="?grey_scale50"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_self_write_center_name"
-                tools:text="배고파 밥먹" />
-
-            <TextView
-                android:id="@+id/tv_self_write_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="지점"
-                android:textAppearance="?body3"
-                android:textColor="?grey_scale60"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/et_self_write_center_name" />
-
-            <EditText
-                android:id="@+id/et_self_write_location"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen8"
-                android:background="@drawable/temp_choice_chip_bacground"
-                android:hint="ex.강남점"
-                android:includeFontPadding="false"
-                android:maxLines="1"
-                android:padding="@dimen/dimen16"
-                android:textAppearance="?body4"
-                android:textColor="?grey_scale90"
-                android:textColorHint="?grey_scale50"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_self_write_location" />
-
-            <TextView
-                android:id="@+id/tv_self_write_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="주소"
-                android:textAppearance="?body3"
-                android:textColor="?grey_scale60"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/et_self_write_location" />
-
-            <Spinner
-                android:id="@+id/spinner_self_write_city"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/dimen48"
-                android:layout_marginVertical="@dimen/dimen8"
-                android:layout_marginEnd="@dimen/dimen4"
-                android:background="@drawable/bg_region_spinner"
-                android:spinnerMode="dropdown"
-                android:textAppearance="?body4"
-                android:textColor="?grey_scale90"
-                app:layout_constraintBottom_toTopOf="@+id/et_self_write_detail_address"
-                app:layout_constraintEnd_toStartOf="@+id/spinner_self_write_region"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_self_write_address" />
-
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/dimen12"
-                android:src="@drawable/ic_less_line_24"
-                app:layout_constraintBottom_toBottomOf="@+id/spinner_self_write_city"
-                app:layout_constraintEnd_toEndOf="@id/spinner_self_write_city"
-                app:layout_constraintTop_toTopOf="@id/spinner_self_write_city" />
-
-            <Spinner
-                android:id="@+id/spinner_self_write_region"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/dimen48"
-                android:layout_marginVertical="@dimen/dimen8"
-                android:layout_marginStart="@dimen/dimen4"
-                android:background="@drawable/bg_region_spinner"
-                android:spinnerMode="dropdown"
-                android:textAppearance="?body4"
-                android:textColor="?grey_scale90"
-                app:layout_constraintBottom_toTopOf="@+id/et_self_write_detail_address"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/spinner_self_write_city" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/tv_self_write_region"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dimen16"
-                android:text="구"
-                android:textAppearance="?body4"
-                android:textColor="?grey_scale50"
-                app:layout_constraintBottom_toBottomOf="@+id/spinner_self_write_region"
-                app:layout_constraintStart_toStartOf="@+id/spinner_self_write_region"
-                app:layout_constraintTop_toTopOf="@+id/spinner_self_write_region" />
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/dimen12"
-                android:src="@drawable/ic_less_line_24"
-                app:layout_constraintBottom_toBottomOf="@+id/spinner_self_write_region"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/spinner_self_write_region" />
-
-            <EditText
-                android:id="@+id/et_self_write_detail_address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen8"
-                android:background="@drawable/temp_choice_chip_bacground"
-                android:hint="나머지 상세주소를 입력해주세요"
-                android:includeFontPadding="false"
-                android:maxLines="1"
-                android:padding="@dimen/dimen16"
-                android:textAppearance="?body4"
-                android:textColor="?grey_scale90"
-                android:textColorHint="?grey_scale50"
-                app:layout_constraintTop_toBottomOf="@+id/spinner_self_write_city"
-                tools:text="영등포구 영등포 영등포의 영등포" />
+                <EditText
+                    style="@style/Widget.Bds.TextFieldInnerEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:afterTextChanged="@{it -> uiState.onDetailAddressChanged.invoke(it)}"
+                    android:hint="나머지 상세주소를 입력해주세요."
+                    android:inputType="none" />
+            </com.depromeet.bds.component.BdsComponentTextField>
 
             <TextView
                 android:id="@+id/tv_self_write_explain"
@@ -182,23 +173,22 @@
                 android:text="지번, 도로명, 건물명과 같이 정확한 주소를 입력해주세요"
                 android:textAppearance="?caption2"
                 android:textColor="?grey_scale60"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/bds_textfield_center_address_detail"
+                app:layout_constraintStart_toStartOf="@+id/bds_textfield_center_address_detail"
+                app:layout_constraintTop_toBottomOf="@id/bds_textfield_center_address_detail" />
 
-                app:layout_constraintTop_toBottomOf="@id/et_self_write_detail_address" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_write_post_next"
-                style="@style/Widget.MaterialButton"
+            <com.depromeet.bds.component.BdsButton
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/dimen48"
+                android:onClick="@{_ -> uiState.onSelfWriteAddressDoneClick.invoke()}"
+                android:layout_gravity="bottom"
                 android:layout_marginBottom="@dimen/dimen16"
-                android:backgroundTint="?primary50"
-                android:paddingVertical="@dimen/dimen16"
-                android:text="확인"
-                android:textAppearance="?body1"
-                android:textColor="?wh100"
+                android:enabled="@{uiState.enabled}"
+                android:theme="@style/Theme.Bds.PrimaryButton.Large"
+                app:bds_text="확인"
                 app:layout_constraintBottom_toBottomOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

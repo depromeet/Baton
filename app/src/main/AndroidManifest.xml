@@ -34,11 +34,6 @@
             android:name="com.depromeet.baton.presentation.ui.routing.RoutingActivity"
             android:exported="true"
             android:theme="@style/Theme.App.Starting">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".presentation.ui.writepost.view.WritePostActivity"
@@ -75,7 +70,13 @@
             android:exported="false" />
         <activity
             android:name=".presentation.main.MainActivity"
-            android:exported="false" />
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <service
             android:name=".FirebaseMessagingService"

@@ -3,20 +3,25 @@ package com.depromeet.baton.presentation.ui.writepost.view
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentBottomSelfWriteBinding
+import com.depromeet.baton.presentation.ui.writepost.viewmodel.ShopInfo
 import com.depromeet.baton.presentation.ui.writepost.viewmodel.WritePostViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
-import java.lang.reflect.Field
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 
 @AndroidEntryPoint
@@ -36,8 +41,19 @@ class BottomSelfWriteFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
-        setBackBtnClickListener()
-        setCloseBtnClickListener()
+
+        writePostViewModel.selfWriteAddressUiState
+            .flowWithLifecycle(lifecycle)
+            .onEach { uiState -> binding.uiState = uiState }
+            .launchIn(lifecycleScope)
+
+        writePostViewModel.viewEvents
+            .flowWithLifecycle(lifecycle)
+            .onEach(::handleViewEvents)
+            .launchIn(lifecycleScope)
+
+
+        setInitClickListener()
         setCitySpinner()
     }
 
@@ -54,13 +70,30 @@ class BottomSelfWriteFragment : BottomSheetDialogFragment() {
         behavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
 
-    private fun setBackBtnClickListener() {
-        binding.bdsAppbarSelfWrite.setOnBackwardClick {
-            writePostViewModel.setSearchShopPosition(WritePostViewModel.SEARCH_SHOP)
+    private fun handleViewEvents(viewEvents: List<WritePostViewModel.ViewEvent>) {
+        viewEvents.firstOrNull()?.let { viewEvent ->
+            when (viewEvent) {
+                WritePostViewModel.ViewEvent.SelfWriteAddressDone -> {
+                    with(writePostViewModel.selfWriteAddressUiState.value) {
+                        writePostViewModel.setSelectShop(
+                            ShopInfo(
+                                "$center $centerName",
+                                "${binding.spinnerSelfWriteCity.selectedItem} ${binding.spinnerSelfWriteRegion.selectedItem} $detailAddress"
+                            )
+                        )
+                    }
+                    writePostViewModel.setSearchShopPosition(WritePostViewModel.DIALOG_DISMISS)
+                }
+            }
+            writePostViewModel.consumeViewEvent(viewEvent)
         }
     }
 
-    private fun setCloseBtnClickListener() {
+    private fun setInitClickListener() {
+        binding.bdsAppbarSelfWrite.setOnBackwardClick {
+            writePostViewModel.setSearchShopPosition(WritePostViewModel.SEARCH_SHOP)
+        }
+
         binding.bdsAppbarSelfWrite.setOnIconClick {
             writePostViewModel.setSearchShopPosition(WritePostViewModel.DIALOG_DISMISS)
         }
@@ -116,6 +149,7 @@ class BottomSelfWriteFragment : BottomSheetDialogFragment() {
                     else -> {
                     }
                 }
+                binding.uiState!!.onCitySelected.invoke(position)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -129,10 +163,44 @@ class BottomSelfWriteFragment : BottomSheetDialogFragment() {
         val items = requireContext().resources.getStringArray(array)
         val spinnerAdapter = ArrayAdapter(requireContext(), R.layout.item_region_spinner, items)
         binding.spinnerSelfWriteRegion.adapter = spinnerAdapter
+        binding.spinnerSelfWriteRegion.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+
+                binding.uiState!!.onRegionSelected.invoke(position)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+
+            }
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+}
+
+
+data class SelfWriteAddressUiState(
+    val center: String,
+    val centerName: String,
+    val detailAddress: String,
+    val citySelected: String,
+    val regionSelected: String,
+    val onCenterNameChanged: (Editable?) -> Unit,
+    val onCenterChanged: (Editable?) -> Unit,
+    val onCitySelected: (Int?) -> Unit,
+    val onRegionSelected: (Int?) -> Unit,
+    val onDetailAddressChanged: (Editable?) -> Unit,
+    val onSelfWriteAddressDoneClick: () -> Unit,
+) {
+
+    private val isCenterValid = center.isNotBlank()
+    private val isCenterNameValid = centerName.isNotBlank()
+    private val isDetailAddressValid = detailAddress.isNotBlank()
+    private val isCityValid = citySelected.isNotBlank()
+    private val isRegionValid = regionSelected.isNotBlank()
+
+    val isEnabled = isCenterValid && isCenterNameValid && isDetailAddressValid && isCityValid && isRegionValid
 }

@@ -62,7 +62,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/iv_bottom_search_close"
                 app:layout_constraintStart_toStartOf="@+id/bds_searchbar_bottom_place"
                 app:layout_constraintTop_toBottomOf="@id/view_bottom_place"
-                app:uiState="@{writePostViewModel.uiState }"
+                app:uiState="@{writePostViewModel.shopSearchUiState }"
                 tools:visibility="visible">
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -85,7 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="invisible"
-                app:emptyState="@{writePostViewModel.uiState }"
+                app:emptyState="@{writePostViewModel.shopSearchUiState }"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -135,7 +135,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/ctl_bottom_search_result_exist"
                 app:layout_constraintStart_toStartOf="@+id/ctl_bottom_search_result_exist"
-                app:uiState="@{writePostViewModel.uiState }" />
+                app:uiState="@{writePostViewModel.shopSearchUiState }" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
