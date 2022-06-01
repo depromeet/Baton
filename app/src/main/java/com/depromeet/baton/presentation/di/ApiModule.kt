@@ -1,22 +1,20 @@
 package com.depromeet.baton.presentation.di
 
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.depromeet.baton.data.remote.api.ticket.TicketService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import retrofit2.Retrofit
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object SerializationModule {
+object ApiModule {
 
     @Provides
     @Singleton
-    fun provideMoshi(): Moshi {
-        return Moshi.Builder()
-            .addLast(KotlinJsonAdapterFactory())
-            .build()
+    fun provideTicketService(retrofit: Retrofit): TicketService {
+        return retrofit.create(TicketService::class.java)
     }
 }
