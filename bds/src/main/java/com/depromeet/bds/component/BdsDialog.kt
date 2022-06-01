@@ -8,13 +8,10 @@ import android.view.View
 import android.widget.*
 import com.depromeet.bds.R
 
-class BdsDialog @JvmOverloads constructor(
+class BdsDialog  constructor(
     context: Context,
     type : DialogType,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0,
-    defStyleRes: Int = 0,
-): LinearLayout(context, attrs, defStyleAttr, defStyleRes) {
+) {
     private var alertDialog : AlertDialog? = null
     private val layoutInflater = LayoutInflater.from(context)
     val view = layoutInflater.inflate(type.view, null)
