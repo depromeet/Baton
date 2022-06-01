@@ -9,9 +9,7 @@ import com.depromeet.baton.map.domain.usecase.SearchItem
 import com.depromeet.baton.map.util.Event
 import com.depromeet.baton.map.util.NetworkResult
 import com.depromeet.baton.presentation.base.UIState
-import com.depromeet.baton.util.getAddress
-import com.depromeet.baton.util.saveAddress
-import com.depromeet.baton.util.saveLocation
+import com.depromeet.baton.util.BatonSpfManager
 import com.naver.maps.geometry.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
@@ -23,6 +21,7 @@ import javax.inject.Inject
 class MyLocationViewModel @Inject constructor(
     private val addressUseCase: GetAddressUseCase,
     private val searchAddressUseCase: SearchAddressUseCase,
+    private val spfManager: BatonSpfManager
 ) : ViewModel() {
 
 
@@ -44,9 +43,9 @@ class MyLocationViewModel @Inject constructor(
 
     init {
         _roadState.value =
-            if (getAddress().roadAddress == "") "도로명 주소" else getAddress().roadAddress
+            if (spfManager.getAddress().roadAddress == "") "도로명 주소" else spfManager.getAddress().roadAddress
         _jibunState.value =
-            if (getAddress().address == "") "[지번]" else "[지번]" + getAddress().address
+            if (spfManager.getAddress().address == "") "[지번]" else "[지번]" + spfManager.getAddress().address
     }
 
     //현재 내 위치 정보 받아오기
@@ -66,8 +65,8 @@ class MyLocationViewModel @Inject constructor(
                         _jibunState.value = "[지번]${values.data!!.address.address}"
                         _uiState.value = (UIState.HasData)
                         addressUseCase.stopLocationUpdate()
-                        saveAddress(values.data!!.address.roadAddress, values.data!!.address.address)
-                        saveLocation(values.data!!.location)
+                        spfManager.saveAddress(values.data!!.address.roadAddress, values.data!!.address.address)
+                        spfManager.saveLocation(values.data!!.location)
                     }
                 }
                 is NetworkResult.Error -> {

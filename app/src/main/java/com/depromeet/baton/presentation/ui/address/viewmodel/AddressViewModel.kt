@@ -5,12 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.depromeet.baton.util.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class AddressViewModel  @Inject constructor(): ViewModel(){
-
+class AddressViewModel @Inject constructor(val spfManager: BatonSpfManager): ViewModel(){
 
     private val _roadState = MutableLiveData<String>("도로명 주소")
     val roadState : LiveData<String> get()=_roadState
@@ -27,13 +25,13 @@ class AddressViewModel  @Inject constructor(): ViewModel(){
     val maxDistance : LiveData<String> get()=_maxDistance
 
     init {
-        if(getAddress().roadAddress !="" && getAddress().address !=""){
-            _roadState.value = getAddress().roadAddress
-            _detailState.value = "${getDetailAddress()}"
+        if(spfManager.getAddress().roadAddress !="" && spfManager.getAddress().address !=""){
+            _roadState.value = spfManager.getAddress().roadAddress
+            _detailState.value = "${spfManager.getDetailAddress()}"
         }
 
-        if(getMaxDistance().getMaxDistanceWithUnit()!="500m"){
-            val distance =getMaxDistance()!!
+        if(spfManager.getMaxDistance().getMaxDistanceWithUnit()!="500m"){
+            val distance =spfManager.getMaxDistance()!!
             _maxDistance.value = distance.getMaxDistanceWithUnit()
             _timeState.value =  "걸어서 ${getWalkingTime(distance.getMaxDistanceWithUnit())}분"
         }
@@ -62,14 +60,14 @@ class AddressViewModel  @Inject constructor(): ViewModel(){
             }
         }
         _timeState.value = "걸어서 ${getWalkingTime( maxDistance.value!!)}분"
-        saveMaxDistance(resultMeter.toInt())
+        spfManager.saveMaxDistance(resultMeter.toInt())
         return resultMeter
     }
 
 
      fun setDistanceProgress(distance : MaxDistance) : Int{
         if(distance.unit=="km"){
-            val value = distance.getKM()
+            val value = distance.getDistanceToKM()
             if(value< 3.0){
                 /*MAX3KM*/
                 val process = value - 1.0 // MAK1KM
@@ -84,7 +82,7 @@ class AddressViewModel  @Inject constructor(): ViewModel(){
         }else{
             //m 단위
             /*MAX1KM*/
-            val value = distance.getM()
+            val value = distance.getDistance()
             return (value-500)*1000 /500
         }
     }

@@ -6,8 +6,6 @@ import com.depromeet.baton.map.domain.repository.SearchShopRepository
 import com.depromeet.baton.map.domain.usecase.GetAddressUseCase
 import com.depromeet.baton.map.domain.usecase.SearchAddressUseCase
 import com.depromeet.baton.map.domain.usecase.SearchShopUseCase
-/*import com.depromeet.baton.map.domain.repository.GPSRepository
-import com.depromeet.baton.map.domain.usecase.GetLocationUseCase*/
 
 import dagger.Module
 import dagger.Provides
