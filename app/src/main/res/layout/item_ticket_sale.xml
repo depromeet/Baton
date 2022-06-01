@@ -119,17 +119,23 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+                    <View
+                        android:id="@+id/item_sale_gap"
+                        android:layout_width="@dimen/dimen4"
+                        android:layout_height="@dimen/dimen4"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/item_sale_status_chip"/>
 
                     <TextView
                         android:id="@+id/item_sale_price_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dimen4"
                         android:text="12000원"
                         android:textAppearance="?headline1"
                         android:textColor="?grey_scale90"
+                        app:layout_constraintStart_toEndOf="@id/item_sale_gap"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/item_sale_status_chip"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

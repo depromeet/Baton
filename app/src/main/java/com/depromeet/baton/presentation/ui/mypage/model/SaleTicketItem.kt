@@ -1,4 +1,4 @@
-package com.depromeet.baton.presentation.ui.mypage
+package com.depromeet.baton.presentation.ui.mypage.model
 
 import com.depromeet.baton.R
 

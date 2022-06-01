@@ -13,8 +13,8 @@ import com.depromeet.baton.databinding.FragmentSaleTabBinding
 import com.depromeet.baton.presentation.base.BaseFragment
 import com.depromeet.baton.presentation.bottom.BottomMenuItem
 import com.depromeet.baton.presentation.bottom.BottomSheetFragment
-import com.depromeet.baton.presentation.ui.mypage.SaleTicketItem
-import com.depromeet.baton.presentation.ui.mypage.SaleTicketListItem
+import com.depromeet.baton.presentation.ui.mypage.model.SaleTicketItem
+import com.depromeet.baton.presentation.ui.mypage.model.SaleTicketListItem
 import com.depromeet.baton.presentation.ui.mypage.adapter.SaleTicketItemAdapter
 
 class SaleTabFragment : BaseFragment<FragmentSaleTabBinding>(R.layout.fragment_sale_tab){
@@ -103,7 +103,7 @@ class SaleTabFragment : BaseFragment<FragmentSaleTabBinding>(R.layout.fragment_s
         val wrapper = ContextThemeWrapper(requireContext(), com.depromeet.bds.R.style.BdsPopupMenuStyle)
         val popup = PopupMenu(wrapper, v,Gravity.END)
         popup.menuInflater.inflate(menuRes, popup.menu)
-        
+
         popup.setOnMenuItemClickListener {
             onContextItemSelected(it)
         }

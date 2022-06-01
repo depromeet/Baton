@@ -16,8 +16,8 @@ import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ItemTicketSaleBinding
 import com.depromeet.baton.databinding.ItemTicketSaleFooterBinding
 import com.depromeet.baton.databinding.ItemTicketSaleHeaderBinding
-import com.depromeet.baton.presentation.ui.mypage.SaleTicketItem
-import com.depromeet.baton.presentation.ui.mypage.SaleTicketListItem
+import com.depromeet.baton.presentation.ui.mypage.model.SaleTicketItem
+import com.depromeet.baton.presentation.ui.mypage.model.SaleTicketListItem
 import com.depromeet.bds.utils.toPx
 
 class SaleTicketItemAdapter(

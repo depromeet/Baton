@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.depromeet.baton.presentation.base.BaseViewModel
-import com.depromeet.baton.presentation.ui.mypage.SaleTicketItem
-import com.depromeet.baton.presentation.ui.mypage.SaleTicketListItem
+import com.depromeet.baton.presentation.ui.mypage.model.SaleTicketItem
+import com.depromeet.baton.presentation.ui.mypage.model.SaleTicketListItem
 import kotlinx.coroutines.launch
 
 class TicketHistoryViewModel : BaseViewModel() {
