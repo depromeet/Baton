@@ -96,7 +96,7 @@
                     android:layout_height="wrap_content"
                     app:isVisible="@{uiState.addressNotFoundVisible}">
 
-                    <include layout="@layout/search_no_item_view" />
+                    <include layout="@layout/view_address_empty" />
                 </RelativeLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -113,7 +113,7 @@
                     android:layout_height="wrap_content"
                     app:isVisible="@{uiState.tipVisible}">
 
-                    <include layout="@layout/search_guide_view" />
+                    <include layout="@layout/view_search_guide" />
                 </RelativeLayout>
             </FrameLayout>
         </LinearLayout>
