@@ -143,22 +143,19 @@
     <string name="locaton_permission_alert">현재 위치를 파악하기 위해 위치 권한 접근이 필요합니다</string>
 
 
-    <string-array  name="ticket_detail_bottomsheet_menu">
-        <item name = "ticket_detail_change_sales status_option">판매 상태 변경하기</item>
-        <item name = "ticket_detail_edit_option">수정하기</item>
-        <item name = "ticket_detail_delete_option">삭제하기</item>
-    </string-array >
+    <string-array name="ticket_detail_bottomsheet_menu">
+        <item name="ticket_detail_change_sales status_option">판매 상태 변경하기</item>
+        <item name="ticket_detail_edit_option">수정하기</item>
+        <item name="ticket_detail_delete_option">삭제하기</item>
+    </string-array>
 
-    <!-- 티켓 판매 상태 -->
     <string-array  name="ticketSaleStatus">
         <item name = "ticket_status_sale">판매중</item>
         <item name = "ticket_status_reserve">예약중</item>
         <item name = "ticket_status_completed">거래완료</item>
     </string-array >
 
-    <!--  마이페이지 티켓 메뉴 옵션  -->
-    <string name="mypage_ticket_menu_change">정보 수정하기</string>
-    <string name="mypage_ticket_menu_delete">삭제</string>
+    <string name="sign_up">회원 가입</string>
 
 
 

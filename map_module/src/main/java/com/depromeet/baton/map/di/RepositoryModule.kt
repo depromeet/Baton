@@ -4,10 +4,12 @@ import com.depromeet.baton.map.data.dataSource.GPSDataSource
 import com.depromeet.baton.map.data.dataSource.SearchDataSource
 import com.depromeet.baton.map.data.repositoryImpl.AddressRepositoryImpl
 import com.depromeet.baton.map.data.repositoryImpl.SearchAddressRepositoryImpl
+import com.depromeet.baton.map.data.repositoryImpl.SearchShopRepositoryImpl
 /*import com.depromeet.baton.map.data.repositoryImpl.GPSRepositoryImpl
 import com.depromeet.baton.map.domain.repository.GPSRepository*/
 import com.depromeet.baton.map.domain.repository.AddressRepository
 import com.depromeet.baton.map.domain.repository.SearchAddressRepository
+import com.depromeet.baton.map.domain.repository.SearchShopRepository
 
 import dagger.Module
 import dagger.Provides
@@ -29,6 +31,12 @@ class RepositoryModule {
     @Singleton
     fun provideSearchAddressRepository( dataSource: SearchDataSource): SearchAddressRepository {
         return SearchAddressRepositoryImpl(dataSource)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSearchShopRepository( dataSource: SearchDataSource): SearchShopRepository {
+        return SearchShopRepositoryImpl(dataSource)
     }
 }
 

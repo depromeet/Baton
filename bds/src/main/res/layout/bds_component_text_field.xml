@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:duplicateParentState="true"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/txt_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:textAppearance="?body3"
+        android:textColor="?grey_scale60"
+        android:visibility="gone" />
+
+    <com.depromeet.bds.component.BdsLinearLayout
+        android:id="@+id/container_inner_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:duplicateParentState="true"
+        android:orientation="horizontal"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="14dp"
+        app:bdsBackgroundColor="@color/selector_bds_textfield_background_color"
+        app:bdsBorderColor="@color/selector_bds_textfield_border_color"
+        app:bdsBorderWidth="1dp"
+        app:bdsRadius="8dp">
+
+        <!-- 여기에 TextField 가 감싸는 뷰가 들어가야함. -->
+
+        <ImageView
+            android:id="@+id/image_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="12dp"
+            app:tint="?grey_scale60" />
+    </com.depromeet.bds.component.BdsLinearLayout>
+
+    <TextView
+        android:id="@+id/txt_helper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="6dp"
+        android:textColor="?grey_scale60"
+        android:visibility="gone"
+        tools:text="도움말 메세지" />
+
+    <TextView
+        android:id="@+id/txt_success"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="6dp"
+        android:drawablePadding="4dp"
+        android:textColor="?success"
+        android:visibility="gone"
+        app:drawableStartCompat="@drawable/ic_check_circle_line"
+        tools:text="성공 메세지" />
+
+    <TextView
+        android:id="@+id/txt_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="6dp"
+        android:drawablePadding="4dp"
+        android:textColor="?error"
+        android:visibility="gone"
+        app:drawableStartCompat="@drawable/ic_error_line"
+        tools:text="에러 메시지" />
+</LinearLayout>

@@ -3,8 +3,6 @@ package com.depromeet.baton.presentation.ui.address.view
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
-import android.text.TextWatcher
-import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -19,6 +17,7 @@ import com.depromeet.baton.util.saveAddress
 import com.depromeet.bds.component.BdsSearchBar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -45,6 +44,10 @@ class SearchAddressActivity : BaseActivity<ActivitySearchAddressBinding>(R.layou
             val intent = Intent(this, MyLocationActivity::class.java)
             startActivity(intent)
             finish()
+        }
+
+        KeyboardVisibilityEvent.setEventListener(this) {
+            binding?.searchAddressEt.searchBarKeyBoardListener(it)
         }
 
     }
@@ -77,7 +80,7 @@ class SearchAddressActivity : BaseActivity<ActivitySearchAddressBinding>(R.layou
 
 
     private fun setAdapter(){
-        listAdapter = SearchAddressAdapter(searchAddressViewModel) { selectedItem: AddressInfo ->
+        listAdapter = SearchAddressAdapter { selectedItem: AddressInfo ->
             listItemClicked(
                 selectedItem
             )

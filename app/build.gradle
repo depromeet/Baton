@@ -8,6 +8,7 @@ plugins {
     id 'kotlin-parcelize'
     id 'dagger.hilt.android.plugin'
     id 'com.google.gms.google-services'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -65,6 +66,10 @@ dependencies {
     implementation(Dep.Android.constraintLayout)
     implementation(Dep.Android.fragment)
     implementation(Dep.Android.flexbox)
+    implementation(Dep.Android.splashscreen)
+
+    implementation(Dep.Navigation.fragmentKtx)
+    implementation(Dep.Navigation.uiKtx)
 
     implementation(Dep.CustomLibrary.rangeSeekbar)
     implementation(Dep.CustomLibrary.keyboardListener)
