@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.depromeet.baton.map.domain.entity.LocationEntity
 import com.depromeet.baton.map.domain.entity.ShopEntity
 import com.depromeet.baton.map.domain.usecase.SearchItem
 import com.depromeet.baton.map.domain.usecase.SearchShopUseCase
@@ -90,7 +91,7 @@ class WritePostViewModel @Inject constructor(
                     when (it) {
                         is SearchItem.Content -> {
                             _uiState.value = UIState.HasData
-                            _shopInfoList.value = it.data!!
+                            _shopInfoList.value = it.data?.filterNot { it.name.contains("당구")||it.name.contains("골프")||it.name.contains("볼링")  } as ArrayList<ShopEntity>
                         }
                         is SearchItem.Empty -> {
                             _uiState.value = UIState.NoData
@@ -127,12 +128,5 @@ class WritePostViewModel @Inject constructor(
         const val SELF_WRITE = "SELF_WRITE"
         const val DIALOG_DISMISS = "DIALOG_DISMISS"
     }
-
-    private val _selfWriteViewEvent: SingleLiveEvent<Any> = SingleLiveEvent()
-    val selfWriteViewEvent: LiveData<Any> = _selfWriteViewEvent
-
-    private val _searchShopBackClickViewEvent: SingleLiveEvent<Any> = SingleLiveEvent()
-    val searchShopBackClickViewEvent: LiveData<Any> = _searchShopBackClickViewEvent
-
 }
 

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation_sign"
+    app:startDestination="@id/welcomeFragment">
+
+    <fragment
+        android:id="@+id/welcomeFragment"
+        android:name="com.depromeet.baton.presentation.ui.sign.WelcomeFragment"
+        android:label="WelcomeFragment">
+        <action
+            android:id="@+id/action_welcomeFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.depromeet.baton.presentation.ui.sign.SignUpFragment"
+        android:label="SignUpFragment" />
+</navigation>

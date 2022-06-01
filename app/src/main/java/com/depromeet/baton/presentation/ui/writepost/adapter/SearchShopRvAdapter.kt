@@ -32,7 +32,7 @@ class SearchShopRvAdapter(
         fun bind(item: ShopEntity) {
             with(binding) {
                 tvItemSearchShopName.text = item.name
-                tvItemSearchShopAddress.text = item.name
+                tvItemSearchShopAddress.text = item.location.address.address
                 tvItemSearchShopAddressSelect.setOnClickListener {
                     writePostViewModel.setSelectShop(ShopInfo(tvItemSearchShopName.text.toString(), tvItemSearchShopAddress.text.toString()))
                 }

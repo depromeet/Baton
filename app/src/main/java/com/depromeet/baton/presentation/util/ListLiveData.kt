@@ -1,8 +1,6 @@
 package com.depromeet.baton.presentation.util
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.depromeet.baton.domain.model.HashTag
 
 class ListLiveData<T> : MutableLiveData<MutableList<T>?>() {
 

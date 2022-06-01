@@ -6,10 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.FrameLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import com.depromeet.baton.R
@@ -19,6 +16,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
+import java.lang.reflect.Field
 
 
 @AndroidEntryPoint
@@ -68,9 +66,10 @@ class BottomSelfWriteFragment : BottomSheetDialogFragment() {
         }
     }
 
+    @SuppressLint("DiscouragedPrivateApi")
     private fun setCitySpinner() {
         val items = requireContext().resources.getStringArray(R.array.spinner_region)
-        val myAdapter = object : ArrayAdapter<String>(requireContext(), R.layout.item_region_spinner) {
+        val spinnerAdapter = object : ArrayAdapter<String>(requireContext(), R.layout.item_region_spinner) {
             @SuppressLint("CutPasteId")
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val tv = super.getView(position, convertView, parent)
@@ -87,14 +86,12 @@ class BottomSelfWriteFragment : BottomSheetDialogFragment() {
             }
         }
 
-        myAdapter.addAll(items.toMutableList())
-        myAdapter.add("시/도")
+        spinnerAdapter.addAll(items.toMutableList())
+        spinnerAdapter.add("시/도")
 
 
-        binding.spinnerSelfWriteCity.adapter = myAdapter
-
-        binding.spinnerSelfWriteCity.setSelection(myAdapter.count)
-
+        binding.spinnerSelfWriteCity.adapter = spinnerAdapter
+        binding.spinnerSelfWriteCity.setSelection(spinnerAdapter.count)
 
         binding.spinnerSelfWriteCity.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
@@ -130,8 +127,8 @@ class BottomSelfWriteFragment : BottomSheetDialogFragment() {
     private fun setRegionSpinner(array: Int) {
         binding.tvSelfWriteRegion.visibility = View.INVISIBLE
         val items = requireContext().resources.getStringArray(array)
-        val myAdapter = ArrayAdapter<String>(requireContext(), R.layout.item_region_spinner, items)
-        binding.spinnerSelfWriteRegion.adapter = myAdapter
+        val spinnerAdapter = ArrayAdapter(requireContext(), R.layout.item_region_spinner, items)
+        binding.spinnerSelfWriteRegion.adapter = spinnerAdapter
     }
 
     override fun onDestroyView() {

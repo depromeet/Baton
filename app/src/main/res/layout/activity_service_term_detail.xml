@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.depromeet.bds.component.BdsBackwardAppBar
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:bds_title="서비스 이용약관" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            tools:context=".presentation.ui.sign.ServiceTermDetailActivity"
+            tools:ignore="HardcodedText">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?grey_scale30"
+                    android:paddingHorizontal="33dp"
+                    android:paddingVertical="12dp"
+                    android:text="바통(주)는 통신판매 중개자로서 통신판매의 당사자가 아닙니다. 본 양도권은 개별 판매자가 직접 등록한 양도권으로 회원권 정보, 양도 거래에 관한 의무와 책임은 각 판매자에게 있습니다. "
+                    android:textAppearance="?caption2"
+                    android:textColor="?grey_scale60" />
+
+                <TextView
+                    android:id="@+id/txt_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="16dp"
+                    android:textAppearance="?caption2"
+                    android:textColor="?grey_scale70" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</layout>

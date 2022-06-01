@@ -2,6 +2,7 @@ package com.depromeet.baton.presentation.ui.writepost.view
 
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,19 +57,36 @@ class BottomSearchContainerFragment : BottomSheetDialogFragment() {
 
     private fun changeFragment() {
         writePostViewModel.viewEvent.observe(viewLifecycleOwner) {
-            it.getContentIfNotHandled().let { event ->
-                when (event) {
+            it.getContentIfNotHandled().let { viewEvent ->
+                when (viewEvent) {
                     WritePostViewModel.SEARCH_SHOP -> {
+                        if (!childFragmentManager.fragments.contains(bottomSearchShopFragment)) {
+                            childFragmentManager.beginTransaction()
+                                .add(R.id.fcv_bottom_search, bottomSearchShopFragment)
+                                .commit()
+                        }
+
                         childFragmentManager.beginTransaction()
-                            .addToBackStack(null)
-                            .replace(R.id.fcv_bottom_search, bottomSearchShopFragment, "bottomSearchShopFragment")
+                            .show(bottomSearchShopFragment)
+                            .commit()
+
+                        childFragmentManager.beginTransaction()
+                            .hide(bottomSelfWriteFragment)
                             .commit()
                     }
 
                     WritePostViewModel.SELF_WRITE -> {
+                        if (!childFragmentManager.fragments.contains(bottomSelfWriteFragment)) {
+                            childFragmentManager.beginTransaction()
+                                .add(R.id.fcv_bottom_search, bottomSelfWriteFragment)
+                                .commit()
+                        }
                         childFragmentManager.beginTransaction()
-                            .addToBackStack(null)
-                            .replace(R.id.fcv_bottom_search, bottomSelfWriteFragment, "bottomSelfWriteFragment")
+                            .show(bottomSelfWriteFragment)
+                            .commit()
+
+                        childFragmentManager.beginTransaction()
+                            .hide(bottomSearchShopFragment)
                             .commit()
                     }
                     WritePostViewModel.DIALOG_DISMISS -> dialog?.dismiss()
