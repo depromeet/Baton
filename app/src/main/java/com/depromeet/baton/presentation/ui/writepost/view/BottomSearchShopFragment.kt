@@ -128,4 +128,3 @@ class BottomSearchShopFragment : BottomSheetDialogFragment() {
         _binding = null
     }
 }
-

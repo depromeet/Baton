@@ -17,6 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         tools:replace="android:name">
+
         <activity
             android:name=".presentation.ui.sign.AddAccountActivity"
             android:exported="false" />
@@ -32,9 +33,8 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.depromeet.baton.presentation.ui.routing.RoutingActivity"
-            android:exported="true"
-            android:theme="@style/Theme.App.Starting">
-        </activity>
+            android:exported="false"
+            android:theme="@style/Theme.App.Starting" />
         <activity
             android:name=".presentation.ui.writepost.view.WritePostActivity"
             android:exported="false"
@@ -68,9 +68,11 @@
         <activity
             android:name=".presentation.ui.detail.TicketDetailActivity"
             android:exported="false" />
+
         <activity
             android:name=".presentation.main.MainActivity"
-            android:exported="true" >
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -128,6 +128,8 @@
     <string name="transaction_method_info_answer5">는 판매자가 미리 헬스장에 양도의사를 밝힌 후</string>
     <string name="transaction_method_info_answer6">구매자가 추후 이체 하거나 방문 전 미리 입금하는 것을 뜻해요.</string>
     <string name="transaction_method_info_answer7">*거래 방법은 개인에 따라 달라질 수 있으니 참고만 해주세요.</string>
+    <string name="transaction_method_info_answer8">구매자가 방문해 계약 내용을 확인하고 계좌이체 하거나</string>
+    <string name="transaction_method_info_answer9">방문 전 판매자에게 먼저 입금하는 것을 뜻해요</string>
 
     <!-- 판매글 등록-설명글-->
     <string name="description">설명글</string>
@@ -163,5 +165,12 @@
 
     <string name="sign_up">회원 가입</string>
 
+    <!--바통 이용법-->
+    <string name="how_to_use_introduce1">바통은 헬스 양도권 거래 전문 플랫폼으로 내 위치를 기반으로\n가까운 매물을 확인하고 판매자와 구매자가 편리하고 안전하게\n양도권을 거래할 수 있는 플랫폼이에요.</string>
+    <string name="how_to_use_introduce2">바통에서 더 이상 사용하지 않는 회원권은 빠르게 판매하고\n평소 눈여겨 보던 우리 동네 헬스장 회원권은 저렴한 가격에\n구매해보세요!</string>
+    <string name="how_to_use_method2">거래 하기 전 상세 페이지에서 거래 방법을 확인하고\n거래 문의를 통해 판매자(구매자)와 거래를 진행해보세요.</string>
+    <string name="how_to_use_method1">양도권 거래 방법은 현장결제와 선결제로 나눠져요.</string>
+    <string name="how_to_use_careful1">구매 사기 예방을 위해 바통은 현장결제를 권장하는 편이에요.\n거래하기 전 등록된 회원권 정보가 계약 내용과도 일치하는지\n확인하면 더 안전한 거래를 할 수 있어요!</string>
+    <string name="how_to_use_careful2">바통(주)는 통신판매 중개자로서 통신 판매의 당사자가 아닙니다. 본 양도권은 개별 판매자가 직접 등록한 양도권으로 회원권 정보, 양도 거래에 관한 의무와 책임은 각 판매자와 구매자에게 있습니다.</string>
 
 </resources>
