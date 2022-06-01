@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?grey_scale90"
+        android:orientation="vertical"
+        tools:ignore="HardcodedText">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="96dp"
+            android:layout_marginBottom="2dp"
+            android:text="안쓰는 헬스 회원권, "
+            android:textAlignment="center"
+            android:textAppearance="?body2"
+            android:textColor="?wh100" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:text="내 근처에서 바통터치!"
+            android:textAlignment="center"
+            android:textAppearance="?display4"
+            android:textColor="?wh100" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_ig_welcome" />
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <com.depromeet.bds.component.BdsLinearLayout
+            android:id="@+id/button_kakao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="12dp"
+            android:gravity="center"
+            android:padding="12dp"
+            app:bdsBackgroundColor="#fee500"
+            app:bdsRadius="4dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="10dp"
+                android:text="카카오로 시작하기"
+                android:textAppearance="?body1"
+                app:drawableStartCompat="@drawable/ig_kakao" />
+        </com.depromeet.bds.component.BdsLinearLayout>
+
+        <com.depromeet.bds.component.BdsLinearLayout
+            android:id="@+id/button_naver"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="68dp"
+            android:gravity="center"
+            android:padding="12dp"
+            app:bdsBackgroundColor="?wh100"
+            app:bdsBorderColor="?grey_scale40"
+            app:bdsBorderWidth="1dp"
+            app:bdsRadius="4dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="10dp"
+                android:text="네이버로 시작하기"
+                android:textAppearance="?body1"
+                app:drawableStartCompat="@drawable/ic_ig_naver" />
+        </com.depromeet.bds.component.BdsLinearLayout>
+    </LinearLayout>
+</layout>
