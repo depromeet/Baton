@@ -85,7 +85,7 @@
                 android:layout_height="wrap_content"
                 >
 
-                <include layout="@layout/search_no_item_view" />
+                <include layout="@layout/view_address_empty" />
             </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -105,8 +105,7 @@
                 android:layout_marginHorizontal="@dimen/dimen16"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
-                <include layout="@layout/search_guide_view" />
+                <include layout="@layout/view_search_guide" />
             </RelativeLayout>
 
         </FrameLayout>

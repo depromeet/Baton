@@ -17,6 +17,7 @@ import com.depromeet.baton.util.saveAddress
 import com.depromeet.bds.component.BdsSearchBar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -43,6 +44,10 @@ class SearchAddressActivity : BaseActivity<ActivitySearchAddressBinding>(R.layou
             val intent = Intent(this, MyLocationActivity::class.java)
             startActivity(intent)
             finish()
+        }
+
+        KeyboardVisibilityEvent.setEventListener(this) {
+            binding?.searchAddressEt.searchBarKeyBoardListener(it)
         }
 
     }
