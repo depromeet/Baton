@@ -110,4 +110,9 @@
         <attr name="bds_right_icon" format="reference" />
         <attr name="bds_helper_textColor" format="color" />
     </declare-styleable>
+
+    <declare-styleable name="BdsToggle">
+        <attr name="isEnabled" />
+        <attr name="isChecked" format="boolean" />
+    </declare-styleable>
 </resources>
