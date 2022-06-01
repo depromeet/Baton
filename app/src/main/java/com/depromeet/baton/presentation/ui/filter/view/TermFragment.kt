@@ -22,11 +22,16 @@ class TermFragment : BaseFragment<FragmentTermBinding>(R.layout.fragment_term) {
         super.onViewCreated(view, savedInstanceState)
         binding.filterViewModel = filterViewModel
 
-        initView()
         setRangeChangeListener()
         setGoToTicketKindFragment()
         setSliderResetObserve()
         setGymTermFragment()
+        initView()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (binding.tvTermSelectedAllPt.visibility == View.VISIBLE) setPtInitSlider()
     }
 
     private fun initView() {
@@ -84,7 +89,6 @@ class TermFragment : BaseFragment<FragmentTermBinding>(R.layout.fragment_term) {
             .addToBackStack(null)
             .replace(R.id.fcv_term_gym, gymTermFragment, "gymTermFragment")
             .commit()
-        binding.bdsTermRangesliderPt.setProgress(filterViewModel.ptTermRange.value!!.first, filterViewModel.ptTermRange.value!!.second)
     }
 
     companion object {

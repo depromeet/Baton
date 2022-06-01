@@ -22,9 +22,17 @@ class GymTermFragment : BaseFragment<FragmentGymTermBinding>(R.layout.fragment_g
         super.onViewCreated(view, savedInstanceState)
         binding.filterViewModel = filterViewModel
 
-        initView()
         setSliderResetObserve()
         setRangeChangeListener()
+        initView()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (filterViewModel.isResetClick.value == true) {
+            setGymInitSlider()
+            filterViewModel.setResetClickFalse()
+        }
     }
 
     private fun initView() {
@@ -38,7 +46,6 @@ class GymTermFragment : BaseFragment<FragmentGymTermBinding>(R.layout.fragment_g
             Timber.e(e.message)
         }
     }
-
 
     private fun setGymInitSlider() {
         binding.bdsTermRangesliderGym.setProgress(TermFragment.MIN, TermFragment.GYM_MAX)

@@ -146,18 +146,16 @@ class FilterViewModel @Inject constructor(
 
 
     //헬스 기간
-
     private val _gymTermRange = MutableLiveData(Pair(0f, 12f))
     val gymTermRange: LiveData<Pair<Float, Float>> = _gymTermRange
 
     private val _gymTermRangeFormatted = MutableLiveData(Pair("0", "12"))
     val gymTermRangeFormatted: LiveData<Pair<String, String>> = _gymTermRangeFormatted
 
-    private val _isGymTermFiltered = MutableLiveData<Boolean>()
+    private val _isGymTermFiltered = MutableLiveData<Boolean>(false)
     val isGymTermFiltered: LiveData<Boolean> = _isGymTermFiltered
 
     private val _isTermRangeFiltered = MutableLiveData<Boolean>()
-
 
     //가격
     private val _priceRangeFormatted = MutableLiveData(Pair("0", "15,000,000"))
@@ -191,6 +189,10 @@ class FilterViewModel @Inject constructor(
     //필터, 검색 가능여부
     private val _isResetAndSearchValid = MutableLiveData(false)
     val isResetAndSearchValid: LiveData<Boolean> = _isResetAndSearchValid
+
+    //리셋 클릭
+    private val _isResetClick = MutableLiveData(false)
+    val isResetClick: LiveData<Boolean> = _isResetClick
 
     /** ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ필터들 순서 총괄ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
     init {
@@ -266,7 +268,20 @@ class FilterViewModel @Inject constructor(
 
     /** ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ필터 전체 리셋 관리ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
     fun filterReset() {
-        //각 칩 리스트에서 item clear
+        _isResetClick.value=true
+
+        //가격 초기화
+        _priceRange.value = Pair(TermFragment.MIN, TermFragment.PRICE_MAX)
+        _isPriceFiltered.value = false
+
+        //피티 횟수 초기화
+        setPtTerm(TermFragment.MIN, TermFragment.PT_MAX)
+        _isOnlyPtChecked.value = false
+
+        //헬스 기간 초기화
+        setGymTerm(TermFragment.MIN, TermFragment.GYM_MAX)
+        _isOnlyGymChecked.value = false
+
         hashTagCheckedList.value?.clear()
         ticketKindCheckedList.value?.clear()
         tradeTypeCheckedList.value?.clear()
@@ -275,25 +290,11 @@ class FilterViewModel @Inject constructor(
         _filteredChipList.value?.clear()
         _filteredChipList.value = _filteredChipList.value
 
-        //가격 초기화
-        _isPriceFiltered.value = false
-        _priceRange.value = Pair(TermFragment.MIN, TermFragment.PRICE_MAX)
+        updateAllStatus()
+    }
 
-        //피티 횟수 초기화
-        _isPtTermFiltered.value = false
-        _isOnlyPtChecked.value = false
-        _ptTermRange.value = Pair(TermFragment.MIN, TermFragment.PT_MAX)
-
-        //헬스 기간 초기화
-        _isGymTermFiltered.value = false
-        _isOnlyGymChecked.value = false
-        _gymTermRange.value = Pair(TermFragment.MIN, TermFragment.GYM_MAX)
-
-        updateChoiceChipCheckedStatus()  //각 초이스칩 상태 업데이트
-        updateFilterChipCheckedStatus()  //각 필터칩 상태 업데이트
-        updateResetAndSearchValid()  //리셋버튼 상태 업데이트
-        setFilterPosition()  //홈에서 바로 초기화 누르는 경우가 있음
-        //   updateAllStatus()    //모든 상태 업데이트
+    fun setResetClickFalse(){
+        _isResetClick.value=false
     }
 
     /** ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ칩 하위 항목 관리ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/

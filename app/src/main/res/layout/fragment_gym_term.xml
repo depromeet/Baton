@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="@dimen/dimen24"
-        android:visibility="@{filterViewModel.isOnlyGymChecked==true ? View.VISIBLE : View.INVISIBLE }"
+        android:visibility="@{filterViewModel.isOnlyGymChecked==true ? View.VISIBLE : View.INVISIBLE , default=invisible}"
         tools:visibility="visible">
 
         <TextView
@@ -50,7 +50,7 @@
             android:text="전체"
             android:textAppearance="?headline2"
             android:textColor="?grey_scale90"
-            android:visibility="@{filterViewModel.isGymTermFiltered==true ? View.INVISIBLE : View.VISIBLE}"
+            android:visibility="@{filterViewModel.isGymTermFiltered==true ? View.INVISIBLE : View.VISIBLE, default=visible}"
             app:layout_constraintStart_toStartOf="@id/tv_term_gym"
             app:layout_constraintTop_toBottomOf="@id/tv_term_gym" />
 
