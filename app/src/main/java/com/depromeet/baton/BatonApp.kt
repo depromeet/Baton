@@ -11,14 +11,12 @@ import timber.log.Timber
 class BatonApp : Application() {
     companion object{
         const val TAG: String = "BATON-APP"
-        lateinit var mSharedPreferences: SharedPreferences
     }
     override fun onCreate() {
         super.onCreate()
         initLogger()
         NaverMapSdk.getInstance(this).client =
             NaverMapSdk.NaverCloudPlatformClient(BuildConfig.NAVER_SDK_CLIENT_KEY)
-        mSharedPreferences = applicationContext.getSharedPreferences(TAG, Context.MODE_PRIVATE)
     }
 
     private fun initLogger() {
