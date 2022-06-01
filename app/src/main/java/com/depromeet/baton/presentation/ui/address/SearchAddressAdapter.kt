@@ -11,8 +11,7 @@ import com.depromeet.baton.databinding.ItemAddressSearchBinding
 import com.depromeet.baton.presentation.ui.address.model.AddressInfo
 import com.depromeet.baton.presentation.ui.address.viewmodel.SearchAddressViewModel
 
-class SearchAddressAdapter (
-    private val viewModel: SearchAddressViewModel,
+class SearchAddressAdapter(
     private val itemClick: (AddressInfo) -> Unit,
     ): ListAdapter<AddressInfo, SearchAddressAdapter.AddressViewHolder>(addressDiffUtil)  {
 

@@ -11,7 +11,7 @@ buildscript {
         classpath(Dep.Plugins.hilt)
         classpath(Dep.Plugins.googleService)
         classpath(Dep.Plugins.spotless)
-
+        classpath(Dep.Navigation.safeArgsGradlePlugin)
     }
 }
 
@@ -19,7 +19,7 @@ buildscript {
 plugins {
     id 'com.android.application' version '7.1.0' apply false
     id 'com.android.library' version '7.1.0' apply false
-    id 'org.jetbrains.kotlin.android' version '1.6.10' apply false
+    id 'org.jetbrains.kotlin.android' version '1.6.21' apply false
 }
 
 task clean(type: Delete) {
