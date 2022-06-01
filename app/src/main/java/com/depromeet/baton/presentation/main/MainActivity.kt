@@ -65,6 +65,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             .commit()
     }
 
+    fun moveToSearch() {
+        binding.bnvMain.selectedItemId = R.id.menu_main_search
+    }
+
+
     companion object {
         fun start(context: Context) {
             val intent = Intent(context, MainActivity::class.java)
