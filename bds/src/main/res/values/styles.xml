@@ -103,6 +103,8 @@
         <item name="android:textAppearance">?body4</item>
         <item name="android:textColor">@color/selector_bds_textfield_text_color</item>
         <item name="android:textColorHint">?grey_scale50</item>
+    </style>
+    
     <style name="BdsDialogStyle">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsFloating">true</item>
