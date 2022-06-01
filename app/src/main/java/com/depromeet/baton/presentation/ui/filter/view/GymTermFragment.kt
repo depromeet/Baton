@@ -1,7 +1,6 @@
 package com.depromeet.baton.presentation.ui.filter.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.depromeet.baton.R
@@ -12,7 +11,6 @@ import com.jaygoo.widget.OnRangeChangedListener
 import com.jaygoo.widget.RangeSeekBar
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
-import java.lang.Exception
 
 @AndroidEntryPoint
 class GymTermFragment : BaseFragment<FragmentGymTermBinding>(R.layout.fragment_gym_term) {

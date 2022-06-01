@@ -1,14 +1,12 @@
 package com.depromeet.baton.presentation.ui.filter.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentTermBinding
 import com.depromeet.baton.presentation.base.BaseFragment
 import com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel
-import com.depromeet.baton.presentation.ui.mypage.MyPageFragment
 import com.jaygoo.widget.OnRangeChangedListener
 import com.jaygoo.widget.RangeSeekBar
 import dagger.hilt.android.AndroidEntryPoint
