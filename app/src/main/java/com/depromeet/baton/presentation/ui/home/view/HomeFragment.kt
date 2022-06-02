@@ -27,13 +27,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private val searchViewModel: SearchViewModel by activityViewModels()
     private val filterViewModel: FilterViewModel by activityViewModels()
 
-    @Inject lateinit var spfManager: BatonSpfManager
+    @Inject
+    lateinit var spfManager: BatonSpfManager
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setInitBtnClickListener()
         setTicketItemRvAdapter()
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        binding.tvHomeLocation.text = if (spfManager.getAddress().roadAddress != "") spfManager.getAddress().roadAddress.slice(0..5) + "..."
+        else "위치 설정"
     }
 
     private fun setInitBtnClickListener() {
@@ -97,9 +105,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         })
     }
 
-    override fun onResume() {
-        super.onResume()
-        binding.tvHomeLocation.text=  if(spfManager.getAddress().roadAddress!="") spfManager.getAddress().roadAddress.slice(0..5)+"..."
-        else "위치 설정"
+    private fun setLocationClickListener() {
+        binding.ctlHomeLocation.setOnClickListener {
+            val intent = Intent(requireContext(), AddressActivity::class.java)
+            startActivity(intent)
+        }
+
+
     }
 }
