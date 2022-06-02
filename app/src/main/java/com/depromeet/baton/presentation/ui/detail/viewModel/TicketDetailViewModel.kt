@@ -42,17 +42,17 @@ class TicketDetailViewModel @Inject constructor() : BaseViewModel() {
             detailContent = "헬스 회원권  60일권  200,000원으로 저렴하게 양도합니다!\u2028- 접근성 좋음 주변에 버스터미널, 정류장 등 가까움\n" +
                     "- 선생님도 친절/대회 수상이력 당연O, 몸 컨디션 체크 등등 설명도 정말 잘해주세요!!\n" +
                     "- PT시간은 4시이후, 저녁시간대 가능",
-            transactionMethod = TradeType.FACE,
+            transactionMethod = TradeType.CONTECT,
             moreTag = arrayListOf(AdditionalOptions.BARGAINING, AdditionalOptions.HOLDING)
 
         )
 
         _ticketState.value=TicketInfo(
-            ticketKind = TicketKind.GYM,
+            ticketKind = TicketKind.HEALTH,
             effectiveDate = "22.12.31",
             price = "200,000원",
             transferCoast = "10,000원",
-            infoTag =  arrayListOf(HashTag.SYSTEMATIC_LESSON,HashTag.CUSTOMIZED_CARE, HashTag.QUIET_ATMOSPHERE)
+            infoTag =  arrayListOf(HashTag.SYSTEMATIC_CLASS,HashTag.CUSTOMIZED_CARE, HashTag.QUIET_AMBIENCE)
 
         )
     }

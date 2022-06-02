@@ -1,20 +1,27 @@
 package com.depromeet.baton.presentation.ui.filter.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.depromeet.baton.data.remote.datasource.UiState
 import com.depromeet.baton.domain.model.*
+import com.depromeet.baton.domain.repository.TicketRepository
 import com.depromeet.baton.presentation.base.BaseViewModel
 import com.depromeet.baton.presentation.ui.filter.view.TermFragment
 import com.depromeet.baton.presentation.util.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class FilterViewModel @Inject constructor(
+    private val ticketRepository: TicketRepository
 ) : BaseViewModel() {
 
-    private val _allCount = MutableLiveData<Int>(20)
-    val allCount: LiveData<Int> = _allCount
+    private val _filteredTicketCount = MutableLiveData<Int>(0)
+    val filteredTicketCount: LiveData<Int> = _filteredTicketCount
 
     /*양도권 종류*/
     var ticketKindCheckedList = MapListLiveData<TicketKind, Boolean>()
@@ -170,6 +177,22 @@ class FilterViewModel @Inject constructor(
     private val _priceReset = SingleLiveEvent<Any>()
     val priceReset: LiveData<Any> = _priceReset
 
+    //정렬
+    private val _alignmentCheckedOption = MutableLiveData<Alignment>()
+    val alignmentCheckedOption: LiveData<Alignment> = _alignmentCheckedOption
+
+/*    private val _isNearDistanceChecked = MutableLiveData(false)
+    val isNearDistanceChecked: LiveData<Boolean> = _isNearDistanceChecked
+
+    private val _isLowPriceChecked = MutableLiveData(false)
+    val isLowPriceChecked: LiveData<Boolean> = _isLowPriceChecked
+
+    private val _isPopularChecked = MutableLiveData(false)
+    val isPopularChecked: LiveData<Boolean> = _isPopularChecked
+
+    private val _isManyTermChecked = MutableLiveData(false)
+    val isManyTermChecked: LiveData<Boolean> = _isManyTermChecked*/
+
     /*position, list관련*/
     //필터타입 순서 리스트
     val filterTypeOrderList = ListLiveData<String>()
@@ -254,7 +277,7 @@ class FilterViewModel @Inject constructor(
             _isPtTermFiltered.value = false
         }
         //헬스 이용권이 없는데 필라테스 || 요가 || 선택한 개수가 2개 이상아님 =>회수를 리스트에서 지움
-        if (_filteredChipList.value?.contains(TicketKind.GYM) == false &&
+        if (_filteredChipList.value?.contains(TicketKind.HEALTH) == false &&
             _filteredChipList.value?.contains(TicketKind.PILATES_YOGA) == false &&
             _filteredChipList.value?.contains(TicketKind.ETC) == false &&
             ticketKindCheckedList.value?.filter { it.value }?.size!! < 2
@@ -268,7 +291,7 @@ class FilterViewModel @Inject constructor(
 
     /** ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ필터 전체 리셋 관리ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
     fun filterReset() {
-        _isResetClick.value=true
+        _isResetClick.value = true
 
         //가격 초기화
         _priceRange.value = Pair(TermFragment.MIN, TermFragment.PRICE_MAX)
@@ -293,8 +316,8 @@ class FilterViewModel @Inject constructor(
         updateAllStatus()
     }
 
-    fun setResetClickFalse(){
-        _isResetClick.value=false
+    fun setResetClickFalse() {
+        _isResetClick.value = false
     }
 
     /** ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ칩 하위 항목 관리ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
@@ -326,10 +349,15 @@ class FilterViewModel @Inject constructor(
         updateAllStatus(option, isChecked)
     }
 
-    fun setHashTag(option: HashTag, isChecked: Boolean = false) {
+    fun setHashTag(tag: HashTag, isChecked: Boolean = false) {
         if (isChecked && hashTagCheckedList.value?.filter { it.value }?.size == 3) return
-        hashTagCheckedList.setChipCheckedStatus(option, isChecked)
-        updateAllStatus(option, isChecked)
+        hashTagCheckedList.setChipCheckedStatus(tag, isChecked)
+        updateAllStatus(tag, isChecked)
+    }
+
+    fun setAlignment(standard: Alignment) {
+        _alignmentCheckedOption.value = standard
+        updateFilteredTicketCount()
     }
 
     /** ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ슬라이더 하위 항목 관리ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
@@ -403,6 +431,7 @@ class FilterViewModel @Inject constructor(
     /** ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ초이스칩 / 필터칩 / 선택된 필터 리스트 업데이트ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
     // 초이스칩 / 필터칩 / 필터링된 칩 리스트 업데이트
     private fun updateAllStatus(type: Any? = null, isChecked: Boolean? = null) {
+        updateFilteredTicketCount()
         updateChoiceChipCheckedStatus()  //각 초이스칩 상태 업데이트
         updateFilterChipCheckedStatus()  //각 필터칩 상태 업데이트
         updateChipToFilteredChipList(type, isChecked) //필터링된 칩리스트 업데이트
@@ -427,19 +456,19 @@ class FilterViewModel @Inject constructor(
     // 초이스칩 상태 업데이트  =>  선택바뀔떄마다 해당 칩 하나라도 선택됐는지=>   각 리스트들 item 중 true가 하나도 없으면 필터링 안됨
     private fun updateChoiceChipCheckedStatus() {
         //양도권종류
-        _isGymChecked.value = choiceChipStatus(TicketKind.GYM)
+        _isGymChecked.value = choiceChipStatus(TicketKind.HEALTH)
         _isPtChecked.value = choiceChipStatus(TicketKind.PT)
         _isPilatesYogaChecked.value = choiceChipStatus(TicketKind.PILATES_YOGA)
         _isEtcChecked.value = choiceChipStatus(TicketKind.ETC)
 
         //거래방법
-        _isFaceChecked.value = choiceChipStatus(TradeType.FACE)
-        _isNonFaceChecked.value = choiceChipStatus(TradeType.NON_FACE)
+        _isFaceChecked.value = choiceChipStatus(TradeType.CONTECT)
+        _isNonFaceChecked.value = choiceChipStatus(TradeType.UNTECT)
 
         //거래비
         _isSellerChecked.value = choiceChipStatus(TransferFee.SELLER)
         _isConsumerChecked.value = choiceChipStatus(TransferFee.CONSUMER)
-        _isNaChecked.value = choiceChipStatus(TransferFee.NA)
+        _isNaChecked.value = choiceChipStatus(TransferFee.NONE)
 
         //추가옵션
         _isShowerRoomChecked.value = choiceChipStatus(AdditionalOptions.SHOWER_ROOM)
@@ -453,15 +482,15 @@ class FilterViewModel @Inject constructor(
 
         //해시태그
         _isKindTeacherChecked.value = choiceChipStatus(HashTag.KIND_TEACHER)
-        _isSystematicLessonChecked.value = choiceChipStatus(HashTag.SYSTEMATIC_LESSON)
+        _isSystematicLessonChecked.value = choiceChipStatus(HashTag.SYSTEMATIC_CLASS)
         _isCustomizedCareChecked.value = choiceChipStatus(HashTag.CUSTOMIZED_CARE)
-        _isWideFacilityChecked.value = choiceChipStatus(HashTag.WIDE_FACILITY)
-        _isVariousInstrumentsChecked.value = choiceChipStatus(HashTag.VARIOUS_INSTRUMENTS)
-        _isNewInstrumentsChecked.value = choiceChipStatus(HashTag.NEW_INSTRUMENTS)
-        _isCrowdedChecked.value = choiceChipStatus(HashTag.CROWDED)
-        _isFewPeopleChecked.value = choiceChipStatus(HashTag.FEW_PEOPLE)
-        _isPleasantEnvironmentChecked.value = choiceChipStatus(HashTag.PLEASANT_ENVIRONMENT)
-        _isQuietAtmosphereChecked.value = choiceChipStatus(HashTag.QUIET_ATMOSPHERE)
+        _isWideFacilityChecked.value = choiceChipStatus(HashTag.SPACIOUS_FACILITIES)
+        _isVariousInstrumentsChecked.value = choiceChipStatus(HashTag.VARIOUS_EQUIPMENT)
+        _isNewInstrumentsChecked.value = choiceChipStatus(HashTag.NEW_EQUIPMENT)
+        _isCrowdedChecked.value = choiceChipStatus(HashTag.MANY_PEOPLE)
+        _isFewPeopleChecked.value = choiceChipStatus(HashTag.LESS_PEOPLE)
+        _isPleasantEnvironmentChecked.value = choiceChipStatus(HashTag.AGREEMENT)
+        _isQuietAtmosphereChecked.value = choiceChipStatus(HashTag.QUIET_AMBIENCE)
         _isStationAreaChecked.value = choiceChipStatus(HashTag.STATION_AREA)
     }
 
@@ -483,6 +512,83 @@ class FilterViewModel @Inject constructor(
                 hashTagCheckedList.value?.getValue(type) else false
 
             else -> null
+        }
+    }
+
+    /** ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡAPIㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
+    fun updateFilteredTicketCount() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                Log.e(
+                    "ㅡㅡㅡㅡㅡㅡㅡ콜렉ㅡㅡㅡㅡㅡ",
+                    "해시태그:" + "${hashTagCheckedList.value?.map { it.key.toString() }}\n" +
+                            "latitude:" + "경도\n" +
+                            "longitude:" + "위도\n" +
+                            "minPrice:" + "${_gymTermRange.value?.first?.toInt()}\n" +
+                            "maxPrice:" + "${priceRange.value?.second?.toInt()}\n" +
+                            "minRemainNumber:" + "${_gymTermRange.value?.first?.toInt()}\n" +
+                            "maxRemainNumber:" + "${_ptTermRange.value?.second?.toInt()}\n" +
+                            "minRemainMonth:" + "${_gymTermRange.value?.first?.toInt()}\n" +
+                            "maxRemainMonth:" + "${_gymTermRange.value?.second?.toInt()}\n" +
+                            "maxDistance:" + "${500}\n" +
+                            "ticketTypes:" + "${ticketKindCheckedList.value?.map { it.key.toString() }}\n" +
+                            "ticketTradeType:" + "${tradeTypeCheckedList.value?.keys.toString()}\n" +
+                            "transferFee:" + "${transferFeeCheckedList.value?.keys.toString()}\n" +
+                            "alignment" + "${alignmentCheckedOption.value}\n" +
+                            "hasClothes:" + "${isSportWearChecked.value}\n" +
+                            "hasLocker:" + "${isLockerRoomChecked.value}\n" +
+                            "hasShower:" + "${isShowerRoomChecked.value}\n" +
+                            "hasGx:" + "${isGxChecked.value}\n" +
+                            "canResell:" + "${isReTransferChecked.value}\n" +
+                            "canRefund:" + "${isRefundChecked.value}\n" +
+                            "isHold:" + "${isHoldingChecked.value}\n" +
+                            "canNego:" + "${isBargainingChecked.value}\n"
+
+
+                )
+                ticketRepository.getFilteredTicketCount(
+                    page = 1,
+                    size = 4,
+                    //place: String?,
+                    hashtag = hashTagCheckedList.value?.map { it.key.toString() },
+                    latitude = 36.1234f,
+                    longitude = 127.1234f,
+                    //town: String?,
+                    minPrice = priceRange.value?.first?.toInt(),
+                    maxPrice = priceRange.value?.second?.toInt(),
+                    minRemainNumber = _ptTermRange.value?.first?.toInt(),
+                    maxRemainNumber = _ptTermRange.value?.second?.toInt(),
+                    minRemainMonth = _gymTermRange.value?.first?.toInt(),
+                    maxRemainMonth = _gymTermRange.value?.second?.toInt(),
+                    maxDistance = 500,
+                    ticketTypes = ticketKindCheckedList.value?.map { it.key.toString() },
+                    ticketTradeType = tradeTypeCheckedList.value?.keys.toString(),
+                    transferFee = transferFeeCheckedList.value?.keys.toString(),
+                    // ticketState : String ?,
+                    sortType = alignmentCheckedOption.value?.toString(),
+                    hasClothes = isSportWearChecked.value,
+                    hasLocker = isLockerRoomChecked.value,
+                    hasShower = isShowerRoomChecked.value,
+                    hasGx = isGxChecked.value,
+                    canResell = isReTransferChecked.value,
+                    canRefund = isRefundChecked.value,
+                    isHold = isHoldingChecked.value,
+                    canNego = isBargainingChecked.value,
+                    //isMembership = isLockerRoomChecked.value,
+                ).collect { UiState ->
+                    when (UiState) {
+                        is UiState.Success<*> -> {
+                            _filteredTicketCount.value = UiState.data as Int
+                        }
+                        is UiState.Error -> {
+                            UiState.error?.message?.let { errorMessage ->
+                                Timber.e(errorMessage)
+                            }
+                        }
+
+                    }
+                }
+            }
         }
     }
 }

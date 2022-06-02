@@ -23,7 +23,7 @@
     <!--  Bottom Filter Dialog  -->
     <string name="filter_reset">필터 초기화</string>
     <string name="filter_search">검색</string>
-    <string name="filter_search_result">(120건)</string>
+    <string name="filter_search_result">검색 (%s건)</string>
 
     <string name="filter_alignment">정렬 순</string>
     <string name="filter_alignment_distance">가까운 거리순</string>

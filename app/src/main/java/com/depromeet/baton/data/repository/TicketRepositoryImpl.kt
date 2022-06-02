@@ -1,9 +1,9 @@
 package com.depromeet.baton.data.repository
 
-import com.depromeet.baton.data.remote.api.ticket.TicketService
 import com.depromeet.baton.data.remote.datasource.TicketDataSource
-import com.depromeet.baton.data.remote.model.ResponseFilteredTicket
+import com.depromeet.baton.data.remote.datasource.UiState
 import com.depromeet.baton.domain.repository.TicketRepository
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 
@@ -11,11 +11,11 @@ class TicketRepositoryImpl @Inject constructor(
     private val ticketDataSource: TicketDataSource
 ) : TicketRepository {
 
-    override suspend fun getFilteredTicket(
+    override suspend fun getFilteredTicketCount(
         page: Int,
         size: Int,
         place: String?,
-        hashtag: MutableList<String>?,
+        hashtag: List<String>?,
         latitude: Float,
         longitude: Float,
         town: String?,
@@ -26,7 +26,7 @@ class TicketRepositoryImpl @Inject constructor(
         minRemainMonth: Int?,
         maxRemainMonth: Int?,
         maxDistance: Int,
-        ticketTypes: MutableList<String>?,
+        ticketTypes: List<String>?,
         ticketTradeType: String?,
         transferFee: String?,
         ticketState: String?,
@@ -40,8 +40,8 @@ class TicketRepositoryImpl @Inject constructor(
         isHold: Boolean?,
         canNego: Boolean?,
         isMembership: Boolean?
-    ): ResponseFilteredTicket {
-        return ticketDataSource.getFilteredTicket(
+    ): Flow<UiState> {
+        return ticketDataSource.getFilteredTicketCount(
             page = page,
             size = size,
             place = place,

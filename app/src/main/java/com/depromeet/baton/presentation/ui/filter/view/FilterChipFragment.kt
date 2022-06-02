@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentFilterChipBinding
+import com.depromeet.baton.domain.model.Alignment
 import com.depromeet.baton.presentation.base.BaseFragment
 import com.depromeet.baton.presentation.bottom.BottomMenuItem
 import com.depromeet.baton.presentation.bottom.BottomSheetFragment
@@ -36,17 +37,15 @@ class FilterChipFragment : BaseFragment<FragmentFilterChipBinding>(R.layout.frag
     private fun setAlignClickListener() {
 
         val list = arrayListOf("가까운 거리순", "낮은 가격순", "인기순", "남은 기간 많은 순")
-        val menu = list.map {BottomMenuItem(it) }.toMutableList()
+        val menu = list.map { BottomMenuItem(it) }.toMutableList()
         binding.llFilterChipAlign.setOnClickListener {
-            val bottomSheetFragment: BottomSheetFragment = BottomSheetFragment("정렬 순", menu, BottomSheetFragment.CHECK_ITEM_VIEW) {
-                //TODO something
-                /*
-                    when(it){
-                               0->  // menu pos에 따라 처리
-                               1->
-                      }
-                */
-
+            val bottomSheetFragment = BottomSheetFragment("정렬 순", menu, BottomSheetFragment.CHECK_ITEM_VIEW) {
+                when (it) {
+                    0 -> filterViewModel.setAlignment(Alignment.RECENT)
+                    1 -> filterViewModel.setAlignment(Alignment.LOWER_PRICE)
+                    2 -> filterViewModel.setAlignment(Alignment.VIEW)
+                    3 -> filterViewModel.setAlignment(Alignment.REMAIN_DAY)
+                }
             }
             bottomSheetFragment.show(
                 childFragmentManager,

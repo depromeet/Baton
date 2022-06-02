@@ -1,17 +1,17 @@
 package com.depromeet.baton.data.remote.api.ticket
 
-import com.depromeet.baton.data.remote.model.ResponseFilteredTicket
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface TicketService {
 
-    @GET("ticket/query")
-    suspend fun getFilteredTicket(
+    @GET("ticket/count_query")
+    suspend fun getFilteredTicketCount(
         @Query("page") page: Int,
         @Query("size") size: Int,
         @Query("place") place: String? = null,
-        @Query("hashtag") hashtag: MutableList<String>? = null,
+        @Query("hashtag") hashtag: List<String>? = null,
         @Query("latitude") latitude: Float,
         @Query("longitude") longitude: Float,
         @Query("town") town: String? = null,
@@ -22,7 +22,7 @@ interface TicketService {
         @Query("minRemainMonth") minRemainMonth: Int? = null,
         @Query("maxRemainMonth") maxRemainMonth: Int? = null,
         @Query("maxDistance") maxDistance: Int,
-        @Query("ticketTypes") ticketTypes: MutableList<String>? = null,
+        @Query("ticketTypes") ticketTypes: List<String>? = null,
         @Query("ticketTradeType") ticketTradeType: String? = null,
         @Query("transferFee") transferFee: String? = null,
         @Query("ticketState") ticketState: String? = null,
@@ -36,5 +36,5 @@ interface TicketService {
         @Query("isHold") isHold: Boolean? = null,
         @Query("canNego") canNego: Boolean? = null,
         @Query("isMembership") isMembership: Boolean? = null,
-    ): ResponseFilteredTicket
+    ): Response<Int>
 }

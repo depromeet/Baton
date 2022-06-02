@@ -14,7 +14,7 @@ object ApiModule {
 
     @Provides
     @Singleton
-    fun provideTicketService(retrofit: Retrofit): TicketService {
+    fun provideTicketService(   retrofit: Retrofit): TicketService {
         return retrofit.create(TicketService::class.java)
     }
 }

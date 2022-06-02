@@ -1,36 +1,38 @@
 package com.depromeet.baton.data.remote.datasource
 
-import com.depromeet.baton.data.remote.model.ResponseFilteredTicket
+import kotlinx.coroutines.flow.Flow
+
 
 interface TicketDataSource {
-    suspend fun getFilteredTicket(
+    suspend fun getFilteredTicketCount(
         page: Int,
         size: Int,
-        place: String?,
-        hashtag: MutableList<String>?,
+        place: String? = null,
+        hashtag: List<String>? = null,
         latitude: Float,
         longitude: Float,
-        town: String?,
-        minPrice: Int?,
-        maxPrice: Int?,
-        minRemainNumber: Int?,
-        maxRemainNumber: Int?,
-        minRemainMonth: Int?,
-        maxRemainMonth: Int?,
+        town: String? = null,
+        minPrice: Int? = null,
+        maxPrice: Int? = null,
+        minRemainNumber: Int? = null,
+        maxRemainNumber: Int? = null,
+        minRemainMonth: Int? = null,
+        maxRemainMonth: Int? = null,
         maxDistance: Int,
-        ticketTypes: MutableList<String>?,
-        ticketTradeType: String?,
-        transferFee: String?,
-        ticketState: String?,
-        sortType: String?,
-        hasClothes: Boolean?,
-        hasLocker: Boolean?,
-        hasShower: Boolean?,
-        hasGx: Boolean?,
-        canResell: Boolean?,
-        canRefund: Boolean?,
-        isHold: Boolean?,
-        canNego: Boolean?,
-        isMembership: Boolean?,
-    ): ResponseFilteredTicket
+        ticketTypes: List<String>? = null,
+        ticketTradeType: String? = null,
+        transferFee: String? = null,
+        ticketState: String? = null,
+        sortType: String? = null,
+        hasClothes: Boolean? = null,
+        hasLocker: Boolean? = null,
+        hasShower: Boolean? = null,
+        hasGx: Boolean? = null,
+        canResell: Boolean? = null,
+        canRefund: Boolean? = null,
+        isHold: Boolean? = null,
+        canNego: Boolean? = null,
+        isMembership: Boolean? = null,
+    ): Flow<UiState>
 }
+
