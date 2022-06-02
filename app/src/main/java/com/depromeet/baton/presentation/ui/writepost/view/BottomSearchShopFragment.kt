@@ -85,7 +85,6 @@ class BottomSearchShopFragment : BottomSheetDialogFragment() {
                     val query = s.toString()
                     if (query.isNotEmpty()) {
                         writePostViewModel.searchPlace(query)
-                        //clearFocus()  //keyboardListener가 자동 처리
                     }
                 }
 

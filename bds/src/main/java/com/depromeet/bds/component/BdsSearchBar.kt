@@ -21,19 +21,19 @@ class BdsSearchBar @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
     defStyleRes: Int = 0,
-) : LinearLayout(context, attrs, defStyleAttr, defStyleRes){
+) : LinearLayout(context, attrs, defStyleAttr, defStyleRes) {
 
     private val layoutInflater = LayoutInflater.from(context)
     private val binding = BdsComponentSearchbarBinding.inflate(layoutInflater, this, true)
-    var textListener : TextListener? =null
+    var textListener: TextListener? = null
 
-    interface TextListener{
+    interface TextListener {
         fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int)
         fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int)
         fun afterTextChanged(s: Editable?)
     }
 
-    open class DefaultTextListener : TextListener{
+    open class DefaultTextListener : TextListener {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
         }
 
@@ -59,48 +59,48 @@ class BdsSearchBar @JvmOverloads constructor(
             binding.root.isSelected = getBoolean(R.styleable.BdsView_isSelected, false)
 
         }
-        context.withStyledAttributes(attrs, R.styleable.BdsTextView){
-            binding.searchBarEt.setTextAppearance( getResourceId(R.styleable.BdsView_bds_textAppearance, 0))
+        context.withStyledAttributes(attrs, R.styleable.BdsTextView) {
+            binding.searchBarEt.setTextAppearance(getResourceId(R.styleable.BdsView_bds_textAppearance, 0))
         }
 
         initEvents()
 
     }
 
-    private fun initEvents(){
-        binding.searchBarEt.addTextChangedListener( BdsTextWatcher() ) //textwatcher 추가
+    private fun initEvents() {
+        binding.searchBarEt.addTextChangedListener(BdsTextWatcher()) //textwatcher 추가
         searchBarStatusListener()
     }
 
-    private fun searchBarStatusListener(){
+    private fun searchBarStatusListener() {
         binding.searchBarEt.setOnFocusChangeListener { v, hasFocus ->
-            when(hasFocus){
-                true ->{
+            when (hasFocus) {
+                true -> {
                     setSearchBarSelected()
                 }
-                else->{
+                else -> {
                     binding.searchBarEt.clearFocus()
                     binding.root.isSelected = false
-                    binding.searchBarCancelIc.visibility=View.GONE
+                    binding.searchBarCancelIc.visibility = View.GONE
                 }
             }
         }
 
         binding.searchBarCancelIc.setOnClickListener {
             binding.searchBarEt.setText("")
-            binding.root.isEnabled=true
+            binding.root.isEnabled = true
         }
 
     }
 
 
-    private inner class BdsTextWatcher() : TextWatcher{
+    private inner class BdsTextWatcher() : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            textListener?.beforeTextChanged(s,start,count,after)
+            textListener?.beforeTextChanged(s, start, count, after)
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            textListener?.onTextChanged(s,start,before,count)
+            textListener?.onTextChanged(s, start, before, count)
         }
 
         override fun afterTextChanged(s: Editable?) {
@@ -109,26 +109,26 @@ class BdsSearchBar @JvmOverloads constructor(
     }
 
 
-    fun setSearchBarSelected(){
-        if(binding.searchBarEt.hasFocus()) {
+    fun setSearchBarSelected() {
+        if (binding.searchBarEt.hasFocus()) {
             binding.root.isSelected = true
-            binding.searchBarCancelIc.visibility=View.VISIBLE
+            binding.searchBarCancelIc.visibility = View.VISIBLE
         }
     }
 
-    fun setSearchBarEnabled(){
-        if(binding.searchBarEt.hasFocus()) {
+    fun setSearchBarEnabled() {
+        if (binding.searchBarEt.hasFocus()) {
             binding.root.isSelected = false
-            binding.searchBarCancelIc.visibility=View.GONE
+            binding.searchBarCancelIc.visibility = View.GONE
         }
     }
 
-    fun searchBarKeyBoardListener(isSelected : Boolean){
-        if(isSelected) setSearchBarSelected()
+    fun searchBarKeyBoardListener(isSelected: Boolean) {
+        if (isSelected) setSearchBarSelected()
         else setSearchBarEnabled()
     }
 
-    fun getText() : String{
+    fun getText(): String {
         return binding.searchBarEt.text.toString()
     }
 
@@ -141,5 +141,9 @@ class BdsSearchBar @JvmOverloads constructor(
             }
             true
         }
+    }
+
+    fun setEditText(text: String) {
+        binding.searchBarEt.setText(text)
     }
 }
