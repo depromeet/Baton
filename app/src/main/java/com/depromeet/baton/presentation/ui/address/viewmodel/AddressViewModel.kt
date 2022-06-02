@@ -3,20 +3,18 @@ package com.depromeet.baton.presentation.ui.address.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.depromeet.baton.util.getAddress
-import com.depromeet.baton.util.getSearchDistance
+import com.depromeet.baton.util.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class AddressViewModel  @Inject constructor(): ViewModel(){
-
+class AddressViewModel @Inject constructor(val spfManager: BatonSpfManager): ViewModel(){
 
     private val _roadState = MutableLiveData<String>("도로명 주소")
     val roadState : LiveData<String> get()=_roadState
 
-    private val _jibunState = MutableLiveData<String>("[지번]")
-    val jibunState : LiveData<String> get()=_jibunState
+    private val _detailState = MutableLiveData<String>("")
+    val detailState : LiveData<String> get()=_detailState
 
     //도보 시간
     private val _timeState = MutableLiveData<String>("걸어서 8분")
@@ -27,15 +25,15 @@ class AddressViewModel  @Inject constructor(): ViewModel(){
     val maxDistance : LiveData<String> get()=_maxDistance
 
     init {
-        if(getAddress().roadAddress !="" && getAddress().address !=""){
-            _roadState.value = getAddress().roadAddress
-            _jibunState.value = "[지번]${getAddress().address}"
+        if(spfManager.getAddress().roadAddress !="" && spfManager.getAddress().address !=""){
+            _roadState.value = spfManager.getAddress().roadAddress
+            _detailState.value = "${spfManager.getDetailAddress()}"
         }
 
-        if(getSearchDistance()!="500m"){
-            val distance =getSearchDistance()!!
-            _maxDistance.value = distance
-            _timeState.value =  "걸어서 ${getWalkingTime(distance)}분"
+        if(spfManager.getMaxDistance().getMaxDistanceWithUnit()!="500m"){
+            val distance =spfManager.getMaxDistance()!!
+            _maxDistance.value = distance.getMaxDistanceWithUnit()
+            _timeState.value =  "걸어서 ${getWalkingTime(distance.getMaxDistanceWithUnit())}분"
         }
     }
 
@@ -50,7 +48,6 @@ class AddressViewModel  @Inject constructor(): ViewModel(){
             DistanceType.MAX1KM -> {
                 resultMeter = value * 500 / 1000.0F + 500.0F
                 _maxDistance.value= String.format("%1.0f",(resultMeter)) +"m"
-
             }
            DistanceType.MAX3KM ->{
                resultMeter =  value%1000 *2 +1000.0F
@@ -59,16 +56,18 @@ class AddressViewModel  @Inject constructor(): ViewModel(){
            DistanceType.MAX5KM ->{
                resultMeter = (value % 2000 ) * 2 + 3000.0F
                _maxDistance.value=  String.format("%1.1f",(resultMeter/1000.0)) +"km"
+
             }
         }
         _timeState.value = "걸어서 ${getWalkingTime( maxDistance.value!!)}분"
+        spfManager.saveMaxDistance(resultMeter.toInt())
         return resultMeter
     }
 
 
-     fun setDistanceProgress(distance : String) : Int{
-        if(distance.contains("km")){
-            val value = distance.substring(0,distance.indexOf("km")).toFloat()
+     fun setDistanceProgress(distance : MaxDistance) : Int{
+        if(distance.unit=="km"){
+            val value = distance.getDistanceToKM()
             if(value< 3.0){
                 /*MAX3KM*/
                 val process = value - 1.0 // MAK1KM
@@ -83,8 +82,8 @@ class AddressViewModel  @Inject constructor(): ViewModel(){
         }else{
             //m 단위
             /*MAX1KM*/
-            val value = distance.substring(0,distance.indexOf("m")).toFloat()
-            return value.toInt()-500
+            val value = distance.getDistance()
+            return (value-500)*1000 /500
         }
     }
 
