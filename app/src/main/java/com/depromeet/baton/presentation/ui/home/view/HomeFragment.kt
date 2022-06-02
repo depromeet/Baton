@@ -11,6 +11,7 @@ import com.depromeet.baton.presentation.base.BaseFragment
 import com.depromeet.baton.presentation.main.MainActivity
 import com.depromeet.baton.presentation.ui.address.view.AddressActivity
 import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
+import com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel
 import com.depromeet.baton.presentation.ui.writepost.view.WritePostActivity
 import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter
 import com.depromeet.baton.presentation.ui.search.SearchViewModel
@@ -23,7 +24,7 @@ import javax.inject.Inject
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     @Inject lateinit var spfManager: BatonSpfManager
-
+    private val searchViewModel: SearchViewModel by activityViewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -101,12 +102,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     override fun onResume() {
-        super.onResume()
-<<<<<<< HEAD
-        binding.tvHomeLocation.text = if (getAddress().roadAddress != "") getAddress().roadAddress.slice(0..5) + "..."
-=======
+
         binding.tvHomeLocation.text=  if(spfManager.getAddress().roadAddress!="") spfManager.getAddress().roadAddress.slice(0..5)+"..."
->>>>>>> develop
+
         else "위치 설정"
     }
 }
