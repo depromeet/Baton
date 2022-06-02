@@ -101,10 +101,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         })
     }
 
-    override fun onResume() {
-
+ override fun onResume() {
+        super.onResume()
         binding.tvHomeLocation.text=  if(spfManager.getAddress().roadAddress!="") spfManager.getAddress().roadAddress.slice(0..5)+"..."
 
         else "위치 설정"
     }
+
 }
