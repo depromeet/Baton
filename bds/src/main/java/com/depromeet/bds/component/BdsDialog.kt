@@ -2,23 +2,19 @@ package com.depromeet.bds.component
 
 import android.app.AlertDialog
 import android.content.Context
-import android.graphics.drawable.InsetDrawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.TextureView
 import android.view.View
 import android.widget.*
 import com.depromeet.bds.R
 
-class BdsDialog @JvmOverloads constructor(
+class BdsDialog  constructor(
     context: Context,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0,
-    defStyleRes: Int = 0,
-): LinearLayout(context, attrs, defStyleAttr, defStyleRes) {
+    type : DialogType,
+) {
     private var alertDialog : AlertDialog? = null
     private val layoutInflater = LayoutInflater.from(context)
-    val view = layoutInflater.inflate(R.layout.bds_component_dialog, null)
+    val view = layoutInflater.inflate(type.view, null)
     init {
         alertDialog = AlertDialog.Builder(context, R.style.BdsDialogStyle)
             .setView(view)
@@ -70,4 +66,9 @@ class BdsDialog @JvmOverloads constructor(
         alertDialog?.dismiss()
     }
 
+}
+
+enum class DialogType(val view : Int){
+    PRIMARY (R.layout.bds_component_dialog),
+    SECONDARY(R.layout.bds_component_secondary_dialog)
 }

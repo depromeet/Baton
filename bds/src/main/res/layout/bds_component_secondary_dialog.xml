@@ -51,7 +51,6 @@
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/dimen24"
             >
-
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/bds_dialog_horizon_cancel_btn"
                 android:layout_width="match_parent"
@@ -61,7 +60,8 @@
                 android:text="취소"
                 android:textAlignment="center"
                 android:textAppearance="?body1"
-                android:theme="@style/Theme.Bds.OutlinedButton" />
+                android:textColor="?grey_scale70"
+                android:theme="@style/Theme.Bds.TertiaryButton" />
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="0dp"
@@ -79,7 +79,7 @@
                 android:textAlignment="center"
                 android:textAppearance="?body1"
                 android:textColor="?wh100"
-                android:theme="@style/Theme.Bds.PrimaryButton"
+                android:theme="@style/Theme.Bds.SecondaryButton"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -112,7 +112,7 @@
         android:paddingHorizontal="@dimen/dimen24"
         >
         <androidx.appcompat.widget.AppCompatButton
-            android:theme="@style/Theme.Bds.PrimaryButton"
+            android:theme="@style/Theme.Bds.SecondaryButton"
             android:id="@+id/bds_dialog_vertical_confirm_btn"
             android:layout_rowWeight="1"
             android:layout_width="match_parent"
@@ -127,7 +127,7 @@
             android:textAppearance="?body1"
             />
         <androidx.appcompat.widget.AppCompatButton
-            android:theme="@style/Theme.Bds.OutlinedButton"
+            android:theme="@style/Theme.Bds.TertiaryButton"
             android:id="@+id/bds_dialog_vertical_cancel_btn"
             android:layout_rowWeight="1"
             android:layout_width="match_parent"
@@ -138,6 +138,7 @@
             android:background="@drawable/bds_button_background"
             android:textAlignment="center"
             android:text="취소"
+            android:textColor="?grey_scale80"
             android:textAppearance="?body1"
             />
 

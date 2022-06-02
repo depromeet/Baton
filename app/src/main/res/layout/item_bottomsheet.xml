@@ -20,7 +20,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:text="sample"
                 android:textAppearance="?body1"
-                android:textColor="?grey_scale90"
+                android:textColor="@color/selector_bottom_item"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </RelativeLayout>

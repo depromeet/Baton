@@ -4,6 +4,6 @@
 <inset
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:drawable="@drawable/background_radius_12dp"
-    android:insetRight="@dimen/dimen20"
-    android:insetLeft="@dimen/dimen20">
+    android:insetRight="@dimen/dimen32"
+    android:insetLeft="@dimen/dimen32">
 </inset>
