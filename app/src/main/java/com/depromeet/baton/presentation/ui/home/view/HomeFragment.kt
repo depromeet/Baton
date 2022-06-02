@@ -22,12 +22,13 @@ import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
 import com.depromeet.baton.presentation.ui.writepost.view.WritePostActivity
 import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter
 import com.depromeet.baton.presentation.util.TicketItemVerticalDecoration
-import com.depromeet.baton.util.getAddress
+import com.depromeet.baton.util.BatonSpfManager
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
-
+    @Inject lateinit var spfManager: BatonSpfManager
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -100,10 +101,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         })
     }
 
+
     private fun setLocationClickListener() {
         binding.ctlHomeLocation.setOnClickListener {
             val intent = Intent(requireContext(), AddressActivity::class.java)
             startActivity(intent)
         }
+
     }
 }

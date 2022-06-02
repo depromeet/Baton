@@ -17,6 +17,9 @@ on:
       KEYSTORE_PROPERTIES:
         description: "keystore.properties about private keys"
         required: true
+      SECRETS_STRINGS:
+        description: "secrets_strings"
+        required: true
 
 jobs:
   launch_gradle_commands:
@@ -40,6 +43,9 @@ jobs:
         env:
           KEYSTORE_PROPERTIES: ${{ secrets.KEYSTORE_PROPERTIES }}
         run: echo $KEYSTORE_PROPERTIES > keystore.properties
+
+      - name: Write compile time secrets_strings.xml file
+        run: echo "${{ secrets.SECRETS_STRINGS }}" | base64 -d > app/src/main/res/values/secrets_strings.xml
 
       - uses: gradle/gradle-build-action@v2
         with:
