@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="uiState"
+            type="com.depromeet.baton.presentation.ui.sign.WelcomeUiState" />
     </data>
 
     <LinearLayout
@@ -52,6 +55,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="12dp"
             android:gravity="center"
+            android:onClick="@{_ -> uiState.onKakaoClick.invoke()}"
             android:padding="12dp"
             app:bdsBackgroundColor="#fee500"
             app:bdsRadius="4dp">
@@ -73,6 +77,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="68dp"
             android:gravity="center"
+            android:onClick="@{_ -> uiState.onNaverClick.invoke()}"
             android:padding="12dp"
             app:bdsBackgroundColor="?wh100"
             app:bdsBorderColor="?grey_scale40"
