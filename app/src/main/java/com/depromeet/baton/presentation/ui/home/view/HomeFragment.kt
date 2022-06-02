@@ -24,11 +24,13 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
+
     private val searchViewModel: SearchViewModel by activityViewModels()
     private val filterViewModel: FilterViewModel by activityViewModels()
 
     @Inject
     lateinit var spfManager: BatonSpfManager
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -104,13 +106,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             //TODO 게시글 id넘기기
         })
     }
-
-    private fun setLocationClickListener() {
-        binding.ctlHomeLocation.setOnClickListener {
-            val intent = Intent(requireContext(), AddressActivity::class.java)
-            startActivity(intent)
-        }
-
-
-    }
 }
+
+
+
