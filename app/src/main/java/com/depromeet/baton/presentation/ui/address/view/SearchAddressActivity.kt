@@ -13,17 +13,18 @@ import com.depromeet.baton.presentation.base.BaseActivity
 import com.depromeet.baton.presentation.ui.address.SearchAddressAdapter
 import com.depromeet.baton.presentation.ui.address.viewmodel.SearchAddressViewModel
 import com.depromeet.baton.presentation.ui.address.model.AddressInfo
-import com.depromeet.baton.util.saveAddress
+import com.depromeet.baton.util.BatonSpfManager
 import com.depromeet.bds.component.BdsSearchBar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import timber.log.Timber
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SearchAddressActivity : BaseActivity<ActivitySearchAddressBinding>(R.layout.activity_search_address) {
     private val searchAddressViewModel  by viewModels<SearchAddressViewModel>()
-
+    @Inject lateinit var spfManager: BatonSpfManager
     private lateinit var listAdapter: SearchAddressAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,7 +90,7 @@ class SearchAddressActivity : BaseActivity<ActivitySearchAddressBinding>(R.layou
     }
 
     private fun listItemClicked(item : AddressInfo){
-        saveAddress(item.roadAddress, item.address)
+        spfManager.saveAddress(item.roadAddress, item.address)
         val intent = Intent(this, MyLocationDetailActivity::class.java)
         startActivity(intent)
     }
