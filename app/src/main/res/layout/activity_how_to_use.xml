@@ -169,7 +169,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dimen8"
-                            android:text="현장결제"
+                            android:text="선결제"
                             android:textAppearance="?caption1"
                             android:textColor="?grey_scale90"
                             app:layout_constraintEnd_toEndOf="@id/iv_how_to_use_pre"
