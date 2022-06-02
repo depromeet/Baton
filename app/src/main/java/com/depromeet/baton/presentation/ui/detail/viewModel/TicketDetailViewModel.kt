@@ -1,19 +1,17 @@
 package com.depromeet.baton.presentation.ui.detail.viewModel
 
-import android.view.SurfaceControl
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.depromeet.baton.domain.model.AdditionalOptions
 import com.depromeet.baton.domain.model.HashTag
 import com.depromeet.baton.domain.model.TicketKind
-import com.depromeet.baton.domain.model.TransactionMethod
+import com.depromeet.baton.domain.model.TradeType
 import com.depromeet.baton.presentation.base.BaseViewModel
 import com.depromeet.baton.presentation.base.UIState
 import com.depromeet.baton.presentation.ui.detail.model.MarketBasicInfo
 import com.depromeet.baton.presentation.ui.detail.model.Seller
 import com.depromeet.baton.presentation.ui.detail.model.TicketInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -44,17 +42,17 @@ class TicketDetailViewModel @Inject constructor() : BaseViewModel() {
             detailContent = "헬스 회원권  60일권  200,000원으로 저렴하게 양도합니다!\u2028- 접근성 좋음 주변에 버스터미널, 정류장 등 가까움\n" +
                     "- 선생님도 친절/대회 수상이력 당연O, 몸 컨디션 체크 등등 설명도 정말 잘해주세요!!\n" +
                     "- PT시간은 4시이후, 저녁시간대 가능",
-            transactionMethod = TransactionMethod.FACE,
+            transactionMethod = TradeType.CONTECT,
             moreTag = arrayListOf(AdditionalOptions.BARGAINING, AdditionalOptions.HOLDING)
 
         )
 
         _ticketState.value=TicketInfo(
-            ticketKind = TicketKind.GYM,
+            ticketKind = TicketKind.HEALTH,
             effectiveDate = "22.12.31",
             price = "200,000원",
             transferCoast = "10,000원",
-            infoTag =  arrayListOf(HashTag.SYSTEMATIC_LESSON,HashTag.CUSTOMIZED_CARE, HashTag.QUIET_ATMOSPHERE)
+            infoTag =  arrayListOf(HashTag.SYSTEMATIC_CLASS,HashTag.CUSTOMIZED_CARE, HashTag.QUIET_AMBIENCE)
 
         )
     }

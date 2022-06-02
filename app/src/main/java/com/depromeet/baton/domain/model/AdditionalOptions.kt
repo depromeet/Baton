@@ -7,6 +7,6 @@ enum class AdditionalOptions(val value: String) {
     GX("GX 포함"),
     RE_TRANSFER("재양도 가능"),
     REFUND("환불 가능"),
-    HOLDING("기간 홀딩 가능"),
-    BARGAINING("가격 네고 가능"),
+    HOLDING("홀딩(휴회)완료"),
+    BARGAINING("가격 제안 가능"),
 }

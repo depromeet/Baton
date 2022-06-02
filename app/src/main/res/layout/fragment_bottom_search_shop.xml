@@ -5,6 +5,11 @@
 
     <data>
 
+        <import type="com.depromeet.baton.presentation.base.UIState" />
+
+        <variable
+            name="writePostViewModel"
+            type="com.depromeet.baton.presentation.ui.writepost.viewmodel.WritePostViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,7 +21,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ctl_bottom_place_top"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen594"
+            android:layout_height="match_parent"
             app:layout_constraintTop_toTopOf="parent">
 
 
@@ -50,35 +55,87 @@
                 android:background="?grey_scale40"
                 app:layout_constraintTop_toBottomOf="@id/bds_searchbar_bottom_place" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_bottom_place"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ctl_bottom_search_result_exist"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginTop="@dimen/dimen32"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toTopOf="@+id/tv_bottom_place_no_result"
+                android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="@+id/iv_bottom_search_close"
                 app:layout_constraintStart_toStartOf="@+id/bds_searchbar_bottom_place"
                 app:layout_constraintTop_toBottomOf="@id/view_bottom_place"
-                tools:listitem="@layout/item_search_shop" />
+                app:uiState="@{writePostViewModel.shopSearchUiState }"
+                tools:visibility="visible">
 
-            <TextView
-                android:id="@+id/tv_bottom_place_no_result"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_bottom_place"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen32"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:itemCount="5"
+                    tools:listitem="@layout/item_search_shop" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ctl_bottom_search_result_no_exist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen32"
-                android:layout_marginBottom="@dimen/dimen24"
-                android:background="@drawable/temp_bg_search_bar"
-                android:paddingHorizontal="@dimen/dimen14"
-                android:paddingVertical="@dimen/dimen12"
-                android:text="찾고있는 헬스장이 없나요?"
-                android:textAppearance="?body3"
-                android:textColor="?grey_scale80"
+                android:visibility="invisible"
+                app:emptyState="@{writePostViewModel.shopSearchUiState }"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rv_bottom_place"/>
+                app:layout_constraintTop_toTopOf="@+id/bds_searchbar_bottom_place"
+                tools:visibility="visible">
 
+                <ImageView
+                    android:id="@+id/iv_bottom_place_no_result_found"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_no_result_found"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_bottom_place_no_result_found"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen16"
+                    android:text="검색 결과가 없어요."
+                    android:textAppearance="?body1"
+                    android:textColor="?grey_scale70"
+                    app:layout_constraintEnd_toEndOf="@id/iv_bottom_place_no_result_found"
+                    app:layout_constraintStart_toStartOf="@+id/iv_bottom_place_no_result_found"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_bottom_place_no_result_found" />
+
+                <com.depromeet.bds.component.BdsButton
+                    android:id="@+id/bds_btn_bottom_search_self_write"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen16"
+                    android:theme="@style/Theme.Bds.TertiaryButton.Medium"
+                    app:bds_text="직접 입력하기"
+                    app:layout_constraintEnd_toEndOf="@id/tv_bottom_place_no_result_found"
+                    app:layout_constraintStart_toStartOf="@id/tv_bottom_place_no_result_found"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_bottom_place_no_result_found" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.depromeet.bds.component.BdsButton
+                android:id="@+id/bds_btn_bottom_search_no_result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/Theme.Bds.TertiaryButton.Medium"
+                app:bds_text="찾고있는 헬스장이 없나요?"
+                android:layout_marginBottom="@dimen/dimen68"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/ctl_bottom_search_result_exist"
+                app:layout_constraintStart_toStartOf="@+id/ctl_bottom_search_result_exist"
+                app:uiState="@{writePostViewModel.shopSearchUiState }" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

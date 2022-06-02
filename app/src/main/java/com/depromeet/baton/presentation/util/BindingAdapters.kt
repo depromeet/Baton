@@ -52,3 +52,4 @@ fun BdsComponentTextField.bindErrorMessage(message: String?) {
 fun View.bindVisible(isVisible: Boolean) {
     this.isVisible = isVisible
 }
+
