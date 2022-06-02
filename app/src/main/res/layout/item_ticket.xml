@@ -5,9 +5,6 @@
 
     <data>
 
-        <variable
-            name="filteredTicket"
-            type="com.depromeet.baton.data.remote.model.ResponseFilteredTicket" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -73,7 +70,6 @@
                 android:id="@+id/tv_item_ticket_shop_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{filteredTicket.location}"
                 android:textAppearance="?headline4"
                 android:textColor="@color/gy70"
                 app:layout_constraintStart_toStartOf="parent"
@@ -125,7 +121,6 @@
                     android:textAppearance="?caption1"
                     android:maxLength="7"
                     android:ellipsize="end"
-                    android:text="@{filteredTicket.address}"
                     android:textColor="@color/gy70"
                     tools:text="광진구 중곡동" />
 
@@ -136,7 +131,6 @@
                     android:layout_gravity="center_vertical"
                     android:paddingStart="@dimen/dimen4"
                     android:textAppearance="?caption2"
-                    android:text="@{filteredTicket.distance}"
                     android:textColor="?secondary50"
                     tools:text="12m" />
 

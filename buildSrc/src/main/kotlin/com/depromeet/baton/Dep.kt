@@ -180,4 +180,13 @@ object Dep {
     const val glide_compiler = "com.github.bumptech.glide:compiler:4.13.0"
     const val imagepicker = "com.github.nguyenhoanglam:ImagePicker:1.5.2"
     const val stickyScrollView="com.github.amarjain07:StickyScrollView:1.0.3"
+
+    // https://developers.kakao.com/docs/latest/ko/getting-started/sdk-android#select-module
+    object Kakao {
+        private const val version = "2.10.0"
+
+        const val user = "com.kakao.sdk:v2-user:$version"
+
+        const val maven = "https://devrepo.kakao.com/nexus/content/groups/public/"
+    }
 }

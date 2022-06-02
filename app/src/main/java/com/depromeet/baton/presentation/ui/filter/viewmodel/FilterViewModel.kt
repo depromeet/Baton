@@ -1,13 +1,12 @@
 package com.depromeet.baton.presentation.ui.filter.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.depromeet.baton.data.remote.datasource.UiState
-import com.depromeet.baton.data.remote.model.ResponseFilteredTicket
+import com.depromeet.baton.data.response.ResponseFilteredTicket
+import com.depromeet.baton.domain.api.search.UiState
 import com.depromeet.baton.domain.model.*
-import com.depromeet.baton.domain.repository.TicketRepository
+import com.depromeet.baton.domain.repository.SearchRepository
 import com.depromeet.baton.presentation.base.BaseViewModel
 import com.depromeet.baton.presentation.ui.filter.view.TermFragment
 import com.depromeet.baton.presentation.util.*
@@ -18,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FilterViewModel @Inject constructor(
-    private val ticketRepository: TicketRepository
+    private val searchRepository: SearchRepository
 ) : BaseViewModel() {
 
     private val _filteredTicketCount = MutableLiveData<Int>(0)
@@ -512,34 +511,8 @@ class FilterViewModel @Inject constructor(
     fun updateFilteredTicketCount() {
         viewModelScope.launch {
             kotlin.runCatching {
-                Log.e(
-                    "ㅡㅡㅡㅡㅡㅡㅡ콜렉ㅡㅡㅡㅡㅡ",
-                    "해시태그:" + "${hashTagCheckedList.value?.map { it.key.toString() }}\n" +
-                            "latitude:" + "경도\n" +
-                            "longitude:" + "위도\n" +
-                            "minPrice:" + "${_gymTermRange.value?.first?.toInt()}\n" +
-                            "maxPrice:" + "${priceRange.value?.second?.toInt()}\n" +
-                            "minRemainNumber:" + "${_gymTermRange.value?.first?.toInt()}\n" +
-                            "maxRemainNumber:" + "${_ptTermRange.value?.second?.toInt()}\n" +
-                            "minRemainMonth:" + "${_gymTermRange.value?.first?.toInt()}\n" +
-                            "maxRemainMonth:" + "${_gymTermRange.value?.second?.toInt()}\n" +
-                            "maxDistance:" + "${500}\n" +
-                            "ticketTypes:" + "${ticketKindCheckedList.value?.map { it.key.toString() }}\n" +
-                            "ticketTradeType:" + "${tradeTypeCheckedList.value?.keys.toString()}\n" +
-                            "transferFee:" + "${transferFeeCheckedList.value?.keys.toString()}\n" +
-                            "alignment" + "${alignmentCheckedOption.value}\n" +
-                            "hasClothes:" + "${isSportWearChecked.value}\n" +
-                            "hasLocker:" + "${isLockerRoomChecked.value}\n" +
-                            "hasShower:" + "${isShowerRoomChecked.value}\n" +
-                            "hasGx:" + "${isGxChecked.value}\n" +
-                            "canResell:" + "${isReTransferChecked.value}\n" +
-                            "canRefund:" + "${isRefundChecked.value}\n" +
-                            "isHold:" + "${isHoldingChecked.value}\n" +
-                            "canNego:" + "${isBargainingChecked.value}\n"
 
-
-                )
-                ticketRepository.getFilteredTicketCount(
+                searchRepository.getFilteredTicketCount(
                     page = 1,
                     size = 4,
                     //place: String?,
@@ -578,7 +551,6 @@ class FilterViewModel @Inject constructor(
                                 Timber.e(errorMessage)
                             }
                         }
-
                     }
                 }
             }
@@ -588,7 +560,7 @@ class FilterViewModel @Inject constructor(
     fun updateFilteredTicketList() {
         viewModelScope.launch {
             kotlin.runCatching {
-                ticketRepository.getFilteredTicket(
+                searchRepository.getFilteredTicket(
                     page = 1,
                     size = 4,
                     //place: String?,

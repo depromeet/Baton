@@ -50,7 +50,7 @@
                 android:textAppearance="?body4"
                 android:layout_marginHorizontal="@dimen/dimen16"
                 android:layout_marginTop="@dimen/dimen4"
-                android:text="@{viewmodel.jibunState}"
+                android:text="@{viewmodel.detailState}"
                 />
 
             <GridLayout

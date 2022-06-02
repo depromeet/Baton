@@ -6,17 +6,15 @@ import android.view.ViewGroup
 import android.widget.CheckedTextView
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatImageButton
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.depromeet.baton.R
-import com.depromeet.baton.data.remote.model.ResponseFilteredTicket
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.depromeet.baton.data.response.ResponseFilteredTicket
 import com.depromeet.baton.databinding.ItemTicketBinding
-import com.depromeet.baton.presentation.ui.home.view.TicketItem
 import com.depromeet.bds.utils.toPx
 
 
@@ -41,7 +39,7 @@ class TicketItemRvAdapter(
 
     inner class TicketItemViewHolder(private val binding: ItemTicketBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: com.depromeet.baton.data.remote.model.ResponseFilteredTicket, position: Int) {
+        fun bind(item: ResponseFilteredTicket, position: Int) {
             with(binding) {
                 //가로스크롤뷰
                 if (scrollType == SCROLL_TYPE_HORIZONTAL) {
@@ -64,7 +62,7 @@ class TicketItemRvAdapter(
 
                 setLikeBtnClickListener(ctvItemTicketLike)
 
-                if(item.mainImage.isEmpty()) setEmptyImage(position,ibtnItemTicket)
+                if (item.mainImage.isEmpty()) setEmptyImage(position, ibtnItemTicket)
 
                 root.setOnClickListener {
                     clickListener(item)

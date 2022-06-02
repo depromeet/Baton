@@ -28,7 +28,6 @@ android {
         versionCode App.versionCode
         versionName App.versionName
 
-        buildConfigField("String", "TICKET_BASE_URL", LocalProperties["TICKET_BASE_URL"])
         buildConfigField("String", "NAVER_SDK_CLIENT_KEY", "\"${keystoreProperties["NAVER_SDK_CLIENT_KEY"]}\"")
         manifestPlaceholders["NAVER_SDK_CLIENT_KEY"] = keystoreProperties["NAVER_SDK_CLIENT_KEY"].toString()
 
@@ -107,7 +106,7 @@ dependencies {
     implementation(Dep.timber)
     implementation(Dep.ballon)
     implementation(Dep.glide)
-    annotationProcessor(Dep.glide_compiler)
+    kapt(Dep.glide_compiler)
     implementation(Dep.imagepicker)
 
     implementation(Dep.stickyScrollView)
@@ -128,4 +127,6 @@ dependencies {
     implementation(Dep.rxjava.rxjava2_android)
     implementation(Dep.rxjava.rxjava2_adpater)
     implementation(Dep.Retrofit.converterGson)
+
+    implementation(Dep.Kakao.user)
 }

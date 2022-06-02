@@ -6,24 +6,28 @@ import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.depromeet.baton.R
-import com.depromeet.baton.data.remote.model.ResponseFilteredTicket
+import com.depromeet.baton.data.response.ResponseFilteredTicket
 import com.depromeet.baton.databinding.FragmentHomeBinding
 import com.depromeet.baton.presentation.base.BaseFragment
 import com.depromeet.baton.presentation.main.MainActivity
 import com.depromeet.baton.presentation.ui.address.view.AddressActivity
 import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
 import com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel
-import com.depromeet.baton.presentation.ui.writepost.view.WritePostActivity
 import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter
 import com.depromeet.baton.presentation.ui.search.SearchViewModel
+import com.depromeet.baton.presentation.ui.writepost.view.WritePostActivity
 import com.depromeet.baton.presentation.util.TicketItemVerticalDecoration
-import com.depromeet.baton.util.getAddress
+import com.depromeet.baton.util.BatonSpfManager
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
+
     private val searchViewModel: SearchViewModel by activityViewModels()
     private val filterViewModel: FilterViewModel by activityViewModels()
+
+    @Inject lateinit var spfManager: BatonSpfManager
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -95,7 +99,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     override fun onResume() {
         super.onResume()
-        binding.tvHomeLocation.text = if (getAddress().roadAddress != "") getAddress().roadAddress.slice(0..5) + "..."
+        binding.tvHomeLocation.text=  if(spfManager.getAddress().roadAddress!="") spfManager.getAddress().roadAddress.slice(0..5)+"..."
         else "위치 설정"
     }
 }
