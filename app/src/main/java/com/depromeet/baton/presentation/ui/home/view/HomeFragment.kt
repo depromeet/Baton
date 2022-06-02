@@ -6,11 +6,13 @@ import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.depromeet.baton.R
+import com.depromeet.baton.data.remote.model.ResponseFilteredTicket
 import com.depromeet.baton.databinding.FragmentHomeBinding
 import com.depromeet.baton.presentation.base.BaseFragment
 import com.depromeet.baton.presentation.main.MainActivity
 import com.depromeet.baton.presentation.ui.address.view.AddressActivity
 import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
+import com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel
 import com.depromeet.baton.presentation.ui.writepost.view.WritePostActivity
 import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter
 import com.depromeet.baton.presentation.ui.search.SearchViewModel
@@ -21,6 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private val searchViewModel: SearchViewModel by activityViewModels()
+    private val filterViewModel: FilterViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -77,22 +80,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             itemDecoration = TicketItemVerticalDecoration()
             rvHome.layoutManager = gridLayoutManager
 
-            ticketItemRvAdapter.submitList(
-                arrayListOf(
-                    TicketItem(
-                        "휴메이크 휘트니스 석촌점", "헬스", "123,000원", "50일 남음", "광진구 중곡동", "12m", R.drawable.dummy1
-                    ),
-                    TicketItem("테리온 휘트니스 당산점", "기타", "100,000원", "30일 남음", "영등포구 양평동", "12m", R.drawable.dummy2),
-                    TicketItem("진휘트니스 양평점", "헬스", "3,000원", "60일 남음", "광진구 중곡동", "12m", R.drawable.dummy3),
-                    TicketItem("휴메이크 휘트니스 석촌점", "필라테스", "223,000원", "4일 남음", "광진구 중곡동", "12m", R.drawable.dummy4),
-                    TicketItem("바톤휘트니스 대왕점", "헬스", "19,000원", "5일 남음", "광진구 중곡동", "12m", R.drawable.dummy5),
-                    TicketItem("휴메이크 휘트니스 석촌점", "필라테스", "223,000원", "4일 남음", "광진구 중곡동", "12m", R.drawable.dummy7),
-                )
-            )
+            filterViewModel.filteredTicketList.observe(viewLifecycleOwner) {
+                ticketItemRvAdapter.submitList(it)
+            }
         }
     }
 
-    private fun setTicketItemClickListener(ticketItem: TicketItem) {
+
+    private fun setTicketItemClickListener(ticketItem: ResponseFilteredTicket) {
         startActivity(Intent(requireContext(), TicketDetailActivity::class.java).apply {
             //TODO 게시글 id넘기기
         })

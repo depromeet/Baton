@@ -1,7 +1,5 @@
 package com.depromeet.baton.data.remote.model
 
-import com.google.gson.annotations.SerializedName
-
 
 data class ResponseFilteredTicket(
     val id: Int,

@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.depromeet.baton.data.remote.datasource.UiState
+import com.depromeet.baton.data.remote.model.ResponseFilteredTicket
 import com.depromeet.baton.domain.model.*
 import com.depromeet.baton.domain.repository.TicketRepository
 import com.depromeet.baton.presentation.base.BaseViewModel
@@ -181,17 +182,9 @@ class FilterViewModel @Inject constructor(
     private val _alignmentCheckedOption = MutableLiveData<Alignment>()
     val alignmentCheckedOption: LiveData<Alignment> = _alignmentCheckedOption
 
-/*    private val _isNearDistanceChecked = MutableLiveData(false)
-    val isNearDistanceChecked: LiveData<Boolean> = _isNearDistanceChecked
-
-    private val _isLowPriceChecked = MutableLiveData(false)
-    val isLowPriceChecked: LiveData<Boolean> = _isLowPriceChecked
-
-    private val _isPopularChecked = MutableLiveData(false)
-    val isPopularChecked: LiveData<Boolean> = _isPopularChecked
-
-    private val _isManyTermChecked = MutableLiveData(false)
-    val isManyTermChecked: LiveData<Boolean> = _isManyTermChecked*/
+    //정렬
+    private val _filteredTicketList = MutableLiveData<List<ResponseFilteredTicket>>()
+    val filteredTicketList: LiveData<List<ResponseFilteredTicket>> = _filteredTicketList
 
     /*position, list관련*/
     //필터타입 순서 리스트
@@ -588,6 +581,45 @@ class FilterViewModel @Inject constructor(
 
                     }
                 }
+            }
+        }
+    }
+
+    fun updateFilteredTicketList() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                ticketRepository.getFilteredTicket(
+                    page = 1,
+                    size = 4,
+                    //place: String?,
+                    hashtag = hashTagCheckedList.value?.map { it.key.toString() },
+                    latitude = 36.1234f,
+                    longitude = 127.1234f,
+                    //town: String?,
+                    minPrice = priceRange.value?.first?.toInt(),
+                    maxPrice = priceRange.value?.second?.toInt(),
+                    minRemainNumber = _ptTermRange.value?.first?.toInt(),
+                    maxRemainNumber = _ptTermRange.value?.second?.toInt(),
+                    minRemainMonth = _gymTermRange.value?.first?.toInt(),
+                    maxRemainMonth = _gymTermRange.value?.second?.toInt(),
+                    maxDistance = 500,
+                    ticketTypes = ticketKindCheckedList.value?.map { it.key.toString() },
+                    ticketTradeType = tradeTypeCheckedList.value?.keys.toString(),
+                    transferFee = transferFeeCheckedList.value?.keys.toString(),
+                    // ticketState : String ?,
+                    sortType = alignmentCheckedOption.value?.toString(),
+                    hasClothes = isSportWearChecked.value,
+                    hasLocker = isLockerRoomChecked.value,
+                    hasShower = isShowerRoomChecked.value,
+                    hasGx = isGxChecked.value,
+                    canResell = isReTransferChecked.value,
+                    canRefund = isRefundChecked.value,
+                    isHold = isHoldingChecked.value,
+                    canNego = isBargainingChecked.value,
+                    //isMembership = isLockerRoomChecked.value,
+                )
+            }.onSuccess {
+                _filteredTicketList.value = it
             }
         }
     }
