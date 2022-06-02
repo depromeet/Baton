@@ -12,9 +12,6 @@ plugins {
 }
 
 android {
-    def LocalProperties = new Properties()
-    LocalProperties.load(project.rootProject.file('local.properties').newDataInputStream())
-
     def keystorePropertiesFile = rootProject.file("keystore.properties")
     def keystoreProperties = new Properties()
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
