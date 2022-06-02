@@ -118,6 +118,16 @@
         <item name="android:textColor">@color/selector_bds_textfield_text_color</item>
         <item name="android:textColorHint">?grey_scale50</item>
     </style>
+    
+    <style name="BdsDialogStyle">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:colorBackground">?dim</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="android:windowMinWidthMajor">100%</item>
+       <item name="android:windowMinWidthMinor">100%</item>
+    </style>
 
     <style name="MyPageAlertDialog">
         <item name="android:windowBackground">@android:color/transparent</item>

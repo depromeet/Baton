@@ -3,6 +3,7 @@ package com.depromeet.baton
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import com.kakao.sdk.common.KakaoSdk
 import com.naver.maps.map.NaverMapSdk
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
@@ -19,9 +20,15 @@ class BatonApp : Application() {
         NaverMapSdk.getInstance(this).client =
             NaverMapSdk.NaverCloudPlatformClient(BuildConfig.NAVER_SDK_CLIENT_KEY)
         mSharedPreferences = applicationContext.getSharedPreferences(TAG, Context.MODE_PRIVATE)
+
+        initKakao()
     }
 
     private fun initLogger() {
         if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
+    }
+
+    private fun initKakao() {
+        KakaoSdk.init(this, getString(R.string.kakao_native_app_key), loggingEnabled = true)
     }
 }

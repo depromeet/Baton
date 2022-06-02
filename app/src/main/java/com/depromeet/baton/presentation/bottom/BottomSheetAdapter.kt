@@ -11,10 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.baton.databinding.ItemBottomsheetBinding
 import com.depromeet.baton.databinding.ItemBottomsheetCheckBinding
 
+
 class BottomSheetAdapter<B : ViewDataBinding>(
     private val layout: Int,
     private val itemClick: (Int) -> Unit
-) : ListAdapter<  BottomMenuItem<String>, BottomSheetAdapter<B>.BottomSheetItemViewHolder<B>>
+) : ListAdapter<  BottomMenuItem, BottomSheetAdapter<B>.BottomSheetItemViewHolder<B>>
     (DiffUtil) {
     var oldCheckedPos: Int? = null
 
@@ -36,7 +37,7 @@ class BottomSheetAdapter<B : ViewDataBinding>(
 
     inner class BottomSheetItemViewHolder<B : ViewDataBinding>(private val binding: B) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(itemBottom: BottomMenuItem<String>, pos : Int) {
+        fun bind(itemBottom: BottomMenuItem, pos : Int) {
             when (binding) {
                 //checklayout
                 is ItemBottomsheetCheckBinding -> {
@@ -63,6 +64,7 @@ class BottomSheetAdapter<B : ViewDataBinding>(
                         itemClick(pos)
                     }
                     binding.itemBottomsheetTv.text = itemBottom.listItem
+                    binding.itemBottomsheetTv.isEnabled = itemBottom.isChecked==true
 
                 }
             }
@@ -70,17 +72,17 @@ class BottomSheetAdapter<B : ViewDataBinding>(
     }
 
     companion object {
-        val DiffUtil = object : DiffUtil.ItemCallback<BottomMenuItem<String>>() {
+        val DiffUtil = object : DiffUtil.ItemCallback<BottomMenuItem>() {
             override fun areContentsTheSame(
-                oldItemBottom: BottomMenuItem<String>,
-                newItemBottom: BottomMenuItem<String>
+                oldItemBottom: BottomMenuItem,
+                newItemBottom: BottomMenuItem
             ): Boolean {
                 return oldItemBottom.isChecked == newItemBottom.isChecked && oldItemBottom.listItem == newItemBottom.listItem
             }
 
             override fun areItemsTheSame(
-                oldItemBottom: BottomMenuItem<String>,
-                newItemBottom: BottomMenuItem<String>
+                oldItemBottom: BottomMenuItem,
+                newItemBottom: BottomMenuItem
             ): Boolean {
                 return oldItemBottom.isChecked == newItemBottom.isChecked && oldItemBottom.listItem == newItemBottom.listItem
             }
