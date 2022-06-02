@@ -34,14 +34,21 @@
         android:layout_margin="@dimen/dimen16"
         />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/bottom_sheet_rv"
-        app:layout_constraintTop_toTopOf="parent"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_bottomsheet"
-        />
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        >
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/bottom_sheet_rv"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_bottomsheet"
+            android:overScrollMode="never"
+            />
+    </androidx.core.widget.NestedScrollView>
 
 
 </LinearLayout >

@@ -84,6 +84,23 @@
             </intent-filter>
         </activity>
 
+        <!-- BEAN: android:launchMode="singleTask" 넣어야 동작하네; -->
+        <activity
+            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:launchMode="singleTask"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="oauth"
+                    android:scheme="@string/kakao_redirection_scheme" />
+            </intent-filter>
+        </activity>
+
         <service
             android:name=".FirebaseMessagingService"
             android:enabled="true"

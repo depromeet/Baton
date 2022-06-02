@@ -2,6 +2,7 @@ package com.depromeet.baton.presentation.ui.address.view
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.widget.Button
@@ -14,15 +15,20 @@ import com.depromeet.baton.databinding.ActivityMylocationBinding
 import com.depromeet.baton.presentation.base.BaseActivity
 import com.depromeet.baton.presentation.base.UIState
 import com.depromeet.baton.presentation.ui.address.viewmodel.MyLocationViewModel
-import com.depromeet.baton.util.saveAddress
+import com.depromeet.baton.util.BatonSpfManager
 import com.google.android.material.snackbar.Snackbar
 import com.skydoves.balloon.*
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class MyLocationActivity :BaseActivity<ActivityMylocationBinding>(R.layout.activity_mylocation) {
     val locationViewModel by viewModels<MyLocationViewModel>()
+
+    @Inject
+    lateinit var spfManager : BatonSpfManager
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,9 +52,9 @@ class MyLocationActivity :BaseActivity<ActivityMylocationBinding>(R.layout.activ
             when(it){
                 is UIState.HasData->{
                     setToolTip()
-                    saveAddress(locationViewModel.roadState.value!!, locationViewModel.jibunState.value!!)
-                    binding.myLocationDoneBtn.isEnabled=true
 
+                    spfManager.saveAddress(locationViewModel.roadState.value!!, locationViewModel.jibunState.value!!)
+                    binding.myLocationDoneBtn.isEnabled=true
                 }
                 else ->{
                     binding.myLocationDoneBtn.isEnabled=false
