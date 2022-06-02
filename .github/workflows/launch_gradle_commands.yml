@@ -17,6 +17,9 @@ on:
       KEYSTORE_PROPERTIES:
         description: "keystore.properties about private keys"
         required: true
+      SECRETS_STRINGS:
+        description: "secrets_strings"
+        required: true
 
 jobs:
   launch_gradle_commands:
