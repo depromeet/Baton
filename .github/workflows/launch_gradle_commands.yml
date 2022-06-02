@@ -41,6 +41,11 @@ jobs:
           KEYSTORE_PROPERTIES: ${{ secrets.KEYSTORE_PROPERTIES }}
         run: echo $KEYSTORE_PROPERTIES > keystore.properties
 
+      - name: Write compile time secrets_strings.xml file
+        env:
+          SECRETS_STRINGS: ${{ secrets.SECRETS_STRINGS }}
+        run: echo $SECRETS_STRINGS > app/src/main/res/values/secrets_strings.xml
+
       - uses: gradle/gradle-build-action@v2
         with:
           gradle-version: current
