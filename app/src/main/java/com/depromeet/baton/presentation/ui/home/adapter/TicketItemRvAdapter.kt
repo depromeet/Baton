@@ -5,14 +5,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.CheckedTextView
 import android.widget.LinearLayout
-import androidx.appcompat.widget.AppCompatImageButton
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.depromeet.baton.data.response.ResponseFilteredTicket
 import com.depromeet.baton.databinding.ItemTicketBinding
 import com.depromeet.bds.utils.toPx
@@ -40,7 +37,17 @@ class TicketItemRvAdapter(
     inner class TicketItemViewHolder(private val binding: ItemTicketBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ResponseFilteredTicket, position: Int) {
+
             with(binding) {
+                ticket = item
+                executePendingBindings()
+                //tvItemTicketCardBadge.text = item.card todo 서버에서 추가 후 작업
+
+                if (item.tags.size > 2) {
+                    val etcSize = item.tags.size - 2
+                    itemTicketTagEtc.text = "+$etcSize"
+                }
+
                 //가로스크롤뷰
                 if (scrollType == SCROLL_TYPE_HORIZONTAL) {
                     val lp = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT)
@@ -48,30 +55,18 @@ class TicketItemRvAdapter(
                     ctlItemTicketContainer.layoutParams = lp
                 }
 
-                //tvItemTicketCardBadge.text = item.card
-                tvItemTicketShopName.text = item.location
-                tvItemTicketPrice.text = item.price.toString()
-                tvItemTicketRemainingDay.text = item.expiryDate //todo 남은일자 계산해야댐 ㅠ
-                tvItemTicketPlace.text = item.address
-                tvItemTicketDistance.text = item.distance.toString()
+                setLikeBtnClickListener(ctvItemTicketLike) //좋아요 버튼
 
-                Glide.with(context)
-                    .load(item.mainImage)
-                    .transform(CenterCrop(), RoundedCorners(4.toPx()))
-                    .into(binding.ibtnItemTicket)
+                if (item.mainImage.isEmpty()) setEmptyImage(position, ibtnItemTicket) //엠티 뷰
 
-                setLikeBtnClickListener(ctvItemTicketLike)
-
-                if (item.mainImage.isEmpty()) setEmptyImage(position, ibtnItemTicket)
-
-                root.setOnClickListener {
+                root.setOnClickListener {  //상세 페이지로
                     clickListener(item)
                 }
             }
         }
     }
 
-    private fun setEmptyImage(position: Int, view: AppCompatImageButton) {
+    private fun setEmptyImage(position: Int, view: AppCompatImageView) {
         when (position % 4) {
             0 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_health_86)
             1 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_etc_86)

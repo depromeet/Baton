@@ -5,6 +5,12 @@
 
     <data>
 
+        <import type="com.depromeet.baton.presentation.base.UIState" />
+
+        <variable
+            name="filterViewModel"
+            type="com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel" />
+
         <variable
             name="itemDecoration"
             type="com.depromeet.baton.presentation.util.TicketItemVerticalDecoration" />
@@ -115,7 +121,8 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.appbar.MaterialToolbar>
 
-        <com.amar.library.ui.StickyScrollView
+        <com.depromeet.baton.presentation.util.StickyScrollView
+            android:id="@+id/sv_home"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -342,36 +349,81 @@
                     app:layout_constraintStart_toStartOf="@id/ctl_home_specific_ticket"
                     app:layout_constraintTop_toBottomOf="@+id/ctl_home_specific_ticket" />
 
-                <androidx.fragment.app.FragmentContainerView
-                    android:id="@+id/fcv_home"
-                    android:name="com.depromeet.baton.presentation.ui.filter.view.FilterChipFragment"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/ctl_home_fcv"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen12"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_home_near_ticket" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_home_near_ticket">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_home"
-                    android:layout_width="0dp"
+                    <androidx.fragment.app.FragmentContainerView
+                        android:id="@+id/fcv_home"
+                        android:name="com.depromeet.baton.presentation.ui.filter.view.FilterChipFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/dimen16"
-                    android:layout_marginTop="@dimen/dimen12"
-                    android:nestedScrollingEnabled="false"
-                    app:adapter="@{adapter}"
-                    app:itemDecoration="@{itemDecoration}"
+                    app:layout_constraintTop_toBottomOf="@id/ctl_home_fcv">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_home"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/dimen16"
+                        android:nestedScrollingEnabled="false"
+                        app:adapter="@{adapter}"
+                        app:uiState="@{filterViewModel.filteredTicketUiState }"
+                        app:itemDecoration="@{itemDecoration}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:spanCount="2"
+                        tools:itemCount="5"
+                        tools:listitem="@layout/item_ticket"
+                        tools:visibility="gone">
+
+                    </androidx.recyclerview.widget.RecyclerView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen68"
+                    android:layout_marginBottom="@dimen/dimen68"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/fcv_home"
-                    app:spanCount="2"
-                    tools:itemCount="5"
-                    tools:listitem="@layout/item_ticket">
+                    app:layout_constraintTop_toBottomOf="@id/ctl_home_fcv">
 
-                </androidx.recyclerview.widget.RecyclerView>
+                    <ImageView
+                        android:id="@+id/iv_home_no_result"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_no_result"
+                        app:emptyState="@{filterViewModel.filteredTicketUiState }"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen16"
+                        android:text="아직 올라온 매물이 없어요"
+                        android:textAppearance="?body3"
+                        android:textColor="?grey_scale70"
+                        app:emptyState="@{filterViewModel.filteredTicketUiState }"
+                        app:layout_constraintEnd_toEndOf="@+id/iv_home_no_result"
+                        app:layout_constraintStart_toStartOf="@+id/iv_home_no_result"
+                        app:layout_constraintTop_toBottomOf="@+id/iv_home_no_result" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.amar.library.ui.StickyScrollView>
+        </com.depromeet.baton.presentation.util.StickyScrollView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_home"

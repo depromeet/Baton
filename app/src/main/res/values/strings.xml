@@ -143,6 +143,9 @@
     <string name="price_range">%s원 ~ %s원</string>
     <string name="pt_term_range">%s회 ~ %s회</string>
     <string name="gym_term_range">%s개월 ~ %s개월</string>
+    <string name="ticket_distance_format">%sm</string>
+    <string name="ticket_price_format">%s원</string>
+    <string name="ticket_price_remaining">%s일 남음</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
