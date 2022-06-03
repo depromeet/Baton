@@ -1,9 +1,12 @@
 package com.depromeet.baton.presentation.util
 
+import android.view.View
 import android.widget.ProgressBar
+import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.bds.component.BdsChoiceChip
+import com.depromeet.bds.component.BdsComponentTextField
 import com.depromeet.bds.component.BdsFilter
 
 @BindingAdapter("bds_text", "isSelected")
@@ -40,3 +43,12 @@ fun RecyclerView.bindAdapter(adapter: RecyclerView.Adapter<*>) {
     this.adapter = adapter
 }
 
+@BindingAdapter("bds_error_message")
+fun BdsComponentTextField.bindErrorMessage(message: String?) {
+    this.setError(message)
+}
+
+@BindingAdapter("isVisible")
+fun View.bindVisible(isVisible: Boolean) {
+    this.isVisible = isVisible
+}

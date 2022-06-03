@@ -21,6 +21,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 
 
 @AndroidEntryPoint
@@ -71,6 +72,11 @@ class BottomSearchShopFragment : BottomSheetDialogFragment() {
 
     //검색해서 뷰모델한테 넘기기
     private fun setInputField() {
+
+        KeyboardVisibilityEvent.setEventListener(requireActivity()) {
+           binding?.bdsSearchbarBottomPlace.searchBarKeyBoardListener(it)
+        } //키보드 올림 내림에 따른 포커스 자동 변경 listener
+
         with(binding.bdsSearchbarBottomPlace) {
             textListener = object : BdsSearchBar.TextListener {
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -79,7 +85,6 @@ class BottomSearchShopFragment : BottomSheetDialogFragment() {
                     val query = s.toString()
                     if (query.isNotEmpty()) {
                         writePostViewModel.searchPlace(query)
-                        clearFocus()
                     }
                 }
 

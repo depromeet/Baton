@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_sign_up_"
+    app:startDestination="@id/signUpTermFragment">
+
+    <fragment
+        android:id="@+id/signUpTermFragment"
+        android:name="com.depromeet.baton.presentation.ui.sign.SignUpTermFragment"
+        android:label="SignUpTermFragment">
+        <action
+            android:id="@+id/action_signUpTermFragment_to_signUpInfoFragment"
+            app:destination="@id/signUpInfoFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/signUpInfoFragment"
+        android:name="com.depromeet.baton.presentation.ui.sign.SignUpInfoFragment"
+        android:label="SignUpInfoFragment" >
+        <action
+            android:id="@+id/action_signUpInfoFragment_to_signUpAddressFragment"
+            app:destination="@id/signUpAddressFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpAddressFragment"
+        android:name="com.depromeet.baton.presentation.ui.sign.SignUpAddressFragment"
+        android:label="SignUpAddressFragment" >
+        <action
+            android:id="@+id/action_signUpAddressFragment_to_signUpAddressDetailFragment"
+            app:destination="@id/signUpAddressDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpAddressDetailFragment"
+        android:name="com.depromeet.baton.presentation.ui.sign.SignUpAddressDetailFragment"
+        android:label="SignUpAddressDetailFragment" >
+        <argument
+            android:name="startArgs"
+            app:argType="com.depromeet.baton.presentation.ui.sign.SignUpAddressDetailStartArgs" />
+    </fragment>
+</navigation>

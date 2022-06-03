@@ -33,7 +33,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         viewLifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.searchKeyword
-                    .map { it.isBlank() }
+                    .map { it.isBlank()  }
                     .collect { showRecent ->
                         if (showRecent) {
                             childFragmentManager
@@ -49,5 +49,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
                     }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.searchBar.setEditText(viewModel.searchKeyword.value)
     }
 }

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="uiState"
+            type="com.depromeet.baton.presentation.ui.sign.AddAccountUiState" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.depromeet.bds.component.BdsBackwardAppBar
+                android:id="@+id/appbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:bds_title="계좌 정보" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?bg" />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:orientation="vertical">
+
+                    <com.depromeet.bds.component.BdsComponentTextField
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        app:bds_error_message="@{uiState.nameErrorReason}"
+                        app:bds_label="예금주">
+
+                        <EditText
+                            style="@style/Widget.Bds.TextFieldInnerEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:afterTextChanged="@{it -> uiState.onNameChanged.invoke(it)}"
+                            android:hint="예금주명을 입력해주세요." />
+                    </com.depromeet.bds.component.BdsComponentTextField>
+
+                    <com.depromeet.bds.component.BdsComponentTextField
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:onClick="@{_ -> uiState.onBankSelectionClick.invoke()}"
+                        app:bds_label="은행"
+                        app:bds_right_icon="@drawable/ic_less_line_20">
+
+                        <EditText
+                            style="@style/Widget.Bds.TextFieldInnerEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="은행을 선택해주세요."
+                            android:inputType="none" />
+                    </com.depromeet.bds.component.BdsComponentTextField>
+
+                    <com.depromeet.bds.component.BdsComponentTextField
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        app:bds_error_message="@{uiState.accountErrorReason}"
+                        app:bds_label="계좌번호">
+
+                        <EditText
+                            style="@style/Widget.Bds.TextFieldInnerEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:afterTextChanged="@{it -> uiState.onAccountChanged.invoke(it)}"
+                            android:hint="‘-’를 제외한 번호를 입력해주세요." />
+                    </com.depromeet.bds.component.BdsComponentTextField>
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+
+        <com.depromeet.bds.component.BdsButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="16dp"
+            android:enabled="@{uiState.enabled}"
+            android:theme="@style/Theme.Bds.PrimaryButton.Large"
+            app:bds_text="완료" />
+    </FrameLayout>
+</layout>

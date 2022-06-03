@@ -162,6 +162,11 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
+
+# OS-specific files
+.DS_Store
+.DS_Store?
+
 ### AndroidStudio Patch ###
 
 !/gradle/wrapper/gradle-wrapper.jar

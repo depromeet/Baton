@@ -11,8 +11,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingEnd="@dimen/dimen40"
-        android:paddingStart="@dimen/dimen40"
+        android:paddingEnd="@dimen/dimen16"
+        android:paddingStart="@dimen/dimen16"
         android:paddingVertical="@dimen/dimen10">
 
         <ImageView
