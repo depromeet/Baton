@@ -67,8 +67,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     fun moveToSearch() {
         binding.bnvMain.selectedItemId = R.id.menu_main_search
+     //   replace(searchFragment)
     }
 
+    fun moveToHome() {
+        binding.bnvMain.selectedItemId = R.id.menu_main_home
+     //   replace(homeFragment)
+    }
 
     companion object {
         fun start(context: Context) {

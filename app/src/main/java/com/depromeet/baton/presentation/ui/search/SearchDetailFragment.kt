@@ -3,19 +3,25 @@ package com.depromeet.baton.presentation.ui.search
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.depromeet.baton.R
 import com.depromeet.baton.data.response.ResponseFilteredTicket
 import com.depromeet.baton.databinding.FragmentSearchDetailBinding
 import com.depromeet.baton.presentation.base.BaseFragment
 import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
+import com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel
 import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter
 import com.depromeet.baton.presentation.util.TicketItemVerticalDecoration
 
 class SearchDetailFragment : BaseFragment<FragmentSearchDetailBinding>(R.layout.fragment_search_detail){
 
+    private val filterViewModel: FilterViewModel by activityViewModels()
+    private val searchViewModel: SearchViewModel by activityViewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        searchViewModel.setCurrentLevel(1)
         setTicketItemRvAdapter()
     }
 

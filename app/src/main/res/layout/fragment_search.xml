@@ -5,6 +5,10 @@
 
     <data>
 
+        <variable
+            name="uiState"
+            type="com.depromeet.baton.presentation.ui.search.SearchUiState" />
+
     </data>
 
     <LinearLayout
@@ -18,13 +22,20 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical">
 
-            <ImageView
-                android:layout_width="@dimen/dimen24"
-                android:layout_height="@dimen/dimen24"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                app:srcCompat="@drawable/ic_arrow_back" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/iv_arrow_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{_ -> uiState.onBackBtnClick.invoke()}"
+                android:padding="@dimen/dimen16">
+
+                <ImageView
+                    android:layout_width="@dimen/dimen24"
+                    android:layout_height="@dimen/dimen24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_arrow_back" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.depromeet.bds.component.BdsSearchBar
                 android:id="@+id/search_bar"
@@ -37,9 +48,9 @@
         </LinearLayout>
 
         <View
-            android:background="?bds_background"
             android:layout_width="match_parent"
-            android:layout_height="1dp"/>
+            android:layout_height="1dp"
+            android:background="?bds_background" />
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/container_fragment"

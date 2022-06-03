@@ -46,7 +46,7 @@ class RecentSearchFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        searchViewModel.setCurrentLevel(0)
         binding.containerHashTag.apply {
             adapter = hashTagAdapter
             itemAnimator = null
