@@ -72,7 +72,7 @@ interface SearchService {
         @Query("isHold") isHold: Boolean?,
         @Query("canNego") canNego: Boolean?,
         @Query("isMembership") isMembership: Boolean?,
-    ): List<ResponseFilteredTicket>
+    ): Response<List<ResponseFilteredTicket>>
 
     @GET("ticket/info/{ID}")
     suspend fun getTicketInfo(

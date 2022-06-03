@@ -2,12 +2,11 @@ package com.depromeet.baton.domain.api.search
 
 import com.depromeet.baton.data.response.ResponseFilteredTicket
 import com.depromeet.baton.data.response.ResponseTicketInfo
+import com.depromeet.baton.presentation.base.UIState
 import com.depromeet.baton.remote.search.SearchService
-import com.depromeet.baton.util.BatonSpfManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import okhttp3.MultipartBody
@@ -16,18 +15,15 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SearchApi @Inject constructor(
-    private val spfManager: BatonSpfManager,
-    private val searchService: SearchService
-) {
+class SearchApi @Inject constructor(private val searchService: SearchService) {
 
     fun getFilteredTicketCount(
         page: Int,
         size: Int,
         place: String?,
         hashtag: List<String>?,
-        latitude: Float = spfManager.getLocation().latitude.toFloat(),
-        longitude: Float = spfManager.getLocation().longitude.toFloat(),
+        latitude: Float,
+        longitude: Float,
         town: String?,
         minPrice: Int?,
         maxPrice: Int?,
@@ -35,7 +31,7 @@ class SearchApi @Inject constructor(
         maxRemainNumber: Int?,
         minRemainMonth: Int?,
         maxRemainMonth: Int?,
-        maxDistance: Int = spfManager.getMaxDistance().getDistance(),
+        maxDistance: Int,
         ticketTypes: List<String>?,
         ticketTradeType: String?,
         transferFee: String?,
@@ -50,7 +46,7 @@ class SearchApi @Inject constructor(
         isHold: Boolean?,
         canNego: Boolean?,
         isMembership: Boolean?
-    ): Flow<UiState> = flow<UiState>
+    ): Flow<UIState> = flow<UIState>
     {
         val response = searchService.getFilteredTicketCount(
             page,
@@ -83,22 +79,20 @@ class SearchApi @Inject constructor(
             isMembership,
         )
         if (response.isSuccessful) {
-            emit(UiState.Success(response.body()))
+            emit(UIState.Success(response.body()))
             delay(INTERVAL_REFRESH)
         } else {
-            emit(UiState.Error(Exception("[${response.code()}] - ${response.raw()}")))
+            emit(UIState.Error("[${response.code()}] - ${response.raw()}"))
         }
-
     }.flowOn(Dispatchers.IO)
-
 
     suspend fun getFilteredTicket(
         page: Int,
         size: Int,
         place: String?,
         hashtag: List<String>?,
-        latitude: Float = spfManager.getLocation().latitude.toFloat(),
-        longitude: Float = spfManager.getLocation().longitude.toFloat(),
+        latitude: Float,
+        longitude: Float,
         town: String?,
         minPrice: Int?,
         maxPrice: Int?,
@@ -106,7 +100,7 @@ class SearchApi @Inject constructor(
         maxRemainNumber: Int?,
         minRemainMonth: Int?,
         maxRemainMonth: Int?,
-        maxDistance: Int = spfManager.getMaxDistance().getDistance(),
+        maxDistance: Int,
         ticketTypes: List<String>?,
         ticketTradeType: String?,
         transferFee: String?,
@@ -121,8 +115,8 @@ class SearchApi @Inject constructor(
         isHold: Boolean?,
         canNego: Boolean?,
         isMembership: Boolean?
-    ): List<ResponseFilteredTicket> {
-        return searchService.getFilteredTicket(
+    ): UIState {
+        val response = searchService.getFilteredTicket(
             page,
             size,
             place,
@@ -152,12 +146,13 @@ class SearchApi @Inject constructor(
             canNego,
             isMembership,
         )
+        return if (response.isSuccessful) {
+            UIState.Success(response.body())
+        } else   UIState.Error("[${response.code()}] - ${response.raw()}")
     }
 
     suspend fun getTicketInfo(
-        id: Int,
-        longitude: Float = spfManager.getLocation().longitude.toFloat(),
-        latitude: Float = spfManager.getLocation().latitude.toFloat()
+        id: Int, longitude: Float, latitude: Float
     ): ResponseTicketInfo {
         return searchService.getTicketInfo(id, longitude, latitude)
     }
@@ -169,10 +164,10 @@ class SearchApi @Inject constructor(
     suspend fun getTicketSearchResult(
         page: Int,
         size: Int,
-        latitude: Float = spfManager.getLocation().latitude.toFloat(),
-        longitude: Float = spfManager.getLocation().longitude.toFloat(),
+        latitude: Float,
+        longitude: Float,
         query: String,
-        maxDistance: Int = spfManager.getMaxDistance().getDistance(),
+        maxDistance: Int,
     ): List<ResponseFilteredTicket> {
         return searchService.getTicketSearchResult(page, size, latitude, longitude, query, maxDistance)
     }
@@ -187,11 +182,4 @@ class SearchApi @Inject constructor(
     companion object {
         private const val INTERVAL_REFRESH = 20000L
     }
-}
-
-
-sealed class UiState {
-    object Loading : UiState()
-    data class Success<T>(val data: T) : UiState()
-    data class Error(val error: Throwable?) : UiState()
 }
