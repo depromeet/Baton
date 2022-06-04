@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="temporaryUiState"
+            type="com.depromeet.baton.presentation.ui.mypage.viewmodel.ProfileUiState" />
+        <variable
+            name="uiState"
+            type="com.depromeet.baton.presentation.ui.mypage.viewmodel.ProfileUiState" />
+    </data>
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -19,7 +28,7 @@
             android:layout_width="@dimen/dimen96"
             android:layout_height="@dimen/dimen96"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_img_profile_smirk_40"
+            android:src="@{uiState.profileImage}"
             android:layout_gravity="center"
             android:layout_marginBottom="@dimen/dimen4"
             android:layout_marginTop="@dimen/dimen16"
@@ -34,29 +43,51 @@
             android:layout_gravity="center"
             android:layout_marginBottom="@dimen/dimen16"
             />
-        <TextView
+
+        <com.depromeet.bds.component.BdsComponentTextField
+            android:id="@+id/mypage_profile_nickname_tf"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?body3"
-            android:text="닉네임"
             android:layout_marginHorizontal="@dimen/dimen16"
-            android:textColor="?grey_scale60"
-            />
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <TextView
+            android:layout_marginTop="@dimen/dimen16"
+            app:bds_error_message="@{temporaryUiState.nickNameErrorReason}"
+            app:bds_label="닉네임">
+
+            <EditText
+                android:id="@+id/mypage_profile_nickname_et"
+                style="@style/Widget.Bds.TextFieldInnerEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:text="@{temporaryUiState.nickName}"
+                android:afterTextChanged="@{it -> temporaryUiState.onNickNameChanged.invoke(it)}"
+               />
+        </com.depromeet.bds.component.BdsComponentTextField>
+
+
+        <com.depromeet.bds.component.BdsComponentTextField
+            android:id="@+id/mypage_profile_phone_tf"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?body3"
-            android:text="휴대폰 번호"
             android:layout_marginHorizontal="@dimen/dimen16"
-            android:textColor="?grey_scale60"
-            />
-        <EditText
-            android:id="@+id/profile_phone_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_marginTop="@dimen/dimen20"
+            app:bds_error_message="@{temporaryUiState.phoneNumberErrorReason}"
+            app:bds_label="휴대폰 번호">
+
+            <EditText
+                android:id="@+id/mypage_profile_phone_et"
+                style="@style/Widget.Bds.TextFieldInnerEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{temporaryUiState.phoneNumber}"
+                android:afterTextChanged="@{it -> temporaryUiState.onPhoneNumberChanged.invoke(it)}"
+                android:digits="0987654321"
+                android:hint="‘-’를 제외한 번호를 입력해주세요."
+                android:inputType="textPhonetic"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+        </com.depromeet.bds.component.BdsComponentTextField>
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -73,7 +104,8 @@
             android:theme="@style/Theme.Bds.PrimaryButton"
             android:background="@drawable/bds_button_background"
             android:textColor="@color/selector_bds_button_text_color"
-            android:enabled="false"
+            android:enabled="@{temporaryUiState.enabled }"
+            android:onClick="@{_ -> temporaryUiState.onSubmit.invoke()}"
             android:layout_marginHorizontal="@dimen/dimen16"
             android:layout_marginBottom="@dimen/dimen16"
             />

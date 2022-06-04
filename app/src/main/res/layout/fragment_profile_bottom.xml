@@ -1,88 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/bottom_view"
-    app:behavior_hideable="false"
-    app:behavior_peekHeight="0dp"
-    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="bottom"
-    android:layout_marginBottom="@dimen/dimen32"
-    android:animateLayoutChanges="false"
-    android:paddingTop="25dp"
-    android:paddingBottom="@dimen/dimen32"
-    android:backgroundTint="?wh100"
-    android:background="@drawable/bds_bottom_sheet_background"
-    android:orientation="vertical">
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/bottom_sheet_title_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?headline2"
-            android:text="프로필 이미지를 꾸며보세요."
-            android:gravity="left"
-            android:layout_marginHorizontal="@dimen/dimen16"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
-        <ImageView
-            android:id="@+id/profile_bottom_back_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginRight="@dimen/dimen16"
-            android:src="@drawable/ic_close_line_24"
-            />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-   <ImageView
-       android:id="@+id/profile_bottom_my_iv"
-       android:layout_width="@dimen/dimen96"
-       android:layout_height="@dimen/dimen96"
-       android:scaleType="centerCrop"
-       android:src="@drawable/img_profile_basic_smile_96"
-       android:layout_gravity="center"
-       android:layout_marginTop="@dimen/dimen26"
-       android:layout_marginBottom="@dimen/dimen16"
-       />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/profile_bottom_rv"
+    xmlns:tools="http://schemas.android.com/tools">
+    <LinearLayout
+        android:id="@+id/bottom_view"
+        app:behavior_hideable="false"
+        app:behavior_peekHeight="0dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/item_profile_icon"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        android:overScrollMode="never"
-        android:paddingHorizontal="@dimen/dimen16"
-
-        />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginBottom="@dimen/dimen16"
-        android:layout_marginHorizontal="@dimen/dimen16"
-        >
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/profile_bottom_check_btn"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/dimen32"
+        android:animateLayoutChanges="false"
+        android:paddingTop="25dp"
+        android:paddingBottom="@dimen/dimen32"
+        android:backgroundTint="?wh100"
+        android:background="@drawable/bds_bottom_sheet_background"
+        android:orientation="vertical">
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/Theme.Bds.PrimaryButton"
-            android:enabled="false"
-            android:background="@drawable/bds_button_background"
-            android:text="확인"
-            android:textColor="@color/selector_bds_button_text_color"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/bottom_sheet_title_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?headline2"
+                android:text="프로필 이미지를 꾸며보세요."
+                android:gravity="left"
+                android:layout_marginHorizontal="@dimen/dimen16"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+            <ImageView
+                android:id="@+id/profile_bottom_back_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginRight="@dimen/dimen16"
+                android:src="@drawable/ic_close_line_24"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/profile_bottom_my_iv"
+            android:layout_width="@dimen/dimen96"
+            android:layout_height="@dimen/dimen96"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_profile_basic_smile_96"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dimen26"
+            android:layout_marginBottom="@dimen/dimen16"
             />
 
-    </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/profile_bottom_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/item_profile_icon"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            android:overScrollMode="never"
+            android:paddingHorizontal="@dimen/dimen16"
 
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="@dimen/dimen16"
+            android:layout_marginHorizontal="@dimen/dimen16"
+            >
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/profile_bottom_check_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/Theme.Bds.PrimaryButton"
+                android:enabled="false"
+                android:background="@drawable/bds_button_background"
+                android:text="확인"
+                android:textColor="@color/selector_bds_button_text_color"
+                />
 
-</LinearLayout >
+        </LinearLayout>
+    </LinearLayout >
+</layout>

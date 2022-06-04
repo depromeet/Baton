@@ -10,43 +10,44 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.flowWithLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.baton.R
+import com.depromeet.baton.databinding.FragmentProfileBottomBinding
 import com.depromeet.baton.presentation.ui.mypage.adapter.ProfileIconAdapter
 import com.depromeet.baton.presentation.ui.mypage.model.ProfileIcon
 import com.depromeet.baton.presentation.ui.mypage.model.ProfileIconItem
 import com.depromeet.baton.presentation.ui.mypage.viewmodel.ProfileViewModel
 import com.depromeet.baton.presentation.util.ProfileIconDecoration
 import com.depromeet.baton.presentation.util.shortToast
-import com.depromeet.bds.component.BdsToast
+import com.depromeet.baton.presentation.util.viewLifecycle
+import com.depromeet.baton.presentation.util.viewLifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.nguyenhoanglam.imagepicker.model.Image
 import com.nguyenhoanglam.imagepicker.model.ImagePickerConfig
 import com.nguyenhoanglam.imagepicker.ui.imagepicker.registerImagePicker
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import timber.log.Timber
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+
 
 @AndroidEntryPoint
-class ProfileBottomFragment(
-    private val profileViewModel: ProfileViewModel,
-    private val onClickDismiss: () -> Unit
-    ): BottomSheetDialogFragment() {
+class ProfileBottomFragment(): BottomSheetDialogFragment() {
+
+    private val profileViewModel : ProfileViewModel by lazy {
+        ViewModelProvider(requireActivity())[ProfileViewModel::class.java]
+    }
 
     private val profileAdapter: ProfileIconAdapter by lazy {
         ProfileIconAdapter( profileViewModel, list, ::onClickCamera, ::onClickEmotion)
     }
 
-    private val list : ArrayList<ProfileIconItem> by lazy {
-        initList()
-    }
+    private val list : ArrayList<ProfileIconItem> by lazy { initList() }
+
+    private lateinit var binding: FragmentProfileBottomBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,14 +55,14 @@ class ProfileBottomFragment(
             BottomSheetDialogFragment.STYLE_NORMAL,
             com.depromeet.bds.R.style.BdsBottomSheetDialogTheme
         );
-
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View =
-        inflater.inflate(R.layout.fragment_profile_bottom, container, false)
+    ): View=inflater.inflate(R.layout.fragment_profile_bottom,container,false)
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -70,8 +71,16 @@ class ProfileBottomFragment(
         val behavior = BottomSheetBehavior.from<View>(bottomSheet!!)
         behavior.state = BottomSheetBehavior.STATE_DRAGGING
         initAdapter()
+        setObserver()
         setCheckBtnOnClickListener()
         setBackBtnOnClickListener()
+    }
+
+    private fun setObserver(){
+        profileViewModel.uiState
+            .flowWithLifecycle(viewLifecycle)
+            .onEach { uiState -> if(uiState.isChanged)setImage(uiState.profileImage) }
+            .launchIn(viewLifecycleScope)
     }
 
 
@@ -95,12 +104,13 @@ class ProfileBottomFragment(
         return list
     }
 
+    private fun setImage(uri : Uri){
+        view?.findViewById<ImageView>(R.id.profile_bottom_my_iv)?.setImageURI(uri)
+        view?.findViewById<Button>(R.id.profile_bottom_check_btn)?.isEnabled=true
+    }
+
     private fun onClickCamera(){
         checkPermission()
-        profileViewModel.profileImageUri.observe(viewLifecycleOwner){
-            view?.findViewById<ImageView>(R.id.profile_bottom_my_iv)?.setImageURI(it)
-            view?.findViewById<Button>(R.id.profile_bottom_check_btn)?.isEnabled=true
-        }
     }
 
     private fun onClickEmotion(profileIcon: ProfileIcon, pos: Int){
@@ -110,8 +120,7 @@ class ProfileBottomFragment(
 
     private fun setCheckBtnOnClickListener(){
         view?.findViewById<Button>(R.id.profile_bottom_check_btn)?.setOnClickListener {
-            profileViewModel.submitProfile()
-            onClickDismiss()
+            profileViewModel.submitProfileImg()
             dialog?.dismiss()
         }
     }
@@ -143,7 +152,7 @@ class ProfileBottomFragment(
             isFolderMode = false, //폴더로 보일꺼냐
             isMultipleMode = true,
             doneTitle = "확인",
-            isShowNumberIndicator = true,
+            isShowNumberIndicator = false,
             maxSize = 1,
         )
         launcher.launch(config)

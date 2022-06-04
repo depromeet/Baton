@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-
+        <variable
+            name="uiState"
+            type="com.depromeet.baton.presentation.ui.mypage.viewmodel.ProfileUiState" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/fragment_container_view"
@@ -52,7 +54,7 @@
                             android:id="@+id/mypage_profile_iv"
                             android:layout_width="@dimen/dimen64"
                             android:layout_height="@dimen/dimen64"
-                            android:src="@drawable/empty_profile"
+                            android:src="@{uiState.profileImage}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -63,7 +65,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/dimen8"
                             android:layout_marginTop="@dimen/dimen10"
-                            android:text="sample"
+                            android:text="@{uiState.nickName}"
                             android:textAppearance="?headline1"
                             android:textColor="?grey_scale90"
                             app:layout_constraintStart_toEndOf="@id/mypage_profile_iv"
@@ -95,7 +97,7 @@
                             android:id="@+id/mypage_join_date_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="2020.05.16"
+                            android:text="@{uiState.joinDate}"
                             android:textAppearance="?caption3"
                             android:textColor="?grey_scale70"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -241,6 +243,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     />
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/mypage_notification"
                     android:padding="@dimen/dimen16"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">

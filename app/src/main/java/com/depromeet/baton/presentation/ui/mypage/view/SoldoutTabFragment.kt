@@ -84,18 +84,8 @@ class SoldoutTabFragment  : BaseFragment<FragmentSoldoutTabBinding>(R.layout.fra
     private fun onClickStatusMenuItemListener(ticketItem : SaleTicketListItem){
 
         //TODO 현재 ticket isChecked 처리
-        val menuList = resources.getStringArray(R.array.ticketSaleStatus)
-            .map { it -> BottomMenuItem(it, false) }.toMutableList()
 
-        val bottomSheetFragment: BottomSheetFragment = BottomSheetFragment(
-            "상태 변경", menuList,
-            BottomSheetFragment.CHECK_ITEM_VIEW
-        ) {
-            when (it) {
 
-            }
-        }
-        bottomSheetFragment.show(requireActivity().supportFragmentManager, BatonApp.TAG)
     }
 
     //TODO menu Custom
