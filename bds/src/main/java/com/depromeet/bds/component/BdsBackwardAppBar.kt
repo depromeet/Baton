@@ -20,6 +20,10 @@ class BdsBackwardAppBar @JvmOverloads constructor(
 
     private val binding: BdsComponentBackwardAppBarBinding
 
+    var bdsTitle: String?
+        get() = binding.tvTitle.text.toString()
+        set(value) { binding.tvTitle.text = value }
+
     init {
 
         val layoutInflater = LayoutInflater.from(context)
@@ -37,7 +41,7 @@ class BdsBackwardAppBar @JvmOverloads constructor(
                     throw IllegalStateException("icon, button 동시 사용 불가")
             }
 
-            binding.tvTitle.text = title
+            bdsTitle = title
 
             binding.imageBackward.setImageDrawable(backwardResId)
 

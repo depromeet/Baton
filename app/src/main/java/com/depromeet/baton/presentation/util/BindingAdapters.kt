@@ -5,6 +5,7 @@ import android.widget.ProgressBar
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.depromeet.bds.component.BdsBackwardAppBar
 import com.depromeet.bds.component.BdsChoiceChip
 import com.depromeet.bds.component.BdsComponentTextField
 import com.depromeet.bds.component.BdsFilter
@@ -53,3 +54,7 @@ fun View.bindVisible(isVisible: Boolean) {
     this.isVisible = isVisible
 }
 
+@BindingAdapter("bds_title")
+fun BdsBackwardAppBar.bindTitle(title: String?) {
+    bdsTitle = title
+}

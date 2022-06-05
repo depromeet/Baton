@@ -3,6 +3,7 @@ package com.depromeet.baton.presentation.ui.sign
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.viewModelScope
@@ -30,6 +31,7 @@ class SignUpAddressFragment :
     BaseFragment<FragmentSignUpAddressBinding>(R.layout.fragment_sign_up_address) {
 
     private val viewModel: SignUpAddressViewModel by viewModels()
+    private val signUpViewModel: SignUpViewModel by activityViewModels()
     private val navController by lazy { findNavController() }
     private val adapter by lazy {
         SearchAddressAdapter { viewModel.handleAddressClick(it) }
@@ -37,6 +39,7 @@ class SignUpAddressFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        signUpViewModel.setCurrentStep(3)
 
         binding.searchAddressEt.textListener = object : BdsSearchBar.DefaultTextListener() {
             override fun afterTextChanged(s: Editable?) {
@@ -67,6 +70,7 @@ class SignUpAddressFragment :
                     // do something
                 }
                 is ViewEvent.ToAddressDetailSetting -> {
+                    signUpViewModel.remember(viewModel)
                     navController.navigate(
                         R.id.action_signUpAddressFragment_to_signUpAddressDetailFragment,
                         Bundle().apply {
