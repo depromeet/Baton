@@ -19,6 +19,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?wh100"
+        android:paddingBottom="@dimen/dimen12"
         tools:context="FilterChipFragment">
 
         <com.depromeet.bds.component.BdsActionChip
@@ -141,7 +143,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen2"
-                android:text="@{@string/search_option_count(filterViewModel.allCount.toString())}"
+                android:text="@{@string/search_option_count(filterViewModel.filteredTicketCount.toString())}"
                 android:textAppearance="?body3"
                 android:textColor="@color/gy80"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_bdsfilter_all"

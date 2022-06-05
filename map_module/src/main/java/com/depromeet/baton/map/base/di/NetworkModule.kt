@@ -16,11 +16,11 @@ import java.io.IOException
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
-@Module
-@InstallIn(SingletonComponent::class)
+/*@Module
+@InstallIn(SingletonComponent::class)*/
 class NetworkModule {
 
-    @Provides
+   /* @Provides
     @Singleton
     fun provideOkHttpClient(): OkHttpClient {
         val logging = HttpLoggingInterceptor().apply {
@@ -45,6 +45,5 @@ class NetworkModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
-
-
+*/
 }

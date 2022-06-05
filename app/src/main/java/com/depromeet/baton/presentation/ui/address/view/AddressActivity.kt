@@ -18,12 +18,11 @@ import com.depromeet.baton.databinding.ActivityAddressBinding
 import com.depromeet.baton.presentation.base.BaseActivity
 import com.depromeet.baton.presentation.ui.address.viewmodel.AddressViewModel
 import com.depromeet.baton.presentation.ui.address.viewmodel.DistanceType
-import com.depromeet.baton.util.getAddress
-import com.depromeet.baton.util.getSearchDistance
-import com.depromeet.baton.util.saveSearchDistance
+import com.depromeet.baton.util.BatonSpfManager
 import com.depromeet.bds.component.BdsToast
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -36,7 +35,7 @@ class AddressActivity : BaseActivity<ActivityAddressBinding>(R.layout.activity_a
         )
         //권한 가져오기
     }
-
+    @Inject lateinit var spfManager: BatonSpfManager
     private val addressViewModel  by viewModels<AddressViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,10 +56,10 @@ class AddressActivity : BaseActivity<ActivityAddressBinding>(R.layout.activity_a
 
     private fun initView(){
         binding.addressToolbar.titleTv.text="위치설정"
-        binding.addressDistanceTv.text = getSearchDistance()
+        binding.addressDistanceTv.text = spfManager.getMaxDistance().getMaxDistanceWithUnit()
         binding.distanceSeekBar.setPadding(0, 0, 0, 0)
 
-        binding.distanceSeekBar.setProgress(addressViewModel.setDistanceProgress(getSearchDistance()!!))
+        binding.distanceSeekBar.setProgress(addressViewModel.setDistanceProgress(spfManager.getMaxDistance()!!))
         if( this.intent.getBooleanExtra("isChanged",false) ) binding.addressDoneBtn.visibility = View.VISIBLE
     }
 
@@ -103,7 +102,7 @@ class AddressActivity : BaseActivity<ActivityAddressBinding>(R.layout.activity_a
                 else{
                    addressViewModel.distanceCalculator(progress, DistanceType.MAX5KM)
                 }
-                saveSearchDistance( binding.addressDistanceTv.text.toString() )
+
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -156,7 +155,6 @@ class AddressActivity : BaseActivity<ActivityAddressBinding>(R.layout.activity_a
                     if(ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[0]) ||
                         ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[1])){
                         // 권한이 필요하다는 토스트 메시지를 띄운다
-                        //TODO : Toast custom 적용
                         this.BdsToast(resources.getString(R.string.locaton_permission_alert)).show()
                         // 권한을 다시 요청한다
                         requestPermissions(deniedPermission.toArray(arrayOfNulls<String>(deniedPermission.size)), PERMISSION_REQUEST)

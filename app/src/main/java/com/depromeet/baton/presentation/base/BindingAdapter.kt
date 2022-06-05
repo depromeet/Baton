@@ -13,6 +13,7 @@ import com.airbnb.lottie.LottieAnimationView
 
 @BindingAdapter("showOnLoading")
 fun LottieAnimationView.showOnLoading(responseState: UIState) {
+
     visibility = if (responseState is UIState.Loading)
         View.VISIBLE
     else

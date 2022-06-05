@@ -5,7 +5,6 @@ import android.content.ClipboardManager
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.CheckedTextView
 import androidx.activity.viewModels
@@ -15,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.depromeet.baton.BatonApp
 import com.depromeet.baton.BatonApp.Companion.TAG
 import com.depromeet.baton.R
+import com.depromeet.baton.data.response.ResponseFilteredTicket
 import com.depromeet.baton.databinding.ActivityTicketDetailBinding
 import com.depromeet.baton.domain.model.TicketStatus
 import com.depromeet.baton.presentation.base.BaseActivity
@@ -25,7 +25,6 @@ import com.depromeet.baton.presentation.bottom.BottomSheetFragment.Companion.CHE
 import com.depromeet.baton.presentation.ui.detail.model.TicketOwner
 import com.depromeet.baton.presentation.ui.detail.viewModel.TicketDetailViewModel
 import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter
-import com.depromeet.baton.presentation.ui.home.view.TicketItem
 import com.depromeet.baton.presentation.util.TicketIteHorizontalDecoration
 import com.depromeet.bds.component.BdsToast
 import com.depromeet.bds.utils.toPx
@@ -37,7 +36,6 @@ import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 
 @AndroidEntryPoint
@@ -84,7 +82,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
             ticketDetailRv.adapter = ticketItemRvAdapter
             ticketDetailRv.layoutManager = mLayoutManager
 
-            ticketItemRvAdapter.submitList(
+          /*  ticketItemRvAdapter.submitList(
                 arrayListOf(
                     TicketItem("테리온 휘트니스 당산점", "기타", "100,000원", "30일 남음", "영등포구 양평동", "12m", R.drawable.dummy4),
                     TicketItem("진휘트니스 양평점", "헬스", "3,000원", "60일 남음", "광진구 중곡동", "12m", R.drawable.dummy3),
@@ -92,7 +90,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
                     TicketItem("바톤휘트니스 대왕점", "헬스", "19,000원", "5일 남음", "광진구 중곡동", "12m", R.drawable.dummy1),
                     TicketItem("휴메이크 휘트니스 석촌점", "필라테스", "223,000원", "4일 남음", "광진구 중곡동", "12m", R.drawable.dummy5),
                 )
-            )
+            )*/
 
             ticketDetailToolbar.ticketToolbarTv.visibility = View.INVISIBLE
         }
@@ -178,15 +176,20 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     }
 
     private fun setOnMenuListener(){
-        val menuList = resources.getStringArray(R.array.ticket_detail_bottomsheet_menu)
-        val bottomMenu: MutableList<BottomMenuItem<String>> = menuList.map { it -> BottomMenuItem(it) }.toMutableList()
+        val menuList = resources.getStringArray(R.array.ticket_detail_bottomsheet_menu).map{BottomMenuItem(it)}
+        val onItemClick = object : BottomSheetFragment.Companion.OnItemClick{
+            override fun onSelectedItem(selected: BottomMenuItem, index: Int) {
+                this@TicketDetailActivity.BdsToast("onItem click  ${selected.listItem}").show()
+            }
+        }
 
-        with(binding){
+        val bottomSheetFragment = BottomSheetFragment.newInstance("글메뉴",menuList,
+            CHECK_ITEM_VIEW,onItemClick)
+
+        /*with(binding){
             ticketDetailToolbar.ticketToolbarMenuIc.setOnClickListener {
-                val bottomSheetFragment: BottomSheetFragment = BottomSheetFragment(
-                    "글 메뉴", bottomMenu,
-                    BottomSheetFragment.DEFAULT_ITEM_VIEW
-                ) {
+
+                 {
                     when (it) {
                         Seller_TicketDetailMenu.CHANGE_SALES_OPTION.ordinal -> {
                             showChangeSalesOptionDialog()
@@ -200,49 +203,30 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
                     }
                 }
                 bottomSheetFragment.show(supportFragmentManager, BatonApp.TAG)
-            }
-        }
+
+        }*/
+
+        bottomSheetFragment.show(supportFragmentManager, BatonApp.TAG)
+
     }
+
 
 
     fun initSellerBottom() {
         val menuList = resources.getStringArray(R.array.ticket_detail_bottomsheet_menu)
-        val bottomMenu: MutableList<BottomMenuItem<String>> = menuList.map { it -> BottomMenuItem(it) }.toMutableList()
+        val bottomMenu= menuList.map { it -> BottomMenuItem(it) }
         binding.ticketDetailToolbar.ticketToolbarMenuIc.setOnClickListener {
-            val bottomSheetFragment: BottomSheetFragment = BottomSheetFragment(
-                "글 메뉴", bottomMenu,
-                BottomSheetFragment.DEFAULT_ITEM_VIEW
-            ) {
-                when (it) {
-                    Seller_TicketDetailMenu.CHANGE_SALES_OPTION.ordinal -> {
-                        showChangeSalesOptionDialog()
 
-                    }
-                    Seller_TicketDetailMenu.EDIT_OPTION.ordinal -> {
-
-                    }
-                    Seller_TicketDetailMenu.DELETE_OPTION.ordinal -> {
-                    }
-                }
-            }
-            bottomSheetFragment.show(supportFragmentManager, BatonApp.TAG)
         }
     }
 
     fun initBuyerBottom() {
 
     }
-
-
+    
     fun showChangeSalesOptionDialog() {
-        val menuList = resources.getStringArray(R.array.ticketSaleStatus)
-            .map { it -> BottomMenuItem(it, false) }.toMutableList()
 
-        val bottomSheetFragment: BottomSheetFragment = BottomSheetFragment(
-            "상태 변경", menuList,
-            CHECK_ITEM_VIEW
-        ) {
-            when (it) {
+            /*when (it) {
                 //TODO 판매중/ 예약중/ 거래완료 분기처리
                 TicketStatus.SALE.ordinal -> {
                     setSales()
@@ -253,9 +237,9 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
                 TicketStatus.SOLDOUT.ordinal -> {
                     setSoldOut()
                 }
-            }
-        }
-        bottomSheetFragment.show(supportFragmentManager, BatonApp.TAG)
+            }*/
+
+
     }
 
     fun setSoldOut() {
@@ -273,7 +257,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         binding.ticketDetailStatusSoldout.visibility = View.GONE
     }
 
-    private fun setTicketItemClickListener(ticketItem: TicketItem) {
+    private fun setTicketItemClickListener(ticketItem: ResponseFilteredTicket) {
         startActivity(Intent(this@TicketDetailActivity, TicketDetailActivity::class.java).apply {
             //TODO 게시글 id넘기기
         })
@@ -286,9 +270,6 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
             else  binding.ticketDetailToolbar.ticketToolbarTv.visibility = View.INVISIBLE
         })
     }
-
-
-
 
 
     override fun onMapReady(map: NaverMap) {

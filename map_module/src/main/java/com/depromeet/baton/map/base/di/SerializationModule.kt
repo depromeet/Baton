@@ -12,11 +12,11 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class SerializationModule {
 
-    @Provides
+/*    @Provides
     @Singleton
     fun provideMoshi(): Moshi {
         return Moshi.Builder()
             .addLast(KotlinJsonAdapterFactory())
             .build()
-    }
+    }*/
 }

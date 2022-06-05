@@ -127,5 +127,9 @@ class BottomSearchShopFragment : BottomSheetDialogFragment() {
         writePostViewModel.shopInfoList.value.clear()
         _binding = null
     }
+<<<<<<< HEAD
 }
 
+=======
+}
+>>>>>>> dabin/home-filter

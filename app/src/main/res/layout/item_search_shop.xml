@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -13,24 +14,29 @@
             android:id="@+id/tv_item_search_shop_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:includeFontPadding="false"
             android:text="sample address"
             android:textAppearance="?body4"
+            android:layout_marginEnd="@dimen/dimen10"
             android:textColorHint="?grey_scale90"
+            app:layout_constraintEnd_toStartOf="@+id/tv_item_search_shop_address_select"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="가가가가가어리ㅏㅓ라얼ㄹ아ㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㅓ랑러" />
 
         <TextView
             android:id="@+id/tv_item_search_shop_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen2"
+            android:layout_marginEnd="@dimen/dimen56"
             android:text="sample address"
             android:textAppearance="?caption2"
             android:textColor="?grey_scale60"
-            android:layout_marginRight="@dimen/dimen56"
             app:layout_constraintEnd_toStartOf="@id/tv_item_search_shop_address_select"
             app:layout_constraintStart_toStartOf="@id/tv_item_search_shop_name"
-            app:layout_constraintTop_toBottomOf="@id/tv_item_search_shop_name" />
+            app:layout_constraintTop_toBottomOf="@id/tv_item_search_shop_name"
+            tools:text="가가가가가어리ㅏ어나러아ㅓㄹㅇ아ㅓ라어라어라어라어라어아러아ㅓ라얼ㄹ아ㅓ랑러" />
 
         <TextView
             android:id="@+id/tv_item_search_shop_address_select"

@@ -1,5 +1,7 @@
 package com.depromeet.baton.presentation.main
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.depromeet.baton.R
@@ -21,6 +23,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(binding.root)
 
         initBottomNavigation()
         setBottomNavigationSelectedListener()
@@ -60,5 +63,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             .beginTransaction()
             .replace(R.id.fcv_main, fragment, null)
             .commit()
+    }
+
+    fun moveToSearch() {
+        binding.bnvMain.selectedItemId = R.id.menu_main_search
+    }
+
+
+    companion object {
+        fun start(context: Context) {
+            val intent = Intent(context, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            context.startActivity(intent)
+        }
     }
 }
