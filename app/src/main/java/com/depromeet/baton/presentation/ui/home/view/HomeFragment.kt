@@ -97,7 +97,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private fun setTicketItemClickListener(ticketItem: TicketItem) {
         startActivity(Intent(requireContext(), TicketDetailActivity::class.java).apply {
-            //TODO 게시글 id넘기기
+            //TODO 게시글 id넘기기 Example
+            this.putExtra("ticketId",2)
         })
     }
 
