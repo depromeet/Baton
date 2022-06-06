@@ -2,11 +2,13 @@ package com.depromeet.baton.presentation.ui.detail
 
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,6 +30,7 @@ import com.depromeet.baton.presentation.bottom.BottomSheetFragment.Companion.DEF
 import com.depromeet.baton.presentation.ui.detail.viewModel.*
 import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter
 import com.depromeet.baton.presentation.ui.home.view.TicketItem
+import com.depromeet.baton.presentation.ui.sign.ServiceTermDetailActivity
 import com.depromeet.baton.presentation.util.*
 import com.depromeet.baton.util.BatonSpfManager
 import com.depromeet.bds.component.BdsToast
@@ -89,31 +92,28 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     }
 
     private fun setObserver() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.ticketState.observe(
-                    this@TicketDetailActivity , Observer { uiState -> handleTicketUiState(uiState) }
-                )
 
-                viewModel.netWorkState
-                    .flowWithLifecycle(lifecycle)
-                    .onEach(::handleTicketNetwork)
-                    .launchIn(lifecycleScope)
+        viewModel.ticketState.observe(
+            this@TicketDetailActivity , Observer { uiState -> handleTicketUiState(uiState) }
+        )
 
-                viewModel.viewEvents
-                    .flowWithLifecycle(lifecycle)
-                    .onEach(::handleTicketViewEvents)
-                    .launchIn(lifecycleScope)
+        viewModel.netWorkState
+            .flowWithLifecycle(lifecycle)
+            .onEach(::handleTicketNetwork)
+            .launchIn(lifecycleScope)
 
-                ticketMoreViewModel.networkState
-                    .flowWithLifecycle(lifecycle)
-                    .onEach {status ->
-                        when(status){
-                            is TicketMoreNetwork.Failure -> { this@TicketDetailActivity.BdsToast(status.msg).show() }
-                        }
-                    }.launchIn(lifecycleScope)
-            }
-        }
+        viewModel.viewEvents
+            .flowWithLifecycle(lifecycle)
+            .onEach(::handleTicketViewEvents)
+            .launchIn(lifecycleScope)
+
+        ticketMoreViewModel.networkState
+            .flowWithLifecycle(lifecycle)
+            .onEach {status ->
+                when(status){
+                    is TicketMoreNetwork.Failure -> { this@TicketDetailActivity.BdsToast(status.msg).show() }
+                }
+            }.launchIn(lifecycleScope)
     }
 
     private fun handleTicketUiState (uiState  : TicketDetailViewModel.DetailTicketInfoUiState){
@@ -406,6 +406,12 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         mapView.onLowMemory()
     }
 
-
+    companion object {
+        fun start(context: Context,ticketId: Int):Intent{
+            val intent = Intent(context, TicketDetailActivity::class.java)
+            intent.putExtra("ticketId",ticketId)
+            return intent
+        }
+    }
 }
 

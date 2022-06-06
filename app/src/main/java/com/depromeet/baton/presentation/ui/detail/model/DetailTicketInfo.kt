@@ -16,7 +16,7 @@ data class DetailTicketInfo (
     val ticketStatus : TicketStatus,
     val ticketType : TicketKind,
     val transferFee: TransferFee,
-    val transMethod :TransactionMethod,
+    val transMethod :TradeType,
     val canNego : Boolean,
     val infoHashs : List<BatonHashTag>, //회원권 정보 태그
     val description : String,

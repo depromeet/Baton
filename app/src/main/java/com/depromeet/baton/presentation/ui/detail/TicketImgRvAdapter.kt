@@ -11,9 +11,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ItemDetailImageBinding
+import com.depromeet.baton.util.SimpleDiffUtil
 
 
-class TicketImgRvAdapter(): ListAdapter<String, TicketImgRvAdapter.ImgViewHolder>(diffUtil) {
+class TicketImgRvAdapter(): ListAdapter<String, TicketImgRvAdapter.ImgViewHolder>(SimpleDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImgViewHolder {
         val binding: ItemDetailImageBinding = DataBindingUtil.inflate(
@@ -33,18 +34,6 @@ class TicketImgRvAdapter(): ListAdapter<String, TicketImgRvAdapter.ImgViewHolder
     inner class ImgViewHolder(val binding : ItemDetailImageBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(item : String){
             binding.itemDetailimgIv.setImageURI(Uri.parse(item))
-        }
-    }
-    companion object{
-        val diffUtil = object :DiffUtil.ItemCallback<String>(){
-            override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
-                return oldItem == newItem
-            }
-
-            override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
-                return oldItem == newItem
-            }
-
         }
     }
 }

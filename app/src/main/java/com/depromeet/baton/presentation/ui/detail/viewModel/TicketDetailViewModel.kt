@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
@@ -61,7 +62,7 @@ class TicketDetailViewModel @Inject constructor(
                         price = 200000,
                         ticketStatus = TicketStatus.RESERVATION,
                         transferFee = TransferFee.NONE,
-                        transMethod = TransactionMethod.FACE,
+                        transMethod = TradeType.CONTECT,
                         canNego = false,
                         infoHashs = DetailHash(true,true,false,true,true,false).mapToHashList(),
                         description = "헬스 회원권  60일권  200,000원으로 저렴하게 양도합니다!\u2028- 접근성 좋음 주변에 버스터미널, 정류장 등 가까움\n" +
