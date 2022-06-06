@@ -1,24 +1,23 @@
 package com.depromeet.baton.presentation.ui.home.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.CheckedTextView
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.baton.data.response.ResponseFilteredTicket
 import com.depromeet.baton.databinding.ItemTicketBinding
+import com.depromeet.baton.util.SimpleDiffUtil
 import com.depromeet.bds.utils.toPx
 
 
 class TicketItemRvAdapter(
     private val scrollType: String,
     private val clickListener: (ResponseFilteredTicket) -> Unit
-) : ListAdapter<ResponseFilteredTicket, TicketItemRvAdapter.TicketItemViewHolder>(diffCallback) {
+) : ListAdapter<ResponseFilteredTicket, TicketItemRvAdapter.TicketItemViewHolder>(SimpleDiffUtil()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -58,9 +57,7 @@ class TicketItemRvAdapter(
 
                 if (item.mainImage.isEmpty()) setEmptyImage(position, ibtnItemTicket) //엠티 뷰
 
-                root.setOnClickListener {  //상세 페이지로
-                    clickListener(item)
-                }
+                root.setOnClickListener { clickListener(item) } //상세페이지로
             }
         }
     }
@@ -81,14 +78,6 @@ class TicketItemRvAdapter(
     }
 
     companion object {
-        private val diffCallback = object : DiffUtil.ItemCallback<ResponseFilteredTicket>() {
-            override fun areItemsTheSame(oldItem: ResponseFilteredTicket, newItem: ResponseFilteredTicket): Boolean =
-                oldItem.id == newItem.id
-
-            override fun areContentsTheSame(oldItem: ResponseFilteredTicket, newItem: ResponseFilteredTicket): Boolean =
-                oldItem.id == newItem.id
-        }
-
         const val SCROLL_TYPE_VERTICAL = "VERTICAL"
         const val SCROLL_TYPE_HORIZONTAL = "HORIZONTAL"
     }

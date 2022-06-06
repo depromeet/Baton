@@ -1,5 +1,6 @@
 package com.depromeet.baton.presentation.ui.writepost.view
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -7,6 +8,7 @@ import androidx.fragment.app.Fragment
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ActivityWritePostBinding
 import com.depromeet.baton.presentation.base.BaseActivity
+import com.depromeet.baton.presentation.ui.address.view.AddressActivity
 import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
 import com.depromeet.baton.presentation.ui.writepost.viewmodel.WritePostViewModel
 import com.depromeet.bds.component.BdsToast
@@ -84,6 +86,13 @@ class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activi
 
     override fun onBackPressed() {
         backToPreviousLevel()
+    }
+
+    companion object {
+        fun start(context: Context) {
+            val intent = Intent(context, WritePostActivity::class.java)
+            context.startActivity(intent)
+        }
     }
 }
 

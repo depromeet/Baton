@@ -61,8 +61,8 @@ class WritePostViewModel @Inject constructor(
 
     sealed interface ViewEvent {
         object SelfWriteAddressDone : ViewEvent
-        //  object SelfWriteAddressDone : ViewEvent
-        //   object SelfWriteAddressDone : ViewEvent
+        //  object SelfWriteAddressDone : HomeViewEvent
+        //   object SelfWriteAddressDone : HomeViewEvent
     }
 
     //작성중인 포지션

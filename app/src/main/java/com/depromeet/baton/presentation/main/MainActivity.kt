@@ -69,6 +69,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         binding.bnvMain.selectedItemId = R.id.menu_main_search
     }
 
+    fun moveToChatting() {
+        binding.bnvMain.selectedItemId = R.id.menu_main_chatting
+    }
 
     companion object {
         fun start(context: Context) {
