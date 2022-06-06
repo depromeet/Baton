@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.baton.BatonApp
 import com.depromeet.baton.BatonApp.Companion.TAG
 import com.depromeet.baton.R
+import com.depromeet.baton.data.response.ResponseFilteredTicket
 import com.depromeet.baton.databinding.ActivityTicketDetailBinding
 import com.depromeet.baton.databinding.ItemPrimaryOutlineTagBinding
 import com.depromeet.baton.databinding.ItemPrimaryTagBinding

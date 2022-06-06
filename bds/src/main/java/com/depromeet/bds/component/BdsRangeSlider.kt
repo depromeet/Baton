@@ -1,6 +1,8 @@
 package com.depromeet.bds.component
+
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import androidx.core.content.withStyledAttributes
@@ -20,14 +22,15 @@ class BdsRangeSlider @JvmOverloads constructor(
 
     init {
         context.withStyledAttributes(attrs, R.styleable.BdsRangeSlider) {
-            binding.bdsRangeSeekbar.setRange(getFloat(R.styleable.BdsRangeSlider_bds_range_min,0f)
-                , getFloat(R.styleable.BdsRangeSlider_bds_range_max, 100f))
+            binding.bdsRangeSeekbar.setRange(
+                getFloat(R.styleable.BdsRangeSlider_bds_range_min, 0f), getFloat(R.styleable.BdsRangeSlider_bds_range_max, 100f)
+            )
 
-            val process =getFloat(R.styleable.BdsRangeSlider_bds_progress, 0.0f)
-            if(process == 0f)
-                binding.bdsRangeSeekbar.setProgress(0f,0f)
-            else{
-                binding.bdsRangeSeekbar.setProgress(0f,process)
+            val process = getFloat(R.styleable.BdsRangeSlider_bds_progress, 0.0f)
+            if (process == 0f)
+                binding.bdsRangeSeekbar.setProgress(0f, 0f)
+            else {
+                binding.bdsRangeSeekbar.setProgress(0f, process)
             }
         }
 
@@ -38,12 +41,13 @@ class BdsRangeSlider @JvmOverloads constructor(
 
     }
 
-    fun addRangeChangeListener( seekbarChangeListener : OnRangeChangedListener?){
-        if(seekbarChangeListener != null)
+    fun addRangeChangeListener(seekbarChangeListener: OnRangeChangedListener?) {
+        if (seekbarChangeListener != null)
             binding.bdsRangeSeekbar.setOnRangeChangedListener(seekbarChangeListener)
     }
 
-    fun setProgress(left: Float, right : Float){
-        binding.bdsRangeSeekbar.setProgress(left, right)
+
+    fun setProgress(left: Float, right: Float) {
+            binding.bdsRangeSeekbar.setProgress(left, right)
+        }
     }
-}

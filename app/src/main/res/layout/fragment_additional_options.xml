@@ -75,10 +75,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen8"
-                android:onClick="@{()->filterViewModel.setAdditionalOptions(AdditionalOptions.SPORT_WEAR,!filterViewModel.isSportWearrChecked)}"
+                android:onClick="@{()->filterViewModel.setAdditionalOptions(AdditionalOptions.SPORT_WEAR,!filterViewModel.isSportWearChecked)}"
                 android:textAppearance="?body3"
                 app:bds_text="@string/filter_additional_options_sport_wear"
-                app:isOn="@{filterViewModel.isSportWearrChecked}"
+                app:isOn="@{filterViewModel.isSportWearChecked}"
                 app:layout_constraintStart_toEndOf="@id/bdschoice_additional_options_locker_room"
                 app:layout_constraintTop_toTopOf="parent"
                 app:shape="@{`outlined`}" />

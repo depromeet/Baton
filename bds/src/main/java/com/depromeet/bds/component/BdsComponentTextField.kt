@@ -54,6 +54,7 @@ class BdsComponentTextField @JvmOverloads constructor(
             binding.txtSuccess.text = value
 
             field = value
+
         }
 
     var helperMessage: String? = null

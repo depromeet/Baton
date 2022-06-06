@@ -6,24 +6,23 @@ import android.view.ViewGroup
 import android.widget.CheckedTextView
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatImageButton
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.depromeet.baton.data.response.ResponseFilteredTicket
 import com.depromeet.baton.databinding.ItemTicketBinding
-import com.depromeet.baton.presentation.ui.home.view.TicketItem
-import com.depromeet.bds.R
 import com.depromeet.bds.utils.toPx
 
 
 class TicketItemRvAdapter(
     private val scrollType: String,
     private val context: Context,
-    private val clickListener: (TicketItem) -> Unit
-) : ListAdapter<TicketItem, TicketItemRvAdapter.TicketItemViewHolder>(diffCallback) {
+    private val clickListener: (ResponseFilteredTicket) -> Unit
+) : ListAdapter<ResponseFilteredTicket, TicketItemRvAdapter.TicketItemViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -40,7 +39,7 @@ class TicketItemRvAdapter(
 
     inner class TicketItemViewHolder(private val binding: ItemTicketBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: TicketItem, position: Int) {
+        fun bind(item: ResponseFilteredTicket, position: Int) {
             with(binding) {
                 //가로스크롤뷰
                 if (scrollType == SCROLL_TYPE_HORIZONTAL) {
@@ -49,38 +48,36 @@ class TicketItemRvAdapter(
                     ctlItemTicketContainer.layoutParams = lp
                 }
 
-                tvItemTicketCardBadge.text = item.card
-                tvItemTicketShopName.text = item.shopName
-                tvItemTicketPrice.text = item.price
-                tvItemTicketRemainingDay.text = item.remainingDay
-                tvItemTicketPlace.text = item.place
-                tvItemTicketPrice.text = item.price
+                //tvItemTicketCardBadge.text = item.card
+                tvItemTicketShopName.text = item.location
+                tvItemTicketPrice.text = item.price.toString()
+                tvItemTicketRemainingDay.text = item.expiryDate //todo 남은일자 계산해야댐 ㅠ
+                tvItemTicketPlace.text = item.address
+                tvItemTicketDistance.text = item.distance.toString()
+
                 Glide.with(context)
-                    .load(item.img)
+                    .load(item.mainImage)
                     .transform(CenterCrop(), RoundedCorners(4.toPx()))
                     .into(binding.ibtnItemTicket)
 
                 setLikeBtnClickListener(ctvItemTicketLike)
+
+                if (item.mainImage.isEmpty()) setEmptyImage(position, ibtnItemTicket)
+
                 root.setOnClickListener {
                     clickListener(item)
-                }
-
-                //todo 중간발표용 하트 클릭
-                if(position==2 || position==5){
-                    ctvItemTicketLike.isChecked=true
                 }
             }
         }
     }
 
-
     private fun setEmptyImage(position: Int, view: AppCompatImageButton) {
-        /*     when (position % 4) {
-                 0 -> view.setImageResource(R.drawable.ic_empty_health_86)
-                 1 -> view.setImageResource(R.drawable.ic_empty_etc_86)
-                 2 -> view.setImageResource(R.drawable.ic_empty_pt_86)
-                 3 -> view.setImageResource(R.drawable.ic_empty_pilates_86)
-             }*/
+        when (position % 4) {
+            0 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_health_86)
+            1 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_etc_86)
+            2 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_pt_86)
+            3 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_pilates_86)
+        }
     }
 
     private fun setLikeBtnClickListener(view: CheckedTextView) {
@@ -90,12 +87,12 @@ class TicketItemRvAdapter(
     }
 
     companion object {
-        private val diffCallback = object : DiffUtil.ItemCallback<TicketItem>() {
-            override fun areItemsTheSame(oldItem: TicketItem, newItem: TicketItem): Boolean =
-                oldItem.shopName == newItem.shopName
+        private val diffCallback = object : DiffUtil.ItemCallback<ResponseFilteredTicket>() {
+            override fun areItemsTheSame(oldItem: ResponseFilteredTicket, newItem: ResponseFilteredTicket): Boolean =
+                oldItem.id == newItem.id
 
-            override fun areContentsTheSame(oldItem: TicketItem, newItem: TicketItem): Boolean =
-                oldItem.shopName == newItem.shopName
+            override fun areContentsTheSame(oldItem: ResponseFilteredTicket, newItem: ResponseFilteredTicket): Boolean =
+                oldItem.id == newItem.id
         }
 
         const val SCROLL_TYPE_VERTICAL = "VERTICAL"

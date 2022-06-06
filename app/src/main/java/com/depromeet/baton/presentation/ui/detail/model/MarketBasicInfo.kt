@@ -1,8 +1,7 @@
 package com.depromeet.baton.presentation.ui.detail.model
 
 import com.depromeet.baton.domain.model.AdditionalOptions
-import com.depromeet.baton.domain.model.HashTag
-import com.depromeet.baton.domain.model.TransactionMethod
+import com.depromeet.baton.domain.model.TradeType
 
 data class MarketBasicInfo(
     val seller : Seller,
@@ -14,7 +13,7 @@ data class MarketBasicInfo(
     val likes : String,
     val url: String,
     val detailContent : String,
-    val transactionMethod:TransactionMethod,
+    val transactionMethod:TradeType,
     val moreTag : ArrayList<AdditionalOptions>  //tag
 )
 

@@ -92,6 +92,7 @@
                 android:id="@+id/search_address_recycler"
                 app:uiState="@{viewmodel.uiState }"
                 android:layout_marginHorizontal="@dimen/dimen16"
+                tools:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:listitem="@layout/item_address_search"
@@ -105,6 +106,7 @@
                 android:layout_marginHorizontal="@dimen/dimen16"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <include layout="@layout/view_search_guide" />
             </RelativeLayout>
 
