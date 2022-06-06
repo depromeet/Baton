@@ -215,7 +215,7 @@ class SearchRepository @Inject constructor(
         private val HAST_TAGS = listOf(
             BatonHashTag("친절한 선생님"),
             BatonHashTag("체계적인 수업"),
-            BatonHashTag("맞춤케어"),
+            BatonHashTag("맞춤 케어"),
             BatonHashTag("넓은 시설"),
             BatonHashTag("다양한 기구"),
             BatonHashTag("사람이 많은"),

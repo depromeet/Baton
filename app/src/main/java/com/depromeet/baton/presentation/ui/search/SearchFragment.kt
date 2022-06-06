@@ -1,6 +1,7 @@
 package com.depromeet.baton.presentation.ui.search
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -25,9 +26,15 @@ import timber.log.Timber
 class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_search) {
 
     private val searchViewModel: SearchViewModel by activityViewModels()
-    private val filterViewModel: FilterViewModel by activityViewModels()
+    private val filterViewModel: FilterSearchViewModel by activityViewModels()
     private val recentFragment = RecentSearchFragment()
     private val detailFragment = SearchDetailFragment()
+
+    override fun onResume() {
+        super.onResume()
+        searchViewModel.setInitKeyword(binding.searchBar.getText())
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -46,12 +53,12 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             Timber.d("beanbean ime > ${it.text}")
             searchViewModel.searchKeyword(it.text.toString())
         }
-
         viewLifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 searchViewModel.searchKeyword
                     .map { it.isBlank() }
                     .collect { showRecent ->
+                        binding.searchBar.setEditText(searchViewModel.searchKeyword.value)  //텍스트 세팅하고 시작(퀵에서 오는 경우 존재)
                         if (showRecent) {
                             childFragmentManager
                                 .beginTransaction()
@@ -78,6 +85,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
                         .commit()
                 }
                 SearchViewModel.ViewEvent.ToHome -> {
+                    searchViewModel.searchKeyword("")
                     (activity as MainActivity).moveToHome()
                 }
             }
@@ -85,18 +93,14 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         }
     }
 
-    //퀵에서 온경우 검색어 세팅하고 온거 뿌림
-    override fun onResume() {
-        super.onResume()
-        binding.searchBar.setEditText(searchViewModel.searchKeyword.value)
-    }
-
-    //추천 해시태그 검색하고 왔을 때임
     override fun onPause() {
         super.onPause()
-        binding.searchBar.setEditText(searchViewModel.searchKeyword.value)
+        searchViewModel.setLastKeyword(binding.searchBar.getText())
+        Log.e("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡonPauseㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ", "${binding.searchBar.getText()}")
     }
 }
+
+
 
 data class SearchUiState(
     val onBackBtnClick: () -> Unit,

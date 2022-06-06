@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.depromeet.baton.presentation.base.UIState" />
+
+        <variable
+            name="filterViewModel"
+            type="com.depromeet.baton.presentation.ui.search.FilterSearchViewModel" />
+
+        <variable
+            name="adapter"
+            type="com.depromeet.baton.presentation.ui.filter.adapter.FilteredChipRvAdapter" />
+
+        <variable
+            name="itemDecoration"
+            type="com.depromeet.baton.presentation.util.ChipSpacesItemDecoration" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_bottomsheet"
+        tools:context=".presentation.ui.filter.view.BottomFilterFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ctl_bottom_filter_top"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen512"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tl_bottom_filter"
+                style="@style/TabWidget"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:clipToPadding="false"
+                android:paddingHorizontal="@dimen/dimen12"
+                android:paddingVertical="@dimen/dimen4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tabGravity="fill"
+                app:tabMinWidth="@dimen/dimen8"
+                app:tabMode="scrollable"
+                app:tabSelectedTextColor="?primary50" />
+
+            <View
+                android:id="@+id/view_bottom_filter_div_top"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="@dimen/dimen16"
+                android:background="?grey_scale40"
+                app:layout_constraintTop_toBottomOf="@+id/tl_bottom_filter" />
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/vp_bottom_filter"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="@dimen/dimen16"
+                android:layout_marginTop="@dimen/dimen24"
+                app:layout_constraintBottom_toBottomOf="@id/view_bottom_filter_div_bottom"
+                app:layout_constraintTop_toBottomOf="@id/view_bottom_filter_div_top" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_bottom_filter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dimen12"
+                app:adapter="@{adapter}"
+                app:itemDecoration="@{itemDecoration}"
+                app:layout_constraintBottom_toTopOf="@id/view_bottom_filter_div_bottom"
+                tools:itemCount="1" />
+
+
+            <View
+                android:id="@+id/view_bottom_filter_div_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginBottom="@dimen/dimen80"
+                android:background="?grey_scale40"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ctl_bottom_filter_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view_bottom_filter_div_bottom">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_bottom_filter_reset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/dimen32"
+                    android:layout_marginStart="@dimen/dimen24"
+                    android:background="@android:color/transparent"
+                    android:drawableStart="@drawable/ic_reset"
+                    android:drawablePadding="@dimen/dimen8"
+                    android:drawableTint="@color/selector_grey_scale80_grey_scale60"
+                    android:enabled="@{filterViewModel.isResetAndSearchValid}"
+                    android:includeFontPadding="false"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:onClick="@{()->filterViewModel.filterReset()}"
+                    android:text="@string/filter_reset"
+                    android:textAppearance="?body3"
+                    android:textColor="@color/selector_grey_scale80_grey_scale60"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/btn_bottom_filter_search"
+                    android:layout_width="@dimen/dimen216"
+                    android:layout_height="0dp"
+                    android:layout_marginVertical="@dimen/dimen16"
+                    android:layout_marginStart="@dimen/dimen26"
+                    android:layout_marginEnd="@dimen/dimen16"
+                    android:background="@drawable/btn_filter_bottom_fixed"
+                    android:backgroundTint="@color/selector_grey_scale80_grey_scale40"
+                    android:enabled="@{filterViewModel.isResetAndSearchValid}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{@string/filter_search_result(filterViewModel.filteredTicketCount.toString())}"
+                    android:textAppearance="?body1"
+                    android:textColor="@color/selector_wh100_grey_scale60"
+                    app:layout_constraintBottom_toBottomOf="@id/btn_bottom_filter_search"
+                    app:layout_constraintEnd_toEndOf="@id/btn_bottom_filter_search"
+                    app:layout_constraintStart_toStartOf="@id/btn_bottom_filter_search"
+                    app:layout_constraintTop_toTopOf="@id/btn_bottom_filter_search"
+                    app:uiState="@{filterViewModel.filteredTicketCountUiState}"
+                    tools:text="1000" />
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@+id/btn_bottom_filter_search"
+                    app:layout_constraintEnd_toEndOf="@+id/btn_bottom_filter_search"
+                    app:layout_constraintStart_toStartOf="@+id/btn_bottom_filter_search"
+                    app:layout_constraintTop_toTopOf="@+id/btn_bottom_filter_search"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/ticket_search_loading"
+                    app:showOnLoading="@{filterViewModel.filteredTicketCountUiState}" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

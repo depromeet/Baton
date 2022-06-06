@@ -1,4 +1,4 @@
-package com.depromeet.baton.presentation.ui.filter.viewmodel
+package com.depromeet.baton.presentation.ui.search
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -17,7 +17,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-open class FilterViewModel @Inject constructor(
+open class FilterSearchViewModel @Inject constructor(
     private val searchRepository: SearchRepository
 ) : BaseViewModel() {
 
@@ -255,7 +255,7 @@ open class FilterViewModel @Inject constructor(
     //밑에 필터링된 칩들만 주루룩 보이게
     private fun updateChipToFilteredChipList(chip: Any? = null, isChecked: Boolean? = null) {
         val chipStr = chip.toString()
-        if (chip != null && isChecked != null) {
+        if (chip != null && isChecked != null ) {
             if (isChecked) {
                 if ((chipStr.contains("회"))) {
                     _filteredChipList.value?.let { _filteredChipList.value?.removeAll(it.filter { it.toString().contains("회") }) }
@@ -266,6 +266,7 @@ open class FilterViewModel @Inject constructor(
                 if ((chipStr.contains("원"))) {
                     _filteredChipList.value?.let { _filteredChipList.value?.removeAll(it.filter { it.toString().contains("원") }) }
                 }
+                if(!_filteredChipList.value!!.contains(chip))
                 _filteredChipList.value?.add(chip)
             } else _filteredChipList.value?.remove(chip)
 
@@ -293,6 +294,7 @@ open class FilterViewModel @Inject constructor(
             _isGymTermFiltered.value = false
         }
         _filteredChipList.value = _filteredChipList.value
+        Log.e("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ세팅-마지막","${_filteredChipList.value}")
     }
 
 
@@ -335,7 +337,21 @@ open class FilterViewModel @Inject constructor(
     fun setTicketKind(ticket: TicketKind, isChecked: Boolean = false, fromQuick: Boolean = false) {
         ticketKindCheckedList.setChipCheckedStatus(ticket, isChecked)
         updateAllStatus(ticket, isChecked)
-
+        if (fromQuick && origin!!.get(0).first != FilterType.HashTag.value) {
+            //해시태그를 앞으로 옮긴다
+            _filterChipList.value?.forEach { it ->
+                if (it.first == FilterType.TicketKind.value) {
+                    _filterChipList.value!![0] = FilterType.TicketKind.value to true  //제일 앞으로
+                }
+            }
+            //나머지 애들은 뒤로
+            for (index in (0..4)) {
+                _filterChipList.value!![index + 1] = origin!!.get(index + 1)
+            }
+            setFilterTypeOrderList()
+        }
+        _filterChipList.value = _filterChipList.value
+        Log.e("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ세팅-클릭","${_filterChipList.value}")
         //양도권 종류에 따른 기간 레이아웃 분기 업데이트
         updatePtTermStatusFromTicketChoice()
         updateGymTermStatusFromTicketChoice()
@@ -360,12 +376,25 @@ open class FilterViewModel @Inject constructor(
     }
 
     //TODO
-    val origin = MutableLiveData(_filterChipList.value)
+    val origin = _filterChipList.value
 
     fun setHashTag(tag: HashTag, isChecked: Boolean = false, fromQuick: Boolean = false) {
         if (isChecked && hashTagCheckedList.value?.filter { it.value }?.size == 3) return
         hashTagCheckedList.setChipCheckedStatus(tag, isChecked)
         updateAllStatus(tag, isChecked)
+        if (fromQuick) {
+            _filterChipList.value?.forEach { it ->
+                if (it.first == FilterType.HashTag.value) {
+                    _filterChipList.value!![0] = FilterType.HashTag.value to true
+                }
+            }
+            for (index in (0..4)) {
+                _filterChipList.value!![index + 1] = origin?.get(index)!!
+            }
+            setFilterTypeOrderList()
+        }
+        _filterChipList.value = _filterChipList.value
+        Log.e("ㅡㅡㅡㅡㅡ세팅ㅡㅡㅡㅡㅡㅡ","${_filterChipList.value}")
     }
 
     fun setAlignment(standard: Alignment) {
@@ -449,7 +478,6 @@ open class FilterViewModel @Inject constructor(
         updateFilterChipCheckedStatus()  //각 필터칩 상태 업데이트
         updateChipToFilteredChipList(type, isChecked) //필터링된 칩리스트 업데이트
         updateFilteredTicketList()
-        origin.value = _filterChipList.value
         updateResetAndSearchValid()  //리셋버튼 상태 업데이트
         setFilterPosition()  //홈에서 바로 초기화 누르는 경우가 있음
     }

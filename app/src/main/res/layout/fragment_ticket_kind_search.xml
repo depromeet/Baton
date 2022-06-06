@@ -9,7 +9,7 @@
 
         <variable
             name="filterViewModel"
-            type="com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel" />
+            type="com.depromeet.baton.presentation.ui.search.FilterSearchViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -35,15 +35,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     lateinit var spfManager: BatonSpfManager
 
 
+    override fun onResume() {
+        super.onResume()
+        filterViewModel.setFilterTypeOrderList()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.filterViewModel = filterViewModel
-        initView()
-    }
-
-
-    override fun onResume() {
-        super.onResume()
         initView()
     }
 
@@ -122,7 +121,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 mainImage = "https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/18ee9e14-ceec-41a3-a458-97ec0d1099b1.jpeg",
                 createAt = "2022-42-42",
                 state = "FD",
-                tags = listOf("체계적인 수업", "쾌적함", "어쩌구", "하하하"),
+                tags = listOf("체계적인 수업", "친절한 선생님", "어쩌구", "하하하"),
                 images = listOf(com.depromeet.baton.data.response.ResponseFilteredTicket.Image(1, ",", "", false)),
                 isMembership = true,
                 remainingNumber = 290,

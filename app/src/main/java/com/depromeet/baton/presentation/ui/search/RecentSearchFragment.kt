@@ -30,6 +30,7 @@ import timber.log.Timber
 class RecentSearchFragment :
     BaseFragment<FragmentRecentSearchBinding>(R.layout.fragment_recent_search) {
 
+    private val filterViewModel: FilterSearchViewModel by activityViewModels()
     private val viewModel: RecentSearchViewModel by activityViewModels()
     private val searchViewModel: SearchViewModel by activityViewModels()
     private val hashTagAdapter by lazy {
@@ -44,6 +45,12 @@ class RecentSearchFragment :
         )
     }
 
+    override fun onResume() {
+        super.onResume()
+        filterViewModel.filterReset()
+        searchViewModel.searchKeyword("")
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         searchViewModel.setCurrentLevel(0)
@@ -52,7 +59,7 @@ class RecentSearchFragment :
             itemAnimator = null
             val itemDecoration = FlexboxItemDecoration(requireContext()).apply {
                 val drawable = GradientDrawable().apply {
-                    this.setSize(8.toPx(), 8.toPx())
+                    this.setSize(0, 8.toPx())
                     this.setColor(Color.TRANSPARENT)
                 }
                 setDrawable(drawable)
@@ -94,7 +101,7 @@ class RecentSearchFragment :
                         binding.listRecent.isVisible = !isEmpty
 
                         keywordAdapter.submitList(keywords) {
-                            binding.listRecent.scrollToPosition(0)
+//                            if (keywords.isNotEmpty()) binding.listRecent.scrollToPosition(0)
                         }
                     }
             }
@@ -110,5 +117,10 @@ class RecentSearchFragment :
         }
 
         binding.buttonDeleteAll.setOnClickListener { viewModel.deleteAll() }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+    filterViewModel.filterReset()
     }
 }

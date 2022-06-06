@@ -20,9 +20,9 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fcv_home"
-            android:name="com.depromeet.baton.presentation.ui.filter.view.FilterChipFragment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:name="com.depromeet.baton.presentation.ui.search.FilterChipSearchFragment"
             android:layout_marginTop="@dimen/dimen12"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

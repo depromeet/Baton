@@ -16,7 +16,8 @@ import com.depromeet.bds.component.BdsTag
 import com.depromeet.bds.utils.toPx
 
 @BindingAdapter("bds_text", "isSelected")
-fun setBdsFilterChip(view: BdsFilter, text: String, isSelected: Boolean) {
+fun setBdsFilterChip(view: BdsFilter, text: String?, isSelected: Boolean) {
+    if(text!=null)
     view.text = text
     view.isSelected = isSelected
 }

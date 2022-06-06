@@ -9,11 +9,11 @@
 
         <variable
             name="filterChipFragment"
-            type="com.depromeet.baton.presentation.ui.filter.view.FilterChipFragment" />
+            type="com.depromeet.baton.presentation.ui.search.FilterChipSearchFragment" />
 
         <variable
             name="filterViewModel"
-            type="com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel" />
+            type="com.depromeet.baton.presentation.ui.search.FilterSearchViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

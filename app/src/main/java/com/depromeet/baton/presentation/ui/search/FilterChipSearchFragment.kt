@@ -1,23 +1,24 @@
-package com.depromeet.baton.presentation.ui.filter.view
+package com.depromeet.baton.presentation.ui.search
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.depromeet.baton.R
-import com.depromeet.baton.databinding.FragmentFilterChipBinding
+import com.depromeet.baton.databinding.FragmentFilterChipSearchBinding
 import com.depromeet.baton.domain.model.Alignment
 import com.depromeet.baton.presentation.base.BaseFragment
 import com.depromeet.baton.presentation.bottom.BottomMenuItem
 import com.depromeet.baton.presentation.bottom.BottomSheetFragment
-import com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel
+import com.depromeet.baton.presentation.ui.filter.view.BottomFilterFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FilterChipFragment : BaseFragment<FragmentFilterChipBinding>(R.layout.fragment_filter_chip) {
+class FilterChipSearchFragment : BaseFragment<FragmentFilterChipSearchBinding>(R.layout.fragment_filter_chip_search) {
 
-    private val filterViewModel: FilterViewModel by activityViewModels()
+    private val filterViewModel: com.depromeet.baton.presentation.ui.search.FilterSearchViewModel by activityViewModels()
 
-   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.filterViewModel = filterViewModel
         binding.filterChipFragment = this
@@ -25,11 +26,17 @@ class FilterChipFragment : BaseFragment<FragmentFilterChipBinding>(R.layout.frag
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        Log.e("ㅡㅡㅡㅡㅡ세팅ㅡㅇㅇㅡㅡㅡㅡㅡ","${filterViewModel.filterChipList.value}")
+          filterViewModel.setFilterTypeOrderList()
+    }
+
     fun setFilterChipClickListener(filterPosition: Int) {
         filterViewModel.setCurrentFilterPosition(filterPosition)
 
 
-        val bottomFilterFragment = BottomFilterFragment()
+        val bottomFilterFragment = com.depromeet.baton.presentation.ui.search.view.BottomFilterFragment()
         bottomFilterFragment.show(
             childFragmentManager,
             bottomFilterFragment.tag
