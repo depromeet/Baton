@@ -326,7 +326,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         bottomSheetFragment.show(supportFragmentManager, BatonApp.TAG)
     }
 
-    private fun setTicketItemClickListener(ticketItem: TicketItem) {
+    private fun setTicketItemClickListener(ticketItem: ResponseFilteredTicket) {
         startActivity(Intent(this@TicketDetailActivity, TicketDetailActivity::class.java).apply {
             //TODO 게시글 id넘기기
         })

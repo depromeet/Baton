@@ -5,6 +5,8 @@ import android.content.Context
 import android.net.Uri
 import android.view.View
 import androidx.lifecycle.*
+import com.depromeet.baton.R
+import com.depromeet.baton.data.response.ResponseFilteredTicket
 import com.depromeet.baton.domain.model.*
 import com.depromeet.baton.presentation.ui.detail.model.*
 import com.depromeet.baton.presentation.util.priceFormat
@@ -43,7 +45,7 @@ class TicketDetailViewModel @Inject constructor(
             runCatching {
                 val ticketId = savedStateHandle.get<Int>("ticketId")
                 val tempUserID = 3 // 임시 userID
-                val tempSellerID = 3 // 임시 userID
+                val tempSellerID = 1 // 임시 userID
 
                 val ticket =  DetailTicketInfoUiState(
                     DetailTicketInfo(
@@ -57,7 +59,7 @@ class TicketDetailViewModel @Inject constructor(
                         createdDate = "2022.03.03",
                         remainDate = 60,  // calculator 만들기
                         price = 200000,
-                        ticketStatus = TicketStatus.SOLDOUT,
+                        ticketStatus = TicketStatus.RESERVATION,
                         transferFee = TransferFee.NONE,
                         transMethod = TransactionMethod.FACE,
                         canNego = false,
@@ -66,9 +68,10 @@ class TicketDetailViewModel @Inject constructor(
                                 "- 선생님도 친절/대회 수상이력 당연O, 몸 컨디션 체크 등등 설명도 정말 잘해주세요!!\n" +
                                 "- PT시간은 4시이후, 저녁시간대 가능",
                         tags = initTagByIndex(arrayListOf(1,4,5)),//enum으로 오는 index
-                        /*imgList = arrayListOf(TicketImage(1, uriConverter(context, R.drawable.dummy1).toString(),uriConverter(context, R.drawable.dummy1).toString(),true)
-                        ,TicketImage(1, uriConverter(context, R.drawable.dummy2).toString(),uriConverter(context, R.drawable.dummy2).toString(),false)),*/
-                        imgList = emptyList(),
+                        imgList = arrayListOf(TicketImage(1, uriConverter(context, R.drawable.dummy1).toString(),uriConverter(context, R.drawable.dummy1).toString(),true)
+                        ,TicketImage(1, uriConverter(context, R.drawable.dummy2).toString(),uriConverter(context, R.drawable.dummy2).toString(),false)),
+                        //TODO url api response 로 변경
+                        //imgList = emptyList(),
                         isHolding = true,
                         isMembership = true,
                         remainingNumber = "60",
@@ -95,7 +98,7 @@ class TicketDetailViewModel @Inject constructor(
     //썸네일이 있는 경우 & 없는 경우 thumbnail 처리
     private fun initEmptyIcon( type : TicketKind) : Uri{
         return when(type){
-            TicketKind.GYM -> uriConverter(context , com.depromeet.bds.R.drawable.ic_empty_health_86)
+            TicketKind.HEALTH -> uriConverter(context , com.depromeet.bds.R.drawable.ic_empty_health_86)
             TicketKind.PILATES_YOGA -> uriConverter(context, com.depromeet.bds.R.drawable.ic_empty_pilates_86)
             else -> uriConverter(context, com.depromeet.bds.R.drawable.ic_empty_etc_86)
         }
@@ -156,7 +159,7 @@ class TicketDetailViewModel @Inject constructor(
         val onAddLikeClick :()->Unit
     ){
 
-        val isChatEnabled = true //TODO 문의했던 회원권인지 판단
+        val isChatEnabled = false //TODO 문의했던 회원권인지 판단
         val chatBtnText = if(isChatEnabled)"문의하기" else "이미 문의 회원권이에요"
 
         val priceStr = priceFormat(ticket.price.toFloat())
@@ -181,6 +184,8 @@ class TicketDetailViewModel @Inject constructor(
     }
 
 }
+
+
 
 
 sealed class TicketDetailNetWork(){
