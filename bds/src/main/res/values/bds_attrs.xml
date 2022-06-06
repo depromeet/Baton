@@ -115,4 +115,9 @@
         <attr name="isEnabled" />
         <attr name="isChecked" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="BdsCheckbox">
+        <attr name="isEnabled" />
+        <attr name="isChecked" />
+    </declare-styleable>
 </resources>
