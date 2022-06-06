@@ -102,9 +102,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
 
     private fun setTicketItemClickListener(ticketItem: ResponseFilteredTicket) {
-        startActivity(Intent(requireContext(), TicketDetailActivity::class.java).apply {
-            //TODO 게시글 id넘기기
-        })
+        //sample
+        val ticketId =1
+        startActivity(TicketDetailActivity.start(requireContext(),ticketId))
     }
 }
 
