@@ -2,7 +2,6 @@ package com.depromeet.baton.presentation.ui.writepost.viewmodel
 
 import android.net.Uri
 import android.text.Editable
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -13,8 +12,6 @@ import com.depromeet.baton.map.domain.usecase.SearchItem
 import com.depromeet.baton.map.domain.usecase.SearchShopUseCase
 import com.depromeet.baton.presentation.base.BaseViewModel
 import com.depromeet.baton.presentation.base.UIState
-import com.depromeet.baton.presentation.ui.writepost.view.MembershipInformationUiState
-import com.depromeet.baton.presentation.ui.writepost.view.SelfWriteAddressUiState
 import com.depromeet.baton.presentation.util.MapListLiveData
 import com.depromeet.baton.presentation.util.SingleLiveEvent
 import com.depromeet.baton.util.BatonSpfManager
@@ -33,7 +30,7 @@ class WritePostViewModel @Inject constructor(
     private val searchRepository: SearchRepository,
     private val spfManager: BatonSpfManager
 ) : BaseViewModel() {
-    //버튼
+    //todo ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ포지션별 버튼 상태
     private val _isNextBtnEnable = MutableLiveData(false)
     val isNextBtnEnable: LiveData<Boolean> = _isNextBtnEnable
 
@@ -42,28 +39,35 @@ class WritePostViewModel @Inject constructor(
     private val _isLevelThreeNextBtnEnable = MutableLiveData(false)
     private val _isLevelFourNextBtnEnable = MutableLiveData(false)
 
-    //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡUI상태
+    //todo ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡUI상태
+    //현재 작성 레벨
+    private val _writePostPositionViewEvents: MutableStateFlow<List<WritePostPositionViewEvent>> = MutableStateFlow(emptyList())
+    val writePostPositionViewEvents = _writePostPositionViewEvents.asStateFlow()
+
     //검색결과 UI 상태
     private val _shopSearchUiState = MutableLiveData<UIState>(UIState.Init)
     val shopSearchUiState: LiveData<UIState> = _shopSearchUiState
 
-    //멤버십 UI 상태
-    //검색결과 없을 때 직접입력 UI상태
-    private val _membershipUiState: MutableStateFlow<MembershipInformationUiState> = MutableStateFlow(createMembershipInfoState())
-    val membershipUiState = _membershipUiState.asStateFlow()
+    //장소 등록 바텀
+    private val _bottomSearchUiState: MutableStateFlow<BottomSearchUiState> = MutableStateFlow(createBottomSearchState())
+    val bottomSearchUiState = _bottomSearchUiState.asStateFlow()
 
-    //검색결과 없을 때 직접입력 UI상태
-    private val _selfWriteAddressUiState: MutableStateFlow<SelfWriteAddressUiState> = MutableStateFlow(createSelfWriteAddressState())
-    val selfWriteAddressUiState = _selfWriteAddressUiState.asStateFlow()
+    private val _bottomSearchViewEvents: MutableStateFlow<List<BottomSearchViewEvent>> = MutableStateFlow(emptyList())
+    val bottomSearchViewEvents = _bottomSearchViewEvents.asStateFlow()
 
-    //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+    //장소 직접 입력
+    private val _selfWriteUiState: MutableStateFlow<SelfWriteUiState> = MutableStateFlow(createSelfWriteState())
+    val selfWriteUiState = _selfWriteUiState.asStateFlow()
+
+    private val _selfWriteViewEvents: MutableStateFlow<List<SelfWriteViewEvent>> = MutableStateFlow(emptyList())
+    val selfWriteViewEvents = _selfWriteViewEvents.asStateFlow()
+
+    //멤버십 정보
+    private val _membershipInfoUiState: MutableStateFlow<MembershipInfoUiState> = MutableStateFlow(createPlaceRegisterState())
+    val membershipInfoUiState = _membershipInfoUiState.asStateFlow()
 
 
-    sealed interface ViewEvent {
-        object SelfWriteAddressDone : ViewEvent
-        //  object SelfWriteAddressDone : HomeViewEvent
-        //   object SelfWriteAddressDone : HomeViewEvent
-    }
+    //todo 그외 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
     //작성중인 포지션
     private val _currentLevel = MutableLiveData(1)
@@ -179,27 +183,29 @@ class WritePostViewModel @Inject constructor(
     val isHoldingChecked: LiveData<Boolean> = _isHoldingChecked
 
 
-    //todo ㅡㅡㅡㅡㅡㅡ뷰이벤트ㅡㅡㅡㅡㅡㅡ
-    private val _viewEvents: MutableStateFlow<List<ViewEvent>> = MutableStateFlow(emptyList())
-    val viewEvents = _viewEvents.asStateFlow()
-
-
-    private fun addViewEvent(viewEvent: ViewEvent) {
-        _viewEvents.update { it + viewEvent }
-    }
-
-    fun consumeViewEvent(viewEvent: ViewEvent) {
-        _viewEvents.update { it - viewEvent }
-    }
-
     //todo ㅡㅡㅡㅡㅡㅡ화면이동ㅡㅡㅡㅡㅡㅡ
+    private fun writePositionAddViewEvent(viewEvent: WritePostPositionViewEvent) {
+        _writePostPositionViewEvents.update { it + viewEvent }
+    }
+
+    fun writePositionConsumeViewEvent(viewEvent: WritePostPositionViewEvent) {
+        _writePostPositionViewEvents.update { it - viewEvent }
+    }
+
+    sealed interface WritePostPositionViewEvent {
+        object GoMembershipInfo : WritePostPositionViewEvent
+        object GoTransactionMethod : WritePostPositionViewEvent
+        object GoDescription : WritePostPositionViewEvent
+        object GoDone : WritePostPositionViewEvent
+    }
+
     fun setNextLevel(nextLevel: Boolean = true) {
         if (nextLevel) { //다음버튼
             when (_currentLevel.value) {
-                1 -> viewEvent(GO_TO_MEMBERSHIP_INFO)
-                2 -> viewEvent(GO_TO_TRANSACTION_METHOD)
-                3 -> viewEvent(GO_TO_DESCRIPTION)
-                4 -> viewEvent(GO_TO_DONE)
+                1 -> writePositionAddViewEvent(WritePostPositionViewEvent.GoMembershipInfo)
+                2 -> writePositionAddViewEvent(WritePostPositionViewEvent.GoTransactionMethod)
+                3 -> writePositionAddViewEvent(WritePostPositionViewEvent.GoDescription)
+                4 ->  writePositionAddViewEvent(WritePostPositionViewEvent.GoDone)
             }
             _currentLevel.value = _currentLevel.value?.plus(1)
         } else {
@@ -217,11 +223,82 @@ class WritePostViewModel @Inject constructor(
         }
     }
 
-    //todo ㅡㅡㅡㅡㅡㅡ1. 장소 선택ㅡㅡㅡㅡㅡㅡ
 
-    //주소 직접 입렭
-    private fun createSelfWriteAddressState(): SelfWriteAddressUiState {
-        return SelfWriteAddressUiState(
+    //todo ㅡㅡㅡㅡㅡㅡ장소 등록 바텀
+    private fun bottomSearchAddViewEvent(viewEvent: BottomSearchViewEvent) {
+        _bottomSearchViewEvents.update { it + viewEvent }
+    }
+
+    fun bottomSearchConsumeViewEvent(viewEvent: BottomSearchViewEvent) {
+        _bottomSearchViewEvents.update { it - viewEvent }
+    }
+
+    sealed interface BottomSearchViewEvent {
+        object ToSearchShop : BottomSearchViewEvent
+        object ToSelfWrite : BottomSearchViewEvent
+        object SelfWriteDone : BottomSearchViewEvent
+    }
+
+    data class BottomSearchUiState(
+        val onGoSearchShopClick: () -> Unit,
+        val onGoSelfWriteClick: () -> Unit,
+        val setBottomDialogDismiss: () -> Unit,
+    )
+
+    private fun createBottomSearchState(): BottomSearchUiState {
+        return BottomSearchUiState(
+            onGoSearchShopClick = ::handleGoSearchShopClick,
+            onGoSelfWriteClick = ::handleGoSelfWriteClick,
+            setBottomDialogDismiss = ::handleDialogDismissClick,
+        )
+    }
+
+    private fun handleGoSearchShopClick() {
+        bottomSearchAddViewEvent(BottomSearchViewEvent.ToSearchShop)
+    }
+
+    private fun handleGoSelfWriteClick() {
+        bottomSearchAddViewEvent(BottomSearchViewEvent.ToSelfWrite)
+    }
+
+    private fun handleDialogDismissClick() {
+        bottomSearchAddViewEvent(BottomSearchViewEvent.SelfWriteDone)
+    }
+
+    //todo ㅡㅡㅡㅡㅡㅡ1. 주소 직접 입력ㅡㅡㅡㅡㅡㅡ
+    private fun selfWriteAddViewEvent(viewEvent: SelfWriteViewEvent) {
+        _selfWriteViewEvents.update { it + viewEvent }
+    }
+
+    fun selfWriteConsumeViewEvent(viewEvent: SelfWriteViewEvent) {
+        _selfWriteViewEvents.update { it - viewEvent }
+    }
+
+    data class SelfWriteUiState(
+        val center: String,
+        val centerName: String,
+        val detailAddress: String,
+        val citySelected: String,
+        val regionSelected: String,
+        val onCenterNameChanged: (Editable?) -> Unit,
+        val onCenterChanged: (Editable?) -> Unit,
+        val onCitySelected: (Int?) -> Unit,
+        val onRegionSelected: (Int?) -> Unit,
+        val onDetailAddressChanged: (Editable?) -> Unit,
+        val onSelfWriteAddressDoneClick: () -> Unit,
+    ) {
+
+        private val isCenterValid = center.isNotBlank()
+        private val isCenterNameValid = centerName.isNotBlank()
+        private val isDetailAddressValid = detailAddress.isNotBlank()
+        private val isCityValid = citySelected.isNotBlank()
+        private val isRegionValid = regionSelected.isNotBlank()
+
+        val isEnabled = isCenterValid && isCenterNameValid && isDetailAddressValid && isCityValid && isRegionValid
+    }
+
+    private fun createSelfWriteState(): SelfWriteUiState {
+        return SelfWriteUiState(
             center = "",
             centerName = "",
             detailAddress = "",
@@ -236,38 +313,34 @@ class WritePostViewModel @Inject constructor(
         )
     }
 
+    sealed interface SelfWriteViewEvent {
+        object SelfWriteDone : SelfWriteViewEvent
+    }
+
     private fun handleCenterNameChanged(editable: Editable?) {
-        _selfWriteAddressUiState.update { it.copy(center = editable.toString()) }
+        _selfWriteUiState.update { it.copy(center = editable.toString()) }
     }
 
     private fun handleCenterChanged(editable: Editable?) {
-        _selfWriteAddressUiState.update { it.copy(centerName = editable.toString()) }
+        _selfWriteUiState.update { it.copy(centerName = editable.toString()) }
     }
 
     private fun handleDetailAddressChanged(editable: Editable?) {
-        _selfWriteAddressUiState.update { it.copy(detailAddress = editable.toString()) }
+        _selfWriteUiState.update { it.copy(detailAddress = editable.toString()) }
     }
 
     private fun handleCitySelected(position: Int?) {
-        _selfWriteAddressUiState.update { it.copy(citySelected = position.toString()) }
+        _selfWriteUiState.update { it.copy(citySelected = position.toString()) }
     }
 
     private fun handleRegionSelected(position: Int?) {
-        _selfWriteAddressUiState.update { it.copy(regionSelected = position.toString()) }
+        _selfWriteUiState.update { it.copy(regionSelected = position.toString()) }
     }
 
     private fun handleSelfWriteAddressDoneClick() {
-        addViewEvent(ViewEvent.SelfWriteAddressDone)
+        selfWriteAddViewEvent(SelfWriteViewEvent.SelfWriteDone)
     }
 
-    //위치 선택
-    fun setSearchShopPosition(position: String) {
-        when (position) {
-            SEARCH_SHOP -> viewEvent(SEARCH_SHOP)
-            SELF_WRITE -> viewEvent(SELF_WRITE)
-            DIALOG_DISMISS -> viewEvent(DIALOG_DISMISS)
-        }
-    }
 
     //위치 검색
     fun searchPlace(query: String) {
@@ -310,6 +383,7 @@ class WritePostViewModel @Inject constructor(
         _selectedPhotoList.value = photoList
     }
 
+    //사진 지우기
     fun deleteImg(position: Int) {
         _selectedPhotoList.value?.removeAt(position)
         _selectedPhotoList.value = _selectedPhotoList.value
@@ -323,8 +397,17 @@ class WritePostViewModel @Inject constructor(
 
 
     //todo ㅡㅡㅡㅡㅡㅡ2.회원권 정보ㅡㅡㅡㅡㅡㅡ
-    private fun createMembershipInfoState(): MembershipInformationUiState {
-        return MembershipInformationUiState(
+
+    data class MembershipInfoUiState(
+        val termChanged: String,
+        val priceChanged: String,
+        val onTermChanged: (Editable) -> Unit,
+        val onPriceChanged: (Editable) -> Unit,
+        val onChipChecked: (Any, Boolean) -> Unit,
+    )
+
+    private fun createPlaceRegisterState(): MembershipInfoUiState {
+        return MembershipInfoUiState(
             termChanged = "",
             priceChanged = "",
             onTermChanged = ::handleTermDetailChanged,
@@ -334,12 +417,12 @@ class WritePostViewModel @Inject constructor(
     }
 
     private fun handleTermDetailChanged(editable: Editable?) {
-        _membershipUiState.update { it.copy(termChanged = editable.toString()) }
+        _membershipInfoUiState.update { it.copy(termChanged = editable.toString()) }
         stLevelTwoNextBtnEnable()
     }
 
     private fun handlePriceChanged(editable: Editable?) {
-        _membershipUiState.update { it.copy(priceChanged = editable.toString()) }
+        _membershipInfoUiState.update { it.copy(priceChanged = editable.toString()) }
         stLevelTwoNextBtnEnable()
     }
 
@@ -375,8 +458,8 @@ class WritePostViewModel @Inject constructor(
         _isLevelTwoNextBtnEnable.value =
             ticketKindCheckedList.value?.containsValue(true) == true
                     && (_isPeriodChecked.value == true || _isNumberChecked.value == true)
-                    && _membershipUiState.value.priceChanged.isNotEmpty()
-                    &&_membershipUiState.value.termChanged.isNotEmpty()
+                    && _membershipInfoUiState.value.priceChanged.isNotEmpty()
+                    && _membershipInfoUiState.value.termChanged.isNotEmpty()
         setNextLevelEnable()
     }
 
@@ -519,16 +602,11 @@ class WritePostViewModel @Inject constructor(
                }*/
     }
 
-
     companion object {
-        const val GO_TO_MEMBERSHIP_INFO = 2
+  /*      const val GO_TO_MEMBERSHIP_INFO = 2
         const val GO_TO_TRANSACTION_METHOD = 3
         const val GO_TO_DESCRIPTION = 4
-        const val GO_TO_DONE = 5
-
-        const val SEARCH_SHOP = "SEARCH_SHOP"
-        const val SELF_WRITE = "SELF_WRITE"
-        const val DIALOG_DISMISS = "DIALOG_DISMISS"
+        const val GO_TO_DONE = 5*/
     }
 }
 

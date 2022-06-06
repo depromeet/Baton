@@ -15,13 +15,14 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ItemPhotoBinding
 import com.depromeet.baton.presentation.ui.writepost.viewmodel.WritePostViewModel
+import com.depromeet.baton.util.SimpleDiffUtil
 import com.depromeet.bds.utils.toPx
 
 
 class PhotoRvAdapter(
     private val viewModel: WritePostViewModel,
     private val context: Context
-) : ListAdapter<Uri, PhotoRvAdapter.PhotoViewHolder>(diffUtil) {
+) : ListAdapter<Uri, PhotoRvAdapter.PhotoViewHolder>(SimpleDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
         val binding: ItemPhotoBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_photo, parent, false)
@@ -43,17 +44,6 @@ class PhotoRvAdapter(
             binding.ivItemPhotoCancle.setOnClickListener {
                 viewModel.deleteImg(position)
             }
-        }
-    }
-
-    companion object {
-        val diffUtil = object : DiffUtil.ItemCallback<Uri>() {
-            override fun areContentsTheSame(oldItem: Uri, newItem: Uri) =
-                oldItem == newItem
-
-            override fun areItemsTheSame(oldItem: Uri, newItem: Uri) =
-                oldItem == newItem
-
         }
     }
 }

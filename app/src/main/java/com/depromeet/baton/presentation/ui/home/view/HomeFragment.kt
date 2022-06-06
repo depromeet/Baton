@@ -122,7 +122,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }
 
         //TODO filteredTicketList로 넘기기
-        //   ticketItemRvAdapter.submitList(list)
+        //ticketItemRvAdapter.submitList(list)
     }
 
     //아이템 클릭시 이동

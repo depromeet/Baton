@@ -3,7 +3,6 @@ package com.depromeet.baton.presentation.ui.writepost.view
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
-import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.depromeet.baton.R
+import com.depromeet.baton.databinding.FragmentBottomSearchShopBinding
 import com.depromeet.baton.databinding.FragmentBottomSelfWriteBinding
+import com.depromeet.baton.presentation.base.BaseBottomDialogFragment
 import com.depromeet.baton.presentation.ui.writepost.viewmodel.ShopInfo
 import com.depromeet.baton.presentation.ui.writepost.viewmodel.WritePostViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -25,29 +26,19 @@ import kotlinx.coroutines.flow.onEach
 
 
 @AndroidEntryPoint
-class BottomSelfWriteFragment : BottomSheetDialogFragment() {
-    private var _binding: FragmentBottomSelfWriteBinding? = null
-    private val binding get() = _binding ?: error("View를 참조하기 위해 binding이 초기화되지 않았습니다.")
-    private val writePostViewModel: WritePostViewModel by activityViewModels()
+class BottomSelfWriteFragment : BaseBottomDialogFragment<FragmentBottomSelfWriteBinding>(R.layout.fragment_bottom_self_write) {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_bottom_self_write, container, false)
-        return binding.root
-    }
+    private val writePostViewModel: WritePostViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.lifecycleOwner = viewLifecycleOwner
 
-        writePostViewModel.selfWriteAddressUiState
+        writePostViewModel.selfWriteUiState
             .flowWithLifecycle(lifecycle)
             .onEach { uiState -> binding.uiState = uiState }
             .launchIn(lifecycleScope)
 
-        writePostViewModel.viewEvents
+        writePostViewModel.selfWriteViewEvents
             .flowWithLifecycle(lifecycle)
             .onEach(::handleViewEvents)
             .launchIn(lifecycleScope)
@@ -57,24 +48,11 @@ class BottomSelfWriteFragment : BottomSheetDialogFragment() {
         setCitySpinner()
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return BottomSheetDialog(requireContext(), R.style.BottomSheetDialog).apply {
-            setOnShowListener { setupFullHeight(it as BottomSheetDialog) }
-        }
-    }
-
-    private fun setupFullHeight(bottomSheetDialog: BottomSheetDialog) {
-        val bottomSheet =
-            bottomSheetDialog.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
-        val behavior = BottomSheetBehavior.from(bottomSheet!!)
-        behavior.state = BottomSheetBehavior.STATE_EXPANDED
-    }
-
-    private fun handleViewEvents(viewEvents: List<WritePostViewModel.ViewEvent>) {
+    private fun handleViewEvents(viewEvents: List<WritePostViewModel.SelfWriteViewEvent>) {
         viewEvents.firstOrNull()?.let { viewEvent ->
             when (viewEvent) {
-                WritePostViewModel.ViewEvent.SelfWriteAddressDone -> {
-                    with(writePostViewModel.selfWriteAddressUiState.value) {
+                WritePostViewModel.SelfWriteViewEvent.SelfWriteDone -> {
+                    with(writePostViewModel.selfWriteUiState.value) {
                         writePostViewModel.setSelectShop(
                             ShopInfo(
                                 "$center $centerName",
@@ -82,20 +60,20 @@ class BottomSelfWriteFragment : BottomSheetDialogFragment() {
                             )
                         )
                     }
-                    writePostViewModel.setSearchShopPosition(WritePostViewModel.DIALOG_DISMISS)
+                    writePostViewModel.bottomSearchUiState.value.setBottomDialogDismiss.invoke()
                 }
             }
-            writePostViewModel.consumeViewEvent(viewEvent)
+            writePostViewModel.selfWriteConsumeViewEvent(viewEvent)
         }
     }
 
     private fun setInitClickListener() {
         binding.bdsAppbarSelfWrite.setOnBackwardClick {
-            writePostViewModel.setSearchShopPosition(WritePostViewModel.SEARCH_SHOP)
+            writePostViewModel.bottomSearchUiState.value.onGoSearchShopClick.invoke()
         }
 
         binding.bdsAppbarSelfWrite.setOnIconClick {
-            writePostViewModel.setSearchShopPosition(WritePostViewModel.DIALOG_DISMISS)
+            writePostViewModel.bottomSearchUiState.value.setBottomDialogDismiss.invoke()
         }
     }
 
@@ -149,7 +127,7 @@ class BottomSelfWriteFragment : BottomSheetDialogFragment() {
                     else -> {
                     }
                 }
-                binding.uiState!!.onCitySelected.invoke(position)
+                writePostViewModel.selfWriteUiState.value.onCitySelected.invoke(position)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -166,7 +144,7 @@ class BottomSelfWriteFragment : BottomSheetDialogFragment() {
         binding.spinnerSelfWriteRegion.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
 
-                binding.uiState!!.onRegionSelected.invoke(position)
+                writePostViewModel.selfWriteUiState.value.onRegionSelected.invoke(position)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -174,33 +152,5 @@ class BottomSelfWriteFragment : BottomSheetDialogFragment() {
             }
         }
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }
 
-
-data class SelfWriteAddressUiState(
-    val center: String,
-    val centerName: String,
-    val detailAddress: String,
-    val citySelected: String,
-    val regionSelected: String,
-    val onCenterNameChanged: (Editable?) -> Unit,
-    val onCenterChanged: (Editable?) -> Unit,
-    val onCitySelected: (Int?) -> Unit,
-    val onRegionSelected: (Int?) -> Unit,
-    val onDetailAddressChanged: (Editable?) -> Unit,
-    val onSelfWriteAddressDoneClick: () -> Unit,
-) {
-
-    private val isCenterValid = center.isNotBlank()
-    private val isCenterNameValid = centerName.isNotBlank()
-    private val isDetailAddressValid = detailAddress.isNotBlank()
-    private val isCityValid = citySelected.isNotBlank()
-    private val isRegionValid = regionSelected.isNotBlank()
-
-    val isEnabled = isCenterValid && isCenterNameValid && isDetailAddressValid && isCityValid && isRegionValid
-}

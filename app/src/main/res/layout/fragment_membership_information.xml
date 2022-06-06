@@ -17,7 +17,7 @@
 
         <variable
             name="uiState"
-            type="com.depromeet.baton.presentation.ui.writepost.view.MembershipInformationUiState" />
+            type="com.depromeet.baton.presentation.ui.writepost.view.WritePostViewEvent" />
 
         <variable
             name="membershipInformationFragment"

@@ -2,6 +2,7 @@ package com.depromeet.baton.presentation.ui.detail
 
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -25,6 +26,7 @@ import com.depromeet.baton.presentation.bottom.BottomSheetFragment.Companion.CHE
 import com.depromeet.baton.presentation.ui.detail.model.TicketOwner
 import com.depromeet.baton.presentation.ui.detail.viewModel.TicketDetailViewModel
 import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter
+import com.depromeet.baton.presentation.ui.home.view.HowToUseActivity
 import com.depromeet.baton.presentation.util.TicketIteHorizontalDecoration
 import com.depromeet.bds.component.BdsToast
 import com.depromeet.bds.utils.toPx
@@ -71,7 +73,6 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     }
 
 
-
     private fun initView() {
         with(binding) {
             val ticketItemRvAdapter =
@@ -82,15 +83,15 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
             ticketDetailRv.adapter = ticketItemRvAdapter
             ticketDetailRv.layoutManager = mLayoutManager
 
-          /*  ticketItemRvAdapter.submitList(
-                arrayListOf(
-                    TicketItem("테리온 휘트니스 당산점", "기타", "100,000원", "30일 남음", "영등포구 양평동", "12m", R.drawable.dummy4),
-                    TicketItem("진휘트니스 양평점", "헬스", "3,000원", "60일 남음", "광진구 중곡동", "12m", R.drawable.dummy3),
-                    TicketItem("휴메이크 휘트니스 석촌점", "필라테스", "223,000원", "4일 남음", "광진구 중곡동", "12m", R.drawable.dummy2),
-                    TicketItem("바톤휘트니스 대왕점", "헬스", "19,000원", "5일 남음", "광진구 중곡동", "12m", R.drawable.dummy1),
-                    TicketItem("휴메이크 휘트니스 석촌점", "필라테스", "223,000원", "4일 남음", "광진구 중곡동", "12m", R.drawable.dummy5),
-                )
-            )*/
+            /*  ticketItemRvAdapter.submitList(
+                  arrayListOf(
+                      TicketItem("테리온 휘트니스 당산점", "기타", "100,000원", "30일 남음", "영등포구 양평동", "12m", R.drawable.dummy4),
+                      TicketItem("진휘트니스 양평점", "헬스", "3,000원", "60일 남음", "광진구 중곡동", "12m", R.drawable.dummy3),
+                      TicketItem("휴메이크 휘트니스 석촌점", "필라테스", "223,000원", "4일 남음", "광진구 중곡동", "12m", R.drawable.dummy2),
+                      TicketItem("바톤휘트니스 대왕점", "헬스", "19,000원", "5일 남음", "광진구 중곡동", "12m", R.drawable.dummy1),
+                      TicketItem("휴메이크 휘트니스 석촌점", "필라테스", "223,000원", "4일 남음", "광진구 중곡동", "12m", R.drawable.dummy5),
+                  )
+              )*/
 
             ticketDetailToolbar.ticketToolbarTv.visibility = View.INVISIBLE
         }
@@ -157,7 +158,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
             ticketDetailCopyBtn.setOnClickListener {
                 //TODO : 클립복사
 
-                val sample="http://naver.me/5dxygLoW"
+                val sample = "http://naver.me/5dxygLoW"
                 createClipData(sample)
             }
 
@@ -166,25 +167,27 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         }
     }
 
-    private fun createClipData(message: String){
-        val clipBoardManger : ClipboardManager = applicationContext.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-        val clipData = ClipData.newPlainText(TAG,message)
+    private fun createClipData(message: String) {
+        val clipBoardManger: ClipboardManager = applicationContext.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+        val clipData = ClipData.newPlainText(TAG, message)
         clipBoardManger.setPrimaryClip(clipData)
 
-        this@TicketDetailActivity.BdsToast("주소가 복사되었습니다", binding.ticketDetailFooter.top) .show()
+        this@TicketDetailActivity.BdsToast("주소가 복사되었습니다", binding.ticketDetailFooter.top).show()
 
     }
 
-    private fun setOnMenuListener(){
-        val menuList = resources.getStringArray(R.array.ticket_detail_bottomsheet_menu).map{BottomMenuItem(it)}
-        val onItemClick = object : BottomSheetFragment.Companion.OnItemClick{
+    private fun setOnMenuListener() {
+        val menuList = resources.getStringArray(R.array.ticket_detail_bottomsheet_menu).map { BottomMenuItem(it) }
+        val onItemClick = object : BottomSheetFragment.Companion.OnItemClick {
             override fun onSelectedItem(selected: BottomMenuItem, index: Int) {
                 this@TicketDetailActivity.BdsToast("onItem click  ${selected.listItem}").show()
             }
         }
 
-        val bottomSheetFragment = BottomSheetFragment.newInstance("글메뉴",menuList,
-            CHECK_ITEM_VIEW,onItemClick)
+        val bottomSheetFragment = BottomSheetFragment.newInstance(
+            "글메뉴", menuList,
+            CHECK_ITEM_VIEW, onItemClick
+        )
 
         /*with(binding){
             ticketDetailToolbar.ticketToolbarMenuIc.setOnClickListener {
@@ -211,10 +214,9 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     }
 
 
-
     fun initSellerBottom() {
         val menuList = resources.getStringArray(R.array.ticket_detail_bottomsheet_menu)
-        val bottomMenu= menuList.map { it -> BottomMenuItem(it) }
+        val bottomMenu = menuList.map { it -> BottomMenuItem(it) }
         binding.ticketDetailToolbar.ticketToolbarMenuIc.setOnClickListener {
 
         }
@@ -223,21 +225,21 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     fun initBuyerBottom() {
 
     }
-    
+
     fun showChangeSalesOptionDialog() {
 
-            /*when (it) {
-                //TODO 판매중/ 예약중/ 거래완료 분기처리
-                TicketStatus.SALE.ordinal -> {
-                    setSales()
-                }
-                TicketStatus.RESERVATION.ordinal -> {
-                    setReservation()
-                }
-                TicketStatus.SOLDOUT.ordinal -> {
-                    setSoldOut()
-                }
-            }*/
+        /*when (it) {
+            //TODO 판매중/ 예약중/ 거래완료 분기처리
+            TicketStatus.SALE.ordinal -> {
+                setSales()
+            }
+            TicketStatus.RESERVATION.ordinal -> {
+                setReservation()
+            }
+            TicketStatus.SOLDOUT.ordinal -> {
+                setSoldOut()
+            }
+        }*/
 
 
     }
@@ -263,11 +265,11 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         })
     }
 
-    private fun setScrollListener(){
+    private fun setScrollListener() {
         binding.ticketDetailContent.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-            if ((oldScrollY+binding.ticketDetailGymTv.top -scrollY) <=  binding.ticketDetailGymTv.top)
+            if ((oldScrollY + binding.ticketDetailGymTv.top - scrollY) <= binding.ticketDetailGymTv.top)
                 binding.ticketDetailToolbar.ticketToolbarTv.visibility = View.VISIBLE
-            else  binding.ticketDetailToolbar.ticketToolbarTv.visibility = View.INVISIBLE
+            else binding.ticketDetailToolbar.ticketToolbarTv.visibility = View.INVISIBLE
         })
     }
 
@@ -277,23 +279,23 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         //TODO API에서 받아오기
         val position = LatLng(37.5027643, 127.097320)
 
-        val mCameraPosition = CameraPosition( position, 13.0,)
-        naverMap.cameraPosition=mCameraPosition
-        val marker =Marker()
+        val mCameraPosition = CameraPosition(position, 13.0)
+        naverMap.cameraPosition = mCameraPosition
+        val marker = Marker()
         setMark(marker, position, com.depromeet.bds.R.drawable.ic_pin_filled_24)
 
     }
 
-    private fun setMark(marker: Marker, pos : LatLng, resourceID: Int) {
+    private fun setMark(marker: Marker, pos: LatLng, resourceID: Int) {
         //아이콘 지정
         marker.icon = (OverlayImage.fromResource(resourceID))
         //마커 위치
-        marker.position=pos
+        marker.position = pos
         //마커 표시
         marker.map = naverMap
 
-        marker.height=30.toPx()
-        marker.width=30.toPx()
+        marker.height = 30.toPx()
+        marker.width = 30.toPx()
 
     }
 
@@ -301,6 +303,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         super.onStart()
         mapView.onStart()
     }
+
     override fun onResume() {
         super.onResume()
         mapView.onResume()
@@ -331,5 +334,11 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         mapView.onLowMemory()
     }
 
+    companion object {
+        fun start(context: Context) {
+            val intent = Intent(context, TicketDetailActivity::class.java)
+            context.startActivity(intent)
+        }
+    }
 }
 
