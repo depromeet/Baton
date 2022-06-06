@@ -5,7 +5,6 @@ import android.content.Context
 import android.net.Uri
 import android.view.View
 import androidx.lifecycle.*
-import com.depromeet.baton.R
 import com.depromeet.baton.domain.model.*
 import com.depromeet.baton.presentation.ui.detail.model.*
 import com.depromeet.baton.presentation.util.priceFormat
@@ -14,10 +13,8 @@ import com.depromeet.baton.util.BatonSpfManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
@@ -60,7 +57,7 @@ class TicketDetailViewModel @Inject constructor(
                         createdDate = "2022.03.03",
                         remainDate = 60,  // calculator 만들기
                         price = 100000,
-                        ticketState = TicketStatus.SOLDOUT,
+                        ticketStatus = TicketStatus.SOLDOUT,
                         transferFee = TransferFee.NONE,
                         transMethod = TransactionMethod.FACE,
                         canNego = false,
@@ -119,7 +116,7 @@ class TicketDetailViewModel @Inject constructor(
 
     fun ticketStatusHandler(status: TicketStatus){
         val temp= _ticketState.value!!
-        _ticketState.postValue(temp.copy(ticket= temp.ticket.copy(ticketState = status)))
+        _ticketState.postValue(temp.copy(ticket= temp.ticket.copy(ticketStatus = status)))
     }
 
     private fun updateTicket(ticket : DetailTicketInfo){
@@ -170,9 +167,9 @@ class TicketDetailViewModel @Inject constructor(
         val monthPrice = priceFormat(ticket.price/30f) +"원"
         val dayPrice = priceFormat(ticket.price/ticket.remainDate.toFloat()) +"원"
 
-        val sellViewisVisible  = if( ticket.ticketState ==TicketStatus.SALE && ticket.imgList.isEmpty()) View.VISIBLE else View.GONE
-        val soldoutViewisVisible  = if(ticket.ticketState ==TicketStatus.SOLDOUT ) View.VISIBLE else View.GONE
-        val reservedViewisVisible = if( ticket.ticketState==TicketStatus.RESERVATION)  View.VISIBLE else View.GONE
+        val sellViewisVisible  = if( ticket.ticketStatus ==TicketStatus.SALE && ticket.imgList.isEmpty()) View.VISIBLE else View.GONE
+        val soldoutViewisVisible  = if(ticket.ticketStatus ==TicketStatus.SOLDOUT ) View.VISIBLE else View.GONE
+        val reservedViewisVisible = if( ticket.ticketStatus==TicketStatus.RESERVATION)  View.VISIBLE else View.GONE
 
         val canNegoStr = if(ticket.canNego) "가격제안 가능" else "가격제안 불가능"
 

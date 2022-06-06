@@ -7,18 +7,18 @@ import com.depromeet.baton.presentation.ui.detail.viewModel.TicketDetailViewMode
 import com.depromeet.baton.presentation.util.priceFormat
 
 data class DetailTicketInfo (
-    val ticketId : Int ,
-    val seller : Seller ,
-    val isOwner : Boolean ,
+    val ticketId : Int,
+    val seller : Seller,
+    val isOwner : Boolean,
     val location:DetailLocationInfo,
     val detailUrl : String,
     val emptyIcon : Uri,
     val price : Int,
-    val createdDate:String ,
-    val remainDate : Int  ,
-    val ticketState : TicketStatus ,
-    val ticketType : TicketKind ,
-    val transferFee: TransferFee ,
+    val createdDate:String,
+    val remainDate : Int,
+    val ticketStatus : TicketStatus,
+    val ticketType : TicketKind,
+    val transferFee: TransferFee,
     val transMethod :TransactionMethod,
     val canNego : Boolean,
     val infoHashs : List<BatonHashTag>, //회원권 정보 태그

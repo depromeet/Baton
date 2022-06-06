@@ -6,9 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.core.os.bundleOf
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -98,7 +96,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
                             uiState -> run{
                             binding.ticketState = uiState
                             if( naverMap!=null )setMarkerPosition()
-                            bottomViewModel._isOwner.postValue(uiState.ticket.isOwner)
+                            bottomViewModel.updateBottomUistate(uiState.ticket.isOwner)
                             ticketTagAdapter.initList(uiState.ticket.infoHashs)
                             gymTagAdapter.initList(uiState.ticket.tags)
                             ticketImgRvAdapter.submitList(uiState.ticket.imgList.map { it.url })
@@ -240,7 +238,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
 
 
     private fun onClickMenu(){
-        if(bottomViewModel.isOwner.value ==true){
+        if(bottomViewModel.uiState.value.isOwner){
             showBottom(CHECK_ITEM_VIEW, DetailBottomOption.SELLER,onItemClick = sellerItemClick )
         }else{
             showBottom(DEFAULT_ITEM_VIEW, DetailBottomOption.BUYER,onItemClick = buyerItemClick)
@@ -301,7 +299,13 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
 
     /** 채팅 Bottom 외 **/
     private fun showBottom(viewType : Int, status : DetailBottomOption, onItemClick: BottomSheetFragment.Companion.OnItemClick){
-        val menuList = bottomViewModel.getMenuList(status).map { BottomMenuItem(it) }
+        bottomViewModel.setBottomMenu(status)
+        val menuList =
+            if(bottomViewModel.uiState.value.option != DetailBottomOption.STATUS)
+                bottomViewModel.uiState.value.menuList.map { BottomMenuItem(it) }
+            else bottomViewModel.uiState.value.menuList.mapIndexed {
+                    index, s ->  BottomMenuItem(s, index == viewModel.ticketState.value!!.ticket.ticketStatus.ordinal)
+            }
         val bottomSheetFragment = BottomSheetFragment.newInstance(status.title,menuList!!,
             viewType,onItemClick)
         bottomSheetFragment.show(supportFragmentManager, BatonApp.TAG)
