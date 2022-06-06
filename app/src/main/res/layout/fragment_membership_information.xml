@@ -174,21 +174,21 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-
-                    <EditText
-                        android:id="@+id/et_membership_info_term"
-                        android:layout_width="0dp"
+                    <com.depromeet.bds.component.BdsComponentTextField
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen8"
-                        android:background="@drawable/temp_choice_chip_bacground"
-                        android:hint="잔여 기간을 입력해주세요"
-                        android:paddingHorizontal="@dimen/dimen16"
-                        android:paddingVertical="@dimen/dimen14"
-                        android:textAppearance="?body3"
-                        android:textColorHint="?grey_scale50"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_membership_input" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_membership_input">
+
+                        <EditText
+                            style="@style/Widget.Bds.TextFieldInnerEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="잔여기간을 입력해주세요" />
+                    </com.depromeet.bds.component.BdsComponentTextField>
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -211,20 +211,22 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
 
-                    <EditText
+                    <com.depromeet.bds.component.BdsComponentTextField
                         android:id="@+id/et_membership_info_price"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen8"
-                        android:background="@drawable/temp_choice_chip_bacground"
-                        android:hint="원"
-                        android:paddingHorizontal="@dimen/dimen16"
-                        android:paddingVertical="@dimen/dimen14"
-                        android:textAppearance="?body3"
-                        android:textColorHint="?grey_scale50"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_membership_info_price" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_membership_info_price">
+
+                        <EditText
+                            style="@style/Widget.Bds.TextFieldInnerEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="원" />
+                    </com.depromeet.bds.component.BdsComponentTextField>
+
 
                     <CheckBox
                         android:id="@+id/checkbox_membership_info_bargaining"
