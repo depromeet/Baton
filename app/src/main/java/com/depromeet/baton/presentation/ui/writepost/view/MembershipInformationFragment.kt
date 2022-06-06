@@ -29,22 +29,24 @@ class MembershipInformationFragment : BaseFragment<FragmentMembershipInformation
         binding.membershipInformationFragment = this
         binding.viewModel = writePostViewModel
         initView()
-
- /*       writePostViewModel.bottomSearchUiState
-            .flowWithLifecycle(lifecycle)
-            .onEach { uiState -> binding.uiState = uiState }
-            .launchIn(lifecycleScope)*/
     }
 
     private fun initView() {
         writePostViewModel.setNextLevelEnable()
-
+        setObserve()
         with(binding) {
-     //       etTerm.text = Editable.Factory.getInstance().newEditable(writePostViewModel.bottomSearchUiState.value.termChanged)
-     //       etPrice.text = Editable.Factory.getInstance().newEditable(writePostViewModel.bottomSearchUiState.value.priceChanged)
+            etTerm.text = Editable.Factory.getInstance().newEditable(writePostViewModel.membershipInfoUiState.value.termChanged)
+            etPrice.text = Editable.Factory.getInstance().newEditable(writePostViewModel.membershipInfoUiState.value.priceChanged)
         }
         setTermIsChecked()
         setCheckboxOnClickListener()
+    }
+
+    private fun setObserve() {
+        writePostViewModel.membershipInfoUiState
+            .flowWithLifecycle(lifecycle)
+            .onEach { uiState -> binding.uiState = uiState }
+            .launchIn(lifecycleScope)
     }
 
     private fun setTermIsChecked() {
@@ -82,11 +84,3 @@ class MembershipInformationFragment : BaseFragment<FragmentMembershipInformation
         }
     }
 }
-
-data class WritePostViewEvent(
-    val termChanged: String,
-    val priceChanged: String,
-    val onTermChanged: (Editable?) -> Unit,
-    val onPriceChanged: (Editable?) -> Unit,
-    val onChipChecked: (Any, Boolean) -> Unit,
-)

@@ -2,6 +2,7 @@ package com.depromeet.baton.presentation.ui.writepost.viewmodel
 
 import android.net.Uri
 import android.text.Editable
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -63,8 +64,19 @@ class WritePostViewModel @Inject constructor(
     val selfWriteViewEvents = _selfWriteViewEvents.asStateFlow()
 
     //멤버십 정보
-    private val _membershipInfoUiState: MutableStateFlow<MembershipInfoUiState> = MutableStateFlow(createPlaceRegisterState())
+    private val _membershipInfoUiState: MutableStateFlow<MembershipInfoUiState> = MutableStateFlow(createMembershipInfoState())
     val membershipInfoUiState = _membershipInfoUiState.asStateFlow()
+
+    //판매방식
+    private val _transactionMethodUiState: MutableStateFlow<TransactionMethodUiState> = MutableStateFlow(createTransactionMethodState())
+    val transactionMethodUiState = _transactionMethodUiState.asStateFlow()
+
+    private val _transactionMethodViewEvents: MutableStateFlow<List<TransactionMethodViewEvent>> = MutableStateFlow(emptyList())
+    val transactionMethodViewEvents = _transactionMethodViewEvents.asStateFlow()
+
+    //설명글
+    private val _descriptionUiState: MutableStateFlow<DescriptionUiState> = MutableStateFlow(createDescriptionState())
+    val descriptionUiState = _descriptionUiState.asStateFlow()
 
 
     //todo 그외 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
@@ -88,10 +100,6 @@ class WritePostViewModel @Inject constructor(
     //선택한 이미지 리스트
     private val _selectedPhotoList = MutableLiveData<MutableList<Uri>>()
     val selectedPhotoList: LiveData<MutableList<Uri>> = _selectedPhotoList
-
-    //선택한 이미지 리스트
-    private val _selectedPhotoOriginList = MutableLiveData<MutableList<Uri>>()
-    val selectedPhotoOriginList: LiveData<MutableList<Uri>> = _selectedPhotoOriginList
 
     //글자 수 저장
     private val _currentTextLength = MutableLiveData(0)
@@ -179,9 +187,29 @@ class WritePostViewModel @Inject constructor(
     private val _isRefundChecked = MutableLiveData(false)
     val isRefundChecked: LiveData<Boolean> = _isRefundChecked
 
-    private val _isHoldingChecked = MutableLiveData(false)
-    val isHoldingChecked: LiveData<Boolean> = _isHoldingChecked
+    /*거래방법*/
+    var tradeTypeCheckedList = MapListLiveData<TradeType, Boolean>()
 
+    private val _isFaceChecked = MutableLiveData(false)
+    val isFaceChecked: LiveData<Boolean> = _isFaceChecked
+
+    private val _isNonFaceChecked = MutableLiveData(false)
+    val isNonFaceChecked: LiveData<Boolean> = _isNonFaceChecked
+
+    private val _isBothChecked = MutableLiveData(false)
+    val isBothChecked: LiveData<Boolean> = _isBothChecked
+
+    /*거래비*/
+    var transferFeeCheckedList = MapListLiveData<TransferFee, Boolean>()
+
+    private val _isSellerChecked = MutableLiveData(false)
+    val isSellerChecked: LiveData<Boolean> = _isSellerChecked
+
+    private val _isConsumerChecked = MutableLiveData(false)
+    val isConsumerChecked: LiveData<Boolean> = _isConsumerChecked
+
+    private val _isNaChecked = MutableLiveData(false)
+    val isNaChecked: LiveData<Boolean> = _isNaChecked
 
     //todo ㅡㅡㅡㅡㅡㅡ화면이동ㅡㅡㅡㅡㅡㅡ
     private fun writePositionAddViewEvent(viewEvent: WritePostPositionViewEvent) {
@@ -205,7 +233,7 @@ class WritePostViewModel @Inject constructor(
                 1 -> writePositionAddViewEvent(WritePostPositionViewEvent.GoMembershipInfo)
                 2 -> writePositionAddViewEvent(WritePostPositionViewEvent.GoTransactionMethod)
                 3 -> writePositionAddViewEvent(WritePostPositionViewEvent.GoDescription)
-                4 ->  writePositionAddViewEvent(WritePostPositionViewEvent.GoDone)
+                4 -> writePositionAddViewEvent(WritePostPositionViewEvent.GoDone)
             }
             _currentLevel.value = _currentLevel.value?.plus(1)
         } else {
@@ -406,7 +434,7 @@ class WritePostViewModel @Inject constructor(
         val onChipChecked: (Any, Boolean) -> Unit,
     )
 
-    private fun createPlaceRegisterState(): MembershipInfoUiState {
+    private fun createMembershipInfoState(): MembershipInfoUiState {
         return MembershipInfoUiState(
             termChanged = "",
             priceChanged = "",
@@ -418,12 +446,12 @@ class WritePostViewModel @Inject constructor(
 
     private fun handleTermDetailChanged(editable: Editable?) {
         _membershipInfoUiState.update { it.copy(termChanged = editable.toString()) }
-        stLevelTwoNextBtnEnable()
+        setLevelTwoNextBtnEnable()
     }
 
     private fun handlePriceChanged(editable: Editable?) {
         _membershipInfoUiState.update { it.copy(priceChanged = editable.toString()) }
-        stLevelTwoNextBtnEnable()
+        setLevelTwoNextBtnEnable()
     }
 
     fun handleChipChanged(any: Any, isChecked: Boolean) {
@@ -431,6 +459,8 @@ class WritePostViewModel @Inject constructor(
             is TicketKind -> setTicketKind(any, isChecked)
             is AdditionalOptions -> setAdditionalOptions(any, isChecked)
             is Term -> setTerm(any, isChecked)
+            is TradeType -> setTradeType(any, isChecked)
+            is TransferFee -> setTransferFee(any, isChecked)
         }
     }
 
@@ -438,15 +468,18 @@ class WritePostViewModel @Inject constructor(
         if (isChecked) ticketKindCheckedList.value?.clear()
         ticketKindCheckedList.setChipCheckedStatus(ticket, isChecked)
         updateChoiceChipCheckedStatus()
-        stLevelTwoNextBtnEnable()
+        setLevelTwoNextBtnEnable()
     }
 
     private fun setTerm(kind: Term, isChecked: Boolean) {
+        //기간, 횟수 하나만 선택 가능
+        _isPeriodChecked.value = false
+        _isNumberChecked.value = false
         when (kind) {
             Term.PERIOD -> _isPeriodChecked.value = isChecked
             Term.NUMBER -> _isNumberChecked.value = isChecked
         }
-        stLevelTwoNextBtnEnable()
+        setLevelTwoNextBtnEnable()
     }
 
     private fun setAdditionalOptions(option: AdditionalOptions, isChecked: Boolean) {
@@ -454,21 +487,68 @@ class WritePostViewModel @Inject constructor(
         updateChoiceChipCheckedStatus()
     }
 
-    private fun stLevelTwoNextBtnEnable() {
+    private fun setLevelTwoNextBtnEnable() {
         _isLevelTwoNextBtnEnable.value =
             ticketKindCheckedList.value?.containsValue(true) == true
                     && (_isPeriodChecked.value == true || _isNumberChecked.value == true)
-                    && _membershipInfoUiState.value.priceChanged.isNotEmpty()
                     && _membershipInfoUiState.value.termChanged.isNotEmpty()
+                    && _membershipInfoUiState.value.priceChanged.isNotEmpty()
+
         setNextLevelEnable()
     }
 
     //todo ㅡㅡㅡㅡㅡㅡ3. 판매방식 선택ㅡㅡㅡㅡㅡㅡ
+    sealed interface TransactionMethodViewEvent {
+        object ShowToolTip : TransactionMethodViewEvent
+    }
 
-    //판매방식 해시태그
+    data class TransactionMethodUiState(
+        val onToolTipClick: () -> Unit,
+        val onChipChecked: (TradeType, Boolean) -> Unit,
+    )
 
-    //양도비 토글
+    private fun createTransactionMethodState(): TransactionMethodUiState {
+        return TransactionMethodUiState(
+            onToolTipClick = ::handleToolTipClick,
+            onChipChecked = ::handleChipChanged,
+        )
+    }
 
+    private fun transactionMethodAddViewEvent(viewEvent: TransactionMethodViewEvent) {
+        _transactionMethodViewEvents.update { it + viewEvent }
+    }
+
+    fun transactionMethodConsumeViewEvent(viewEvent: TransactionMethodViewEvent) {
+        _transactionMethodViewEvents.update { it - viewEvent }
+    }
+
+    private fun handleToolTipClick() {
+        transactionMethodAddViewEvent(TransactionMethodViewEvent.ShowToolTip)
+    }
+
+    private fun setTradeType(method: TradeType, isChecked: Boolean = false) {
+        if (isChecked) tradeTypeCheckedList.value?.clear()
+        tradeTypeCheckedList.setChipCheckedStatus(method, isChecked)
+        updateChoiceChipCheckedStatus()
+
+        setLevelThreeNextBtnEnable()
+    }
+
+    private fun setTransferFee(who: TransferFee, isChecked: Boolean = false) {
+        if (isChecked) transferFeeCheckedList.value?.clear()
+        transferFeeCheckedList.setChipCheckedStatus(who, isChecked)
+        updateChoiceChipCheckedStatus()
+
+        setLevelThreeNextBtnEnable()
+    }
+
+    private fun setLevelThreeNextBtnEnable() {
+        _isLevelThreeNextBtnEnable.value =
+            tradeTypeCheckedList.value?.containsValue(true) == true
+                    && transferFeeCheckedList.value?.containsValue(true) == true
+
+        setNextLevelEnable()
+    }
     //todo ㅡㅡㅡㅡㅡㅡ4. 설명글 작성ㅡㅡㅡㅡㅡㅡ
 
     //글자수 실시간
@@ -476,6 +556,26 @@ class WritePostViewModel @Inject constructor(
         _currentTextLength.value = length
     }
 
+    data class DescriptionUiState(
+        val descriptionChanged: String,
+        val onDescriptionChanged: (Editable) -> Unit,
+    )
+
+    private fun createDescriptionState(): DescriptionUiState {
+        return DescriptionUiState(
+            descriptionChanged = "",
+            onDescriptionChanged = ::handleDescriptionChanged,
+        )
+    }
+
+    private fun handleDescriptionChanged(editable: Editable?) {
+        _descriptionUiState.update { it.copy(descriptionChanged = editable.toString()) }
+        _currentTextLength.value = editable.toString().length
+
+        if (_currentTextLength.value!=0) _isLevelFourNextBtnEnable.value = true
+
+        setNextLevelEnable()
+    }
 
     //todo ㅡㅡㅡㅡㅡㅡㅡㅡ태그들
 
@@ -507,6 +607,16 @@ class WritePostViewModel @Inject constructor(
         _isReTransferChecked.value = choiceChipStatus(AdditionalOptions.RE_TRANSFER)
         _isRefundChecked.value = choiceChipStatus(AdditionalOptions.REFUND)
         _isBargainingChecked.value = choiceChipStatus(AdditionalOptions.BARGAINING)
+
+        //거래방법
+        _isFaceChecked.value = choiceChipStatus(TradeType.CONTECT)
+        _isNonFaceChecked.value = choiceChipStatus(TradeType.UNTECT)
+        _isBothChecked.value = choiceChipStatus(TradeType.BOTH)
+
+        //거래비
+        _isSellerChecked.value = choiceChipStatus(TransferFee.SELLER)
+        _isConsumerChecked.value = choiceChipStatus(TransferFee.CONSUMER)
+        _isNaChecked.value = choiceChipStatus(TransferFee.NONE)
     }
 
     private fun choiceChipStatus(type: Any?): Boolean? {
@@ -519,6 +629,12 @@ class WritePostViewModel @Inject constructor(
 
             is AdditionalOptions -> if (additionalOptionsCheckedList.value?.containsKey(type)!!)
                 additionalOptionsCheckedList.value?.getValue(type) else false
+
+            is TradeType -> if (tradeTypeCheckedList.value?.containsKey(type)!!)
+                tradeTypeCheckedList.value?.getValue(type) else false
+
+            is TransferFee -> if (transferFeeCheckedList.value?.containsKey(type)!!)
+                transferFeeCheckedList.value?.getValue(type) else false
 
             else -> true
         }
@@ -549,7 +665,7 @@ class WritePostViewModel @Inject constructor(
     val tags: List<String>,*/
 
     fun postTicket() {
-/*        val body = RequestTicketPost(
+     val body = RequestTicketPost(
             location = _selectedShopInfo.value?.shopName ?: "",
             address = _selectedShopInfo.value?.shopAddress ?: "",
             price,
@@ -571,8 +687,8 @@ class WritePostViewModel @Inject constructor(
             latitude = spfManager.getLocation().latitude.toFloat(),
             longitude = spfManager.getLocation().longitude.toFloat(),
             tags
-        ).toRequestBody()*/
-        /*    val location: String,
+        ).toRequestBody()
+      val location: String,
             val address: String,
             val price: Int,
             val expiryDate: String,
@@ -592,21 +708,14 @@ class WritePostViewModel @Inject constructor(
             val remainingNumber: Int,
             val latitude: Float,
             val longitude: Float,
-            val tags: List<String>,*/
-        /*       viewModelScope.launch {
+            val tags: List<String>,
+     viewModelScope.launch {
                    runCatching { searchRepository.postTicket(body, null) }
                        .onSuccess {
                       //     _makeCardSuccess.value = true
                        }
                        .onFailure { Timber.e("카드너 작성 실패 : ${it.message}") }
-               }*/
-    }
-
-    companion object {
-  /*      const val GO_TO_MEMBERSHIP_INFO = 2
-        const val GO_TO_TRANSACTION_METHOD = 3
-        const val GO_TO_DESCRIPTION = 4
-        const val GO_TO_DONE = 5*/
+               }
     }
 }
 

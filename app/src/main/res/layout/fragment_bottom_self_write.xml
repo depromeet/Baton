@@ -63,7 +63,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:afterTextChanged="@{it -> uiState.onCenterChanged.invoke(it)}"
-                    android:hint="강남점"
+                    android:hint="ex.강남점"
                     android:inputType="none" />
             </com.depromeet.bds.component.BdsComponentTextField>
         </LinearLayout>

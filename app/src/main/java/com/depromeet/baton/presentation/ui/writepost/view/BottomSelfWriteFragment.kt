@@ -33,6 +33,12 @@ class BottomSelfWriteFragment : BaseBottomDialogFragment<FragmentBottomSelfWrite
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setObserve()
+        setInitClickListener()
+        setCitySpinner()
+    }
+
+    private fun setObserve() {
         writePostViewModel.selfWriteUiState
             .flowWithLifecycle(lifecycle)
             .onEach { uiState -> binding.uiState = uiState }
@@ -42,10 +48,6 @@ class BottomSelfWriteFragment : BaseBottomDialogFragment<FragmentBottomSelfWrite
             .flowWithLifecycle(lifecycle)
             .onEach(::handleViewEvents)
             .launchIn(lifecycleScope)
-
-
-        setInitClickListener()
-        setCitySpinner()
     }
 
     private fun handleViewEvents(viewEvents: List<WritePostViewModel.SelfWriteViewEvent>) {

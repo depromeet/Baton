@@ -3,6 +3,7 @@ package com.depromeet.baton.presentation.ui.writepost.view
 import android.app.Dialog
 import android.os.Bundle
 import android.text.Editable
+import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import androidx.core.view.isNotEmpty
@@ -60,12 +61,8 @@ class BottomSearchShopFragment : BaseBottomDialogFragment<FragmentBottomSearchSh
     }
 
     private fun setSearchShopRvAdapter() {
-        searchShopRvAdapter = SearchShopRvAdapter(::setShopClickListener)
+        searchShopRvAdapter = SearchShopRvAdapter(writePostViewModel)
         binding.rvBottomPlace.adapter = searchShopRvAdapter
-    }
-
-    private fun setShopClickListener(ticketItem: ShopEntity) {
-        writePostViewModel.setSelectShop(ShopInfo(ticketItem.name, ticketItem.location.address.address))
     }
 
     private fun setInputField() {

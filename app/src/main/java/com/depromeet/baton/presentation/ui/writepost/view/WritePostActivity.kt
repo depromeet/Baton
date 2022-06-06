@@ -65,16 +65,17 @@ class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activi
                     moveToNextLevel(DescriptionFragment())
                 }
                 WritePostViewModel.WritePostPositionViewEvent.GoDone -> {
-                    this.BdsToast("판매글 작성이 완료됐어요", binding.btnWritePostBack.top).show()
+                    this.BdsToast("판매글 작성이 완료됐어요", binding.btnWritePostNext.top).show()
                     TicketDetailActivity.start(this)
                     finish()
                 }
             }
+            writePostViewModel.writePositionConsumeViewEvent(viewEvent)
         }
 
         writePostViewModel.currentLevel.observe(this) { currentLevel ->
             if (currentLevel == 0) finish()
-            //      if (currentLevel == 4) binding.btnWritePostNext
+            if (currentLevel == 4) binding.btnWritePostNext.setText("완료")
         }
     }
 

@@ -17,7 +17,7 @@
 
         <variable
             name="uiState"
-            type="com.depromeet.baton.presentation.ui.writepost.view.WritePostViewEvent" />
+            type="com.depromeet.baton.presentation.ui.writepost.viewmodel.WritePostViewModel.MembershipInfoUiState" />
 
         <variable
             name="membershipInformationFragment"
@@ -255,6 +255,7 @@
                         android:id="@+id/checkbox_bargaining"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen8"
                         app:isChecked="@{viewModel.isBargainingChecked}"
                         app:layout_constraintEnd_toStartOf="@id/tv_membership_info_bargaining"
                         app:layout_constraintTop_toBottomOf="@+id/et_membership_info_price" />
