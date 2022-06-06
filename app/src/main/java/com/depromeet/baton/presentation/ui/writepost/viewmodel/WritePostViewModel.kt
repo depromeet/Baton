@@ -6,7 +6,6 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.depromeet.baton.data.request.RequestTicketPost
 import com.depromeet.baton.domain.model.*
 import com.depromeet.baton.domain.repository.SearchRepository
 import com.depromeet.baton.map.domain.entity.ShopEntity
@@ -14,6 +13,7 @@ import com.depromeet.baton.map.domain.usecase.SearchItem
 import com.depromeet.baton.map.domain.usecase.SearchShopUseCase
 import com.depromeet.baton.presentation.base.BaseViewModel
 import com.depromeet.baton.presentation.base.UIState
+import com.depromeet.baton.presentation.ui.writepost.view.MembershipInformationUiState
 import com.depromeet.baton.presentation.ui.writepost.view.SelfWriteAddressUiState
 import com.depromeet.baton.presentation.util.MapListLiveData
 import com.depromeet.baton.presentation.util.SingleLiveEvent
@@ -33,6 +33,7 @@ class WritePostViewModel @Inject constructor(
     private val searchRepository: SearchRepository,
     private val spfManager: BatonSpfManager
 ) : BaseViewModel() {
+    //버튼
     private val _isNextBtnEnable = MutableLiveData(false)
     val isNextBtnEnable: LiveData<Boolean> = _isNextBtnEnable
 
@@ -40,6 +41,29 @@ class WritePostViewModel @Inject constructor(
     private val _isLevelTwoNextBtnEnable = MutableLiveData(false)
     private val _isLevelThreeNextBtnEnable = MutableLiveData(false)
     private val _isLevelFourNextBtnEnable = MutableLiveData(false)
+
+    //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡUI상태
+    //검색결과 UI 상태
+    private val _shopSearchUiState = MutableLiveData<UIState>(UIState.Init)
+    val shopSearchUiState: LiveData<UIState> = _shopSearchUiState
+
+    //멤버십 UI 상태
+    //검색결과 없을 때 직접입력 UI상태
+    private val _membershipUiState: MutableStateFlow<MembershipInformationUiState> = MutableStateFlow(createMembershipInfoState())
+    val membershipUiState = _membershipUiState.asStateFlow()
+
+    //검색결과 없을 때 직접입력 UI상태
+    private val _selfWriteAddressUiState: MutableStateFlow<SelfWriteAddressUiState> = MutableStateFlow(createSelfWriteAddressState())
+    val selfWriteAddressUiState = _selfWriteAddressUiState.asStateFlow()
+
+    //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+
+    sealed interface ViewEvent {
+        object SelfWriteAddressDone : ViewEvent
+        //  object SelfWriteAddressDone : ViewEvent
+        //   object SelfWriteAddressDone : ViewEvent
+    }
 
     //작성중인 포지션
     private val _currentLevel = MutableLiveData(1)
@@ -56,14 +80,6 @@ class WritePostViewModel @Inject constructor(
     //검색 결과 리스트
     private val _shopInfoList = MutableStateFlow<ArrayList<ShopEntity>>(ArrayList())
     val shopInfoList: StateFlow<ArrayList<ShopEntity>> = _shopInfoList
-
-    //검색결과 UI 상태
-    private val _shopSearchUiState = MutableLiveData<UIState>(UIState.Init)
-    val shopSearchUiState: LiveData<UIState> = _shopSearchUiState
-
-    //검색결과 없을 때 직접입력 UI상태
-    private val _selfWriteAddressUiState: MutableStateFlow<SelfWriteAddressUiState> = MutableStateFlow(createSelfWriteAddressState())
-    val selfWriteAddressUiState = _selfWriteAddressUiState.asStateFlow()
 
     //선택한 이미지 리스트
     private val _selectedPhotoList = MutableLiveData<MutableList<Uri>>()
@@ -113,8 +129,57 @@ class WritePostViewModel @Inject constructor(
     private val _isStationAreaChecked = MutableLiveData(false)
     val isStationAreaChecked: LiveData<Boolean> = _isStationAreaChecked
 
+    /*양도권 종류*/
+    var ticketKindCheckedList = MapListLiveData<TicketKind, Boolean>()
 
-    //todo 뷰이벤트
+    private val _isGymChecked = MutableLiveData(false)
+    val isGymChecked: LiveData<Boolean> = _isGymChecked
+
+    private val _isPtChecked = MutableLiveData(false)
+    val isPtChecked: LiveData<Boolean> = _isPtChecked
+
+    private val _isPilatesYogaChecked = MutableLiveData(false)
+    val isPilatesYogaChecked: LiveData<Boolean> = _isPilatesYogaChecked
+
+    private val _isEtcChecked = MutableLiveData(false)
+    val isEtcChecked: LiveData<Boolean> = _isEtcChecked
+
+    //기간제 횟수제
+    private val _isPeriodChecked = MutableLiveData(false)
+    val isPeriodChecked: LiveData<Boolean> = _isPeriodChecked
+
+    private val _isNumberChecked = MutableLiveData(false)
+    val isNumberChecked: LiveData<Boolean> = _isNumberChecked
+
+    /*추가옵션*/
+    private var additionalOptionsCheckedList = MapListLiveData<AdditionalOptions, Boolean>()
+
+    private val _isBargainingChecked = MutableLiveData(false)
+    val isBargainingChecked: LiveData<Boolean> = _isBargainingChecked
+
+    private val _isShowerRoomChecked = MutableLiveData(false)
+    val isShowerRoomChecked: LiveData<Boolean> = _isShowerRoomChecked
+
+    private val _isLockerRoomChecked = MutableLiveData(false)
+    val isLockerRoomChecked: LiveData<Boolean> = _isLockerRoomChecked
+
+    private val _isSportWearChecked = MutableLiveData(false)
+    val isSportWearChecked: LiveData<Boolean> = _isSportWearChecked
+
+    private val _isGxChecked = MutableLiveData(false)
+    val isGxChecked: LiveData<Boolean> = _isGxChecked
+
+    private val _isReTransferChecked = MutableLiveData(false)
+    val isReTransferChecked: LiveData<Boolean> = _isReTransferChecked
+
+    private val _isRefundChecked = MutableLiveData(false)
+    val isRefundChecked: LiveData<Boolean> = _isRefundChecked
+
+    private val _isHoldingChecked = MutableLiveData(false)
+    val isHoldingChecked: LiveData<Boolean> = _isHoldingChecked
+
+
+    //todo ㅡㅡㅡㅡㅡㅡ뷰이벤트ㅡㅡㅡㅡㅡㅡ
     private val _viewEvents: MutableStateFlow<List<ViewEvent>> = MutableStateFlow(emptyList())
     val viewEvents = _viewEvents.asStateFlow()
 
@@ -127,7 +192,7 @@ class WritePostViewModel @Inject constructor(
         _viewEvents.update { it - viewEvent }
     }
 
-    //화면 이동
+    //todo ㅡㅡㅡㅡㅡㅡ화면이동ㅡㅡㅡㅡㅡㅡ
     fun setNextLevel(nextLevel: Boolean = true) {
         if (nextLevel) { //다음버튼
             when (_currentLevel.value) {
@@ -142,7 +207,7 @@ class WritePostViewModel @Inject constructor(
         }
     }
 
-    //각 뷰 다음버튼 이너블
+    //todo ㅡㅡㅡㅡㅡㅡ버튼 상태ㅡㅡㅡㅡㅡㅡ
     fun setNextLevelEnable() {
         when (_currentLevel.value) {
             1 -> _isNextBtnEnable.value = _isLevelOneNextBtnEnable.value
@@ -246,12 +311,8 @@ class WritePostViewModel @Inject constructor(
     }
 
     fun deleteImg(position: Int) {
-        Log.e("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ","${selectedPhotoList.value?.size}")
-        Log.e("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ","${position}")
-      //  if(_selectedPhotoList.value?.size!=0)
-      _selectedPhotoList.value?.removeAt(position)
-        Log.e("ㅡㅡㅡㅡㅡㅡ디움ㅡㅡㅡㅡㅡㅡㅡㅡ","${selectedPhotoList.value}")
-        _selectedPhotoList.value =       _selectedPhotoList.value
+        _selectedPhotoList.value?.removeAt(position)
+        _selectedPhotoList.value = _selectedPhotoList.value
     }
 
     //해시태그 선택
@@ -262,18 +323,62 @@ class WritePostViewModel @Inject constructor(
 
 
     //todo ㅡㅡㅡㅡㅡㅡ2.회원권 정보ㅡㅡㅡㅡㅡㅡ
+    private fun createMembershipInfoState(): MembershipInformationUiState {
+        return MembershipInformationUiState(
+            termChanged = "",
+            priceChanged = "",
+            onTermChanged = ::handleTermDetailChanged,
+            onPriceChanged = ::handlePriceChanged,
+            onChipChecked = ::handleChipChanged,
+        )
+    }
 
-    //티켓종류 해시태그
+    private fun handleTermDetailChanged(editable: Editable?) {
+        _membershipUiState.update { it.copy(termChanged = editable.toString()) }
+        stLevelTwoNextBtnEnable()
+    }
 
-    //기간 횟수 해시태그
+    private fun handlePriceChanged(editable: Editable?) {
+        _membershipUiState.update { it.copy(priceChanged = editable.toString()) }
+        stLevelTwoNextBtnEnable()
+    }
 
-    //남은기간 입력 텍스트 필드
+    fun handleChipChanged(any: Any, isChecked: Boolean) {
+        when (any) {
+            is TicketKind -> setTicketKind(any, isChecked)
+            is AdditionalOptions -> setAdditionalOptions(any, isChecked)
+            is Term -> setTerm(any, isChecked)
+        }
+    }
 
-    //가격 택스트 필드
+    private fun setTicketKind(ticket: TicketKind, isChecked: Boolean) {
+        if (isChecked) ticketKindCheckedList.value?.clear()
+        ticketKindCheckedList.setChipCheckedStatus(ticket, isChecked)
+        updateChoiceChipCheckedStatus()
+        stLevelTwoNextBtnEnable()
+    }
 
-    //가격 제안가능 토클
+    private fun setTerm(kind: Term, isChecked: Boolean) {
+        when (kind) {
+            Term.PERIOD -> _isPeriodChecked.value = isChecked
+            Term.NUMBER -> _isNumberChecked.value = isChecked
+        }
+        stLevelTwoNextBtnEnable()
+    }
 
-    //추가옵션 토클
+    private fun setAdditionalOptions(option: AdditionalOptions, isChecked: Boolean) {
+        additionalOptionsCheckedList.setChipCheckedStatus(option, isChecked)
+        updateChoiceChipCheckedStatus()
+    }
+
+    private fun stLevelTwoNextBtnEnable() {
+        _isLevelTwoNextBtnEnable.value =
+            ticketKindCheckedList.value?.containsValue(true) == true
+                    && (_isPeriodChecked.value == true || _isNumberChecked.value == true)
+                    && _membershipUiState.value.priceChanged.isNotEmpty()
+                    &&_membershipUiState.value.termChanged.isNotEmpty()
+        setNextLevelEnable()
+    }
 
     //todo ㅡㅡㅡㅡㅡㅡ3. 판매방식 선택ㅡㅡㅡㅡㅡㅡ
 
@@ -288,10 +393,6 @@ class WritePostViewModel @Inject constructor(
         _currentTextLength.value = length
     }
 
-
-    sealed interface ViewEvent {
-        object SelfWriteAddressDone : ViewEvent
-    }
 
     //todo ㅡㅡㅡㅡㅡㅡㅡㅡ태그들
 
@@ -308,6 +409,21 @@ class WritePostViewModel @Inject constructor(
         _isPleasantEnvironmentChecked.value = choiceChipStatus(HashTag.AGREEMENT)
         _isQuietAtmosphereChecked.value = choiceChipStatus(HashTag.QUIET_AMBIENCE)
         _isStationAreaChecked.value = choiceChipStatus(HashTag.STATION_AREA)
+
+        //양도권 종류
+        _isGymChecked.value = choiceChipStatus(TicketKind.HEALTH)
+        _isPtChecked.value = choiceChipStatus(TicketKind.PT)
+        _isPilatesYogaChecked.value = choiceChipStatus(TicketKind.PILATES_YOGA)
+        _isEtcChecked.value = choiceChipStatus(TicketKind.ETC)
+
+        //추가옵션
+        _isShowerRoomChecked.value = choiceChipStatus(AdditionalOptions.SHOWER_ROOM)
+        _isLockerRoomChecked.value = choiceChipStatus(AdditionalOptions.LOCKER_ROOM)
+        _isSportWearChecked.value = choiceChipStatus(AdditionalOptions.SPORT_WEAR)
+        _isGxChecked.value = choiceChipStatus(AdditionalOptions.GX)
+        _isReTransferChecked.value = choiceChipStatus(AdditionalOptions.RE_TRANSFER)
+        _isRefundChecked.value = choiceChipStatus(AdditionalOptions.REFUND)
+        _isBargainingChecked.value = choiceChipStatus(AdditionalOptions.BARGAINING)
     }
 
     private fun choiceChipStatus(type: Any?): Boolean? {
@@ -315,7 +431,13 @@ class WritePostViewModel @Inject constructor(
             is HashTag -> if (hashTagCheckedList.value?.containsKey(type)!!)
                 hashTagCheckedList.value?.getValue(type) else false
 
-            else -> null
+            is TicketKind -> if (ticketKindCheckedList.value?.containsKey(type)!!)
+                ticketKindCheckedList.value?.getValue(type) else false
+
+            is AdditionalOptions -> if (additionalOptionsCheckedList.value?.containsKey(type)!!)
+                additionalOptionsCheckedList.value?.getValue(type) else false
+
+            else -> true
         }
     }
 
@@ -409,4 +531,5 @@ class WritePostViewModel @Inject constructor(
         const val DIALOG_DISMISS = "DIALOG_DISMISS"
     }
 }
+
 

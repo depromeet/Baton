@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/selector_checkbox_default"
         android:button="@null"
-        android:minWidth="0dp"
         android:checked="false"
+        android:minWidth="0dp"
         android:minHeight="0dp" />
 </LinearLayout>

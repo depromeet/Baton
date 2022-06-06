@@ -15,6 +15,12 @@ class BdsCheckbox @JvmOverloads constructor(
     defStyleRes: Int = 0,
 ) : LinearLayout(context, attrs, defStyleAttr, defStyleRes) {
 
+    @get:JvmName("bdsCheckboxIsChecked")
+    @set:JvmName("bdsCheckboxIsChecked")
+    var isChecked: Boolean
+        get() = getIsCheckedByReference()
+        set(value) = setIsCheckedByReference(value)
+
     private val binding: BdsComponentCheckboxBinding
 
     init {
@@ -28,13 +34,20 @@ class BdsCheckbox @JvmOverloads constructor(
         }
     }
 
-    fun setOnClickListener(listener: () -> Unit) {
+
+   fun setOnClickListener(listener: () -> Unit) {
         binding.checkbox.setOnClickListener { listener() }
     }
+
 
     fun getIsChecked() = binding.checkbox.isChecked
 
     fun setIsEnabled(isEnabled: Boolean) {
         binding.checkbox.isEnabled = isEnabled
+    }
+
+    private fun getIsCheckedByReference(): Boolean = binding.checkbox.isChecked
+    private fun setIsCheckedByReference(isChecked: Boolean) {
+        binding.checkbox.isChecked = isChecked
     }
 }
