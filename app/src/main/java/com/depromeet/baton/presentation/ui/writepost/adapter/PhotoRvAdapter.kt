@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -21,7 +20,6 @@ import com.depromeet.bds.utils.toPx
 
 class PhotoRvAdapter(
     private val viewModel: WritePostViewModel,
-    private val lifecycleOwner: LifecycleOwner,
     private val context: Context
 ) : ListAdapter<Uri, PhotoRvAdapter.PhotoViewHolder>(diffUtil) {
 
@@ -46,7 +44,6 @@ class PhotoRvAdapter(
                 viewModel.deleteImg(position)
             }
         }
-
     }
 
     companion object {

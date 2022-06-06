@@ -39,7 +39,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen24"
-
                 app:bds_label="센터명">
 
                 <EditText
@@ -56,7 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen24"
-                app:bds_label="센터명">
+                app:bds_label="지점">
 
                 <EditText
                     style="@style/Widget.Bds.TextFieldInnerEditText"

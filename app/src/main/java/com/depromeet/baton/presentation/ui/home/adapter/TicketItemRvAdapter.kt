@@ -17,7 +17,6 @@ import com.depromeet.bds.utils.toPx
 
 class TicketItemRvAdapter(
     private val scrollType: String,
-    private val context: Context,
     private val clickListener: (ResponseFilteredTicket) -> Unit
 ) : ListAdapter<ResponseFilteredTicket, TicketItemRvAdapter.TicketItemViewHolder>(diffCallback) {
 

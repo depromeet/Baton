@@ -179,8 +179,6 @@
                         android:orientation="horizontal"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintBottom_toBottomOf="@+id/ibtn_place_register"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="1"
                         app:layout_constraintStart_toEndOf="@id/ibtn_place_register"
                         tools:itemCount="5"
                         tools:listitem="@layout/item_photo" />

@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.Editable
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -46,16 +47,16 @@ class PlaceRegisterFragment : BaseFragment<FragmentPlaceRegisterBinding>(R.layou
 
     //SearchBar 초기 레이아웃 상태 세팅
     private fun setInitLayout() {
-        with(binding.includeBdsSearchbarOne) {
-            searchBarEt.text = Editable.Factory.getInstance().newEditable("헬스장 이름이나 도로명 주소를 검색해주세요")
-            searchBarEt.isFocusable = false
-            searchBarEt.setTextColor(ContextCompat.getColor(requireContext(), com.depromeet.bds.R.color.gy60))
-            searchBarCancelIc.visibility = View.GONE
+        with(binding.includeBdsSearchbarOne.searchBarEt) {
+            text = Editable.Factory.getInstance().newEditable("헬스장 이름이나 도로명 주소를 검색해주세요")
+            isFocusable = false
+            setTextColor(ContextCompat.getColor(requireContext(), com.depromeet.bds.R.color.gy60))
+            binding.includeBdsSearchbarOne.searchBarCancelIc.visibility = View.GONE
         }
-        with(binding.includeBdsSearchbarTwo) {
-            searchBarEt.isFocusable = false
-            searchBarEt.setTextColor(ContextCompat.getColor(requireContext(), com.depromeet.bds.R.color.gy60))
-            searchBarCancelIc.visibility = View.GONE
+        with(binding.includeBdsSearchbarTwo.searchBarEt) {
+            isFocusable = false
+            setTextColor(ContextCompat.getColor(requireContext(), com.depromeet.bds.R.color.gy60))
+            binding.includeBdsSearchbarTwo.searchBarCancelIc.visibility = View.GONE
         }
     }
 
@@ -70,7 +71,6 @@ class PlaceRegisterFragment : BaseFragment<FragmentPlaceRegisterBinding>(R.layou
         }
     }
 
-    //TODO textField Bds 적용
     private fun selectedShopObserve() {
         writePostViewModel.selectedShopInfo.observe(viewLifecycleOwner) { selectedShopInfo ->
             binding.tvPlaceRegister.text = "이름"
@@ -84,9 +84,10 @@ class PlaceRegisterFragment : BaseFragment<FragmentPlaceRegisterBinding>(R.layou
             }
             with(binding.includeBdsSearchbarTwo) {
                 ctlSearchBarContainer.visibility = View.VISIBLE
-                ctlSearchBarContainer.setBackgroundResource(com.depromeet.bds.R.drawable.temp_bg_search_bar)
                 searchBarSearchIc.visibility = View.GONE
+                ctlSearchBarContainer.setBackgroundResource(com.depromeet.bds.R.drawable.temp_bg_search_bar)
                 searchBarEt.text = Editable.Factory.getInstance().newEditable(selectedShopInfo.shopAddress)
+                searchBarEt.isEnabled = false
             }
         }
     }
@@ -106,16 +107,17 @@ class PlaceRegisterFragment : BaseFragment<FragmentPlaceRegisterBinding>(R.layou
 
     private fun startProcess() {
         val config = ImagePickerConfig(
-            statusBarColor = "#ffffff",
+            statusBarColor = "#FFFFFF",
             isLightStatusBar = true,
-            toolbarColor = "#ffffff",  //툴바칼라
+            toolbarColor = "#FFFFFF",  //툴바칼라
             toolbarTextColor = "#25272B", //툴바 텍스트 칼라
             toolbarIconColor = "#25272B",
-            backgroundColor = "#ffffff", //배경칼라
+            backgroundColor = "#FFFFFF", //배경칼라
             selectedIndicatorColor = "#0066FF", //선택된 인디케이터 칼라
             isFolderMode = false, //폴더로 보일꺼냐
             isMultipleMode = true,
             doneTitle = "확인",
+            limitMessage = "5개까지 선택할 수 있어요.",
             isShowNumberIndicator = true,
             maxSize = 5,
         )
@@ -142,26 +144,14 @@ class PlaceRegisterFragment : BaseFragment<FragmentPlaceRegisterBinding>(R.layou
         }
 
     private fun setPhotoRvAdapter() {
-        val linearLayoutManagerWrapepr = LinearLayoutManagerWrapper(context!!, LinearLayoutManager.HORIZONTAL, false) // 이걸 만들어서
-        photoRvAdapter = PhotoRvAdapter(writePostViewModel,viewLifecycleOwner,requireContext())
-        binding.rvPlaceRegister.layoutManager = linearLayoutManagerWrapepr
+        photoRvAdapter = PhotoRvAdapter(writePostViewModel,  requireContext())
         binding.rvPlaceRegister.adapter = photoRvAdapter
     }
 
-    //TODO 사진 재 선택시 로직
     private fun setSelectedPhotoObserve() {
         writePostViewModel.selectedPhotoList.observe(viewLifecycleOwner) {
             photoRvAdapter.submitList(it)
+            photoRvAdapter.notifyDataSetChanged()
         }
-    }
-}
-
-class LinearLayoutManagerWrapper : LinearLayoutManager {
-    constructor(context: Context) : super(context) {}
-    constructor(context: Context, orientation: Int, reverseLayout: Boolean) : super(context, orientation, reverseLayout) {}
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes) {}
-
-    override fun supportsPredictiveItemAnimations(): Boolean {
-        return false
     }
 }

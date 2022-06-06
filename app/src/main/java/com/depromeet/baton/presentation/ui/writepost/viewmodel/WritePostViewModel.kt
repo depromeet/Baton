@@ -249,8 +249,9 @@ class WritePostViewModel @Inject constructor(
         Log.e("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ","${selectedPhotoList.value?.size}")
         Log.e("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ","${position}")
       //  if(_selectedPhotoList.value?.size!=0)
-      _selectedPhotoList.value?.removeAt(0)
-        _selectedPhotoList.value = _selectedPhotoList.value
+      _selectedPhotoList.value?.removeAt(position)
+        Log.e("ㅡㅡㅡㅡㅡㅡ디움ㅡㅡㅡㅡㅡㅡㅡㅡ","${selectedPhotoList.value}")
+        _selectedPhotoList.value =       _selectedPhotoList.value
     }
 
     //해시태그 선택
