@@ -1,15 +1,16 @@
 package com.depromeet.baton.presentation.ui.writepost.view
 
 import android.Manifest
-import android.annotation.SuppressLint
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.Editable
+import android.util.AttributeSet
 import android.view.View
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentPlaceRegisterBinding
 import com.depromeet.baton.presentation.base.BaseFragment
@@ -25,6 +26,11 @@ class PlaceRegisterFragment : BaseFragment<FragmentPlaceRegisterBinding>(R.layou
     private val writePostViewModel: WritePostViewModel by activityViewModels()
     private lateinit var photoRvAdapter: PhotoRvAdapter
 
+    override fun onResume() {
+        super.onResume()
+        writePostViewModel.setNextLevelEnable()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.placeRegisterFragment = this
@@ -35,18 +41,11 @@ class PlaceRegisterFragment : BaseFragment<FragmentPlaceRegisterBinding>(R.layou
         setPlaceRegisterClickListener()
         setPictureSelectClickListener()
         setPhotoRvAdapter()
-        setHashTagClickListener()
         setSelectedPhotoObserve()
     }
 
     //SearchBar 초기 레이아웃 상태 세팅
     private fun setInitLayout() {
-        /*     with(binding.includeChip) {
-                 tvHashtagSelectExplain.text = "(선택사항)"
-                 tvHashtagSelectExplain.setTextColor(ContextCompat.getColor(requireContext(), com.depromeet.bds.R.color.gy60))
-                 tvHashtagSelect.setTextColor(ContextCompat.getColor(requireContext(), com.depromeet.bds.R.color.gy60))
-             }
-     */
         with(binding.includeBdsSearchbarOne) {
             searchBarEt.text = Editable.Factory.getInstance().newEditable("헬스장 이름이나 도로명 주소를 검색해주세요")
             searchBarEt.isFocusable = false
@@ -88,33 +87,6 @@ class PlaceRegisterFragment : BaseFragment<FragmentPlaceRegisterBinding>(R.layou
                 ctlSearchBarContainer.setBackgroundResource(com.depromeet.bds.R.drawable.temp_bg_search_bar)
                 searchBarSearchIc.visibility = View.GONE
                 searchBarEt.text = Editable.Factory.getInstance().newEditable(selectedShopInfo.shopAddress)
-            }
-        }
-    }
-
-    //TODO 해시태그 선택 bindingAdapter로 구현 + ViewModel로 옮기기
-    private fun setHashTagClickListener() {
-        with(binding) {
-            bdschoiceHashtagKindTeacher.setOnClickListener {
-                bdschoiceHashtagKindTeacher.setOnAndShape(true, 0)
-            }
-            bdschoiceHashtagSystematicLesson.setOnClickListener {
-                bdschoiceHashtagSystematicLesson.setOnAndShape(true, 0)
-            }
-            bdschoiceHashtagCustomizedCare.setOnClickListener {
-                bdschoiceHashtagCustomizedCare.setOnAndShape(true, 0)
-            }
-            bdschoiceHashtagVariousInstruments.setOnClickListener {
-                bdschoiceHashtagVariousInstruments.setOnAndShape(true, 0)
-            }
-            bdschoiceHashtagQuietAtmosphere.setOnClickListener {
-                bdschoiceHashtagQuietAtmosphere.setOnAndShape(true, 0)
-            }
-            bdschoiceHashtagWideFacility.setOnClickListener {
-                bdschoiceHashtagWideFacility.setOnAndShape(true, 0)
-            }
-            bdschoiceHashtagPleasantEnvironment.setOnClickListener {
-                bdschoiceHashtagPleasantEnvironment.setOnAndShape(true, 0)
             }
         }
     }
@@ -170,7 +142,9 @@ class PlaceRegisterFragment : BaseFragment<FragmentPlaceRegisterBinding>(R.layou
         }
 
     private fun setPhotoRvAdapter() {
-        photoRvAdapter = PhotoRvAdapter(requireContext())
+        val linearLayoutManagerWrapepr = LinearLayoutManagerWrapper(context!!, LinearLayoutManager.HORIZONTAL, false) // 이걸 만들어서
+        photoRvAdapter = PhotoRvAdapter(writePostViewModel,viewLifecycleOwner,requireContext())
+        binding.rvPlaceRegister.layoutManager = linearLayoutManagerWrapepr
         binding.rvPlaceRegister.adapter = photoRvAdapter
     }
 
@@ -179,5 +153,15 @@ class PlaceRegisterFragment : BaseFragment<FragmentPlaceRegisterBinding>(R.layou
         writePostViewModel.selectedPhotoList.observe(viewLifecycleOwner) {
             photoRvAdapter.submitList(it)
         }
+    }
+}
+
+class LinearLayoutManagerWrapper : LinearLayoutManager {
+    constructor(context: Context) : super(context) {}
+    constructor(context: Context, orientation: Int, reverseLayout: Boolean) : super(context, orientation, reverseLayout) {}
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes) {}
+
+    override fun supportsPredictiveItemAnimations(): Boolean {
+        return false
     }
 }

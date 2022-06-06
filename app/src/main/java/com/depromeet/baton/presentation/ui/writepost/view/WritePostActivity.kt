@@ -58,14 +58,14 @@ class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activi
         }
         writePostViewModel.currentLevel.observe(this) { currentLevel ->
             if (currentLevel == 0) finish()
-            if (currentLevel == 4) binding.btnWritePostNext.text = "완료"
+        //    if (currentLevel == 4) binding.btnWritePostNext.text
         }
     }
 
     private fun moveToNextLevel(fragment: Fragment) {
         supportFragmentManager
             .beginTransaction()
-            .add(R.id.fcv_write_post, fragment)
+            .replace(R.id.fcv_write_post, fragment)
             .addToBackStack(null)
             .commit()
     }

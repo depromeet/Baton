@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -14,10 +15,13 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ItemPhotoBinding
+import com.depromeet.baton.presentation.ui.writepost.viewmodel.WritePostViewModel
 import com.depromeet.bds.utils.toPx
 
 
 class PhotoRvAdapter(
+    private val viewModel: WritePostViewModel,
+    private val lifecycleOwner: LifecycleOwner,
     private val context: Context
 ) : ListAdapter<Uri, PhotoRvAdapter.PhotoViewHolder>(diffUtil) {
 
@@ -30,16 +34,19 @@ class PhotoRvAdapter(
         holder.bind(getItem(position), position)
     }
 
-    //TODO 사진 X버튼 클릭 구현
-    inner class PhotoViewHolder(val binding: ItemPhotoBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    inner class PhotoViewHolder(val binding: ItemPhotoBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Uri, position: Int) {
-            if (position==0) binding.ctlItemPhotoRepresentation.visibility= View.VISIBLE
-                Glide.with(context)
-                    .load(item)
-                    .transform(CenterCrop(), RoundedCorners(8.toPx()))
-                    .into(binding.ivItemPhoto)
+            if (position == 0) binding.ctlItemPhotoRepresentation.visibility = View.VISIBLE
+            Glide.with(context)
+                .load(item)
+                .transform(CenterCrop(), RoundedCorners(8.toPx()))
+                .into(binding.ivItemPhoto)
+
+            binding.ivItemPhotoCancle.setOnClickListener {
+                viewModel.deleteImg(position)
+            }
         }
+
     }
 
     companion object {

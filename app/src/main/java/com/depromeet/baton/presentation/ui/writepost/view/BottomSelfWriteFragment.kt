@@ -3,19 +3,6 @@ package com.depromeet.baton.presentation.ui.writepost.view
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
-<<<<<<< HEAD
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.FrameLayout
-import android.widget.TextView
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.activityViewModels
-import com.depromeet.baton.R
-import com.depromeet.baton.databinding.FragmentBottomSelfWriteBinding
-=======
 import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
@@ -28,17 +15,13 @@ import androidx.lifecycle.lifecycleScope
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentBottomSelfWriteBinding
 import com.depromeet.baton.presentation.ui.writepost.viewmodel.ShopInfo
->>>>>>> dabin/home-filter
 import com.depromeet.baton.presentation.ui.writepost.viewmodel.WritePostViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
-<<<<<<< HEAD
-=======
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
->>>>>>> dabin/home-filter
 
 
 @AndroidEntryPoint
@@ -58,10 +41,6 @@ class BottomSelfWriteFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
-<<<<<<< HEAD
-        setBackBtnClickListener()
-        setCloseBtnClickListener()
-=======
 
         writePostViewModel.selfWriteAddressUiState
             .flowWithLifecycle(lifecycle)
@@ -75,7 +54,6 @@ class BottomSelfWriteFragment : BottomSheetDialogFragment() {
 
 
         setInitClickListener()
->>>>>>> dabin/home-filter
         setCitySpinner()
     }
 
@@ -92,15 +70,6 @@ class BottomSelfWriteFragment : BottomSheetDialogFragment() {
         behavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
 
-<<<<<<< HEAD
-    private fun setBackBtnClickListener() {
-        binding.bdsAppbarSelfWrite.setOnBackwardClick {
-            writePostViewModel.setSearchShopPosition(WritePostViewModel.SEARCH_SHOP)
-        }
-    }
-
-    private fun setCloseBtnClickListener() {
-=======
     private fun handleViewEvents(viewEvents: List<WritePostViewModel.ViewEvent>) {
         viewEvents.firstOrNull()?.let { viewEvent ->
             when (viewEvent) {
@@ -125,22 +94,15 @@ class BottomSelfWriteFragment : BottomSheetDialogFragment() {
             writePostViewModel.setSearchShopPosition(WritePostViewModel.SEARCH_SHOP)
         }
 
->>>>>>> dabin/home-filter
         binding.bdsAppbarSelfWrite.setOnIconClick {
             writePostViewModel.setSearchShopPosition(WritePostViewModel.DIALOG_DISMISS)
         }
     }
 
-<<<<<<< HEAD
-    private fun setCitySpinner() {
-        val items = requireContext().resources.getStringArray(R.array.spinner_region)
-        val myAdapter = object : ArrayAdapter<String>(requireContext(), R.layout.item_region_spinner) {
-=======
     @SuppressLint("DiscouragedPrivateApi")
     private fun setCitySpinner() {
         val items = requireContext().resources.getStringArray(R.array.spinner_region)
         val spinnerAdapter = object : ArrayAdapter<String>(requireContext(), R.layout.item_region_spinner) {
->>>>>>> dabin/home-filter
             @SuppressLint("CutPasteId")
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val tv = super.getView(position, convertView, parent)
@@ -157,23 +119,12 @@ class BottomSelfWriteFragment : BottomSheetDialogFragment() {
             }
         }
 
-<<<<<<< HEAD
-        myAdapter.addAll(items.toMutableList())
-        myAdapter.add("시/도")
-
-
-        binding.spinnerSelfWriteCity.adapter = myAdapter
-
-        binding.spinnerSelfWriteCity.setSelection(myAdapter.count)
-
-=======
         spinnerAdapter.addAll(items.toMutableList())
         spinnerAdapter.add("시/도")
 
 
         binding.spinnerSelfWriteCity.adapter = spinnerAdapter
         binding.spinnerSelfWriteCity.setSelection(spinnerAdapter.count)
->>>>>>> dabin/home-filter
 
         binding.spinnerSelfWriteCity.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
@@ -198,10 +149,7 @@ class BottomSelfWriteFragment : BottomSheetDialogFragment() {
                     else -> {
                     }
                 }
-<<<<<<< HEAD
-=======
                 binding.uiState!!.onCitySelected.invoke(position)
->>>>>>> dabin/home-filter
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -213,10 +161,6 @@ class BottomSelfWriteFragment : BottomSheetDialogFragment() {
     private fun setRegionSpinner(array: Int) {
         binding.tvSelfWriteRegion.visibility = View.INVISIBLE
         val items = requireContext().resources.getStringArray(array)
-<<<<<<< HEAD
-        val myAdapter = ArrayAdapter<String>(requireContext(), R.layout.item_region_spinner, items)
-        binding.spinnerSelfWriteRegion.adapter = myAdapter
-=======
         val spinnerAdapter = ArrayAdapter(requireContext(), R.layout.item_region_spinner, items)
         binding.spinnerSelfWriteRegion.adapter = spinnerAdapter
         binding.spinnerSelfWriteRegion.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -229,16 +173,12 @@ class BottomSelfWriteFragment : BottomSheetDialogFragment() {
 
             }
         }
->>>>>>> dabin/home-filter
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-<<<<<<< HEAD
-}
-=======
 }
 
 
@@ -264,4 +204,3 @@ data class SelfWriteAddressUiState(
 
     val isEnabled = isCenterValid && isCenterNameValid && isDetailAddressValid && isCityValid && isRegionValid
 }
->>>>>>> dabin/home-filter

@@ -7,14 +7,23 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.viewModels
+import androidx.fragment.app.activityViewModels
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentDescriptionBinding
 import com.depromeet.baton.databinding.FragmentMembershipInformationBinding
 import com.depromeet.baton.presentation.base.BaseFragment
+import com.depromeet.baton.presentation.ui.writepost.viewmodel.WritePostViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MembershipformationFragment : BaseFragment<FragmentMembershipInformationBinding>(R.layout.fragment_membership_information) {
+    private val writePostViewModel: WritePostViewModel by activityViewModels()
+
+    override fun onResume() {
+        super.onResume()
+        writePostViewModel.setNextLevelEnable()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

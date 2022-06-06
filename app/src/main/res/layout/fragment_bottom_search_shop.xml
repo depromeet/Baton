@@ -131,18 +131,11 @@
                 android:layout_height="wrap_content"
                 android:theme="@style/Theme.Bds.TertiaryButton.Medium"
                 app:bds_text="찾고있는 헬스장이 없나요?"
-<<<<<<< HEAD
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/ctl_bottom_search_result_exist"
-                app:layout_constraintStart_toStartOf="@+id/ctl_bottom_search_result_exist"
-                app:uiState="@{writePostViewModel.uiState }" />
-=======
                 android:layout_marginBottom="@dimen/dimen68"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/ctl_bottom_search_result_exist"
                 app:layout_constraintStart_toStartOf="@+id/ctl_bottom_search_result_exist"
                 app:uiState="@{writePostViewModel.shopSearchUiState }" />
->>>>>>> dabin/home-filter
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

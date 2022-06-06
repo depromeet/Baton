@@ -2,10 +2,7 @@ package com.depromeet.baton.presentation.ui.writepost.view
 
 import android.app.Dialog
 import android.os.Bundle
-<<<<<<< HEAD
-=======
 import android.util.Log
->>>>>>> dabin/home-filter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -60,14 +57,6 @@ class BottomSearchContainerFragment : BottomSheetDialogFragment() {
 
     private fun changeFragment() {
         writePostViewModel.viewEvent.observe(viewLifecycleOwner) {
-<<<<<<< HEAD
-            it.getContentIfNotHandled().let { event ->
-                when (event) {
-                    WritePostViewModel.SEARCH_SHOP -> {
-                        childFragmentManager.beginTransaction()
-                            .addToBackStack(null)
-                            .replace(R.id.fcv_bottom_search, bottomSearchShopFragment, "bottomSearchShopFragment")
-=======
             it.getContentIfNotHandled().let { viewEvent ->
                 when (viewEvent) {
                     WritePostViewModel.SEARCH_SHOP -> {
@@ -83,16 +72,10 @@ class BottomSearchContainerFragment : BottomSheetDialogFragment() {
 
                         childFragmentManager.beginTransaction()
                             .hide(bottomSelfWriteFragment)
->>>>>>> dabin/home-filter
                             .commit()
                     }
 
                     WritePostViewModel.SELF_WRITE -> {
-<<<<<<< HEAD
-                        childFragmentManager.beginTransaction()
-                            .addToBackStack(null)
-                            .replace(R.id.fcv_bottom_search, bottomSelfWriteFragment, "bottomSelfWriteFragment")
-=======
                         if (!childFragmentManager.fragments.contains(bottomSelfWriteFragment)) {
                             childFragmentManager.beginTransaction()
                                 .add(R.id.fcv_bottom_search, bottomSelfWriteFragment)
@@ -104,7 +87,6 @@ class BottomSearchContainerFragment : BottomSheetDialogFragment() {
 
                         childFragmentManager.beginTransaction()
                             .hide(bottomSearchShopFragment)
->>>>>>> dabin/home-filter
                             .commit()
                     }
                     WritePostViewModel.DIALOG_DISMISS -> dialog?.dismiss()
