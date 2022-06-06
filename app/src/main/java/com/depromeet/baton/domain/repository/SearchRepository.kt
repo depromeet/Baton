@@ -207,7 +207,7 @@ class SearchRepository @Inject constructor(
         return searchApi.getTicketSearchResult(page, size, latitude, longitude, query, maxDistance)
     }
 
-    suspend fun postTicket(body: HashMap<String, RequestBody>, image: MultipartBody.Part?): ResponseFilteredTicket {
+    suspend fun postTicket(body: HashMap<String, RequestBody?>, image: MultipartBody.Part?): ResponseFilteredTicket {
         return searchApi.postTicket(body, image)
     }
 

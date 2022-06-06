@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.depromeet.baton.data.request.RequestTicketPost
 import com.depromeet.baton.domain.model.*
 import com.depromeet.baton.domain.repository.SearchRepository
 import com.depromeet.baton.map.domain.entity.ShopEntity
@@ -572,7 +573,7 @@ class WritePostViewModel @Inject constructor(
         _descriptionUiState.update { it.copy(descriptionChanged = editable.toString()) }
         _currentTextLength.value = editable.toString().length
 
-        if (_currentTextLength.value!=0) _isLevelFourNextBtnEnable.value = true
+        if (_currentTextLength.value != 0) _isLevelFourNextBtnEnable.value = true
 
         setNextLevelEnable()
     }
@@ -642,80 +643,39 @@ class WritePostViewModel @Inject constructor(
 
 
     //todo ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡapi 콜ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-/*    val location: String,
-    val address: String,
-    val price: Int,
-    val expiryDate: String,
-    val type: String,
-    val tradeType: String,
-    val transferFee: Int,
-    val canNego: Boolean,
-    val hasShower: Boolean,
-    val hasLocker: Boolean,
-    val hasClothes: Boolean,
-    val hasGx: Boolean,
-    val canResell: Boolean,
-    val canRefund: Boolean,
-    val description: String,
-    val isMembership: Boolean,
-    val isHolding: Boolean,
-    val remainingNumber: Int,
-    val latitude: Float,
-    val longitude: Float,
-    val tags: List<String>,*/
 
     fun postTicket() {
-     val body = RequestTicketPost(
+        val body = RequestTicketPost(
             location = _selectedShopInfo.value?.shopName ?: "",
             address = _selectedShopInfo.value?.shopAddress ?: "",
-            price,
-            expiryDate,
-            type,
-            tradeType,
-            transferFee,
-            canNego,
-            hasShower,
-            hasLocker,
-            hasClothes,
-            hasGx,
-            canResell,
-            canRefund,
-            description,
-            isMembership,
-            isHolding,
-            remainingNumber,
+            price = 30000,
+            // expiryDate,
+            type = ticketKindCheckedList.value?.filter { it.value }!!.map { it.key.value }[0],
+            tradeType = tradeTypeCheckedList.value?.filter { it.value }!!.map { it.key.value }[0],
+            transferFee = transferFeeCheckedList.value?.filter { it.value }!!.map { it.key.value }[0],
+            canNego = _isNaChecked.value!!,
+            hasShower = isShowerRoomChecked.value!!,
+            hasLocker = isLockerRoomChecked.value!!,
+            hasClothes = isSportWearChecked.value!!,
+            hasGx = _isGxChecked.value!!,
+            canResell = _isReTransferChecked.value!!,
+            canRefund = _isRefundChecked.value!!,
+            description = descriptionUiState.value.descriptionChanged,
+            isMembership = isPeriodChecked.value!!,
+            isHolding = true, //하아
+            remainingNumber = 6, //남은 횟수. isMembership이 False면 필수
             latitude = spfManager.getLocation().latitude.toFloat(),
             longitude = spfManager.getLocation().longitude.toFloat(),
-            tags
+            tags = hashTagCheckedList.value!!.map { it.key.value }
         ).toRequestBody()
-      val location: String,
-            val address: String,
-            val price: Int,
-            val expiryDate: String,
-            val type: String,
-            val tradeType: String,
-            val transferFee: Int,
-            val canNego: Boolean,
-            val hasShower: Boolean,
-            val hasLocker: Boolean,
-            val hasClothes: Boolean,
-            val hasGx: Boolean,
-            val canResell: Boolean,
-            val canRefund: Boolean,
-            val description: String,
-            val isMembership: Boolean,
-            val isHolding: Boolean,
-            val remainingNumber: Int,
-            val latitude: Float,
-            val longitude: Float,
-            val tags: List<String>,
-     viewModelScope.launch {
-                   runCatching { searchRepository.postTicket(body, null) }
-                       .onSuccess {
-                      //     _makeCardSuccess.value = true
-                       }
-                       .onFailure { Timber.e("카드너 작성 실패 : ${it.message}") }
-               }
+
+        viewModelScope.launch {
+            runCatching { searchRepository.postTicket(body, null) }
+                .onSuccess {
+                   Log.e("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ","${it}")
+                }
+                .onFailure { }
+        }
     }
 }
 

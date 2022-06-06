@@ -12,10 +12,10 @@ object SearchMapper {
             UIState.Success(response.apply {
                 this.mainImage
                 this.location
-                priceFormat(this.price.toFloat())
+                priceFormat(this.price?.toFloat())
                 this.remainingNumber.toString()
                 this.address
-                ceilAndToStringFormat(this.distance.toFloat())
+                ceilAndToStringFormat(500f) //this.distance!!.toFloat()
                 this.tags
             })
         } else uiState

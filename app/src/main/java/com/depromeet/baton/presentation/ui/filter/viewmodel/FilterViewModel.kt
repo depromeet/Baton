@@ -1,5 +1,6 @@
 package com.depromeet.baton.presentation.ui.filter.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -599,7 +600,7 @@ class FilterViewModel @Inject constructor(
         viewModelScope.launch {
             kotlin.runCatching {
                 searchRepository.getFilteredTicket(
-                    page = 1,
+/*                    page = 0,
                     size = 4,
                     //place: String?,
                     hashtag = hashTagCheckedList.value?.map { it.key.toString() },
@@ -626,19 +627,52 @@ class FilterViewModel @Inject constructor(
                     canRefund = isRefundChecked.value,
                     isHold = isHoldingChecked.value,
                     canNego = isBargainingChecked.value,
+                    //isMembership = isLockerRoomChecked.value,*/
+                    page = 0,
+                    size = 4,
+                    //place: String?,
+                    // hashtag = hashTagCheckedList.value?.map { it.key.toString() },
+                    latitude = 36.1234f,
+                    longitude = 127.1234f,
+                    //town: String?,
+                    //   minPrice = priceRange.value?.first?.toInt(),
+                    //   maxPrice = priceRange.value?.second?.toInt(),
+                    //   minRemainNumber = _ptTermRange.value?.first?.toInt(),
+                    //   maxRemainNumber = _ptTermRange.value?.second?.toInt(),
+                    //   minRemainMonth = _gymTermRange.value?.first?.toInt().let { if (it == 0) 1 else it },
+                    //   maxRemainMonth = _gymTermRange.value?.second?.toInt(),
+                    maxDistance = 500,
+                    //     ticketTypes = ticketKindCheckedList.value?.map { it.key.toString() },
+                    //     ticketTradeType = ticketTradeType,
+                    //    transferFee = transferFee,
+                    // ticketState : String ?,
+                    //     sortType = alignmentCheckedOption.value?.toString(),
+                    //   hasClothes = isSportWearChecked.value,
+                    //   hasLocker = isLockerRoomChecked.value,
+                    //   hasShower = isShowerRoomChecked.value,
+                    //    hasGx = isGxChecked.value,
+                    //    canResell = isReTransferChecked.value,
+                    //   canRefund = isRefundChecked.value,
+                    //  isHold = isHoldingChecked.value,
+                    //  canNego = isBargainingChecked.value,
                     //isMembership = isLockerRoomChecked.value,
                 )
             }.onSuccess {
                 when (it) {
                     is UIState.Success<*> -> {
-                        _filteredTicketList.value = it.data as List<ResponseFilteredTicket>
+                        Log.e("ㅡㅡㅡㅡㅡㅡqueryㅡㅡㅡㅡㅡㅡ", "성공")
+                        _filteredTicketList.value = listOf(it.data as ResponseFilteredTicket)
 
-                        if (_filteredChipList.value.isNullOrEmpty()) _filteredTicketUiState.value = UIState.NoData
-                        else _filteredTicketUiState.value = UIState.HasData
+                        if (_filteredChipList.value.isNullOrEmpty()) {
+                            Log.e("ㅡㅡㅡㅡㅡㅡquery : 리스트ㅡㅡㅡㅡㅡㅡ","${it.data}")
+                            _filteredTicketUiState.value = UIState.HasData
+                        } else _filteredTicketUiState.value = UIState.HasData
                     }
                     is UIState.Error -> _filteredTicketUiState.value = UIState.NoData
                 }
             }.onFailure {
+                Log.e("ㅡㅡㅡㅡㅡㅡquery : 에러ㅡㅡㅡㅡㅡㅡ","에러")
+                Log.e("ㅡㅡㅡㅡㅡㅡquery : 에러ㅡㅡㅡㅡㅡㅡ","${it}")
                 if (_filteredChipList.value.isNullOrEmpty()) _filteredTicketUiState.value = UIState.NoData
                 Timber.e(it)
             }

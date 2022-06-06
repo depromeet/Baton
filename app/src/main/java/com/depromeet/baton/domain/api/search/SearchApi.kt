@@ -1,5 +1,6 @@
 package com.depromeet.baton.domain.api.search
 
+import android.util.Log
 import com.depromeet.baton.data.response.ResponseFilteredTicket
 import com.depromeet.baton.data.response.ResponseTicketInfo
 import com.depromeet.baton.presentation.base.UIState
@@ -173,9 +174,10 @@ class SearchApi @Inject constructor(private val searchService: SearchService) {
     }
 
     suspend fun postTicket(
-        body: HashMap<String, RequestBody>,
+        body: HashMap<String, RequestBody?>,
         image: MultipartBody.Part?
     ): ResponseFilteredTicket {
+        Log.e("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡpostmㅡㅡㅡㅡㅡㅡㅡㅡㅡ","${body.toString()}")
         return searchService.postTicket(body, image)
     }
 

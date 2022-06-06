@@ -8,10 +8,10 @@ data class RequestTicketPost(
     val location: String,
     val address: String,
     val price: Int,
-    val expiryDate: String,
+    val expiryDate: String?=null,
     val type: String,
     val tradeType: String,
-    val transferFee: Int,
+    val transferFee: String,
     val canNego: Boolean,
     val hasShower: Boolean,
     val hasLocker: Boolean,
@@ -22,12 +22,12 @@ data class RequestTicketPost(
     val description: String,
     val isMembership: Boolean,
     val isHolding: Boolean,
-    val remainingNumber: Int,
+    val remainingNumber: Int?=null,
     val latitude: Float,
     val longitude: Float,
-    val tags: List<String>,
+    val tags: List<String>?=null,
 ) {
-    fun toRequestBody(): HashMap<String, RequestBody> {
+    fun toRequestBody(): HashMap<String, RequestBody?> {
 
         return hashMapOf(
             "location" to createPartFromString(location),
@@ -36,7 +36,7 @@ data class RequestTicketPost(
             "expiryDate" to createPartFromString(expiryDate),
             "type" to createPartFromString(type),
             "tradeType" to createPartFromString(tradeType),
-            "transferFee" to createPartFromString(transferFee.toString()),
+            "transferFee" to createPartFromString(transferFee),
             "canNego" to createPartFromString(canNego.toString()),
             "hasShower" to createPartFromString(hasShower.toString()),
             "hasLocker" to createPartFromString(hasLocker.toString()),
@@ -50,11 +50,11 @@ data class RequestTicketPost(
             "remainingNumber" to createPartFromString(remainingNumber.toString()),
             "latitude" to createPartFromString(latitude.toString()),
             "longitude" to createPartFromString(longitude.toString()),
-            "tags" to createPartFromString(tags.map { createPartFromString(it) }.toString()),
+            "tags" to createPartFromString(tags?.map { createPartFromString(it) }.toString()),
             )
     }
 }
 
-fun createPartFromString(stringData: String): RequestBody {
-    return stringData.toRequestBody("text/plain".toMediaTypeOrNull())
+fun createPartFromString(stringData: String?): RequestBody? {
+    return stringData?.toRequestBody("text/plain".toMediaTypeOrNull())
 }

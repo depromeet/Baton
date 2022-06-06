@@ -4,8 +4,8 @@ import java.text.DecimalFormat
 import kotlin.math.ceil
 
 
-fun priceFormat(price: Float): String {
-    val priceStr = price.toInt().toString()
+fun priceFormat(price: Float?): String {
+    val priceStr = price?.toInt().toString()
     val dec = DecimalFormat("#,###")
 
     return if (priceStr.length >= 5)

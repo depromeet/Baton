@@ -72,7 +72,7 @@ interface SearchService {
         @Query("isHold") isHold: Boolean?,
         @Query("canNego") canNego: Boolean?,
         @Query("isMembership") isMembership: Boolean?,
-    ): Response<List<ResponseFilteredTicket>>
+    ): Response<ResponseFilteredTicket>
 
     @GET("ticket/info/{ID}")
     suspend fun getTicketInfo(
@@ -99,7 +99,7 @@ interface SearchService {
     @Multipart
     @POST("ticket/post")
     suspend fun postTicket(
-        @PartMap body: HashMap<String, RequestBody>,
+        @PartMap body: HashMap<String, RequestBody?>,
         @Part image: MultipartBody.Part?
     ): ResponseFilteredTicket
 }
