@@ -71,7 +71,6 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         /**getExtra 로 넘겨 받은 ticketId viewmodel 에 전달됨**/
-
         mapView = findViewById(R.id.ticket_detail_mapView)
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(this)
@@ -92,38 +91,50 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.ticketState.observe(
-                    this@TicketDetailActivity , Observer {
-                            uiState -> run{
-                            binding.ticketState = uiState
-                            if( naverMap!=null )setMarkerPosition()
-                            bottomViewModel.updateBottomUistate(uiState.ticket.isOwner)
-                            ticketTagAdapter.initList(uiState.ticket.infoHashs)
-                            gymTagAdapter.initList(uiState.ticket.tags)
-                            ticketImgRvAdapter.submitList(uiState.ticket.imgList.map { it.url })
-                        }
-                    }
+                    this@TicketDetailActivity , Observer { uiState -> handleTicketUiState(uiState) }
                 )
+
                 viewModel.netWorkState
                     .flowWithLifecycle(lifecycle)
-                    .onEach { status ->
-                        when(status){
-                            is TicketDetailNetWork.Failure ->{
-                                this@TicketDetailActivity.BdsToast(status.msg).show()
-                            }
-                            is TicketDetailNetWork.Loading ->{
-                                binding.ticketDetailProgress.visibility = View.VISIBLE
-                            }
-                            is TicketDetailNetWork.Success ->{
-                                binding.ticketDetailProgress.visibility = View.GONE
-                                binding.ticketDetailLoadingIv.visibility= View.GONE
-                            }
-                        }
-                    }.launchIn(lifecycleScope)
+                    .onEach(::handleTicketNetwork)
+                    .launchIn(lifecycleScope)
 
                 viewModel.viewEvents
                     .flowWithLifecycle(lifecycle)
                     .onEach(::handleTicketViewEvents)
                     .launchIn(lifecycleScope)
+
+                ticketMoreViewModel.networkState
+                    .flowWithLifecycle(lifecycle)
+                    .onEach {status ->
+                        when(status){
+                            is TicketMoreNetwork.Failure -> { this@TicketDetailActivity.BdsToast(status.msg).show() }
+                        }
+                    }.launchIn(lifecycleScope)
+            }
+        }
+    }
+
+    private fun handleTicketUiState (uiState  : TicketDetailViewModel.DetailTicketInfoUiState){
+        binding.ticketState = uiState
+        if( naverMap!=null )setMarkerPosition()
+        bottomViewModel.updateBottomUistate(uiState.ticket.isOwner)
+        ticketTagAdapter.initList(uiState.ticket.infoHashs)
+        gymTagAdapter.initList(uiState.ticket.tags)
+        ticketImgRvAdapter.submitList(uiState.ticket.imgList.map { it.url })
+    }
+
+    private fun handleTicketNetwork(status :TicketDetailNetWork ){
+        when(status){
+            is TicketDetailNetWork.Failure ->{
+                this@TicketDetailActivity.BdsToast(status.msg).show()
+            }
+            is TicketDetailNetWork.Loading ->{
+                binding.ticketDetailProgress.visibility = View.VISIBLE
+            }
+            is TicketDetailNetWork.Success ->{
+                binding.ticketDetailProgress.visibility = View.GONE
+                binding.ticketDetailLoadingIv.visibility= View.GONE
             }
         }
     }
@@ -136,6 +147,9 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
                     //TODO showChatBottom
                 }
                 DetailViewEvent.EventClickLike->{
+                    Timber.e( viewModel.ticketState.value!!.ticket.isLikeTicket.toString())
+                   if(viewModel.ticketState.value!!.ticket.isLikeTicket)
+                       this@TicketDetailActivity.BdsToast("관심 상품이 등록되었습니다.",binding.ticketDetailFooter.top).show()
                     binding.ticketDetailLikeBtn.toggle()
                 }
             }
@@ -190,7 +204,6 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     private fun initGymTag(){
         gymTagAdapter =TicketTagAdapter(
             R.layout.item_primary_outline_tag)
-
         FlexboxLayoutManager(this).apply{
             flexWrap = FlexWrap.WRAP
             flexDirection=FlexDirection.ROW
@@ -239,7 +252,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
 
     private fun onClickMenu(){
         if(bottomViewModel.uiState.value.isOwner){
-            showBottom(CHECK_ITEM_VIEW, DetailBottomOption.SELLER,onItemClick = sellerItemClick )
+            showBottom(DEFAULT_ITEM_VIEW, DetailBottomOption.SELLER,onItemClick = sellerItemClick )
         }else{
             showBottom(DEFAULT_ITEM_VIEW, DetailBottomOption.BUYER,onItemClick = buyerItemClick)
         }
@@ -261,7 +274,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         this@TicketDetailActivity.BdsToast("주소가 복사되었습니다", binding.ticketDetailFooter.top) .show()
     }
 
-     /** bottom Item Click Listener **/
+    /** bottom Item Click Listener **/
     private val statusItemClick = object : BottomSheetFragment.Companion.OnItemClick{
         override fun onSelectedItem(selected: BottomMenuItem, index: Int) {
             when(index){
@@ -293,7 +306,8 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     /** bottom Item Click Listener **/
     private val reportItemClick = object : BottomSheetFragment.Companion.OnItemClick{
         override fun onSelectedItem(selected: BottomMenuItem, index: Int) {
-           viewModel.reportTicket(index)
+            this@TicketDetailActivity.BdsToast("신고가 접수되었습니다.",binding.ticketDetailFooter.top).show()
+            viewModel.reportTicket(index)
         }
     }
 

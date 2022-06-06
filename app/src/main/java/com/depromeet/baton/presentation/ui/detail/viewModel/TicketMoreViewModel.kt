@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,11 +24,12 @@ class TicketMoreViewModel @Inject constructor():BaseViewModel(){
         viewModelScope.launch {
             runCatching {
 
+                return@runCatching initState()
             }.onSuccess {
                 //Api result
-                _uiState.update { initState() }
+                data -> _uiState.update { data }
             }.onFailure {
-                error -> _networkState.update { TicketMoreNetwork.Failure(error.message.toString()) }
+                error ->_networkState.update { TicketMoreNetwork.Failure(error.message.toString()) }
             }
         }
     }
@@ -43,10 +45,10 @@ class TicketMoreViewModel @Inject constructor():BaseViewModel(){
             TicketItem("휴메이크 휘트니스 석촌점", "필라테스", "223,000원", "4일 남음", "광진구 중곡동", "12m", R.drawable.dummy5),
         )
     }
+}
 
-    sealed class TicketMoreNetwork(){
-        object  Success : TicketMoreNetwork()
-        data class Failure(val msg : String) : TicketMoreNetwork()
-        object Loading : TicketMoreNetwork()
-    }
+sealed class TicketMoreNetwork(){
+    object  Success : TicketMoreNetwork()
+    data class Failure(val msg : String) : TicketMoreNetwork()
+    object Loading : TicketMoreNetwork()
 }

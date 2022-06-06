@@ -300,9 +300,9 @@
 
                         <TextView
                             android:id="@+id/ticket_detail_ticketkind_tv"
+                            android:layout_width="wrap_content"
                             android:layout_rowSpan="1"
                             android:layout_columnSpan="1"
-                            android:layout_marginLeft="@dimen/dimen12"
                             android:text="@{ticketState.ticket.ticketType.value}"
                             android:textAppearance="?caption1"
                             android:textColor="?grey_scale80" />
@@ -318,7 +318,6 @@
                             android:id="@+id/ticket_detail_effective_tv"
                             android:layout_rowSpan="1"
                             android:layout_columnSpan="1"
-                            android:layout_marginLeft="@dimen/dimen12"
                             android:text="@{ticketState.ticket.remainingNumber}"
                             android:textAppearance="?caption1"
                             android:textColor="?grey_scale80" />
@@ -333,7 +332,6 @@
                         <TextView
                             android:layout_rowSpan="1"
                             android:layout_columnSpan="1"
-                            android:layout_marginLeft="@dimen/dimen12"
                             android:text="@{ticketState.priceStr}"
                             android:textAppearance="?caption1"
                             android:textColor="?grey_scale80" />
@@ -408,18 +406,39 @@
                         <TextView
                             android:layout_rowSpan="1"
                             android:layout_columnSpan="1"
+                            android:paddingTop="@dimen/dimen2"
                             android:text="회원권 정보"
                             android:textAppearance="?caption1"
                             android:textColor="?grey_scale60" />
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/ticket_detail_infotag_rv"
+                        <FrameLayout
                             android:layout_width="0dp"
                             android:layout_columnWeight="1"
                             android:layout_height="match_parent"
-                            android:layout_gravity="fill"
-                            android:overScrollMode="never"
-                            tools:listitem="@layout/item_primary_tag" />
+                            android:layout_gravity="fill">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="선택된 회원권 정보가 없어요"
+                                android:layout_gravity="fill"
+                                android:textAppearance="?body3"
+                                android:textColor="?grey_scale50"
+                                android:visibility="@{ticketState.emptyInfoTagVisible}"
+                                />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/ticket_detail_infotag_rv"
+                                android:layout_width="match_parent"
+                                android:layout_columnWeight="1"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="fill"
+                                android:overScrollMode="never"
+                                tools:listitem="@layout/item_primary_tag"
+                                android:visibility="@{ticketState.infoTagVisible}"
+                                />
+                        </FrameLayout>
+
 
                     </GridLayout>
 
@@ -447,6 +466,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
+                        android:layout_marginHorizontal="@dimen/dimen16"
                         android:background="?grey_scale40" />
 
                     <TextView
@@ -468,6 +488,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
+                        android:layout_marginHorizontal="@dimen/dimen16"
                         android:background="?grey_scale40" />
 
                     <TextView
@@ -552,6 +573,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginVertical="@dimen/dimen16"
+                        android:layout_marginHorizontal="@dimen/dimen16"
                         android:background="?grey_scale40" />
 
                     <TextView
@@ -562,18 +584,32 @@
                         android:textAppearance="?headline3"
                         android:textColor="?grey_scale90" />
 
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/dimen16"
+                        android:text="선택된 추가 정보가 없어요."
+                        android:textAppearance="?headline3"
+                        android:textColor="?grey_scale50"
+                        android:visibility="@{ticketState.emptyAdditionalTagVisible}"
+
+                        />
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/ticket_detail_gymtag_rv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/dimen16"
                         tools:listitem="@layout/item_primary_outline_tag"
+                        android:visibility="@{ticketState.additionalTagVisible}"
                         />
 
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
+                        android:layout_marginHorizontal="@dimen/dimen16"
                         android:layout_marginVertical="@dimen/dimen16"
                         android:background="?grey_scale40" />
 
@@ -624,6 +660,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
+                        android:layout_marginHorizontal="@dimen/dimen16"
                         android:layout_marginVertical="@dimen/dimen16"
                         android:background="?grey_scale40" />
 
@@ -680,7 +717,7 @@
                     android:layout_marginStart="@dimen/dimen16"
                     android:background="@null"
                     android:checkMark="@drawable/selector_like"
-                    android:checked="@{ticketState.ticket.isLikeTicket}"
+                    android:checked="@{!ticketState.ticket.isLikeTicket}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

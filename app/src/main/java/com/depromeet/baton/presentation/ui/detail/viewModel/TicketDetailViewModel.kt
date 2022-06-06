@@ -56,7 +56,7 @@ class TicketDetailViewModel @Inject constructor(
                         location = DetailLocationInfo(location = "바통 휘트니스", "도로명 주소",127.0297999,37.4920448,1000F),
                         createdDate = "2022.03.03",
                         remainDate = 60,  // calculator 만들기
-                        price = 100000,
+                        price = 200000,
                         ticketStatus = TicketStatus.SOLDOUT,
                         transferFee = TransferFee.NONE,
                         transMethod = TransactionMethod.FACE,
@@ -75,10 +75,8 @@ class TicketDetailViewModel @Inject constructor(
                         isLikeTicket = true
                     ),
                     onAddChatBtnClick = :: onClickChat,
-                    onAddMenuClick = ::onClickChat,
                     onAddLikeClick = :: onClickLike
                 )
-
                 return@runCatching ticket
             }.onSuccess {
                 data -> run{
@@ -155,7 +153,6 @@ class TicketDetailViewModel @Inject constructor(
     data class DetailTicketInfoUiState(
         val ticket : DetailTicketInfo,
         val onAddChatBtnClick: ()-> Unit,
-        val onAddMenuClick : () -> Unit,
         val onAddLikeClick :()->Unit
     ){
 
@@ -176,6 +173,11 @@ class TicketDetailViewModel @Inject constructor(
         val startImgIndex = if(ticket.imgList.isEmpty())"0" else "1"
         val totalImgIndex = ticket.imgList.size.toString()
 
+        val infoTagVisible = if(ticket.infoHashs.isEmpty()) View.GONE else View.VISIBLE
+        val additionalTagVisible = if(ticket.tags.isEmpty()) View.GONE else View.VISIBLE
+
+        val emptyInfoTagVisible = if(ticket.infoHashs.isNotEmpty()) View.GONE else View.VISIBLE
+        val emptyAdditionalTagVisible = if(ticket.tags.isNotEmpty()) View.GONE else View.VISIBLE
     }
 
 }

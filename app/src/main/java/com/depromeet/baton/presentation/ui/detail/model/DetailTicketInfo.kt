@@ -1,10 +1,7 @@
 package com.depromeet.baton.presentation.ui.detail.model
 
 import android.net.Uri
-import android.view.View
 import com.depromeet.baton.domain.model.*
-import com.depromeet.baton.presentation.ui.detail.viewModel.TicketDetailViewModel
-import com.depromeet.baton.presentation.util.priceFormat
 
 data class DetailTicketInfo (
     val ticketId : Int,
