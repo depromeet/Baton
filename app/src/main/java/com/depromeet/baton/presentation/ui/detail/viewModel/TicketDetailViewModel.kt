@@ -190,10 +190,6 @@ sealed class TicketDetailNetWork(){
 sealed class DetailViewEvent{
     object EventClickLike : DetailViewEvent()
     object EventClickChat : DetailViewEvent()
-    object EventClickCopy : DetailViewEvent()
-    object EventClickWebView :DetailViewEvent()
-    object EventClickMap : DetailViewEvent()
-    object EventClickMoreItem : DetailViewEvent()
 }
 
 
