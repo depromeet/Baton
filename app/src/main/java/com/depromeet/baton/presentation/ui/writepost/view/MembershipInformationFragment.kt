@@ -81,6 +81,9 @@ class MembershipInformationFragment : BaseFragment<FragmentMembershipInformation
             checkboxRetransfer.setOnClickListener {
                 writePostViewModel.handleChipChanged(AdditionalOptions.RE_TRANSFER, checkboxRetransfer.isChecked)
             }
+            checkboxHolding.setOnClickListener {
+                writePostViewModel.handleChipChanged(AdditionalOptions.HOLDING, checkboxHolding.isChecked)
+            }
         }
     }
 }

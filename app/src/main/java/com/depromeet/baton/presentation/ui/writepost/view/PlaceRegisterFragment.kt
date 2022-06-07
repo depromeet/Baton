@@ -17,6 +17,7 @@ import com.depromeet.baton.databinding.FragmentPlaceRegisterBinding
 import com.depromeet.baton.presentation.base.BaseFragment
 import com.depromeet.baton.presentation.ui.writepost.adapter.PhotoRvAdapter
 import com.depromeet.baton.presentation.ui.writepost.viewmodel.WritePostViewModel
+import com.depromeet.baton.presentation.util.MultiPartResolver
 import com.depromeet.baton.presentation.util.shortToast
 import com.nguyenhoanglam.imagepicker.model.ImagePickerConfig
 import com.nguyenhoanglam.imagepicker.ui.imagepicker.registerImagePicker
@@ -26,6 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class PlaceRegisterFragment : BaseFragment<FragmentPlaceRegisterBinding>(R.layout.fragment_place_register) {
     private val writePostViewModel: WritePostViewModel by activityViewModels()
     private lateinit var photoRvAdapter: PhotoRvAdapter
+    private lateinit var multiPartResolver: MultiPartResolver
 
     override fun onResume() {
         super.onResume()
@@ -43,6 +45,7 @@ class PlaceRegisterFragment : BaseFragment<FragmentPlaceRegisterBinding>(R.layou
         setPictureSelectClickListener()
         setPhotoRvAdapter()
         setSelectedPhotoObserve()
+        multiPartResolver= MultiPartResolver(requireContext())
     }
 
     //SearchBar 초기 레이아웃 상태 세팅
@@ -127,6 +130,7 @@ class PlaceRegisterFragment : BaseFragment<FragmentPlaceRegisterBinding>(R.layou
     private val launcher = registerImagePicker { images ->
         if (images.isNotEmpty()) {
             writePostViewModel.setSelectedPhotoList(images.map { it.uri }.toMutableList())
+            writePostViewModel.setSelectedPhotoMultiPartList(multiPartResolver.createImgMultiPart(images.map { it.uri }[0]))
         }
     }
 
@@ -144,7 +148,7 @@ class PlaceRegisterFragment : BaseFragment<FragmentPlaceRegisterBinding>(R.layou
         }
 
     private fun setPhotoRvAdapter() {
-        photoRvAdapter = PhotoRvAdapter(writePostViewModel,  requireContext())
+        photoRvAdapter = PhotoRvAdapter(writePostViewModel, requireContext())
         binding.rvPlaceRegister.adapter = photoRvAdapter
     }
 

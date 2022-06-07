@@ -2,7 +2,6 @@ package com.depromeet.baton.presentation.ui.writepost.viewmodel
 
 import android.net.Uri
 import android.text.Editable
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -23,6 +22,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -30,8 +30,9 @@ import javax.inject.Inject
 class WritePostViewModel @Inject constructor(
     private val searchShopUseCase: SearchShopUseCase,
     private val searchRepository: SearchRepository,
-    private val spfManager: BatonSpfManager
+    private val spfManager: BatonSpfManager,
 ) : BaseViewModel() {
+
     //todo ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ포지션별 버튼 상태
     private val _isNextBtnEnable = MutableLiveData(false)
     val isNextBtnEnable: LiveData<Boolean> = _isNextBtnEnable
@@ -101,6 +102,10 @@ class WritePostViewModel @Inject constructor(
     //선택한 이미지 리스트
     private val _selectedPhotoList = MutableLiveData<MutableList<Uri>>()
     val selectedPhotoList: LiveData<MutableList<Uri>> = _selectedPhotoList
+
+    //선택한 이미지 리스트
+    private val _selectedPhotoMultipartList = MutableLiveData<MultipartBody.Part>()
+    val selectedPhotoMultipartList: LiveData<MultipartBody.Part> = _selectedPhotoMultipartList
 
     //글자 수 저장
     private val _currentTextLength = MutableLiveData(0)
@@ -187,6 +192,9 @@ class WritePostViewModel @Inject constructor(
 
     private val _isRefundChecked = MutableLiveData(false)
     val isRefundChecked: LiveData<Boolean> = _isRefundChecked
+
+    private val _isHoldingChecked = MutableLiveData(false)
+    val isHoldingChecked: LiveData<Boolean> = _isHoldingChecked
 
     /*거래방법*/
     var tradeTypeCheckedList = MapListLiveData<TradeType, Boolean>()
@@ -412,6 +420,10 @@ class WritePostViewModel @Inject constructor(
         _selectedPhotoList.value = photoList
     }
 
+    fun setSelectedPhotoMultiPartList(image: MultipartBody.Part) {
+        _selectedPhotoMultipartList.value = image
+    }
+
     //사진 지우기
     fun deleteImg(position: Int) {
         _selectedPhotoList.value?.removeAt(position)
@@ -608,6 +620,7 @@ class WritePostViewModel @Inject constructor(
         _isReTransferChecked.value = choiceChipStatus(AdditionalOptions.RE_TRANSFER)
         _isRefundChecked.value = choiceChipStatus(AdditionalOptions.REFUND)
         _isBargainingChecked.value = choiceChipStatus(AdditionalOptions.BARGAINING)
+        _isHoldingChecked.value = choiceChipStatus(AdditionalOptions.HOLDING)
 
         //거래방법
         _isFaceChecked.value = choiceChipStatus(TradeType.CONTECT)
@@ -641,18 +654,18 @@ class WritePostViewModel @Inject constructor(
         }
     }
 
+    //todo ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡapiㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
-    //todo ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡapi 콜ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
     fun postTicket() {
         val body = RequestTicketPost(
             location = _selectedShopInfo.value?.shopName ?: "",
             address = _selectedShopInfo.value?.shopAddress ?: "",
-            price = 30000,
-            // expiryDate,
-            type = ticketKindCheckedList.value?.filter { it.value }!!.map { it.key.value }[0],
-            tradeType = tradeTypeCheckedList.value?.filter { it.value }!!.map { it.key.value }[0],
-            transferFee = transferFeeCheckedList.value?.filter { it.value }!!.map { it.key.value }[0],
+            price = membershipInfoUiState.value.priceChanged.toInt(),
+            expiryDate = "2022-12-02", //todo 선택 / isMembership이 true 면 필수
+            type = ticketKindCheckedList.value?.map { it.key.toString() }!![0],
+            tradeType = tradeTypeCheckedList.value?.filter { it.value }!!.map { it.key.toString() }[0],
+            transferFee = transferFeeCheckedList.value?.filter { it.value }!!.map { it.key.toString() }[0],
             canNego = _isNaChecked.value!!,
             hasShower = isShowerRoomChecked.value!!,
             hasLocker = isLockerRoomChecked.value!!,
@@ -662,17 +675,18 @@ class WritePostViewModel @Inject constructor(
             canRefund = _isRefundChecked.value!!,
             description = descriptionUiState.value.descriptionChanged,
             isMembership = isPeriodChecked.value!!,
-            isHolding = true, //하아
-            remainingNumber = 6, //남은 횟수. isMembership이 False면 필수
+            isHolding = _isHoldingChecked.value!!,
+            remainingNumber = 6, //todo 선택 / isMembership이 False면 필수
             latitude = spfManager.getLocation().latitude.toFloat(),
             longitude = spfManager.getLocation().longitude.toFloat(),
-            tags = hashTagCheckedList.value!!.map { it.key.value }
+            tags = hashTagCheckedList.value
         ).toRequestBody()
 
         viewModelScope.launch {
-            runCatching { searchRepository.postTicket(body, null) }
+            runCatching {
+                searchRepository.postTicket(body, _selectedPhotoMultipartList.value)
+            }
                 .onSuccess {
-                   Log.e("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ","${it}")
                 }
                 .onFailure { }
         }

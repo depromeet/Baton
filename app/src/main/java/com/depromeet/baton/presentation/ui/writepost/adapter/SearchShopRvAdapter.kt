@@ -1,15 +1,12 @@
 package com.depromeet.baton.presentation.ui.address
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.baton.R
-import com.depromeet.baton.data.response.ResponseFilteredTicket
 import com.depromeet.baton.databinding.ItemSearchShopBinding
-import com.depromeet.baton.domain.model.RecentSearchKeyword
 import com.depromeet.baton.map.domain.entity.ShopEntity
 import com.depromeet.baton.presentation.ui.writepost.viewmodel.ShopInfo
 import com.depromeet.baton.presentation.ui.writepost.viewmodel.WritePostViewModel

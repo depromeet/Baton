@@ -387,9 +387,11 @@
                     </com.google.android.flexbox.FlexboxLayout>
 
                     <com.google.android.flexbox.FlexboxLayout
-                        android:layout_width="wrap_content"
+                        android:id="@+id/fbl_bottom"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen8"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/fbl_membership_info">
 
@@ -463,6 +465,30 @@
                         </LinearLayout>
 
                     </com.google.android.flexbox.FlexboxLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen8"
+                        android:layout_marginEnd="@dimen/dimen8"
+                        app:layout_constraintTop_toBottomOf="@+id/fbl_bottom">
+
+                        <com.depromeet.bds.component.BdsCheckbox
+                            android:id="@+id/checkbox_holding"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:isChecked="@{viewModel.isHoldingChecked}"
+                            app:layout_constraintEnd_toStartOf="@id/tv_membership_info_bargaining"
+                            app:layout_constraintTop_toBottomOf="@+id/et_membership_info_price" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/filter_additional_options_holding"
+                            android:textAppearance="?body3"
+                            android:textColor="?grey_scale60" />
+                    </LinearLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>

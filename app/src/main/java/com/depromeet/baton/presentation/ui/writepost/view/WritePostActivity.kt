@@ -66,8 +66,8 @@ class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activi
                 }
                 WritePostViewModel.WritePostPositionViewEvent.GoDone -> {
                     writePostViewModel.postTicket()
-                    this.BdsToast("판매글 작성이 완료됐어요", binding.btnWritePostNext.top).show()
-                    TicketDetailActivity.start(this)
+                 //   this.BdsToast("판매글 작성이 완료됐어요", binding.btnWritePostNext.top).show()
+                //    TicketDetailActivity.start(this)
                     finish()
                 }
             }

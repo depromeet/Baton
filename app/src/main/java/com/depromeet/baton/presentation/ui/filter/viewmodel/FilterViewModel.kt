@@ -536,39 +536,62 @@ class FilterViewModel @Inject constructor(
         viewModelScope.launch {
             kotlin.runCatching {
                 searchRepository.getFilteredTicketCount(
-                    page = 1,
+                    page = 0,
                     size = 4,
                     //place: String?,
-                    hashtag = hashTagCheckedList.value?.map { it.key.toString() },
-                    //latitude = 36.1234f,
-                    //longitude = 127.1234f,
+                    //    hashtag = hashTagCheckedList.value?.map { it.key.toString() },
+                    latitude = 36.1234f,
+                    longitude = 127.1234f,
                     //town: String?,
-                    minPrice = priceRange.value?.first?.toInt(),
-                    maxPrice = priceRange.value?.second?.toInt(),
-                    minRemainNumber = _ptTermRange.value?.first?.toInt(),
-                    maxRemainNumber = _ptTermRange.value?.second?.toInt(),
-                    minRemainMonth = _gymTermRange.value?.first?.toInt().let { if (it == 0) 1 else it },
-                    maxRemainMonth = _gymTermRange.value?.second?.toInt(),
-                    // maxDistance = 500,
-                    ticketTypes = ticketKindCheckedList.value?.map { it.key.toString() },
-                    ticketTradeType = ticketTradeType,
-                    transferFee = transferFee,
+                    //  minPrice = priceRange.value?.first?.toInt(),
+                    //  maxPrice = priceRange.value?.second?.toInt(),
+                    //   minRemainNumber = _ptTermRange.value?.first?.toInt(),
+                    //  maxRemainNumber = _ptTermRange.value?.second?.toInt(),
+                    //   minRemainMonth = _gymTermRange.value?.first?.toInt().let { if (it == 0) 1 else it },
+                    // maxRemainMonth = _gymTermRange.value?.second?.toInt(),
+                    maxDistance = 500,
+                    //    ticketTypes = ticketKindCheckedList.value?.map { it.key.toString() },
+                    //    ticketTradeType = ticketTradeType,
+                    //     transferFee = transferFee,
                     // ticketState : String ?,
-                    sortType = alignmentCheckedOption.value?.toString(),
-                    hasClothes = isSportWearChecked.value,
-                    hasLocker = isLockerRoomChecked.value,
-                    hasShower = isShowerRoomChecked.value,
-                    hasGx = isGxChecked.value,
-                    canResell = isReTransferChecked.value,
-                    canRefund = isRefundChecked.value,
-                    isHold = isHoldingChecked.value,
-                    canNego = isBargainingChecked.value,
                     //isMembership = isLockerRoomChecked.value,
+
+
+                    /*          page = 0,
+                              size = 4,
+                              //place: String?, //todo 보낼 필요없음
+                              hashtag = hashTagCheckedList.value?.map { it.key.toString() },
+                              latitude = 36.1234f,
+                              longitude = 127.1234f,
+                              //town: String?, //todo 보낼 필요없음
+                              minPrice = priceRange.value?.first?.toInt(),
+                              maxPrice = priceRange.value?.second?.toInt(),
+                              minRemainNumber = _ptTermRange.value?.first?.toInt(),
+                              maxRemainNumber = _ptTermRange.value?.second?.toInt(),
+                              minRemainMonth = _gymTermRange.value?.first?.toInt().let { if (it == 0) 1 else it },
+                              maxRemainMonth = _gymTermRange.value?.second?.toInt(),
+                              maxDistance = 500,
+                              ticketTypes = ticketKindCheckedList.value?.map { it.key.toString() },
+                              ticketTradeType = ticketTradeType,
+                              transferFee = transferFee,
+                              // ticketState : String ?, //todo 보낼 필요없음
+                              sortType = alignmentCheckedOption.value?.toString(),
+                              hasClothes = isSportWearChecked.value,
+                              hasLocker = isLockerRoomChecked.value,
+                              hasShower = isShowerRoomChecked.value,
+                              hasGx = isGxChecked.value,
+                              canResell = isReTransferChecked.value,
+                              canRefund = isRefundChecked.value,
+                              isHold = isHoldingChecked.value,
+                              canNego = isBargainingChecked.value,
+                              //isMembership = isLockerRoomChecked.value, //todo 보낼 필요없음*/
+
                 )
             }.onSuccess {
                 it.collect { UiState ->
                     when (UiState) {
                         is UIState.Success<*> -> {
+                            Log.e("ㅡㅡㅡㅡㅡㅡcount : 성공ㅡㅡㅡㅡㅡㅡ", "${UiState.data}")
                             _filteredTicketCount.value = UiState.data as Int
                             _filteredTicketCountUiState.value = UIState.HasData
                         }
@@ -578,6 +601,7 @@ class FilterViewModel @Inject constructor(
                     }
                 }
             }.onFailure {
+                Log.e("ㅡㅡㅡㅡㅡㅡcount : 에러ㅡㅡㅡㅡㅡㅡ", "${it}")
                 _filteredTicketCountUiState.value = UIState.Init
                 Timber.e(it)
             }
@@ -628,51 +652,25 @@ class FilterViewModel @Inject constructor(
                     isHold = isHoldingChecked.value,
                     canNego = isBargainingChecked.value,
                     //isMembership = isLockerRoomChecked.value,*/
+
                     page = 0,
                     size = 4,
-                    //place: String?,
-                    // hashtag = hashTagCheckedList.value?.map { it.key.toString() },
                     latitude = 36.1234f,
                     longitude = 127.1234f,
-                    //town: String?,
-                    //   minPrice = priceRange.value?.first?.toInt(),
-                    //   maxPrice = priceRange.value?.second?.toInt(),
-                    //   minRemainNumber = _ptTermRange.value?.first?.toInt(),
-                    //   maxRemainNumber = _ptTermRange.value?.second?.toInt(),
-                    //   minRemainMonth = _gymTermRange.value?.first?.toInt().let { if (it == 0) 1 else it },
-                    //   maxRemainMonth = _gymTermRange.value?.second?.toInt(),
                     maxDistance = 500,
-                    //     ticketTypes = ticketKindCheckedList.value?.map { it.key.toString() },
-                    //     ticketTradeType = ticketTradeType,
-                    //    transferFee = transferFee,
-                    // ticketState : String ?,
-                    //     sortType = alignmentCheckedOption.value?.toString(),
-                    //   hasClothes = isSportWearChecked.value,
-                    //   hasLocker = isLockerRoomChecked.value,
-                    //   hasShower = isShowerRoomChecked.value,
-                    //    hasGx = isGxChecked.value,
-                    //    canResell = isReTransferChecked.value,
-                    //   canRefund = isRefundChecked.value,
-                    //  isHold = isHoldingChecked.value,
-                    //  canNego = isBargainingChecked.value,
-                    //isMembership = isLockerRoomChecked.value,
                 )
             }.onSuccess {
                 when (it) {
                     is UIState.Success<*> -> {
-                        Log.e("ㅡㅡㅡㅡㅡㅡqueryㅡㅡㅡㅡㅡㅡ", "성공")
-                        _filteredTicketList.value = listOf(it.data as ResponseFilteredTicket)
-
-                        if (_filteredChipList.value.isNullOrEmpty()) {
-                            Log.e("ㅡㅡㅡㅡㅡㅡquery : 리스트ㅡㅡㅡㅡㅡㅡ","${it.data}")
+                        if (_filteredChipList.value?.isNotEmpty() == true) {
                             _filteredTicketUiState.value = UIState.HasData
-                        } else _filteredTicketUiState.value = UIState.HasData
+                        } else {
+                            _filteredTicketUiState.value = UIState.HasData
+                        }
                     }
-                    is UIState.Error -> _filteredTicketUiState.value = UIState.NoData
+                    else -> _filteredTicketUiState.value = UIState.NoData
                 }
             }.onFailure {
-                Log.e("ㅡㅡㅡㅡㅡㅡquery : 에러ㅡㅡㅡㅡㅡㅡ","에러")
-                Log.e("ㅡㅡㅡㅡㅡㅡquery : 에러ㅡㅡㅡㅡㅡㅡ","${it}")
                 if (_filteredChipList.value.isNullOrEmpty()) _filteredTicketUiState.value = UIState.NoData
                 Timber.e(it)
             }
