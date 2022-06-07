@@ -1,5 +1,6 @@
 package com.depromeet.baton.data.request
 
+import android.util.Log
 import com.depromeet.baton.domain.model.HashTag
 import com.depromeet.baton.presentation.util.MapListLiveData
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -32,11 +33,16 @@ data class RequestTicketPost(
     fun toRequestBody(): HashMap<String, RequestBody?> {
 
         var tag = ""
+        var formattedTag = ""
         tags?.forEach {
             tag += it.key.toString() + ", "
         }
 
-        return hashMapOf(
+        if (tag.isNotEmpty()) {
+            formattedTag = tag.substring(0..tag.length - 3)
+        }
+
+        val body = hashMapOf(
             "location" to createPartFromString(location),
             "address" to createPartFromString(address),
             "price" to createPartFromString(price.toString()),
@@ -57,8 +63,12 @@ data class RequestTicketPost(
             "remainingNumber" to createPartFromString(remainingNumber.toString()),
             "latitude" to createPartFromString(latitude.toString()),
             "longitude" to createPartFromString(longitude.toString()),
-            "tags" to createPartFromString(tag.substring(0..tag.length - 3)),
+            "tags" to createPartFromString(formattedTag),
         )
+
+        if (tags.isNullOrEmpty()) body.remove("tags")
+
+        return body
     }
 }
 

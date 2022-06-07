@@ -28,8 +28,6 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ibtn_item_ticket"
-                centerCrop="@{true}"
-                image="@{ticket.mainImage}"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/dimen156"
                 android:background="@drawable/card_column"
@@ -80,7 +78,6 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@{ticket.location}"
                 android:textAppearance="?headline4"
                 android:textColor="@color/gy70"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -88,24 +85,26 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="휴메이크 휘트니스 석촌점중곡동동동동중곡동동동동중곡동동동동중곡동동동동중곡동동동동중곡동동동동중곡동동동동중곡동동동동" />
 
+            android:text="@{@string/ticket_price_format(ticket.price)}"
             <TextView
                 android:id="@+id/tv_item_ticket_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen4"
-                android:text="@{@string/ticket_price_format(ticket.price)}"
+
                 android:textAppearance="?headline1"
                 android:textColor="@color/gy90"
                 app:layout_constraintStart_toStartOf="@+id/tv_item_ticket_shop_name"
                 app:layout_constraintTop_toBottomOf="@+id/tv_item_ticket_shop_name"
                 tools:text="123,000원" />
 
+            android:text="@{@string/ticket_price_remaining(ticket.remainingNumber)}"
             <TextView
                 android:id="@+id/tv_item_ticket_remaining_day"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen4"
-                android:text="@{@string/ticket_price_remaining(ticket.remainingNumber)}"
+
                 android:textAppearance="?caption1"
                 android:textColor="?primary50"
                 app:layout_constraintStart_toStartOf="@id/tv_item_ticket_price"
@@ -138,7 +137,6 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:paddingStart="@dimen/dimen2"
-                    android:text="@{ticket.address}"
                     android:textAppearance="?caption1"
                     android:textColor="@color/gy70"
                     app:layout_constraintEnd_toStartOf="@id/tv_item_ticket_distance"
@@ -152,7 +150,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:paddingStart="@dimen/dimen4"
-                    android:text="@{@string/ticket_distance_format(ticket.distance)}"
                     android:textAppearance="?caption2"
                     android:textColor="?secondary50"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -166,56 +163,50 @@
                 android:id="@+id/ll_item_ticket_bottom"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:visibility="@{ticket.tags.size==0 ? View.INVISIBLE : View.VISIBLE }"
                 android:layout_marginTop="@dimen/dimen4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/ll_item_ticket_top"
                 app:layout_constraintTop_toBottomOf="@+id/ll_item_ticket_top">
-
+                android:visibility="@{ticket.tags.size==0 ? View.INVISIBLE : View.VISIBLE }"
                 <LinearLayout
                     android:id="@+id/ll_one"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="@{ticket.tags.size>=1 ? View.VISIBLE : View.INVISIBLE }"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
-
+                    android:visibility="@{ticket.tags.size>=1 ? View.VISIBLE : View.INVISIBLE }"
                     <com.depromeet.bds.component.BdsTag
                         android:id="@+id/item_ticket_tag_one"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:theme="@style/Theme.Bds.Tag.Default.Grey.Small"
-                        app:bds_text="@{ticket.tags[0]}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                 </LinearLayout>
-
+                app:bds_text="@{ticket.tags[0]}"
                 <LinearLayout
                     android:id="@+id/ll_two"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="@{ticket.tags.size>=2 ? View.VISIBLE : View.INVISIBLE }"
                     app:layout_constraintStart_toEndOf="@id/ll_one"
                     app:layout_constraintTop_toTopOf="parent">
-
+                    android:visibility="@{ticket.tags.size>=2 ? View.VISIBLE : View.INVISIBLE }"
                     <com.depromeet.bds.component.BdsTag
                         android:id="@+id/item_ticket_tag_two"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dimen4"
                         android:theme="@style/Theme.Bds.Tag.Default.Grey.Small"
-                        app:bds_text="@{ticket.tags[1]}"
                         app:layout_constraintStart_toEndOf="@id/item_ticket_tag_one" />
                 </LinearLayout>
-
+                app:bds_text="@{ticket.tags[1]}"
                 <LinearLayout
                     android:id="@+id/ll_three"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="@{ticket.tags.size>=3 ? View.VISIBLE : View.INVISIBLE }"
                     app:layout_constraintStart_toEndOf="@+id/ll_two"
                     app:layout_constraintTop_toTopOf="parent">
-
+                    android:visibility="@{ticket.tags.size>=3 ? View.VISIBLE : View.INVISIBLE }"
                     <com.depromeet.bds.component.BdsTag
                         android:id="@+id/item_ticket_tag_etc"
                         android:layout_width="wrap_content"

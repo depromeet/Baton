@@ -150,40 +150,40 @@ class SearchRepository @Inject constructor(
         canNego: Boolean? = null,
         isMembership: Boolean? = null
     ): UIState {
-        return SearchMapper.mapperToFilteredTicket(
-            searchApi.getFilteredTicket(
-                page = page,
-                size = size,
-                place = place,
-                hashtag = hashtag,
-                latitude = latitude,
-                longitude = longitude,
-                town = town,
-                minPrice = minPrice,
-                maxPrice = maxPrice,
-                minRemainNumber = minRemainNumber,
-                maxRemainNumber = maxRemainNumber,
-                minRemainMonth = minRemainMonth,
-                maxRemainMonth = maxRemainMonth,
-                maxDistance = maxDistance,
-                ticketTypes = ticketTypes,
-                ticketTradeType = ticketTradeType,
-                transferFee = transferFee,
-                ticketState = ticketState,
-                sortType = sortType,
-                hasClothes = hasClothes,
-                hasLocker = hasLocker,
-                hasShower = hasShower,
-                hasGx = hasGx,
-                canResell = canResell,
-                canRefund = canRefund,
-                isHold = isHold,
-                canNego = canNego,
-                isMembership = isMembership
-            )
+        return searchApi.getFilteredTicket(
+            page = page,
+            size = size,
+            place = place,
+            hashtag = hashtag,
+            latitude = latitude,
+            longitude = longitude,
+            town = town,
+            minPrice = minPrice,
+            maxPrice = maxPrice,
+            minRemainNumber = minRemainNumber,
+            maxRemainNumber = maxRemainNumber,
+            minRemainMonth = minRemainMonth,
+            maxRemainMonth = maxRemainMonth,
+            maxDistance = maxDistance,
+            ticketTypes = ticketTypes,
+            ticketTradeType = ticketTradeType,
+            transferFee = transferFee,
+            ticketState = ticketState,
+            sortType = sortType,
+            hasClothes = hasClothes,
+            hasLocker = hasLocker,
+            hasShower = hasShower,
+            hasGx = hasGx,
+            canResell = canResell,
+            canRefund = canRefund,
+            isHold = isHold,
+            canNego = canNego,
+            isMembership = isMembership
         )
+
     }
 
+    //SearchMapper.mapperToFilteredTicket(
     suspend fun getTicketInfo(
         id: Int,
         latitude: Float = spfManager.getLocation().latitude.toFloat(),
@@ -207,8 +207,8 @@ class SearchRepository @Inject constructor(
         return searchApi.getTicketSearchResult(page, size, latitude, longitude, query, maxDistance)
     }
 
-    suspend fun postTicket(body: HashMap<String, RequestBody?>, image: MultipartBody.Part?): ResponseFilteredTicket {
-        return searchApi.postTicket(body, image)
+    suspend fun postTicket(body: HashMap<String, RequestBody?>, images: MutableList<MultipartBody.Part>?): ResponseFilteredTicket {
+        return searchApi.postTicket(body, images)
     }
 
     companion object {

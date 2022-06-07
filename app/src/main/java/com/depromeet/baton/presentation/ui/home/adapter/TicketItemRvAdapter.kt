@@ -37,14 +37,14 @@ class TicketItemRvAdapter(
         fun bind(item: ResponseFilteredTicket, position: Int) {
 
             with(binding) {
-                ticket = item
+             //   ticket = item
                 executePendingBindings()
                 //tvItemTicketCardBadge.text = item.card todo 서버에서 추가 후 작업
 
-                if ((item.tags?.size ?: 0) > 2) {
+      /*          if ((item.tags?.size ?: 0) > 2) {
                     val etcSize = (item.tags?.size ?: 0) - 2
                     itemTicketTagEtc.text = "+$etcSize"
-                }
+                }*/
 
                 //가로스크롤뷰
                 if (scrollType == SCROLL_TYPE_HORIZONTAL) {
@@ -55,7 +55,7 @@ class TicketItemRvAdapter(
 
                 setLikeBtnClickListener(ctvItemTicketLike) //좋아요 버튼
 
-                if (item.mainImage?.isEmpty() == true) setEmptyImage(position, ibtnItemTicket) //엠티 뷰
+       //         if (item.mainImage?.isEmpty() == true) setEmptyImage(position, ibtnItemTicket) //엠티 뷰
 
                 root.setOnClickListener { clickListener(item) } //상세페이지로
             }

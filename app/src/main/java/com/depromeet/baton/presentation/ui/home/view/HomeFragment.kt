@@ -123,7 +123,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         //TODO filteredTicketList로 넘기기
         filterViewModel.filteredTicketList.observe(viewLifecycleOwner) {
-            ticketItemRvAdapter.submitList(it)
+         //   ticketItemRvAdapter.submitList(it)
         }
     }
 

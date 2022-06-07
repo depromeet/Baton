@@ -5,7 +5,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.net.Uri
-import android.provider.MediaStore
 import androidx.exifinterface.media.ExifInterface
 import dagger.hilt.android.qualifiers.ActivityContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -14,7 +13,6 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
-import java.lang.Exception
 import javax.inject.Inject
 
 
@@ -47,20 +45,10 @@ class MultiPartResolver @Inject constructor(
         val file = File(replaceFileName(uri.toString()))
         val surveyBody =
             byteArrayOutputStream.toByteArray().toRequestBody("image/jpeg".toMediaTypeOrNull())
-        return MultipartBody.Part.createFormData("image", file.name, surveyBody)
-    }
-
-    fun createImgMultiPart(bitmap: Bitmap): MultipartBody.Part {
-        val byteArrayOutputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
-        val file = File(replaceFileName(bitmap.toString()))
-        val surveyBody =
-            byteArrayOutputStream.toByteArray().toRequestBody("image/jpeg".toMediaTypeOrNull())
-        return MultipartBody.Part.createFormData("image", file.name, surveyBody)
+        return MultipartBody.Part.createFormData("images", file.name, surveyBody)
     }
 
     private fun getOrientationOfImage(uri: Uri): Int {
-        // uri -> inputStream
         val inputStream = context.contentResolver.openInputStream(uri)
         val exif: ExifInterface? = try {
             ExifInterface(inputStream!!)
@@ -70,7 +58,6 @@ class MultiPartResolver @Inject constructor(
         }
         inputStream.close()
 
-        // 회전된 각도 알아내기
         val orientation = exif?.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
         if (orientation != -1) {
             when (orientation) {
@@ -89,20 +76,6 @@ class MultiPartResolver @Inject constructor(
         val matrix = Matrix()
         matrix.postRotate(degrees.toFloat())
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
-    }
-
-    private fun getPathFromUri(uri: Uri): String? {
-        val projection = arrayOf(
-            MediaStore.Images.Media.BUCKET_DISPLAY_NAME
-        )
-        val cursor = context.contentResolver.query(uri, projection, null, null, null)
-        cursor?.moveToNext()
-        val columnIndex = cursor?.getColumnIndex("_data") ?: return null
-        val path =
-            cursor.getString(columnIndex)
-
-        cursor.close()
-        return path
     }
 
     private fun replaceFileName(fileName: String): String = "${fileName.replace(".", "_")}.jpeg"

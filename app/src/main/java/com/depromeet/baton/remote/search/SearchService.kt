@@ -100,6 +100,6 @@ interface SearchService {
     @POST("ticket/post")
     suspend fun postTicket(
         @PartMap body: HashMap<String, RequestBody?>,
-        @Part image: MultipartBody.Part?
+        @Part images: MutableList<MultipartBody.Part>?
     ): ResponseFilteredTicket
 }

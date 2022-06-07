@@ -2,6 +2,7 @@ package com.depromeet.baton.presentation.ui.writepost.viewmodel
 
 import android.net.Uri
 import android.text.Editable
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -104,8 +105,11 @@ class WritePostViewModel @Inject constructor(
     val selectedPhotoList: LiveData<MutableList<Uri>> = _selectedPhotoList
 
     //선택한 이미지 리스트
-    private val _selectedPhotoMultipartList = MutableLiveData<MultipartBody.Part>()
-    val selectedPhotoMultipartList: LiveData<MultipartBody.Part> = _selectedPhotoMultipartList
+    private val _selectedPhotoMultipartList = MutableLiveData<MutableList<MultipartBody.Part>>()
+
+    //등록 완료
+    private val _postSuccess = SingleLiveEvent<Any>()
+    val postSuccess: LiveData<Any> = _postSuccess
 
     //글자 수 저장
     private val _currentTextLength = MutableLiveData(0)
@@ -414,14 +418,15 @@ class WritePostViewModel @Inject constructor(
         setNextLevelEnable()
     }
 
-    //이미지 리스트
-    fun setSelectedPhotoList(photoList: MutableList<Uri>) {
+    //이미지 Uri 리스트
+    fun setSelectedPhotoUriList(photoList: MutableList<Uri>) {
         _selectedPhotoList.value?.clear()
         _selectedPhotoList.value = photoList
     }
 
-    fun setSelectedPhotoMultiPartList(image: MultipartBody.Part) {
-        _selectedPhotoMultipartList.value = image
+    //이미지 Multipart 리스트
+    fun setSelectedPhotoMultiPartList(images: MutableList<MultipartBody.Part>) {
+        _selectedPhotoMultipartList.value = images
     }
 
     //사진 지우기
@@ -468,6 +473,7 @@ class WritePostViewModel @Inject constructor(
     }
 
     fun handleChipChanged(any: Any, isChecked: Boolean) {
+        Log.e("ㅡㅡㅡㅡㅡㅡㅡffㅡㅡㅡ","${isChecked}")
         when (any) {
             is TicketKind -> setTicketKind(any, isChecked)
             is AdditionalOptions -> setAdditionalOptions(any, isChecked)
@@ -656,7 +662,6 @@ class WritePostViewModel @Inject constructor(
 
     //todo ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡapiㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
-
     fun postTicket() {
         val body = RequestTicketPost(
             location = _selectedShopInfo.value?.shopName ?: "",
@@ -681,14 +686,16 @@ class WritePostViewModel @Inject constructor(
             longitude = spfManager.getLocation().longitude.toFloat(),
             tags = hashTagCheckedList.value
         ).toRequestBody()
-
         viewModelScope.launch {
             runCatching {
                 searchRepository.postTicket(body, _selectedPhotoMultipartList.value)
             }
                 .onSuccess {
+                    _postSuccess.call()
                 }
-                .onFailure { }
+                .onFailure {
+                    Timber.e(it)
+                }
         }
     }
 }

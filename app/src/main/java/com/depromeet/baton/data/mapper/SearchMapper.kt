@@ -6,7 +6,7 @@ import com.depromeet.baton.presentation.util.ceilAndToStringFormat
 import com.depromeet.baton.presentation.util.priceFormat
 
 object SearchMapper {
-    fun mapperToFilteredTicket(uiState: UIState): UIState {
+ /*   fun mapperToFilteredTicket(uiState: UIState): UIState {
         return if (uiState is UIState.Success<*>) {
             val response = uiState.data as ResponseFilteredTicket
             UIState.Success(response.apply {
@@ -19,5 +19,5 @@ object SearchMapper {
                 this.tags
             })
         } else uiState
-    }
+    }*/
 }

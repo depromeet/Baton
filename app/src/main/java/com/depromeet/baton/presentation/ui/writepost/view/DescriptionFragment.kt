@@ -34,6 +34,7 @@ class DescriptionFragment : BaseFragment<FragmentDescriptionBinding>(R.layout.fr
         super.onViewCreated(view, savedInstanceState)
         binding.writePostViewModel = writePostViewModel
         setObserve()
+        binding.etDescription.text = Editable.Factory.getInstance().newEditable(writePostViewModel.descriptionUiState.value.descriptionChanged)
     }
 
     private fun setObserve() {

@@ -34,8 +34,8 @@ class FilterViewModel @Inject constructor(
     val filteredTicketCount: LiveData<Int> = _filteredTicketCount
 
     //필터링된 양도권 리스트
-    private val _filteredTicketList = MutableLiveData<List<ResponseFilteredTicket>>()
-    val filteredTicketList: LiveData<List<ResponseFilteredTicket>> = _filteredTicketList
+    private val _filteredTicketList = MutableLiveData<ResponseFilteredTicket>()
+    val filteredTicketList: LiveData<ResponseFilteredTicket> = _filteredTicketList
 
     /*양도권 종류*/
     var ticketKindCheckedList = MapListLiveData<TicketKind, Boolean>()
@@ -520,6 +520,7 @@ class FilterViewModel @Inject constructor(
     }
 
     /** ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡAPIㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
+    //TODO 필터링된 양도권 개수 가져오기
     private fun updateFilteredTicketCount() {
         var ticketTradeType: String? = null
         var transferFee: String? = null
@@ -557,7 +558,7 @@ class FilterViewModel @Inject constructor(
                     //isMembership = isLockerRoomChecked.value,
 
 
-                    /*          page = 0,
+                    /*        page = 0,
                               size = 4,
                               //place: String?, //todo 보낼 필요없음
                               hashtag = hashTagCheckedList.value?.map { it.key.toString() },
@@ -608,7 +609,7 @@ class FilterViewModel @Inject constructor(
         }
     }
 
-    //필터링된 양도권 가져오기 ->home
+    //TODO 필터링된 양도권 리스트 가져오기
     fun updateFilteredTicketList() {
         var ticketTradeType: String? = null
         var transferFee: String? = null
@@ -662,17 +663,26 @@ class FilterViewModel @Inject constructor(
             }.onSuccess {
                 when (it) {
                     is UIState.Success<*> -> {
-                        if (_filteredChipList.value?.isNotEmpty() == true) {
-                            _filteredTicketUiState.value = UIState.HasData
-                        } else {
-                            _filteredTicketUiState.value = UIState.HasData
-                        }
+                        @Suppress("UNCHECKED_CAST")
+                        _filteredTicketList.value = it.data as ResponseFilteredTicket
+                        Log.e("ㅡㅡㅡㅡㅡㅡㅡ1ㅡㅡfilterㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ", "${it.data}")
+                        Log.e("ㅡㅡㅡㅡㅡㅡㅡ2ㅡㅡfilterㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ", "${_filteredTicketList.value}")
+                        /* if (it.data.isNotEmpty()) {
+                             _filteredTicketUiState.value = UIState.HasData
+                             _filteredTicketList.value = it.data as List<ResponseFilteredTicket>
+                             Log.e("ㅡㅡㅡㅡㅡㅡㅡ1ㅡㅡfilterㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ", "${it.data}")
+                             Log.e("ㅡㅡㅡㅡㅡㅡㅡ2ㅡㅡfilterㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ", "${_filteredTicketList.value}")
+                         } else {
+                             _filteredTicketUiState.value = UIState.Loading
+                             Log.e("ㅡㅡㅡㅡㅡㅡelseㅡㅡㅡfilterㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ", "${_filteredTicketList.value}")
+                         }*/
                     }
-                    else -> _filteredTicketUiState.value = UIState.NoData
+                    else -> _filteredTicketUiState.value = UIState.Loading
                 }
             }.onFailure {
-                if (_filteredChipList.value.isNullOrEmpty()) _filteredTicketUiState.value = UIState.NoData
+                if (_filteredChipList.value.isNullOrEmpty()) _filteredTicketUiState.value = UIState.Loading
                 Timber.e(it)
+                Log.e("ㅡㅡㅡㅡㅡㅡ에러ㅡㅡㅡfilterㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ", "${it}")
             }
         }
     }

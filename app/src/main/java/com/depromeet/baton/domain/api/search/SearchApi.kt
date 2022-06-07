@@ -175,10 +175,10 @@ class SearchApi @Inject constructor(private val searchService: SearchService) {
 
     suspend fun postTicket(
         body: HashMap<String, RequestBody?>,
-        image: MultipartBody.Part?
+        images: MutableList<MultipartBody.Part>?
     ): ResponseFilteredTicket {
-        Log.e("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡpostmㅡㅡㅡㅡㅡㅡㅡㅡㅡ","${body.toString()}")
-        return searchService.postTicket(body, image)
+        Log.e("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡimageㅡㅡㅡㅡㅡㅡㅡㅡㅡ","${images}")
+        return searchService.postTicket(body, images)
     }
 
     companion object {

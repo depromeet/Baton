@@ -1,17 +1,13 @@
 package com.depromeet.baton.presentation.ui.writepost.view
 
 import android.Manifest
-import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.Editable
-import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentPlaceRegisterBinding
 import com.depromeet.baton.presentation.base.BaseFragment
@@ -45,7 +41,7 @@ class PlaceRegisterFragment : BaseFragment<FragmentPlaceRegisterBinding>(R.layou
         setPictureSelectClickListener()
         setPhotoRvAdapter()
         setSelectedPhotoObserve()
-        multiPartResolver= MultiPartResolver(requireContext())
+        multiPartResolver = MultiPartResolver(requireContext())
     }
 
     //SearchBar 초기 레이아웃 상태 세팅
@@ -112,12 +108,12 @@ class PlaceRegisterFragment : BaseFragment<FragmentPlaceRegisterBinding>(R.layou
         val config = ImagePickerConfig(
             statusBarColor = "#FFFFFF",
             isLightStatusBar = true,
-            toolbarColor = "#FFFFFF",  //툴바칼라
-            toolbarTextColor = "#25272B", //툴바 텍스트 칼라
+            toolbarColor = "#FFFFFF",
+            toolbarTextColor = "#25272B",
             toolbarIconColor = "#25272B",
-            backgroundColor = "#FFFFFF", //배경칼라
-            selectedIndicatorColor = "#0066FF", //선택된 인디케이터 칼라
-            isFolderMode = false, //폴더로 보일꺼냐
+            backgroundColor = "#FFFFFF",
+            selectedIndicatorColor = "#0066FF",
+            isFolderMode = false,
             isMultipleMode = true,
             doneTitle = "확인",
             limitMessage = "5개까지 선택할 수 있어요.",
@@ -129,8 +125,8 @@ class PlaceRegisterFragment : BaseFragment<FragmentPlaceRegisterBinding>(R.layou
 
     private val launcher = registerImagePicker { images ->
         if (images.isNotEmpty()) {
-            writePostViewModel.setSelectedPhotoList(images.map { it.uri }.toMutableList())
-            writePostViewModel.setSelectedPhotoMultiPartList(multiPartResolver.createImgMultiPart(images.map { it.uri }[0]))
+            writePostViewModel.setSelectedPhotoUriList(images.map { it.uri }.toMutableList())
+            writePostViewModel.setSelectedPhotoMultiPartList(images.map { multiPartResolver.createImgMultiPart(it.uri) }.toMutableList())
         }
     }
 

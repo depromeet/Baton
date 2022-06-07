@@ -47,7 +47,7 @@ class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activi
         }
         binding.bdsBackwardAppbarWritePost.setOnBackwardClick {
             //todo 임시저장
-            //   this.BdsToast("작성하던 글이 임시저장 됐어요.", binding.btnWritePostBack.top).show()
+            //this.BdsToast("작성하던 글이 임시저장 됐어요.", binding.btnWritePostBack.top).show()
             finish()
         }
     }
@@ -66,9 +66,6 @@ class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activi
                 }
                 WritePostViewModel.WritePostPositionViewEvent.GoDone -> {
                     writePostViewModel.postTicket()
-                 //   this.BdsToast("판매글 작성이 완료됐어요", binding.btnWritePostNext.top).show()
-                //    TicketDetailActivity.start(this)
-                    finish()
                 }
             }
             writePostViewModel.writePositionConsumeViewEvent(viewEvent)
@@ -76,7 +73,15 @@ class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activi
 
         writePostViewModel.currentLevel.observe(this) { currentLevel ->
             if (currentLevel == 0) finish()
+
             if (currentLevel == 4) binding.btnWritePostNext.setText("완료")
+            else binding.btnWritePostNext.setText("다음")
+        }
+
+        writePostViewModel.postSuccess.observe(this) {
+            this.BdsToast("판매글 작성이 완료됐어요", binding.btnWritePostNext.top).show()
+            TicketDetailActivity.start(this)
+            finish()
         }
     }
 
