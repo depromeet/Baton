@@ -36,51 +36,64 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen16"
                     android:src="@drawable/ic_logo"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_home_location"
+                    app:layout_constraintBottom_toBottomOf="@id/ctl_home_location"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/tv_home_location" />
+                    app:layout_constraintTop_toTopOf="@id/ctl_home_location" />
 
-                <TextView
-                    android:id="@+id/tv_home_location"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/ctl_home_location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/home_title_location"
-                    android:textAppearance="?headline2"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
-                    android:id="@+id/iv_home_more"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dimen8"
-                    android:src="@drawable/ic_more_line_20"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_home_location"
-                    app:layout_constraintStart_toEndOf="@+id/tv_home_location"
-                    app:layout_constraintTop_toTopOf="@id/tv_home_location" />
+                    <TextView
+                        android:id="@+id/tv_home_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="@dimen/dimen10"
+                        android:paddingVertical="@dimen/dimen10"
+                        android:text="@string/home_title_location"
+                        android:textAppearance="?headline2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/iv_home_more"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen8"
+                        android:src="@drawable/ic_more_line_20"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_home_location"
+                        app:layout_constraintStart_toEndOf="@+id/tv_home_location"
+                        app:layout_constraintTop_toTopOf="@id/tv_home_location" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <ImageView
                     android:id="@+id/iv_home_search"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/dimen16"
+                    android:paddingHorizontal="@dimen/dimen8"
+                    android:paddingVertical="@dimen/dimen10"
                     android:src="@drawable/ic_search_line_24"
-                    app:layout_constraintBottom_toBottomOf="@+id/tv_home_location"
+                    app:layout_constraintBottom_toBottomOf="@+id/ctl_home_location"
                     app:layout_constraintEnd_toStartOf="@+id/iv_home_bell"
-                    app:layout_constraintTop_toTopOf="@id/tv_home_location" />
+                    app:layout_constraintTop_toTopOf="@+id/ctl_home_location" />
 
                 <ImageView
                     android:id="@+id/iv_home_bell"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/dimen16"
+                    android:layout_marginEnd="@dimen/dimen8"
+                    android:paddingVertical="@dimen/dimen10"
+                    android:paddingStart="@dimen/dimen8"
+                    android:paddingEnd="@dimen/dimen8"
                     android:src="@drawable/ic_bell_line_24"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_home_location"
+                    app:layout_constraintBottom_toBottomOf="@+id/ctl_home_location"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/tv_home_location" />
+                    app:layout_constraintTop_toTopOf="@+id/ctl_home_location" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_home_alert"
@@ -94,6 +107,7 @@
                     android:text="@string/home_alert_count"
                     android:textAppearance="?caption3"
                     android:textColor="?wh100"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@id/iv_home_bell"
                     app:layout_constraintStart_toStartOf="@id/iv_home_bell"
                     app:layout_constraintTop_toTopOf="@id/iv_home_bell" />
@@ -194,12 +208,12 @@
                         android:layout_width="@dimen/dimen72"
                         android:layout_height="@dimen/dimen72"
                         android:layout_marginBottom="@dimen/dimen4"
-                        app:layout_constraintHorizontal_chainStyle="spread_inside"
                         android:background="@drawable/bg_home_specific"
                         android:gravity="center"
                         app:layout_constraintBottom_toTopOf="@id/tv_home_specific_gym"
                         app:layout_constraintEnd_toStartOf="@+id/ll_home_specific_pt"
                         app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 

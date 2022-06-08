@@ -3,10 +3,11 @@ package com.depromeet.baton.presentation.ui.writepost.view
 import android.app.Dialog
 import android.os.Bundle
 import android.text.Editable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import androidx.core.view.isNotEmpty
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -17,6 +18,7 @@ import com.depromeet.baton.databinding.FragmentBottomSearchShopBinding
 import com.depromeet.baton.presentation.ui.address.SearchShopRvAdapter
 import com.depromeet.baton.presentation.ui.writepost.viewmodel.WritePostViewModel
 import com.depromeet.bds.component.BdsSearchBar
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,20 +38,31 @@ class BottomSearchShopFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_bottom_search_shop, container, false)
-        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.writePostViewModel = writePostViewModel
         setSearchShopRvAdapter()
-        setInputField()
         setShopSelectedObserve()
         setCloseBtnOnClickListener()
+        setInputField()
+        goToSelfWriteFragment()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return BottomSheetDialog(requireContext(), R.style.BottomSheetDialog)
+        return BottomSheetDialog(requireContext(), R.style.BottomSheetDialog).apply {
+            setOnShowListener { setupFullHeight(it as BottomSheetDialog) }
+        }
+    }
+
+    private fun setupFullHeight(bottomSheetDialog: BottomSheetDialog) {
+        val bottomSheet =
+            bottomSheetDialog.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
+        val behavior = BottomSheetBehavior.from(bottomSheet!!)
+        behavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
 
     private fun setSearchShopRvAdapter() {
@@ -59,56 +72,59 @@ class BottomSearchShopFragment : BottomSheetDialogFragment() {
 
     private fun setCloseBtnOnClickListener() {
         binding.ivBottomSearchClose.setOnClickListener {
-            dialog?.dismiss()
+            writePostViewModel.setSearchShopPosition(WritePostViewModel.DIALOG_DISMISS)
         }
     }
 
-    //다이어로그
     private fun setShopSelectedObserve() {
         writePostViewModel.isShopSelected.observe(this) {
-            dialog?.dismiss()
+            writePostViewModel.setSearchShopPosition(WritePostViewModel.DIALOG_DISMISS)
         }
     }
 
-    //검색해서 뷰모델한테 넘기기
     private fun setInputField() {
-
-        KeyboardVisibilityEvent.setEventListener(requireActivity()) {
-           binding?.bdsSearchbarBottomPlace.searchBarKeyBoardListener(it)
-        } //키보드 올림 내림에 따른 포커스 자동 변경 listener
-
+        writePostViewModel.searchPlace("")
         with(binding.bdsSearchbarBottomPlace) {
             textListener = object : BdsSearchBar.TextListener {
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     val query = s.toString()
-                    if (query.isNotEmpty()) {
-                        writePostViewModel.searchPlace(query)
-                        //clearFocus()  //keyboardListener가 자동 처리
-                    }
+                    if (query.isNotEmpty()) writePostViewModel.searchPlace(query)
+                    if (query == "") writePostViewModel.searchPlace("")
                 }
 
                 override fun afterTextChanged(s: Editable?) {}
             }
 
-            //TODO 검색결과 데이터 collect
+            KeyboardVisibilityEvent.setEventListener(requireActivity()) {
+                searchBarKeyBoardListener(it)
+            }
+
             lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    writePostViewModel.shopInfoList.collect {
-                        if (it.isNotEmpty()) {
-                            searchShopRvAdapter.submitList(it)
-                        }
+                    writePostViewModel.shopInfoList.collect { shopInfoList ->
+                        if (isNotEmpty()) searchShopRvAdapter.submitList(shopInfoList)
                     }
                 }
             }
         }
     }
 
+    private fun goToSelfWriteFragment() {
+        with(binding) {
+            bdsBtnBottomSearchNoResult.setOnClickListener {
+                writePostViewModel?.setSearchShopPosition(WritePostViewModel.SELF_WRITE)
+            }
+            bdsBtnBottomSearchSelfWrite.setOnClickListener {
+                writePostViewModel?.setSearchShopPosition(WritePostViewModel.SELF_WRITE)
+            }
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
+        writePostViewModel.shopInfoList.value.clear()
         _binding = null
     }
 }
-
-

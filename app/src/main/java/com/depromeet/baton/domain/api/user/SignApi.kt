@@ -10,7 +10,6 @@ import javax.inject.Singleton
 class SignApi @Inject constructor(
     private val service: SignService
 ) {
-
     suspend fun signWithKakao(request: LoginKakaoRequest): LoginKakaoResponse {
         return service.loginKakao(request)
     }

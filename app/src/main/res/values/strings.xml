@@ -23,7 +23,7 @@
     <!--  Bottom Filter Dialog  -->
     <string name="filter_reset">필터 초기화</string>
     <string name="filter_search">검색</string>
-    <string name="filter_search_result">(120건)</string>
+    <string name="filter_search_result">검색 (%s건)</string>
 
     <string name="filter_alignment">정렬 순</string>
     <string name="filter_alignment_distance">가까운 거리순</string>
@@ -35,10 +35,10 @@
 
     <string name="filter_ticket_kind">양도권 종류</string>
     <string name="filter_ticket_kind_select">종류를 선택해주세요</string>
-    <string name="filter_ticket_kind_explain">(중복 선택 가능)</string>
+    <string name="filter_ticket_kind_explain">(복수 선택 가능)</string>
     <string name="filter_ticket_gym">헬스 회원권</string>
     <string name="filter_ticket_pt">PT 이용권</string>
-    <string name="filter_ticket_pilates_yoga">필라테스/요가</string>
+    <string name="filter_ticket_pilates_yoga">필라테스 회원권</string>
     <string name="filter_ticket_etc">기타</string>
 
     <string name="filter_term">기간</string>
@@ -61,32 +61,37 @@
     <string name="filter_transaction_method_select">거래 방식 선택</string>
     <string name="filter_transaction_method_select_face">현장결제(대면)</string>
     <string name="filter_transaction_method_select_non_face">선결제(비대면)</string>
+    <string name="filter_transaction_method_cost_select_na">해당 없음</string>
     <string name="filter_transaction_method_cost_select">양도비 선택</string>
     <string name="filter_transaction_method_cost_select_seller">판매자 부담</string>
     <string name="filter_transaction_method_cost_select_consumer">구매자 부담</string>
 
     <string name="filter_additional_options">추가옵션</string>
     <string name="filter_additional_options_select">회원권 추가 옵션 선택</string>
-    <string name="filter_additional_options_select_explain">(중복 선택 가능)</string>
+    <string name="filter_additional_options_select_explain">(복수 선택 가능)</string>
     <string name="filter_additional_options_shower_room">샤워실 포함</string>
     <string name="filter_additional_options_locker_room">락카룸 포함</string>
     <string name="filter_additional_options_sport_wear">운동복 포함</string>
     <string name="filter_additional_options_gx">GX 포함</string>
     <string name="filter_additional_options_re_transfer">재양도 가능</string>
     <string name="filter_additional_options_refund">환불 가능</string>
-    <string name="filter_additional_options_holding">기간 홀딩 가능</string>
-    <string name="filter_additional_options_bargaining">가격네고 가능</string>
+    <string name="filter_additional_options_holding">홀딩(휴회)완료</string>
+    <string name="filter_additional_options_bargaining">가격 제안 가능</string>
 
     <string name="filter_hashtag">해시태그</string>
     <string name="filter_hashtag_select">해시태그 선택</string>
-    <string name="filter_hashtag_select_explain">(최대3개 선택 가능)</string>
+    <string name="filter_hashtag_select_explain">(최대 3개 선택 가능)</string>
     <string name="filter_hashtag_kind_teacher">&#35;친절한 선생님</string>
     <string name="filter_hashtag_systematic_lesson">&#35;체계적인 수업</string>
     <string name="filter_hashtag_customized_care">&#35;맞춤 케어</string>
     <string name="filter_hashtag_wide_facility">&#35;넓은 시설</string>
     <string name="filter_hashtag_various_instruments">&#35;다양한 기구</string>
+    <string name="filter_hashtag_new_instruments">&#35;최신기구</string>
+    <string name="filter_hashtag_crowded">&#35;사람이 많은</string>
+    <string name="filter_hashtag_few_people">&#35;사람이 적은</string>
     <string name="filter_hashtag_pleasant_environment">&#35;쾌적한 환경</string>
     <string name="filter_hashtag_quiet_atmosphere">&#35;조용한 분위기</string>
+    <string name="filter_hashtag_station_area">&#35;역세권</string>
 
 
     <!-- 판매글 등록-장소 등록 -->
@@ -123,6 +128,8 @@
     <string name="transaction_method_info_answer5">는 판매자가 미리 헬스장에 양도의사를 밝힌 후</string>
     <string name="transaction_method_info_answer6">구매자가 추후 이체 하거나 방문 전 미리 입금하는 것을 뜻해요.</string>
     <string name="transaction_method_info_answer7">*거래 방법은 개인에 따라 달라질 수 있으니 참고만 해주세요.</string>
+    <string name="transaction_method_info_answer8">구매자가 방문해 계약 내용을 확인하고 계좌이체 하거나</string>
+    <string name="transaction_method_info_answer9">방문 전 판매자에게 먼저 입금하는 것을 뜻해요</string>
 
     <!-- 판매글 등록-설명글-->
     <string name="description">설명글</string>
@@ -134,7 +141,8 @@
     <string name="search_option_count">%s개</string>
     <string name="search_option_all">전체</string>
     <string name="price_range">%s원 ~ %s원</string>
-    <string name="term_range">%s회 ~ %s회</string>
+    <string name="pt_term_range">%s회 ~ %s회</string>
+    <string name="gym_term_range">%s개월 ~ %s개월</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -159,5 +167,13 @@
 
     <string name="mypage_ticket_menu_change">정보 수정하기</string>
     <string name="mypage_ticket_menu_delete">삭제</string>
+
+    <!--바통 이용법-->
+    <string name="how_to_use_introduce1">바통은 헬스 양도권 거래 전문 플랫폼으로 내 위치를 기반으로\n가까운 매물을 확인하고 판매자와 구매자가 편리하고 안전하게\n양도권을 거래할 수 있는 플랫폼이에요.</string>
+    <string name="how_to_use_introduce2">바통에서 더 이상 사용하지 않는 회원권은 빠르게 판매하고\n평소 눈여겨 보던 우리 동네 헬스장 회원권은 저렴한 가격에\n구매해보세요!</string>
+    <string name="how_to_use_method2">거래 하기 전 상세 페이지에서 거래 방법을 확인하고\n거래 문의를 통해 판매자(구매자)와 거래를 진행해보세요.</string>
+    <string name="how_to_use_method1">양도권 거래 방법은 현장결제와 선결제로 나눠져요.</string>
+    <string name="how_to_use_careful1">구매 사기 예방을 위해 바통은 현장결제를 권장하는 편이에요.\n거래하기 전 등록된 회원권 정보가 계약 내용과도 일치하는지\n확인하면 더 안전한 거래를 할 수 있어요!</string>
+    <string name="how_to_use_careful2">바통(주)는 통신판매 중개자로서 통신 판매의 당사자가 아닙니다. 본 양도권은 개별 판매자가 직접 등록한 양도권으로 회원권 정보, 양도 거래에 관한 의무와 책임은 각 판매자와 구매자에게 있습니다.</string>
 
 </resources>

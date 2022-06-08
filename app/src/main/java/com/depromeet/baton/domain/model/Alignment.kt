@@ -1,10 +1,8 @@
 package com.depromeet.baton.domain.model
 
 enum class Alignment(val value: String) {
-    DISTANCE("가까운 거리순"),
-    LOW_PRICE("낮은 가격순"),
-    HIGH_PRICE("낮은 가격순"),
-    VIEW("조회 많은순"),
-    BOOKMARK("북마크 많은순"),
-    TERM("기간 많은순")
+    RECENT("가까운 거리순"),
+    LOWER_PRICE("낮은 가격순"),
+    VIEW("인기순"),
+    REMAIN_DAY("남은 기간 많은순")
 }

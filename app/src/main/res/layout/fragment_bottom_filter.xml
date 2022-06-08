@@ -123,7 +123,7 @@
                     android:background="@drawable/btn_filter_bottom_fixed"
                     android:backgroundTint="@color/selector_grey_scale80_grey_scale40"
                     android:enabled="@{filterViewModel.isResetAndSearchValid}"
-                    android:text="@string/filter_search"
+                    android:text="@{@string/filter_search_result(filterViewModel.filteredTicketCount.toString())}"
                     android:textAppearance="?body1"
                     android:textColor="@color/selector_wh100_grey_scale60"
                     app:layout_constraintBottom_toBottomOf="parent"

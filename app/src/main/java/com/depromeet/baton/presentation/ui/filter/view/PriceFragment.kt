@@ -18,14 +18,32 @@ class PriceFragment : BaseFragment<FragmentPriceBinding>(R.layout.fragment_price
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.filterViewModel = filterViewModel
+        initView()
+        setSliderResetObserve()
         setRangeChangeListener()
-        //제일 처음에 세팅해두기
-        binding.bdsRangeslider.setProgress(0f, 1500000f)
     }
 
+    private fun initView() {
+        binding.bdsRangeslider.setProgress(
+            filterViewModel.priceRange.value?.first ?: TermFragment.MIN,
+            filterViewModel.priceRange.value?.second ?: TermFragment.PRICE_MAX
+        )
+    }
+
+    private fun setPriceInitSlider() {
+        binding.bdsRangeslider.setProgress(TermFragment.MIN, TermFragment.PRICE_MAX)
+    }
+
+    private fun setSliderResetObserve() {
+        filterViewModel.isPriceFiltered.observe(viewLifecycleOwner) {
+            if (!it && binding.tvPriceSelectedAll.visibility == View.INVISIBLE) {
+                binding.tvPriceSelectedAll.visibility = View.VISIBLE
+                setPriceInitSlider()
+            }
+        }
+    }
 
     private fun setRangeChangeListener() {
-        //  setProgress(0f,150f)
         binding.bdsRangeslider.addRangeChangeListener(object : OnRangeChangedListener {
             override fun onRangeChanged(
                 rangeSeekBar: RangeSeekBar, leftValue: Float,

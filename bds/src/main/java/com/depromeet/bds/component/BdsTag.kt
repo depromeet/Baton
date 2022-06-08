@@ -26,4 +26,8 @@ class BdsTag @JvmOverloads constructor(
             binding.tvText.text = getString(R.styleable.BdsTextView_bds_text)
         }
     }
+
+    fun setText(content : String){
+        binding.tvText.text = content
+    }
 }

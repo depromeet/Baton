@@ -1,10 +1,12 @@
 package com.depromeet.baton.presentation.util
 
 import android.view.View
+import android.widget.CheckedTextView
 import android.widget.ProgressBar
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.depromeet.bds.component.BdsBackwardAppBar
 import com.depromeet.bds.component.BdsChoiceChip
 import com.depromeet.bds.component.BdsComponentTextField
 import com.depromeet.bds.component.BdsFilter
@@ -51,4 +53,11 @@ fun BdsComponentTextField.bindErrorMessage(message: String?) {
 @BindingAdapter("isVisible")
 fun View.bindVisible(isVisible: Boolean) {
     this.isVisible = isVisible
+}
+
+@BindingAdapter("bds_title")
+fun setBdsAppbarTitle(view: BdsBackwardAppBar, title: String?) {
+    title?.let{
+        view.setTitle(title)
+    }
 }

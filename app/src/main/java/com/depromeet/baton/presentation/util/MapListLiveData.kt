@@ -17,7 +17,7 @@ class MapListLiveData<T, K> : MutableLiveData<MutableMap<T, K>>() {
         value = items
     }
 
-    fun setChipState(type: T, isChecked: K) {
+    fun setChipCheckedStatus(type: T, isChecked: K) {
         val items: MutableMap<T, K>? = value
         items?.set(type, isChecked)
         value = items
