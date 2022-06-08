@@ -17,7 +17,9 @@ import com.depromeet.baton.presentation.ui.mypage.adapter.SaleTicketItemAdapter
 import com.depromeet.baton.presentation.ui.mypage.adapter.SoldoutTicketItemAdapter
 import com.depromeet.baton.presentation.ui.mypage.model.SaleTicketItem
 import com.depromeet.baton.presentation.ui.mypage.model.SaleTicketListItem
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SoldoutTabFragment  : BaseFragment<FragmentSoldoutTabBinding>(R.layout.fragment_soldout_tab) {
     private  val ticketItemRvAdapter by lazy {
         SoldoutTicketItemAdapter(requireContext(), ::onClickStatusMenuItemListener)

@@ -1,50 +1,58 @@
 package com.depromeet.baton.presentation.ui.mypage.view
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import androidx.activity.OnBackPressedCallback
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import com.depromeet.baton.BatonApp
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentProfileBinding
 import com.depromeet.baton.presentation.base.BaseFragment
+import com.depromeet.baton.presentation.ui.mypage.viewmodel.MyPageViewModel
 import com.depromeet.baton.presentation.ui.mypage.viewmodel.ProfileViewModel
-import com.depromeet.baton.presentation.ui.sign.AddAccountActivity
-import com.depromeet.baton.presentation.ui.sign.SignUpInfoViewModel
 import com.depromeet.baton.presentation.util.viewLifecycle
 import com.depromeet.baton.presentation.util.viewLifecycleScope
 import com.depromeet.bds.component.BdsToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import timber.log.Timber
 
 @AndroidEntryPoint
 class ProfileFragment() :BaseFragment<FragmentProfileBinding>(R.layout.fragment_profile) {
 
-    private val profileViewModel : ProfileViewModel by lazy {
-        ViewModelProvider(requireActivity())[ProfileViewModel::class.java]
-    }
+    private val profileViewModel by activityViewModels<ProfileViewModel>()
+    private val myPageViewModel by activityViewModels<MyPageViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.profileSettingBtn.setOnClickListener {
-            val bottomSheet = ProfileBottomFragment()
-            bottomSheet.show(requireActivity().supportFragmentManager, BatonApp.TAG)
-        }
+        initView()
         setObserver()
         setListener()
         setBackPressed()
 
     }
 
+
+    private fun initView(){
+        val name = myPageViewModel.uiState.value.nickName
+        val phone = myPageViewModel.uiState.value.phoneNumber
+        val profile = myPageViewModel.uiState.value.profileImage.toString()
+        profileViewModel.initProfileInfo(name, phone, profile)
+
+
+    }
+
     private fun setListener(){
-        binding.profileToolbar.setOnBackwardClick{onBackPressed()}
+        binding.profileToolbar.setOnBackwardClick{ onBackPressed()}
         binding.profileCompleteBtn.setOnClickListener { setOnClickComplete() }
+
+        binding.profileSettingBtn.setOnClickListener {
+            val bottomSheet = ProfileBottomFragment()
+            bottomSheet.show(requireActivity().supportFragmentManager, BatonApp.TAG)
+        }
     }
 
 
@@ -68,38 +76,52 @@ class ProfileFragment() :BaseFragment<FragmentProfileBinding>(R.layout.fragment_
     }
 
     private fun setOnClickComplete(){
+        profileViewModel.submitProfile()
         onBackPressed()
     }
 
     private fun setObserver(){
-
-        profileViewModel.temporaryUiState
-            .flowWithLifecycle(viewLifecycle)
-            .onEach { uiState -> binding.temporaryUiState = uiState }
-            .launchIn(viewLifecycleScope)
-
         profileViewModel.uiState
             .flowWithLifecycle(viewLifecycle)
-            .onEach { uiState -> binding.uiState = uiState }
+            .onEach { uiState -> run{
+                binding.uiState = uiState
+            } }
             .launchIn(viewLifecycleScope)
 
-        profileViewModel.viewEvents
+         profileViewModel.viewEvents
             .flowWithLifecycle(viewLifecycle)
             .onEach(::handleViewEvents)
             .launchIn(viewLifecycleScope)
     }
 
-    private fun handleViewEvents(viewEvents: List<ProfileViewModel.ViewEvent>) {
-        viewEvents.firstOrNull()?.let { viewEvent ->
+    private fun handleViewEvents(profileViewEvents: List<ProfileViewModel.ProfileViewEvent>) {
+        profileViewEvents.firstOrNull()?.let { viewEvent ->
             when (viewEvent) {
-                ProfileViewModel.ViewEvent.ToBack -> {
+                ProfileViewModel.ProfileViewEvent.EventToBack -> {
                    onBackPressed()
                 }
-                ProfileViewModel.ViewEvent.ToSettingProfileImg->{
+                ProfileViewModel.ProfileViewEvent.EventUpdateProfileImage->{
+                    myPageViewModel.updateProfileImg(profileViewModel.uiState.value.profileImage)
                     changedProfile()
+                }
+                ProfileViewModel.ProfileViewEvent.EventUpdateProfileInfo ->{
+                    myPageViewModel.updateNickname(profileViewModel.uiState.value.nickName)
                 }
             }
             profileViewModel.consumeViewEvent(viewEvent)
+        }
+    }
+
+    companion object{
+        fun newInstance(nickname : String, phoneNumber : String , profile : String ):ProfileFragment {
+            val args = Bundle().apply {
+                putString("nickName", nickname)
+                putString("phoneNumber", phoneNumber)
+                putString("profileImg", profile)
+            }
+            val fragment = ProfileFragment()
+            fragment.arguments = args
+            return fragment
         }
     }
 

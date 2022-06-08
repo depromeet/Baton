@@ -88,7 +88,8 @@ class ProfileIconAdapter(
     fun onClickImage(position: Int, item : ProfileIconItem){
         itemClick(item.icon!!, position)
         submitList(toggle(position).toList())
-        viewModel.onClickEmotion(item.icon!!)
+        //viewModel.onClickEmotion(item.icon!!)
+
     }
 
     companion object {

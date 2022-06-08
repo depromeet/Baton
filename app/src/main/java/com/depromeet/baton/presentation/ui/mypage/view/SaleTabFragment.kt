@@ -16,7 +16,9 @@ import com.depromeet.baton.presentation.bottom.BottomSheetFragment
 import com.depromeet.baton.presentation.ui.mypage.model.SaleTicketItem
 import com.depromeet.baton.presentation.ui.mypage.model.SaleTicketListItem
 import com.depromeet.baton.presentation.ui.mypage.adapter.SaleTicketItemAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SaleTabFragment : BaseFragment<FragmentSaleTabBinding>(R.layout.fragment_sale_tab){
     private  val ticketItemRvAdapter by lazy {
         SaleTicketItemAdapter(requireContext(), ::onClickMenuItemListener, ::onClickStatusMenuItemListener)

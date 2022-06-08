@@ -10,8 +10,9 @@ import com.depromeet.baton.presentation.base.BaseFragment
 import com.depromeet.baton.presentation.ui.mypage.model.SaleTicketItem
 import com.depromeet.baton.presentation.ui.mypage.model.SaleTicketListItem
 import com.depromeet.baton.presentation.ui.mypage.adapter.PurchaseTicketItemAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
-
+@AndroidEntryPoint
 class PurchaseHistoryFragment: BaseFragment<FragmentPurchaseHistoryBinding>(R.layout.fragment_purchase_history){
     private  val ticketItemRvAdapter by lazy {
         PurchaseTicketItemAdapter(requireContext(), ::onClickItemListener)

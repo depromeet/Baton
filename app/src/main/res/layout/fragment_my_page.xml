@@ -5,7 +5,7 @@
     <data>
         <variable
             name="uiState"
-            type="com.depromeet.baton.presentation.ui.mypage.viewmodel.ProfileUiState" />
+            type="com.depromeet.baton.presentation.ui.mypage.viewmodel.MypageUiState" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/fragment_container_view"

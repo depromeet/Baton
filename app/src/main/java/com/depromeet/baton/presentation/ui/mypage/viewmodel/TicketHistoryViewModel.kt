@@ -6,9 +6,11 @@ import androidx.lifecycle.viewModelScope
 import com.depromeet.baton.presentation.base.BaseViewModel
 import com.depromeet.baton.presentation.ui.mypage.model.SaleTicketItem
 import com.depromeet.baton.presentation.ui.mypage.model.SaleTicketListItem
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-
-class TicketHistoryViewModel : BaseViewModel() {
+import javax.inject.Inject
+@HiltViewModel
+class TicketHistoryViewModel@Inject constructor() : BaseViewModel() {
     private val ticketLiveData = MutableLiveData<List<SaleTicketListItem>>()
     val tasks: LiveData<List<SaleTicketListItem>> get() = ticketLiveData
 

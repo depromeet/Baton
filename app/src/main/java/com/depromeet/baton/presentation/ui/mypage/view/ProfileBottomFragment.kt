@@ -11,6 +11,8 @@ import android.widget.Button
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.flowWithLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
@@ -21,25 +23,22 @@ import com.depromeet.baton.presentation.ui.mypage.adapter.ProfileIconAdapter
 import com.depromeet.baton.presentation.ui.mypage.model.ProfileIcon
 import com.depromeet.baton.presentation.ui.mypage.model.ProfileIconItem
 import com.depromeet.baton.presentation.ui.mypage.viewmodel.ProfileViewModel
-import com.depromeet.baton.presentation.util.ProfileIconDecoration
-import com.depromeet.baton.presentation.util.shortToast
-import com.depromeet.baton.presentation.util.viewLifecycle
-import com.depromeet.baton.presentation.util.viewLifecycleScope
+import com.depromeet.baton.presentation.util.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.nguyenhoanglam.imagepicker.model.Image
 import com.nguyenhoanglam.imagepicker.model.ImagePickerConfig
 import com.nguyenhoanglam.imagepicker.ui.imagepicker.registerImagePicker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import timber.log.Timber
 
 
 @AndroidEntryPoint
 class ProfileBottomFragment(): BottomSheetDialogFragment() {
 
-    private val profileViewModel : ProfileViewModel by lazy {
-        ViewModelProvider(requireActivity())[ProfileViewModel::class.java]
-    }
+    private val profileViewModel by activityViewModels<ProfileViewModel>()
 
     private val profileAdapter: ProfileIconAdapter by lazy {
         ProfileIconAdapter( profileViewModel, list, ::onClickCamera, ::onClickEmotion)
@@ -47,7 +46,7 @@ class ProfileBottomFragment(): BottomSheetDialogFragment() {
 
     private val list : ArrayList<ProfileIconItem> by lazy { initList() }
 
-    private lateinit var binding: FragmentProfileBottomBinding
+    private var nowImgUrl : Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,7 +78,7 @@ class ProfileBottomFragment(): BottomSheetDialogFragment() {
     private fun setObserver(){
         profileViewModel.uiState
             .flowWithLifecycle(viewLifecycle)
-            .onEach { uiState -> if(uiState.isChanged)setImage(uiState.profileImage) }
+            .onEach { uiState -> setImage(uiState.profileImage) }
             .launchIn(viewLifecycleScope)
     }
 
@@ -105,7 +104,8 @@ class ProfileBottomFragment(): BottomSheetDialogFragment() {
     }
 
     private fun setImage(uri : Uri){
-        view?.findViewById<ImageView>(R.id.profile_bottom_my_iv)?.setImageURI(uri)
+        if(nowImgUrl==null) profileViewModel.uiState.value.profileImage
+        view?.findViewById<ImageView>(R.id.profile_bottom_my_iv)?.setImageURI(nowImgUrl?:uri)
         view?.findViewById<Button>(R.id.profile_bottom_check_btn)?.isEnabled=true
     }
 
@@ -116,11 +116,12 @@ class ProfileBottomFragment(): BottomSheetDialogFragment() {
     private fun onClickEmotion(profileIcon: ProfileIcon, pos: Int){
         view?.findViewById<ImageView>(R.id.profile_bottom_my_iv)?.setImageResource(profileIcon.size56)
         view?.findViewById<Button>(R.id.profile_bottom_check_btn)?.isEnabled=true
+        nowImgUrl = uriConverter(requireContext(),profileIcon.size56)
     }
 
     private fun setCheckBtnOnClickListener(){
         view?.findViewById<Button>(R.id.profile_bottom_check_btn)?.setOnClickListener {
-            profileViewModel.submitProfileImg()
+            if(nowImgUrl!=null)profileViewModel.submitProfileImg(nowImgUrl!!)
             dialog?.dismiss()
         }
     }
@@ -160,9 +161,15 @@ class ProfileBottomFragment(): BottomSheetDialogFragment() {
 
     private val launcher = registerImagePicker { images ->
         if (images.isNotEmpty()) {
-           profileViewModel.setImage (images[0])
+            setPhotoImage(images[0])
         }
     }
+
+    private fun setPhotoImage(image: Image){
+        nowImgUrl = image.uri
+        view?.findViewById<ImageView>(R.id.profile_bottom_my_iv)?.setImageURI(nowImgUrl)
+    }
+
 
     private fun requestPermission() {
         permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)

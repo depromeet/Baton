@@ -4,9 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
-            name="temporaryUiState"
-            type="com.depromeet.baton.presentation.ui.mypage.viewmodel.ProfileUiState" />
-        <variable
             name="uiState"
             type="com.depromeet.baton.presentation.ui.mypage.viewmodel.ProfileUiState" />
     </data>
@@ -50,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/dimen16"
             android:layout_marginTop="@dimen/dimen16"
-            app:bds_error_message="@{temporaryUiState.nickNameErrorReason}"
+            app:bds_error_message="@{uiState.nickNameErrorReason}"
             app:bds_label="닉네임">
 
             <EditText
@@ -59,8 +56,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
-                android:text="@{temporaryUiState.nickName}"
-                android:afterTextChanged="@{it -> temporaryUiState.onNickNameChanged.invoke(it)}"
+                android:text="@{uiState.nickName}"
+                android:afterTextChanged="@{it ->uiState.onNickNameChanged.invoke(it)}"
                />
         </com.depromeet.bds.component.BdsComponentTextField>
 
@@ -71,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/dimen16"
             android:layout_marginTop="@dimen/dimen20"
-            app:bds_error_message="@{temporaryUiState.phoneNumberErrorReason}"
+            app:bds_error_message="@{uiState.phoneNumberErrorReason}"
             app:bds_label="휴대폰 번호">
 
             <EditText
@@ -79,8 +76,8 @@
                 style="@style/Widget.Bds.TextFieldInnerEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{temporaryUiState.phoneNumber}"
-                android:afterTextChanged="@{it -> temporaryUiState.onPhoneNumberChanged.invoke(it)}"
+                android:text="@{uiState.phoneNumber}"
+                android:afterTextChanged="@{it -> uiState.onPhoneNumberChanged.invoke(it)}"
                 android:digits="0987654321"
                 android:hint="‘-’를 제외한 번호를 입력해주세요."
                 android:inputType="textPhonetic"
@@ -104,8 +101,7 @@
             android:theme="@style/Theme.Bds.PrimaryButton"
             android:background="@drawable/bds_button_background"
             android:textColor="@color/selector_bds_button_text_color"
-            android:enabled="@{temporaryUiState.enabled }"
-            android:onClick="@{_ -> temporaryUiState.onSubmit.invoke()}"
+            android:enabled="@{uiState.isEnabled }"
             android:layout_marginHorizontal="@dimen/dimen16"
             android:layout_marginBottom="@dimen/dimen16"
             />

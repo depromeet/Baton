@@ -2,6 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="temporaryUiState"
+            type="com.depromeet.baton.presentation.ui.mypage.viewmodel.ProfileUiState" />
+
+    </data>
     <LinearLayout
         android:id="@+id/bottom_view"
         app:behavior_hideable="false"
@@ -39,7 +45,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginRight="@dimen/dimen16"
-                android:src="@drawable/ic_close_line_24"
+                android:src="@{temporaryUiState.profileImage}"
                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

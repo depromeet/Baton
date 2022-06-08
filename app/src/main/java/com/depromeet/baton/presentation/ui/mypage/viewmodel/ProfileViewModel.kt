@@ -1,48 +1,42 @@
 package com.depromeet.baton.presentation.ui.mypage.viewmodel
 
 import android.app.Application
-import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
 import android.text.Editable
-import android.text.format.DateUtils
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.depromeet.baton.presentation.ui.mypage.model.ProfileIcon
+import androidx.lifecycle.SavedStateHandle
+import com.depromeet.baton.presentation.base.BaseViewModel
 import com.depromeet.baton.presentation.util.RegexConstant
-import com.nguyenhoanglam.imagepicker.model.Image
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import timber.log.Timber
+import javax.inject.Inject
 
-class ProfileViewModel(application: Application): AndroidViewModel(application) {
-
-    private val context : Context = application
+@HiltViewModel
+class ProfileViewModel@Inject constructor(
+    application: Application,
+    private val savedStateHandle: SavedStateHandle
+):
+BaseViewModel(){
 
     private val _uiState: MutableStateFlow<ProfileUiState> = MutableStateFlow(createState())
     val uiState = _uiState.asStateFlow()
 
-    private val _viewEvents: MutableStateFlow<List<ViewEvent>> = MutableStateFlow(emptyList())
+    private val _viewEvents: MutableStateFlow<List<ProfileViewEvent>> = MutableStateFlow(emptyList())
     val viewEvents = _viewEvents.asStateFlow()
-
-    private val _profileImageUri = MutableLiveData<Uri>()
-    val profileImageUri : LiveData<Uri> get() = _profileImageUri
-
 
     private val _temporaryUiState: MutableStateFlow<ProfileUiState> = MutableStateFlow(createState())
     val temporaryUiState = _temporaryUiState.asStateFlow()
 
-    private val _isChangedImage = MutableLiveData<Boolean>(false)
-    val isChangedImage : LiveData<Boolean> get()= _isChangedImage
-
 
     private fun createState(): ProfileUiState {
+
         return ProfileUiState(
-            nickName = "김바통",
-            phoneNumber = "01000000000",
-            joinDate="2020.02.02",
-            profileImage = uriConverter(com.depromeet.bds.R.drawable.ic_img_profile_smirk_56),
+            nickName = "",
+            phoneNumber = "",
+            profileImage =Uri.parse(""),
             onNickNameChanged = ::handleNickNameChanged,
             onPhoneNumberChanged = ::handlePhoneNumberChanged,
             onProfileChanged = ::submitProfileImg,
@@ -51,64 +45,56 @@ class ProfileViewModel(application: Application): AndroidViewModel(application) 
         )
     }
 
+    fun initProfileInfo( name : String , phone :String, img : String){
+        _uiState.update { it.copy( nickName = name , phoneNumber = phone , profileImage = Uri.parse(img)) }
+    }
+
 
     private fun handleNickNameChanged(text: Editable?) {
-        _temporaryUiState.update { it.copy(nickName = text.toString() , isChanged =it.nickName!=text.toString()) }
+        _uiState.update { it.copy(nickName = text.toString() , isChanged =it.nickName!=text.toString()) }
     }
 
     private fun handlePhoneNumberChanged(text: Editable?) {
-        _temporaryUiState.update { it.copy(phoneNumber = text.toString() ,isChanged = it.phoneNumber!=text.toString()) }
+        _uiState.update { it.copy(phoneNumber = text.toString() ,isChanged = it.phoneNumber!=text.toString()) }
     }
 
-    fun onClickEmotion(image: ProfileIcon){
-        _temporaryUiState.update { it.copy(profileImage = uriConverter(image.size56)) }
-    }
 
-    fun setImage(image: Image){
-       _temporaryUiState.update { it.copy(profileImage = image.uri) }
-    }
-
-    fun submitProfileImg(){
+    fun submitProfileImg(uri : Uri){
         //Bottom 에서 확인 눌렀을 때
-        _uiState.update { it.copy( profileImage = temporaryUiState.value.profileImage ) }
-        _viewEvents.update { it +ViewEvent.ToSettingProfileImg}
+        _uiState.update { it.copy( profileImage = uri , isChanged = true) }
+        addViewEvent(ProfileViewEvent.EventUpdateProfileImage)
     }
 
-    private fun submitProfile(){
-        _uiState.update { _temporaryUiState.value }
-        _viewEvents.update { it +ViewEvent.ToBack}
+     fun submitProfile(){
+        //변경 API 호출
+        addViewEvent(ProfileViewEvent.EventUpdateProfileInfo)
     }
 
-    fun consumeViewEvent(viewEvent: ViewEvent) {
-        _viewEvents.update { it - viewEvent }
+    fun consumeViewEvent(profileViewEvent: ProfileViewEvent) {
+        _viewEvents.update { it - profileViewEvent }
     }
 
-    private fun uriConverter(id: Int):Uri{
-        val resourceId = id
-        val uriParser= Uri.Builder()
-            .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
-            .authority(context.resources.getResourcePackageName(resourceId))
-            .appendPath(context.resources.getResourceTypeName(resourceId))
-            .appendPath(context.resources.getResourceEntryName(resourceId))
-            .build()
-
-        return uriParser
+    private fun addViewEvent(profileViewEvent: ProfileViewEvent) {
+        _viewEvents.update { it + profileViewEvent }
     }
 
-    sealed interface ViewEvent {
-        object ToBack: ViewEvent
-        object ToSettingProfileImg: ViewEvent
+
+
+    sealed interface ProfileViewEvent {
+        object EventUpdateProfileInfo: ProfileViewEvent
+        object EventUpdateProfileImage: ProfileViewEvent
+        object EventToBack : ProfileViewEvent
     }
+
 
 }
  data class ProfileUiState(
      val nickName: String,
      val phoneNumber: String,
-     val joinDate: String,
      val profileImage: Uri,
      val onNickNameChanged: (Editable?) -> Unit,
      val onPhoneNumberChanged: (Editable?) -> Unit,
-     val onProfileChanged: () -> Unit,
+     val onProfileChanged: (Uri) -> Unit,
      val isChanged: Boolean,
      val onSubmit: () -> Unit,
 ) {

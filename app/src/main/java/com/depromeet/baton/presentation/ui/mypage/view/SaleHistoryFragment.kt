@@ -7,7 +7,9 @@ import com.depromeet.baton.databinding.FragmentSaleHistoryBinding
 import com.depromeet.baton.presentation.base.BaseFragment
 import com.depromeet.baton.presentation.ui.mypage.adapter.MyPageViewAdapter
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SaleHistoryFragment  : BaseFragment<FragmentSaleHistoryBinding>(R.layout.fragment_sale_history){
     private val saleHistoryFragment = SaleTabFragment()
     private val soldOutTabFragment = SoldoutTabFragment()

@@ -12,7 +12,9 @@ import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
 import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter
 import com.depromeet.baton.presentation.ui.home.view.TicketItem
 import com.depromeet.baton.presentation.util.TicketItemVerticalDecoration
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LikeTicketFragment : BaseFragment<FragmentLikeTicketBinding>(R.layout.fragment_like_ticket) {
     private val ticketItemRvAdapter by lazy{
         TicketItemRvAdapter(TicketItemRvAdapter.SCROLL_TYPE_VERTICAL, requireContext(), ::setTicketItemClickListener)

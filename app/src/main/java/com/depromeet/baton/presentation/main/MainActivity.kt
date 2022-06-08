@@ -12,6 +12,7 @@ import com.depromeet.baton.presentation.base.BaseActivity
 import com.depromeet.baton.presentation.ui.chatting.ChattingFragment
 import com.depromeet.baton.presentation.ui.home.view.HomeFragment
 import com.depromeet.baton.presentation.ui.mypage.view.MyPageFragment
+import com.depromeet.baton.presentation.ui.mypage.viewmodel.MyPageViewModel
 import com.depromeet.baton.presentation.ui.mypage.viewmodel.ProfileViewModel
 import com.depromeet.baton.presentation.ui.search.SearchFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,6 +24,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private val searchFragment: SearchFragment by lazy { SearchFragment() }
     private val chattingFragment: ChattingFragment by lazy { ChattingFragment() }
     private val myPageFragment: MyPageFragment by lazy { MyPageFragment() }
+
+    private val profileViewModel by lazy { viewModels<ProfileViewModel>()}
+    private val myPageViewModel  by lazy { viewModels<MyPageViewModel>()}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
