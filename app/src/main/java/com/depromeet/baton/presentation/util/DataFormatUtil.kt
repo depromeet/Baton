@@ -4,13 +4,15 @@ import java.text.DecimalFormat
 import kotlin.math.ceil
 
 
-fun priceFormat(price: Float?): String {
-    val priceStr = price?.toInt().toString()
-    val dec = DecimalFormat("#,###")
+fun priceFormat(price: Float): String {
+    val priceStr = price.toInt().toString()
+    val dec = DecimalFormat("###,###")
+    return dec.format(price)
+}
 
-    return if (priceStr.length >= 5)
-        dec.format((priceStr.substring(0, priceStr.length - 4) + "0000").toInt())
-    else "0"
+fun priceFloatFormat(price: Float): String {
+    val dec = DecimalFormat("###,###.##")
+    return dec.format(price)
 }
 
 fun ceilAndToStringFormat(data: Float): String {

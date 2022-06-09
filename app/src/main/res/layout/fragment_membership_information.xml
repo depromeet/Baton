@@ -152,11 +152,11 @@
                         android:paddingVertical="@dimen/dimen8"
                         android:text="기간제"
                         android:textAlignment="center"
-                        android:textAppearance="?body3"
                         android:textColor="@color/selector_grey_scale70_primary50"
                         app:layout_constraintEnd_toStartOf="@+id/ctv_membership_frequency_term"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_membership_term" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_membership_term"
+                        tools:textAppearance="?body3" />
 
                     <CheckedTextView
                         android:id="@+id/ctv_membership_frequency_term"
@@ -167,11 +167,11 @@
                         android:paddingVertical="@dimen/dimen8"
                         android:text="횟수제"
                         android:textAlignment="center"
-                        android:textAppearance="?body3"
                         android:textColor="@color/selector_grey_scale70_primary50"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/ctv_membership_fixed_term"
-                        app:layout_constraintTop_toTopOf="@id/ctv_membership_fixed_term" />
+                        app:layout_constraintTop_toTopOf="@id/ctv_membership_fixed_term"
+                        tools:textAppearance="?body3" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -198,6 +198,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen8"
+                        android:id="@+id/bds_textfield"
+                        app:bdsBorderColor="@color/selector_bds_textfield_border_color"
+                        android:focusable="true"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_membership_input">
@@ -206,9 +209,12 @@
                             android:id="@+id/et_term"
                             style="@style/Widget.Bds.TextFieldInnerEditText"
                             android:layout_width="match_parent"
+                            android:maxLength="8"
                             android:layout_height="wrap_content"
                             android:afterTextChanged="@{it -> uiState.onTermChanged.invoke(it)}"
-                            android:hint="잔여기간을 입력해주세요" />
+                            android:enabled="@{viewModel.isPeriodChecked || viewModel.isNumberChecked ? true : false }"
+                            android:hint="기간/횟수를 먼저 선택해주세요"
+                            android:inputType="number" />
                     </com.depromeet.bds.component.BdsComponentTextField>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -244,11 +250,13 @@
 
                         <EditText
                             android:id="@+id/et_price"
+                            android:maxLines="1"
                             style="@style/Widget.Bds.TextFieldInnerEditText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:afterTextChanged="@{it -> uiState.onPriceChanged.invoke(it)}"
-                            android:hint="원" />
+                            android:hint="ex.600000원(숫자만 입력해주세요)"
+                            android:inputType="number" />
                     </com.depromeet.bds.component.BdsComponentTextField>
 
                     <LinearLayout

@@ -1,6 +1,7 @@
 package com.depromeet.baton.remote.search
 
 import com.depromeet.baton.data.response.ResponseFilteredTicket
+import com.depromeet.baton.data.response.ResponsePostTicket
 import com.depromeet.baton.data.response.ResponseTicketInfo
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -101,5 +102,5 @@ interface SearchService {
     suspend fun postTicket(
         @PartMap body: HashMap<String, RequestBody?>,
         @Part images: MutableList<MultipartBody.Part>?
-    ): ResponseFilteredTicket
+    ): ResponsePostTicket
 }

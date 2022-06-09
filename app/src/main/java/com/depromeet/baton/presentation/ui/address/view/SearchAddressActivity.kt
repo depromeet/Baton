@@ -15,6 +15,7 @@ import com.depromeet.baton.presentation.ui.address.viewmodel.SearchAddressViewMo
 import com.depromeet.baton.presentation.ui.address.model.AddressInfo
 import com.depromeet.baton.util.BatonSpfManager
 import com.depromeet.bds.component.BdsSearchBar
+import com.naver.maps.geometry.LatLng
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
@@ -23,8 +24,9 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class SearchAddressActivity : BaseActivity<ActivitySearchAddressBinding>(R.layout.activity_search_address) {
-    private val searchAddressViewModel  by viewModels<SearchAddressViewModel>()
-    @Inject lateinit var spfManager: BatonSpfManager
+    private val searchAddressViewModel by viewModels<SearchAddressViewModel>()
+    @Inject
+    lateinit var spfManager: BatonSpfManager
     private lateinit var listAdapter: SearchAddressAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,12 +37,13 @@ class SearchAddressActivity : BaseActivity<ActivitySearchAddressBinding>(R.layou
         setAdapter()
         setObserver()
     }
-    private fun initView(){
-        binding.addressToolbar.titleTv.text="위치검색"
+
+    private fun initView() {
+        binding.addressToolbar.titleTv.text = "위치검색"
 
     }
 
-    private fun setListener(){
+    private fun setListener() {
         binding.searchAddressSetLocation.setOnClickListener {
             val intent = Intent(this, MyLocationActivity::class.java)
             startActivity(intent)
@@ -54,24 +57,24 @@ class SearchAddressActivity : BaseActivity<ActivitySearchAddressBinding>(R.layou
     }
 
 
-
-    private  fun setObserver() {
+    private fun setObserver() {
         searchAddressViewModel.searchAddress("")
-        binding.searchAddressEt.textListener= object : BdsSearchBar.TextListener {
+        binding.searchAddressEt.textListener = object : BdsSearchBar.TextListener {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val query = s.toString()
                 searchAddressViewModel.searchAddress(query)
             }
+
             override fun afterTextChanged(s: Editable?) {}
         }
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                searchAddressViewModel.items.collect{
+                searchAddressViewModel.items.collect {
                     Timber.e("NewItem!!!")
-                    if(!it.isEmpty()){
+                    if (!it.isEmpty()) {
                         listAdapter.submitList(it)
                     }
                 }
@@ -80,7 +83,7 @@ class SearchAddressActivity : BaseActivity<ActivitySearchAddressBinding>(R.layou
     }
 
 
-    private fun setAdapter(){
+    private fun setAdapter() {
         listAdapter = SearchAddressAdapter { selectedItem: AddressInfo ->
             listItemClicked(
                 selectedItem
@@ -89,7 +92,7 @@ class SearchAddressActivity : BaseActivity<ActivitySearchAddressBinding>(R.layou
         binding.searchAddressRecycler.adapter = listAdapter
     }
 
-    private fun listItemClicked(item : AddressInfo){
+    private fun listItemClicked(item: AddressInfo) {
         spfManager.saveAddress(item.roadAddress, item.address)
         val intent = Intent(this, MyLocationDetailActivity::class.java)
         startActivity(intent)

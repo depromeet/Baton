@@ -1,8 +1,11 @@
 package com.depromeet.baton.presentation.ui.writepost.view
 
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
+import androidx.annotation.RequiresApi
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -40,6 +43,7 @@ class MembershipInformationFragment : BaseFragment<FragmentMembershipInformation
         }
         setTermIsChecked()
         setCheckboxOnClickListener()
+        setHint()
     }
 
     private fun setObserve() {
@@ -85,5 +89,22 @@ class MembershipInformationFragment : BaseFragment<FragmentMembershipInformation
                 writePostViewModel.handleChipChanged(AdditionalOptions.HOLDING, checkboxHolding.isChecked)
             }
         }
+    }
+
+    private fun setHint() {
+        writePostViewModel.isPeriodChecked.observe(viewLifecycleOwner) {
+            if (it) binding.etTerm.hint = "ex.20221204(숫자만 입력해주세요)"
+        }
+        writePostViewModel.isNumberChecked.observe(viewLifecycleOwner) {
+            if (it) binding.etTerm.hint = "ex.50회(숫자만 입력해주세요)"
+        }
+
+ /*       binding.etTerm.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
+            if (hasFocus) {
+                binding.bdsTextfield.isFocusable = true
+            } else {
+                //  .. 포커스 뺏겼을 때
+            }
+        }*/
     }
 }

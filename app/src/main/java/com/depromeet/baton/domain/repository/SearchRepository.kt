@@ -1,7 +1,7 @@
 package com.depromeet.baton.domain.repository
 
-import com.depromeet.baton.data.mapper.SearchMapper
 import com.depromeet.baton.data.response.ResponseFilteredTicket
+import com.depromeet.baton.data.response.ResponsePostTicket
 import com.depromeet.baton.data.response.ResponseTicketInfo
 import com.depromeet.baton.domain.api.search.SearchApi
 import com.depromeet.baton.domain.model.BatonHashTag
@@ -180,10 +180,9 @@ class SearchRepository @Inject constructor(
             canNego = canNego,
             isMembership = isMembership
         )
-
     }
 
-    //SearchMapper.mapperToFilteredTicket(
+
     suspend fun getTicketInfo(
         id: Int,
         latitude: Float = spfManager.getLocation().latitude.toFloat(),
@@ -207,7 +206,7 @@ class SearchRepository @Inject constructor(
         return searchApi.getTicketSearchResult(page, size, latitude, longitude, query, maxDistance)
     }
 
-    suspend fun postTicket(body: HashMap<String, RequestBody?>, images: MutableList<MultipartBody.Part>?): ResponseFilteredTicket {
+    suspend fun postTicket(body: HashMap<String, RequestBody?>, images: MutableList<MultipartBody.Part>?): ResponsePostTicket {
         return searchApi.postTicket(body, images)
     }
 

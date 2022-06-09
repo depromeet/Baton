@@ -1,8 +1,10 @@
 package com.depromeet.baton.presentation.ui.writepost.viewmodel
 
 import android.net.Uri
+import android.os.Build
 import android.text.Editable
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -25,6 +27,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import timber.log.Timber
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -110,6 +114,10 @@ class WritePostViewModel @Inject constructor(
     //등록 완료
     private val _postSuccess = SingleLiveEvent<Any>()
     val postSuccess: LiveData<Any> = _postSuccess
+
+    //등록 완료
+    private val _postId = MutableLiveData(0)
+    val postId: LiveData<Int> = _postId
 
     //글자 수 저장
     private val _currentTextLength = MutableLiveData(0)
@@ -473,7 +481,6 @@ class WritePostViewModel @Inject constructor(
     }
 
     fun handleChipChanged(any: Any, isChecked: Boolean) {
-        Log.e("ㅡㅡㅡㅡㅡㅡㅡffㅡㅡㅡ","${isChecked}")
         when (any) {
             is TicketKind -> setTicketKind(any, isChecked)
             is AdditionalOptions -> setAdditionalOptions(any, isChecked)
@@ -506,12 +513,25 @@ class WritePostViewModel @Inject constructor(
         updateChoiceChipCheckedStatus()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun setLevelTwoNextBtnEnable() {
+        val term = _membershipInfoUiState.value.termChanged
+        val price = _membershipInfoUiState.value.priceChanged
+
         _isLevelTwoNextBtnEnable.value =
             ticketKindCheckedList.value?.containsValue(true) == true
                     && (_isPeriodChecked.value == true || _isNumberChecked.value == true)
-                    && _membershipInfoUiState.value.termChanged.isNotEmpty()
-                    && _membershipInfoUiState.value.priceChanged.isNotEmpty()
+                    && term.isNotEmpty()
+                    && price.isNotEmpty()
+
+        val todayDate = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE).replace("-", "")
+        if (_isPeriodChecked.value == true && (
+                    term.length != 8 || todayDate > term ||
+                            !(1..12).contains(term.slice(4..5).toInt())|| !(1..31).contains(term.slice(6..7).toInt())
+                    )
+        ) {
+            _isLevelTwoNextBtnEnable.value = false
+        }
 
         setNextLevelEnable()
     }
@@ -681,9 +701,9 @@ class WritePostViewModel @Inject constructor(
             description = descriptionUiState.value.descriptionChanged,
             isMembership = isPeriodChecked.value!!,
             isHolding = _isHoldingChecked.value!!,
-            remainingNumber = 6, //todo 선택 / isMembership이 False면 필수
-            latitude = spfManager.getLocation().latitude.toFloat(),
-            longitude = spfManager.getLocation().longitude.toFloat(),
+            remainingNumber = membershipInfoUiState.value.termChanged.toInt(), //todo 선택 / isMembership이 False면 필수
+            latitude = _selectedShopInfo.value?.latitude ?: spfManager.getLocation().latitude,
+            longitude = _selectedShopInfo.value?.longitude ?: spfManager.getLocation().longitude,
             tags = hashTagCheckedList.value
         ).toRequestBody()
         viewModelScope.launch {
@@ -691,6 +711,8 @@ class WritePostViewModel @Inject constructor(
                 searchRepository.postTicket(body, _selectedPhotoMultipartList.value)
             }
                 .onSuccess {
+                    Log.e("ㅡㅡㅡㅡㅡㅡ작성리스폰", "${it}")
+                    _postId.value = it.id
                     _postSuccess.call()
                 }
                 .onFailure {

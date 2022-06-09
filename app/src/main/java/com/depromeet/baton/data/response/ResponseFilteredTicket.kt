@@ -18,20 +18,20 @@ data class ResponseFilteredTicket(
 ) {
     data class Content(
         val createAt: String?,
-        val expiryDate: Any?,
+        val expiryDate: String?,
         val id: Int?,
         val location: String?,
         val address: String?,
         val price: Int?,
-        val mainImage: Any?,
+        val mainImage: String?,
         val tags: List<String>?,
         val isMembership: Boolean?,
         val remainingNumber: Int?,
-        val remainingDay: Any?,
+        val remainingDay: Int?,
         val state: String?,
         val latitude: Double?,
         val longitude: Double?,
-        val distance: Int?
+        val distance: Double?
     )
 
     data class Pageable(

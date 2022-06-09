@@ -1,17 +1,16 @@
 package com.depromeet.baton.presentation.util
 
-import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.ProgressBar
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.depromeet.bds.component.*
 import com.depromeet.bds.utils.toPx
+
 
 @BindingAdapter("bds_text", "isSelected")
 fun setBdsFilterChip(view: BdsFilter, text: String, isSelected: Boolean) {
@@ -57,13 +56,13 @@ fun View.bindVisible(isVisible: Boolean) {
     this.isVisible = isVisible
 }
 
-@BindingAdapter("image", "centerCrop")
-fun AppCompatImageView.bindImage(uri: String?, centerCrop: Boolean) {
+@BindingAdapter("image", "roundedCorners")
+fun ImageView.bindImage(uri: String?, roundedCorners: Boolean) {
     if (uri != null) {
-        if (centerCrop) {
+        if (roundedCorners) {
             Glide.with(context)
                 .load(uri)
-                .transform(CenterCrop(), RoundedCorners(4.toPx()))
+                .transform(RoundedCorners(10.toPx()))
                 .into(this)
         } else {
             Glide.with(context)
@@ -82,3 +81,11 @@ fun setBdsTag(view: BdsTag, text: String?) {
 fun setBdsCheckbox(view: BdsCheckbox, isChecked: Boolean) {
     view.isChecked = isChecked
 }
+
+@BindingAdapter("bds_title")
+fun setBdsAppbarTitle(view: BdsBackwardAppBar, title: String?) {
+    title?.let{
+        view.setTitle(title)
+    }
+}
+

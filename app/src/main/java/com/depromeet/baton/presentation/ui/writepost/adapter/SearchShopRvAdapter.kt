@@ -32,7 +32,7 @@ class SearchShopRvAdapter(
                 tvItemSearchShopName.text = item.name
                 tvItemSearchShopAddress.text = item.location.address.address
                 tvItemSearchShopAddressSelect.setOnClickListener {
-                    writePostViewModel.setSelectShop(ShopInfo(item.name, item.location.address.address))
+                    writePostViewModel.setSelectShop(ShopInfo(item.name, item.location.address.address, item.location.latitude, item.location.longitude))
                 }
             }
         }

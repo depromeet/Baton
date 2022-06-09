@@ -3,6 +3,7 @@ package com.depromeet.baton.presentation.ui.writepost.view
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.flowWithLifecycle
@@ -47,7 +48,7 @@ class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activi
         }
         binding.bdsBackwardAppbarWritePost.setOnBackwardClick {
             //todo 임시저장
-            //this.BdsToast("작성하던 글이 임시저장 됐어요.", binding.btnWritePostBack.top).show()
+            this.BdsToast("작성하던 글이 임시저장 됐어요.", binding.btnWritePostBack.top).show()
             finish()
         }
     }
@@ -72,15 +73,16 @@ class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activi
         }
 
         writePostViewModel.currentLevel.observe(this) { currentLevel ->
-            if (currentLevel == 0) finish()
-
-            if (currentLevel == 4) binding.btnWritePostNext.setText("완료")
-            else binding.btnWritePostNext.setText("다음")
+            when (currentLevel) {
+                0 -> finish()
+                in 4..5 -> binding.btnWritePostNext.setText("완료")
+                else -> binding.btnWritePostNext.setText("다음")
+            }
         }
 
         writePostViewModel.postSuccess.observe(this) {
-            this.BdsToast("판매글 작성이 완료됐어요", binding.btnWritePostNext.top).show()
-            TicketDetailActivity.start(this)
+            this.BdsToast("판매글 작성이 완료됐어요", binding.btnWritePostNext.bottom).show()
+            TicketDetailActivity.start(this@WritePostActivity, writePostViewModel.postId.value!!)
             finish()
         }
     }

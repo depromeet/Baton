@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.depromeet.baton.data.response.ResponseFilteredTicket
 import com.depromeet.baton.domain.model.*
+import com.depromeet.baton.domain.repository.GetFilteredTicketUseCase
 import com.depromeet.baton.domain.repository.SearchRepository
 import com.depromeet.baton.presentation.base.BaseViewModel
 import com.depromeet.baton.presentation.base.UIState
@@ -18,6 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FilterViewModel @Inject constructor(
+    private val getFilteredTicketUseCase: GetFilteredTicketUseCase,
     private val searchRepository: SearchRepository
 ) : BaseViewModel() {
 
@@ -29,13 +30,17 @@ class FilterViewModel @Inject constructor(
     private val _filteredTicketUiState = MutableLiveData<UIState>(UIState.Loading)
     val filteredTicketUiState: LiveData<UIState> = _filteredTicketUiState
 
+    //필터링된 양도권 개수
+    private val _filteredTicketCount = MutableLiveData(0)
+    val filteredTicketCount: LiveData<Int?> = _filteredTicketCount
+
     //양도권 개수
-    private val _filteredTicketCount = MutableLiveData<Int>(0)
-    val filteredTicketCount: LiveData<Int> = _filteredTicketCount
+    private val _ticketCount = MutableLiveData(0)
+    val ticketCount: LiveData<Int?> = _ticketCount
 
     //필터링된 양도권 리스트
-    private val _filteredTicketList = MutableLiveData<ResponseFilteredTicket>()
-    val filteredTicketList: LiveData<ResponseFilteredTicket> = _filteredTicketList
+    private val _filteredTicketList = MutableLiveData<List<FilteredTicket>?>()
+    val filteredTicketList: LiveData<List<FilteredTicket>?> = _filteredTicketList
 
     /*양도권 종류*/
     var ticketKindCheckedList = MapListLiveData<TicketKind, Boolean>()
@@ -222,6 +227,7 @@ class FilterViewModel @Inject constructor(
 
     /** ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ필터들 순서 총괄ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
     init {
+        //filterReset()
         setFilterPosition()
         //바텀 탭레이아웃에게 그려야하는 필터순서 리스트로 전달하기 위함
         filterTypeOrderList.value = filterChipList.value?.toMap()?.keys?.toMutableList()
@@ -316,7 +322,8 @@ class FilterViewModel @Inject constructor(
         _filteredChipList.value?.clear()
         _filteredChipList.value = _filteredChipList.value
 
-        updateAllStatus()
+        updateAllStatus() //칩상태들 변경한후
+        updateFilteredTicketList()  //홈에서 리셋누르면 홈카운트 초기화+리스트 다시 가져오기
     }
 
     fun setResetClickFalse() {
@@ -336,13 +343,13 @@ class FilterViewModel @Inject constructor(
     }
 
     fun setTradeType(method: TradeType, isChecked: Boolean = false) {
-        if (isChecked && tradeTypeCheckedList.value?.filter { it.value }?.size == 1) return
+        tradeTypeCheckedList.value?.clear()
         tradeTypeCheckedList.setChipCheckedStatus(method, isChecked)
         updateAllStatus(method, isChecked)
     }
 
     fun setTransferFeeType(who: TransferFee, isChecked: Boolean = false) {
-        if (isChecked && transferFeeCheckedList.value?.filter { it.value }?.size == 1) return
+        transferFeeCheckedList.value?.clear()
         transferFeeCheckedList.setChipCheckedStatus(who, isChecked)
         updateAllStatus(who, isChecked)
     }
@@ -360,7 +367,7 @@ class FilterViewModel @Inject constructor(
 
     fun setAlignment(standard: Alignment) {
         _alignmentCheckedOption.value = standard
-        updateFilteredTicketCount()
+        updateFilteredTicketList()  //정렬 누르면 홈 필터 리스트+개수 초기화
     }
 
     /** ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ슬라이더 하위 항목 관리ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
@@ -434,11 +441,12 @@ class FilterViewModel @Inject constructor(
     /** ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ초이스칩 / 필터칩 / 선택된 필터 리스트 업데이트ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
     // 초이스칩 / 필터칩 / 필터링된 칩 리스트 업데이트
     private fun updateAllStatus(type: Any? = null, isChecked: Boolean? = null) {
-        updateFilteredTicketCount()
         updateChoiceChipCheckedStatus()  //각 초이스칩 상태 업데이트
         updateFilterChipCheckedStatus()  //각 필터칩 상태 업데이트
         updateChipToFilteredChipList(type, isChecked) //필터링된 칩리스트 업데이트
         updateFilteredTicketList()
+
+        updateFilteredTicketCount() //필터링된 카운트만 가져오면됨
         updateResetAndSearchValid()  //리셋버튼 상태 업데이트
         setFilterPosition()  //홈에서 바로 초기화 누르는 경우가 있음
     }
@@ -520,129 +528,35 @@ class FilterViewModel @Inject constructor(
     }
 
     /** ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡAPIㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
-    //TODO 필터링된 양도권 개수 가져오기
+    /** 필터링된 양도권 개수 가져오기 */
     private fun updateFilteredTicketCount() {
         var ticketTradeType: String? = null
         var transferFee: String? = null
 
-        if (_isFaceChecked.value == true) ticketTradeType = "CONTECT"
-        else if (_isNonFaceChecked.value == true) ticketTradeType = "UNTECT"
+        if (_isFaceChecked.value == true) ticketTradeType = TradeType.CONTECT.toString()
+        else if (_isNonFaceChecked.value == true) ticketTradeType = TradeType.UNTECT.toString()
 
 
-        if (_isSellerChecked.value == true) transferFee = "SELLER"
-        else if (_isConsumerChecked.value == true) transferFee = "CONSUMER"
-        else if (_isNaChecked.value == true) transferFee = "NONE"
+        if (_isSellerChecked.value == true) transferFee = TransferFee.SELLER.toString()
+        else if (_isConsumerChecked.value == true) transferFee = TransferFee.CONSUMER.toString()
+        else if (_isNaChecked.value == true) transferFee = TransferFee.NONE.toString()
 
 
         viewModelScope.launch {
             kotlin.runCatching {
                 searchRepository.getFilteredTicketCount(
                     page = 0,
-                    size = 4,
-                    //place: String?,
-                    //    hashtag = hashTagCheckedList.value?.map { it.key.toString() },
-                    latitude = 36.1234f,
-                    longitude = 127.1234f,
-                    //town: String?,
-                    //  minPrice = priceRange.value?.first?.toInt(),
-                    //  maxPrice = priceRange.value?.second?.toInt(),
-                    //   minRemainNumber = _ptTermRange.value?.first?.toInt(),
-                    //  maxRemainNumber = _ptTermRange.value?.second?.toInt(),
-                    //   minRemainMonth = _gymTermRange.value?.first?.toInt().let { if (it == 0) 1 else it },
-                    // maxRemainMonth = _gymTermRange.value?.second?.toInt(),
-                    maxDistance = 500,
-                    //    ticketTypes = ticketKindCheckedList.value?.map { it.key.toString() },
-                    //    ticketTradeType = ticketTradeType,
-                    //     transferFee = transferFee,
-                    // ticketState : String ?,
-                    //isMembership = isLockerRoomChecked.value,
-
-
-                    /*        page = 0,
-                              size = 4,
-                              //place: String?, //todo 보낼 필요없음
-                              hashtag = hashTagCheckedList.value?.map { it.key.toString() },
-                              latitude = 36.1234f,
-                              longitude = 127.1234f,
-                              //town: String?, //todo 보낼 필요없음
-                              minPrice = priceRange.value?.first?.toInt(),
-                              maxPrice = priceRange.value?.second?.toInt(),
-                              minRemainNumber = _ptTermRange.value?.first?.toInt(),
-                              maxRemainNumber = _ptTermRange.value?.second?.toInt(),
-                              minRemainMonth = _gymTermRange.value?.first?.toInt().let { if (it == 0) 1 else it },
-                              maxRemainMonth = _gymTermRange.value?.second?.toInt(),
-                              maxDistance = 500,
-                              ticketTypes = ticketKindCheckedList.value?.map { it.key.toString() },
-                              ticketTradeType = ticketTradeType,
-                              transferFee = transferFee,
-                              // ticketState : String ?, //todo 보낼 필요없음
-                              sortType = alignmentCheckedOption.value?.toString(),
-                              hasClothes = isSportWearChecked.value,
-                              hasLocker = isLockerRoomChecked.value,
-                              hasShower = isShowerRoomChecked.value,
-                              hasGx = isGxChecked.value,
-                              canResell = isReTransferChecked.value,
-                              canRefund = isRefundChecked.value,
-                              isHold = isHoldingChecked.value,
-                              canNego = isBargainingChecked.value,
-                              //isMembership = isLockerRoomChecked.value, //todo 보낼 필요없음*/
-
-                )
-            }.onSuccess {
-                it.collect { UiState ->
-                    when (UiState) {
-                        is UIState.Success<*> -> {
-                            Log.e("ㅡㅡㅡㅡㅡㅡcount : 성공ㅡㅡㅡㅡㅡㅡ", "${UiState.data}")
-                            _filteredTicketCount.value = UiState.data as Int
-                            _filteredTicketCountUiState.value = UIState.HasData
-                        }
-                        is UIState.Error -> {
-                            _filteredTicketCountUiState.value = UIState.Loading
-                        }
-                    }
-                }
-            }.onFailure {
-                Log.e("ㅡㅡㅡㅡㅡㅡcount : 에러ㅡㅡㅡㅡㅡㅡ", "${it}")
-                _filteredTicketCountUiState.value = UIState.Init
-                Timber.e(it)
-            }
-        }
-    }
-
-    //TODO 필터링된 양도권 리스트 가져오기
-    fun updateFilteredTicketList() {
-        var ticketTradeType: String? = null
-        var transferFee: String? = null
-
-        if (_isFaceChecked.value == true) ticketTradeType = "CONTECT"
-        else if (_isNonFaceChecked.value == true) ticketTradeType = "UNTECT"
-
-
-        if (_isSellerChecked.value == true) transferFee = "SELLER"
-        else if (_isConsumerChecked.value == true) transferFee = "CONSUMER"
-        else if (_isNaChecked.value == true) transferFee = "NONE"
-
-        viewModelScope.launch {
-            kotlin.runCatching {
-                searchRepository.getFilteredTicket(
-/*                    page = 0,
-                    size = 4,
-                    //place: String?,
-                    hashtag = hashTagCheckedList.value?.map { it.key.toString() },
-                    //latitude = 36.1234f,
-                    //longitude = 127.1234f,
-                    //town: String?,
+                    size = 40,
+                    hashtag = hashTagCheckedList.value?.filter { it.value }?.map { it.key.toString() },
                     minPrice = priceRange.value?.first?.toInt(),
                     maxPrice = priceRange.value?.second?.toInt(),
                     minRemainNumber = _ptTermRange.value?.first?.toInt(),
                     maxRemainNumber = _ptTermRange.value?.second?.toInt(),
                     minRemainMonth = _gymTermRange.value?.first?.toInt().let { if (it == 0) 1 else it },
                     maxRemainMonth = _gymTermRange.value?.second?.toInt(),
-                    //maxDistance = 500,
-                    ticketTypes = ticketKindCheckedList.value?.map { it.key.toString() },
+                    ticketTypes = ticketKindCheckedList.value?.filter { it.value }?.map { it.key.toString() },
                     ticketTradeType = ticketTradeType,
                     transferFee = transferFee,
-                    // ticketState : String ?,
                     sortType = alignmentCheckedOption.value?.toString(),
                     hasClothes = isSportWearChecked.value,
                     hasLocker = isLockerRoomChecked.value,
@@ -652,37 +566,82 @@ class FilterViewModel @Inject constructor(
                     canRefund = isRefundChecked.value,
                     isHold = isHoldingChecked.value,
                     canNego = isBargainingChecked.value,
-                    //isMembership = isLockerRoomChecked.value,*/
-
-                    page = 0,
-                    size = 4,
-                    latitude = 36.1234f,
-                    longitude = 127.1234f,
-                    maxDistance = 500,
                 )
+            }.onSuccess {
+                it.collect { UiState ->
+                    when (UiState) {
+                        is UIState.Success<*> -> {
+                            _filteredTicketCount.value = UiState.data as Int
+                            _filteredTicketCountUiState.value = UIState.HasData
+                        }
+                        else -> {
+                            _filteredTicketCountUiState.value = UIState.Loading
+                        }
+                    }
+                }
+            }.onFailure {
+                _filteredTicketCountUiState.value = UIState.Loading
+                Timber.e(it)
+            }
+        }
+    }
+
+    /** 필터링된 양도권 리스트 가져오기 */
+    fun updateFilteredTicketList() {
+        var ticketTradeType: String? = null
+        var transferFee: String? = null
+
+        if (_isFaceChecked.value == true) ticketTradeType = TradeType.CONTECT.toString()
+        else if (_isNonFaceChecked.value == true) ticketTradeType = TradeType.UNTECT.toString()
+
+
+        if (_isSellerChecked.value == true) transferFee = TransferFee.SELLER.toString()
+        else if (_isConsumerChecked.value == true) transferFee = TransferFee.CONSUMER.toString()
+        else if (_isNaChecked.value == true) transferFee = TransferFee.NONE.toString()
+
+        viewModelScope.launch {
+            kotlin.runCatching {
+                getFilteredTicketUseCase.execute(
+                    page = 0,
+                    size = 40,
+                    hashtag = hashTagCheckedList.value?.filter { it.value }?.map { it.key.toString() },
+                    minPrice = priceRange.value?.first?.toInt(),
+                    maxPrice = priceRange.value?.second?.toInt(),
+                    minRemainNumber = _ptTermRange.value?.first?.toInt(),
+                    maxRemainNumber = _ptTermRange.value?.second?.toInt(),
+                    minRemainMonth = _gymTermRange.value?.first?.toInt().let { if (it == 0) 1 else it },
+                    maxRemainMonth = _gymTermRange.value?.second?.toInt(),
+                    ticketTypes = ticketKindCheckedList.value?.filter { it.value }?.map { it.key.toString() },
+                    ticketTradeType = ticketTradeType,
+                    transferFee = transferFee,
+                    sortType = alignmentCheckedOption.value?.toString(),
+                    hasClothes = isSportWearChecked.value,
+                    hasLocker = isLockerRoomChecked.value,
+                    hasShower = isShowerRoomChecked.value,
+                    hasGx = isGxChecked.value,
+                    canResell = isReTransferChecked.value,
+                    canRefund = isRefundChecked.value,
+                    isHold = isHoldingChecked.value,
+                    canNego = isBargainingChecked.value,
+
+                    )
             }.onSuccess {
                 when (it) {
                     is UIState.Success<*> -> {
                         @Suppress("UNCHECKED_CAST")
-                        _filteredTicketList.value = it.data as ResponseFilteredTicket
-                        Log.e("ㅡㅡㅡㅡㅡㅡㅡ1ㅡㅡfilterㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ", "${it.data}")
-                        Log.e("ㅡㅡㅡㅡㅡㅡㅡ2ㅡㅡfilterㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ", "${_filteredTicketList.value}")
-                        /* if (it.data.isNotEmpty()) {
-                             _filteredTicketUiState.value = UIState.HasData
-                             _filteredTicketList.value = it.data as List<ResponseFilteredTicket>
-                             Log.e("ㅡㅡㅡㅡㅡㅡㅡ1ㅡㅡfilterㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ", "${it.data}")
-                             Log.e("ㅡㅡㅡㅡㅡㅡㅡ2ㅡㅡfilterㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ", "${_filteredTicketList.value}")
-                         } else {
-                             _filteredTicketUiState.value = UIState.Loading
-                             Log.e("ㅡㅡㅡㅡㅡㅡelseㅡㅡㅡfilterㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ", "${_filteredTicketList.value}")
-                         }*/
+                        _filteredTicketList.value = it.data as List<FilteredTicket>
+                        _ticketCount.value = _filteredTicketList.value!!.size
+                        if (_filteredTicketList.value!!.isNotEmpty()) {
+                            _filteredTicketUiState.value = UIState.HasData
+                        } else {
+                            _filteredTicketUiState.value = UIState.NoData
+                        }
                     }
                     else -> _filteredTicketUiState.value = UIState.Loading
                 }
             }.onFailure {
-                if (_filteredChipList.value.isNullOrEmpty()) _filteredTicketUiState.value = UIState.Loading
+                _filteredTicketUiState.value = UIState.Loading
                 Timber.e(it)
-                Log.e("ㅡㅡㅡㅡㅡㅡ에러ㅡㅡㅡfilterㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ", "${it}")
             }
         }
     }

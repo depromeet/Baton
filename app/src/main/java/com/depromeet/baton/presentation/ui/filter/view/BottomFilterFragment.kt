@@ -102,6 +102,7 @@ class BottomFilterFragment : BottomSheetDialogFragment() {
     private fun setSearchOnClickListener() {
         binding.btnBottomFilterSearch.setOnClickListener {
             filterViewModel.setFilterPosition()
+    //        filterViewModel.updateFilteredTicketList() //필터링된 리스트 가져오기
             dialog?.dismiss()
         }
     }
@@ -117,7 +118,7 @@ class BottomFilterFragment : BottomSheetDialogFragment() {
 
     private fun setFilteredChipObserve() {
         filterViewModel.filteredChipList.observe(viewLifecycleOwner) { filteredChipList ->
-            filteredChipRvAdapter.submitList(filteredChipList?.map{it}) //TODO 이거 왜 매핑해줘야할까
+            filteredChipRvAdapter.submitList(filteredChipList?.map { it }) //TODO 이거 왜 매핑해줘야할까
         }
     }
 

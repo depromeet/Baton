@@ -26,12 +26,13 @@ data class RequestTicketPost(
     val isMembership: Boolean,
     val isHolding: Boolean,
     val remainingNumber: Int? = null,
-    val latitude: Float,
-    val longitude: Float,
+    val latitude: Double,
+    val longitude: Double,
     val tags: MutableMap<HashTag, Boolean>? = null,
 ) {
     fun toRequestBody(): HashMap<String, RequestBody?> {
-
+Log.e("ㅡㅡㅡ작성시 ㅡlatitudeㅡ","${latitude}")
+Log.e("ㅡㅡㅡ작성시 ㅡlongitudeㅡ","${longitude}")
         var tag = ""
         var formattedTag = ""
         tags?.forEach {
