@@ -48,9 +48,7 @@ class AddressRepositoryImpl  @Inject constructor(
     private fun checkApiResult(_latitude : Double,  _longitude :Double,request :NetworkResult<KakaoGeoResponse>) :  NetworkResult<LocationEntity > {
      return if(request.data?.meta!!.total_count ==0 ) NetworkResult.Error("위치정보를 찾을 수 없습니다")
      else {
-
             val result= KakaoGeoModel(_latitude,_longitude,request)
-            Timber.e(result.mapToDomain().address.roadAddress)
             NetworkResult.Success<LocationEntity>(result.mapToDomain())
         }
     }

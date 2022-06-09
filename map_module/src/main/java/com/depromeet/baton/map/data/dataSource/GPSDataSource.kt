@@ -23,7 +23,6 @@ class GPSDataSource @Inject constructor (applicationContext: Context){
     fun getLocation() : Flow<LocationModel> = callbackFlow {
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(result: LocationResult) {
-                Timber.e("get => ${result.lastLocation}")
                 for ((i, location) in result.locations.withIndex()) {
                     trySend(LocationModel(result.lastLocation))
                 }

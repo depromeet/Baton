@@ -14,6 +14,7 @@ import com.depromeet.baton.presentation.ui.address.SearchAddressAdapter
 import com.depromeet.baton.presentation.ui.address.viewmodel.SearchAddressViewModel
 import com.depromeet.baton.presentation.ui.address.model.AddressInfo
 import com.depromeet.baton.util.BatonSpfManager
+import com.depromeet.baton.util.gpsConverter
 import com.depromeet.bds.component.BdsSearchBar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -53,8 +54,6 @@ class SearchAddressActivity : BaseActivity<ActivitySearchAddressBinding>(R.layou
 
     }
 
-
-
     private  fun setObserver() {
         searchAddressViewModel.searchAddress("")
         binding.searchAddressEt.textListener= object : BdsSearchBar.TextListener {
@@ -70,7 +69,6 @@ class SearchAddressActivity : BaseActivity<ActivitySearchAddressBinding>(R.layou
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 searchAddressViewModel.items.collect{
-                    Timber.e("NewItem!!!")
                     if(!it.isEmpty()){
                         listAdapter.submitList(it)
                     }
@@ -91,6 +89,8 @@ class SearchAddressActivity : BaseActivity<ActivitySearchAddressBinding>(R.layou
 
     private fun listItemClicked(item : AddressInfo){
         spfManager.saveAddress(item.roadAddress, item.address)
+        spfManager.saveLocation(gpsConverter(this,item.roadAddress))
+
         val intent = Intent(this, MyLocationDetailActivity::class.java)
         startActivity(intent)
     }
