@@ -1,15 +1,15 @@
 package com.depromeet.baton.presentation.ui.home.view
 
-import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.depromeet.baton.R
-import com.depromeet.baton.data.response.ResponseFilteredTicket
 import com.depromeet.baton.databinding.FragmentHomeBinding
+import com.depromeet.baton.domain.model.FilteredTicket
 import com.depromeet.baton.domain.model.TicketKind
 import com.depromeet.baton.presentation.base.BaseFragment
 import com.depromeet.baton.presentation.main.MainActivity
@@ -50,9 +50,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     private fun initView() {
-        filterViewModel.updateFilteredTicketList()
-        setTicketItemRvAdapter()
         initLayout()
+        setTicketItemRvAdapter()
         setObserve()
     }
 
@@ -62,7 +61,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             .onEach(::handleViewEvents)
             .launchIn(lifecycleScope)
 
-
         homeViewModel.homeUiState
             .flowWithLifecycle(lifecycle)
             .onEach { uiState -> binding.uiState = uiState }
@@ -70,10 +68,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     private fun initLayout() {
-        binding.svHome.run {
-            header = binding.ctlHomeFcv
-        }
-
         binding.tvHomeLocation.text = if (spfManager.getAddress().roadAddress != "") spfManager.getAddress().roadAddress.slice(0..5) + "..."
         else "위치 설정"
     }
@@ -115,23 +109,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             ticketItemRvAdapter =
                 TicketItemRvAdapter(TicketItemRvAdapter.SCROLL_TYPE_VERTICAL, ::setTicketItemClickListener)
             val gridLayoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
-
             adapter = ticketItemRvAdapter
+            rvHome.itemAnimator = null
             itemDecoration = TicketItemVerticalDecoration()
             rvHome.layoutManager = gridLayoutManager
         }
 
-        //TODO filteredTicketList로 넘기기
         filterViewModel.filteredTicketList.observe(viewLifecycleOwner) {
-         //   ticketItemRvAdapter.submitList(it)
+            ticketItemRvAdapter.submitList(it)
         }
     }
 
     //아이템 클릭시 이동
-    private fun setTicketItemClickListener(ticketItem: ResponseFilteredTicket) {
-        startActivity(Intent(requireContext(), TicketDetailActivity::class.java).apply {
-            //TODO 게시글 id넘기기
-        })
+    private fun setTicketItemClickListener(ticketItem: FilteredTicket) {
+        TicketDetailActivity.start(requireContext(), ticketItem.id)
     }
 }
 
