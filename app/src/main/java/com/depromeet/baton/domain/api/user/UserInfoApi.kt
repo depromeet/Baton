@@ -28,8 +28,8 @@ class UserInfoApi @Inject constructor(
         return service.getUserBuyTickets(userIdx)
     }
 
-    suspend fun getUserSellHistory(userIdx: Int) : Response<List<TicketSimpleInfo>>{
-        return service.getUserSellTickets(userIdx)
+    suspend fun getUserSellHistory(userIdx: Int, state: Int?) : Response<List<TicketSimpleInfo>>{
+        return service.getUserSellTickets(userIdx,state)
     }
 
 }

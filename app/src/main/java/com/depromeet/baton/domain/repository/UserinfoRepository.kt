@@ -44,7 +44,7 @@ class UserinfoRepository @Inject constructor(
         return safeApiCall { userInfoApi.getUserBuyHistory(userIdx) }
     }
 
-    suspend fun getUserSellList(userIdx: Int) : NetworkResult<List<TicketSimpleInfo>>{
-        return safeApiCall { userInfoApi.getUserSellHistory(userIdx) }
+    suspend fun getUserSellList(userIdx: Int ,state : Int ? =0) : NetworkResult<List<TicketSimpleInfo>>{
+        return safeApiCall { userInfoApi.getUserSellHistory(userIdx,state) }
     }
 }

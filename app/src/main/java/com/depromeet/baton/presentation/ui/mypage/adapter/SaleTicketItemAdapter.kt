@@ -4,6 +4,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
@@ -16,8 +18,11 @@ import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ItemTicketSaleBinding
 import com.depromeet.baton.databinding.ItemTicketSaleFooterBinding
 import com.depromeet.baton.databinding.ItemTicketSaleHeaderBinding
+import com.depromeet.baton.domain.model.TicketStatus
 import com.depromeet.baton.presentation.ui.mypage.model.SaleTicketItem
 import com.depromeet.baton.presentation.ui.mypage.model.SaleTicketListItem
+import com.depromeet.baton.presentation.util.dateFormatUtil
+import com.depromeet.baton.presentation.util.distanceFormatUtil
 import com.depromeet.baton.util.SimpleDiffUtil
 import com.depromeet.bds.utils.toPx
 
@@ -64,7 +69,7 @@ class SaleTicketItemAdapter(
 
     inner class SaleTicketHeaderViewHolder(private val binding : ItemTicketSaleHeaderBinding) : SaleTicketViewHolder(binding){
         override fun bind(item: SaleTicketListItem , position : Int) {
-            binding.itemTicketSaleHeaderDateTv.text = item.ticket.data.createAt
+            binding.itemTicketSaleHeaderDateTv.text = dateFormatUtil(item.ticket.data.createAt)
         }
     }
 
@@ -78,15 +83,28 @@ class SaleTicketItemAdapter(
         SaleTicketViewHolder(binding) {
         override fun bind(item: SaleTicketListItem, position: Int) {
             with(binding) {
-                itemSaleNameTv.text = item.ticket.data.location
+                itemSaleNameTv.text =  if(item.ticket.data.location.length > 15) item.ticket.data.location.substring(0,15)+"..." else item.ticket.data.location
                 itemSalePriceTv.text = item.ticket.data.price.toString()
                 itemSaleRemainDateTv.text = item.ticket.data.remainingNumber.toString()
-                itemSaleLocationTv.text = item.ticket.data.address
-                itemSaleDistanceTv.text = item.ticket.data.distance.toString()
-                Glide.with(context)
+                itemSaleLocationTv.text = if(item.ticket.data.address.length > 15) item.ticket.data.address.substring(0,15)+"..." else item.ticket.data.address
+                itemSaleDistanceTv.text = distanceFormatUtil( item.ticket.data.distance)
+
+                if(item.ticket.data.state ==0){
+                    itemSaleStatusView.visibility = View.GONE
+                    itemSaleStatusChip.visibility =View.GONE
+                }else{
+                    val resource= setUi(TicketStatus.values().get(item.ticket.data.state))
+                    itemSaleStatusIc.setImageResource(resource.icon)
+                    itemSaleStatusChip.text = resource.title
+                }
+
+                if(item.ticket.data.mainImage !=null)Glide.with(context)
                     .load(item.ticket.data.mainImage)
                     .transform(CenterCrop(), RoundedCorners(4.toPx()))
                     .into(binding.itemSaleImageIv)
+                else{
+                    setEmptyImage(item.ticket.data.state, itemSaleImageIv)
+                }
 
                 itemSaleMenuBtn.setOnClickListener {
                     onClickMenu(item, binding.itemSaleMenuBtn)
@@ -100,17 +118,27 @@ class SaleTicketItemAdapter(
         }
     }
 
-
-
-/*
-    companion object {
-        private val diffCallback = object : DiffUtil.ItemCallback<SaleTicketListItem>() {
-            override fun areItemsTheSame(oldItem: SaleTicketListItem, newItem: SaleTicketListItem): Boolean =
-                oldItem.ticket.shopName == newItem.ticket.shopName
-
-            override fun areContentsTheSame(oldItem: SaleTicketListItem, newItem: SaleTicketListItem): Boolean =
-                oldItem.ticket.shopName == newItem.ticket.shopName
+    fun setUi(state: TicketStatus):TicketStateUi{
+        when(state){
+            TicketStatus.SALE -> return TicketStateUi.SaleUi
+            TicketStatus.RESERVATION ->return TicketStateUi.ReservationUi
+            TicketStatus.SOLDOUT ->return  TicketStateUi.SoldoutUi
         }
+    }
 
-    }*/
+    private fun setEmptyImage(ticket: Int ,view:ImageView) {
+        when (ticket % 4) {
+            0 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_health_86)
+            1 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_etc_86)
+            2 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_pt_86)
+            3 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_pilates_86)
+        }
+    }
+
+    enum class TicketStateUi(val icon: Int,val title: String){
+        SaleUi(0,""),
+        ReservationUi(com.depromeet.bds.R.drawable.ic_time_line_20, "예약중"),
+        SoldoutUi(com.depromeet.bds.R.drawable.ic_check_circle_line_20,"거래완료")
+    }
+
 }

@@ -88,6 +88,7 @@
                 android:layout_height="0dp"
                 android:layout_marginLeft="@dimen/dimen16"
                 app:flexDirection="column"
+                app:flow_wrapMode="aligned"
                 app:justifyContent="space_between"
                 app:layout_constraintEnd_toStartOf="@id/item_sale_menu_btn"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -103,7 +104,8 @@
                     android:textColor="?grey_scale70" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="wrap_content"
+
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <!--bds badge 로 변경-->
                     <TextView
@@ -147,10 +149,10 @@
                     android:textAppearance="?caption1"
                     android:textColor="?primary50" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -165,12 +167,15 @@
 
                     <TextView
                         android:id="@+id/item_sale_location_tv"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dimen4"
-                        android:text="광진구"
+                        android:text="광진구dsvvvdvsdvdsvssdvdsvdvdvdsvds"
                         android:textAppearance="?caption1"
                         android:textColor="?grey_scale70"
+                        android:maxLength="20"
+                        app:layout_constraintStart_toEndOf="@id/location_iv"
+                        app:layout_constraintEnd_toStartOf="@id/item_sale_distance_tv"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -182,9 +187,11 @@
                         android:text="12m"
                         android:textAppearance="?caption1"
                         android:textColor="?secondary50"
+                        app:layout_constraintStart_toEndOf="@id/item_sale_location_tv"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
-                </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </com.google.android.flexbox.FlexboxLayout>
 

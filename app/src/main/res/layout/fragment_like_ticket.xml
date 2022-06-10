@@ -7,9 +7,10 @@
             name="itemDecoration"
             type="com.depromeet.baton.presentation.util.TicketItemVerticalDecoration" />
 
-        <variable
-            name="adapter"
-            type="com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter" />
+         <variable
+             name="uistate"
+             type="com.depromeet.baton.presentation.ui.mypage.viewmodel.BookmarkUiState" />
+
     </data>
     <LinearLayout
         android:id="@+id/like_fragment_view_container"
@@ -24,19 +25,35 @@
             app:bds_title="관심상품"
 
             />
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/mypage_like_rv"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/item_ticket"
-            android:layout_marginHorizontal="@dimen/dimen16"
-            android:layout_marginTop="@dimen/dimen12"
-            android:nestedScrollingEnabled="false"
-            app:adapter="@{adapter}"
-            app:itemDecoration="@{itemDecoration}"
-            app:spanCount="2"
-            tools:itemCount="5"
-            />
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/mypage_like_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/item_ticket"
+                android:layout_marginHorizontal="@dimen/dimen16"
+                android:layout_marginTop="@dimen/dimen12"
+                android:nestedScrollingEnabled="false"
+                app:itemDecoration="@{itemDecoration}"
+                app:spanCount="2"
+                tools:itemCount="5"
+                />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/like_progress"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_fileName="spinner.json"
+                app:isVisible="@{uistate.loading}"
+
+                />
+        </FrameLayout>
 
     </LinearLayout>
 </layout>

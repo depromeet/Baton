@@ -33,7 +33,7 @@ class PurchaseHistoryFragment: BaseFragment<FragmentPurchaseHistoryBinding>(R.la
         super.onViewCreated(view, savedInstanceState)
         setTicketItemRv()
         setOnBackPressed()
-        observeListItems()
+        setObserver()
     }
 
 
@@ -43,25 +43,11 @@ class PurchaseHistoryFragment: BaseFragment<FragmentPurchaseHistoryBinding>(R.la
         val mLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.purchaseHistoryRv.adapter = ticketItemRvAdapter
         binding.purchaseHistoryRv.layoutManager = mLayoutManager
-
-        //dummy
-      /*  val dummy = arrayListOf<SaleTicketItem>(
-
-        )
-        val items : MutableList<SaleTicketListItem> = dummy.map{ i->
-            SaleTicketListItem.PurchasedItem(i)
-        }.toMutableList()
-        items.add(SaleTicketListItem.Footer(dummy.last()))
-        items.add(SaleTicketListItem.Header(dummy.last()))
-        items.addAll(dummy.map{i-> SaleTicketListItem.PurchasedItem(i) })
-        ticketItemRvAdapter.submitList(items)*/
     }
 
 
-    private fun observeListItems() {
-        /*  viewModel.ticketItem.observe(this) { items->
-              ticketItemRvAdapter.submitList(items)
-          }*/
+    private fun setObserver() {
+
         purchaseViewModel.uiState
             .flowWithLifecycle(viewLifecycle)
             .onEach {
