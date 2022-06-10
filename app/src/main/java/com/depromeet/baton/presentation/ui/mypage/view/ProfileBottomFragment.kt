@@ -38,10 +38,10 @@ import timber.log.Timber
 @AndroidEntryPoint
 class ProfileBottomFragment(): BottomSheetDialogFragment() {
 
-    private val profileViewModel by activityViewModels<ProfileViewModel>()
+    private val profileViewModel by viewModels<ProfileViewModel>(ownerProducer = {requireActivity().supportFragmentManager.findFragmentByTag("myPageFragment")!!})
 
     private val profileAdapter: ProfileIconAdapter by lazy {
-        ProfileIconAdapter( profileViewModel, list, ::onClickCamera, ::onClickEmotion)
+        ProfileIconAdapter(list, ::onClickCamera, ::onClickEmotion)
     }
 
     private val list : ArrayList<ProfileIconItem> by lazy { initList() }
@@ -51,7 +51,7 @@ class ProfileBottomFragment(): BottomSheetDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(
-            BottomSheetDialogFragment.STYLE_NORMAL,
+            STYLE_NORMAL,
             com.depromeet.bds.R.style.BdsBottomSheetDialogTheme
         );
     }
@@ -73,6 +73,7 @@ class ProfileBottomFragment(): BottomSheetDialogFragment() {
         setObserver()
         setCheckBtnOnClickListener()
         setBackBtnOnClickListener()
+
     }
 
     private fun setObserver(){

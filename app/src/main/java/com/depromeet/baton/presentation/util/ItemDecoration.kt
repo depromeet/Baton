@@ -64,7 +64,7 @@ class TicketItemVerticalDecoration : RecyclerView.ItemDecoration() {
     }
 }
 
-class DetailImgDecoration: RecyclerView.ItemDecoration() {
+class ProfileIconDecoration: RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(
         outRect: Rect,
@@ -96,18 +96,8 @@ class DetailImgDecoration: RecyclerView.ItemDecoration() {
         private const val SPAN_COUNT=4
     }
 }
-    override fun getItemOffsets(
-        outRect: Rect,
-        view: View,
-        parent: RecyclerView,
-        state: RecyclerView.State
-    ) {
 
-        outRect.right = 0
-        outRect.left = 0
 
-    }
 
-}
 
 

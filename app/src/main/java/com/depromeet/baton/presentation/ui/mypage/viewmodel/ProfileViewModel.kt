@@ -18,17 +18,13 @@ import javax.inject.Inject
 class ProfileViewModel@Inject constructor(
     application: Application,
     private val savedStateHandle: SavedStateHandle
-):
-BaseViewModel(){
+): BaseViewModel(){
 
     private val _uiState: MutableStateFlow<ProfileUiState> = MutableStateFlow(createState())
     val uiState = _uiState.asStateFlow()
 
     private val _viewEvents: MutableStateFlow<List<ProfileViewEvent>> = MutableStateFlow(emptyList())
     val viewEvents = _viewEvents.asStateFlow()
-
-    private val _temporaryUiState: MutableStateFlow<ProfileUiState> = MutableStateFlow(createState())
-    val temporaryUiState = _temporaryUiState.asStateFlow()
 
 
     private fun createState(): ProfileUiState {

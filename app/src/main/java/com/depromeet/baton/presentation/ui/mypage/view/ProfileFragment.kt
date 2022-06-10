@@ -23,8 +23,8 @@ import timber.log.Timber
 @AndroidEntryPoint
 class ProfileFragment() :BaseFragment<FragmentProfileBinding>(R.layout.fragment_profile) {
 
-    private val profileViewModel by activityViewModels<ProfileViewModel>()
-    private val myPageViewModel by activityViewModels<MyPageViewModel>()
+    private val profileViewModel by viewModels<ProfileViewModel>(ownerProducer = {requireParentFragment()})
+    private val myPageViewModel by viewModels<MyPageViewModel>(ownerProducer = {requireParentFragment()})
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -40,7 +40,7 @@ class ProfileFragment() :BaseFragment<FragmentProfileBinding>(R.layout.fragment_
         val name = myPageViewModel.uiState.value.nickName
         val phone = myPageViewModel.uiState.value.phoneNumber
         val profile = myPageViewModel.uiState.value.profileImage.toString()
-        profileViewModel.initProfileInfo(name, phone, profile)
+         if(name!=null && phone!=null) profileViewModel.initProfileInfo(name, phone, profile)
 
 
     }
@@ -58,7 +58,7 @@ class ProfileFragment() :BaseFragment<FragmentProfileBinding>(R.layout.fragment_
 
     private fun changedProfile(){
         requireContext().BdsToast("변경이 완료됐습니다.",binding.profileCompleteBtn.top).show()
-        binding.profileMyprofileIv.setImageURI(profileViewModel.temporaryUiState.value.profileImage)
+     //   binding.profileMyprofileIv.setImageURI(profileViewModel.temporaryUiState.value.profileImage)
         binding.profileCompleteBtn.isEnabled=true
     }
 

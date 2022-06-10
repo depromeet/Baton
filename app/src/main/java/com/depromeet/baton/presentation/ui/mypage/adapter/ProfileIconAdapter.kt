@@ -15,7 +15,6 @@ import com.depromeet.baton.presentation.ui.mypage.viewmodel.ProfileViewModel
 import com.nguyenhoanglam.imagepicker.model.Image
 
 class ProfileIconAdapter(
-    private val viewModel: ProfileViewModel,
     private val initList : ArrayList<ProfileIconItem>,
     private val cameraClick: () -> Unit= {},
     private val itemClick: (ProfileIcon , Int) -> Unit
@@ -80,6 +79,7 @@ class ProfileIconAdapter(
                 binding.profileCamera.isSelected = true
                 cameraClick()
                 binding.profileCamera.isSelected=false
+                submitList(initList)
             }
             binding.profileCamera.isSelected = getItem(position).isChecked
         }
@@ -88,8 +88,6 @@ class ProfileIconAdapter(
     fun onClickImage(position: Int, item : ProfileIconItem){
         itemClick(item.icon!!, position)
         submitList(toggle(position).toList())
-        //viewModel.onClickEmotion(item.icon!!)
-
     }
 
     companion object {

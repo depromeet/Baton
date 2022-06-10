@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentMyPageBinding
@@ -15,6 +16,8 @@ import com.depromeet.baton.presentation.ui.mypage.viewmodel.MyPageViewModel
 import com.depromeet.baton.presentation.ui.mypage.viewmodel.ProfileViewModel
 import com.depromeet.baton.presentation.util.viewLifecycle
 import com.depromeet.baton.presentation.util.viewLifecycleScope
+import com.depromeet.bds.component.BdsDialog
+import com.depromeet.bds.component.DialogType
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -23,7 +26,7 @@ import timber.log.Timber
 @AndroidEntryPoint
 class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page) {
 
-    private val myPageViewModel  by  activityViewModels<MyPageViewModel>()
+    private val myPageViewModel  by  viewModels<MyPageViewModel>()
 
     private val saleHistoryFragment by lazy{ SaleHistoryFragment()}
     private val purchaseHistoryFragment by lazy { PurchaseHistoryFragment() }
@@ -86,7 +89,6 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             .create()
         val buttonCancel = view.findViewById<Button>(R.id.dialog_cancel)
         val buttonConfirm = view.findViewById<Button>(R.id.dialog_delete)
-
 
         buttonCancel.setOnClickListener {
             alertDialog?.dismiss()
