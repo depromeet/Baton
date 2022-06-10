@@ -18,13 +18,14 @@ import com.depromeet.baton.databinding.ItemTicketSaleFooterBinding
 import com.depromeet.baton.databinding.ItemTicketSaleHeaderBinding
 import com.depromeet.baton.presentation.ui.mypage.model.SaleTicketItem
 import com.depromeet.baton.presentation.ui.mypage.model.SaleTicketListItem
+import com.depromeet.baton.util.SimpleDiffUtil
 import com.depromeet.bds.utils.toPx
 
 class SaleTicketItemAdapter(
     private val context: Context,
     private val onClickMenu: (SaleTicketListItem, View) -> Unit,
     private val onClickStatusMenu :(SaleTicketListItem)->Unit
-) : ListAdapter<SaleTicketListItem, SaleTicketItemAdapter.SaleTicketViewHolder>(diffCallback) {
+) : ListAdapter<SaleTicketListItem, SaleTicketItemAdapter.SaleTicketViewHolder>(SimpleDiffUtil()) {
 
 
     override fun getItemViewType(position: Int): Int = getItem(position).layoutId
@@ -63,7 +64,7 @@ class SaleTicketItemAdapter(
 
     inner class SaleTicketHeaderViewHolder(private val binding : ItemTicketSaleHeaderBinding) : SaleTicketViewHolder(binding){
         override fun bind(item: SaleTicketListItem , position : Int) {
-            binding.itemTicketSaleHeaderDateTv.text = item.ticket.historyDate
+            binding.itemTicketSaleHeaderDateTv.text = item.ticket.data.createAt
         }
     }
 
@@ -77,14 +78,13 @@ class SaleTicketItemAdapter(
         SaleTicketViewHolder(binding) {
         override fun bind(item: SaleTicketListItem, position: Int) {
             with(binding) {
-                itemSaleNameTv.text = item.ticket.shopName
-                itemSalePriceTv.text = item.ticket.price
-                itemSaleBadgeTv.text = item.ticket.card
-                itemSaleRemainDateTv.text = item.ticket.remainingDay
-                itemSaleLocationTv.text = item.ticket.place
-                itemSaleDistanceTv.text = item.ticket.distance
+                itemSaleNameTv.text = item.ticket.data.location
+                itemSalePriceTv.text = item.ticket.data.price.toString()
+                itemSaleRemainDateTv.text = item.ticket.data.remainingNumber.toString()
+                itemSaleLocationTv.text = item.ticket.data.address
+                itemSaleDistanceTv.text = item.ticket.data.distance.toString()
                 Glide.with(context)
-                    .load(item.ticket.img)
+                    .load(item.ticket.data.mainImage)
                     .transform(CenterCrop(), RoundedCorners(4.toPx()))
                     .into(binding.itemSaleImageIv)
 
@@ -102,7 +102,7 @@ class SaleTicketItemAdapter(
 
 
 
-
+/*
     companion object {
         private val diffCallback = object : DiffUtil.ItemCallback<SaleTicketListItem>() {
             override fun areItemsTheSame(oldItem: SaleTicketListItem, newItem: SaleTicketListItem): Boolean =
@@ -112,5 +112,5 @@ class SaleTicketItemAdapter(
                 oldItem.ticket.shopName == newItem.ticket.shopName
         }
 
-    }
+    }*/
 }

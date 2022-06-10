@@ -77,7 +77,7 @@ class SoldoutTicketItemAdapter(
     inner class SaleTicketHeaderViewHolder(private val binding: ItemTicketSaleHeaderBinding) :
         SaleTicketViewHolder(binding) {
         override fun bind(item: SaleTicketListItem, position: Int) {
-            binding.itemTicketSaleHeaderDateTv.text = item.ticket.historyDate
+            binding.itemTicketSaleHeaderDateTv.text = item.ticket.data.createAt
         }
     }
 
@@ -92,19 +92,18 @@ class SoldoutTicketItemAdapter(
         SaleTicketViewHolder(binding) {
         override fun bind(item: SaleTicketListItem, position: Int) {
             with(binding) {
-                itemSaleStatusChip.visibility=View.GONE
-                itemSaleMenuBtn.visibility=View.GONE
-                itemSaleGap.visibility=View.GONE
+                itemSaleNameTv.text = item.ticket.data.location
+                itemSalePriceTv.text = item.ticket.data.price.toString()
+                itemSaleRemainDateTv.text = item.ticket.data.remainingNumber.toString()
+                itemSaleLocationTv.text = item.ticket.data.address
+                itemSaleDistanceTv.text = item.ticket.data.distance.toString()
+                // itemSaleBadgeTv.text=  item.ticket.card
 
-                itemSaleNameTv.text = item.ticket.shopName
-                itemSalePriceTv.text = item.ticket.price
-                itemSaleRemainDateTv.text = item.ticket.remainingDay
-                itemSaleLocationTv.text = item.ticket.place
-                itemSaleDistanceTv.text = item.ticket.distance
                 Glide.with(context)
-                    .load(item.ticket.img)
+                    .load(item.ticket.data.mainImage)
                     .transform(CenterCrop(), RoundedCorners(4.toPx()))
                     .into(binding.itemSaleImageIv)
+//
 
                 itemSaleChangeBtn.setOnClickListener {
                     onClickStatusMenu(item)
@@ -121,13 +120,14 @@ class SoldoutTicketItemAdapter(
                 oldItem: SaleTicketListItem,
                 newItem: SaleTicketListItem
             ): Boolean =
-                oldItem.ticket.shopName == newItem.ticket.shopName
+                oldItem.ticket.data.location == newItem.ticket.data.location
 
             override fun areContentsTheSame(
                 oldItem: SaleTicketListItem,
                 newItem: SaleTicketListItem
             ): Boolean =
-                oldItem.ticket.shopName == newItem.ticket.shopName
+                oldItem.ticket.data.location == newItem.ticket.data.location
+
         }
 
     }

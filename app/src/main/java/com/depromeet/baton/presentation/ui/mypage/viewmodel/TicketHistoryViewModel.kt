@@ -29,7 +29,7 @@ class TicketHistoryViewModel@Inject constructor() : BaseViewModel() {
         var groupHeaderDate = "" // 그룹날짜
         this.forEachIndexed { index, ticket ->
             // 날짜가 달라지면 그룹헤더를 추가.
-            if (groupHeaderDate !=  ticket.historyDate) {
+            if (groupHeaderDate !=  ticket.data.createAt) {
                 if(index != 0)result.add(SaleTicketListItem.Footer(ticket))
                 result.add(SaleTicketListItem.Header(ticket))
             }
@@ -37,7 +37,7 @@ class TicketHistoryViewModel@Inject constructor() : BaseViewModel() {
             result.add(SaleTicketListItem.Item( ticket))
 
             // 그룹날짜를 바로 이전 날짜로 설정.
-            groupHeaderDate =  ticket.historyDate
+            groupHeaderDate =  ticket.data.createAt
         }
 
         return result

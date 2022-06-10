@@ -1,17 +1,12 @@
 package com.depromeet.baton.presentation.ui.mypage.model
 
 import com.depromeet.baton.R
+import com.depromeet.baton.domain.model.TicketSimpleInfo
 
 data class SaleTicketItem (
-    val shopName: String,
-    val card: String,
-    val price: String,
-    val remainingDay: String,
-    val place: String,
-    val distance: String,
-    val img: Int,
-    val historyDate : String,
-    val status: String
+   val typeId : Int,
+   val date : String,
+   val data : TicketSimpleInfo
 )
 
 sealed class SaleTicketListItem{

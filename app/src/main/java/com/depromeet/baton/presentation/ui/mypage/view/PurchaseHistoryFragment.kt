@@ -2,18 +2,29 @@ package com.depromeet.baton.presentation.ui.mypage.view
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.flowWithLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentPurchaseHistoryBinding
-import com.depromeet.baton.databinding.FragmentSaleTabBinding
+
 import com.depromeet.baton.presentation.base.BaseFragment
+import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
 import com.depromeet.baton.presentation.ui.mypage.model.SaleTicketItem
 import com.depromeet.baton.presentation.ui.mypage.model.SaleTicketListItem
 import com.depromeet.baton.presentation.ui.mypage.adapter.PurchaseTicketItemAdapter
+import com.depromeet.baton.presentation.ui.mypage.viewmodel.PurchaseHistoryViewModel
+import com.depromeet.baton.presentation.util.viewLifecycle
+import com.depromeet.baton.presentation.util.viewLifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 @AndroidEntryPoint
 class PurchaseHistoryFragment: BaseFragment<FragmentPurchaseHistoryBinding>(R.layout.fragment_purchase_history){
+
+    private val purchaseViewModel by viewModels<PurchaseHistoryViewModel>()
+
     private  val ticketItemRvAdapter by lazy {
         PurchaseTicketItemAdapter(requireContext(), ::onClickItemListener)
     }
@@ -22,6 +33,7 @@ class PurchaseHistoryFragment: BaseFragment<FragmentPurchaseHistoryBinding>(R.la
         super.onViewCreated(view, savedInstanceState)
         setTicketItemRv()
         setOnBackPressed()
+        observeListItems()
     }
 
 
@@ -33,12 +45,8 @@ class PurchaseHistoryFragment: BaseFragment<FragmentPurchaseHistoryBinding>(R.la
         binding.purchaseHistoryRv.layoutManager = mLayoutManager
 
         //dummy
-        val dummy = arrayListOf<SaleTicketItem>(
-            SaleTicketItem("테리온 휘트니스 당산점", "기타", "100,000원", "30일 남음", "영등포구 양평동", "12m", R.drawable.dummy4,"2022.2.22","판매중"),
-            SaleTicketItem("진휘트니스 양평점", "헬스", "3,000원", "60일 남음", "광진구 중곡동", "12m", R.drawable.dummy3,"2022.2.22","판매중"),
-            SaleTicketItem("휴메이크 휘트니스 석촌점", "필라테스", "223,000원", "4일 남음", "광진구 중곡동", "12m", R.drawable.dummy2,"2022.2.22","판매중"),
-            SaleTicketItem("바톤휘트니스 대왕점", "헬스", "19,000원", "5일 남음", "광진구 중곡동", "12m", R.drawable.dummy1,"2022.2.22","판매중"),
-            SaleTicketItem("휴메이크 휘트니스 석촌점", "필라테스", "223,000원", "4일 남음", "광진구 중곡동", "12m", R.drawable.dummy5,"2022.2.22","판매중"),
+      /*  val dummy = arrayListOf<SaleTicketItem>(
+
         )
         val items : MutableList<SaleTicketListItem> = dummy.map{ i->
             SaleTicketListItem.PurchasedItem(i)
@@ -46,7 +54,7 @@ class PurchaseHistoryFragment: BaseFragment<FragmentPurchaseHistoryBinding>(R.la
         items.add(SaleTicketListItem.Footer(dummy.last()))
         items.add(SaleTicketListItem.Header(dummy.last()))
         items.addAll(dummy.map{i-> SaleTicketListItem.PurchasedItem(i) })
-        ticketItemRvAdapter.submitList(items)
+        ticketItemRvAdapter.submitList(items)*/
     }
 
 
@@ -54,13 +62,20 @@ class PurchaseHistoryFragment: BaseFragment<FragmentPurchaseHistoryBinding>(R.la
         /*  viewModel.ticketItem.observe(this) { items->
               ticketItemRvAdapter.submitList(items)
           }*/
+        purchaseViewModel.uiState
+            .flowWithLifecycle(viewLifecycle)
+            .onEach {
+                binding.uistate = it
+                ticketItemRvAdapter.submitList(it.list)
+            }
+            .launchIn(viewLifecycleScope)
     }
 
 
     //메뉴버튼 클릭
 
     private fun onClickItemListener(ticketItem : SaleTicketListItem){
-
+        startActivity(TicketDetailActivity.start(requireContext(),ticketItem.ticket.typeId))
     }
 
     private fun setOnBackPressed(){
