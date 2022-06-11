@@ -1,6 +1,5 @@
 package com.depromeet.baton.presentation.ui.filter.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -345,12 +344,17 @@ class FilterViewModel @Inject constructor(
     fun setTradeType(method: TradeType, isChecked: Boolean = false) {
         tradeTypeCheckedList.value?.clear()
         tradeTypeCheckedList.setChipCheckedStatus(method, isChecked)
+        updateAllStatus(TradeType.CONTECT, false)
+        updateAllStatus(TradeType.UNTECT, false)
         updateAllStatus(method, isChecked)
     }
 
     fun setTransferFeeType(who: TransferFee, isChecked: Boolean = false) {
         transferFeeCheckedList.value?.clear()
         transferFeeCheckedList.setChipCheckedStatus(who, isChecked)
+        updateAllStatus(TransferFee.SELLER, false)
+        updateAllStatus(TransferFee.CONSUMER, false)
+        updateAllStatus(TransferFee.NONE, false)
         updateAllStatus(who, isChecked)
     }
 
@@ -527,9 +531,7 @@ class FilterViewModel @Inject constructor(
         }
     }
 
-    /** ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡAPIㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
-    /** 필터링된 양도권 개수 가져오기 */
-    private fun updateFilteredTicketCount() {
+    private fun setTicketTypeFormattedData(): Pair<String?, String?> {
         var ticketTradeType: String? = null
         var transferFee: String? = null
 
@@ -541,31 +543,58 @@ class FilterViewModel @Inject constructor(
         else if (_isConsumerChecked.value == true) transferFee = TransferFee.CONSUMER.toString()
         else if (_isNaChecked.value == true) transferFee = TransferFee.NONE.toString()
 
+        return Pair(ticketTradeType, transferFee)
+    }
+
+    private fun setTermFormattedData(): Pair<Int?, Int?> {
+        var minRemainNumber: Int? = null
+        var minRemainMonth: Int? = null
+
+        minRemainNumber = if (_ptTermRange.value?.first?.toInt() == 0 && _ptTermRange.value?.second?.toInt() == 60) {
+            null
+        } else {
+            if (_ptTermRange.value?.first?.toInt() == 0) 1
+            else _ptTermRange.value?.first?.toInt()
+        }
+
+        minRemainMonth = if (_gymTermRange.value?.first?.toInt() == 0 && _gymTermRange.value?.second?.toInt() == 12) {
+            null
+        } else {
+            if (_gymTermRange.value?.first?.toInt() == 0) 1
+            else _gymTermRange.value?.first?.toInt()
+        }
+
+        return Pair(minRemainNumber, minRemainMonth)
+    }
+
+    /** ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡAPIㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
+    /** 필터링된 양도권 개수 가져오기 */
+    private fun updateFilteredTicketCount() {
 
         viewModelScope.launch {
             kotlin.runCatching {
                 searchRepository.getFilteredTicketCount(
                     page = 0,
-                    size = 40,
+                    size = 100,
                     hashtag = hashTagCheckedList.value?.filter { it.value }?.map { it.key.toString() },
-                    minPrice = priceRange.value?.first?.toInt(),
-                    maxPrice = priceRange.value?.second?.toInt(),
-                    minRemainNumber = _ptTermRange.value?.first?.toInt(),
-                    maxRemainNumber = _ptTermRange.value?.second?.toInt(),
-                    minRemainMonth = _gymTermRange.value?.first?.toInt().let { if (it == 0) 1 else it },
-                    maxRemainMonth = _gymTermRange.value?.second?.toInt(),
+                    minPrice = if (priceRange.value?.first?.toInt() == 0) null else priceRange.value?.first?.toInt(),
+                    maxPrice = if (priceRange.value?.second?.toInt() == 1500000) null else priceRange.value?.second?.toInt(),
+                    minRemainNumber = setTermFormattedData().first,
+                    maxRemainNumber = if (_ptTermRange.value?.second?.toInt() == 60 && _ptTermRange.value?.first?.toInt() == 0) null else _ptTermRange.value?.second?.toInt(),
+                    minRemainMonth = setTermFormattedData().second,        //todo 개월 수로 필터링 => 1개월 보다 작은 '일'단위 필터링 안되는 중
+                    maxRemainMonth = if (_gymTermRange.value?.first?.toInt() == 0 && _gymTermRange.value?.second?.toInt() == 12) null else _gymTermRange.value?.second?.toInt(),
                     ticketTypes = ticketKindCheckedList.value?.filter { it.value }?.map { it.key.toString() },
-                    ticketTradeType = ticketTradeType,
-                    transferFee = transferFee,
+                    ticketTradeType = setTicketTypeFormattedData().first,
+                    transferFee = setTicketTypeFormattedData().second,
                     sortType = alignmentCheckedOption.value?.toString(),
-                    hasClothes = isSportWearChecked.value,
-                    hasLocker = isLockerRoomChecked.value,
-                    hasShower = isShowerRoomChecked.value,
-                    hasGx = isGxChecked.value,
-                    canResell = isReTransferChecked.value,
-                    canRefund = isRefundChecked.value,
-                    isHold = isHoldingChecked.value,
-                    canNego = isBargainingChecked.value,
+                    hasClothes = if (isSportWearChecked.value == false) null else isSportWearChecked.value,
+                    hasLocker = if (isLockerRoomChecked.value == false) null else isLockerRoomChecked.value,
+                    hasShower = if (isShowerRoomChecked.value == false) null else isShowerRoomChecked.value,
+                    hasGx = if (isGxChecked.value == false) null else isGxChecked.value,
+                    canResell = if (isReTransferChecked.value == false) null else isReTransferChecked.value,
+                    canRefund = if (isRefundChecked.value == false) null else isRefundChecked.value,
+                    isHold = if (isHoldingChecked.value == false) null else isHoldingChecked.value,
+                    canNego = if (isBargainingChecked.value == false) null else isBargainingChecked.value,
                 )
             }.onSuccess {
                 it.collect { UiState ->
@@ -588,49 +617,38 @@ class FilterViewModel @Inject constructor(
 
     /** 필터링된 양도권 리스트 가져오기 */
     fun updateFilteredTicketList() {
-        var ticketTradeType: String? = null
-        var transferFee: String? = null
-
-        if (_isFaceChecked.value == true) ticketTradeType = TradeType.CONTECT.toString()
-        else if (_isNonFaceChecked.value == true) ticketTradeType = TradeType.UNTECT.toString()
-
-
-        if (_isSellerChecked.value == true) transferFee = TransferFee.SELLER.toString()
-        else if (_isConsumerChecked.value == true) transferFee = TransferFee.CONSUMER.toString()
-        else if (_isNaChecked.value == true) transferFee = TransferFee.NONE.toString()
-
         viewModelScope.launch {
             kotlin.runCatching {
                 getFilteredTicketUseCase.execute(
                     page = 0,
-                    size = 40,
+                    size = 100,
                     hashtag = hashTagCheckedList.value?.filter { it.value }?.map { it.key.toString() },
-                    minPrice = priceRange.value?.first?.toInt(),
-                    maxPrice = priceRange.value?.second?.toInt(),
-                    minRemainNumber = _ptTermRange.value?.first?.toInt(),
-                    maxRemainNumber = _ptTermRange.value?.second?.toInt(),
-                    minRemainMonth = _gymTermRange.value?.first?.toInt().let { if (it == 0) 1 else it },
-                    maxRemainMonth = _gymTermRange.value?.second?.toInt(),
+                    minPrice = if (priceRange.value?.first?.toInt() == 0) null else priceRange.value?.first?.toInt(),
+                    maxPrice = if (priceRange.value?.second?.toInt() == 1500000) null else priceRange.value?.second?.toInt(),
+                    minRemainNumber = setTermFormattedData().first,
+                    maxRemainNumber = if (_ptTermRange.value?.second?.toInt() == 60 && _ptTermRange.value?.first?.toInt() == 0) null else _ptTermRange.value?.second?.toInt(),
+                    minRemainMonth = setTermFormattedData().second,        //todo 개월 수로 필터링 => 1개월 보다 작은 '일'단위 필터링 안되는 중
+                    maxRemainMonth = if (_gymTermRange.value?.first?.toInt() == 0 && _gymTermRange.value?.second?.toInt() == 12) null else _gymTermRange.value?.second?.toInt(),
                     ticketTypes = ticketKindCheckedList.value?.filter { it.value }?.map { it.key.toString() },
-                    ticketTradeType = ticketTradeType,
-                    transferFee = transferFee,
+                    ticketTradeType = setTicketTypeFormattedData().first,
+                    transferFee = setTicketTypeFormattedData().second,
                     sortType = alignmentCheckedOption.value?.toString(),
-                    hasClothes = isSportWearChecked.value,
-                    hasLocker = isLockerRoomChecked.value,
-                    hasShower = isShowerRoomChecked.value,
-                    hasGx = isGxChecked.value,
-                    canResell = isReTransferChecked.value,
-                    canRefund = isRefundChecked.value,
-                    isHold = isHoldingChecked.value,
-                    canNego = isBargainingChecked.value,
-
-                    )
+                    hasClothes = if (isSportWearChecked.value == false) null else isSportWearChecked.value,
+                    hasLocker = if (isLockerRoomChecked.value == false) null else isLockerRoomChecked.value,
+                    hasShower = if (isShowerRoomChecked.value == false) null else isShowerRoomChecked.value,
+                    hasGx = if (isGxChecked.value == false) null else isGxChecked.value,
+                    canResell = if (isReTransferChecked.value == false) null else isReTransferChecked.value,
+                    canRefund = if (isRefundChecked.value == false) null else isRefundChecked.value,
+                    isHold = if (isHoldingChecked.value == false) null else isHoldingChecked.value,
+                    canNego = if (isBargainingChecked.value == false) null else isBargainingChecked.value,
+                )
             }.onSuccess {
                 when (it) {
                     is UIState.Success<*> -> {
                         @Suppress("UNCHECKED_CAST")
                         _filteredTicketList.value = it.data as List<FilteredTicket>
                         _ticketCount.value = _filteredTicketList.value!!.size
+
                         if (_filteredTicketList.value!!.isNotEmpty()) {
                             _filteredTicketUiState.value = UIState.HasData
                         } else {

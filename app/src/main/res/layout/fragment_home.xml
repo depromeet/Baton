@@ -399,9 +399,11 @@
                         app:uiState="@{filterViewModel.filteredTicketUiState }"
                         tools:itemCount="5"
                         tools:listitem="@layout/item_ticket"
-                        tools:visibility="visible">
+                        tools:visibility="gone">
 
                     </androidx.recyclerview.widget.RecyclerView>
+
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -409,7 +411,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen68"
                     android:layout_marginBottom="@dimen/dimen68"
-                    app:layout_constraintBottom_toBottomOf="parent">
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fcv_home">
 
                     <ImageView
                         android:id="@+id/iv_home_no_result"

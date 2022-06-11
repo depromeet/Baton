@@ -79,8 +79,8 @@ class TransactionMethodRegisterFragment : BaseFragment<FragmentTransactionMethod
         val balloon = Balloon.Builder(requireContext())
             .setHeight(BalloonSizeSpec.WRAP)
             .setWidth(BalloonSizeSpec.WRAP)
-            .setMarginTop(5) //꼬리랑 마진
-            .setMarginRight(12)  //마진
+            .setMarginTop(5)
+            .setMarginRight(12)
             .setTextSize(15f)
             .setArrowPositionRules(ArrowPositionRules.ALIGN_ANCHOR)
             .setArrowDrawableResource(R.drawable.ic_tooltip_subtract)
@@ -96,7 +96,7 @@ class TransactionMethodRegisterFragment : BaseFragment<FragmentTransactionMethod
             .setLayout(com.depromeet.baton.R.layout.tooltip)
             .setLifecycleOwner(requireActivity())
             .build()
-        balloon.showAsDropDown(binding.tvTransactionMethodInfo, 0, 0) //밑에서 뜨게
+        balloon.showAsDropDown(binding.tvTransactionMethodInfo, 0, 0)
     }
 
     private fun setCheckboxOnClickListener() {

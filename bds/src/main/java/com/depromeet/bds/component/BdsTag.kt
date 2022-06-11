@@ -33,13 +33,11 @@ class BdsTag @JvmOverloads constructor(
         }
     }
 
-
     private fun getText() = binding.tvText.text.toString()
     private fun setText(text: String) {
         binding.tvText.text = text}
 
     fun setContent(content : String){
         binding.tvText.text = content
-
     }
 }

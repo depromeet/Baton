@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.baton.BatonApp
 import com.depromeet.baton.BatonApp.Companion.TAG
 import com.depromeet.baton.R
+import com.depromeet.baton.data.response.ResponseFilteredTicket
 import com.depromeet.baton.databinding.ActivityTicketDetailBinding
 import com.depromeet.baton.databinding.ItemPrimaryOutlineTagBinding
 import com.depromeet.baton.databinding.ItemPrimaryTagBinding
@@ -30,7 +31,6 @@ import com.depromeet.baton.presentation.bottom.BottomSheetFragment.Companion.CHE
 import com.depromeet.baton.presentation.bottom.BottomSheetFragment.Companion.DEFAULT_ITEM_VIEW
 import com.depromeet.baton.presentation.ui.detail.viewModel.*
 import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter
-import com.depromeet.baton.presentation.ui.home.view.HowToUseActivity
 import com.depromeet.baton.presentation.util.TicketIteHorizontalDecoration
 import com.depromeet.baton.util.BatonSpfManager
 import com.depromeet.bds.component.BdsToast
@@ -60,18 +60,17 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     OnMapReadyCallback {
 
     private lateinit var mapView: MapView
-    private var naverMap: NaverMap? = null
+    private  var naverMap: NaverMap? =null
 
-    private lateinit var ticketTagAdapter: TicketTagAdapter<ItemPrimaryTagBinding>
+    private lateinit var ticketTagAdapter :TicketTagAdapter<ItemPrimaryTagBinding>
     private lateinit var gymTagAdapter: TicketTagAdapter<ItemPrimaryOutlineTagBinding>
     private val ticketItemRvAdapter =
         TicketItemRvAdapter(TicketItemRvAdapter.SCROLL_TYPE_HORIZONTAL,  ::setTicketItemClickListener)
     private val ticketImgRvAdapter = TicketImgRvAdapter()
 
-    @Inject
-    lateinit var spfManager: BatonSpfManager
+    @Inject lateinit var spfManager : BatonSpfManager
 
-    private val viewModel by viewModels<TicketDetailViewModel>()
+    private val viewModel  by viewModels<TicketDetailViewModel>()
     private val bottomViewModel by viewModels<TicketDetailBottomViewModel>()
     private val ticketMoreViewModel by viewModels<TicketMoreViewModel>()
 
@@ -98,7 +97,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     private fun setObserver() {
 
         viewModel.ticketState.observe(
-            this@TicketDetailActivity, Observer { uiState -> handleTicketUiState(uiState) }
+            this@TicketDetailActivity , Observer { uiState -> handleTicketUiState(uiState) }
         )
 
         viewModel.netWorkState
@@ -113,35 +112,33 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
 
         ticketMoreViewModel.networkState
             .flowWithLifecycle(lifecycle)
-            .onEach { status ->
-                when (status) {
-                    is TicketMoreNetwork.Failure -> {
-                        this@TicketDetailActivity.BdsToast(status.msg).show()
-                    }
+            .onEach {status ->
+                when(status){
+                    is TicketMoreNetwork.Failure -> { this@TicketDetailActivity.BdsToast(status.msg).show() }
                 }
             }.launchIn(lifecycleScope)
     }
 
-    private fun handleTicketUiState(uiState: TicketDetailViewModel.DetailTicketInfoUiState) {
+    private fun handleTicketUiState (uiState  : TicketDetailViewModel.DetailTicketInfoUiState){
         binding.ticketState = uiState
-        if (naverMap != null) setMarkerPosition()
+        if( naverMap!=null )setMarkerPosition()
         bottomViewModel.updateBottomUistate(uiState.ticket.isOwner)
         ticketTagAdapter.initList(uiState.ticket.infoHashs)
         gymTagAdapter.initList(uiState.ticket.tags)
         ticketImgRvAdapter.submitList(uiState.ticket.imgList.map { it.url })
     }
 
-    private fun handleTicketNetwork(status: TicketDetailNetWork) {
-        when (status) {
-            is TicketDetailNetWork.Failure -> {
+    private fun handleTicketNetwork(status :TicketDetailNetWork ){
+        when(status){
+            is TicketDetailNetWork.Failure ->{
                 this@TicketDetailActivity.BdsToast(status.msg).show()
             }
-            is TicketDetailNetWork.Loading -> {
+            is TicketDetailNetWork.Loading ->{
                 binding.ticketDetailProgress.visibility = View.VISIBLE
             }
-            is TicketDetailNetWork.Success -> {
+            is TicketDetailNetWork.Success ->{
                 binding.ticketDetailProgress.visibility = View.GONE
-                binding.ticketDetailLoadingIv.visibility = View.GONE
+                binding.ticketDetailLoadingIv.visibility= View.GONE
             }
         }
     }
@@ -150,13 +147,12 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     private fun handleTicketViewEvents(viewEvents: List<DetailViewEvent>) {
         viewEvents.firstOrNull()?.let { viewEvent ->
             when (viewEvent) {
-                DetailViewEvent.EventClickChat -> {
+                DetailViewEvent.EventClickChat->{
                     //TODO showChatBottom
                 }
-                DetailViewEvent.EventClickLike -> {
-                    Timber.e(viewModel.ticketState.value!!.ticket.isLikeTicket.toString())
-                    if (viewModel.ticketState.value!!.ticket.isLikeTicket)
-                        this@TicketDetailActivity.BdsToast("관심 상품이 등록되었습니다.", binding.ticketDetailFooter.top).show()
+                DetailViewEvent.EventClickLike->{
+                    if(viewModel.ticketState.value!!.ticket.isLikeTicket)
+                        this@TicketDetailActivity.BdsToast("관심 상품이 등록되었습니다.",binding.ticketDetailFooter.top).show()
                     binding.ticketDetailLikeBtn.toggle()
                 }
             }
@@ -164,7 +160,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         }
     }
 
-    private fun setListView() {
+    private fun setListView(){
         initTicketTag()
         initGymTag()
         initShopMoreItem()
@@ -174,7 +170,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     private fun setListener() {
         with(binding) {
             ticketDetailToolbar.setOnBackwardClick { onBackPressed() }
-            ticketDetailToolbar.setOnIconClick { onClickMenu() }
+            ticketDetailToolbar.setOnIconClick{ onClickMenu() }
 
             ticketDetailUrlBtn.setOnClickListener {
                 val url = viewModel.ticketState.value?.ticket!!.detailUrl
@@ -183,7 +179,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
             }
 
             ticketDetailCopyBtn.setOnClickListener {
-                val sample = viewModel.ticketState.value?.ticket!!.detailUrl
+                val sample= viewModel.ticketState.value?.ticket!!.detailUrl
                 createClipData(sample)
             }
             setScrollListener()
@@ -191,34 +187,33 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     }
 
     /** 회원권 정보 recyclerview **/
-    private fun initTicketTag() {
+    private fun initTicketTag(){
         ticketTagAdapter = TicketTagAdapter(R.layout.item_primary_tag)
 
-        FlexboxLayoutManager(this).apply {
+        FlexboxLayoutManager(this).apply{
             flexWrap = FlexWrap.WRAP
-            flexDirection = FlexDirection.ROW
+            flexDirection=FlexDirection.ROW
             justifyContent = JustifyContent.FLEX_START
 
-        }.let {
-            with(binding) {
+        }.let{
+            with(binding){
                 ticketDetailInfotagRv.layoutManager = it
-                ticketDetailInfotagRv.adapter = ticketTagAdapter
+                ticketDetailInfotagRv.adapter =ticketTagAdapter
             }
         }
     }
 
     /** 헬스장 추가 정보 recyclerview **/
-    private fun initGymTag() {
-        gymTagAdapter = TicketTagAdapter(
-            R.layout.item_primary_outline_tag
-        )
-        FlexboxLayoutManager(this).apply {
+    private fun initGymTag(){
+        gymTagAdapter =TicketTagAdapter(
+            R.layout.item_primary_outline_tag)
+        FlexboxLayoutManager(this).apply{
             flexWrap = FlexWrap.WRAP
-            flexDirection = FlexDirection.ROW
+            flexDirection=FlexDirection.ROW
             justifyContent = JustifyContent.FLEX_START
 
-        }.let {
-            with(binding) {
+        }.let{
+            with(binding){
                 ticketDetailGymtagRv.layoutManager = it
                 ticketDetailGymtagRv.adapter = gymTagAdapter
             }
@@ -226,26 +221,26 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     }
 
     /** 회원권이미지 recyclerview **/
-    private fun initImgList() {
-        with(binding) {
+    private fun initImgList(){
+        with(binding){
             val mLayoutManager = LinearLayoutManager(this@TicketDetailActivity, LinearLayoutManager.HORIZONTAL, false)
             ticketDetailImgRv.adapter = ticketImgRvAdapter
             ticketDetailImgRv.layoutManager = mLayoutManager
-            val snapHelper = PagerSnapHelper()
+            val snapHelper =  PagerSnapHelper()
             snapHelper.attachToRecyclerView(ticketDetailImgRv)
             ticketDetailImgRv.onFlingListener = snapHelper
             ticketDetailImgRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
-                    ticketDetailImgStartTv.text = ((recyclerView.layoutManager as LinearLayoutManager)
-                        .findFirstVisibleItemPosition() + 1).toString()
+                    ticketDetailImgStartTv.text =((recyclerView.layoutManager as LinearLayoutManager)
+                        .findFirstVisibleItemPosition()+1).toString()
                 }
             })
         }
     }
 
     /** 추천 회원권 recyclerview **/
-    private fun initShopMoreItem() {
+    private fun initShopMoreItem(){
         with(binding) {
             val mLayoutManager = LinearLayoutManager(this@TicketDetailActivity, LinearLayoutManager.HORIZONTAL, false)
             ticketDetailRv.addItemDecoration(TicketIteHorizontalDecoration())
@@ -258,53 +253,51 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     }
 
 
-    private fun onClickMenu() {
-        if (bottomViewModel.uiState.value.isOwner) {
-            showBottom(DEFAULT_ITEM_VIEW, DetailBottomOption.SELLER, onItemClick = sellerItemClick)
-        } else {
-            showBottom(DEFAULT_ITEM_VIEW, DetailBottomOption.BUYER, onItemClick = buyerItemClick)
+    private fun onClickMenu(){
+        if(bottomViewModel.uiState.value.isOwner){
+            showBottom(DEFAULT_ITEM_VIEW, DetailBottomOption.SELLER,onItemClick = sellerItemClick )
+        }else{
+            showBottom(DEFAULT_ITEM_VIEW, DetailBottomOption.BUYER,onItemClick = buyerItemClick)
         }
     }
 
 
-    private fun setScrollListener() {
+    private fun setScrollListener(){
         binding.ticketDetailContent.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-            if ((oldScrollY + binding.ticketDetailGymTv.top - scrollY) <= binding.ticketDetailGymTv.top)
+            if ((oldScrollY+binding.ticketDetailGymTv.top -scrollY) <=  binding.ticketDetailGymTv.top)
                 binding.ticketDetailToolbar.setTitleVisible(View.VISIBLE)
-            else binding.ticketDetailToolbar.setTitleVisible(View.INVISIBLE)
+            else  binding.ticketDetailToolbar.setTitleVisible(View.INVISIBLE)
         })
     }
 
-    private fun createClipData(message: String) {
-        val clipBoardManger: ClipboardManager = applicationContext.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-        val clipData = ClipData.newPlainText(TAG, message)
+    private fun createClipData(message: String){
+        val clipBoardManger : ClipboardManager = applicationContext.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+        val clipData = ClipData.newPlainText(TAG,message)
         clipBoardManger.setPrimaryClip(clipData)
-        this@TicketDetailActivity.BdsToast("주소가 복사되었습니다", binding.ticketDetailFooter.top).show()
+        this@TicketDetailActivity.BdsToast("주소가 복사되었습니다", binding.ticketDetailFooter.top) .show()
     }
 
     /** bottom Item Click Listener **/
-    private val statusItemClick = object : BottomSheetFragment.Companion.OnItemClick {
+    private val statusItemClick = object : BottomSheetFragment.Companion.OnItemClick{
         override fun onSelectedItem(selected: BottomMenuItem, index: Int) {
-            when (index) {
+            when(index){
                 0 -> viewModel.ticketStatusHandler(TicketStatus.SALE)
                 1 -> viewModel.ticketStatusHandler(TicketStatus.RESERVATION)
                 2 -> viewModel.ticketStatusHandler(TicketStatus.SOLDOUT)
             }
         }
     }
-
     /** bottom Item Click Listener **/
-    private val buyerItemClick = object : BottomSheetFragment.Companion.OnItemClick {
+    private val buyerItemClick = object : BottomSheetFragment.Companion.OnItemClick{
         override fun onSelectedItem(selected: BottomMenuItem, index: Int) {
             showBottom(DEFAULT_ITEM_VIEW, DetailBottomOption.REPORT, reportItemClick)
         }
     }
-
     /** bottom Item Click Listener **/
-    private val sellerItemClick = object : BottomSheetFragment.Companion.OnItemClick {
+    private val sellerItemClick= object : BottomSheetFragment.Companion.OnItemClick{
         override fun onSelectedItem(selected: BottomMenuItem, index: Int) {
-            when (index) {
-                0 -> run {
+            when(index){
+                0 -> run{
                     showBottom(CHECK_ITEM_VIEW, DetailBottomOption.STATUS, statusItemClick)
                 }
                 1 -> { //delete
@@ -313,28 +306,25 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
             }
         }
     }
-
     /** bottom Item Click Listener **/
-    private val reportItemClick = object : BottomSheetFragment.Companion.OnItemClick {
+    private val reportItemClick = object : BottomSheetFragment.Companion.OnItemClick{
         override fun onSelectedItem(selected: BottomMenuItem, index: Int) {
-            this@TicketDetailActivity.BdsToast("신고가 접수되었습니다.", binding.ticketDetailFooter.top).show()
+            this@TicketDetailActivity.BdsToast("신고가 접수되었습니다.",binding.ticketDetailFooter.top).show()
             viewModel.reportTicket(index)
         }
     }
 
     /** 채팅 Bottom 외 **/
-    private fun showBottom(viewType: Int, status: DetailBottomOption, onItemClick: BottomSheetFragment.Companion.OnItemClick) {
+    private fun showBottom(viewType : Int, status : DetailBottomOption, onItemClick: BottomSheetFragment.Companion.OnItemClick){
         bottomViewModel.setBottomMenu(status)
         val menuList =
-            if (bottomViewModel.uiState.value.option != DetailBottomOption.STATUS)
+            if(bottomViewModel.uiState.value.option != DetailBottomOption.STATUS)
                 bottomViewModel.uiState.value.menuList.map { BottomMenuItem(it) }
-            else bottomViewModel.uiState.value.menuList.mapIndexed { index, s ->
-                BottomMenuItem(s, index == viewModel.ticketState.value!!.ticket.ticketStatus.ordinal)
+            else bottomViewModel.uiState.value.menuList.mapIndexed {
+                    index, s ->  BottomMenuItem(s, index == viewModel.ticketState.value!!.ticket.ticketStatus.ordinal)
             }
-        val bottomSheetFragment = BottomSheetFragment.newInstance(
-            status.title, menuList!!,
-            viewType, onItemClick
-        )
+        val bottomSheetFragment = BottomSheetFragment.newInstance(status.title,menuList!!,
+            viewType,onItemClick)
         bottomSheetFragment.show(supportFragmentManager, BatonApp.TAG)
     }
 
@@ -343,6 +333,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
             //TODO 게시글 id넘기기
         })
     }
+
 
 
     /** Naver MAP Init **/
@@ -356,30 +347,30 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         }
     }
 
-    private fun setMarkerPosition() {
-        if (naverMap != null) {
-            viewModel.ticketState.value?.let {
-                val position = LatLng(it.ticket.location.latitude, it.ticket.location.longitude)
+    private fun setMarkerPosition(){
+        if(naverMap !=null){
+            viewModel.ticketState.value?.let{
+                val position = LatLng(it.ticket.location.latitude,it.ticket.location.longitude)
                 val mCameraPosition = CameraPosition(position, 13.0)
-                naverMap!!.cameraPosition = mCameraPosition
-                val marker = Marker()
+                naverMap!!.cameraPosition=mCameraPosition
+                val marker =Marker()
                 setMark(marker, position, com.depromeet.bds.R.drawable.ic_pin_filled_24)
             }
-        } else {
+        }else{
             Timber.e("naver map init failure")
         }
     }
 
-    private fun setMark(marker: Marker, pos: LatLng, resourceID: Int) {
+    private fun setMark(marker: Marker, pos : LatLng, resourceID: Int) {
         //아이콘 지정
         marker.icon = (OverlayImage.fromResource(resourceID))
         //마커 위치
-        marker.position = pos
+        marker.position=pos
         //마커 표시
         marker.map = naverMap
 
-        marker.height = 30.toPx()
-        marker.width = 30.toPx()
+        marker.height=30.toPx()
+        marker.width=30.toPx()
 
     }
 
@@ -387,7 +378,6 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         super.onStart()
         mapView.onStart()
     }
-
     override fun onResume() {
         super.onResume()
         mapView.onResume()
@@ -419,10 +409,10 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     }
 
     companion object {
-        fun start(context: Context, ticketId: Int) {
+        fun start(context: Context,ticketId: Int):Intent{
             val intent = Intent(context, TicketDetailActivity::class.java)
-            intent.putExtra("ticketId", ticketId)
-            context.startActivity(intent)
+            intent.putExtra("ticketId",ticketId)
+            return intent
         }
     }
 }

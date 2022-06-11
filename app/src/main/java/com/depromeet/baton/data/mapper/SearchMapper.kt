@@ -11,9 +11,8 @@ object SearchMapper {
         if (uiState is UIState.Success<*>) {
             val response = uiState.data as ResponseFilteredTicket
             return UIState.Success(response.content?.map {
-                var category = ""
 
-                category = if (it.location!!.contains("스포") ||
+                val category = if (it.location!!.contains("스포") ||
                     it.location.contains("스퀘어") ||
                     it.location.contains("휘트니스") ||
                     it.location.contains("플렉스") ||
@@ -22,7 +21,7 @@ object SearchMapper {
                     it.location.contains("헬스")
                 ) {
                     "헬스"
-                } else if (it.location!!.contains("필라테스") ||
+                } else if (it.location.contains("필라테스") ||
                     it.location.contains("요가")
                 ) {
                     "필라테스"

@@ -203,6 +203,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/ll_one"
                     android:layout_width="wrap_content"
+                    android:paddingEnd="@dimen/dimen2"
                     android:layout_height="wrap_content"
                     android:visibility="@{ticket.tags.size>=1 ? View.VISIBLE : View.INVISIBLE }"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -224,6 +225,7 @@
                     android:id="@+id/ll_two"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingEnd="@dimen/dimen2"
                     android:visibility="@{ticket.tags.size>=2 ? View.VISIBLE : View.INVISIBLE }"
                     app:layout_constraintStart_toEndOf="@id/ll_one"
                     app:layout_constraintTop_toTopOf="parent">
@@ -232,7 +234,6 @@
                         android:id="@+id/item_ticket_tag_two"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dimen4"
                         android:theme="@style/Theme.Bds.Tag.Default.Grey.Small"
                         app:bds_text="@{ticket.tags[1]}"
                         app:layout_constraintStart_toStartOf="parent"
@@ -251,7 +252,6 @@
                         android:id="@+id/item_ticket_tag_etc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dimen4"
                         android:theme="@style/Theme.Bds.Tag.Default.Grey.Small"
                         app:bds_text="+3"
                         app:layout_constraintStart_toStartOf="parent"

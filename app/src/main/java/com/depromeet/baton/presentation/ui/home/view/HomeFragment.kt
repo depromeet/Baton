@@ -1,7 +1,6 @@
 package com.depromeet.baton.presentation.ui.home.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
@@ -46,6 +45,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     override fun onResume() {
         super.onResume()
+        initLayout()
         filterViewModel.updateFilteredTicketList()
     }
 
@@ -120,9 +120,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }
     }
 
-    //아이템 클릭시 이동
     private fun setTicketItemClickListener(ticketItem: FilteredTicket) {
-        TicketDetailActivity.start(requireContext(), ticketItem.id)
+        //sample
+        val ticketId =1
+        startActivity(TicketDetailActivity.start(requireContext(),ticketId))
     }
 }
 

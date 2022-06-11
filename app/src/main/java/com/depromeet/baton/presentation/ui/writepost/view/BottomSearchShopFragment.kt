@@ -1,11 +1,8 @@
 package com.depromeet.baton.presentation.ui.writepost.view
 
-import android.app.Dialog
 import android.os.Bundle
 import android.text.Editable
-import android.util.Log
 import android.view.View
-import android.widget.FrameLayout
 import androidx.core.view.isNotEmpty
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -14,14 +11,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentBottomSearchShopBinding
-import com.depromeet.baton.map.domain.entity.ShopEntity
 import com.depromeet.baton.presentation.base.BaseBottomDialogFragment
 import com.depromeet.baton.presentation.ui.address.SearchShopRvAdapter
-import com.depromeet.baton.presentation.ui.writepost.viewmodel.ShopInfo
 import com.depromeet.baton.presentation.ui.writepost.viewmodel.WritePostViewModel
 import com.depromeet.bds.component.BdsSearchBar
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

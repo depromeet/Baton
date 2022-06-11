@@ -1,5 +1,6 @@
 package com.depromeet.baton.presentation.ui.writepost.viewmodel
 
+import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Build
 import android.text.Editable
@@ -18,6 +19,7 @@ import com.depromeet.baton.presentation.base.BaseViewModel
 import com.depromeet.baton.presentation.base.UIState
 import com.depromeet.baton.presentation.util.MapListLiveData
 import com.depromeet.baton.presentation.util.SingleLiveEvent
+import com.depromeet.baton.presentation.util.dateDifferenceFormat
 import com.depromeet.baton.util.BatonSpfManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -180,6 +182,10 @@ class WritePostViewModel @Inject constructor(
 
     private val _isNumberChecked = MutableLiveData(false)
     val isNumberChecked: LiveData<Boolean> = _isNumberChecked
+
+    private val _periodFormatted = MutableLiveData("0일")
+    val periodFormatted: LiveData<String> = _periodFormatted
+
 
     /*추가옵션*/
     private var additionalOptionsCheckedList = MapListLiveData<AdditionalOptions, Boolean>()
@@ -471,7 +477,7 @@ class WritePostViewModel @Inject constructor(
     }
 
     private fun handleTermDetailChanged(editable: Editable?) {
-        _membershipInfoUiState.update { it.copy(termChanged = editable.toString()) }
+        _membershipInfoUiState.update { it.copy(termChanged = editable.toString().toCharArray().filter { it != '.' }.joinToString("")) }
         setLevelTwoNextBtnEnable()
     }
 
@@ -518,16 +524,26 @@ class WritePostViewModel @Inject constructor(
         val term = _membershipInfoUiState.value.termChanged
         val price = _membershipInfoUiState.value.priceChanged
 
+
+        //만료일로부터 남은 날
+        if (_isPeriodChecked.value == true && term.length == 8) {
+            _periodFormatted.value = dateDifferenceFormat(term) + "일"
+        } else {
+            _periodFormatted.value = "0일"
+        }
+
+        //버튼
         _isLevelTwoNextBtnEnable.value =
             ticketKindCheckedList.value?.containsValue(true) == true
                     && (_isPeriodChecked.value == true || _isNumberChecked.value == true)
                     && term.isNotEmpty()
                     && price.isNotEmpty()
 
+        //작성한 만료일이 현재 시간보다 이전이거나 date 형식에 맞지 않는지 검사
         val todayDate = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE).replace("-", "")
         if (_isPeriodChecked.value == true && (
                     term.length != 8 || todayDate > term ||
-                            !(1..12).contains(term.slice(4..5).toInt())|| !(1..31).contains(term.slice(6..7).toInt())
+                            !(1..12).contains(term.slice(4..5).toInt()) || !(1..31).contains(term.slice(6..7).toInt())
                     )
         ) {
             _isLevelTwoNextBtnEnable.value = false
@@ -681,13 +697,23 @@ class WritePostViewModel @Inject constructor(
     }
 
     //todo ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡapiㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-
+    @SuppressLint("SimpleDateFormat")
     fun postTicket() {
+        var expiryDate: String? = null
+        var remainingNumber: Int? = null
+        val term = _membershipInfoUiState.value.termChanged
+        if (_isPeriodChecked.value == true) {
+            expiryDate = term.slice(0..3) + "-" + term.slice(4..5) + "-" + term.slice(6..7)
+        }
+        if (_isNumberChecked.value == true) {
+            remainingNumber = term.toInt()
+        }
+
         val body = RequestTicketPost(
             location = _selectedShopInfo.value?.shopName ?: "",
             address = _selectedShopInfo.value?.shopAddress ?: "",
             price = membershipInfoUiState.value.priceChanged.toInt(),
-            expiryDate = "2022-12-02", //todo 선택 / isMembership이 true 면 필수
+            expiryDate = expiryDate,
             type = ticketKindCheckedList.value?.map { it.key.toString() }!![0],
             tradeType = tradeTypeCheckedList.value?.filter { it.value }!!.map { it.key.toString() }[0],
             transferFee = transferFeeCheckedList.value?.filter { it.value }!!.map { it.key.toString() }[0],
@@ -701,7 +727,7 @@ class WritePostViewModel @Inject constructor(
             description = descriptionUiState.value.descriptionChanged,
             isMembership = isPeriodChecked.value!!,
             isHolding = _isHoldingChecked.value!!,
-            remainingNumber = membershipInfoUiState.value.termChanged.toInt(), //todo 선택 / isMembership이 False면 필수
+            remainingNumber = remainingNumber,
             latitude = _selectedShopInfo.value?.latitude ?: spfManager.getLocation().latitude,
             longitude = _selectedShopInfo.value?.longitude ?: spfManager.getLocation().longitude,
             tags = hashTagCheckedList.value
@@ -711,7 +737,6 @@ class WritePostViewModel @Inject constructor(
                 searchRepository.postTicket(body, _selectedPhotoMultipartList.value)
             }
                 .onSuccess {
-                    Log.e("ㅡㅡㅡㅡㅡㅡ작성리스폰", "${it}")
                     _postId.value = it.id
                     _postSuccess.call()
                 }

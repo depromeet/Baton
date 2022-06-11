@@ -37,10 +37,7 @@ class MembershipInformationFragment : BaseFragment<FragmentMembershipInformation
     private fun initView() {
         writePostViewModel.setNextLevelEnable()
         setObserve()
-        with(binding) {
-            etTerm.text = Editable.Factory.getInstance().newEditable(writePostViewModel.membershipInfoUiState.value.termChanged)
-            etPrice.text = Editable.Factory.getInstance().newEditable(writePostViewModel.membershipInfoUiState.value.priceChanged)
-        }
+        setEditText()
         setTermIsChecked()
         setCheckboxOnClickListener()
         setHint()
@@ -93,18 +90,18 @@ class MembershipInformationFragment : BaseFragment<FragmentMembershipInformation
 
     private fun setHint() {
         writePostViewModel.isPeriodChecked.observe(viewLifecycleOwner) {
-            if (it) binding.etTerm.hint = "ex.20221204(숫자만 입력해주세요)"
+            if (it) binding.etTermNumber.text = Editable.Factory.getInstance().newEditable("")
         }
         writePostViewModel.isNumberChecked.observe(viewLifecycleOwner) {
-            if (it) binding.etTerm.hint = "ex.50회(숫자만 입력해주세요)"
+            if (it) binding.etTerm.text = Editable.Factory.getInstance().newEditable("")
         }
+    }
 
- /*       binding.etTerm.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
-            if (hasFocus) {
-                binding.bdsTextfield.isFocusable = true
-            } else {
-                //  .. 포커스 뺏겼을 때
-            }
-        }*/
+    private fun setEditText() {
+        with(binding) {
+            etTerm.text = Editable.Factory.getInstance().newEditable(writePostViewModel.membershipInfoUiState.value.termChanged)
+            etTermNumber.text = Editable.Factory.getInstance().newEditable(writePostViewModel.membershipInfoUiState.value.termChanged)
+            etPrice.text = Editable.Factory.getInstance().newEditable(writePostViewModel.membershipInfoUiState.value.priceChanged)
+        }
     }
 }

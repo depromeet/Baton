@@ -5,9 +5,11 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
+
 import com.depromeet.baton.databinding.ItemPrimaryOutlineTagBinding
 import com.depromeet.baton.databinding.ItemPrimaryTagBinding
 import com.depromeet.baton.domain.model.BatonHashTag
+
 
 class TicketTagAdapter<B : ViewDataBinding>(
     private val layout : Int,

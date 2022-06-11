@@ -53,7 +53,6 @@ class BatonSpfManager@Inject constructor(@ApplicationContext context: Context){
 
     fun getLocation():LatLng{
         val latLng  = LatLng(mSharedPreferences.getFloat("latitude",0F).toDouble(),mSharedPreferences.getFloat("longitude",0F).toDouble())
-
         return latLng
     }
 

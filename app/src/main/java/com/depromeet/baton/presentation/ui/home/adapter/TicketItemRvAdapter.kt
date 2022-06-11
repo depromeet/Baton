@@ -18,7 +18,6 @@ class TicketItemRvAdapter(
     private val clickListener: (FilteredTicket) -> Unit
 ) : ListAdapter<FilteredTicket, TicketItemRvAdapter.TicketItemViewHolder>(SimpleDiffUtil()) {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TicketItemViewHolder {
         val binding = ItemTicketBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return TicketItemViewHolder(binding)
@@ -28,19 +27,11 @@ class TicketItemRvAdapter(
         return holder.bind(currentList[position], position)
     }
 
-
     inner class TicketItemViewHolder(private val binding: ItemTicketBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: FilteredTicket, position: Int) {
             with(binding) {
                 ticket = item
                 executePendingBindings()
-
-                binding.ibtnItemTicket.clipToOutline = true
-
-                if ((item.tags?.size ?: 0) > 2) {
-                    val etcSize = (item.tags?.size ?: 0) - 2
-                    itemTicketTagEtc.text = "+$etcSize"
-                }
 
                 //가로스크롤뷰
                 if (scrollType == SCROLL_TYPE_HORIZONTAL) {
@@ -49,18 +40,23 @@ class TicketItemRvAdapter(
                     ctlItemTicketContainer.layoutParams = lp
                 }
 
-                setLikeBtnClickListener(ctvItemTicketLike) //좋아요 버튼
+                //이미지 라운드 처리
+                ibtnItemTicket.clipToOutline = true
 
-                /*   if (item.mainImage.isNullOrBlank()) {
-                       when (position % 4) {
-                           0 -> ivItemEmpty.setImageResource(com.depromeet.bds.R.drawable.ic_empty_health_86)
-                           1 -> ivItemEmpty.setImageResource(com.depromeet.bds.R.drawable.ic_empty_etc_86)
-                           2 -> ivItemEmpty.setImageResource(com.depromeet.bds.R.drawable.ic_empty_pt_86)
-                           3 -> ivItemEmpty.setImageResource(com.depromeet.bds.R.drawable.ic_empty_pilates_86)
-                       }
-                   }*/
+                //태그
+                if ((item.tags?.size ?: 0) > 2) {
+                    val etcSize = (item.tags?.size ?: 0) - 2
+                    itemTicketTagEtc.text = "+$etcSize"
+                }
+
+                //좋아요 버튼
+                setLikeBtnClickListener(ctvItemTicketLike)
+
+                //엠티뷰
                 setEmptyImage(position, ivItemEmpty)
-                root.setOnClickListener { clickListener(item) } //상세페이지로
+
+                //상세페이지로
+                root.setOnClickListener { clickListener(item) }
             }
         }
     }

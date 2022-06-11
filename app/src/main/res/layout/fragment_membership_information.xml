@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <import type="com.depromeet.baton.domain.model.Term" />
 
         <import type="com.depromeet.baton.domain.model.TicketKind" />
@@ -179,6 +181,7 @@
                     android:id="@+id/ctl_membership_input"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:visibility="@{viewModel.isPeriodChecked || viewModel.isNumberChecked ? View.VISIBLE : View.GONE }"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ctl_membership_term">
@@ -188,35 +191,76 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen24"
-                        android:text="@string/membership_information_input"
+                        android:text="@{viewModel.isPeriodChecked ? `만료일 입력` : `횟수 입력` }"
                         android:textAppearance="?body3"
                         android:textColor="?grey_scale60"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+
                     <com.depromeet.bds.component.BdsComponentTextField
+                        android:id="@+id/bds_textfield"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen8"
-                        android:id="@+id/bds_textfield"
-                        app:bdsBorderColor="@color/selector_bds_textfield_border_color"
                         android:focusable="true"
+                        android:visibility="@{viewModel.isPeriodChecked==true ? View.VISIBLE : View.INVISIBLE}"
+                        app:bdsBorderColor="@color/selector_bds_textfield_border_color"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_membership_input">
+                        app:layout_constraintTop_toBottomOf="@id/tv_membership_input"
+                        tools:visibility="invisible">
 
                         <EditText
                             android:id="@+id/et_term"
                             style="@style/Widget.Bds.TextFieldInnerEditText"
+                            periodChecked="@{viewModel.isPeriodChecked}"
                             android:layout_width="match_parent"
-                            android:maxLength="8"
                             android:layout_height="wrap_content"
                             android:afterTextChanged="@{it -> uiState.onTermChanged.invoke(it)}"
-                            android:enabled="@{viewModel.isPeriodChecked || viewModel.isNumberChecked ? true : false }"
-                            android:hint="기간/횟수를 먼저 선택해주세요"
-                            android:inputType="number" />
+                            android:hint="ex.20220803(숫자만 입력해주세요)"
+                            android:imeOptions="actionSearch"
+                            android:inputType="number"
+                            android:maxLength="10" />
+
                     </com.depromeet.bds.component.BdsComponentTextField>
 
+                    <com.depromeet.bds.component.BdsComponentTextField
+                        android:id="@+id/bds_textfield_term"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen8"
+                        android:focusable="true"
+                        android:visibility="@{viewModel.isNumberChecked==true ? View.VISIBLE : View.INVISIBLE}"
+                        app:bdsBorderColor="@color/selector_bds_textfield_border_color"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_membership_input"
+                        tools:visibility="invisible">
+
+                        <EditText
+                            android:id="@+id/et_term_number"
+                            style="@style/Widget.Bds.TextFieldInnerEditText"
+                            android:layout_width="match_parent"
+                            android:afterTextChanged="@{it -> uiState.onTermChanged.invoke(it)}"
+                            android:layout_height="wrap_content"
+                            android:hint="ex.5(숫자만 입력해주세요)"
+                            android:imeOptions="actionSearch"
+                            android:inputType="number" />
+
+                    </com.depromeet.bds.component.BdsComponentTextField>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/dimen14"
+                        android:text="@{viewModel.isPeriodChecked ? viewModel.periodFormatted : `회` }"
+                        android:textAppearance="?body3"
+                        android:textColor="?grey_scale60"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/ctl_membership_input"
+                        app:layout_constraintTop_toTopOf="@+id/bds_textfield"
+                        tools:text="0회" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -250,13 +294,13 @@
 
                         <EditText
                             android:id="@+id/et_price"
-                            android:maxLines="1"
                             style="@style/Widget.Bds.TextFieldInnerEditText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:afterTextChanged="@{it -> uiState.onPriceChanged.invoke(it)}"
                             android:hint="ex.600000원(숫자만 입력해주세요)"
-                            android:inputType="number" />
+                            android:inputType="number"
+                            android:maxLines="1" />
                     </com.depromeet.bds.component.BdsComponentTextField>
 
                     <LinearLayout

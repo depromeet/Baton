@@ -12,6 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TicketMoreViewModel @Inject constructor():BaseViewModel(){
+
     private val _uiState = MutableStateFlow<List<FilteredTicket>>(emptyList())
     val uiState = _uiState.asStateFlow()
 

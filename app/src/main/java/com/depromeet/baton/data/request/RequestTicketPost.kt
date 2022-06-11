@@ -1,8 +1,6 @@
 package com.depromeet.baton.data.request
 
-import android.util.Log
 import com.depromeet.baton.domain.model.HashTag
-import com.depromeet.baton.presentation.util.MapListLiveData
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -11,7 +9,7 @@ data class RequestTicketPost(
     val location: String,
     val address: String,
     val price: Int,
-    val expiryDate: String,
+    val expiryDate: String?,
     val type: String,
     val tradeType: String,
     val transferFee: String,
@@ -25,14 +23,12 @@ data class RequestTicketPost(
     val description: String,
     val isMembership: Boolean,
     val isHolding: Boolean,
-    val remainingNumber: Int? = null,
+    val remainingNumber: Int?,
     val latitude: Double,
     val longitude: Double,
     val tags: MutableMap<HashTag, Boolean>? = null,
 ) {
     fun toRequestBody(): HashMap<String, RequestBody?> {
-Log.e("ㅡㅡㅡ작성시 ㅡlatitudeㅡ","${latitude}")
-Log.e("ㅡㅡㅡ작성시 ㅡlongitudeㅡ","${longitude}")
         var tag = ""
         var formattedTag = ""
         tags?.forEach {
@@ -68,6 +64,8 @@ Log.e("ㅡㅡㅡ작성시 ㅡlongitudeㅡ","${longitude}")
         )
 
         if (tags.isNullOrEmpty()) body.remove("tags")
+        if (expiryDate.isNullOrEmpty()) body.remove("expiryDate")
+        if (remainingNumber == 0) body.remove("remainingNumber")
 
         return body
     }
