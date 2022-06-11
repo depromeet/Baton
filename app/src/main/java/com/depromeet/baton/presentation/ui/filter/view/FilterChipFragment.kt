@@ -42,7 +42,7 @@ class FilterChipFragment : BaseFragment<FragmentFilterChipBinding>(R.layout.frag
             val onItemClick = object : BottomSheetFragment.Companion.OnItemClick {
                 override fun onSelectedItem(selected: BottomMenuItem, index: Int) {
                     when (index) {
-                        0 -> filterViewModel.setAlignment(Alignment.RECENT)
+                        0 -> filterViewModel.setAlignment(Alignment.DISTANCE)
                         1 -> filterViewModel.setAlignment(Alignment.LOWER_PRICE)
                         2 -> filterViewModel.setAlignment(Alignment.VIEW)
                         3 -> filterViewModel.setAlignment(Alignment.REMAIN_DAY)

@@ -9,11 +9,11 @@
 
         <variable
             name="filterChipFragment"
-            type="com.depromeet.baton.presentation.ui.search.FilterChipSearchFragment" />
+            type="com.depromeet.baton.presentation.ui.search.view.filter.FilterChipSearchFragment" />
 
         <variable
             name="filterViewModel"
-            type="com.depromeet.baton.presentation.ui.search.FilterSearchViewModel" />
+            type="com.depromeet.baton.presentation.ui.search.viewmodel.FilterSearchViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -143,7 +143,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen2"
-                android:text="@{@string/search_option_count(filterViewModel.filteredTicketCount.toString())}"
+                android:text="@{@string/search_option_count(filterViewModel.ticketCount.toString())}"
                 android:textAppearance="?body3"
                 android:textColor="@color/gy80"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_bdsfilter_all"

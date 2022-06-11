@@ -1,5 +1,6 @@
 package com.depromeet.baton.data.request
 
+import com.depromeet.baton.domain.model.HashTag
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -8,10 +9,10 @@ data class RequestTicketPost(
     val location: String,
     val address: String,
     val price: Int,
-    val expiryDate: String,
+    val expiryDate: String?,
     val type: String,
     val tradeType: String,
-    val transferFee: Int,
+    val transferFee: String,
     val canNego: Boolean,
     val hasShower: Boolean,
     val hasLocker: Boolean,
@@ -22,21 +23,30 @@ data class RequestTicketPost(
     val description: String,
     val isMembership: Boolean,
     val isHolding: Boolean,
-    val remainingNumber: Int,
-    val latitude: Float,
-    val longitude: Float,
-    val tags: List<String>,
+    val remainingNumber: Int?,
+    val latitude: Double,
+    val longitude: Double,
+    val tags: MutableMap<HashTag, Boolean>? = null,
 ) {
-    fun toRequestBody(): HashMap<String, RequestBody> {
+    fun toRequestBody(): HashMap<String, RequestBody?> {
+        var tag = ""
+        var formattedTag = ""
+        tags?.forEach {
+            tag += it.key.toString() + ", "
+        }
 
-        return hashMapOf(
+        if (tag.isNotEmpty()) {
+            formattedTag = tag.substring(0..tag.length - 3)
+        }
+
+        val body = hashMapOf(
             "location" to createPartFromString(location),
             "address" to createPartFromString(address),
             "price" to createPartFromString(price.toString()),
             "expiryDate" to createPartFromString(expiryDate),
             "type" to createPartFromString(type),
             "tradeType" to createPartFromString(tradeType),
-            "transferFee" to createPartFromString(transferFee.toString()),
+            "transferFee" to createPartFromString(transferFee),
             "canNego" to createPartFromString(canNego.toString()),
             "hasShower" to createPartFromString(hasShower.toString()),
             "hasLocker" to createPartFromString(hasLocker.toString()),
@@ -50,11 +60,17 @@ data class RequestTicketPost(
             "remainingNumber" to createPartFromString(remainingNumber.toString()),
             "latitude" to createPartFromString(latitude.toString()),
             "longitude" to createPartFromString(longitude.toString()),
-            "tags" to createPartFromString(tags.map { createPartFromString(it) }.toString()),
-            )
+            "tags" to createPartFromString(formattedTag),
+        )
+
+        if (tags.isNullOrEmpty()) body.remove("tags")
+        if (expiryDate.isNullOrEmpty()) body.remove("expiryDate")
+        if (remainingNumber == 0) body.remove("remainingNumber")
+
+        return body
     }
 }
 
-fun createPartFromString(stringData: String): RequestBody {
-    return stringData.toRequestBody("text/plain".toMediaTypeOrNull())
+fun createPartFromString(stringData: String?): RequestBody? {
+    return stringData?.toRequestBody("text/plain".toMediaTypeOrNull())
 }

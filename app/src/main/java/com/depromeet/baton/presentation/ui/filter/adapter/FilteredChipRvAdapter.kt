@@ -10,7 +10,7 @@ import com.depromeet.baton.domain.model.*
 import com.depromeet.baton.presentation.base.BaseViewModel
 import com.depromeet.baton.presentation.ui.filter.view.TermFragment
 import com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel
-import com.depromeet.baton.presentation.ui.search.FilterSearchViewModel
+import com.depromeet.baton.presentation.ui.search.viewmodel.FilterSearchViewModel
 import com.depromeet.bds.component.BdsInputChip
 
 

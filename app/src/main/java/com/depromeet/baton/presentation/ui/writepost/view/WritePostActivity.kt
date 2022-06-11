@@ -1,18 +1,20 @@
 package com.depromeet.baton.presentation.ui.writepost.view
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ActivityWritePostBinding
 import com.depromeet.baton.presentation.base.BaseActivity
 import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
 import com.depromeet.baton.presentation.ui.writepost.viewmodel.WritePostViewModel
-import com.depromeet.baton.presentation.util.shortToast
-import com.depromeet.bds.component.BdsToast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 
 @AndroidEntryPoint
@@ -24,48 +26,69 @@ class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activi
         binding.writePost = this
         binding.writePostViewModel = writePostViewModel
         setObserve()
-        setCloseWritePostOnClickListener()
-        setBackBtnOnClickListener()
-        setNextLevelBtnOnClickListener()
+        setInitOnClickListener()
     }
 
-    private fun setBackBtnOnClickListener() {
+
+    private fun setObserve() {
+        writePostViewModel.writePostPositionViewEvents
+            .flowWithLifecycle(lifecycle)
+            .onEach(::handleViewEvents)
+            .launchIn(lifecycleScope)
+    }
+
+    private fun setInitOnClickListener() {
         binding.btnWritePostBack.setOnClickListener {
             backToPreviousLevel()
         }
-    }
-
-    private fun setNextLevelBtnOnClickListener() {
         binding.btnWritePostNext.setOnClickListener {
             writePostViewModel.setNextLevel()
         }
+        binding.bdsBackwardAppbarWritePost.setOnBackwardClick {
+            //todo 임시저장
+            //  this.BdsToast("작성하던 글이 임시저장 됐어요.", binding.btnWritePostBack.top).show()
+            finish()
+        }
     }
 
-    private fun setObserve() {
-        writePostViewModel.viewEvent.observe(this) {
-            it.getContentIfNotHandled().let { event ->
-                when (event) {
-                    WritePostViewModel.GO_TO_MEMBERSHIP_INFO -> moveToNextLevel(MembershipformationFragment())
-                    WritePostViewModel.GO_TO_TRANSACTION_METHOD -> moveToNextLevel(TransactionMethodRegisterFragment())
-                    WritePostViewModel.GO_TO_DESCRIPTION -> moveToNextLevel(DescriptionFragment())
-                    WritePostViewModel.GO_TO_DONE -> {
-                        this.BdsToast("판매글 작성이 완료됐어요", binding.btnWritePostBack.top).show()
-                        startActivity(Intent(this, TicketDetailActivity::class.java))
-                        finish()
-                    }
+    private fun handleViewEvents(viewEvents: List<WritePostViewModel.WritePostPositionViewEvent>) {
+        viewEvents.firstOrNull()?.let { viewEvent ->
+            when (viewEvent) {
+                WritePostViewModel.WritePostPositionViewEvent.GoMembershipInfo -> {
+                    moveToNextLevel(MembershipInformationFragment())
+                }
+                WritePostViewModel.WritePostPositionViewEvent.GoTransactionMethod -> {
+                    moveToNextLevel(TransactionMethodRegisterFragment())
+                }
+                WritePostViewModel.WritePostPositionViewEvent.GoDescription -> {
+                    moveToNextLevel(DescriptionFragment())
+                }
+                WritePostViewModel.WritePostPositionViewEvent.GoDone -> {
+                    writePostViewModel.postTicket()
                 }
             }
+            writePostViewModel.writePositionConsumeViewEvent(viewEvent)
         }
+
         writePostViewModel.currentLevel.observe(this) { currentLevel ->
-            if (currentLevel == 0) finish()
-            if (currentLevel == 4) binding.btnWritePostNext.text = "완료"
+            when (currentLevel) {
+                0 -> finish()
+                in 4..5 -> binding.btnWritePostNext.setText("완료")
+                else -> binding.btnWritePostNext.setText("다음")
+            }
+        }
+
+        writePostViewModel.postSuccess.observe(this) {
+            //  this.BdsToast("판매글 등록이 완료됐어요.", binding.btnWritePostBack.top).show()
+            TicketDetailActivity.start(this@WritePostActivity, writePostViewModel.postId.value!!)
+            finish()
         }
     }
 
     private fun moveToNextLevel(fragment: Fragment) {
         supportFragmentManager
             .beginTransaction()
-            .add(R.id.fcv_write_post, fragment)
+            .replace(R.id.fcv_write_post, fragment)
             .addToBackStack(null)
             .commit()
     }
@@ -75,16 +98,15 @@ class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activi
         supportFragmentManager.popBackStack()
     }
 
-    private fun setCloseWritePostOnClickListener() {
-
-        binding.bdsBackwardAppbarWritePost.setOnBackwardClick {
-            this.BdsToast("작성하던 글이 임시저장 됐어요.", binding.btnWritePostBack.top).show()
-            finish()
-        }
-    }
-
     override fun onBackPressed() {
         backToPreviousLevel()
+    }
+
+    companion object {
+        fun start(context: Context) {
+            val intent = Intent(context, WritePostActivity::class.java)
+            context.startActivity(intent)
+        }
     }
 }
 

@@ -75,7 +75,6 @@ class BottomFilterFragment : BottomSheetDialogFragment() {
     private fun initTabLayout() {
         filterViewModel.filterTypeOrderList.observe(viewLifecycleOwner) { filterTypeOrderList ->
             if (filterTypeOrderList == null) return@observe
-            Log.e("ㅡㅡㅡㅡㅡㅡㅡㅡfilterTypeOrderListㅡㅡㅡㅡㅡㅡㅡㅡㅡ", "${filterTypeOrderList}")
             val fragmentList = mutableListOf<Fragment>()
             for (filterType in filterTypeOrderList) {
                 when (filterType) {
@@ -107,6 +106,7 @@ class BottomFilterFragment : BottomSheetDialogFragment() {
     private fun setSearchOnClickListener() {
         binding.btnBottomFilterSearch.setOnClickListener {
             filterViewModel.setFilterPosition()
+    //        filterViewModel.updateFilteredTicketList() //필터링된 리스트 가져오기
             dialog?.dismiss()
         }
     }

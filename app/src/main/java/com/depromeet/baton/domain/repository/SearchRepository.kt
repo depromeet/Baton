@@ -1,7 +1,7 @@
 package com.depromeet.baton.domain.repository
 
-import com.depromeet.baton.data.mapper.SearchMapper
 import com.depromeet.baton.data.response.ResponseFilteredTicket
+import com.depromeet.baton.data.response.ResponsePostTicket
 import com.depromeet.baton.data.response.ResponseTicketInfo
 import com.depromeet.baton.domain.api.search.SearchApi
 import com.depromeet.baton.domain.model.BatonHashTag
@@ -150,39 +150,38 @@ class SearchRepository @Inject constructor(
         canNego: Boolean? = null,
         isMembership: Boolean? = null
     ): UIState {
-        return SearchMapper.mapperToFilteredTicket(
-            searchApi.getFilteredTicket(
-                page = page,
-                size = size,
-                place = place,
-                hashtag = hashtag,
-                latitude = latitude,
-                longitude = longitude,
-                town = town,
-                minPrice = minPrice,
-                maxPrice = maxPrice,
-                minRemainNumber = minRemainNumber,
-                maxRemainNumber = maxRemainNumber,
-                minRemainMonth = minRemainMonth,
-                maxRemainMonth = maxRemainMonth,
-                maxDistance = maxDistance,
-                ticketTypes = ticketTypes,
-                ticketTradeType = ticketTradeType,
-                transferFee = transferFee,
-                ticketState = ticketState,
-                sortType = sortType,
-                hasClothes = hasClothes,
-                hasLocker = hasLocker,
-                hasShower = hasShower,
-                hasGx = hasGx,
-                canResell = canResell,
-                canRefund = canRefund,
-                isHold = isHold,
-                canNego = canNego,
-                isMembership = isMembership
-            )
+        return searchApi.getFilteredTicket(
+            page = page,
+            size = size,
+            place = place,
+            hashtag = hashtag,
+            latitude = latitude,
+            longitude = longitude,
+            town = town,
+            minPrice = minPrice,
+            maxPrice = maxPrice,
+            minRemainNumber = minRemainNumber,
+            maxRemainNumber = maxRemainNumber,
+            minRemainMonth = minRemainMonth,
+            maxRemainMonth = maxRemainMonth,
+            maxDistance = maxDistance,
+            ticketTypes = ticketTypes,
+            ticketTradeType = ticketTradeType,
+            transferFee = transferFee,
+            ticketState = ticketState,
+            sortType = sortType,
+            hasClothes = hasClothes,
+            hasLocker = hasLocker,
+            hasShower = hasShower,
+            hasGx = hasGx,
+            canResell = canResell,
+            canRefund = canRefund,
+            isHold = isHold,
+            canNego = canNego,
+            isMembership = isMembership
         )
     }
+
 
     suspend fun getTicketInfo(
         id: Int,
@@ -207,8 +206,8 @@ class SearchRepository @Inject constructor(
         return searchApi.getTicketSearchResult(page, size, latitude, longitude, query, maxDistance)
     }
 
-    suspend fun postTicket(body: HashMap<String, RequestBody>, image: MultipartBody.Part?): ResponseFilteredTicket {
-        return searchApi.postTicket(body, image)
+    suspend fun postTicket(body: HashMap<String, RequestBody?>, images: MutableList<MultipartBody.Part>?): ResponsePostTicket {
+        return searchApi.postTicket(body, images)
     }
 
     companion object {

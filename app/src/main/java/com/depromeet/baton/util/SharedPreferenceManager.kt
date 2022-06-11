@@ -1,6 +1,7 @@
 package com.depromeet.baton.util
 
 import android.content.Context
+import android.util.Log
 import com.depromeet.baton.map.domain.entity.AddressEntity
 import com.naver.maps.geometry.LatLng
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -51,8 +52,16 @@ class BatonSpfManager@Inject constructor(@ApplicationContext context: Context){
     }
 
     fun getLocation():LatLng{
-        val latLng :LatLng = LatLng(mSharedPreferences.getFloat("latitude",0F).toDouble(),mSharedPreferences.getFloat("longitude",0F).toDouble())
+        val latLng  = LatLng(mSharedPreferences.getFloat("latitude",0F).toDouble(),mSharedPreferences.getFloat("longitude",0F).toDouble())
         return latLng
+    }
+
+    fun getMyLongitude(): Float{
+        return mSharedPreferences.getFloat("longitude",0F)
+    }
+
+    fun getMyLatitude(): Float{
+        return mSharedPreferences.getFloat("latitude",0F)
     }
 
 

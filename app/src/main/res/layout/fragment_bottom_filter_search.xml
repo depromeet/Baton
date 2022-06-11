@@ -9,7 +9,7 @@
 
         <variable
             name="filterViewModel"
-            type="com.depromeet.baton.presentation.ui.search.FilterSearchViewModel" />
+            type="com.depromeet.baton.presentation.ui.search.viewmodel.FilterSearchViewModel" />
 
         <variable
             name="adapter"

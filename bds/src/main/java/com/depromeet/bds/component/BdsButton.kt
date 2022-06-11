@@ -48,5 +48,9 @@ class BdsButton @JvmOverloads constructor(
             binding.root.isEnabled = getBoolean(R.styleable.BdsView_isEnabled, true)
         }
     }
+
+    fun setText(text:String){
+        binding.tvText.text=text
+    }
 }
 

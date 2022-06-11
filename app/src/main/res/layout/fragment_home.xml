@@ -5,7 +5,11 @@
 
     <data>
 
-        <import type="com.depromeet.baton.presentation.base.UIState" />
+        <import type="com.depromeet.baton.domain.model.TicketKind" />
+
+        <variable
+            name="uiState"
+            type="com.depromeet.baton.presentation.ui.home.viewmodel.HomeViewModel.HomeUiState" />
 
         <variable
             name="filterViewModel"
@@ -50,6 +54,7 @@
                     android:id="@+id/ctl_home_location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:onClick="@{_ -> uiState.onSetCurrentLocationClick.invoke()}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -59,7 +64,6 @@
                         android:id="@+id/tv_home_location"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingHorizontal="@dimen/dimen10"
                         android:paddingVertical="@dimen/dimen10"
                         android:text="@string/home_title_location"
                         android:textAppearance="?headline2"
@@ -81,6 +85,7 @@
                     android:id="@+id/iv_home_search"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:onClick="@{_ -> uiState.onSearchClick.invoke()}"
                     android:paddingHorizontal="@dimen/dimen8"
                     android:paddingVertical="@dimen/dimen10"
                     android:src="@drawable/ic_search_line_24"
@@ -93,6 +98,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/dimen8"
+                    android:onClick="@{_ -> uiState.onAlarmClick.invoke()}"
                     android:paddingVertical="@dimen/dimen10"
                     android:paddingStart="@dimen/dimen8"
                     android:paddingEnd="@dimen/dimen8"
@@ -121,277 +127,283 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.appbar.MaterialToolbar>
 
-        <com.depromeet.baton.presentation.util.StickyScrollView
+        <com.amar.library.ui.StickyScrollView
             android:id="@+id/sv_home"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mt_home_title">
+            app:layout_constraintTop_toBottomOf="@id/mt_home_title"
+            app:stickyHeader="@id/fcv_home">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/ctl_home_banner"
+                    android:id="@+id/container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?primary90"
                     app:layout_constraintTop_toTopOf="parent">
 
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/ctl_home_banner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?primary90"
+                        app:layout_constraintTop_toTopOf="parent">
+
+
+                        <TextView
+                            android:id="@+id/tv_home_banner_title_zero"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dimen32"
+                            android:layout_marginTop="@dimen/dimen36"
+                            android:text="@string/home_banner_title_zero"
+                            android:textAppearance="?caption2"
+                            android:textColor="?wh100"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tv_home_banner_title_one"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen8"
+                            android:text="@string/home_banner_title_one"
+                            android:textAppearance="?display4"
+                            android:textColor="?wh100"
+                            app:layout_constraintStart_toStartOf="@+id/tv_home_banner_title_zero"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_home_banner_title_zero" />
+
+                        <TextView
+                            android:id="@+id/tv_home_banner_title_two"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/home_banner_title_two"
+                            android:textAppearance="?display4"
+                            android:textColor="?wh100"
+                            app:layout_constraintStart_toStartOf="@id/tv_home_banner_title_one"
+                            app:layout_constraintTop_toBottomOf="@id/tv_home_banner_title_one" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_home_more"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen12"
+                            android:layout_marginEnd="@dimen/dimen56"
+                            android:layout_marginBottom="@dimen/dimen40"
+                            android:background="@drawable/temp_home_see_more"
+                            android:minWidth="0dp"
+                            android:minHeight="0dp"
+                            android:onClick="@{_ -> uiState.onHowToClick.invoke()}"
+                            android:paddingHorizontal="@dimen/dimen16"
+                            android:paddingVertical="@dimen/dimen12"
+                            android:text="@string/home_banner_see_more"
+                            android:textAppearance="?caption3"
+                            android:textColor="?wh100"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@id/tv_home_banner_title_two"
+                            app:layout_constraintStart_toStartOf="@id/tv_home_banner_title_two"
+                            app:layout_constraintTop_toBottomOf="@id/tv_home_banner_title_two" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_banner"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/ctl_home_specific_ticket"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/dimen16"
+                        android:layout_marginTop="@dimen/dimen28"
+                        app:layout_constraintTop_toBottomOf="@id/ctl_home_banner"
+                        tools:layout_editor_absoluteX="16dp">
+
+                        <LinearLayout
+                            android:id="@+id/ll_home_specific_gym"
+                            android:layout_width="@dimen/dimen72"
+                            android:layout_height="@dimen/dimen72"
+                            android:layout_marginBottom="@dimen/dimen4"
+                            android:background="@drawable/bg_home_specific"
+                            android:gravity="center"
+                            android:onClick="@{_ -> uiState.onQuickClick.invoke(TicketKind.HEALTH)}"
+                            app:layout_constraintBottom_toTopOf="@id/tv_home_specific_gym"
+                            app:layout_constraintEnd_toStartOf="@+id/ll_home_specific_pt"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintHorizontal_chainStyle="spread_inside"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:id="@+id/iv_home_specific_gym"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_health" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tv_home_specific_gym"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/home_gym"
+                            android:textAppearance="?caption1"
+                            android:textColor="?grey_scale80"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@id/ll_home_specific_gym"
+                            app:layout_constraintStart_toStartOf="@id/ll_home_specific_gym" />
+
+                        <LinearLayout
+                            android:id="@+id/ll_home_specific_pt"
+                            android:layout_width="@dimen/dimen72"
+                            android:layout_height="0dp"
+                            android:layout_marginBottom="@dimen/dimen4"
+                            android:background="@drawable/bg_home_specific"
+                            android:gravity="center"
+                            android:onClick="@{_ -> uiState.onQuickClick.invoke(TicketKind.PT)}"
+                            app:layout_constraintBottom_toTopOf="@id/tv_home_specific_pt"
+                            app:layout_constraintEnd_toStartOf="@+id/ll_home_specific_pilates"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toEndOf="@+id/ll_home_specific_gym"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:id="@+id/iv_home_specific_pt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_pt" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tv_home_specific_pt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/home_pt"
+                            android:textAppearance="?caption1"
+                            android:textColor="?grey_scale80"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@id/ll_home_specific_pt"
+                            app:layout_constraintStart_toStartOf="@id/ll_home_specific_pt" />
+
+                        <LinearLayout
+                            android:id="@+id/ll_home_specific_pilates"
+                            android:layout_width="@dimen/dimen72"
+                            android:layout_height="0dp"
+                            android:layout_marginBottom="@dimen/dimen4"
+                            android:background="@drawable/bg_home_specific"
+                            android:gravity="center"
+                            android:onClick="@{_ -> uiState.onQuickClick.invoke(TicketKind.PILATES_YOGA)}"
+                            app:layout_constraintBottom_toTopOf="@id/tv_home_specific_pilates"
+                            app:layout_constraintEnd_toStartOf="@+id/ll_home_specific_etc"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toEndOf="@+id/ll_home_specific_pt"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:id="@+id/iv_home_specific_pilates"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_pilates" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tv_home_specific_pilates"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen8"
+                            android:text="@string/home_pilates"
+                            android:textAppearance="?caption1"
+                            android:textColor="?grey_scale80"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@id/ll_home_specific_pilates"
+                            app:layout_constraintStart_toStartOf="@id/ll_home_specific_pilates" />
+
+                        <LinearLayout
+                            android:id="@+id/ll_home_specific_etc"
+                            android:layout_width="@dimen/dimen72"
+                            android:layout_height="0dp"
+                            android:layout_marginBottom="@dimen/dimen4"
+                            android:background="@drawable/bg_home_specific"
+                            android:gravity="center"
+                            android:onClick="@{_ -> uiState.onQuickClick.invoke(TicketKind.ETC)}"
+                            app:layout_constraintBottom_toTopOf="@id/tv_home_specific_etc"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/ll_home_specific_pilates"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:id="@+id/iv_home_specific_etc"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_etc" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tv_home_specific_etc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/home_etc"
+                            android:textAppearance="?caption1"
+                            android:textColor="?grey_scale80"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@id/ll_home_specific_etc"
+                            app:layout_constraintStart_toStartOf="@id/ll_home_specific_etc" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <TextView
-                        android:id="@+id/tv_home_banner_title_zero"
+                        android:id="@+id/tv_home_near_ticket"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dimen32"
-                        android:layout_marginTop="@dimen/dimen36"
-                        android:text="@string/home_banner_title_zero"
-                        android:textAppearance="?caption2"
-                        android:textColor="?wh100"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/tv_home_banner_title_one"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dimen8"
-                        android:text="@string/home_banner_title_one"
-                        android:textAppearance="?display4"
-                        android:textColor="?wh100"
-                        app:layout_constraintStart_toStartOf="@+id/tv_home_banner_title_zero"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_home_banner_title_zero" />
-
-                    <TextView
-                        android:id="@+id/tv_home_banner_title_two"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/home_banner_title_two"
-                        android:textAppearance="?display4"
-                        android:textColor="?wh100"
-                        app:layout_constraintStart_toStartOf="@id/tv_home_banner_title_one"
-                        app:layout_constraintTop_toBottomOf="@id/tv_home_banner_title_one" />
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/btn_home_more"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dimen12"
-                        android:layout_marginEnd="@dimen/dimen56"
-                        android:layout_marginBottom="@dimen/dimen40"
-                        android:background="@drawable/temp_home_see_more"
-                        android:minWidth="0dp"
-                        android:minHeight="0dp"
-                        android:paddingHorizontal="@dimen/dimen16"
-                        android:paddingVertical="@dimen/dimen12"
-                        android:text="@string/home_banner_see_more"
-                        android:textAppearance="?caption3"
-                        android:textColor="?wh100"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@id/tv_home_banner_title_two"
-                        app:layout_constraintStart_toStartOf="@id/tv_home_banner_title_two"
-                        app:layout_constraintTop_toBottomOf="@id/tv_home_banner_title_two" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_banner"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent" />
+                        android:layout_marginTop="@dimen/dimen28"
+                        android:text="@string/home_near_ticket"
+                        android:textAppearance="?headline1"
+                        android:textColor="?grey_scale90"
+                        app:layout_constraintStart_toStartOf="@id/ctl_home_specific_ticket"
+                        app:layout_constraintTop_toBottomOf="@+id/ctl_home_specific_ticket" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/ctl_home_specific_ticket"
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/fcv_home"
+                    android:name="com.depromeet.baton.presentation.ui.filter.view.FilterChipFragment"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/dimen16"
-                    android:layout_marginTop="@dimen/dimen28"
-                    app:layout_constraintTop_toBottomOf="@id/ctl_home_banner"
-                    tools:layout_editor_absoluteX="16dp">
-
-                    <LinearLayout
-                        android:id="@+id/ll_home_specific_gym"
-                        android:layout_width="@dimen/dimen72"
-                        android:layout_height="@dimen/dimen72"
-                        android:layout_marginBottom="@dimen/dimen4"
-                        android:background="@drawable/bg_home_specific"
-                        android:gravity="center"
-                        app:layout_constraintBottom_toTopOf="@id/tv_home_specific_gym"
-                        app:layout_constraintEnd_toStartOf="@+id/ll_home_specific_pt"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintHorizontal_chainStyle="spread_inside"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <ImageView
-                            android:id="@+id/iv_home_specific_gym"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_health" />
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/tv_home_specific_gym"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/home_gym"
-                        android:textAppearance="?caption1"
-                        android:textColor="?grey_scale80"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@id/ll_home_specific_gym"
-                        app:layout_constraintStart_toStartOf="@id/ll_home_specific_gym" />
-
-                    <LinearLayout
-                        android:id="@+id/ll_home_specific_pt"
-                        android:layout_width="@dimen/dimen72"
-                        android:layout_height="0dp"
-                        android:layout_marginBottom="@dimen/dimen4"
-                        android:background="@drawable/bg_home_specific"
-                        android:gravity="center"
-                        app:layout_constraintBottom_toTopOf="@id/tv_home_specific_pt"
-                        app:layout_constraintEnd_toStartOf="@+id/ll_home_specific_pilates"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/ll_home_specific_gym"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <ImageView
-                            android:id="@+id/iv_home_specific_pt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_pt" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/tv_home_specific_pt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/home_pt"
-                        android:textAppearance="?caption1"
-                        android:textColor="?grey_scale80"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@id/ll_home_specific_pt"
-                        app:layout_constraintStart_toStartOf="@id/ll_home_specific_pt" />
-
-                    <LinearLayout
-                        android:id="@+id/ll_home_specific_pilates"
-                        android:layout_width="@dimen/dimen72"
-                        android:layout_height="0dp"
-                        android:layout_marginBottom="@dimen/dimen4"
-                        android:background="@drawable/bg_home_specific"
-                        android:gravity="center"
-                        app:layout_constraintBottom_toTopOf="@id/tv_home_specific_pilates"
-                        app:layout_constraintEnd_toStartOf="@+id/ll_home_specific_etc"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/ll_home_specific_pt"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <ImageView
-                            android:id="@+id/iv_home_specific_pilates"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_pilates" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/tv_home_specific_pilates"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dimen8"
-                        android:text="@string/home_pilates"
-                        android:textAppearance="?caption1"
-                        android:textColor="?grey_scale80"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@id/ll_home_specific_pilates"
-                        app:layout_constraintStart_toStartOf="@id/ll_home_specific_pilates" />
-
-                    <LinearLayout
-                        android:id="@+id/ll_home_specific_etc"
-                        android:layout_width="@dimen/dimen72"
-                        android:layout_height="0dp"
-                        android:layout_marginBottom="@dimen/dimen4"
-                        android:background="@drawable/bg_home_specific"
-                        android:gravity="center"
-                        app:layout_constraintBottom_toTopOf="@id/tv_home_specific_etc"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/ll_home_specific_pilates"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <ImageView
-                            android:id="@+id/iv_home_specific_etc"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_etc" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/tv_home_specific_etc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/home_etc"
-                        android:textAppearance="?caption1"
-                        android:textColor="?grey_scale80"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@id/ll_home_specific_etc"
-                        app:layout_constraintStart_toStartOf="@id/ll_home_specific_etc" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <TextView
-                    android:id="@+id/tv_home_near_ticket"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen28"
-                    android:text="@string/home_near_ticket"
-                    android:textAppearance="?headline1"
-                    android:textColor="?grey_scale90"
-                    app:layout_constraintStart_toStartOf="@id/ctl_home_specific_ticket"
-                    app:layout_constraintTop_toBottomOf="@+id/ctl_home_specific_ticket" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/ctl_home_fcv"
-                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen12"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_home_near_ticket">
-
-                    <androidx.fragment.app.FragmentContainerView
-                        android:id="@+id/fcv_home"
-                        android:name="com.depromeet.baton.presentation.ui.filter.view.FilterChipFragment"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    app:layout_constraintTop_toBottomOf="@id/container" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/ctl_home_fcv">
+                    app:layout_constraintTop_toBottomOf="@id/fcv_home">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_home"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/dimen16"
+                        android:layout_marginTop="@dimen/dimen8"
                         android:nestedScrollingEnabled="false"
                         app:adapter="@{adapter}"
-                        app:uiState="@{filterViewModel.filteredTicketUiState }"
                         app:itemDecoration="@{itemDecoration}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:spanCount="2"
+                        app:uiState="@{filterViewModel.filteredTicketUiState }"
                         tools:itemCount="5"
                         tools:listitem="@layout/item_ticket"
                         tools:visibility="gone">
 
                     </androidx.recyclerview.widget.RecyclerView>
+
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -400,7 +412,7 @@
                     android:layout_marginTop="@dimen/dimen68"
                     android:layout_marginBottom="@dimen/dimen68"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ctl_home_fcv">
+                    app:layout_constraintTop_toBottomOf="@+id/fcv_home">
 
                     <ImageView
                         android:id="@+id/iv_home_no_result"
@@ -423,7 +435,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/iv_home_no_result" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.depromeet.baton.presentation.util.StickyScrollView>
+        </com.amar.library.ui.StickyScrollView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_home"
@@ -432,6 +444,7 @@
             android:layout_marginEnd="@dimen/dimen24"
             android:layout_marginBottom="@dimen/dimen12"
             android:backgroundTint="?primary50"
+            android:onClick="@{_ -> uiState.onWritePostClick.invoke()}"
             android:src="@drawable/ic_add_line_24"
             app:borderWidth="0dp"
             app:layout_constraintBottom_toBottomOf="parent"

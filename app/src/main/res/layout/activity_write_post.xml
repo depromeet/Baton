@@ -45,39 +45,71 @@
             android:layout_marginHorizontal="@dimen/dimen16"
             android:layout_marginTop="@dimen/dimen20"
             android:layout_marginBottom="@dimen/dimen16"
-            app:layout_constraintBottom_toTopOf="@+id/btn_write_post_back"
+            app:layout_constraintBottom_toTopOf="@+id/ctl_write_post"
             app:layout_constraintTop_toTopOf="@id/progressbar_write_post" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_write_post_back"
-            style="@style/Widget.MaterialButton"
-            android:layout_width="0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ctl_write_post"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:backgroundTint="?bg"
-            android:paddingVertical="@dimen/dimen16"
-            android:text="@string/write_post_back"
-            android:textAppearance="?body1"
-            android:textColor="?grey_scale80"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btn_write_post_next"
-            app:layout_constraintStart_toStartOf="@+id/fcv_write_post" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/fcv_write_post">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_write_post_next"
-            style="@style/Widget.MaterialButton"
-            android:layout_marginStart="@dimen/dimen12"
-            android:layout_width="@dimen/dimen204"
-            android:layout_height="wrap_content"
-            android:backgroundTint="?primary50"
-            android:paddingVertical="@dimen/dimen16"
-            android:text="@string/write_post_next"
-            android:textAppearance="?body1"
-            android:textColor="?wh100"
-            app:layout_constraintBottom_toBottomOf="@+id/btn_write_post_back"
-            app:layout_constraintEnd_toEndOf="@+id/fcv_write_post"
-            app:layout_constraintStart_toEndOf="@id/btn_write_post_back"
-            app:layout_constraintTop_toTopOf="@+id/btn_write_post_back" />
+            <!--     <com.google.android.material.button.MaterialButton
+                     android:id="@+id/btn_write_post_back"
+                     style="@style/Widget.MaterialButton"
+                     android:layout_width="0dp"
+                     android:layout_height="wrap_content"
+                     android:layout_marginStart="@dimen/dimen16"
+                     android:layout_marginEnd="@dimen/dimen8"
+                     android:backgroundTint="?bg"
+                     android:includeFontPadding="false"
+                     android:minHeight="@dimen/dimen48"
+
+                     android:text="@string/write_post_back"
+                     android:textAppearance="?body1"
+                     android:textColor="?grey_scale80"
+                     app:layout_constraintBottom_toBottomOf="@+id/btn_write_post_next"
+                     app:layout_constraintEnd_toStartOf="@id/btn_write_post_next"
+                     app:layout_constraintStart_toStartOf="parent"
+                     app:layout_constraintTop_toTopOf="@+id/btn_write_post_next" />-->
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_write_post_back"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="@dimen/dimen128"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/dimen12"
+                android:background="@drawable/background_radius_8dp_bg"
+                android:backgroundTint="@null"
+                android:includeFontPadding="false"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:text="이전"
+                android:textAppearance="?body1"
+                android:textColor="?grey_scale80"
+                app:cornerRadius="@dimen/dimen8"
+                app:layout_constraintBottom_toBottomOf="@+id/btn_write_post_next"
+                app:layout_constraintEnd_toStartOf="@id/btn_write_post_next"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/btn_write_post_next" />
+
+            <com.depromeet.bds.component.BdsButton
+                android:id="@+id/btn_write_post_next"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dimen48"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="@dimen/dimen8"
+                android:layout_marginEnd="@dimen/dimen16"
+                android:layout_marginBottom="@dimen/dimen16"
+                android:theme="@style/Theme.Bds.PrimaryButton.Large"
+                app:bds_text="다음"
+                app:enabled="@{writePostViewModel.isNextBtnEnable}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/btn_write_post_back" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

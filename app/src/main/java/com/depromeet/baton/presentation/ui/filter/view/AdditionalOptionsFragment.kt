@@ -7,7 +7,6 @@ import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentAdditionalOptionsBinding
 import com.depromeet.baton.presentation.base.BaseFragment
 import com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel
-import com.depromeet.baton.presentation.ui.search.FilterSearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

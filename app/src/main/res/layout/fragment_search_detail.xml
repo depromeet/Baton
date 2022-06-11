@@ -22,7 +22,7 @@
             android:id="@+id/fcv_home"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:name="com.depromeet.baton.presentation.ui.search.FilterChipSearchFragment"
+            android:name="com.depromeet.baton.presentation.ui.search.view.filter.FilterChipSearchFragment"
             android:layout_marginTop="@dimen/dimen12"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

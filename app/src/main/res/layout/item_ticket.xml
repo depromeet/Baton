@@ -9,7 +9,7 @@
 
         <variable
             name="ticket"
-            type="com.depromeet.baton.data.response.ResponseFilteredTicket" />
+            type="com.depromeet.baton.domain.model.FilteredTicket" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,26 +20,40 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ctl_ticket_item_card"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/dimen156"
             android:background="@drawable/card_column"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/ibtn_item_ticket"
-                centerCrop="@{true}"
-                image="@{ticket.mainImage}"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/dimen156"
-                android:background="@drawable/card_column"
+            <ImageView
+                android:id="@+id/iv_item_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:minWidth="0dp"
                 android:minHeight="0dp"
                 android:src="@drawable/ic_empty_etc_86"
+                android:visibility="@{ticket.mainImage==null ? View.VISIBLE : View.INVISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/ibtn_item_ticket"
+                image="@{ticket.mainImage}"
+                roundedCorners="@{false}"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/card_column"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:visibility="@{ticket.mainImage==null ? View.INVISIBLE : View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="invisible" />
 
             <TextView
                 android:id="@+id/tv_item_ticket_card_badge"
@@ -48,7 +62,7 @@
                 android:background="@drawable/card_badge"
                 android:paddingHorizontal="@dimen/dimen8"
                 android:paddingVertical="@dimen/dimen4"
-                android:text="헬스"
+                android:text="@{ticket.category}"
                 android:textAppearance="?caption1"
                 android:textColor="@color/wh100"
                 app:layout_constraintStart_toStartOf="parent"
@@ -105,12 +119,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen4"
-                android:text="@{@string/ticket_price_remaining(ticket.remainingNumber)}"
+                android:text="@{@string/ticket_remaining_day(ticket.remainingDay)}"
                 android:textAppearance="?caption1"
                 android:textColor="?primary50"
+                android:visibility="@{ticket.remainingDay==null ? View.INVISIBLE : View.VISIBLE}"
                 app:layout_constraintStart_toStartOf="@id/tv_item_ticket_price"
                 app:layout_constraintTop_toBottomOf="@id/tv_item_ticket_price"
                 tools:text="50일 남음" />
+
+            <TextView
+                android:id="@+id/tv_item_ticket_remaining_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen4"
+                android:text="@{@string/ticket_remaining_number(ticket.remainingNumber)}"
+                android:textAppearance="?caption1"
+                android:textColor="?primary50"
+                android:visibility="@{ticket.remainingNumber!=null &amp;&amp; ticket.remainingDay==null ? View.VISIBLE : View.INVISIBLE}"
+                app:layout_constraintStart_toStartOf="@id/tv_item_ticket_price"
+                app:layout_constraintTop_toBottomOf="@id/tv_item_ticket_price"
+                tools:text="50회 남음" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/ll_item_ticket_top"
@@ -166,19 +194,22 @@
                 android:id="@+id/ll_item_ticket_bottom"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:visibility="@{ticket.tags.size==0 ? View.INVISIBLE : View.VISIBLE }"
                 android:layout_marginTop="@dimen/dimen4"
+                android:visibility="@{ticket.tags.size==0 ? View.INVISIBLE : View.VISIBLE }"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/ll_item_ticket_top"
                 app:layout_constraintTop_toBottomOf="@+id/ll_item_ticket_top">
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/ll_one"
                     android:layout_width="wrap_content"
+                    android:paddingEnd="@dimen/dimen2"
                     android:layout_height="wrap_content"
                     android:visibility="@{ticket.tags.size>=1 ? View.VISIBLE : View.INVISIBLE }"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
+
 
                     <com.depromeet.bds.component.BdsTag
                         android:id="@+id/item_ticket_tag_one"
@@ -188,12 +219,13 @@
                         app:bds_text="@{ticket.tags[0]}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
-                </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/ll_two"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingEnd="@dimen/dimen2"
                     android:visibility="@{ticket.tags.size>=2 ? View.VISIBLE : View.INVISIBLE }"
                     app:layout_constraintStart_toEndOf="@id/ll_one"
                     app:layout_constraintTop_toTopOf="parent">
@@ -202,13 +234,13 @@
                         android:id="@+id/item_ticket_tag_two"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dimen4"
                         android:theme="@style/Theme.Bds.Tag.Default.Grey.Small"
                         app:bds_text="@{ticket.tags[1]}"
-                        app:layout_constraintStart_toEndOf="@id/item_ticket_tag_one" />
-                </LinearLayout>
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/ll_three"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -220,10 +252,11 @@
                         android:id="@+id/item_ticket_tag_etc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dimen4"
                         android:theme="@style/Theme.Bds.Tag.Default.Grey.Small"
-                        app:bds_text="+3" />
-                </LinearLayout>
+                        app:bds_text="+3"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

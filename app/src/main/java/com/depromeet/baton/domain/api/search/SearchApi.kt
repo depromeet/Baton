@@ -1,6 +1,7 @@
 package com.depromeet.baton.domain.api.search
 
 import com.depromeet.baton.data.response.ResponseFilteredTicket
+import com.depromeet.baton.data.response.ResponsePostTicket
 import com.depromeet.baton.data.response.ResponseTicketInfo
 import com.depromeet.baton.presentation.base.UIState
 import com.depromeet.baton.remote.search.SearchService
@@ -173,10 +174,10 @@ class SearchApi @Inject constructor(private val searchService: SearchService) {
     }
 
     suspend fun postTicket(
-        body: HashMap<String, RequestBody>,
-        image: MultipartBody.Part?
-    ): ResponseFilteredTicket {
-        return searchService.postTicket(body, image)
+        body: HashMap<String, RequestBody?>,
+        images: MutableList<MultipartBody.Part>?
+    ): ResponsePostTicket {
+        return searchService.postTicket(body, images)
     }
 
     companion object {
