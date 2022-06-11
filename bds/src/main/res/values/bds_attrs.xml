@@ -70,22 +70,19 @@
     </declare-styleable>
 
 
-
-
     <declare-styleable name="BdsSlider">
-        <attr name="bds_progress" format="integer"/>
-        <attr name="bds_max"  format="integer"/>
+        <attr name="bds_progress" format="integer" />
+        <attr name="bds_max" format="integer" />
     </declare-styleable>
 
 
     <declare-styleable name="BdsRangeSlider">
         <attr name="bds_progress" />
-        <attr name="bds_range_min" format="float"/>
-        <attr name="bds_range_max" format="float"/>
+        <attr name="bds_range_min" format="float" />
+        <attr name="bds_range_max" format="float" />
         <attr name="bds_left" format="integer" />
         <attr name="bds_right" format="integer" />
     </declare-styleable>
-
 
 
     <declare-styleable name="BdsTitleAppBar">
@@ -114,5 +111,10 @@
     <declare-styleable name="BdsToggle">
         <attr name="isEnabled" />
         <attr name="isChecked" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="BdsCheckbox">
+        <attr name="isEnabled" />
+        <attr name="isChecked" />
     </declare-styleable>
 </resources>
