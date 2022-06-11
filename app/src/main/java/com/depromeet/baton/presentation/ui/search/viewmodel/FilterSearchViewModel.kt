@@ -340,9 +340,12 @@ open class FilterSearchViewModel @Inject constructor(
 
     fun setTicketKind(ticket: TicketKind, isChecked: Boolean = false, fromQuick: Boolean = false) {
         ticketKindCheckedList.setChipCheckedStatus(ticket, isChecked)
+
+        hashTagCheckedList.value?.clear()  //퀵 해시태그->홈 양도권종류 퀵으로 또오는 경우
+        _filteredChipList.clear() 
         updateAllStatus(ticket, isChecked)
+
         if (fromQuick && origin!!.get(0).first != FilterType.HashTag.value) {
-            //해시태그를 앞으로 옮긴다
             _filterChipList.value?.forEach { it ->
                 if (it.first == FilterType.TicketKind.value) {
                     _filterChipList.value!![0] = FilterType.TicketKind.value to true  //제일 앞으로

@@ -103,5 +103,4 @@ class SearchDetailFragment : BaseFragment<FragmentSearchDetailBinding>(R.layout.
         })
     }
 
-
 }
