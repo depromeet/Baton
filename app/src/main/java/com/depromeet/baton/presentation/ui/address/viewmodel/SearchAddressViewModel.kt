@@ -52,7 +52,6 @@ class SearchAddressViewModel @Inject constructor(
                             _uiState.value= (UIState.HasData)
                         }
                         is SearchItem.Empty -> {
-                            Timber.e("검색결과 없음")
                             _uiState.value= (UIState.NoData)
                         }
                     }

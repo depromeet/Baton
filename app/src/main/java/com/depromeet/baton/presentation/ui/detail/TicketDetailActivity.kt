@@ -148,7 +148,6 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
                     //TODO showChatBottom
                 }
                 DetailViewEvent.EventClickLike->{
-                    Timber.e( viewModel.ticketState.value!!.ticket.isLikeTicket.toString())
                    if(viewModel.ticketState.value!!.ticket.isLikeTicket)
                        this@TicketDetailActivity.BdsToast("관심 상품이 등록되었습니다.",binding.ticketDetailFooter.top).show()
                     binding.ticketDetailLikeBtn.toggle()
