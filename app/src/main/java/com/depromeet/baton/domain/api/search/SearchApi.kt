@@ -169,8 +169,11 @@ class SearchApi @Inject constructor(private val searchService: SearchService) {
         longitude: Float,
         query: String,
         maxDistance: Int,
-    ): List<ResponseFilteredTicket> {
-        return searchService.getTicketSearchResult(page, size, latitude, longitude, query, maxDistance)
+    ): UIState {
+        val response = searchService.getTicketSearchResult(page, size, latitude, longitude, query, maxDistance)
+        return if (response.isSuccessful) {
+            UIState.Success(response.body())
+        } else   UIState.Error("[${response.code()}] - ${response.raw()}")
     }
 
     suspend fun postTicket(

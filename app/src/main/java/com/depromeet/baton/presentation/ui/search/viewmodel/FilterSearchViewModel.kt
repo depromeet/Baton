@@ -5,8 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.depromeet.baton.domain.model.*
-import com.depromeet.baton.domain.repository.GetFilteredTicketUseCase
+import com.depromeet.baton.domain.usecase.GetFilteredTicketUseCase
 import com.depromeet.baton.domain.repository.SearchRepository
+import com.depromeet.baton.domain.usecase.GetTicketSearchResultUseCase
 import com.depromeet.baton.presentation.base.BaseViewModel
 import com.depromeet.baton.presentation.base.UIState
 import com.depromeet.baton.presentation.ui.filter.view.TermFragment
@@ -19,7 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 open class FilterSearchViewModel @Inject constructor(
     private val searchRepository: SearchRepository,
-    private val getFilteredTicketUseCase: GetFilteredTicketUseCase
+    private val getFilteredTicketUseCase: GetFilteredTicketUseCase,
+    private val getTicketSearchResultUseCase: GetTicketSearchResultUseCase
 ) : BaseViewModel() {
 
     //바텀 필터링 카운트 UI 상태
@@ -342,7 +344,7 @@ open class FilterSearchViewModel @Inject constructor(
         ticketKindCheckedList.setChipCheckedStatus(ticket, isChecked)
 
         hashTagCheckedList.value?.clear()  //퀵 해시태그->홈 양도권종류 퀵으로 또오는 경우
-        _filteredChipList.clear() 
+        _filteredChipList.clear()
         updateAllStatus(ticket, isChecked)
 
         if (fromQuick && origin!!.get(0).first != FilterType.HashTag.value) {
@@ -696,4 +698,36 @@ open class FilterSearchViewModel @Inject constructor(
             }
         }
     }
+
+    /** 검색결과 리스트 가져오기 */
+    fun getSearchResultTicketList() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                getTicketSearchResultUseCase.execute(
+                    page = 0,
+                    size = 100,
+                    query = ""
+                )
+            }.onSuccess {
+                when (it) {
+                    is UIState.Success<*> -> {
+                        @Suppress("UNCHECKED_CAST")
+                        _filteredTicketList.value = it.data as List<FilteredTicket>
+                        _ticketCount.value = _filteredTicketList.value!!.size
+
+                        if (_filteredTicketList.value!!.isNotEmpty()) {
+                            _filteredTicketUiState.value = UIState.HasData
+                        } else {
+                            _filteredTicketUiState.value = UIState.NoData
+                        }
+                    }
+                    else -> _filteredTicketUiState.value = UIState.Loading
+                }
+            }.onFailure {
+                _filteredTicketUiState.value = UIState.Loading
+                Timber.e(it)
+            }
+        }
+    }
+
 }

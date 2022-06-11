@@ -1,11 +1,10 @@
 package com.depromeet.baton.presentation.ui.filter.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.depromeet.baton.domain.model.*
-import com.depromeet.baton.domain.repository.GetFilteredTicketUseCase
+import com.depromeet.baton.domain.usecase.GetFilteredTicketUseCase
 import com.depromeet.baton.domain.repository.SearchRepository
 import com.depromeet.baton.presentation.base.BaseViewModel
 import com.depromeet.baton.presentation.base.UIState
