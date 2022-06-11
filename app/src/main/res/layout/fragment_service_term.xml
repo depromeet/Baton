@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:background="?wh100"
+        >
+        <com.depromeet.bds.component.BdsBackwardAppBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:bds_title="서비스 이용약관"
+            android:overScrollMode="never"
+            />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/dimen16"
+
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?grey_scale30"
+                    android:text="@string/service_term_title"
+                    android:textColor="?grey_scale60"
+                    android:textAppearance="?caption2"
+                    android:paddingVertical="@dimen/dimen12"
+                    android:paddingHorizontal="33dp"
+                    />
+                <TextView
+                    android:padding="@dimen/dimen16"
+                    android:text="제 1장 총칙"
+                    android:textAppearance="?body3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+                <TextView
+                    android:paddingHorizontal="@dimen/dimen16"
+                    android:id="@+id/service_term_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+
+        </androidx.core.widget.NestedScrollView>
+
+    </LinearLayout>
+
+</layout>
