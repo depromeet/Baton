@@ -380,6 +380,7 @@
                                 android:background="@drawable/background_radius_4dp"
                                 android:gravity="center"
                                 android:text="일"
+                                android:visibility="@{ticketState.dayTagisVisible}"
                                 android:textAlignment="center"
                                 android:textAppearance="?caption3"
                                 android:textColor="?grey_scale70" />
@@ -388,6 +389,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@{ticketState.dayPrice}"
+                                android:visibility="@{ticketState.dayTagisVisible}"
                                 android:textAppearance="?caption3" />
 
                         </LinearLayout>

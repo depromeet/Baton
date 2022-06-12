@@ -26,7 +26,7 @@ data class DetailTicketInfo (
     val imgList : List<TicketInfo.Image>,
     val isMembership : Boolean,
     val isHolding : Boolean,
-    val remainingNumber : String,
+    val remainingNumber : Int,
     val isLikeTicket :Boolean,
     val bookmarkView : Int? =0,
     val countView :Int? =0

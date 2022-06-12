@@ -115,11 +115,9 @@ class TicketDetailViewModel @Inject constructor(
                                     description = ticket.description,
                                     tags = initTagByString(ticket.tags),//enum으로 오는 index
                                     imgList = ticket.images as List<TicketInfo.Image>,
-                                    //TODO url api response 로 변경
-                                    //imgList = emptyList(),
                                     isHolding = ticket.isHolding,
                                     isMembership = ticket.isMembership,
-                                    remainingNumber = "10",//ticket.remainingNumber.toString(),
+                                    remainingNumber = ticket.remainingNumber,
                                     isLikeTicket = ticket.isBookmarked,
                                     bookmarkView = ticket.bookmarkCount,
                                     countView = ticket.viewCount
@@ -235,16 +233,14 @@ class TicketDetailViewModel @Inject constructor(
         val chatBtnText = if (isChatEnabled) "문의하기" else "이미 문의 회원권이에요"
 
         val priceStr = priceFormat(ticket.price.toFloat())
-        val monthTagisVisible = if (ticket.remainDate > 30) View.VISIBLE else View.GONE
+        val monthTagisVisible = if (ticket.isMembership && ticket.remainDate > 30) View.VISIBLE else View.GONE
         val monthPrice = priceFormat(ticket.price / 30f) + "원"
+        val dayTagisVisible = if (ticket.isMembership) View.VISIBLE else View.GONE
         val dayPrice = priceFormat(ticket.price / ticket.remainDate.toFloat()) + "원"
 
         val sellViewisVisible =ticket.ticketStatus == TicketStatus.SALE && ticket.imgList.isEmpty()
-           // if (ticket.ticketStatus == TicketStatus.SALE && ticket.imgList.isEmpty()) View.VISIBLE else View.GONE
         val soldoutViewisVisible = ticket.ticketStatus == TicketStatus.SOLDOUT
-            //if (ticket.ticketStatus == TicketStatus.SOLDOUT &&ticket.price ) View.VISIBLE else View.GONE
         val reservedViewisVisible =ticket.ticketStatus == TicketStatus.RESERVATION
-            //if (ticket.ticketStatus == TicketStatus.RESERVATION) View.VISIBLE else View.GONE
 
         val canNegoStr = if (ticket.canNego) "가격제안 가능" else "가격제안 불가능"
 
