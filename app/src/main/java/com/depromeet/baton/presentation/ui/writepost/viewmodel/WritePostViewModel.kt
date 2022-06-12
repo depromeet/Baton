@@ -73,11 +73,15 @@ class WritePostViewModel @Inject constructor(
     val selfWriteViewEvents = _selfWriteViewEvents.asStateFlow()
 
     //멤버십 정보
+    @RequiresApi(Build.VERSION_CODES.O)
     private val _membershipInfoUiState: MutableStateFlow<MembershipInfoUiState> = MutableStateFlow(createMembershipInfoState())
+    @RequiresApi(Build.VERSION_CODES.O)
     val membershipInfoUiState = _membershipInfoUiState.asStateFlow()
 
     //판매방식
+    @RequiresApi(Build.VERSION_CODES.O)
     private val _transactionMethodUiState: MutableStateFlow<TransactionMethodUiState> = MutableStateFlow(createTransactionMethodState())
+    @RequiresApi(Build.VERSION_CODES.O)
     val transactionMethodUiState = _transactionMethodUiState.asStateFlow()
 
     private val _transactionMethodViewEvents: MutableStateFlow<List<TransactionMethodViewEvent>> = MutableStateFlow(emptyList())
@@ -469,6 +473,7 @@ class WritePostViewModel @Inject constructor(
         val onChipChecked: (Any, Boolean) -> Unit,
     )
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun createMembershipInfoState(): MembershipInfoUiState {
         return MembershipInfoUiState(
             termChanged = "",
@@ -479,17 +484,20 @@ class WritePostViewModel @Inject constructor(
         )
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun handleTermDetailChanged(editable: Editable?) {
         _termWithDot.value = editable.toString()
         _membershipInfoUiState.update { it.copy(termChanged = editable.toString().toCharArray().filter { it != '.' }.joinToString("")) }
         setLevelTwoNextBtnEnable()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun handlePriceChanged(editable: Editable?) {
         _membershipInfoUiState.update { it.copy(priceChanged = editable.toString()) }
         setLevelTwoNextBtnEnable()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun handleChipChanged(any: Any, isChecked: Boolean) {
         when (any) {
             is TicketKind -> setTicketKind(any, isChecked)
@@ -500,6 +508,7 @@ class WritePostViewModel @Inject constructor(
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun setTicketKind(ticket: TicketKind, isChecked: Boolean) {
         if (isChecked) ticketKindCheckedList.value?.clear()
         ticketKindCheckedList.setChipCheckedStatus(ticket, isChecked)
@@ -507,6 +516,7 @@ class WritePostViewModel @Inject constructor(
         setLevelTwoNextBtnEnable()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun setTerm(kind: Term, isChecked: Boolean) {
         //기간, 횟수 하나만 선택 가능
         _isPeriodChecked.value = false
@@ -566,6 +576,7 @@ class WritePostViewModel @Inject constructor(
         val onChipChecked: (TradeType, Boolean) -> Unit,
     )
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun createTransactionMethodState(): TransactionMethodUiState {
         return TransactionMethodUiState(
             onToolTipClick = ::handleToolTipClick,
@@ -701,6 +712,7 @@ class WritePostViewModel @Inject constructor(
     }
 
     //todo ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡapiㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+    @RequiresApi(Build.VERSION_CODES.O)
     fun postTicket() {
         var expiryDate: String? = null
         var remainingNumber: Int? = null
