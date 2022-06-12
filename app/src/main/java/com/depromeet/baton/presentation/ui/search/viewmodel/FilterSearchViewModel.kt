@@ -8,6 +8,8 @@ import com.depromeet.baton.domain.model.*
 import com.depromeet.baton.domain.usecase.GetFilteredTicketUseCase
 import com.depromeet.baton.domain.repository.SearchRepository
 import com.depromeet.baton.domain.usecase.GetTicketSearchResultUseCase
+import com.depromeet.baton.map.domain.entity.ShopEntity
+import com.depromeet.baton.map.domain.usecase.SearchItem
 import com.depromeet.baton.presentation.base.BaseViewModel
 import com.depromeet.baton.presentation.base.UIState
 import com.depromeet.baton.presentation.ui.filter.view.TermFragment
@@ -368,14 +370,19 @@ open class FilterSearchViewModel @Inject constructor(
     }
 
     fun setTradeType(method: TradeType, isChecked: Boolean = false) {
-        if (isChecked && tradeTypeCheckedList.value?.filter { it.value }?.size == 1) return
+        tradeTypeCheckedList.value?.clear()
         tradeTypeCheckedList.setChipCheckedStatus(method, isChecked)
+        updateAllStatus(TradeType.CONTECT, false)
+        updateAllStatus(TradeType.UNTECT, false)
         updateAllStatus(method, isChecked)
     }
 
     fun setTransferFeeType(who: TransferFee, isChecked: Boolean = false) {
-        if (isChecked && transferFeeCheckedList.value?.filter { it.value }?.size == 1) return
+        transferFeeCheckedList.value?.clear()
         transferFeeCheckedList.setChipCheckedStatus(who, isChecked)
+        updateAllStatus(TransferFee.SELLER, false)
+        updateAllStatus(TransferFee.CONSUMER, false)
+        updateAllStatus(TransferFee.NONE, false)
         updateAllStatus(who, isChecked)
     }
 
@@ -700,13 +707,20 @@ open class FilterSearchViewModel @Inject constructor(
     }
 
     /** 검색결과 리스트 가져오기 */
-    fun getSearchResultTicketList() {
+    fun getSearchResultTicketList(query: String) {
+
+        filterReset()
+        if (query == "") {
+            updateFilteredTicketList()
+            return
+        }
+
         viewModelScope.launch {
             kotlin.runCatching {
                 getTicketSearchResultUseCase.execute(
                     page = 0,
                     size = 100,
-                    query = ""
+                    query = query
                 )
             }.onSuccess {
                 when (it) {
