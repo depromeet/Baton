@@ -15,10 +15,15 @@ data class TicketSimpleInfo(
     @Json(name="images") val images: List<ResponseFilteredTicket.Image> ? = emptyList(),
     @Json(name="isMembership")  val isMembership: Boolean,
     @Json(name="remainNumber") val remainingNumber: Int?=-1,
+    @Json(name="remainingDay") val remainingDay: Int?= -1,
     @Json(name="expiryDate")  val expiryDate: String?="",
     @Json(name="latitude")  val latitude: Double,
     @Json(name="longitude")  val longitude: Double,
     @Json(name="distance")  val distance: Double,
+    @Json(name="bookmarkCount")  val bookmarkCount : Int,
+    @Json(name="viewCount")  val viewCount: Int,
+    @Json(name="type")  val type : String,
+
     val isBookmark : Boolean?= false
 ) {
     data class Image(

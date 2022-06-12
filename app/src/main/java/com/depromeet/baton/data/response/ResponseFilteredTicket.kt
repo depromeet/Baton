@@ -5,7 +5,7 @@ data class ResponseFilteredTicket(
     val location: String,
     val address: String,
     val price: Int,
-    val mainImage: String,
+    val mainImage: String?,
     val createAt: String,
     val state: String,
     val tags: List<String>,

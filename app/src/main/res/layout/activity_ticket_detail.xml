@@ -50,7 +50,7 @@
                                 android:layout_height="@dimen/dimen86"
                                 android:layout_gravity="center"
                                 android:src="@{ticketState.ticket.emptyIcon}"
-                                android:visibility="@{ticketState.sellViewisVisible}"
+                                app:isVisible="@{ticketState.sellViewisVisible}"
                                 app:tint="?grey_scale60" />
 
                             <androidx.recyclerview.widget.RecyclerView
@@ -118,7 +118,7 @@
                                 android:background="?dim"
                                 android:gravity="center"
                                 android:orientation="vertical"
-                                android:visibility="@{ticketState.reservedViewisVisible}">
+                                app:isVisible="@{ticketState.reservedViewisVisible}">
 
                                 <ImageView
                                     android:layout_width="@dimen/dimen86"
@@ -141,7 +141,7 @@
                                 android:background="?dim"
                                 android:gravity="center"
                                 android:orientation="vertical"
-                                android:visibility="@{ticketState.soldoutViewisVisible}">
+                                app:isVisible="@{ticketState.soldoutViewisVisible}">
 
                                 <ImageView
                                     android:layout_width="@dimen/dimen86"

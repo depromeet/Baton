@@ -63,7 +63,7 @@ class TicketItemRvAdapter(
 
                 setLikeBtnClickListener(ctvItemTicketLike)
 
-                if (item.mainImage.isEmpty()) setEmptyImage(position, ibtnItemTicket)
+                if (item.mainImage==null) setEmptyImage(position, ibtnItemTicket)
 
                 root.setOnClickListener {
                     clickListener(item)

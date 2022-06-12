@@ -8,6 +8,7 @@ import androidx.lifecycle.*
 import com.depromeet.baton.R
 import com.depromeet.baton.data.response.ResponseFilteredTicket
 import com.depromeet.baton.domain.model.*
+import com.depromeet.baton.domain.repository.AuthRepository
 import com.depromeet.baton.domain.repository.TicketInfoRepository
 import com.depromeet.baton.map.util.NetworkResult
 import com.depromeet.baton.presentation.ui.detail.model.*
@@ -30,6 +31,7 @@ import kotlin.collections.ArrayList
 class TicketDetailViewModel @Inject constructor(
     application: Application,
     private val spfManager: BatonSpfManager,
+    private val authRepository: AuthRepository,
     private val ticketInfoRepository: TicketInfoRepository,
     private val savedStateHandle: SavedStateHandle
 ) : AndroidViewModel(application) {
@@ -51,7 +53,7 @@ class TicketDetailViewModel @Inject constructor(
         initState()
     }
 
-    fun initState() {
+    private fun initState() {
         _netWorkState.update { TicketDetailNetWork.Loading }
         viewModelScope.launch {
             //API 호출
@@ -70,12 +72,12 @@ class TicketDetailViewModel @Inject constructor(
                     is NetworkResult.Success->{
                         if (res.data != null) {
                             val ticket = res.data!!
-                            val tempUserId = ticket.seller.id //TODO userID 변경
+                            val tempUserId = 1  //TODO userID 변경 authRepository.authInfo?.userId
                             val tempSellerId = ticket.seller.id
                             val state = DetailTicketInfoUiState(
                                 DetailTicketInfo(
                                     ticketId = ticket.id,
-                                    ticketType = TicketKind.valueOf("PT"),
+                                    ticketType = TicketKind.valueOf(ticket.type),
                                     seller = DetailTicketInfo.Seller(
                                         tempSellerId,
                                         ticket.seller.nickname,
@@ -95,8 +97,8 @@ class TicketDetailViewModel @Inject constructor(
                                         ticket.distance.toFloat()
                                     ),
                                     createdDate = dateFormatUtil(ticket.createAt),
-                                    remainDate = 10,//ticket.remainingNumber!!,  // calculator 만들기
-                                    price = 230000,//ticket.price,
+                                    remainDate = ticket.remainingNumber!!,  // calculator 만들기
+                                    price = ticket.price,
                                     ticketStatus = TicketStatus.valueOf(ticket.state),
                                     transferFee = TransferFee.valueOf(ticket.transferFee),
                                     transMethod = TradeType.valueOf(ticket.tradeType),
@@ -177,10 +179,11 @@ class TicketDetailViewModel @Inject constructor(
         _ticketState.postValue(temp.copy(ticket = ticket))
     }
 
-    fun deleteTicket(ticketId: Int) {
+    fun deleteTicket() {
         //Api
         viewModelScope.launch {
-            ticketInfoRepository.deleteTicket(ticketId)
+            val ticketId = savedStateHandle.get<Int>("ticketId")!!
+            ticketInfoRepository.deleteTicket(ticketId = ticketId)
         }
         addViewEvent(DetailViewEvent.EventClickDelete)
     }
@@ -234,12 +237,12 @@ class TicketDetailViewModel @Inject constructor(
         val monthPrice = priceFormat(ticket.price / 30f) + "원"
         val dayPrice = priceFormat(ticket.price / ticket.remainDate.toFloat()) + "원"
 
-        val sellViewisVisible =
-            if (ticket.ticketStatus == TicketStatus.SALE && ticket.imgList.isEmpty()) View.VISIBLE else View.GONE
-        val soldoutViewisVisible =
-            if (ticket.ticketStatus == TicketStatus.SOLDOUT) View.VISIBLE else View.GONE
-        val reservedViewisVisible =
-            if (ticket.ticketStatus == TicketStatus.RESERVATION) View.VISIBLE else View.GONE
+        val sellViewisVisible =ticket.ticketStatus == TicketStatus.SALE && ticket.imgList.isEmpty()
+           // if (ticket.ticketStatus == TicketStatus.SALE && ticket.imgList.isEmpty()) View.VISIBLE else View.GONE
+        val soldoutViewisVisible = ticket.ticketStatus == TicketStatus.SOLDOUT
+            //if (ticket.ticketStatus == TicketStatus.SOLDOUT &&ticket.price ) View.VISIBLE else View.GONE
+        val reservedViewisVisible =ticket.ticketStatus == TicketStatus.RESERVATION
+            //if (ticket.ticketStatus == TicketStatus.RESERVATION) View.VISIBLE else View.GONE
 
         val canNegoStr = if (ticket.canNego) "가격제안 가능" else "가격제안 불가능"
 

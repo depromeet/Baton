@@ -21,6 +21,7 @@ import com.depromeet.baton.data.response.ResponseFilteredTicket
 import com.depromeet.baton.databinding.ActivityTicketDetailBinding
 import com.depromeet.baton.databinding.ItemPrimaryOutlineTagBinding
 import com.depromeet.baton.databinding.ItemPrimaryTagBinding
+import com.depromeet.baton.domain.model.TicketSimpleInfo
 import com.depromeet.baton.domain.model.TicketStatus
 import com.depromeet.baton.presentation.base.BaseActivity
 import com.depromeet.baton.presentation.bottom.BottomMenuItem
@@ -62,7 +63,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     private lateinit var ticketTagAdapter :TicketTagAdapter<ItemPrimaryTagBinding>
     private lateinit var gymTagAdapter: TicketTagAdapter<ItemPrimaryOutlineTagBinding>
     private val ticketItemRvAdapter =
-        TicketItemRvAdapter(TicketItemRvAdapter.SCROLL_TYPE_HORIZONTAL, this@TicketDetailActivity, ::setTicketItemClickListener)
+        TicketMoreAdapter(  TicketMoreAdapter.SCROLL_TYPE_HORIZONTAL, this@TicketDetailActivity, ::setTicketItemClickListener)
     private val ticketImgRvAdapter = TicketImgRvAdapter(this)
 
     @Inject lateinit var spfManager : BatonSpfManager
@@ -127,7 +128,6 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         bottomViewModel.updateBottomUistate(uiState.ticket.isOwner)
         ticketTagAdapter.initList(uiState.ticket.infoHashs)
         gymTagAdapter.initList(uiState.ticket.tags)
-        Timber.e(uiState.ticket.imgList.map { it.url }.toString())
         ticketImgRvAdapter.submitList(uiState.ticket.imgList.map { it.url })
     }
 
@@ -308,7 +308,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
                     showBottom(CHECK_ITEM_VIEW, DetailBottomOption.STATUS, statusItemClick)
                 }
                 1 -> { //delete
-                    viewModel.deleteTicket(0) // Api 호출
+                    viewModel.deleteTicket() // Api 호출
                 }
             }
         }
@@ -335,7 +335,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         bottomSheetFragment.show(supportFragmentManager, BatonApp.TAG)
     }
 
-    private fun setTicketItemClickListener(ticketItem: ResponseFilteredTicket) {
+    private fun setTicketItemClickListener(ticketItem:TicketSimpleInfo) {
         startActivity(start(this,ticketItem.id))
     }
 
@@ -394,6 +394,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     override fun onStart() {
         super.onStart()
         mapView.onStart()
+        ticketMoreViewModel.initState()
     }
     override fun onResume() {
         super.onResume()

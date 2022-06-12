@@ -108,4 +108,6 @@ dependencies {
     implementation(Dep.rxjava.rxjava2_adpater)
     implementation(Dep.Retrofit.converterGson)
 
+    implementation(Dep.Security.core)
+
 }
