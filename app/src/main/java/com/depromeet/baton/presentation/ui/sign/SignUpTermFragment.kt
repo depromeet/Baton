@@ -2,6 +2,7 @@ package com.depromeet.baton.presentation.ui.sign
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.fragment.findNavController
@@ -20,10 +21,12 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class SignUpTermFragment : BaseFragment<FragmentSignUpTermBinding>(R.layout.fragment_sign_up_term) {
     private val viewModel: SignUpTermViewModel by viewModels()
+    private val signUpViewModel: SignUpViewModel by activityViewModels()
     private val navController by lazy { findNavController() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        signUpViewModel.setCurrentStep(1)
 
         viewModel.uiState
             .flowWithLifecycle(viewLifecycle)
@@ -46,6 +49,7 @@ class SignUpTermFragment : BaseFragment<FragmentSignUpTermBinding>(R.layout.frag
                     PrivacyTermDetailActivity.start(requireContext())
                 }
                 ViewEvent.ToInfo -> {
+                    signUpViewModel.remember(viewModel)
                     navController.navigate(R.id.action_signUpTermFragment_to_signUpInfoFragment)
                 }
             }

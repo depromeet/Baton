@@ -56,8 +56,6 @@ fun View.bindVisible(isVisible: Boolean) {
 }
 
 @BindingAdapter("bds_title")
-fun setBdsAppbarTitle(view: BdsBackwardAppBar, title: String?) {
-    title?.let{
-        view.setTitle(title)
-    }
+fun BdsBackwardAppBar.bindTitle(title: String?) {
+    bdsTitle = title
 }

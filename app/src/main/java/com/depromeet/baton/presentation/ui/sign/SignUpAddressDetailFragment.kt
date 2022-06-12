@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.text.Editable
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.flowWithLifecycle
@@ -25,7 +26,8 @@ import javax.inject.Inject
 class SignUpAddressDetailFragment :
     BaseFragment<FragmentSignUpAddressDetailBinding>(R.layout.fragment_sign_up_address_detail) {
 
-    val viewModel: SignUpAddressDetailViewModel by viewModels()
+    private val viewModel: SignUpAddressDetailViewModel by viewModels()
+    private val signUpViewModel: SignUpViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -44,6 +46,10 @@ class SignUpAddressDetailFragment :
     private fun handleViewEvents(viewEvents: List<ViewEvent>) {
         viewEvents.firstOrNull()?.let { viewEvent ->
             when (viewEvent) {
+                ViewEvent.ToSignUp -> {
+                    signUpViewModel.remember(viewModel)
+                    signUpViewModel.signUp()
+                }
                 ViewEvent.ToHome -> {
                     MainActivity.start(requireContext())
                 }
@@ -67,6 +73,8 @@ data class SignUpAddressDetailUiState(
     val roadAddress: String,
     val address: String,
     val detailAddress: String,
+    val latitude: Float,
+    val longitude: Float,
     val onDetailChanged: (Editable?) -> Unit,
     val onSubmit: () -> Unit,
 ) {
@@ -92,6 +100,8 @@ class SignUpAddressDetailViewModel @Inject constructor(
             roadAddress = args.roadAddress,
             address = args.address,
             detailAddress = "",
+            latitude = -1f,
+            longitude = -1f,
             onDetailChanged = ::handleDetailChanged,
             onSubmit = ::handleSubmit
         )
@@ -99,6 +109,7 @@ class SignUpAddressDetailViewModel @Inject constructor(
 
     private fun handleSubmit() {
         //BEAN: 지금까지 수집한 모든 정보를 가지고 실제 회원가입 요청을 해야한다.
+        addViewEvent(ViewEvent.ToSignUp)
     }
 
     private fun handleDetailChanged(editable: Editable?) {
@@ -114,6 +125,7 @@ class SignUpAddressDetailViewModel @Inject constructor(
     }
 
     sealed interface ViewEvent {
+        object ToSignUp: ViewEvent
         object ToHome : ViewEvent
     }
 

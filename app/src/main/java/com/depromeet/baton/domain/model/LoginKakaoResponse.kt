@@ -17,3 +17,8 @@ data class LoginKakaoResponse(
     @Json(name = "refresh_token") val refreshToken: String,
     @Json(name = "user") val user: UserResponse
 )
+
+data class LoginKakaoNoSocialUserResponse(
+    @Json(name = "uid") val uid: String,
+    @Json(name = "nickname") val nickname: String,
+)
