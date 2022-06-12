@@ -9,8 +9,8 @@ data class FilteredTicket(
     val tags: List<String>?,
     val remainingDay: String?,
     val remainingNumber: String?,
-    val latitude: Double?,
-    val longitude: Double?,
+    val latitude: Double,
+    val longitude: Double,
     val distance: String?,
-    val category: String?
+    val type: String?
 )

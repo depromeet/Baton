@@ -62,7 +62,7 @@
                 android:background="@drawable/card_badge"
                 android:paddingHorizontal="@dimen/dimen8"
                 android:paddingVertical="@dimen/dimen4"
-                android:text="@{ticket.category}"
+                android:text="@{ticket.type}"
                 android:textAppearance="?caption1"
                 android:textColor="@color/wh100"
                 app:layout_constraintStart_toStartOf="parent"
