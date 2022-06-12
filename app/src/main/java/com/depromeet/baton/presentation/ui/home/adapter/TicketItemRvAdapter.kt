@@ -15,6 +15,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.depromeet.baton.data.response.ResponseFilteredTicket
 import com.depromeet.baton.databinding.ItemTicketBinding
+import com.depromeet.baton.presentation.util.distanceFormatUtil
 import com.depromeet.bds.utils.toPx
 
 
@@ -53,7 +54,7 @@ class TicketItemRvAdapter(
                 tvItemTicketPrice.text = item.price.toString()
                 tvItemTicketRemainingDay.text = item.expiryDate //todo 남은일자 계산해야댐 ㅠ
                 tvItemTicketPlace.text = item.address
-                tvItemTicketDistance.text = item.distance.toString()
+                tvItemTicketDistance.text = distanceFormatUtil(item.distance)//item.distance.toString()
 
                 Glide.with(context)
                     .load(item.mainImage)

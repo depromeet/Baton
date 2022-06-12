@@ -63,7 +63,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     private lateinit var gymTagAdapter: TicketTagAdapter<ItemPrimaryOutlineTagBinding>
     private val ticketItemRvAdapter =
         TicketItemRvAdapter(TicketItemRvAdapter.SCROLL_TYPE_HORIZONTAL, this@TicketDetailActivity, ::setTicketItemClickListener)
-    private val ticketImgRvAdapter = TicketImgRvAdapter()
+    private val ticketImgRvAdapter = TicketImgRvAdapter(this)
 
     @Inject lateinit var spfManager : BatonSpfManager
 
@@ -114,6 +114,11 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
                     is TicketMoreNetwork.Failure -> { this@TicketDetailActivity.BdsToast(status.msg).show() }
                 }
             }.launchIn(lifecycleScope)
+
+        ticketMoreViewModel.uiState
+            .flowWithLifecycle(lifecycle)
+            .onEach{state -> ticketItemRvAdapter.submitList(state)}
+            .launchIn(lifecycleScope)
     }
 
     private fun handleTicketUiState (uiState  : TicketDetailViewModel.DetailTicketInfoUiState){
@@ -122,6 +127,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         bottomViewModel.updateBottomUistate(uiState.ticket.isOwner)
         ticketTagAdapter.initList(uiState.ticket.infoHashs)
         gymTagAdapter.initList(uiState.ticket.tags)
+        Timber.e(uiState.ticket.imgList.map { it.url }.toString())
         ticketImgRvAdapter.submitList(uiState.ticket.imgList.map { it.url })
     }
 
@@ -148,10 +154,12 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
                     //TODO showChatBottom
                 }
                 DetailViewEvent.EventClickLike->{
-                    Timber.e( viewModel.ticketState.value!!.ticket.isLikeTicket.toString())
                    if(viewModel.ticketState.value!!.ticket.isLikeTicket)
                        this@TicketDetailActivity.BdsToast("관심 상품이 등록되었습니다.",binding.ticketDetailFooter.top).show()
                     binding.ticketDetailLikeBtn.toggle()
+                }
+                DetailViewEvent.EventClickDelete->{
+                    finish()
                 }
             }
             viewModel.consumeViewEvent(viewEvent)
@@ -177,9 +185,10 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
             }
 
             ticketDetailCopyBtn.setOnClickListener {
-                val sample= viewModel.ticketState.value?.ticket!!.detailUrl
-                createClipData(sample)
+                val address= viewModel.ticketState.value?.ticket!!.location.address
+                createClipData(address)
             }
+
             setScrollListener()
         }
     }
@@ -327,9 +336,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     }
 
     private fun setTicketItemClickListener(ticketItem: ResponseFilteredTicket) {
-        startActivity(Intent(this@TicketDetailActivity, TicketDetailActivity::class.java).apply {
-            //TODO 게시글 id넘기기
-        })
+        startActivity(start(this,ticketItem.id))
     }
 
 
@@ -342,7 +349,19 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
            }
            mapInit.join()
            setMarkerPosition()
+           setMapListener()
         }
+    }
+    private fun setMapListener(){
+        naverMap!!.setOnMapClickListener{ point, coord->
+            showRoadMapView()
+        }
+    }
+
+    private fun showRoadMapView(){
+        val url = viewModel.ticketState.value?.ticket!!.mapUrl
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        startActivity(intent)
     }
 
     private fun setMarkerPosition(){

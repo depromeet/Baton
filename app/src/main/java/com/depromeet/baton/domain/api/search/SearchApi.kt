@@ -2,6 +2,7 @@ package com.depromeet.baton.domain.api.search
 
 import com.depromeet.baton.data.response.ResponseFilteredTicket
 import com.depromeet.baton.data.response.ResponseTicketInfo
+import com.depromeet.baton.data.response.TicketSearchResponse
 import com.depromeet.baton.remote.search.SearchService
 import com.depromeet.baton.util.BatonSpfManager
 import kotlinx.coroutines.Dispatchers
@@ -12,6 +13,8 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.Response
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -20,6 +23,7 @@ class SearchApi @Inject constructor(
     private val spfManager: BatonSpfManager,
     private val searchService: SearchService
 ) {
+
 
     fun getFilteredTicketCount(
         page: Int,

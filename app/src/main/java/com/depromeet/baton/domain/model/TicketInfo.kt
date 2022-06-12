@@ -13,7 +13,7 @@ data class TicketInfo(
     @Json(name="expiryDate")  val expiryDate: String?="",
     @Json(name="state") val state: String,
     @Json(name="type") val type: String,
-    @Json(name="transferType") val tradeType: String,
+    @Json(name="tradeType") val tradeType: String,
     @Json(name="transferFee") val transferFee: String,
     @Json(name="canNego") val canNego: Boolean,
     @Json(name="hasShower")val hasShower: Boolean,
@@ -24,22 +24,25 @@ data class TicketInfo(
     @Json(name="canRefund") val canRefund: Boolean,
     @Json(name="description")val description: String,
     @Json(name="tags") val tags: List<String>,
-    @Json(name="images") val images: List<Any> ? = emptyList(),
+    @Json(name="images") val images: List<Image> ? = emptyList(),
+    @Json(name="isHolding")  val isHolding: Boolean,
+    @Json(name="isBookmarked")  val isBookmarked: Boolean,
     @Json(name="isMembership")  val isMembership: Boolean,
-    @Json(name="remainNumber") val remainingNumber: Int?=-1,
+    @Json(name="remainNumber") val remainingNumber: Int?=0,
     @Json(name="latitude")  val latitude: Double,
     @Json(name="longitude")  val longitude: Double,
     @Json(name="distance")  val distance: Double,
 ) {
     data class Image(
-        val id: Int?=0,
-        val url: String?="",
-        val thumbnailUrl: String?="",
-        val isMain: Boolean?=false
+        @Json(name="id")val id: Int?=0,
+        @Json(name="url") val url: String?="",
+        @Json(name="thumbnailUrl")val thumbnailUrl: String?="",
+        @Json(name="isMain")val isMain: Boolean?=false
     )
     data class Seller(
-        val id: Int,
-        val nickname: String,
-        val gender: Boolean
+        @Json(name="id")val id: Int,
+        @Json(name="name")val name : String?="",
+        @Json(name="nickname")val nickname: String,
+        @Json(name="createdOn")val createdOn: String
     )
 }

@@ -2,6 +2,7 @@ package com.depromeet.baton.presentation.ui.detail.model
 
 import android.net.Uri
 import com.depromeet.baton.domain.model.*
+import com.depromeet.baton.presentation.util.distanceFormatUtil
 
 data class DetailTicketInfo (
     val ticketId : Int,
@@ -9,6 +10,7 @@ data class DetailTicketInfo (
     val isOwner : Boolean,
     val location:DetailLocationInfo,
     val detailUrl : String,
+    val mapUrl : String,
     val emptyIcon : Uri,
     val price : Int,
     val createdDate:String,
@@ -21,7 +23,7 @@ data class DetailTicketInfo (
     val infoHashs : List<BatonHashTag>, //회원권 정보 태그
     val description : String,
     val tags : List<BatonHashTag>, //회원권 추가 정보 태그
-    val imgList : List<TicketImage>,
+    val imgList : List<TicketInfo.Image>,
     val isMembership : Boolean,
     val isHolding : Boolean,
     val remainingNumber : String,
@@ -30,7 +32,7 @@ data class DetailTicketInfo (
     data class Seller(
         val userId : Int,
         val nickname : String,
-        val gender : Boolean // true: male /false:female
+        val create_on :String// true: male /false:female
     )
 }
 
@@ -41,7 +43,7 @@ data class DetailLocationInfo(
     val latitude : Double,
     val distance : Float
 ){
-    val distanceGuide = "현재위치에서 ${distance.toInt()}m 떨어짐"
+    val distanceGuide = "현재위치에서 ${distanceFormatUtil(distance.toDouble())} 떨어짐"
 }
 
 class DetailHash(
@@ -50,7 +52,8 @@ class DetailHash(
      val hasClothes : Boolean,
      val hasGx : Boolean,
      val canResell : Boolean,
-     val canRefund : Boolean
+     val canRefund : Boolean,
+     val isHolding: Boolean
 ){
     fun mapToHashList():List<BatonHashTag>{
         val hashs = ArrayList<BatonHashTag>()
@@ -60,11 +63,12 @@ class DetailHash(
         if(hasGx) hashs.add(BatonHashTag(HashInfo.HasGx.value))
         if(canResell)  hashs.add(BatonHashTag(HashInfo.CanResell.value))
         if(canRefund)hashs.add(BatonHashTag(HashInfo.CanRefund.value))
+        if(isHolding)hashs.add(BatonHashTag(HashInfo.Holding.value))
         return hashs
     }
 }
 
 enum class HashInfo(val value: String ){
     HasShower("샤워실 포함"),HasLocker("락커룸 포함") ,HasClothes("운동복 포함"), HasGx("Gx포함")
-    , CanResell("재양도 가능") , CanRefund("환불 가능"), Holding("홀딩완료")
+    , CanResell("재양도 가능") , CanRefund("환불 가능"), Holding("홀딩(휴회)완료")
 }
