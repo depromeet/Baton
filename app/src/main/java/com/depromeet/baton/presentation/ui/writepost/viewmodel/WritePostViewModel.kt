@@ -186,6 +186,9 @@ class WritePostViewModel @Inject constructor(
     private val _periodFormatted = MutableLiveData("0일")
     val periodFormatted: LiveData<String> = _periodFormatted
 
+    private val _termWithDot = MutableLiveData("")
+    val termWithDot: LiveData<String> = _termWithDot
+
 
     /*추가옵션*/
     private var additionalOptionsCheckedList = MapListLiveData<AdditionalOptions, Boolean>()
@@ -477,6 +480,7 @@ class WritePostViewModel @Inject constructor(
     }
 
     private fun handleTermDetailChanged(editable: Editable?) {
+        _termWithDot.value = editable.toString()
         _membershipInfoUiState.update { it.copy(termChanged = editable.toString().toCharArray().filter { it != '.' }.joinToString("")) }
         setLevelTwoNextBtnEnable()
     }
@@ -697,7 +701,6 @@ class WritePostViewModel @Inject constructor(
     }
 
     //todo ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡapiㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-    @SuppressLint("SimpleDateFormat")
     fun postTicket() {
         var expiryDate: String? = null
         var remainingNumber: Int? = null

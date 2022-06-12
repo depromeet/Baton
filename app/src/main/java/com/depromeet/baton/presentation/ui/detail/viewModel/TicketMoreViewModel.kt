@@ -8,12 +8,15 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+
 import javax.inject.Inject
 
 @HiltViewModel
 class TicketMoreViewModel @Inject constructor():BaseViewModel(){
 
+
     private val _uiState = MutableStateFlow<List<FilteredTicket>>(emptyList())
+
     val uiState = _uiState.asStateFlow()
 
     private val _networkState = MutableStateFlow<TicketMoreNetwork>(TicketMoreNetwork.Loading)

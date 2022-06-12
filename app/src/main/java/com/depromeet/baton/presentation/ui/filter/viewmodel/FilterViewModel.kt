@@ -568,15 +568,13 @@ class FilterViewModel @Inject constructor(
         minRemainNumber = if (_ptTermRange.value?.first?.toInt() == 0 && _ptTermRange.value?.second?.toInt() == 60) {
             null
         } else {
-            if (_ptTermRange.value?.first?.toInt() == 0) 1
-            else _ptTermRange.value?.first?.toInt()
+            _ptTermRange.value?.first?.toInt()
         }
 
         minRemainMonth = if (_gymTermRange.value?.first?.toInt() == 0 && _gymTermRange.value?.second?.toInt() == 12) {
             null
         } else {
-            if (_gymTermRange.value?.first?.toInt() == 0) 1
-            else _gymTermRange.value?.first?.toInt()
+            _gymTermRange.value?.first?.toInt()
         }
 
         return Pair(minRemainNumber, minRemainMonth)
@@ -595,9 +593,9 @@ class FilterViewModel @Inject constructor(
                     minPrice = if (priceRange.value?.first?.toInt() == 0) null else priceRange.value?.first?.toInt(),
                     maxPrice = if (priceRange.value?.second?.toInt() == 1500000) null else priceRange.value?.second?.toInt(),
                     minRemainNumber = setTermFormattedData().first,
-                    maxRemainNumber = if (_ptTermRange.value?.second?.toInt() == 60 && _ptTermRange.value?.first?.toInt() == 0) null else _ptTermRange.value?.second?.toInt(),
-                    minRemainMonth = setTermFormattedData().second,        //todo 개월 수로 필터링 => 1개월 보다 작은 '일'단위 필터링 안되는 중
-                    maxRemainMonth = if (_gymTermRange.value?.first?.toInt() == 0 && _gymTermRange.value?.second?.toInt() == 12) null else _gymTermRange.value?.second?.toInt(),
+                    maxRemainNumber = if (_ptTermRange.value?.second?.toInt() == 60 && _ptTermRange.value?.first?.toInt() == 0) null else _ptTermRange.value?.second?.toInt()?.plus(1),
+                    minRemainMonth = setTermFormattedData().second,
+                    maxRemainMonth = if (_gymTermRange.value?.first?.toInt() == 0 && _gymTermRange.value?.second?.toInt() == 12) null else _gymTermRange.value?.second?.toInt()?.plus(1),
                     ticketTypes = ticketKindCheckedList.value?.filter { it.value }?.map { it.key.toString() },
                     ticketTradeType = setTicketTypeFormattedData().first,
                     transferFee = setTicketTypeFormattedData().second,
@@ -641,9 +639,9 @@ class FilterViewModel @Inject constructor(
                     minPrice = if (priceRange.value?.first?.toInt() == 0) null else priceRange.value?.first?.toInt(),
                     maxPrice = if (priceRange.value?.second?.toInt() == 1500000) null else priceRange.value?.second?.toInt(),
                     minRemainNumber = setTermFormattedData().first,
-                    maxRemainNumber = if (_ptTermRange.value?.second?.toInt() == 60 && _ptTermRange.value?.first?.toInt() == 0) null else _ptTermRange.value?.second?.toInt(),
-                    minRemainMonth = setTermFormattedData().second,        //todo 개월 수로 필터링 => 1개월 보다 작은 '일'단위 필터링 안되는 중
-                    maxRemainMonth = if (_gymTermRange.value?.first?.toInt() == 0 && _gymTermRange.value?.second?.toInt() == 12) null else _gymTermRange.value?.second?.toInt(),
+                    maxRemainNumber = if (_ptTermRange.value?.second?.toInt() == 60 && _ptTermRange.value?.first?.toInt() == 0) null else _ptTermRange.value?.second?.toInt()?.plus(1),
+                    minRemainMonth = setTermFormattedData().second,
+                    maxRemainMonth = if (_gymTermRange.value?.first?.toInt() == 0 && _gymTermRange.value?.second?.toInt() == 12) null else _gymTermRange.value?.second?.toInt()?.plus(1),
                     ticketTypes = ticketKindCheckedList.value?.filter { it.value }?.map { it.key.toString() },
                     ticketTradeType = setTicketTypeFormattedData().first,
                     transferFee = setTicketTypeFormattedData().second,

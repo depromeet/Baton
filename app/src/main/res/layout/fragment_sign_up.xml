@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
+        <variable
+            name="uiState"
+            type="com.depromeet.baton.presentation.ui.sign.SignUpUiState" />
     </data>
 
     <LinearLayout
@@ -17,7 +19,7 @@
             android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:bds_title="@string/sign_up" />
+            app:bds_title="@{uiState.title}" />
 
         <View
             android:layout_width="match_parent"
@@ -29,7 +31,8 @@
             style="@style/Widget.Bds.ProgressBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:progress="30" />
+            android:max="@{uiState.maxStep}"
+            android:progress="@{uiState.currentStep}" />
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/nav_host_fragment"

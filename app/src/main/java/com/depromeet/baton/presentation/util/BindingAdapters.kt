@@ -62,6 +62,7 @@ fun View.bindVisible(isVisible: Boolean) {
     this.isVisible = isVisible
 }
 
+
 @BindingAdapter("image", "roundedCorners")
 fun ImageView.bindImage(uri: String?, roundedCorners: Boolean) {
     if (uri != null) {
@@ -102,5 +103,9 @@ fun addTextChangeListener(view: EditText, isPeriodChecked: Boolean) {
             dateWithDotFormat(it.toString(), view)
         }
     }
+}
+
+fun BdsBackwardAppBar.bindTitle(title: String?) {
+    bdsTitle = title
 }
 

@@ -1,11 +1,8 @@
 package com.depromeet.baton.presentation.ui.writepost.view
 
-import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
-import androidx.annotation.RequiresApi
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -40,7 +37,6 @@ class MembershipInformationFragment : BaseFragment<FragmentMembershipInformation
         setEditText()
         setTermIsChecked()
         setCheckboxOnClickListener()
-        setHint()
     }
 
     private fun setObserve() {
@@ -88,19 +84,10 @@ class MembershipInformationFragment : BaseFragment<FragmentMembershipInformation
         }
     }
 
-    private fun setHint() {
-        writePostViewModel.isPeriodChecked.observe(viewLifecycleOwner) {
-            if (it) binding.etTermNumber.text = Editable.Factory.getInstance().newEditable("")
-        }
-        writePostViewModel.isNumberChecked.observe(viewLifecycleOwner) {
-            if (it) binding.etTerm.text = Editable.Factory.getInstance().newEditable("")
-        }
-    }
-
     private fun setEditText() {
         with(binding) {
-            etTerm.text = Editable.Factory.getInstance().newEditable(writePostViewModel.membershipInfoUiState.value.termChanged)
-            etTermNumber.text = Editable.Factory.getInstance().newEditable(writePostViewModel.membershipInfoUiState.value.termChanged)
+            etTerm.text = Editable.Factory.getInstance().newEditable(writePostViewModel.termWithDot.value)
+            etTermNumber.text = Editable.Factory.getInstance().newEditable(writePostViewModel.termWithDot.value)
             etPrice.text = Editable.Factory.getInstance().newEditable(writePostViewModel.membershipInfoUiState.value.priceChanged)
         }
     }

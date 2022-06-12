@@ -37,15 +37,16 @@ class FilterChipFragment : BaseFragment<FragmentFilterChipBinding>(R.layout.frag
     }
 
     private fun setAlignClickListener() {
-        val menu = arrayListOf("가까운 거리순", "낮은 가격순", "인기순", "남은 기간 많은 순").map { BottomMenuItem(it) }
+        val menu = arrayListOf("가까운 거리순", "낮은 가격순", "인기순", "남은 기간 많은 순", "남은 횟수 많은 순").map { BottomMenuItem(it) }
         binding.tvBdsfilterSortingAlignment.setOnClickListener {
             val onItemClick = object : BottomSheetFragment.Companion.OnItemClick {
                 override fun onSelectedItem(selected: BottomMenuItem, index: Int) {
                     when (index) {
                         0 -> filterViewModel.setAlignment(Alignment.DISTANCE)
                         1 -> filterViewModel.setAlignment(Alignment.LOWER_PRICE)
-                        2 -> filterViewModel.setAlignment(Alignment.VIEW)
+                        2 -> filterViewModel.setAlignment(Alignment.VIEWS)
                         3 -> filterViewModel.setAlignment(Alignment.REMAIN_DAY)
+                        4 -> filterViewModel.setAlignment(Alignment.REMAIN_NUMBER)
                     }
                 }
             }
