@@ -3,48 +3,62 @@ package com.depromeet.baton.presentation.ui.mypage.view
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.flowWithLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.depromeet.baton.R
+import com.depromeet.baton.data.response.BookmarkTicket
 import com.depromeet.baton.databinding.FragmentLikeTicketBinding
 import com.depromeet.baton.presentation.base.BaseFragment
-import com.depromeet.baton.presentation.ui.address.view.AddressActivity
 import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
-import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter
-import com.depromeet.baton.presentation.ui.home.view.TicketItem
+import com.depromeet.baton.presentation.ui.mypage.adapter.BookMarkItemRvAdapter
+import com.depromeet.baton.presentation.ui.mypage.viewmodel.MyBookmarkViewModel
 import com.depromeet.baton.presentation.util.TicketItemVerticalDecoration
+import com.depromeet.baton.presentation.util.viewLifecycle
+import com.depromeet.baton.presentation.util.viewLifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import timber.log.Timber
 
 @AndroidEntryPoint
 class LikeTicketFragment : BaseFragment<FragmentLikeTicketBinding>(R.layout.fragment_like_ticket) {
+    private val viewModel by viewModels<MyBookmarkViewModel>()
+
     private val ticketItemRvAdapter by lazy{
-        TicketItemRvAdapter(TicketItemRvAdapter.SCROLL_TYPE_VERTICAL, requireContext(), ::setTicketItemClickListener)
+        BookMarkItemRvAdapter( requireContext(), ::setTicketItemClickListener, ::setTicketBookmarkListener)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
         setOnBackPressed()
+        setObserver()
+    }
+
+    private fun setObserver(){
+
+        viewModel.uiState
+            .flowWithLifecycle(viewLifecycle)
+            .onEach { state ->
+                run{
+                    binding.uistate=state
+                    ticketItemRvAdapter.submitList( state.list )
+                }
+            }
+            .launchIn(viewLifecycleScope)
+
     }
 
     private fun initRecyclerView(){
         with(binding) {
             val gridLayoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
 
-            adapter = ticketItemRvAdapter
+            mypageLikeRv.adapter = ticketItemRvAdapter
             itemDecoration = TicketItemVerticalDecoration()
             mypageLikeRv.layoutManager = gridLayoutManager
 
-            ticketItemRvAdapter.submitList(
-                arrayListOf(
-                    TicketItem(
-                        "휴메이크 휘트니스 석촌점", "헬스", "123,000원", "50일 남음", "광진구 중곡동", "12m", R.drawable.dummy1),
-                    TicketItem("테리온 휘트니스 당산점", "기타", "100,000원", "30일 남음", "영등포구 양평동", "12m", R.drawable.dummy2),
-                    TicketItem("진휘트니스 양평점", "헬스", "3,000원", "60일 남음", "광진구 중곡동", "12m", R.drawable.dummy3),
-                    TicketItem("휴메이크 휘트니스 석촌점", "필라테스", "223,000원", "4일 남음", "광진구 중곡동", "12m", R.drawable.dummy4),
-                    TicketItem("바톤휘트니스 대왕점", "헬스", "19,000원", "5일 남음", "광진구 중곡동", "12m", R.drawable.dummy5),
-                    TicketItem("휴메이크 휘트니스 석촌점", "필라테스", "223,000원", "4일 남음", "광진구 중곡동", "12m", R.drawable.dummy7),
-                )
-            )
         }
     }
 
@@ -52,8 +66,14 @@ class LikeTicketFragment : BaseFragment<FragmentLikeTicketBinding>(R.layout.frag
         binding.likeTicketToolbar.setOnBackwardClick { parentFragmentManager.popBackStack() }
     }
 
-    private fun setTicketItemClickListener(ticketItem: TicketItem) {
+
+    private fun setTicketItemClickListener(ticketItem:BookmarkTicket) {
         //TODO 관심상품 삭제
+        startActivity(TicketDetailActivity.start(requireContext(),ticketItem.ticket.id))
+    }
+
+    private fun setTicketBookmarkListener(ticketItem: BookmarkTicket, position :Int){
+        viewModel.deleteBookMark(ticketItem.id)
     }
 
 }

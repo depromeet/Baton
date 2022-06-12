@@ -3,10 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
+        <variable name="fragment" type="com.depromeet.baton.presentation.ui.mypage.view.MyPageFragment" />
         <variable
             name="uiState"
             type="com.depromeet.baton.presentation.ui.mypage.viewmodel.MypageUiState" />
     </data>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/fragment_container_view"
         android:layout_width="match_parent"
@@ -173,7 +177,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/dimen4"
-                                android:text="판매내역"
+                                android:text="구매내역"
                                 android:textAppearance="?caption1"
                                 android:textColor="?grey_scale70" />
 
@@ -307,6 +311,7 @@
                     />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/mypage_service_term"
                     android:padding="@dimen/dimen16"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -318,6 +323,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
+
                         />
                     <ImageButton
                         android:layout_width="wrap_content"
@@ -395,6 +401,7 @@
                         android:layout_height="1dp"
                         android:background="?bg" />
                     <TextView
+                        android:id="@+id/mypage_logout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="로그아웃"
@@ -406,6 +413,7 @@
                         />
                 </LinearLayout>
                 <TextView
+                    android:id="@+id/mypage_withdrawal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="회원탈퇴"
@@ -420,5 +428,16 @@
             </LinearLayout>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/myPage_progress"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_fileName="spinner.json"
+            app:isVisible="@{uiState.isLoading}"
 
+            />
+    </FrameLayout>
 </layout>

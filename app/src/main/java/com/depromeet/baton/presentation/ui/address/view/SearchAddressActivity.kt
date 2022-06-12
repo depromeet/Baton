@@ -70,7 +70,6 @@ class SearchAddressActivity : BaseActivity<ActivitySearchAddressBinding>(R.layou
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 searchAddressViewModel.items.collect{
-                    Timber.e("NewItem!!!")
                     if(!it.isEmpty()){
                         listAdapter.submitList(it)
                     }
@@ -91,6 +90,7 @@ class SearchAddressActivity : BaseActivity<ActivitySearchAddressBinding>(R.layou
 
     private fun listItemClicked(item : AddressInfo){
         spfManager.saveAddress(item.roadAddress, item.address)
+
         val intent = Intent(this, MyLocationDetailActivity::class.java)
         startActivity(intent)
     }

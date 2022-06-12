@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -27,19 +28,24 @@ import timber.log.Timber
 class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page) {
 
     private val myPageViewModel  by  viewModels<MyPageViewModel>()
+    private val profileFragment by viewModels<ProfileViewModel> ()
 
     private val saleHistoryFragment by lazy{ SaleHistoryFragment()}
     private val purchaseHistoryFragment by lazy { PurchaseHistoryFragment() }
     private val likeTicketFragment by lazy{ LikeTicketFragment() }
     private val profileEditFragment by lazy{ ProfileFragment() }
     private val notificationFragment by lazy{ NotificationFragment() }
+    private val serviceTermFragment by lazy { ServiceTermFragment() }
 
-    private var alertDialog: AlertDialog?  = null
+    private lateinit var logoutDialog: BdsDialog
+    private lateinit var withdrawalDialog: BdsDialog
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-       setObserver()
+        setObserver()
+        setBackPressed()
+        setDialog()
     }
 
     private fun initView(){
@@ -54,17 +60,46 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                 replaceFragment(likeTicketFragment)
             }
             mypageProfileIv.setOnClickListener {
-                replaceFragment(profileEditFragment)
+                replaceFragment(profileEditFragment,"profileFragment")
             }
             mypageNotification.setOnClickListener {
                 replaceFragment(notificationFragment)
             }
-
+            mypageLogout.setOnClickListener {
+                logoutDialog?.show()
+            }
+            mypageWithdrawal.setOnClickListener { withdrawalDialog.show() }
+            mypageServiceTerm.setOnClickListener { replaceFragment(serviceTermFragment) }
         }
     }
 
-    private fun setObserver(){
+    private fun setDialog(){
+        logoutDialog = BdsDialog(requireContext(), DialogType.SECONDARY)
+        logoutDialog.setVerticalDialog(::onClickLogoutConfirm , ::onClickCancel,"로그아웃")
+        logoutDialog.setTitle("정말 로그아웃 하시나요?")
+        logoutDialog.setImage(com.depromeet.bds.R.drawable.ic_img_empty_filter)
 
+        withdrawalDialog =  BdsDialog(requireContext(), DialogType.SECONDARY)
+        withdrawalDialog.setHorizonDialog(::onClickWithdrawalConfirm , ::onClickCancel,"회원탈퇴")
+        withdrawalDialog.setTitle("정말 탈퇴하시겠어요?")
+        withdrawalDialog.setContent("회원을 탈퇴하면\n앱 내 모든 정보가 삭제됩니다.")
+        withdrawalDialog.setImage(com.depromeet.bds.R.drawable.ic_img_empty_warning)
+
+    }
+
+    private fun onClickLogoutConfirm(){
+        //TODO logout logic
+        logoutDialog.dismiss()
+    }
+    private fun onClickCancel(){
+
+    }
+
+    private fun onClickWithdrawalConfirm(){
+        withdrawalDialog.dismiss()
+    }
+
+    private fun setObserver(){
         myPageViewModel.uiState
             .flowWithLifecycle(viewLifecycle)
             .onEach { uiState ->
@@ -75,27 +110,18 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             .launchIn(viewLifecycleScope)
     }
 
-
-
-    private fun replaceFragment(fragment: Fragment){
-        childFragmentManager.beginTransaction().add(R.id.fragment_container_view,fragment).addToBackStack(null).commit()
+    private fun setBackPressed(){
+        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // 뒤로가기 눌렀을 때 동작할 코드
+               if(this@MyPageFragment.isAdded && childFragmentManager.fragments.isNotEmpty()) childFragmentManager.popBackStack()
+            }
+        })
     }
 
-    private fun setLogoutDialog(){
-        val layoutInflater = LayoutInflater.from(context)
-        val view = layoutInflater.inflate(R.layout.dialog_mypage, null)
-        alertDialog = AlertDialog.Builder(context, com.depromeet.bds.R.style.MyPageAlertDialog)
-            .setView(view)
-            .create()
-        val buttonCancel = view.findViewById<Button>(R.id.dialog_cancel)
-        val buttonConfirm = view.findViewById<Button>(R.id.dialog_delete)
 
-        buttonCancel.setOnClickListener {
-            alertDialog?.dismiss()
-        }
-
-        buttonConfirm.setOnClickListener {
-            //TODO 삭제 API
-        }
+    private fun replaceFragment(fragment: Fragment, tag :String?=null){
+        childFragmentManager.beginTransaction().add(R.id.fragment_container_view,fragment,tag).addToBackStack(null).commit()
     }
+
 }

@@ -9,15 +9,16 @@
         android:background="?wh100"
         >
         <com.depromeet.bds.component.BdsBackwardAppBar
+            android:id="@+id/service_term_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:bds_title="서비스 이용약관"
-            android:overScrollMode="never"
             />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:overScrollMode="never"
             >
             <LinearLayout
                 android:orientation="vertical"

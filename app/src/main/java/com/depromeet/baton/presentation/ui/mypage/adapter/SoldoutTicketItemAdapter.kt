@@ -120,13 +120,13 @@ class SoldoutTicketItemAdapter(
                 oldItem: SaleTicketListItem,
                 newItem: SaleTicketListItem
             ): Boolean =
-                oldItem.ticket.data.location == newItem.ticket.data.location
+                false
 
             override fun areContentsTheSame(
                 oldItem: SaleTicketListItem,
                 newItem: SaleTicketListItem
             ): Boolean =
-                oldItem.ticket.data.location == newItem.ticket.data.location
+              false
 
         }
 

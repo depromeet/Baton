@@ -6,6 +6,7 @@ import android.widget.ProgressBar
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.depromeet.bds.component.BdsBackwardAppBar
 import com.depromeet.bds.component.BdsChoiceChip
 import com.depromeet.bds.component.BdsComponentTextField
@@ -61,3 +62,5 @@ fun setBdsAppbarTitle(view: BdsBackwardAppBar, title: String?) {
         view.setTitle(title)
     }
 }
+
+

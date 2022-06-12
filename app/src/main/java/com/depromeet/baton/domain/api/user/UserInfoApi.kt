@@ -32,4 +32,5 @@ class UserInfoApi @Inject constructor(
         return service.getUserSellTickets(userIdx,state)
     }
 
+
 }

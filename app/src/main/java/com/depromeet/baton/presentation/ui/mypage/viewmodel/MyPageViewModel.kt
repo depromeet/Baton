@@ -6,8 +6,10 @@ import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.depromeet.baton.data.response.UserProfileResponse
 import com.depromeet.baton.domain.model.UserInfo
 import com.depromeet.baton.domain.repository.UserinfoRepository
+import com.depromeet.baton.map.util.NetworkResult
 import com.depromeet.baton.presentation.base.BaseViewModel
 import com.depromeet.baton.presentation.util.uriConverter
 import com.depromeet.bds.R
@@ -41,15 +43,19 @@ class MyPageViewModel @Inject constructor(
         //APi 호출
         viewModelScope.launch {
             runCatching {
-                userinfoRepository.getUserProfile(1)
-            }.onSuccess { res->
-                _uiState.update {
-                    MypageUiState(
-                        nickName = res.name,
-                        phoneNumber = res.phoneNumber,
-                        joinDate = res.joinDate ,
-                        profileImage = uriConverter(context, R.drawable.ic_img_profile_startled_56)
-                    )
+                val res = userinfoRepository.getUserProfile(1)
+                when(res){
+                    is NetworkResult.Success<UserProfileResponse> ->{
+                        _uiState.update {
+                            MypageUiState(
+                                nickName = res.data!!.name,
+                                phoneNumber = res.data!!.phone_number.replace(Regex("[^0-9]*"),""),
+                                joinDate = res.data!!.created_on ,
+                                profileImage = uriConverter(context, R.drawable.ic_img_profile_startled_56)
+                            )
+                        }
+                    }
+
                 }
             }.onFailure {
                 Timber.e("fail "+ it.message)
@@ -81,4 +87,6 @@ data class MypageUiState(
     val phoneNumber: String?="",
     val joinDate: String?="",
     val profileImage: Uri?,
-)
+){
+    val isLoading = nickName==""
+}

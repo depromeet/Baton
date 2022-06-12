@@ -7,103 +7,118 @@
             name="uiState"
             type="com.depromeet.baton.presentation.ui.mypage.viewmodel.ProfileUiState" />
     </data>
-    <LinearLayout
-        android:orientation="vertical"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?wh100"
-        android:clickable="true"
-        >
-        <com.depromeet.bds.component.BdsBackwardAppBar
-            android:id="@+id/profile_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:bds_title="정보 수정"
-            />
-        <ImageView
-            android:id="@+id/profile_myprofile_iv"
-            android:layout_width="@dimen/dimen96"
-            android:layout_height="@dimen/dimen96"
-            android:scaleType="centerCrop"
-            android:src="@{uiState.profileImage}"
-            android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/dimen4"
-            android:layout_marginTop="@dimen/dimen16"
-            />
-        <com.depromeet.bds.component.BdsButton
-            android:id="@+id/profile_setting_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:theme="@style/Theme.Bds.OutlinedButton.Medium"
-            app:bds_text="프로필 설정"
-            app:bds_startDrawable="@drawable/ic_edit_filled_16"
-            android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/dimen16"
-            />
-
-        <com.depromeet.bds.component.BdsComponentTextField
-            android:id="@+id/mypage_profile_nickname_tf"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/dimen16"
-            android:layout_marginTop="@dimen/dimen16"
-            app:bds_error_message="@{uiState.nickNameErrorReason}"
-            app:bds_label="닉네임">
-
-            <EditText
-                android:id="@+id/mypage_profile_nickname_et"
-                style="@style/Widget.Bds.TextFieldInnerEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:text="@{uiState.nickName}"
-                android:afterTextChanged="@{it ->uiState.onNickNameChanged.invoke(it)}"
-               />
-        </com.depromeet.bds.component.BdsComponentTextField>
-
-
-        <com.depromeet.bds.component.BdsComponentTextField
-            android:id="@+id/mypage_profile_phone_tf"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/dimen16"
-            android:layout_marginTop="@dimen/dimen20"
-            app:bds_error_message="@{uiState.phoneNumberErrorReason}"
-            app:bds_label="휴대폰 번호">
-
-            <EditText
-                android:id="@+id/mypage_profile_phone_et"
-                style="@style/Widget.Bds.TextFieldInnerEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{uiState.phoneNumber}"
-                android:afterTextChanged="@{it -> uiState.onPhoneNumberChanged.invoke(it)}"
-                android:digits="0987654321"
-                android:hint="‘-’를 제외한 번호를 입력해주세요."
-                android:inputType="textPhonetic"
-                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-        </com.depromeet.bds.component.BdsComponentTextField>
-
-
+        android:layout_height="match_parent">
         <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="bottom"
-            android:layout_marginBottom="@dimen/dimen16"
+            android:layout_height="match_parent"
+            android:background="?wh100"
+            android:clickable="true"
             >
+            <com.depromeet.bds.component.BdsBackwardAppBar
+                android:id="@+id/profile_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:bds_title="정보 수정"
+                />
+            <ImageView
+                android:id="@+id/profile_myprofile_iv"
+                android:layout_width="@dimen/dimen96"
+                android:layout_height="@dimen/dimen96"
+                android:scaleType="centerCrop"
+                android:src="@{uiState.profileImage}"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/dimen4"
+                android:layout_marginTop="@dimen/dimen16"
+                />
+            <com.depromeet.bds.component.BdsButton
+                android:id="@+id/profile_setting_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/Theme.Bds.OutlinedButton.Medium"
+                app:bds_text="프로필 설정"
+                app:bds_startDrawable="@drawable/ic_edit_filled_16"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/dimen16"
+                />
+
+            <com.depromeet.bds.component.BdsComponentTextField
+                android:id="@+id/mypage_profile_nickname_tf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dimen16"
+                android:layout_marginTop="@dimen/dimen16"
+                app:bds_error_message="@{uiState.nickNameErrorReason}"
+                app:bds_label="닉네임">
+
+                <EditText
+                    android:id="@+id/mypage_profile_nickname_et"
+                    style="@style/Widget.Bds.TextFieldInnerEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:text="@{uiState.nickName}"
+                    android:afterTextChanged="@{it ->uiState.onNickNameChanged.invoke(it)}"
+                    />
+            </com.depromeet.bds.component.BdsComponentTextField>
+
+
+            <com.depromeet.bds.component.BdsComponentTextField
+                android:id="@+id/mypage_profile_phone_tf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dimen16"
+                android:layout_marginTop="@dimen/dimen20"
+                app:bds_error_message="@{uiState.phoneNumberErrorReason}"
+                app:bds_label="휴대폰 번호">
+
+                <EditText
+                    android:id="@+id/mypage_profile_phone_et"
+                    style="@style/Widget.Bds.TextFieldInnerEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{uiState.phoneNumber}"
+                    android:afterTextChanged="@{it -> uiState.onPhoneNumberChanged.invoke(it)}"
+                    android:digits="0987654321"
+                    android:hint="‘-’를 제외한 번호를 입력해주세요."
+                    android:inputType="textPhonetic"
+                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+            </com.depromeet.bds.component.BdsComponentTextField>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="bottom"
+                android:layout_marginBottom="@dimen/dimen16"
+                >
+            </LinearLayout>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/profile_complete_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="완료"
+                android:theme="@style/Theme.Bds.PrimaryButton"
+                android:background="@drawable/bds_button_background"
+                android:textColor="@color/selector_bds_button_text_color"
+                android:enabled="@{uiState.isEnabled }"
+                android:layout_marginHorizontal="@dimen/dimen16"
+                android:layout_marginBottom="@dimen/dimen16"
+                />
         </LinearLayout>
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/profile_complete_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="완료"
-            android:theme="@style/Theme.Bds.PrimaryButton"
-            android:background="@drawable/bds_button_background"
-            android:textColor="@color/selector_bds_button_text_color"
-            android:enabled="@{uiState.isEnabled }"
-            android:layout_marginHorizontal="@dimen/dimen16"
-            android:layout_marginBottom="@dimen/dimen16"
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/my_location_progress"
+            app:isVisible="@{uiState.isLoading}"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
             />
-    </LinearLayout>
+    </FrameLayout>
+
 </layout>

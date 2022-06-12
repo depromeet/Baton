@@ -23,7 +23,7 @@ import timber.log.Timber
 @AndroidEntryPoint
 class ProfileFragment() :BaseFragment<FragmentProfileBinding>(R.layout.fragment_profile) {
 
-    private val profileViewModel by viewModels<ProfileViewModel>(ownerProducer = {requireParentFragment()})
+    private val profileViewModel by viewModels<ProfileViewModel>(ownerProducer = {requireActivity()})
     private val myPageViewModel by viewModels<MyPageViewModel>(ownerProducer = {requireParentFragment()})
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -31,7 +31,7 @@ class ProfileFragment() :BaseFragment<FragmentProfileBinding>(R.layout.fragment_
         initView()
         setObserver()
         setListener()
-        setBackPressed()
+
 
     }
 
@@ -40,7 +40,7 @@ class ProfileFragment() :BaseFragment<FragmentProfileBinding>(R.layout.fragment_
         val name = myPageViewModel.uiState.value.nickName
         val phone = myPageViewModel.uiState.value.phoneNumber
         val profile = myPageViewModel.uiState.value.profileImage.toString()
-         if(name!=null && phone!=null) profileViewModel.initProfileInfo(name, phone, profile)
+        if(name!=null && phone!=null) profileViewModel.initProfileInfo(name, phone, profile)
 
 
     }
@@ -51,7 +51,7 @@ class ProfileFragment() :BaseFragment<FragmentProfileBinding>(R.layout.fragment_
 
         binding.profileSettingBtn.setOnClickListener {
             val bottomSheet = ProfileBottomFragment()
-            bottomSheet.show(requireActivity().supportFragmentManager, BatonApp.TAG)
+            bottomSheet.show(this.childFragmentManager,"profileBottom")
         }
     }
 
@@ -62,14 +62,6 @@ class ProfileFragment() :BaseFragment<FragmentProfileBinding>(R.layout.fragment_
         binding.profileCompleteBtn.isEnabled=true
     }
 
-    private fun setBackPressed(){
-        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                // 뒤로가기 눌렀을 때 동작할 코드
-                onBackPressed()
-            }
-        })
-    }
 
     private fun onBackPressed(){
         parentFragmentManager.popBackStack()

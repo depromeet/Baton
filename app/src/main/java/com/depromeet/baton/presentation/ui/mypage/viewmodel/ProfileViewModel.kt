@@ -37,12 +37,13 @@ class ProfileViewModel@Inject constructor(
             onPhoneNumberChanged = ::handlePhoneNumberChanged,
             onProfileChanged = ::submitProfileImg,
             isChanged = false,
+            isLoading = true,
             onSubmit = ::submitProfile
         )
     }
 
     fun initProfileInfo( name : String , phone :String, img : String){
-        _uiState.update { it.copy( nickName = name , phoneNumber = phone , profileImage = Uri.parse(img)) }
+        _uiState.update { it.copy( nickName = name , phoneNumber = phone , profileImage = Uri.parse(img) , isLoading = false) }
     }
 
 
@@ -50,7 +51,7 @@ class ProfileViewModel@Inject constructor(
         _uiState.update { it.copy(nickName = text.toString() , isChanged =it.nickName!=text.toString()) }
     }
 
-    private fun handlePhoneNumberChanged(text: Editable?) {
+    private fun handlePhoneNumberChanged(text: Editable?) {;
         _uiState.update { it.copy(phoneNumber = text.toString() ,isChanged = it.phoneNumber!=text.toString()) }
     }
 
@@ -92,6 +93,7 @@ class ProfileViewModel@Inject constructor(
      val onPhoneNumberChanged: (Editable?) -> Unit,
      val onProfileChanged: (Uri) -> Unit,
      val isChanged: Boolean,
+     val isLoading : Boolean,
      val onSubmit: () -> Unit,
 ) {
     val nickNameErrorReason =
@@ -105,4 +107,5 @@ class ProfileViewModel@Inject constructor(
             nickNameErrorReason== null &&
             phoneNumber.isNotBlank() &&
             phoneNumberErrorReason == null
+
 }

@@ -25,8 +25,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private val chattingFragment: ChattingFragment by lazy { ChattingFragment() }
     private val myPageFragment: MyPageFragment by lazy { MyPageFragment() }
 
-    private val profileViewModel by lazy { viewModels<ProfileViewModel>()}
-    private val myPageViewModel  by lazy { viewModels<MyPageViewModel>()}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +55,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                     return@setOnItemSelectedListener true
                 }
                 R.id.menu_main_mypage -> {
-                    replace(myPageFragment)
+                    replace(myPageFragment,"myPageFragment")
                     return@setOnItemSelectedListener true
                 }
             }
@@ -65,10 +63,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         }
     }
 
-    private fun replace(fragment: Fragment) {
+    private fun replace(fragment: Fragment,tag :String?=null) {
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.fcv_main, fragment, null)
+            .replace(R.id.fcv_main, fragment, tag)
             .commit()
     }
 

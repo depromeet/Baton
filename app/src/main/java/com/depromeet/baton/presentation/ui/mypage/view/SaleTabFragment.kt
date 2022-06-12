@@ -1,26 +1,25 @@
 package com.depromeet.baton.presentation.ui.mypage.view
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
-import android.widget.Button
 import android.widget.PopupMenu
 import androidx.annotation.MenuRes
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.depromeet.baton.BatonApp
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentSaleTabBinding
 import com.depromeet.baton.presentation.base.BaseFragment
 import com.depromeet.baton.presentation.bottom.BottomMenuItem
 import com.depromeet.baton.presentation.bottom.BottomSheetFragment
-import com.depromeet.baton.presentation.ui.mypage.model.SaleTicketItem
+import com.depromeet.baton.presentation.bottom.BottomSheetFragment.Companion.CHECK_ITEM_VIEW
 import com.depromeet.baton.presentation.ui.mypage.model.SaleTicketListItem
 import com.depromeet.baton.presentation.ui.mypage.adapter.SaleTicketItemAdapter
 import com.depromeet.baton.presentation.ui.mypage.viewmodel.SaleHistoryViewModel
 import com.depromeet.baton.presentation.util.viewLifecycle
 import com.depromeet.baton.presentation.util.viewLifecycleScope
+import com.depromeet.bds.component.BdsDialog
+import com.depromeet.bds.component.DialogType
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -33,7 +32,7 @@ class SaleTabFragment : BaseFragment<FragmentSaleTabBinding>(R.layout.fragment_s
         SaleTicketItemAdapter(requireContext(), ::onClickMenuItemListener, ::onClickStatusMenuItemListener)
     }
 
-    private lateinit var alertDialog : AlertDialog
+    private lateinit var alertDialog : BdsDialog
 
 
     override fun onCreateView(
@@ -55,7 +54,6 @@ class SaleTabFragment : BaseFragment<FragmentSaleTabBinding>(R.layout.fragment_s
 
 
     private fun setTicketItemRv(){
-
         val mLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.saleTabRv.adapter = ticketItemRvAdapter
         binding.saleTabRv.layoutManager = mLayoutManager
@@ -64,6 +62,7 @@ class SaleTabFragment : BaseFragment<FragmentSaleTabBinding>(R.layout.fragment_s
 
 
     private fun setObserver() {
+
 
         saleViewModel.uiState
             .flowWithLifecycle(viewLifecycle)
@@ -77,21 +76,33 @@ class SaleTabFragment : BaseFragment<FragmentSaleTabBinding>(R.layout.fragment_s
 
 
     //메뉴버튼 클릭
-
     private fun onClickMenuItemListener(ticketItem : SaleTicketListItem, view: View){
-        showMenu(view, R.menu.menu_mypage_ticekt)
+        showMenu(view, R.menu.menu_mypage_ticekt ,ticketItem.ticket.data.id)
     }
 
     //상태변경 클릭
-
-    private fun onClickStatusMenuItemListener(ticketItem : SaleTicketListItem){
-
+    private fun onClickStatusMenuItemListener(ticketItem : SaleTicketListItem,position:Int){
         //TODO 현재 ticket isChecked 처리
-
+        showBottom(ticketItem,position)
     }
 
-    //TODO menu Custom
-    private fun showMenu(v: View, @MenuRes menuRes: Int) {
+
+    private fun showBottom(ticketItem: SaleTicketListItem,position: Int){
+        val list = resources.getStringArray(R.array.ticketSaleStatus).map { BottomMenuItem(it)}
+        list.get(0).isChecked=true
+        val bottom = BottomSheetFragment.newInstance("상태 변경",list,CHECK_ITEM_VIEW, object: BottomSheetFragment.Companion.OnItemClick{
+            override fun onSelectedItem(selected: BottomMenuItem, pos: Int) { //
+                if(pos !=0 ){
+                    saleViewModel.changeStatus(ticketItem.ticket.data.id, pos)
+                    ticketItemRvAdapter.removeSelectedItem(position)
+                }
+            }}
+        )
+        bottom.show(childFragmentManager,null)
+    }
+
+
+    private fun showMenu(v: View, @MenuRes menuRes: Int ,ticketId : Int) {
         val wrapper = ContextThemeWrapper(requireContext(), com.depromeet.bds.R.style.BdsPopupMenuStyle)
         val popup = PopupMenu(wrapper, v,Gravity.END)
         popup.menuInflater.inflate(menuRes, popup.menu)
@@ -102,7 +113,7 @@ class SaleTabFragment : BaseFragment<FragmentSaleTabBinding>(R.layout.fragment_s
         popup.setOnDismissListener {
             // Respond to popup being dismissed.
         }
-        // Show the popup menu.
+
         popup.show()
     }
 
@@ -126,24 +137,22 @@ class SaleTabFragment : BaseFragment<FragmentSaleTabBinding>(R.layout.fragment_s
         }
     }
 
-
-
     private fun setAlertDialog(){
-        val layoutInflater = LayoutInflater.from(context)
-        val view = layoutInflater.inflate(R.layout.dialog_mypage, null)
-        alertDialog = AlertDialog.Builder(context, com.depromeet.bds.R.style.MyPageAlertDialog)
-            .setView(view)
-            .create()
-        val buttonCancel = view.findViewById<Button>(R.id.dialog_cancel)
-        val buttonConfirm = view.findViewById<Button>(R.id.dialog_delete)
+        alertDialog = BdsDialog(requireContext(), DialogType.SECONDARY)
+        alertDialog.setHorizonDialog(::onClickConfirm , ::onClickCancel)
+        alertDialog.setTitle("정말 삭제하시겠어요?")
+        alertDialog.setContent("삭제시, 등록햇던 정보가 전부 사라져요")
+        alertDialog.setImage(com.depromeet.bds.R.drawable.ic_img_empty_warning)
+    }
 
-        buttonCancel.setOnClickListener {
-            alertDialog.dismiss()
-        }
+    private fun onClickConfirm(){
+        //saleViewModel.deleteTicket(it.first!!.ticket.typeId)
 
-        buttonConfirm.setOnClickListener {
-            //TODO 삭제 API
-        }
+        ticketItemRvAdapter.removeSelectedItem(ticketItemRvAdapter.getSelectedItem().second!!)
+        alertDialog.dismiss()
+    }
+    private fun onClickCancel(){
+
     }
 
 }

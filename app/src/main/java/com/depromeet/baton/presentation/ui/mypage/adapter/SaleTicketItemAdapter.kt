@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageButton
+import androidx.core.os.persistableBundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
@@ -25,13 +26,16 @@ import com.depromeet.baton.presentation.util.dateFormatUtil
 import com.depromeet.baton.presentation.util.distanceFormatUtil
 import com.depromeet.baton.util.SimpleDiffUtil
 import com.depromeet.bds.utils.toPx
+import timber.log.Timber
 
 class SaleTicketItemAdapter(
     private val context: Context,
     private val onClickMenu: (SaleTicketListItem, View) -> Unit,
-    private val onClickStatusMenu :(SaleTicketListItem)->Unit
-) : ListAdapter<SaleTicketListItem, SaleTicketItemAdapter.SaleTicketViewHolder>(SimpleDiffUtil()) {
+    private val onClickStatusMenu :(SaleTicketListItem,Int)->Unit
+) : ListAdapter<SaleTicketListItem, SaleTicketItemAdapter.SaleTicketViewHolder>(diffCallback ) {
 
+    private var selectedItem :SaleTicketListItem?=null
+    private var selectedPos : Int ?=null
 
     override fun getItemViewType(position: Int): Int = getItem(position).layoutId
 
@@ -75,7 +79,6 @@ class SaleTicketItemAdapter(
 
     inner class SaleTicketFooterViewHolder(private val binding : ItemTicketSaleFooterBinding) : SaleTicketViewHolder(binding){
         override fun bind(item: SaleTicketListItem, position: Int) {
-
         }
     }
 
@@ -83,7 +86,8 @@ class SaleTicketItemAdapter(
         SaleTicketViewHolder(binding) {
         override fun bind(item: SaleTicketListItem, position: Int) {
             with(binding) {
-                itemSaleNameTv.text =  if(item.ticket.data.location.length > 15) item.ticket.data.location.substring(0,15)+"..." else item.ticket.data.location
+                itemSaleNameTv.text = if(item.ticket.data.location.length > 15) item.ticket.data.location.substring(0,15)+"..." else item.ticket.data.location
+
                 itemSalePriceTv.text = item.ticket.data.price.toString()
                 itemSaleRemainDateTv.text = item.ticket.data.remainingNumber.toString()
                 itemSaleLocationTv.text = if(item.ticket.data.address.length > 15) item.ticket.data.address.substring(0,15)+"..." else item.ticket.data.address
@@ -95,7 +99,9 @@ class SaleTicketItemAdapter(
                 }else{
                     val resource= setUi(TicketStatus.values().get(item.ticket.data.state))
                     itemSaleStatusIc.setImageResource(resource.icon)
+                    itemSaleStatusTv.text = resource.title
                     itemSaleStatusChip.text = resource.title
+                    if(item.ticket.data.state==2) itemSaleMenuBtn.visibility=View.GONE
                 }
 
                 if(item.ticket.data.mainImage !=null)Glide.with(context)
@@ -107,16 +113,52 @@ class SaleTicketItemAdapter(
                 }
 
                 itemSaleMenuBtn.setOnClickListener {
+                    selectedItem=item
+                    selectedPos= position
                     onClickMenu(item, binding.itemSaleMenuBtn)
                 }
 
                 itemSaleChangeBtn.setOnClickListener {
-                    onClickStatusMenu(item)
+                    selectedItem=item
+                    selectedPos= position
+                    onClickStatusMenu(item, selectedPos!!)
                 }
-
             }
         }
     }
+
+
+    fun getSelectedItem(): Pair<SaleTicketListItem?,Int?> = Pair(selectedItem,selectedPos)
+
+    fun removeSelectedItem(position: Int){
+        val item = getItem(position)
+        val newList = currentList.toMutableList()
+        if (position < currentList.size){
+            val createdAt = dateFormatUtil(newList.get(position).ticket.date)
+            val hasChild= newList.find{ item.ticket.data.id !=it.ticket.data.id && it is SaleTicketListItem.Item && createdAt == dateFormatUtil(it.ticket.date)}
+            if(hasChild ==null){
+                if(newList.size<3){
+                    //footer가 없는경우
+                    newList.removeAt(position) //item 삭제
+                    newList.removeAt(position-1) //header삭제
+
+                }else if(position ==currentList.lastIndex){
+                    newList.removeAt(position) //item 삭제
+                    newList.removeAt(position-1) //header삭제
+                    newList.removeAt(position-2) //footer 삭제
+                }
+                else{
+                    newList.removeAt(position+1) //footer 삭제
+                    newList.removeAt(position) //item 삭제
+                    newList.removeAt(position-1) //header삭제
+                }
+            }else{
+                newList.removeAt(position)
+            }
+        }
+        submitList(newList)
+    }
+
 
     fun setUi(state: TicketStatus):TicketStateUi{
         when(state){
@@ -141,4 +183,13 @@ class SaleTicketItemAdapter(
         SoldoutUi(com.depromeet.bds.R.drawable.ic_check_circle_line_20,"거래완료")
     }
 
+    companion object {
+        private val diffCallback = object : DiffUtil.ItemCallback<SaleTicketListItem>() {
+            override fun areItemsTheSame(oldItem: SaleTicketListItem, newItem: SaleTicketListItem): Boolean =
+                false
+            override fun areContentsTheSame(oldItem: SaleTicketListItem, newItem: SaleTicketListItem): Boolean =
+                false
+        }
+
+    }
 }

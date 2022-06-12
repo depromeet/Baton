@@ -28,6 +28,26 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <LinearLayout
+                android:background="?wh100"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:isVisible="@{uistate.isEmpty}">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_img_empty_like"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?body1"
+                    android:layout_marginTop="@dimen/dimen16"
+                    android:text="관심상품이 없어요."/>
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/mypage_like_rv"
@@ -39,7 +59,7 @@
                 android:nestedScrollingEnabled="false"
                 app:itemDecoration="@{itemDecoration}"
                 app:spanCount="2"
-                tools:itemCount="5"
+                app:isVisible="@{!uistate.isEmpty}"
                 />
 
             <com.airbnb.lottie.LottieAnimationView

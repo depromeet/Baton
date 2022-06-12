@@ -50,7 +50,7 @@ class TicketDetailViewModel @Inject constructor(
 
                 val ticket =  DetailTicketInfoUiState(
                     DetailTicketInfo(
-                        ticketId= 1,
+                        ticketId= ticketId?:0,
                         ticketType =TicketKind.PILATES_YOGA,
                         seller = DetailTicketInfo.Seller(tempSellerID, "batong", true),
                         isOwner = tempUserID ==tempSellerID,

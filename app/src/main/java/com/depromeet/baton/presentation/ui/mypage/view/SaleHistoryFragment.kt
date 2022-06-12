@@ -2,6 +2,7 @@ package com.depromeet.baton.presentation.ui.mypage.view
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import com.depromeet.baton.R
@@ -20,8 +21,6 @@ import kotlinx.coroutines.flow.onEach
 @AndroidEntryPoint
 class SaleHistoryFragment  : BaseFragment<FragmentSaleHistoryBinding>(R.layout.fragment_sale_history){
 
-
-
     private val saleHistoryFragment = SaleTabFragment()
     private val soldOutTabFragment = SoldoutTabFragment()
     private val titles = listOf(
@@ -32,12 +31,15 @@ class SaleHistoryFragment  : BaseFragment<FragmentSaleHistoryBinding>(R.layout.f
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewPager()
-        setOnBackPressed()
-
+        setListener()
     }
 
-    private fun setOnBackPressed(){
-       binding.saleHistoryToolbar.setOnBackwardClick { parentFragmentManager.popBackStack()}
+    private fun setListener(){
+       binding.saleHistoryToolbar.setOnBackwardClick { onBackPressed()}
+    }
+
+    private fun onBackPressed(){
+        parentFragmentManager.popBackStack()
     }
 
     private fun initViewPager(){

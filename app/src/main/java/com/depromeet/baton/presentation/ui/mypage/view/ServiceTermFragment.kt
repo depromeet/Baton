@@ -14,6 +14,10 @@ import java.io.InputStreamReader
 class ServiceTermFragment : BaseFragment<FragmentServiceTermBinding>(R.layout.fragment_service_term){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initView()
+    }
+    private fun initView(){
+        binding.serviceTermToolbar.setOnBackwardClick{parentFragmentManager.popBackStack()}
         fetchServiceTerms()
     }
 
