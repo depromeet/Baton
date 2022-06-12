@@ -32,6 +32,8 @@ data class TicketInfo(
     @Json(name="latitude")  val latitude: Double,
     @Json(name="longitude")  val longitude: Double,
     @Json(name="distance")  val distance: Double,
+    @Json(name="bookmarkCount")  val bookmarkCount : Int,
+    @Json(name="viewCount")  val viewCount: Int,
 ) {
     data class Image(
         @Json(name="id")val id: Int?=0,

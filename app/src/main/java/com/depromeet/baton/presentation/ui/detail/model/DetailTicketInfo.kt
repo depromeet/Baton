@@ -27,7 +27,9 @@ data class DetailTicketInfo (
     val isMembership : Boolean,
     val isHolding : Boolean,
     val remainingNumber : String,
-    val isLikeTicket :Boolean
+    val isLikeTicket :Boolean,
+    val bookmarkView : Int? =0,
+    val countView :Int? =0
 ){
     data class Seller(
         val userId : Int,

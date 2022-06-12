@@ -231,7 +231,6 @@
                                 android:layout_height="wrap_content"
                                 android:src="@drawable/ic_view_filled_16"
                                 app:tint="?grey_scale50"
-                                android:visibility="invisible"
                                 />
 
                             <TextView
@@ -239,9 +238,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingStart="@dimen/dimen2"
-                                android:text="0"
+                                android:text="@{ticketState.ticket.countView.toString()}"
                                 android:textAppearance="?caption1"
-                                android:visibility="invisible"
+
                                 />
 
                             <ImageView
@@ -250,7 +249,7 @@
                                 android:layout_marginLeft="@dimen/dimen8"
                                 android:src="@drawable/ic_like_filled_16"
                                 app:tint="?grey_scale50"
-                                android:visibility="invisible"
+
                                 />
 
                             <TextView
@@ -258,9 +257,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingStart="@dimen/dimen2"
-                                android:text="000"
+                                android:text="@{ticketState.ticket.bookmarkView.toString()}"
                                 android:textAppearance="?caption1"
-                                android:visibility="invisible"/>
+                               />
 
                         </LinearLayout>
 

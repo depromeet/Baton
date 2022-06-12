@@ -23,7 +23,6 @@ import timber.log.Timber
 
 
 class TicketMoreAdapter(
-    private val scrollType: String,
     private val context: Context,
     private val clickListener: (TicketSimpleInfo) -> Unit
 ) : ListAdapter<TicketSimpleInfo, TicketMoreAdapter.TicketItemViewHolder>(diffCallback) {

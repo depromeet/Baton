@@ -120,7 +120,9 @@ class TicketDetailViewModel @Inject constructor(
                                     isHolding = ticket.isHolding,
                                     isMembership = ticket.isMembership,
                                     remainingNumber = "10",//ticket.remainingNumber.toString(),
-                                    isLikeTicket = ticket.isBookmarked
+                                    isLikeTicket = ticket.isBookmarked,
+                                    bookmarkView = ticket.bookmarkCount,
+                                    countView = ticket.viewCount
                                 ),
                                 onAddChatBtnClick = ::onClickChat,
                                 onAddLikeClick = ::onClickLike

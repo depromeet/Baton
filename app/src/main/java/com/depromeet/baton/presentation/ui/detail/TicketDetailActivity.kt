@@ -63,7 +63,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     private lateinit var ticketTagAdapter :TicketTagAdapter<ItemPrimaryTagBinding>
     private lateinit var gymTagAdapter: TicketTagAdapter<ItemPrimaryOutlineTagBinding>
     private val ticketItemRvAdapter =
-        TicketMoreAdapter(  TicketMoreAdapter.SCROLL_TYPE_HORIZONTAL, this@TicketDetailActivity, ::setTicketItemClickListener)
+        TicketMoreAdapter(  this@TicketDetailActivity, ::setTicketItemClickListener)
     private val ticketImgRvAdapter = TicketImgRvAdapter(this)
 
     @Inject lateinit var spfManager : BatonSpfManager
