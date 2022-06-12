@@ -47,6 +47,8 @@ class BottomSheetAdapter<B : ViewDataBinding>(
                         binding.itemBottomsheetTv.isEnabled = true
                     }
 
+                    if(oldCheckedPos==null &&itemBottom.isChecked==true){ oldCheckedPos=pos}
+
                     if (itemBottom.isChecked == true){
                         binding.itemBottomsheetCheckIv.visibility = View.VISIBLE
                         binding.itemBottomsheetTv.isEnabled=true

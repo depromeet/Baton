@@ -1,6 +1,7 @@
 package com.depromeet.baton.presentation.util
 
 import android.view.View
+import android.widget.CheckedTextView
 import android.widget.ProgressBar
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter

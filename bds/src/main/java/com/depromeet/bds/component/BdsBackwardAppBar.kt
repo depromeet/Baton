@@ -71,4 +71,8 @@ class BdsBackwardAppBar @JvmOverloads constructor(
     fun setOnButton(listener: View.OnClickListener) {
         binding.button.setOnClickListener(listener)
     }
+
+    fun setTitleVisible(visibility : Int){
+        binding.tvTitle.visibility =visibility
+    }
 }
