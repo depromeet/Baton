@@ -15,5 +15,9 @@
     <fragment
         android:id="@+id/signUpFragment"
         android:name="com.depromeet.baton.presentation.ui.sign.SignUpFragment"
-        android:label="SignUpFragment" />
+        android:label="SignUpFragment">
+        <argument
+            android:name="args"
+            app:argType="com.depromeet.baton.presentation.ui.sign.SignUpStartArgs" />
+    </fragment>
 </navigation>

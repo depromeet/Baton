@@ -123,4 +123,6 @@ dependencies {
     implementation(Dep.Retrofit.converterGson)
 
     implementation(Dep.Kakao.user)
+
+    implementation(Dep.Security.core)
 }
