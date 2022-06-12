@@ -37,12 +37,7 @@
         <activity
             android:name="com.depromeet.baton.presentation.ui.routing.RoutingActivity"
             android:exported="true"
-            android:theme="@style/Theme.App.Starting" />
-
-            <activity
-                android:name=".presentation.main.MainActivity"
-                android:exported="true"
-                android:windowSoftInputMode="adjustPan">
+            android:theme="@style/Theme.App.Starting" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -83,7 +78,10 @@
             android:name=".presentation.ui.detail.TicketDetailActivity"
             android:exported="false" />
 
-
+        <activity
+            android:name=".presentation.main.MainActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan"/>
 
         <!-- BEAN: android:launchMode="singleTask" 넣어야 동작하네; -->
         <activity

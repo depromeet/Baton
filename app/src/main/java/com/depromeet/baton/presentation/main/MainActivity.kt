@@ -28,7 +28,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
         initBottomNavigation()
         setBottomNavigationSelectedListener()
-        startActivity(TicketDetailActivity.start(this,5))
+
     }
 
     private fun initBottomNavigation() {
