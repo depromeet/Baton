@@ -2,8 +2,10 @@ package com.depromeet.baton.presentation.ui.writepost.view
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -21,6 +23,7 @@ import kotlinx.coroutines.flow.onEach
 class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activity_write_post) {
     private val writePostViewModel: WritePostViewModel by viewModels()
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.writePost = this
@@ -30,6 +33,7 @@ class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activi
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun setObserve() {
         writePostViewModel.writePostPositionViewEvents
             .flowWithLifecycle(lifecycle)
@@ -51,6 +55,7 @@ class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activi
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun handleViewEvents(viewEvents: List<WritePostViewModel.WritePostPositionViewEvent>) {
         viewEvents.firstOrNull()?.let { viewEvent ->
             when (viewEvent) {
