@@ -3,9 +3,11 @@ package com.depromeet.baton.presentation.ui.sign
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentSignUpInfoBinding
 import com.depromeet.baton.presentation.base.BaseFragment
@@ -22,10 +24,12 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class SignUpInfoFragment : BaseFragment<FragmentSignUpInfoBinding>(R.layout.fragment_sign_up_info) {
     private val viewModel: SignUpInfoViewModel by viewModels()
+    private val signUpViewModel: SignUpViewModel by activityViewModels()
     private val navController by lazy { findNavController() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        signUpViewModel.setCurrentStep(2)
 
         viewModel.uiState
             .flowWithLifecycle(viewLifecycle)
@@ -45,6 +49,7 @@ class SignUpInfoFragment : BaseFragment<FragmentSignUpInfoBinding>(R.layout.frag
                     AddAccountActivity.start(requireContext())
                 }
                 ViewEvent.ToAddressSetting -> {
+                    signUpViewModel.remember(viewModel)
                     navController.navigate(R.id.action_signUpInfoFragment_to_signUpAddressFragment)
                 }
             }
