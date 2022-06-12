@@ -1,4 +1,4 @@
-package com.depromeet.baton.presentation.ui.detail
+package com.depromeet.baton.presentation.ui.detail.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -19,7 +19,6 @@ import com.depromeet.baton.domain.model.TicketSimpleInfo
 import com.depromeet.baton.presentation.util.distanceFormatUtil
 import com.depromeet.baton.presentation.util.priceFormat
 import com.depromeet.bds.utils.toPx
-import timber.log.Timber
 
 
 class TicketMoreAdapter(

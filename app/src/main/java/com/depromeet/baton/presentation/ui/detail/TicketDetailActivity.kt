@@ -8,7 +8,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
-import androidx.core.content.ContextCompat.startActivity
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.baton.BatonApp
 import com.depromeet.baton.BatonApp.Companion.TAG
 import com.depromeet.baton.R
-import com.depromeet.baton.data.response.ResponseFilteredTicket
 import com.depromeet.baton.databinding.ActivityTicketDetailBinding
 import com.depromeet.baton.databinding.ItemPrimaryOutlineTagBinding
 import com.depromeet.baton.databinding.ItemPrimaryTagBinding
@@ -28,10 +26,10 @@ import com.depromeet.baton.presentation.bottom.BottomMenuItem
 import com.depromeet.baton.presentation.bottom.BottomSheetFragment
 import com.depromeet.baton.presentation.bottom.BottomSheetFragment.Companion.CHECK_ITEM_VIEW
 import com.depromeet.baton.presentation.bottom.BottomSheetFragment.Companion.DEFAULT_ITEM_VIEW
+import com.depromeet.baton.presentation.ui.detail.adapter.TicketImgRvAdapter
+import com.depromeet.baton.presentation.ui.detail.adapter.TicketMoreAdapter
+import com.depromeet.baton.presentation.ui.detail.adapter.TicketTagAdapter
 import com.depromeet.baton.presentation.ui.detail.viewModel.*
-import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter
-import com.depromeet.baton.presentation.ui.home.view.TicketItem
-import com.depromeet.baton.presentation.ui.sign.ServiceTermDetailActivity
 import com.depromeet.baton.presentation.util.*
 import com.depromeet.baton.util.BatonSpfManager
 import com.depromeet.bds.component.BdsToast
@@ -60,7 +58,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     private lateinit var mapView: MapView
     private  var naverMap: NaverMap? =null
 
-    private lateinit var ticketTagAdapter :TicketTagAdapter<ItemPrimaryTagBinding>
+    private lateinit var ticketTagAdapter : TicketTagAdapter<ItemPrimaryTagBinding>
     private lateinit var gymTagAdapter: TicketTagAdapter<ItemPrimaryOutlineTagBinding>
     private val ticketItemRvAdapter =
         TicketMoreAdapter(  this@TicketDetailActivity, ::setTicketItemClickListener)
@@ -212,7 +210,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
 
     /** 헬스장 추가 정보 recyclerview **/
     private fun initGymTag(){
-        gymTagAdapter =TicketTagAdapter(
+        gymTagAdapter = TicketTagAdapter(
             R.layout.item_primary_outline_tag)
         FlexboxLayoutManager(this).apply{
             flexWrap = FlexWrap.WRAP

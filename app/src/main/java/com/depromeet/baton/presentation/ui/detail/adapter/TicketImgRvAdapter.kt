@@ -1,23 +1,15 @@
-package com.depromeet.baton.presentation.ui.detail
+package com.depromeet.baton.presentation.ui.detail.adapter
 
 import android.content.Context
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ItemDetailImageBinding
 import com.depromeet.baton.util.SimpleDiffUtil
-import com.depromeet.bds.utils.toPx
-import timber.log.Timber
 
 
 class TicketImgRvAdapter(private val context: Context): ListAdapter<String, TicketImgRvAdapter.ImgViewHolder>(SimpleDiffUtil()) {

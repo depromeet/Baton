@@ -1,17 +1,13 @@
-package com.depromeet.baton.presentation.ui.detail
+package com.depromeet.baton.presentation.ui.detail.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
-import com.depromeet.baton.R
-import com.depromeet.baton.databinding.ActivityAddressBinding.inflate
-import com.depromeet.baton.databinding.ItemBottomsheetCheckBinding
 import com.depromeet.baton.databinding.ItemPrimaryOutlineTagBinding
 import com.depromeet.baton.databinding.ItemPrimaryTagBinding
 import com.depromeet.baton.domain.model.BatonHashTag
-import com.depromeet.baton.domain.model.HashTag
 
 class TicketTagAdapter<B : ViewDataBinding>(
     private val layout : Int,
@@ -19,7 +15,7 @@ class TicketTagAdapter<B : ViewDataBinding>(
 
     private var tagList = ArrayList<BatonHashTag>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TicketTagViewHolder<B>{
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TicketTagViewHolder<B> {
         val binding :B = DataBindingUtil.inflate(LayoutInflater.from(parent.context),layout, parent,  false)
         return  TicketTagViewHolder(binding)
     }
@@ -46,7 +42,7 @@ class TicketTagAdapter<B : ViewDataBinding>(
                     binding.primaryTag.setText(item.title)
                 }
                 is ItemPrimaryOutlineTagBinding->{
-                    binding.primaryLineTag.setText(item.title)
+                    binding.primaryLineTag.setText(item.displayTitle)
                 }
             }
         }
