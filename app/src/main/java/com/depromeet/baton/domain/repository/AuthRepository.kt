@@ -1,14 +1,42 @@
 package com.depromeet.baton.domain.repository
 
+import android.content.Context
+import android.content.SharedPreferences
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKeys
 import com.depromeet.baton.domain.model.AuthInfo
+import com.depromeet.baton.util.SerializedPref
+import com.squareup.moshi.Moshi
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AuthRepository @Inject constructor() {
+class AuthRepository @Inject constructor(
+    @ApplicationContext context: Context,
+    moshi: Moshi,
+) {
 
-    suspend fun setAuthInfo(authInfo: AuthInfo) {
-        // 토큰을 safe 하게 디바이스에 저장하고 매번 불러써야한다.
-        // 토큰을 접근할 때 만료되었다면? (어떻게 캐치함?) 리프레시 토큰으로 다시 토큰을 갱신해야한다.
+    private val pref: SharedPreferences by lazy {
+        val keyGenParameterSpec = MasterKeys.AES256_GCM_SPEC
+        val masterKeyAlias = MasterKeys.getOrCreate(keyGenParameterSpec)
+
+        EncryptedSharedPreferences.create(
+            PREF,
+            masterKeyAlias,
+            context,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
+    }
+
+    var authInfo by SerializedPref(pref, moshi.adapter(AuthInfo::class.java))
+
+    suspend fun isLoggedIn() : Boolean {
+        return authInfo != null
+    }
+
+    companion object {
+        private const val PREF = "auth"
     }
 }

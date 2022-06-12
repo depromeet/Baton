@@ -57,7 +57,7 @@ class SearchAddressActivity : BaseActivity<ActivitySearchAddressBinding>(R.layou
 
     }
 
- private fun setObserver() {
+    private  fun setObserver() {
         searchAddressViewModel.searchAddress("")
         binding.searchAddressEt.textListener = object : BdsSearchBar.TextListener {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
