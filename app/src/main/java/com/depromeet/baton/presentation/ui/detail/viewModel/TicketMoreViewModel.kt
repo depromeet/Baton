@@ -1,5 +1,6 @@
 package com.depromeet.baton.presentation.ui.detail.viewModel
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.depromeet.baton.R
 import com.depromeet.baton.data.response.ResponseFilteredTicket
@@ -20,32 +21,37 @@ import javax.inject.Inject
 @HiltViewModel
 class TicketMoreViewModel @Inject constructor(
     private val ticketInfoRepository: TicketInfoRepository,
+    private val savedStateHandle: SavedStateHandle,
     private val spfManager: BatonSpfManager
 ):BaseViewModel(){
-    private val _uiState = MutableStateFlow<List<ResponseFilteredTicket>>(emptyList())
+    private val _uiState = MutableStateFlow<List<TicketSimpleInfo>>(emptyList())
     val uiState = _uiState.asStateFlow()
 
     private val _networkState = MutableStateFlow<TicketMoreNetwork>(TicketMoreNetwork.Loading)
     val networkState = _networkState.asStateFlow()
 
+    private val MAX_ITEM = 5
+
     init{
+        initState()
+    }
+    fun initState(){
         viewModelScope.launch {
             runCatching {
                 //TODO 추천 아이템 불러오기
-                ticketInfoRepository.getMoreTicket(5, spfManager.getMyLongitude(),spfManager.getMyLatitude(),spfManager.getMaxDistance().getDistance())
+                ticketInfoRepository.getMoreTicket(MAX_ITEM , spfManager.getMyLongitude(),spfManager.getMyLatitude(),spfManager.getMaxDistance().getDistance())
             }.onSuccess {
                 //Api result
-                res -> if(res is NetworkResult.Success )  res?.let {
-                   val list=  res.data?.content?.map{ ResponseFilteredTicket(it.id, it.location,it.address, it.price, it.mainImage?:"",
-                       it.createAt, it.state,it.tags, it.images?: emptyList(),it.isMembership,it.remainingNumber?:0,
-                       it.expiryDate?:"",it.latitude,it.longitude,it.distance)}
-                    _uiState.update { list ?: emptyList() }
-                    _networkState.update { TicketMoreNetwork.Success }
-                }
+                    res -> if(res is NetworkResult.Success )  res?.let {
+                val ticketId = savedStateHandle.get<Int>("ticketId")!!
+                val list = res.data?.content!!.filter { it.id!= ticketId}
+                _uiState.update { list }
+                _networkState.update { TicketMoreNetwork.Success }
+            }
             }.onFailure {
-                error ->
-                    Timber.e(error.message)
-                    _networkState.update { TicketMoreNetwork.Failure(error.message.toString()) }
+                    error ->
+                Timber.e(error.message)
+                _networkState.update { TicketMoreNetwork.Failure(error.message.toString()) }
             }
         }
     }
