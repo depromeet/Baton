@@ -13,6 +13,7 @@ import com.depromeet.baton.databinding.FragmentMembershipInformationBinding
 import com.depromeet.baton.domain.model.AdditionalOptions
 import com.depromeet.baton.presentation.base.BaseFragment
 import com.depromeet.baton.presentation.ui.writepost.viewmodel.WritePostViewModel
+import com.depromeet.baton.presentation.util.CustomTextWatcher
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -41,6 +42,8 @@ class MembershipInformationFragment : BaseFragment<FragmentMembershipInformation
         setEditText()
         setTermIsChecked()
         setCheckboxOnClickListener()
+
+            binding.etTerm.addTextChangedListener(CustomTextWatcher(binding.etTerm))
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
