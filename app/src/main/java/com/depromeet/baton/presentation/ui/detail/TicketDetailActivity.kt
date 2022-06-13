@@ -22,6 +22,7 @@ import com.depromeet.baton.databinding.ItemPrimaryTagBinding
 import com.depromeet.baton.domain.model.TicketSimpleInfo
 import com.depromeet.baton.domain.model.TicketStatus
 import com.depromeet.baton.presentation.base.BaseActivity
+import com.depromeet.baton.presentation.base.WebActivity
 import com.depromeet.baton.presentation.bottom.BottomMenuItem
 import com.depromeet.baton.presentation.bottom.BottomSheetFragment
 import com.depromeet.baton.presentation.bottom.BottomSheetFragment.Companion.CHECK_ITEM_VIEW
@@ -178,8 +179,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
 
             ticketDetailUrlBtn.setOnClickListener {
                 val url = viewModel.ticketState.value?.ticket!!.detailUrl
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                startActivity(intent);
+                startActivity(WebActivity.start(this@TicketDetailActivity,url))
             }
 
             ticketDetailCopyBtn.setOnClickListener {
@@ -358,8 +358,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
 
     private fun showRoadMapView(){
         val url = viewModel.ticketState.value?.ticket!!.mapUrl
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url));
-        startActivity(intent)
+        startActivity(WebActivity.start(this,url))
     }
 
     private fun setMarkerPosition(){

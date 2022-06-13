@@ -35,6 +35,7 @@ object Dep {
         const val hiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:1.0.0"
         const val legacy = "androidx.legacy:legacy-support-v4:1.0.0"
         const val splashscreen = "androidx.core:core-splashscreen:1.0.0-beta02"
+        const val webkit = "androidx.webkit:webkit:1.4.0"
     }
 
     object Navigation {

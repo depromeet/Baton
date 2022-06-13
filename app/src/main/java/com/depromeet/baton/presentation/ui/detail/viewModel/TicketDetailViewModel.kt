@@ -85,7 +85,7 @@ class TicketDetailViewModel @Inject constructor(
                                     ),
                                     isOwner = tempUserId == tempSellerId,
                                     detailUrl = "https://map.naver.com/v5/search/${ticket.location}",
-                                    mapUrl = "http://map.naver.com/index.nhn?slng=${spfManager.getMyLongitude()}&slat=${spfManager.getMyLatitude()}" +
+                                    mapUrl = "https://map.naver.com/index.nhn?slng=${spfManager.getMyLongitude()}&slat=${spfManager.getMyLatitude()}" +
                                             "&stext=내 위치&elng=${ticket!!.longitude}&elat=${ticket!!.latitude}" +
                                             "&pathType=3&showMap=true&etext=${ticket!!.location}&menu=route",
                                     emptyIcon = initEmptyIcon(TicketKind.PILATES_YOGA),

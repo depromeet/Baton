@@ -66,13 +66,14 @@ dependencies {
     implementation(Dep.Android.fragment)
     implementation(Dep.Android.flexbox)
     implementation(Dep.Android.splashscreen)
+    implementation(Dep.Android.webkit)
 
     implementation(Dep.Navigation.fragmentKtx)
     implementation(Dep.Navigation.uiKtx)
 
     implementation(Dep.CustomLibrary.rangeSeekbar)
     implementation(Dep.CustomLibrary.keyboardListener)
-    implementation("com.airbnb.android:lottie:3.4.0")
+    implementation(Dep.CustomLibrary.lottie)
 
     implementation(Dep.Lifecycle.viewModel)
     implementation(Dep.Lifecycle.runtime)
