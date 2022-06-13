@@ -56,6 +56,13 @@ class BottomSearchShopFragment : BaseBottomDialogFragment<FragmentBottomSearchSh
     private fun setSearchShopRvAdapter() {
         searchShopRvAdapter = SearchShopRvAdapter(writePostViewModel)
         binding.rvBottomPlace.adapter = searchShopRvAdapter
+
+        searchShopRvAdapter.setQueryListener(object : SearchShopRvAdapter.SearchColorListener {
+            override fun getQuery(): String {
+                return binding.bdsSearchbarBottomPlace.getText()
+            }
+        })
+
     }
 
     private fun setInputField() {
