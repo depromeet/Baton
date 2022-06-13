@@ -189,4 +189,9 @@ object Dep {
 
         const val maven = "https://devrepo.kakao.com/nexus/content/groups/public/"
     }
+
+    // https://developer.android.com/topic/security/data#include-library
+    object Security {
+        const val core = "androidx.security:security-crypto:1.0.0"
+    }
 }

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="name"
+            type="String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_dialog">
+
+
+        <TextView
+            android:id="@+id/tv_write_post_dialog_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dimen42"
+            android:layout_marginTop="@dimen/dimen40"
+            android:text="임시 저장된 판매글이 있어요."
+            android:textAppearance="?headline1"
+            android:textColor="?grey_scale90"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_write_post_dialog_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen4"
+            android:text="이어서 작성하시겠나요?"
+            android:textAppearance="?headline1"
+            android:textColor="?grey_scale90"
+            app:layout_constraintEnd_toEndOf="@+id/tv_write_post_dialog_top"
+            app:layout_constraintStart_toStartOf="@+id/tv_write_post_dialog_top"
+            app:layout_constraintTop_toBottomOf="@+id/tv_write_post_dialog_top" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_write_post_dialog_origin"
+            style="@style/Widget.MaterialButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dimen24"
+            android:layout_marginTop="@dimen/dimen16"
+            android:backgroundTint="?primary50"
+            android:paddingVertical="@dimen/dimen16"
+            android:text="이어서 작성하기"
+            android:textAppearance="?body1"
+            android:textColor="?wh100"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_write_post_dialog_bottom" />
+
+        <TextView
+            android:id="@+id/btn_write_post_dialog_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen16"
+            android:layout_marginBottom="@dimen/dimen32"
+            android:text="새로 작성하기"
+            android:textAppearance="?body1"
+            android:textColor="?grey_scale80"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/btn_write_post_dialog_origin"
+            app:layout_constraintStart_toStartOf="@id/btn_write_post_dialog_origin"
+            app:layout_constraintTop_toBottomOf="@id/btn_write_post_dialog_origin" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

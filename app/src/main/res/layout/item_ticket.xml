@@ -119,6 +119,8 @@
                     android:layout_gravity="center_vertical"
                     android:paddingStart="@dimen/dimen2"
                     android:textAppearance="?caption1"
+                    android:maxLength="7"
+                    android:ellipsize="end"
                     android:textColor="@color/gy70"
                     tools:text="광진구 중곡동" />
 
@@ -144,18 +146,27 @@
 
 
                 <com.depromeet.bds.component.BdsTag
+                    android:id="@+id/item_ticket_tag_one"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dimen4"
                     android:theme="@style/Theme.Bds.Tag.Default.Grey.Small"
                     app:bds_text="체계적인 수업" />
 
                 <com.depromeet.bds.component.BdsTag
+                    android:id="@+id/item_ticket_tag_two"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen4"
                     android:theme="@style/Theme.Bds.Tag.Default.Grey.Small"
                     app:bds_text="친절한 선생님" />
+
+                <com.depromeet.bds.component.BdsTag
+                    android:id="@+id/item_ticket_tag_etc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen4"
+                    android:theme="@style/Theme.Bds.Tag.Default.Grey.Small"
+                    app:bds_text="+3" />
 
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

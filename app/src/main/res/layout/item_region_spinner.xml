@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tvItemSpinner"
+    android:layout_width="wrap_content"
+    android:includeFontPadding="false"
+    android:layout_height="@dimen/dimen36"
+    android:paddingStart="@dimen/dimen16"
+    android:gravity="center"
+    android:textAppearance="?body4"
+    android:textColorHint="?grey_scale50" />

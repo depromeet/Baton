@@ -5,7 +5,8 @@
 
     <data>
 
-        <import type="com.depromeet.baton.domain.model.TransactionMethod" />
+        <import type="com.depromeet.baton.domain.model.TradeType" />
+        <import type="com.depromeet.baton.domain.model.TransferFee" />
 
         <variable
             name="filterViewModel"
@@ -30,19 +31,19 @@
         <com.google.android.flexbox.FlexboxLayout
             android:id="@+id/ctl_transaction_method"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen12"
             app:alignContent="flex_start"
             app:alignItems="flex_start"
             app:flexWrap="wrap"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen12"
             app:layout_constraintTop_toBottomOf="@id/tv_transaction_method_select">
 
             <com.depromeet.bds.component.BdsChoiceChip
                 android:id="@+id/bdschoice_transaction_method_select_face"
                 android:layout_width="wrap_content"
-                android:textAppearance="?body3"
                 android:layout_height="wrap_content"
-                android:onClick="@{()->filterViewModel.setTransactionMethod(TransactionMethod.FACE,!filterViewModel.isFaceChecked)}"
+                android:onClick="@{()->filterViewModel.setTradeType(TradeType.CONTECT,!filterViewModel.isFaceChecked)}"
+                android:textAppearance="?body3"
                 app:bds_text="@string/filter_transaction_method_select_face"
                 app:isOn="@{filterViewModel.isFaceChecked}"
                 app:shape="@{`outlined`}" />
@@ -51,9 +52,9 @@
                 android:id="@+id/bdschoice_transaction_method_nonface"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?body3"
                 android:layout_marginStart="@dimen/dimen8"
-                android:onClick="@{()->filterViewModel.setTransactionMethod(TransactionMethod.NON_FACE,!filterViewModel.isNonFaceChecked)}"
+                android:onClick="@{()->filterViewModel.setTradeType(TradeType.UNTECT,!filterViewModel.isNonFaceChecked)}"
+                android:textAppearance="?body3"
                 app:bds_text="@string/filter_transaction_method_select_non_face"
                 app:isOn="@{filterViewModel.isNonFaceChecked}"
                 app:shape="@{`outlined`}" />
@@ -82,8 +83,8 @@
                 android:id="@+id/bdschoice_transaction_method_cost_select_seller"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="@{()->filterViewModel.setTransferFeeType(TransferFee.SELLER,!filterViewModel.isSellerChecked)}"
                 android:textAppearance="?body3"
-                android:onClick="@{()->filterViewModel.setTransactionMethod(TransactionMethod.SELLER,!filterViewModel.isSellerChecked)}"
                 app:bds_text="@string/filter_transaction_method_cost_select_seller"
                 app:isOn="@{filterViewModel.isSellerChecked}"
                 app:shape="@{`outlined`}" />
@@ -92,11 +93,22 @@
                 android:id="@+id/bdschoice_transaction_method_cost_select_consumer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?body3"
                 android:layout_marginStart="@dimen/dimen8"
-                android:onClick="@{()->filterViewModel.setTransactionMethod(TransactionMethod.CONSUMER,!filterViewModel.isConsumerChecked)}"
+                android:onClick="@{()->filterViewModel.setTransferFeeType(TransferFee.CONSUMER,!filterViewModel.isConsumerChecked)}"
+                android:textAppearance="?body3"
                 app:bds_text="@string/filter_transaction_method_cost_select_consumer"
                 app:isOn="@{filterViewModel.isConsumerChecked}"
+                app:shape="@{`outlined`}" />
+
+            <com.depromeet.bds.component.BdsChoiceChip
+                android:id="@+id/bdschoice_transaction_method_cost_select_na"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen8"
+                android:onClick="@{()->filterViewModel.setTransferFeeType(TransferFee.NONE,!filterViewModel.isNaChecked)}"
+                android:textAppearance="?body3"
+                app:bds_text="@string/filter_transaction_method_cost_select_na"
+                app:isOn="@{filterViewModel.isNaChecked}"
                 app:shape="@{`outlined`}" />
 
 

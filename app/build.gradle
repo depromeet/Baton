@@ -12,7 +12,6 @@ plugins {
 }
 
 android {
-
     def keystorePropertiesFile = rootProject.file("keystore.properties")
     def keystoreProperties = new Properties()
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
@@ -124,4 +123,6 @@ dependencies {
     implementation(Dep.Retrofit.converterGson)
 
     implementation(Dep.Kakao.user)
+
+    implementation(Dep.Security.core)
 }
