@@ -4,6 +4,7 @@ import com.depromeet.baton.annotation.Server
 import com.depromeet.baton.annotation.ServerType
 import com.depromeet.baton.remote.search.SearchService
 import com.depromeet.baton.remote.user.SignService
+import com.depromeet.baton.remote.user.UserInfoService
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -65,6 +66,12 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideSearchService(@Server(ServerType.Search) retrofit: Retrofit): SearchService {
+        return retrofit.create()
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserInfoService(@Server(ServerType.User) retrofit: Retrofit): UserInfoService {
         return retrofit.create()
     }
 
