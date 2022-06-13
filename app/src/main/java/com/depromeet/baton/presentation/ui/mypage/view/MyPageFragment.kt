@@ -1,6 +1,7 @@
 package com.depromeet.baton.presentation.ui.mypage.view
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,8 @@ import com.depromeet.baton.databinding.FragmentMyPageBinding
 import com.depromeet.baton.presentation.base.BaseFragment
 import com.depromeet.baton.presentation.ui.mypage.viewmodel.MyPageViewModel
 import com.depromeet.baton.presentation.ui.mypage.viewmodel.ProfileViewModel
+import com.depromeet.baton.presentation.ui.routing.RoutingActivity
+import com.depromeet.baton.presentation.ui.sign.SignActivity
 import com.depromeet.baton.presentation.util.viewLifecycle
 import com.depromeet.baton.presentation.util.viewLifecycleScope
 import com.depromeet.bds.component.BdsDialog
@@ -28,7 +31,6 @@ import timber.log.Timber
 class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page) {
 
     private val myPageViewModel  by  viewModels<MyPageViewModel>()
-    private val profileFragment by viewModels<ProfileViewModel> ()
 
     private val saleHistoryFragment by lazy{ SaleHistoryFragment()}
     private val purchaseHistoryFragment by lazy { PurchaseHistoryFragment() }
@@ -89,7 +91,11 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
 
     private fun onClickLogoutConfirm(){
         //TODO logout logic
+        myPageViewModel.logout() //sharedPreference 모두 삭제
         logoutDialog.dismiss()
+        val intent = Intent(requireActivity(), SignActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(intent)
     }
     private fun onClickCancel(){
 

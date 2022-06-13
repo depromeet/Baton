@@ -8,10 +8,12 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.depromeet.baton.data.response.UserProfileResponse
 import com.depromeet.baton.domain.model.UserInfo
+import com.depromeet.baton.domain.repository.AuthRepository
 import com.depromeet.baton.domain.repository.UserinfoRepository
 import com.depromeet.baton.map.util.NetworkResult
 import com.depromeet.baton.presentation.base.BaseViewModel
 import com.depromeet.baton.presentation.util.uriConverter
+import com.depromeet.baton.util.BatonSpfManager
 import com.depromeet.bds.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,6 +26,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
     application: Application,
+    private val spfManager: BatonSpfManager,
+    private val authRepository: AuthRepository,
     private val savedStateHandle: SavedStateHandle,
     private val userinfoRepository: UserinfoRepository
 ): BaseViewModel() {
@@ -70,6 +74,11 @@ class MyPageViewModel @Inject constructor(
 
     fun updateProfileImg(profileImage: Uri){
         _uiState.update { it.copy(profileImage= profileImage) }
+    }
+
+    fun logout(){
+        authRepository.logout()
+        spfManager.clearAll()
     }
 
     fun consumeViewEvent(viewEvent: ViewEvent) {

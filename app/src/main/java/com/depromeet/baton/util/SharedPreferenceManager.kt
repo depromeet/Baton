@@ -76,5 +76,11 @@ class BatonSpfManager@Inject constructor(@ApplicationContext context: Context){
         return MaxDistance(distance)
     }
 
+    fun clearAll(){
+        val editor = mSharedPreferences.edit()
+        editor.clear()
+        editor.apply()
+    }
+
 
 }
