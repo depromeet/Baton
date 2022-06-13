@@ -65,7 +65,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="@+id/iv_bottom_search_close"
-                app:layout_constraintStart_toStartOf="@+id/bds_searchbar_bottom_place"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/view_bottom_place"
                 app:uiState="@{writePostViewModel.shopSearchUiState }"
                 tools:visibility="visible">
@@ -74,7 +74,7 @@
                     android:id="@+id/rv_bottom_place"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen32"
+                    android:layout_marginTop="@dimen/dimen8"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
