@@ -73,28 +73,25 @@ class BottomFilterFragment : BottomSheetDialogFragment() {
     }
 
     private fun initTabLayout() {
-        filterViewModel.filterTypeOrderList.observe(viewLifecycleOwner) { filterTypeOrderList ->
-            if (filterTypeOrderList == null) return@observe
-            val fragmentList = mutableListOf<Fragment>()
-            for (filterType in filterTypeOrderList) {
-                when (filterType) {
-                    FilterType.TicketKind.value -> fragmentList.add(TicketKindFragment())
-                    FilterType.Term.value -> fragmentList.add(TermFragment())
-                    FilterType.Price.value -> fragmentList.add(PriceFragment())
-                    FilterType.TransactionMethod.value -> fragmentList.add(TransactionMethodFragment())
-                    FilterType.AdditionalOptions.value -> fragmentList.add(AdditionalOptionsFragment())
-                    FilterType.HashTag.value -> fragmentList.add(HashTagFragment())
-                }
+        val fragmentList = mutableListOf<Fragment>()
+        for (filterType in filterViewModel.filterTypeOrderList.value!!) {
+            when (filterType) {
+                FilterType.TicketKind.value -> fragmentList.add(TicketKindFragment())
+                FilterType.Term.value -> fragmentList.add(TermFragment())
+                FilterType.Price.value -> fragmentList.add(PriceFragment())
+                FilterType.TransactionMethod.value -> fragmentList.add(TransactionMethodFragment())
+                FilterType.AdditionalOptions.value -> fragmentList.add(AdditionalOptionsFragment())
+                FilterType.HashTag.value -> fragmentList.add(HashTagFragment())
             }
-
-            tabLayoutAdapter = TabLayoutAdapter(this)
-            tabLayoutAdapter.fragments.addAll(fragmentList)
-            binding.vpBottomFilter.adapter = tabLayoutAdapter
-
-            TabLayoutMediator(binding.tlBottomFilter, binding.vpBottomFilter) { tab, position ->
-                tab.text = filterTypeOrderList[position]
-            }.attach()
         }
+
+        tabLayoutAdapter = TabLayoutAdapter(this)
+        tabLayoutAdapter.fragments.addAll(fragmentList)
+        binding.vpBottomFilter.adapter = tabLayoutAdapter
+
+        TabLayoutMediator(binding.tlBottomFilter, binding.vpBottomFilter) { tab, position ->
+            tab.text = filterViewModel.filterTypeOrderList.value!![position]
+        }.attach()
     }
 
     private fun setCurrentFilterPosition() {
@@ -106,7 +103,7 @@ class BottomFilterFragment : BottomSheetDialogFragment() {
     private fun setSearchOnClickListener() {
         binding.btnBottomFilterSearch.setOnClickListener {
             filterViewModel.setFilterPosition()
-    //        filterViewModel.updateFilteredTicketList() //필터링된 리스트 가져오기
+            //        filterViewModel.updateFilteredTicketList() //필터링된 리스트 가져오기
             dialog?.dismiss()
         }
     }
@@ -133,7 +130,7 @@ class BottomFilterFragment : BottomSheetDialogFragment() {
 
 
     override fun onDestroyView() {
-     filterViewModel.setFilterTypeOrderList()
+        filterViewModel.setFilterTypeOrderList()
         super.onDestroyView()
         _binding = null
     }

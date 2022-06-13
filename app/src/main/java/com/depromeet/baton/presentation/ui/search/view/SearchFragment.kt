@@ -2,10 +2,7 @@ package com.depromeet.baton.presentation.ui.search.view
 
 import android.os.Bundle
 import android.text.Editable
-import android.util.Log
-import android.view.KeyEvent
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -31,22 +28,15 @@ import timber.log.Timber
 @AndroidEntryPoint
 class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_search) {
 
-    private val filterViewModel: FilterSearchViewModel by activityViewModels()
+    private val filterSearchViewModel: FilterSearchViewModel by activityViewModels()
     private val searchViewModel: SearchViewModel by activityViewModels()
     private val recentFragment = RecentSearchFragment()
     private val detailFragment = SearchDetailFragment()
 
-    //마지막 검색 키워드로 세팅되어야함
-    override fun onResume() {
-        super.onResume()
-        searchViewModel.setInitKeyword(binding.searchBar.getText())
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         searchKeyword()
-
         searchViewModel.searchUiState
             .flowWithLifecycle(lifecycle)
             .onEach { uiState -> binding.uiState = uiState }
@@ -89,11 +79,13 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         with(binding.searchBar) {
             textListener = object : BdsSearchBar.TextListener {
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     val query = s.toString()
-                    if (query.isNotEmpty()) filterViewModel.getSearchResultTicketList(query)
-                    if (query == "") filterViewModel.getSearchResultTicketList("")
+                    if (query.isNotEmpty() && query != searchViewModel.lastSearchKeyword.value) {
+                        filterSearchViewModel.getSearchResultTicketList(query)
+                    }
+
+                    if (query == "") filterSearchViewModel.getSearchResultTicketList("")
                 }
 
                 override fun afterTextChanged(s: Editable?) {}
@@ -116,7 +108,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
                         .commit()
                 }
                 SearchViewModel.ViewEvent.ToHome -> {
-                    searchViewModel.searchKeyword("")
                     (activity as MainActivity).moveToHome()
                 }
             }
@@ -128,6 +119,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     override fun onPause() {
         super.onPause()
         searchViewModel.setLastKeyword(binding.searchBar.getText())
+        searchViewModel.searchKeyword(binding.searchBar.getText())
     }
 }
 

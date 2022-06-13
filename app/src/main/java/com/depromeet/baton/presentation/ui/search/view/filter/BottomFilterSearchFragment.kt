@@ -2,7 +2,6 @@ package com.depromeet.baton.presentation.ui.search.view.filter
 
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +23,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class BottomFilterSearchFragment : BottomSheetDialogFragment() {
@@ -31,7 +31,7 @@ class BottomFilterSearchFragment : BottomSheetDialogFragment() {
     private val binding get() = _binding ?: error("View를 참조하기 위해 binding이 초기화되지 않았습니다.")
 
     private lateinit var tabLayoutAdapter: TabLayoutAdapter
-    private val filterViewModel: FilterSearchViewModel by activityViewModels()
+    private val filterSearchViewModel: FilterSearchViewModel by activityViewModels()
 
     lateinit var filteredChipRvAdapter: FilteredChipRvAdapter
 
@@ -47,11 +47,12 @@ class BottomFilterSearchFragment : BottomSheetDialogFragment() {
     override fun onStart() {
         super.onStart()
         initTabLayout()
+        setCurrentFilterPosition()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.filterViewModel = filterViewModel
+        binding.filterViewModel = filterSearchViewModel
         initTabLayout()
         setFilteredChipRvAdapter()
         setSearchOnClickListener()
@@ -73,39 +74,46 @@ class BottomFilterSearchFragment : BottomSheetDialogFragment() {
     }
 
     private fun initTabLayout() {
-        filterViewModel.filterTypeOrderList.observe(viewLifecycleOwner) { filterTypeOrderList ->
-            if (filterTypeOrderList == null) return@observe
-            val fragmentList = mutableListOf<Fragment>()
-            for (filterType in filterTypeOrderList) {
-                when (filterType) {
-                    FilterType.TicketKind.value -> fragmentList.add(TicketKindFragment())
-                    FilterType.Term.value -> fragmentList.add(TermFragment())
-                    FilterType.Price.value -> fragmentList.add(PriceFragment())
-                    FilterType.TransactionMethod.value -> fragmentList.add(TransactionMethodFragment())
-                    FilterType.AdditionalOptions.value -> fragmentList.add(AdditionalOptionsFragment())
-                    FilterType.HashTag.value -> fragmentList.add(HashTagFragment())
+        val initFilterTypeOrderList = listOf(
+            FilterType.TicketKind.value, FilterType.Term.value, FilterType.Price.value, FilterType.TransactionMethod.value, FilterType.HashTag.value
+        )
+
+        filterSearchViewModel.filterTypeOrderList.observe(viewLifecycleOwner) { filterTypeOrderList ->
+            if (filterTypeOrderList == null || initFilterTypeOrderList == filterTypeOrderList) return@observe
+            else {
+                val fragmentList = mutableListOf<Fragment>()
+                for (filterType in filterTypeOrderList) {
+                    when (filterType) {
+                        FilterType.TicketKind.value -> fragmentList.add(TicketKindFragment())
+                        FilterType.Term.value -> fragmentList.add(TermFragment())
+                        FilterType.Price.value -> fragmentList.add(PriceFragment())
+                        FilterType.TransactionMethod.value -> fragmentList.add(TransactionMethodFragment())
+                        FilterType.AdditionalOptions.value -> fragmentList.add(AdditionalOptionsFragment())
+                        FilterType.HashTag.value -> fragmentList.add(HashTagFragment())
+                    }
                 }
+
+                tabLayoutAdapter = TabLayoutAdapter(this)
+                tabLayoutAdapter.fragments.addAll(fragmentList)
+                binding.vpBottomFilter.adapter = tabLayoutAdapter
+
+                TabLayoutMediator(binding.tlBottomFilter, binding.vpBottomFilter) { tab, position ->
+                    tab.text = filterTypeOrderList[position]
+                }.attach()
             }
-
-            tabLayoutAdapter = TabLayoutAdapter(this)
-            tabLayoutAdapter.fragments.addAll(fragmentList)
-            binding.vpBottomFilter.adapter = tabLayoutAdapter
-
-            TabLayoutMediator(binding.tlBottomFilter, binding.vpBottomFilter) { tab, position ->
-                tab.text = filterTypeOrderList[position]
-            }.attach()
         }
     }
 
     private fun setCurrentFilterPosition() {
-        filterViewModel.currentFilterPosition.observe(viewLifecycleOwner) { currentFilterPosition ->
+        filterSearchViewModel.currentFilterPosition.observe(viewLifecycleOwner) { currentFilterPosition ->
             binding.vpBottomFilter.setCurrentItem(currentFilterPosition, false)
+            Timber.d("${binding.vpBottomFilter.currentItem}")
         }
     }
 
     private fun setSearchOnClickListener() {
         binding.btnBottomFilterSearch.setOnClickListener {
-            filterViewModel.setFilterPosition()
+            filterSearchViewModel.setFilterPosition()
             dialog?.dismiss()
         }
     }
@@ -115,23 +123,21 @@ class BottomFilterSearchFragment : BottomSheetDialogFragment() {
             filteredChipRvAdapter = FilteredChipRvAdapter(filterViewModel ?: return, requireContext())
             rvBottomFilter.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = filteredChipRvAdapter
-            //     rvBottomFilter.itemAnimator = null
 
             itemDecoration = ChipSpacesItemDecoration(8.toPx())
         }
     }
 
     private fun setFilteredChipObserve() {
-        filterViewModel.filteredChipList.observe(viewLifecycleOwner) { filteredChipList ->
-            filteredChipRvAdapter.submitList(filteredChipList?.map { it }?.distinct() ) {
-                Log.e("ㅡㅡㅡㅡㅡㅡㅡㅡ세팅","${filteredChipList?.map { it }}")
+        filterSearchViewModel.filteredChipList.observe(viewLifecycleOwner) { filteredChipList ->
+            filteredChipRvAdapter.submitList(filteredChipList?.map { it }?.distinct()) {
             }
         }
     }
 
 
     override fun onDestroyView() {
-        filterViewModel.setFilterTypeOrderList()
+        filterSearchViewModel.setFilterTypeOrderList()
         super.onDestroyView()
         _binding = null
     }

@@ -17,6 +17,7 @@ import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
 import com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel
 import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter
 import com.depromeet.baton.presentation.ui.home.viewmodel.HomeViewModel
+import com.depromeet.baton.presentation.ui.search.viewmodel.FilterSearchViewModel
 import com.depromeet.baton.presentation.ui.search.viewmodel.SearchViewModel
 import com.depromeet.baton.presentation.ui.writepost.view.WritePostActivity
 import com.depromeet.baton.presentation.util.TicketItemVerticalDecoration
@@ -32,12 +33,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private val homeViewModel: HomeViewModel by activityViewModels()
     private val searchViewModel: SearchViewModel by activityViewModels()
     private val filterViewModel: FilterViewModel by activityViewModels()
+    private val filterSearchViewModel: FilterSearchViewModel by activityViewModels()
     private lateinit var ticketItemRvAdapter: TicketItemRvAdapter
 
     @Inject
     lateinit var spfManager: BatonSpfManager
 
- override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.filterViewModel = filterViewModel
         initView()
@@ -124,8 +126,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private fun setTicketItemClickListener(ticketItem: FilteredTicket) {
         //sample
-        val ticketId =1
-        startActivity(TicketDetailActivity.start(requireContext(),ticketId))
+        val ticketId = 1
+        startActivity(TicketDetailActivity.start(requireContext(), ticketId))
     }
 }
 

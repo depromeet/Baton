@@ -13,12 +13,12 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class TermFragment : BaseFragment<FragmentTermSearchBinding>(R.layout.fragment_term_search) {
-    private val filterViewModel: FilterSearchViewModel by activityViewModels()
+    private val filterSearchViewModel: FilterSearchViewModel by activityViewModels()
     private val gymTermFragment: GymTermFragment by lazy { GymTermFragment() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.filterViewModel = filterViewModel
+        binding.filterViewModel = filterSearchViewModel
 
         setRangeChangeListener()
         setGoToTicketKindFragment()
@@ -34,8 +34,8 @@ class TermFragment : BaseFragment<FragmentTermSearchBinding>(R.layout.fragment_t
 
     private fun initView() {
         binding.bdsTermRangesliderPt.setProgress(
-            filterViewModel.ptTermRange.value?.first ?: MIN,
-            filterViewModel.ptTermRange.value?.second ?: PT_MAX
+            filterSearchViewModel.ptTermRange.value?.first ?: MIN,
+            filterSearchViewModel.ptTermRange.value?.second ?: PT_MAX
         )
     }
 
@@ -44,7 +44,7 @@ class TermFragment : BaseFragment<FragmentTermSearchBinding>(R.layout.fragment_t
     }
 
     private fun setSliderResetObserve() {
-        filterViewModel.isPtTermFiltered.observe(viewLifecycleOwner) {
+        filterSearchViewModel.isPtTermFiltered.observe(viewLifecycleOwner) {
             if (!it && binding.tvTermSelectedAllPt.visibility == View.INVISIBLE) {
                 binding.tvTermSelectedAllPt.visibility = View.VISIBLE
                 setPtInitSlider()
@@ -54,7 +54,9 @@ class TermFragment : BaseFragment<FragmentTermSearchBinding>(R.layout.fragment_t
 
     private fun setGoToTicketKindFragment() {
         binding.bdsBtnTermSelectKind.setOnClickListener {
-          //  filterViewModel.setCurrentFilterPosition(0)
+            filterSearchViewModel.filterTypeOrderList.observe(viewLifecycleOwner) {
+                filterSearchViewModel.setCurrentFilterPosition(it!!.indexOf("양도권 종류"))
+            }
         }
     }
 
@@ -64,7 +66,7 @@ class TermFragment : BaseFragment<FragmentTermSearchBinding>(R.layout.fragment_t
                 rangeSeekBar: RangeSeekBar, leftValue: Float,
                 rightValue: Float, isFromUser: Boolean
             ) {
-                filterViewModel.setPtTerm(leftValue, rightValue)
+                filterSearchViewModel.setPtTerm(leftValue, rightValue)
             }
 
             override fun onStartTrackingTouch(

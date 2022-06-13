@@ -14,11 +14,11 @@ import timber.log.Timber
 
 @AndroidEntryPoint
 class GymTermFragment : BaseFragment<FragmentGymTermSearchBinding>(R.layout.fragment_gym_term_search) {
-    private val filterViewModel: FilterSearchViewModel by activityViewModels()
+    private val filterSearchViewModel: FilterSearchViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.filterViewModel = filterViewModel
+        binding.filterViewModel = filterSearchViewModel
 
         setSliderResetObserve()
         setRangeChangeListener()
@@ -27,17 +27,17 @@ class GymTermFragment : BaseFragment<FragmentGymTermSearchBinding>(R.layout.frag
 
     override fun onResume() {
         super.onResume()
-        if (filterViewModel.isResetClick.value == true) {
+        if (filterSearchViewModel.isResetClick.value == true) {
             setGymInitSlider()
-            filterViewModel.setResetClickFalse()
+            filterSearchViewModel.setResetClick(false)
         }
     }
 
     private fun initView() {
         try {
             binding.bdsTermRangesliderGym.setProgress(
-                filterViewModel.gymTermRange.value?.first ?: TermFragment.MIN,
-                filterViewModel.gymTermRange.value?.second ?: TermFragment.GYM_MAX
+                filterSearchViewModel.gymTermRange.value?.first ?: TermFragment.MIN,
+                filterSearchViewModel.gymTermRange.value?.second ?: TermFragment.GYM_MAX
             )
         } catch (e: Exception) {
             setRangeChangeListener()
@@ -50,7 +50,7 @@ class GymTermFragment : BaseFragment<FragmentGymTermSearchBinding>(R.layout.frag
     }
 
     private fun setSliderResetObserve() {
-        filterViewModel.isGymTermFiltered.observe(viewLifecycleOwner) {
+        filterSearchViewModel.isGymTermFiltered.observe(viewLifecycleOwner) {
             if (!it && binding.tvTermSelectedAllGym.visibility == View.INVISIBLE) {
                 binding.tvTermSelectedAllGym.visibility = View.VISIBLE
                 setGymInitSlider()
@@ -64,7 +64,7 @@ class GymTermFragment : BaseFragment<FragmentGymTermSearchBinding>(R.layout.frag
                 rangeSeekBar: RangeSeekBar, leftValue: Float,
                 rightValue: Float, isFromUser: Boolean
             ) {
-                filterViewModel.setGymTerm(leftValue, rightValue)
+                filterSearchViewModel.setGymTerm(leftValue, rightValue)
             }
 
             override fun onStartTrackingTouch(

@@ -213,15 +213,14 @@
 
                         <EditText
                             android:id="@+id/et_term"
+                            android:maxLength="11"
                             style="@style/Widget.Bds.TextFieldInnerEditText"
-                            periodChecked="@{viewModel.isPeriodChecked}"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:afterTextChanged="@{it -> uiState.onTermChanged.invoke(it)}"
                             android:hint="ex.20220803(숫자만 입력해주세요)"
-                            android:imeOptions="actionSearch"
                             android:inputType="number"
-                            android:maxLength="10" />
+                    />
 
                     </com.depromeet.bds.component.BdsComponentTextField>
 
@@ -242,8 +241,8 @@
                             android:id="@+id/et_term_number"
                             style="@style/Widget.Bds.TextFieldInnerEditText"
                             android:layout_width="match_parent"
-                            android:afterTextChanged="@{it -> uiState.onTermChanged.invoke(it)}"
                             android:layout_height="wrap_content"
+                            android:afterTextChanged="@{it -> uiState.onTermChanged.invoke(it)}"
                             android:hint="ex.5(숫자만 입력해주세요)"
                             android:imeOptions="actionSearch"
                             android:inputType="number" />

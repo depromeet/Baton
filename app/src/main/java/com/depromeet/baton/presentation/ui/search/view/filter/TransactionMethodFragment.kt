@@ -11,10 +11,10 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class TransactionMethodFragment : BaseFragment<FragmentTransactionMethodSearchBinding>(R.layout.fragment_transaction_method_search) {
-    private val filterViewModel: FilterSearchViewModel by activityViewModels()
+    private val filterSearchViewModel: FilterSearchViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.filterViewModel = filterViewModel
+        binding.filterViewModel = filterSearchViewModel
     }
 }

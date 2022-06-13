@@ -1,7 +1,6 @@
 package com.depromeet.baton.presentation.ui.search.view.filter
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.depromeet.baton.R
@@ -16,11 +15,11 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class FilterChipSearchFragment : BaseFragment<FragmentFilterChipSearchBinding>(R.layout.fragment_filter_chip_search) {
 
-    private val filterViewModel: FilterSearchViewModel by activityViewModels()
+    private val filterSearchViewModel: FilterSearchViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.filterViewModel = filterViewModel
+        binding.filterViewModel = filterSearchViewModel
         binding.filterChipFragment = this
         setAlignClickListener()
 
@@ -28,11 +27,11 @@ class FilterChipSearchFragment : BaseFragment<FragmentFilterChipSearchBinding>(R
 
     override fun onResume() {
         super.onResume()
-          filterViewModel.setFilterTypeOrderList()
+          filterSearchViewModel.setFilterTypeOrderList()
     }
 
     fun setFilterChipClickListener(filterPosition: Int) {
-        filterViewModel.setCurrentFilterPosition(filterPosition)
+        filterSearchViewModel.setCurrentFilterPosition(filterPosition)
 
 
         val bottomFilterFragment = BottomFilterSearchFragment()
@@ -43,15 +42,16 @@ class FilterChipSearchFragment : BaseFragment<FragmentFilterChipSearchBinding>(R
     }
 
     private fun setAlignClickListener() {
-        val menu = arrayListOf("가까운 거리순", "낮은 가격순", "인기순", "남은 기간 많은 순").map { BottomMenuItem(it) }
+        val menu = arrayListOf("가까운 거리순", "낮은 가격순", "인기순", "남은 기간 많은 순", "남은 횟수 많은 순").map { BottomMenuItem(it) }
         binding.tvBdsfilterSortingAlignment.setOnClickListener {
             val onItemClick = object : BottomSheetFragment.Companion.OnItemClick {
                 override fun onSelectedItem(selected: BottomMenuItem, index: Int) {
                     when (index) {
-                        0 -> filterViewModel.setAlignment(Alignment.DISTANCE)
-                        1 -> filterViewModel.setAlignment(Alignment.LOWER_PRICE)
-                        2 -> filterViewModel.setAlignment(Alignment.VIEW)
-                        3 -> filterViewModel.setAlignment(Alignment.REMAIN_DAY)
+                        0 -> filterSearchViewModel.setAlignment(Alignment.DISTANCE)
+                        1 -> filterSearchViewModel.setAlignment(Alignment.LOWER_PRICE)
+                        2 -> filterSearchViewModel.setAlignment(Alignment.VIEWS)
+                        3 -> filterSearchViewModel.setAlignment(Alignment.REMAIN_DAY)
+                        4 -> filterSearchViewModel.setAlignment(Alignment.REMAIN_NUMBER)
                     }
                 }
             }

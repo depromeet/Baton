@@ -96,15 +96,6 @@ fun setBdsAppbarTitle(view: BdsBackwardAppBar, title: String?) {
     }
 }
 
-@BindingAdapter("periodChecked")
-fun addTextChangeListener(view: EditText, isPeriodChecked: Boolean) {
-    if (isPeriodChecked) {
-        view.doAfterTextChanged {
-            dateWithDotFormat(it.toString(), view)
-        }
-    }
-}
-
 fun BdsBackwardAppBar.bindTitle(title: String?) {
     bdsTitle = title
 }

@@ -1,10 +1,8 @@
 package com.depromeet.baton.presentation.ui.search.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.depromeet.baton.presentation.base.BaseViewModel
 import com.depromeet.baton.presentation.ui.search.view.SearchUiState
-import com.depromeet.baton.presentation.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,11 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor() : BaseViewModel() {
 
-    val _initSearchKeyword = MutableLiveData<String>("")
-    val _lastSearchKeyword = MutableLiveData<String>("")
-
-    private val _afterKeyword = MutableLiveData<String>()
-    val afterKeyword: LiveData<String> get() = _afterKeyword
+    val lastSearchKeyword = MutableLiveData<String>("")
 
     private val _searchKeyword: MutableStateFlow<String> = MutableStateFlow("")
     val searchKeyword: StateFlow<String> = _searchKeyword
@@ -32,27 +26,12 @@ class SearchViewModel @Inject constructor() : BaseViewModel() {
 
     private val _currentLevel = MutableLiveData(1)
 
-    //선택 완료 이벤트->다이어로그 닫힘
-    private val _isNewKeyword = SingleLiveEvent<Any>()
-    val isNewKeyword: LiveData<Any> = _isNewKeyword
-
     fun searchKeyword(keyword: String) {
         _searchKeyword.tryEmit(keyword)
     }
 
-    fun isNewKeyword() {
-        if (_lastSearchKeyword.value != _initSearchKeyword.value)
-            _isNewKeyword.call()
-    }
-
     fun setLastKeyword(keyword: String) {
-        _lastSearchKeyword.value = keyword
-        isNewKeyword()
-    }
-
-    fun setInitKeyword(keyword: String) {
-        _initSearchKeyword.value = keyword
-        isNewKeyword()
+        lastSearchKeyword.value = keyword
     }
 
     fun setCurrentLevel(position: Int) {

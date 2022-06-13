@@ -13,11 +13,11 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class PriceFragment : BaseFragment<FragmentPriceSearchBinding>(R.layout.fragment_price_search) {
-    private val filterViewModel: FilterSearchViewModel by activityViewModels()
+    private val filterSearchViewModel: FilterSearchViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.filterViewModel = filterViewModel
+        binding.filterViewModel = filterSearchViewModel
         initView()
         setSliderResetObserve()
         setRangeChangeListener()
@@ -25,8 +25,8 @@ class PriceFragment : BaseFragment<FragmentPriceSearchBinding>(R.layout.fragment
 
     private fun initView() {
         binding.bdsRangeslider.setProgress(
-            filterViewModel.priceRange.value?.first ?: TermFragment.MIN,
-            filterViewModel.priceRange.value?.second ?: TermFragment.PRICE_MAX
+            filterSearchViewModel.priceRange.value?.first ?: TermFragment.MIN,
+            filterSearchViewModel.priceRange.value?.second ?: TermFragment.PRICE_MAX
         )
     }
 
@@ -35,7 +35,7 @@ class PriceFragment : BaseFragment<FragmentPriceSearchBinding>(R.layout.fragment
     }
 
     private fun setSliderResetObserve() {
-        filterViewModel.isPriceFiltered.observe(viewLifecycleOwner) {
+        filterSearchViewModel.isPriceFiltered.observe(viewLifecycleOwner) {
             if (!it && binding.tvPriceSelectedAll.visibility == View.INVISIBLE) {
                 binding.tvPriceSelectedAll.visibility = View.VISIBLE
                 setPriceInitSlider()
@@ -49,7 +49,7 @@ class PriceFragment : BaseFragment<FragmentPriceSearchBinding>(R.layout.fragment
                 rangeSeekBar: RangeSeekBar, leftValue: Float,
                 rightValue: Float, isFromUser: Boolean
             ) {
-                filterViewModel.setPrice(leftValue, rightValue)
+                filterSearchViewModel.setPrice(leftValue, rightValue)
             }
 
             override fun onStartTrackingTouch(

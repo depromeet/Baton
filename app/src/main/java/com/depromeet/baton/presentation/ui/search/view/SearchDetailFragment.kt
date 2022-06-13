@@ -26,17 +26,13 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class SearchDetailFragment : BaseFragment<FragmentSearchDetailBinding>(R.layout.fragment_search_detail) {
 
-    private val filterViewModel: FilterSearchViewModel by activityViewModels()
+    private val filterSearchViewModel: FilterSearchViewModel by activityViewModels()
     private val searchViewModel: SearchViewModel by activityViewModels()
     private lateinit var ticketItemRvAdapter: TicketItemRvAdapter
 
-    override fun onResume() {
-        super.onResume()
-        searchViewModel.setInitKeyword(searchViewModel.searchKeyword.value)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.viewModel=filterSearchViewModel
         searchViewModel.setCurrentLevel(1)
         setTicketItemRvAdapter()
 
@@ -44,27 +40,25 @@ class SearchDetailFragment : BaseFragment<FragmentSearchDetailBinding>(R.layout.
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 searchViewModel.searchKeyword
                     .collect { keyWord ->
-                        if (keyWord.isNotEmpty()) {
-                            searchViewModel.isNewKeyword.observe(viewLifecycleOwner) {
-                                when (BatonHashTag(keyWord).displayTitle) {
-                                    HashTag.KIND_TEACHER.value -> setHashTagFilter(HashTag.KIND_TEACHER)
-                                    HashTag.SYSTEMATIC_CLASS.value -> setHashTagFilter(HashTag.SYSTEMATIC_CLASS)
-                                    HashTag.CUSTOMIZED_CARE.value -> setHashTagFilter(HashTag.CUSTOMIZED_CARE)
-                                    HashTag.SPACIOUS_FACILITIES.value -> setHashTagFilter(HashTag.SPACIOUS_FACILITIES)
-                                    HashTag.VARIOUS_EQUIPMENT.value -> setHashTagFilter(HashTag.VARIOUS_EQUIPMENT)
-                                    HashTag.NEW_EQUIPMENT.value -> setHashTagFilter(HashTag.NEW_EQUIPMENT)
-                                    HashTag.MANY_PEOPLE.value -> setHashTagFilter(HashTag.MANY_PEOPLE)
-                                    HashTag.LESS_PEOPLE.value -> setHashTagFilter(HashTag.LESS_PEOPLE)
-                                    HashTag.AGREEMENT.value -> setHashTagFilter(HashTag.AGREEMENT)
-                                    HashTag.QUIET_AMBIENCE.value -> setHashTagFilter(HashTag.QUIET_AMBIENCE)
-                                    HashTag.STATION_AREA.value -> setHashTagFilter(HashTag.STATION_AREA)
-                                }
-                                when (keyWord) {
-                                    TicketKind.PT.value -> setTicketKindFilter(TicketKind.PT)
-                                    TicketKind.HEALTH.value -> setTicketKindFilter(TicketKind.HEALTH)
-                                    TicketKind.PILATES_YOGA.value -> setTicketKindFilter(TicketKind.PILATES_YOGA)
-                                    TicketKind.ETC.value -> setTicketKindFilter(TicketKind.ETC)
-                                }
+                        if (keyWord.isNotEmpty() && keyWord != searchViewModel.lastSearchKeyword.value) {
+                            when (BatonHashTag(keyWord).displayTitle) {
+                                HashTag.KIND_TEACHER.value -> setHashTagFilter(HashTag.KIND_TEACHER)
+                                HashTag.SYSTEMATIC_CLASS.value -> setHashTagFilter(HashTag.SYSTEMATIC_CLASS)
+                                HashTag.CUSTOMIZED_CARE.value -> setHashTagFilter(HashTag.CUSTOMIZED_CARE)
+                                HashTag.SPACIOUS_FACILITIES.value -> setHashTagFilter(HashTag.SPACIOUS_FACILITIES)
+                                HashTag.VARIOUS_EQUIPMENT.value -> setHashTagFilter(HashTag.VARIOUS_EQUIPMENT)
+                                HashTag.MANY_PEOPLE.value -> setHashTagFilter(HashTag.MANY_PEOPLE)
+                                HashTag.QUIET_AMBIENCE.value -> setHashTagFilter(HashTag.QUIET_AMBIENCE)
+                                HashTag.STATION_AREA.value -> setHashTagFilter(HashTag.STATION_AREA)
+                                HashTag.NEW_EQUIPMENT.value -> setHashTagFilter(HashTag.NEW_EQUIPMENT)
+                                HashTag.AGREEMENT.value -> setHashTagFilter(HashTag.AGREEMENT)
+                                HashTag.LESS_PEOPLE.value -> setHashTagFilter(HashTag.LESS_PEOPLE)
+                            }
+                            when (keyWord) {
+                                TicketKind.PT.value -> setTicketKindFilter(TicketKind.PT)
+                                TicketKind.HEALTH.value -> setTicketKindFilter(TicketKind.HEALTH)
+                                TicketKind.PILATES_YOGA.value -> setTicketKindFilter(TicketKind.PILATES_YOGA)
+                                TicketKind.ETC.value -> setTicketKindFilter(TicketKind.ETC)
                             }
                         }
                     }
@@ -73,11 +67,11 @@ class SearchDetailFragment : BaseFragment<FragmentSearchDetailBinding>(R.layout.
     }
 
     private fun setTicketKindFilter(ticket: TicketKind) {
-        filterViewModel.setTicketKind(ticket, true, true)
+        filterSearchViewModel.setTicketKind(ticket, true, true)
     }
 
     private fun setHashTagFilter(tag: HashTag) {
-        filterViewModel.setHashTag(tag, true, true)
+        filterSearchViewModel.setHashTag(tag, true, true)
     }
 
     private fun setTicketItemRvAdapter() {
@@ -92,7 +86,7 @@ class SearchDetailFragment : BaseFragment<FragmentSearchDetailBinding>(R.layout.
             rvHome.layoutManager = gridLayoutManager
         }
 
-        filterViewModel.filteredTicketList.observe(viewLifecycleOwner) {
+        filterSearchViewModel.filteredTicketList.observe(viewLifecycleOwner) {
             ticketItemRvAdapter.submitList(it)
         }
     }

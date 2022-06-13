@@ -35,7 +35,6 @@ import timber.log.Timber
 class RecentSearchFragment :
     BaseFragment<FragmentRecentSearchBinding>(R.layout.fragment_recent_search) {
 
-    private val filterViewModel: FilterSearchViewModel by activityViewModels()
     private val viewModel: RecentSearchViewModel by activityViewModels()
     private val searchViewModel: SearchViewModel by activityViewModels()
     private val hashTagAdapter by lazy {
@@ -52,7 +51,6 @@ class RecentSearchFragment :
 
     override fun onResume() {
         super.onResume()
-        filterViewModel.filterReset()  //필터 리셋시킴
         searchViewModel.searchKeyword("") //검색 키워드 리셋시킴
     }
 
