@@ -2,6 +2,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="uistate"
+            type="com.depromeet.baton.presentation.ui.address.view.MyDetailLocationViewModel.UiState" />
+    </data>
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -64,9 +69,27 @@
         android:layout_marginBottom="@dimen/dimen16"
         android:textAlignment="center"
         android:text="다음"
-        android:textColor="?wh100"
+        android:textColor="@color/selector_bds_button_text_color"
+        android:enabled="@{uistate.btnisEnable}"
         />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+
+        >
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/address_progress"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_fileName="spinner.json"
+            app:isVisible="@{uistate.isLoading}"
+            />
+    </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

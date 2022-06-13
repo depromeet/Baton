@@ -1,11 +1,14 @@
 package com.depromeet.baton.presentation.ui.address.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.*
+import com.depromeet.baton.domain.repository.AuthRepository
+import com.depromeet.baton.domain.repository.AccountRepository
 import com.depromeet.baton.map.domain.usecase.SearchAddressUseCase
 import com.depromeet.baton.map.domain.usecase.SearchItem
+import com.depromeet.baton.map.util.NetworkResult
 import com.depromeet.baton.presentation.base.UIState
 import com.depromeet.baton.presentation.ui.address.model.AddressInfo
+import com.depromeet.baton.util.BatonSpfManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,7 +20,6 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchAddressViewModel @Inject constructor(
     private val searchAddressUseCase :SearchAddressUseCase,
-    private val savedStateHandle: SavedStateHandle
 ) : ViewModel(){
 
 
@@ -61,5 +63,6 @@ class SearchAddressViewModel @Inject constructor(
             _uiState.value= (UIState.Init)
         }
     }
+
 
 }
