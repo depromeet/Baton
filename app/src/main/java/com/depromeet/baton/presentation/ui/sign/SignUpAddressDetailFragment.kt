@@ -70,11 +70,8 @@ class SignUpAddressDetailFragment :
 }
 
 data class SignUpAddressDetailUiState(
-    val roadAddress: String,
-    val address: String,
+    val addressData: AddressData,
     val detailAddress: String,
-    val latitude: Float,
-    val longitude: Float,
     val onDetailChanged: (Editable?) -> Unit,
     val onSubmit: () -> Unit,
 ) {
@@ -97,11 +94,8 @@ class SignUpAddressDetailViewModel @Inject constructor(
 
     private fun createState(): SignUpAddressDetailUiState {
         return SignUpAddressDetailUiState(
-            roadAddress = args.roadAddress,
-            address = args.address,
+            addressData = args.addressData,
             detailAddress = "",
-            latitude = -1f,
-            longitude = -1f,
             onDetailChanged = ::handleDetailChanged,
             onSubmit = ::handleSubmit
         )
@@ -136,6 +130,5 @@ class SignUpAddressDetailViewModel @Inject constructor(
 
 @Parcelize
 data class SignUpAddressDetailStartArgs(
-    val roadAddress: String,
-    val address: String
+    val addressData: AddressData
 ) : Parcelable

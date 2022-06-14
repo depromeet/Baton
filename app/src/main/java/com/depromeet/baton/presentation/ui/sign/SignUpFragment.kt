@@ -147,9 +147,9 @@ class SignUpViewModel @Inject constructor(
     fun remember(detailViewModel: SignUpAddressDetailViewModel) {
         with(detailViewModel.uiState.value) {
             builder.apply {
-                latitude = this@with.latitude
-                longitude = this@with.longitude
-                address = this@with.address
+                latitude = this@with.addressData.latitude
+                longitude = this@with.addressData.longitude
+                address = this@with.addressData.address
                 detailedAddress = this@with.detailAddress
             }
         }
@@ -219,6 +219,7 @@ private class KakaoRequestBuilder(val uid: String) {
     fun build(): SignUpKakaoRequest {
         return SignUpKakaoRequest(
             uid = uid,
+            provider= "kakao",
             user = SignUpKakaoRequest.User(
                 name = checkNotNull(name),
                 nickname = checkNotNull(nickname),

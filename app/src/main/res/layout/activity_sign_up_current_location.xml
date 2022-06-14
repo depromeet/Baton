@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <variable
+            name="uiState"
+            type="com.depromeet.baton.presentation.ui.sign.SignUpCurrentLocationUiState" />
     </data>
 
     <LinearLayout
@@ -20,5 +24,49 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="?bg" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="24dp"
+            android:text="이 위치가 맞으신가요?"
+            android:textAppearance="?body3"
+            android:textColor="?grey_scale70" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="24dp"
+            android:text="@{uiState.addressData.roadAddress}"
+            android:textAppearance="?headline2"
+            android:textColor="?grey_scale90"
+            tools:text="경기도 용인시 기흥구 언남동 구성로70 " />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="4dp"
+            android:text="@{uiState.addressData.address}"
+            android:textAppearance="?body4"
+            android:textColor="?grey_scale60"
+            tools:text="[지번] 경기도 용인시 기흥구 언남동 375-4" />
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <com.depromeet.bds.component.BdsButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="16dp"
+            android:enabled="@{uiState.enabled}"
+            android:onClick="@{_ -> uiState.onSubmit.invoke()}"
+            android:theme="@style/Theme.Bds.PrimaryButton.Large"
+            app:bds_text="다음" />
     </LinearLayout>
 </layout>
