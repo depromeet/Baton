@@ -84,7 +84,7 @@ class TicketDetailViewModel @Inject constructor(
                                         ticket.seller.createdOn
                                     ),
                                     isOwner = tempUserId == tempSellerId,
-                                    detailUrl = "https://map.naver.com/v5/search/${ticket.location}",
+                                    detailUrl = "https://map.naver.com/v5/search/${ticket.location.replace(" ","")}",
                                     mapUrl = "https://map.naver.com/index.nhn?slng=${spfManager.getMyLongitude()}&slat=${spfManager.getMyLatitude()}" +
                                             "&stext=내 위치&elng=${ticket!!.longitude}&elat=${ticket!!.latitude}" +
                                             "&pathType=3&showMap=true&etext=${ticket!!.location}&menu=route",
@@ -97,7 +97,7 @@ class TicketDetailViewModel @Inject constructor(
                                         ticket.distance.toFloat()
                                     ),
                                     createdDate = dateFormatUtil(ticket.createAt),
-                                    remainDate = ticket.remainingNumber!!,  // calculator 만들기
+                                    remainDate = ticket.remainingDay,  
                                     price = ticket.price,
                                     ticketStatus = TicketStatus.valueOf(ticket.state),
                                     transferFee = TransferFee.valueOf(ticket.transferFee),
@@ -233,10 +233,10 @@ class TicketDetailViewModel @Inject constructor(
         val chatBtnText = if (isChatEnabled) "문의하기" else "이미 문의 회원권이에요"
 
         val priceStr = priceFormat(ticket.price.toFloat())
-        val monthTagisVisible = if (ticket.isMembership && ticket.remainDate > 30) View.VISIBLE else View.GONE
+        val monthTagisVisible = if (ticket.remainDate!=null&& ticket.isMembership && ticket.remainDate > 30) View.VISIBLE else View.GONE
         val monthPrice = priceFormat(ticket.price / 30f) + "원"
         val dayTagisVisible = if (ticket.isMembership) View.VISIBLE else View.GONE
-        val dayPrice = priceFormat(ticket.price / ticket.remainDate.toFloat()) + "원"
+        val dayPrice = if(ticket.remainDate!=null) priceFormat(ticket.price / ticket.remainDate!!.toFloat()) + "원" else ""
 
         val sellViewisVisible =ticket.ticketStatus == TicketStatus.SALE && ticket.imgList.isEmpty()
         val soldoutViewisVisible = ticket.ticketStatus == TicketStatus.SOLDOUT

@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.CheckedTextView
+import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.databinding.DataBindingUtil
@@ -65,7 +66,7 @@ class TicketMoreAdapter(
 
                 setLikeBtnClickListener(ctvItemTicketLike)
 
-                if (item.mainImage== null) setEmptyImage(TicketKind.valueOf(item.type), ibtnItemTicket)
+                if (item.mainImage== null) setEmptyImage(TicketKind.valueOf(item.type),ibtnItemTicket)
 
                 root.setOnClickListener {
                     clickListener(item)
@@ -74,7 +75,7 @@ class TicketMoreAdapter(
         }
     }
 
-    private fun setEmptyImage(state : TicketKind, view: AppCompatImageButton) {
+    private fun setEmptyImage(state : TicketKind, view:ImageView) {
         when (state) {
             TicketKind.HEALTH -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_health_86)
             TicketKind.ETC -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_etc_86)

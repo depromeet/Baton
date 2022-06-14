@@ -39,10 +39,10 @@ class TicketTagAdapter<B : ViewDataBinding>(
         fun bind(item : BatonHashTag){
             when(binding){
                 is ItemPrimaryTagBinding->{
-                    binding.primaryTag.setText(item.title)
+                    binding.primaryTag.text = (item.title)
                 }
                 is ItemPrimaryOutlineTagBinding->{
-                    binding.primaryLineTag.setText(item.displayTitle)
+                    binding.primaryLineTag.text= (item.displayTitle)
                 }
             }
         }

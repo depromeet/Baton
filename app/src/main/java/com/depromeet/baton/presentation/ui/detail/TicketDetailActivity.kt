@@ -7,6 +7,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.HorizontalScrollView
 import androidx.activity.viewModels
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.Observer
@@ -36,6 +37,8 @@ import com.depromeet.baton.presentation.ui.detail.adapter.TicketMoreAdapter
 import com.depromeet.baton.presentation.ui.detail.adapter.TicketTagAdapter
 import com.depromeet.baton.presentation.ui.detail.viewModel.*
 import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter
+import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter.Companion.SCROLL_TYPE_HORIZONTAL
+import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter.Companion.SCROLL_TYPE_VERTICAL
 import com.depromeet.baton.presentation.util.TicketIteHorizontalDecoration
 import com.depromeet.baton.presentation.util.*
 import com.depromeet.baton.util.BatonSpfManager
@@ -67,8 +70,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
 
     private lateinit var ticketTagAdapter : TicketTagAdapter<ItemPrimaryTagBinding>
     private lateinit var gymTagAdapter: TicketTagAdapter<ItemPrimaryOutlineTagBinding>
-    private val ticketItemRvAdapter =
-        TicketMoreAdapter(  this@TicketDetailActivity, ::setTicketItemClickListener)
+    private val ticketItemRvAdapter = TicketItemRvAdapter(SCROLL_TYPE_HORIZONTAL, ::setTicketItemClickListener )
     private val ticketImgRvAdapter = TicketImgRvAdapter(this)
 
     @Inject lateinit var spfManager : BatonSpfManager
@@ -126,6 +128,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
             .onEach{state -> ticketItemRvAdapter.submitList(state)}
             .launchIn(lifecycleScope)
     }
+
 
     private fun handleTicketUiState (uiState  : TicketDetailViewModel.DetailTicketInfoUiState){
         binding.ticketState = uiState
@@ -341,7 +344,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         bottomSheetFragment.show(supportFragmentManager, BatonApp.TAG)
     }
 
-    private fun setTicketItemClickListener(ticketItem: ResponseFilteredTicket) {
+    private fun setTicketItemClickListener(ticketItem: FilteredTicket) {
         startActivity(Intent(this@TicketDetailActivity, TicketDetailActivity::class.java).apply {
             //TODO 게시글 id넘기기
         })

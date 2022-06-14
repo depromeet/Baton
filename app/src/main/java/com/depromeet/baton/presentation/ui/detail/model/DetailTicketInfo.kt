@@ -14,7 +14,7 @@ data class DetailTicketInfo (
     val emptyIcon : Uri,
     val price : Int,
     val createdDate:String,
-    val remainDate : Int,
+    val remainDate : Int?,
     val ticketStatus : TicketStatus,
     val ticketType : TicketKind,
     val transferFee: TransferFee,
@@ -26,7 +26,7 @@ data class DetailTicketInfo (
     val imgList : List<TicketInfo.Image>,
     val isMembership : Boolean,
     val isHolding : Boolean,
-    val remainingNumber : Int,
+    val remainingNumber : Int?,
     val isLikeTicket :Boolean,
     val bookmarkView : Int? =0,
     val countView :Int? =0

@@ -12,7 +12,7 @@ data class TicketSimpleInfo(
     @Json(name="createAt") val createAt: String,
     @Json(name="state") val state: String,
     @Json(name="tags") val tags: List<String>,
-    @Json(name="images") val images: List<ResponseFilteredTicket.Image> ? = emptyList(),
+    @Json(name="images") val images: List<Image> ? = emptyList(),
     @Json(name="isMembership")  val isMembership: Boolean,
     @Json(name="remainNumber") val remainingNumber: Int?=-1,
     @Json(name="remainingDay") val remainingDay: Int?= -1,

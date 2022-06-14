@@ -29,6 +29,7 @@ data class TicketInfo(
     @Json(name="isBookmarked")  val isBookmarked: Boolean,
     @Json(name="isMembership")  val isMembership: Boolean,
     @Json(name="remainNumber") val remainingNumber: Int?=0,
+    @Json(name="remainingDay") val remainingDay: Int?=0,
     @Json(name="latitude")  val latitude: Double,
     @Json(name="longitude")  val longitude: Double,
     @Json(name="distance")  val distance: Double,
