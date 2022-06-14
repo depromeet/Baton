@@ -4,6 +4,7 @@ import com.depromeet.baton.data.response.ResponseFilteredTicket
 import com.depromeet.baton.data.response.ResponsePostTicket
 import com.depromeet.baton.data.response.ResponseTicketInfo
 import com.depromeet.baton.presentation.base.UIState
+import com.depromeet.baton.data.response.TicketSearchResponse
 import com.depromeet.baton.remote.search.SearchService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -12,11 +13,14 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.Response
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class SearchApi @Inject constructor(private val searchService: SearchService) {
+
 
     fun getFilteredTicketCount(
         page: Int,

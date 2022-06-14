@@ -7,8 +7,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.HorizontalScrollView
 import androidx.activity.viewModels
-import androidx.core.content.ContextCompat.startActivity
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.flowWithLifecycle
@@ -24,14 +24,21 @@ import com.depromeet.baton.databinding.ActivityTicketDetailBinding
 import com.depromeet.baton.databinding.ItemPrimaryOutlineTagBinding
 import com.depromeet.baton.databinding.ItemPrimaryTagBinding
 import com.depromeet.baton.domain.model.FilteredTicket
+import com.depromeet.baton.domain.model.TicketSimpleInfo
 import com.depromeet.baton.domain.model.TicketStatus
 import com.depromeet.baton.presentation.base.BaseActivity
+import com.depromeet.baton.presentation.base.WebActivity
 import com.depromeet.baton.presentation.bottom.BottomMenuItem
 import com.depromeet.baton.presentation.bottom.BottomSheetFragment
 import com.depromeet.baton.presentation.bottom.BottomSheetFragment.Companion.CHECK_ITEM_VIEW
 import com.depromeet.baton.presentation.bottom.BottomSheetFragment.Companion.DEFAULT_ITEM_VIEW
+import com.depromeet.baton.presentation.ui.detail.adapter.TicketImgRvAdapter
+import com.depromeet.baton.presentation.ui.detail.adapter.TicketMoreAdapter
+import com.depromeet.baton.presentation.ui.detail.adapter.TicketTagAdapter
 import com.depromeet.baton.presentation.ui.detail.viewModel.*
 import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter
+import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter.Companion.SCROLL_TYPE_HORIZONTAL
+import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter.Companion.SCROLL_TYPE_VERTICAL
 import com.depromeet.baton.presentation.util.TicketIteHorizontalDecoration
 import com.depromeet.baton.presentation.util.*
 import com.depromeet.baton.util.BatonSpfManager
@@ -61,11 +68,10 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     private lateinit var mapView: MapView
     private  var naverMap: NaverMap? =null
 
-    private lateinit var ticketTagAdapter :TicketTagAdapter<ItemPrimaryTagBinding>
+    private lateinit var ticketTagAdapter : TicketTagAdapter<ItemPrimaryTagBinding>
     private lateinit var gymTagAdapter: TicketTagAdapter<ItemPrimaryOutlineTagBinding>
-    private val ticketItemRvAdapter =
-        TicketItemRvAdapter(TicketItemRvAdapter.SCROLL_TYPE_HORIZONTAL,  ::setTicketItemClickListener)
-    private val ticketImgRvAdapter = TicketImgRvAdapter()
+    private val ticketItemRvAdapter = TicketItemRvAdapter(SCROLL_TYPE_HORIZONTAL, ::setTicketItemClickListener )
+    private val ticketImgRvAdapter = TicketImgRvAdapter(this)
 
     @Inject lateinit var spfManager : BatonSpfManager
 
@@ -116,7 +122,13 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
                     is TicketMoreNetwork.Failure -> { this@TicketDetailActivity.BdsToast(status.msg).show() }
                 }
             }.launchIn(lifecycleScope)
+
+        ticketMoreViewModel.uiState
+            .flowWithLifecycle(lifecycle)
+            .onEach{state -> ticketItemRvAdapter.submitList(state)}
+            .launchIn(lifecycleScope)
     }
+
 
     private fun handleTicketUiState (uiState  : TicketDetailViewModel.DetailTicketInfoUiState){
         binding.ticketState = uiState
@@ -155,6 +167,9 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
 
                     binding.ticketDetailLikeBtn.toggle()
                 }
+                DetailViewEvent.EventClickDelete->{
+                    finish()
+                }
             }
             viewModel.consumeViewEvent(viewEvent)
         }
@@ -174,14 +189,14 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
 
             ticketDetailUrlBtn.setOnClickListener {
                 val url = viewModel.ticketState.value?.ticket!!.detailUrl
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                startActivity(intent);
+                startActivity(WebActivity.start(this@TicketDetailActivity,url))
             }
 
             ticketDetailCopyBtn.setOnClickListener {
-                val sample= viewModel.ticketState.value?.ticket!!.detailUrl
-                createClipData(sample)
+                val address= viewModel.ticketState.value?.ticket!!.location.address
+                createClipData(address)
             }
+
             setScrollListener()
         }
     }
@@ -205,7 +220,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
 
     /** 헬스장 추가 정보 recyclerview **/
     private fun initGymTag(){
-        gymTagAdapter =TicketTagAdapter(
+        gymTagAdapter = TicketTagAdapter(
             R.layout.item_primary_outline_tag)
         FlexboxLayoutManager(this).apply{
             flexWrap = FlexWrap.WRAP
@@ -302,7 +317,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
 
                 }
                 1 -> { //delete
-                    viewModel.deleteTicket(0) // Api 호출
+                    viewModel.deleteTicket() // Api 호출
                 }
             }
         }
@@ -330,9 +345,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     }
 
     private fun setTicketItemClickListener(ticketItem: FilteredTicket) {
-        startActivity(Intent(this@TicketDetailActivity, TicketDetailActivity::class.java).apply {
-            //TODO 게시글 id넘기기
-        })
+        startActivity(TicketDetailActivity.start(this,ticketId = ticketItem.id))
     }
 
 
@@ -341,11 +354,22 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     override fun onMapReady(map: NaverMap) {
         runBlocking {
             val mapInit = launch {
-                this@TicketDetailActivity.naverMap = map
-            }
-            mapInit.join()
-            setMarkerPosition()
+               this@TicketDetailActivity.naverMap = map
+           }
+           mapInit.join()
+           setMarkerPosition()
+           setMapListener()
         }
+    }
+    private fun setMapListener(){
+        naverMap!!.setOnMapClickListener{ point, coord->
+            showRoadMapView()
+        }
+    }
+
+    private fun showRoadMapView(){
+        val url = viewModel.ticketState.value?.ticket!!.mapUrl
+        startActivity(WebActivity.start(this,url))
     }
 
     private fun setMarkerPosition(){
@@ -378,6 +402,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     override fun onStart() {
         super.onStart()
         mapView.onStart()
+        ticketMoreViewModel.initState()
     }
     override fun onResume() {
         super.onResume()

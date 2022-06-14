@@ -1,20 +1,18 @@
-package com.depromeet.baton.presentation.ui.detail
+package com.depromeet.baton.presentation.ui.detail.adapter
 
-import android.net.Uri
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ItemDetailImageBinding
 import com.depromeet.baton.util.SimpleDiffUtil
 
 
-class TicketImgRvAdapter(): ListAdapter<String, TicketImgRvAdapter.ImgViewHolder>(SimpleDiffUtil()) {
+class TicketImgRvAdapter(private val context: Context): ListAdapter<String, TicketImgRvAdapter.ImgViewHolder>(SimpleDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImgViewHolder {
         val binding: ItemDetailImageBinding = DataBindingUtil.inflate(
@@ -33,7 +31,9 @@ class TicketImgRvAdapter(): ListAdapter<String, TicketImgRvAdapter.ImgViewHolder
 
     inner class ImgViewHolder(val binding : ItemDetailImageBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(item : String){
-            binding.itemDetailimgIv.setImageURI(Uri.parse(item))
+            Glide.with(context)
+                .load(item)
+                .into(binding.itemDetailimgIv)
         }
     }
 }
