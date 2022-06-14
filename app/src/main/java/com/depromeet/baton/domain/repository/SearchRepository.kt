@@ -1,11 +1,12 @@
 package com.depromeet.baton.domain.repository
 
-import com.depromeet.baton.data.response.ResponseFilteredTicket
+import com.depromeet.baton.data.response.ResponsePostTicket
 import com.depromeet.baton.data.response.ResponseTicketInfo
 import com.depromeet.baton.domain.api.search.SearchApi
-import com.depromeet.baton.domain.api.search.UiState
 import com.depromeet.baton.domain.model.BatonHashTag
 import com.depromeet.baton.domain.model.RecentSearchKeyword
+import com.depromeet.baton.presentation.base.UIState
+import com.depromeet.baton.util.BatonSpfManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +18,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SearchRepository @Inject constructor(private val searchApi: SearchApi) {
+class SearchRepository @Inject constructor(
+    private val searchApi: SearchApi,
+    private val spfManager: BatonSpfManager
+) {
     private val ioDispatcher = Dispatchers.IO
 
     private val keywords: MutableStateFlow<List<RecentSearchKeyword>> =
@@ -58,8 +62,8 @@ class SearchRepository @Inject constructor(private val searchApi: SearchApi) {
         size: Int,
         place: String? = null,
         hashtag: List<String>? = null,
-        latitude: Float ,
-        longitude: Float ,
+        latitude: Float = spfManager.getLocation().latitude.toFloat(),
+        longitude: Float = spfManager.getLocation().longitude.toFloat(),
         town: String? = null,
         minPrice: Int? = null,
         maxPrice: Int? = null,
@@ -67,7 +71,7 @@ class SearchRepository @Inject constructor(private val searchApi: SearchApi) {
         maxRemainNumber: Int? = null,
         minRemainMonth: Int? = null,
         maxRemainMonth: Int? = null,
-        maxDistance: Int ,
+        maxDistance: Int = spfManager.getMaxDistance().getDistance(),
         ticketTypes: List<String>? = null,
         ticketTradeType: String? = null,
         transferFee: String? = null,
@@ -82,7 +86,7 @@ class SearchRepository @Inject constructor(private val searchApi: SearchApi) {
         isHold: Boolean? = null,
         canNego: Boolean? = null,
         isMembership: Boolean? = null
-    ): Flow<UiState> {
+    ): Flow<UIState> {
         return searchApi.getFilteredTicketCount(
             page = page,
             size = size,
@@ -120,8 +124,8 @@ class SearchRepository @Inject constructor(private val searchApi: SearchApi) {
         size: Int,
         place: String? = null,
         hashtag: List<String>? = null,
-        latitude: Float ,
-        longitude: Float ,
+        latitude: Float = spfManager.getLocation().latitude.toFloat(),
+        longitude: Float = spfManager.getLocation().longitude.toFloat(),
         town: String? = null,
         minPrice: Int? = null,
         maxPrice: Int? = null,
@@ -129,7 +133,7 @@ class SearchRepository @Inject constructor(private val searchApi: SearchApi) {
         maxRemainNumber: Int? = null,
         minRemainMonth: Int? = null,
         maxRemainMonth: Int? = null,
-        maxDistance: Int ,
+        maxDistance: Int = spfManager.getMaxDistance().getDistance(),
         ticketTypes: List<String>? = null,
         ticketTradeType: String? = null,
         transferFee: String? = null,
@@ -144,7 +148,7 @@ class SearchRepository @Inject constructor(private val searchApi: SearchApi) {
         isHold: Boolean? = null,
         canNego: Boolean? = null,
         isMembership: Boolean? = null
-    ): List<ResponseFilteredTicket> {
+    ): UIState {
         return searchApi.getFilteredTicket(
             page = page,
             size = size,
@@ -177,27 +181,38 @@ class SearchRepository @Inject constructor(private val searchApi: SearchApi) {
         )
     }
 
-    suspend fun getTicketInfo(id: Int): ResponseTicketInfo {
-        return searchApi.getTicketInfo(id)
+    suspend fun getTicketInfo(
+        id: Int,
+        latitude: Float = spfManager.getLocation().latitude.toFloat(),
+        longitude: Float = spfManager.getLocation().longitude.toFloat(),
+    ): ResponseTicketInfo {
+        return searchApi.getTicketInfo(id, latitude, longitude)
     }
 
     suspend fun deleteTicketInfo(id: Int) {
         return searchApi.deleteTicketInfo(id)
     }
 
-    suspend fun getTicketSearchResult(page: Int, size: Int, query: String): List<ResponseFilteredTicket> {
-        return searchApi.getTicketSearchResult(page = page, size = size, query = query)
+    suspend fun getTicketSearchResult(
+        page: Int,
+        size: Int,
+        latitude: Float = spfManager.getLocation().latitude.toFloat(),
+        longitude: Float = spfManager.getLocation().longitude.toFloat(),
+        maxDistance: Int = spfManager.getMaxDistance().getDistance(),
+        query: String
+    ): UIState {
+        return searchApi.getTicketSearchResult(page, size, latitude, longitude, query, maxDistance)
     }
 
-    suspend fun postTicket(body: HashMap<String, RequestBody>, image: MultipartBody.Part?): ResponseFilteredTicket {
-        return searchApi.postTicket(body, image)
+    suspend fun postTicket(body: HashMap<String, RequestBody?>, images: MutableList<MultipartBody.Part>?): ResponsePostTicket {
+        return searchApi.postTicket(body, images)
     }
 
     companion object {
         private val HAST_TAGS = listOf(
             BatonHashTag("친절한 선생님"),
             BatonHashTag("체계적인 수업"),
-            BatonHashTag("맞춤케어"),
+            BatonHashTag("맞춤 케어"),
             BatonHashTag("넓은 시설"),
             BatonHashTag("다양한 기구"),
             BatonHashTag("사람이 많은"),

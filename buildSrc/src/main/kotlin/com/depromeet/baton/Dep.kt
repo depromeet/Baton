@@ -35,6 +35,7 @@ object Dep {
         const val hiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:1.0.0"
         const val legacy = "androidx.legacy:legacy-support-v4:1.0.0"
         const val splashscreen = "androidx.core:core-splashscreen:1.0.0-beta02"
+        const val webkit = "androidx.webkit:webkit:1.4.0"
     }
 
     object Navigation {
@@ -193,5 +194,19 @@ object Dep {
     // https://developer.android.com/topic/security/data#include-library
     object Security {
         const val core = "androidx.security:security-crypto:1.0.0"
+    }
+
+    object Kotest {
+        private const val version = "5.3.0"
+
+        const val junitRunner = "io.kotest:kotest-runner-junit5:$version"
+        const val assertionsCore = "io.kotest:kotest-assertions-core:$version"
+        const val property = "io.kotest:kotest-property:$version"
+    }
+
+
+    object CashApp {
+        // https://github.com/cashapp/turbine
+        const val turbine = "app.cash.turbine:turbine:0.8.0"
     }
 }

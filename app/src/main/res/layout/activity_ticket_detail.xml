@@ -50,7 +50,7 @@
                                 android:layout_height="@dimen/dimen86"
                                 android:layout_gravity="center"
                                 android:src="@{ticketState.ticket.emptyIcon}"
-                                android:visibility="@{ticketState.sellViewisVisible}"
+                                app:isVisible="@{ticketState.sellViewisVisible}"
                                 app:tint="?grey_scale60" />
 
                             <androidx.recyclerview.widget.RecyclerView
@@ -118,7 +118,7 @@
                                 android:background="?dim"
                                 android:gravity="center"
                                 android:orientation="vertical"
-                                android:visibility="@{ticketState.reservedViewisVisible}">
+                                app:isVisible="@{ticketState.reservedViewisVisible}">
 
                                 <ImageView
                                     android:layout_width="@dimen/dimen86"
@@ -141,7 +141,7 @@
                                 android:background="?dim"
                                 android:gravity="center"
                                 android:orientation="vertical"
-                                android:visibility="@{ticketState.soldoutViewisVisible}">
+                                app:isVisible="@{ticketState.soldoutViewisVisible}">
 
                                 <ImageView
                                     android:layout_width="@dimen/dimen86"
@@ -230,30 +230,36 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:src="@drawable/ic_view_filled_16"
-                                app:tint="?grey_scale50" />
+                                app:tint="?grey_scale50"
+                                />
 
                             <TextView
                                 android:id="@+id/ticket_detail_views_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingStart="@dimen/dimen2"
-                                android:text="0"
-                                android:textAppearance="?caption1" />
+                                android:text="@{ticketState.ticket.countView.toString()}"
+                                android:textAppearance="?caption1"
+
+                                />
 
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/dimen8"
                                 android:src="@drawable/ic_like_filled_16"
-                                app:tint="?grey_scale50" />
+                                app:tint="?grey_scale50"
+
+                                />
 
                             <TextView
                                 android:id="@+id/ticket_detail_likes_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingStart="@dimen/dimen2"
-                                android:text="000"
-                                android:textAppearance="?caption1" />
+                                android:text="@{ticketState.ticket.bookmarkView.toString()}"
+                                android:textAppearance="?caption1"
+                               />
 
                         </LinearLayout>
 
@@ -310,7 +316,7 @@
                         <TextView
                             android:layout_rowSpan="1"
                             android:layout_columnSpan="1"
-                            android:text="남은 기간"
+                            android:text="@{ticketState.remainText}"
                             android:textAppearance="?caption1"
                             android:textColor="?grey_scale60" />
 
@@ -318,7 +324,7 @@
                             android:id="@+id/ticket_detail_effective_tv"
                             android:layout_rowSpan="1"
                             android:layout_columnSpan="1"
-                            android:text="@{ticketState.ticket.remainingNumber}"
+                            android:text="@{ticketState.remainCount}"
                             android:textAppearance="?caption1"
                             android:textColor="?grey_scale80" />
 
@@ -374,6 +380,7 @@
                                 android:background="@drawable/background_radius_4dp"
                                 android:gravity="center"
                                 android:text="일"
+                                android:visibility="@{ticketState.dayTagisVisible}"
                                 android:textAlignment="center"
                                 android:textAppearance="?caption3"
                                 android:textColor="?grey_scale70" />
@@ -382,6 +389,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@{ticketState.dayPrice}"
+                                android:visibility="@{ticketState.dayTagisVisible}"
                                 android:textAppearance="?caption3" />
 
                         </LinearLayout>
@@ -398,7 +406,6 @@
                             android:id="@+id/ticket_detail_transfer_tv"
                             android:layout_rowSpan="1"
                             android:layout_columnSpan="1"
-                            android:layout_marginLeft="@dimen/dimen12"
                             android:text="@{ticketState.ticket.transferFee.value}"
                             android:textAppearance="?caption1"
                             android:textColor="?grey_scale80" />
@@ -650,7 +657,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="가입일 추가"
+                            android:text="@{ticketState.ticket.seller.create_on}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />

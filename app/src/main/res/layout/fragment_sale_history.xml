@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:background="?wh100"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".presentation.ui.mypage.view.SaleHistoryFragment"
+
+        >
+
+        <com.depromeet.bds.component.BdsBackwardAppBar
+            android:id="@+id/sale_history_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen12"
+            app:bds_title="판매내역" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            app:tabTextColor="?grey_scale60"
+            app:tabSelectedTextColor="?grey_scale90"
+            app:tabRippleColor="@android:color/transparent"
+            app:tabTextAppearance="?body3"
+            app:tabIndicatorColor="?grey_scale90"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:overScrollMode="never"
+            android:layout_weight="1" />
+    </LinearLayout>
+</layout>

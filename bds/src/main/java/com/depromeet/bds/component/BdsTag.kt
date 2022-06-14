@@ -17,6 +17,12 @@ class BdsTag @JvmOverloads constructor(
 
     private val binding: BdsComponentTagBinding
 
+    @get:JvmName("BdsTag")
+    @set:JvmName("BdsTag")
+    var text: String
+        get() = getText()
+        set(value) = setText(value)
+
     init {
 
         val layoutInflater = LayoutInflater.from(context)
@@ -27,7 +33,11 @@ class BdsTag @JvmOverloads constructor(
         }
     }
 
-    fun setText(content : String){
+    private fun getText() = binding.tvText.text.toString()
+    private fun setText(text: String) {
+        binding.tvText.text = text}
+
+    fun setContent(content : String){
         binding.tvText.text = content
     }
 }

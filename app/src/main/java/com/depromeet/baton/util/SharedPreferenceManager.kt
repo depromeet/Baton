@@ -1,6 +1,7 @@
 package com.depromeet.baton.util
 
 import android.content.Context
+import android.util.Log
 import com.depromeet.baton.map.domain.entity.AddressEntity
 import com.naver.maps.geometry.LatLng
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -74,6 +75,12 @@ class BatonSpfManager@Inject constructor(@ApplicationContext context: Context){
     fun getMaxDistance() : MaxDistance{
         val distance = mSharedPreferences.getInt("maxDistance", 500)
         return MaxDistance(distance)
+    }
+
+    fun clearAll(){
+        val editor = mSharedPreferences.edit()
+        editor.clear()
+        editor.apply()
     }
 
 

@@ -7,7 +7,8 @@
 
         <variable
             name="uiState"
-            type="com.depromeet.baton.presentation.ui.writepost.view.SelfWriteAddressUiState" />
+            type="com.depromeet.baton.presentation.ui.writepost.viewmodel.WritePostViewModel.SelfWriteUiState" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,7 +40,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen24"
-
                 app:bds_label="센터명">
 
                 <EditText
@@ -56,14 +56,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen24"
-                app:bds_label="센터명">
+                app:bds_label="지점">
 
                 <EditText
                     style="@style/Widget.Bds.TextFieldInnerEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:afterTextChanged="@{it -> uiState.onCenterChanged.invoke(it)}"
-                    android:hint="강남점"
+                    android:hint="ex.강남점"
                     android:inputType="none" />
             </com.depromeet.bds.component.BdsComponentTextField>
         </LinearLayout>

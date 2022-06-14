@@ -1,18 +1,26 @@
 package com.depromeet.baton.presentation.util
 
 import android.view.View
-import android.widget.CheckedTextView
+import android.widget.EditText
+import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.depromeet.bds.component.*
+import com.depromeet.bds.utils.toPx
+import com.airbnb.lottie.LottieAnimationView
 import com.depromeet.bds.component.BdsBackwardAppBar
 import com.depromeet.bds.component.BdsChoiceChip
 import com.depromeet.bds.component.BdsComponentTextField
 import com.depromeet.bds.component.BdsFilter
 
 @BindingAdapter("bds_text", "isSelected")
-fun setBdsFilterChip(view: BdsFilter, text: String, isSelected: Boolean) {
+fun setBdsFilterChip(view: BdsFilter, text: String?, isSelected: Boolean) {
+    if(text!=null)
     view.text = text
     view.isSelected = isSelected
 }
@@ -55,7 +63,43 @@ fun View.bindVisible(isVisible: Boolean) {
     this.isVisible = isVisible
 }
 
+
+@BindingAdapter("image", "roundedCorners")
+fun ImageView.bindImage(uri: String?, roundedCorners: Boolean) {
+    if (uri != null) {
+        if (roundedCorners) {
+            Glide.with(context)
+                .load(uri)
+                .transform(RoundedCorners(10.toPx()))
+                .into(this)
+        } else {
+            Glide.with(context)
+                .load(uri)
+                .into(this)
+        }
+    }
+}
+
+@BindingAdapter("bds_text")
+fun setBdsTag(view: BdsTag, text: String?) {
+    if (text != null) view.text = text
+}
+
+@BindingAdapter("isChecked")
+fun setBdsCheckbox(view: BdsCheckbox, isChecked: Boolean) {
+    view.isChecked = isChecked
+}
+
 @BindingAdapter("bds_title")
+fun setBdsAppbarTitle(view: BdsBackwardAppBar, title: String?) {
+    title?.let {
+        view.setTitle(title)
+    }
+}
+
 fun BdsBackwardAppBar.bindTitle(title: String?) {
     bdsTitle = title
 }
+
+
+

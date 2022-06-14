@@ -1,10 +1,15 @@
 package com.depromeet.baton.presentation.util
 
+import android.R.attr.spacing
+import android.R.attr.windowMinWidthMajor
 import android.graphics.Rect
-import android.util.Log
 import android.view.View
+import android.widget.GridView
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.depromeet.bds.utils.toDp
 import com.depromeet.bds.utils.toPx
+
 
 class TicketIteHorizontalDecoration : RecyclerView.ItemDecoration() {
 
@@ -58,7 +63,7 @@ class TicketItemVerticalDecoration : RecyclerView.ItemDecoration() {
     }
 }
 
-class DetailImgDecoration: RecyclerView.ItemDecoration() {
+class ProfileIconDecoration: RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(
         outRect: Rect,
@@ -67,11 +72,31 @@ class DetailImgDecoration: RecyclerView.ItemDecoration() {
         state: RecyclerView.State
     ) {
 
-        outRect.right = 0
-        outRect.left = 0
+        super.getItemOffsets(outRect, view, parent, state)
+        outRect.setEmpty()
+        val position = parent.getChildAdapterPosition(view).takeIf { it != RecyclerView.NO_POSITION } ?: run {
+            return
+        }
+        val space = BETWEEN_SPACE.toDp()
+
+        val layoutManager = parent.layoutManager as? GridLayoutManager ?: return
+        val k = layoutManager.spanSizeLookup.getSpanIndex(position,4) % SPAN_COUNT
+        outRect.left = ( k * space / SPAN_COUNT).toDp()
+        outRect.right = (space - (k + 1) * space / SPAN_COUNT).toDp()
+        outRect.bottom = BOTTOM_SPACE.toDp()
+
 
     }
 
+
+    companion object {
+        private const val BETWEEN_SPACE :Float = 6.5F
+        private const val BOTTOM_SPACE = 16
+        private const val SPAN_COUNT=4
+    }
 }
+
+
+
 
 

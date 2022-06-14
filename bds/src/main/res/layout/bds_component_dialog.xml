@@ -34,6 +34,7 @@
         android:text=""
         android:textAppearance="?body3"
         android:textColor="?grey_scale70"
+        android:textAlignment="center"
         android:visibility="gone"
         />
 
@@ -108,13 +109,12 @@
         android:columnCount="1"
         android:layout_gravity="center"
         android:useDefaultMargins="true"
-        android:visibility="gone"
+         android:visibility="gone"
         android:paddingHorizontal="@dimen/dimen24"
         >
         <androidx.appcompat.widget.AppCompatButton
             android:theme="@style/Theme.Bds.PrimaryButton"
             android:id="@+id/bds_dialog_vertical_confirm_btn"
-            android:layout_rowWeight="1"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen48"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -127,15 +127,13 @@
             android:textAppearance="?body1"
             />
         <androidx.appcompat.widget.AppCompatButton
-            android:theme="@style/Theme.Bds.OutlinedButton"
             android:id="@+id/bds_dialog_vertical_cancel_btn"
-            android:layout_rowWeight="1"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen48"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:background="@drawable/bds_button_background"
+            android:background="@android:color/transparent"
             android:textAlignment="center"
             android:text="취소"
             android:textAppearance="?body1"
