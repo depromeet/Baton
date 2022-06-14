@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.depromeet.bds.component.*
 import com.depromeet.bds.utils.toPx
+import com.airbnb.lottie.LottieAnimationView
 import com.depromeet.bds.component.BdsBackwardAppBar
 import com.depromeet.bds.component.BdsChoiceChip
 import com.depromeet.bds.component.BdsComponentTextField
@@ -99,4 +100,6 @@ fun setBdsAppbarTitle(view: BdsBackwardAppBar, title: String?) {
 fun BdsBackwardAppBar.bindTitle(title: String?) {
     bdsTitle = title
 }
+
+
 

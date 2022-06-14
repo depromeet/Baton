@@ -52,8 +52,3 @@ fun dateFormatUtil(date :String):String{
     return date
 }
 
-
-fun distanceFormatUtil (distance: Double) :String{
-    if(distance < 1000) return "${(distance).toInt()}m"
-    else return "${(distance/1000).toInt()}km"
-}

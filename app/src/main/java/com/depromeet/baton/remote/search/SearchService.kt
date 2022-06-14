@@ -3,6 +3,7 @@ package com.depromeet.baton.remote.search
 import com.depromeet.baton.data.response.ResponseFilteredTicket
 import com.depromeet.baton.data.response.ResponsePostTicket
 import com.depromeet.baton.data.response.ResponseTicketInfo
+import com.depromeet.baton.data.response.TicketSearchResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -100,7 +101,19 @@ interface SearchService {
     @Multipart
     @POST("ticket/post")
     suspend fun postTicket(
-        @PartMap body: HashMap<String, RequestBody?>,
+      @PartMap body: HashMap<String, RequestBody?>,
         @Part images: MutableList<MultipartBody.Part>?
     ): ResponsePostTicket
+
+    @GET("ticket/query")
+    suspend fun getUserTicketInfo(
+        @Query("page") page: Int,
+        @Query("size") size: Int,
+        @Query("latitude") latitude: Float,
+        @Query("longitude") longitude: Float,
+        @Query("maxDistance") maxDistance :Int=10000,
+    ): Response<TicketSearchResponse>
+
+
+  
 }
