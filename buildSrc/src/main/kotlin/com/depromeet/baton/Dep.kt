@@ -194,4 +194,18 @@ object Dep {
     object Security {
         const val core = "androidx.security:security-crypto:1.0.0"
     }
+
+    object Kotest {
+        private const val version = "5.3.0"
+
+        const val junitRunner = "io.kotest:kotest-runner-junit5:$version"
+        const val assertionsCore = "io.kotest:kotest-assertions-core:$version"
+        const val property = "io.kotest:kotest-property:$version"
+    }
+
+
+    object CashApp {
+        // https://github.com/cashapp/turbine
+        const val turbine = "app.cash.turbine:turbine:0.8.0"
+    }
 }
