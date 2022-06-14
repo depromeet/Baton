@@ -57,7 +57,6 @@ class MyLocationViewModel @Inject constructor(
         addressUseCase.getMyAddress().collect { values ->
             when (values) {
                 is NetworkResult.Success -> {
-                    Timber.e("${values.data?.address} ,${values.data?.address?.roadAddress}")
                     _res.value = values
                     if (values.data!!.address.roadAddress == "") {
                         getRoadAddress(values.data!!.address.address)
