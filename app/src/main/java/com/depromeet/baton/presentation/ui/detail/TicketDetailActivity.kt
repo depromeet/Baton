@@ -345,9 +345,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     }
 
     private fun setTicketItemClickListener(ticketItem: FilteredTicket) {
-        startActivity(Intent(this@TicketDetailActivity, TicketDetailActivity::class.java).apply {
-            //TODO 게시글 id넘기기
-        })
+        startActivity(TicketDetailActivity.start(this,ticketId = ticketItem.id))
     }
 
 
