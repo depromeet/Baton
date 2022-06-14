@@ -48,6 +48,11 @@ android {
         viewBinding true
         dataBinding true
     }
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+        }
+    }
 }
 
 dependencies {
@@ -125,4 +130,10 @@ dependencies {
     implementation(Dep.Kakao.user)
 
     implementation(Dep.Security.core)
+
+    testImplementation(Dep.Kotest.junitRunner)
+    testImplementation(Dep.Kotest.assertionsCore)
+    testImplementation(Dep.Kotest.property)
+
+    testImplementation(Dep.CashApp.turbine)
 }
