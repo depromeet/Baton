@@ -2,6 +2,7 @@ package com.depromeet.baton.presentation.ui.detail.viewModel
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.depromeet.baton.domain.model.FilteredTicket
 import com.depromeet.baton.R
 import com.depromeet.baton.data.response.ResponseFilteredTicket
 import com.depromeet.baton.domain.model.TicketSimpleInfo
@@ -15,16 +16,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
+
 import javax.inject.Inject
 
 @HiltViewModel
-class TicketMoreViewModel @Inject constructor(
-    private val ticketInfoRepository: TicketInfoRepository,
-    private val savedStateHandle: SavedStateHandle,
-    private val spfManager: BatonSpfManager
-):BaseViewModel(){
-    private val _uiState = MutableStateFlow<List<TicketSimpleInfo>>(emptyList())
+class TicketMoreViewModel @Inject constructor():BaseViewModel(){
+    private val _uiState = MutableStateFlow<List<ResponseFilteredTicket>>(emptyList())
     val uiState = _uiState.asStateFlow()
 
     private val _networkState = MutableStateFlow<TicketMoreNetwork>(TicketMoreNetwork.Loading)
@@ -56,6 +53,12 @@ class TicketMoreViewModel @Inject constructor(
         }
     }
 
+
+    private fun initState():List<ResponseFilteredTicket>{
+        //Api
+        return  arrayListOf(
+        )
+    }
 }
 
 sealed class TicketMoreNetwork(){

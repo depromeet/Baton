@@ -19,6 +19,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?wh100"
+        android:paddingBottom="@dimen/dimen12"
         tools:context="FilterChipFragment">
 
         <com.depromeet.bds.component.BdsActionChip
@@ -55,7 +57,7 @@
                     android:onClick="@{()->filterChipFragment.setFilterChipClickListener(0)}"
                     android:paddingStart="@dimen/dimen8"
                     app:bds_endDrawable="@drawable/selector_filter_chip_end_icon"
-                    app:bds_text="@{filterViewModel.filterChipList[0].first}"
+                    app:bds_text="@{filterViewModel.filterTypeOrderList[0]}"
                     app:bds_textAppearance="?body4"
                     app:isSelected="@{filterViewModel.filterChipList[0].second}" />
 
@@ -66,7 +68,7 @@
                     android:layout_marginStart="@dimen/dimen8"
                     android:onClick="@{()->filterChipFragment.setFilterChipClickListener(1)}"
                     app:bds_endDrawable="@drawable/selector_filter_chip_end_icon"
-                    app:bds_text="@{filterViewModel.filterChipList[1].first}"
+                    app:bds_text="@{filterViewModel.filterTypeOrderList[1]}"
                     app:bds_textAppearance="?body4"
                     app:isSelected="@{filterViewModel.filterChipList[1].second}"
                     app:layout_constraintStart_toEndOf="@id/bdsfilter_chip_zero"
@@ -79,7 +81,7 @@
                     android:layout_marginStart="@dimen/dimen8"
                     android:onClick="@{()->filterChipFragment.setFilterChipClickListener(2)}"
                     app:bds_endDrawable="@drawable/selector_filter_chip_end_icon"
-                    app:bds_text="@{filterViewModel.filterChipList[2].first}"
+                    app:bds_text="@{filterViewModel.filterTypeOrderList[2]}"
                     app:bds_textAppearance="?body4"
                     app:isSelected="@{filterViewModel.filterChipList[2].second}" />
 
@@ -90,7 +92,7 @@
                     android:layout_marginStart="@dimen/dimen8"
                     android:onClick="@{()->filterChipFragment.setFilterChipClickListener(3)}"
                     app:bds_endDrawable="@drawable/selector_filter_chip_end_icon"
-                    app:bds_text="@{filterViewModel.filterChipList[3].first}"
+                    app:bds_text="@{filterViewModel.filterTypeOrderList[3]}"
                     app:bds_textAppearance="?body4"
                     app:isSelected="@{filterViewModel.filterChipList[3].second}" />
 
@@ -101,7 +103,7 @@
                     android:layout_marginStart="@dimen/dimen8"
                     android:onClick="@{()->filterChipFragment.setFilterChipClickListener(4)}"
                     app:bds_endDrawable="@drawable/selector_filter_chip_end_icon"
-                    app:bds_text="@{filterViewModel.filterChipList[4].first}"
+                    app:bds_text="@{filterViewModel.filterTypeOrderList[4]}"
                     app:bds_textAppearance="?body4"
                     app:isSelected="@{filterViewModel.filterChipList[4].second}" />
 
@@ -113,7 +115,7 @@
                     android:onClick="@{()->filterChipFragment.setFilterChipClickListener(5)}"
                     android:paddingEnd="@dimen/dimen16"
                     app:bds_endDrawable="@drawable/selector_filter_chip_end_icon"
-                    app:bds_text="@{filterViewModel.filterChipList[5].first}"
+                    app:bds_text="@{filterViewModel.filterTypeOrderList[5]}"
                     app:bds_textAppearance="?body4"
                     app:isSelected="@{filterViewModel.filterChipList[5].second}" />
 
@@ -141,7 +143,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen2"
-                android:text="@{@string/search_option_count(filterViewModel.filteredTicketCount.toString())}"
+                android:text="@{@string/search_option_count(filterViewModel.ticketCount.toString())}"
                 android:textAppearance="?body3"
                 android:textColor="@color/gy80"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_bdsfilter_all"

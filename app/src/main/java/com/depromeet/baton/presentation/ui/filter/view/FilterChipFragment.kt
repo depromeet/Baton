@@ -14,18 +14,20 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class FilterChipFragment : BaseFragment<FragmentFilterChipBinding>(R.layout.fragment_filter_chip) {
+
     private val filterViewModel: FilterViewModel by activityViewModels()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.filterViewModel = filterViewModel
         binding.filterChipFragment = this
-
         setAlignClickListener()
+
     }
 
     fun setFilterChipClickListener(filterPosition: Int) {
         filterViewModel.setCurrentFilterPosition(filterPosition)
+
 
         val bottomFilterFragment = BottomFilterFragment()
         bottomFilterFragment.show(
@@ -35,15 +37,16 @@ class FilterChipFragment : BaseFragment<FragmentFilterChipBinding>(R.layout.frag
     }
 
     private fun setAlignClickListener() {
-        val menu = arrayListOf("가까운 거리순", "낮은 가격순", "인기순", "남은 기간 많은 순").map { BottomMenuItem(it) }
+        val menu = arrayListOf("가까운 거리순", "낮은 가격순", "인기순", "남은 기간 많은 순", "남은 횟수 많은 순").map { BottomMenuItem(it) }
         binding.tvBdsfilterSortingAlignment.setOnClickListener {
             val onItemClick = object : BottomSheetFragment.Companion.OnItemClick {
                 override fun onSelectedItem(selected: BottomMenuItem, index: Int) {
                     when (index) {
-                        0 -> filterViewModel.setAlignment(Alignment.RECENT)
+                        0 -> filterViewModel.setAlignment(Alignment.DISTANCE)
                         1 -> filterViewModel.setAlignment(Alignment.LOWER_PRICE)
-                        2 -> filterViewModel.setAlignment(Alignment.VIEW)
+                        2 -> filterViewModel.setAlignment(Alignment.VIEWS)
                         3 -> filterViewModel.setAlignment(Alignment.REMAIN_DAY)
+                        4 -> filterViewModel.setAlignment(Alignment.REMAIN_NUMBER)
                     }
                 }
             }

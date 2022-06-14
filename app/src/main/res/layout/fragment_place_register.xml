@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="com.depromeet.baton.domain.model.HashTag"/>
+
         <variable
             name="writePostViewModel"
             type="com.depromeet.baton.presentation.ui.writepost.viewmodel.WritePostViewModel" />
@@ -177,8 +179,6 @@
                         android:orientation="horizontal"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintBottom_toBottomOf="@+id/ibtn_place_register"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="1"
                         app:layout_constraintStart_toEndOf="@id/ibtn_place_register"
                         tools:itemCount="5"
                         tools:listitem="@layout/item_photo" />
@@ -202,6 +202,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
+                            android:id="@+id/place_register_choice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="(선택사항)"
@@ -209,73 +210,148 @@
                             android:textColor="?grey_scale60"
                             app:layout_constraintBottom_toBottomOf="@id/tv_hashtag"
                             app:layout_constraintStart_toEndOf="@id/tv_hashtag"
-                            app:layout_constraintTop_toTopOf="@id/tv_hashtag"/>
+                            app:layout_constraintTop_toTopOf="@id/tv_hashtag" />
 
                         <com.google.android.flexbox.FlexboxLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dimen12"
+                            android:layout_marginTop="@dimen/dimen4"
                             app:alignContent="flex_start"
                             app:alignItems="flex_start"
                             app:flexWrap="wrap"
-                            app:layout_constraintTop_toBottomOf="@id/tv_hashtag">
+                            app:layout_constraintTop_toBottomOf="@id/place_register_choice">
 
                             <com.depromeet.bds.component.BdsChoiceChip
                                 android:id="@+id/bdschoice_hashtag_kind_teacher"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dimen8"
+                                android:layout_marginEnd="@dimen/dimen8"
+                                android:onClick='@{()->writePostViewModel.setHashTag(HashTag.KIND_TEACHER, !writePostViewModel.isKindTeacherChecked)}'
                                 android:textAppearance="?body3"
-                                app:bds_text="@string/filter_hashtag_kind_teacher" />
+                                app:bds_text="@string/filter_hashtag_kind_teacher"
+                                app:isOn='@{writePostViewModel.isKindTeacherChecked}'
+                                app:shape="@{`outlined`}" />
 
                             <com.depromeet.bds.component.BdsChoiceChip
                                 android:id="@+id/bdschoice_hashtag_systematic_lesson"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/dimen8"
+                                android:layout_marginTop="@dimen/dimen8"
+                                android:layout_marginEnd="@dimen/dimen8"
+                                android:onClick="@{()->writePostViewModel.setHashTag(HashTag.SYSTEMATIC_CLASS,!writePostViewModel.isSystematicLessonChecked)}"
                                 android:textAppearance="?body3"
-                                app:bds_text="@string/filter_hashtag_systematic_lesson" />
+                                app:bds_text="@string/filter_hashtag_systematic_lesson"
+                                app:isOn="@{writePostViewModel.isSystematicLessonChecked}"
+                                app:shape="@{`outlined`}" />
 
                             <com.depromeet.bds.component.BdsChoiceChip
                                 android:id="@+id/bdschoice_hashtag_customized_care"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/dimen8"
+                                android:layout_marginTop="@dimen/dimen8"
+                                android:layout_marginEnd="@dimen/dimen8"
+                                android:onClick="@{()->writePostViewModel.setHashTag(HashTag.CUSTOMIZED_CARE,!writePostViewModel.isCustomizedCareChecked)}"
                                 android:textAppearance="?body3"
-                                app:bds_text="@string/filter_hashtag_customized_care" />
+                                app:bds_text="@string/filter_hashtag_customized_care"
+                                app:isOn="@{writePostViewModel.isCustomizedCareChecked}"
+                                app:shape="@{`outlined`}" />
 
                             <com.depromeet.bds.component.BdsChoiceChip
                                 android:id="@+id/bdschoice_hashtag_wide_facility"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/dimen8"
+                                android:layout_marginEnd="@dimen/dimen8"
+                                android:onClick="@{()->writePostViewModel.setHashTag(HashTag.SPACIOUS_FACILITIES,!writePostViewModel.isWideFacilityChecked)}"
                                 android:textAppearance="?body3"
-                                app:bds_text="@string/filter_hashtag_wide_facility" />
+                                app:bds_text="@string/filter_hashtag_wide_facility"
+                                app:isOn="@{writePostViewModel.isWideFacilityChecked}"
+                                app:shape="@{`outlined`}" />
 
                             <com.depromeet.bds.component.BdsChoiceChip
                                 android:id="@+id/bdschoice_hashtag_various_instruments"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/dimen8"
                                 android:layout_marginTop="@dimen/dimen8"
+                                android:layout_marginEnd="@dimen/dimen8"
+                                android:onClick="@{()->writePostViewModel.setHashTag(HashTag.VARIOUS_EQUIPMENT,!writePostViewModel.isVariousInstrumentsChecked)}"
                                 android:textAppearance="?body3"
-                                app:bds_text="@string/filter_hashtag_various_instruments" />
+                                app:bds_text="@string/filter_hashtag_various_instruments"
+                                app:isOn="@{writePostViewModel.isVariousInstrumentsChecked}"
+                                app:shape="@{`outlined`}" />
+
+                            <com.depromeet.bds.component.BdsChoiceChip
+                                android:id="@+id/bdschoice_hashtag_new_instrument"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dimen8"
+                                android:layout_marginEnd="@dimen/dimen8"
+                                android:onClick="@{()->writePostViewModel.setHashTag(HashTag.NEW_EQUIPMENT,!writePostViewModel.isNewInstrumentsChecked)}"
+                                android:textAppearance="?body3"
+                                app:bds_text="@string/filter_hashtag_new_instruments"
+                                app:isOn="@{writePostViewModel.isNewInstrumentsChecked}"
+                                app:shape="@{`outlined`}" />
+
+                            <com.depromeet.bds.component.BdsChoiceChip
+                                android:id="@+id/bdschoice_hashtag_crowded"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dimen8"
+                                android:layout_marginEnd="@dimen/dimen8"
+                                android:onClick="@{()->writePostViewModel.setHashTag(HashTag.MANY_PEOPLE,!writePostViewModel.isCrowdedChecked)}"
+                                android:textAppearance="?body3"
+                                app:bds_text="@string/filter_hashtag_crowded"
+                                app:isOn="@{writePostViewModel.isCrowdedChecked}"
+                                app:shape="@{`outlined`}" />
+
+                            <com.depromeet.bds.component.BdsChoiceChip
+                                android:id="@+id/bdschoice_hashtag_few_people"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dimen8"
+                                android:layout_marginEnd="@dimen/dimen8"
+                                android:onClick="@{()->writePostViewModel.setHashTag(HashTag.LESS_PEOPLE,!writePostViewModel.isFewPeopleChecked)}"
+                                android:textAppearance="?body3"
+                                app:bds_text="@string/filter_hashtag_few_people"
+                                app:isOn="@{writePostViewModel.isFewPeopleChecked}"
+                                app:shape="@{`outlined`}" />
 
                             <com.depromeet.bds.component.BdsChoiceChip
                                 android:id="@+id/bdschoice_hashtag_pleasant_environment"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/dimen8"
                                 android:layout_marginTop="@dimen/dimen8"
+                                android:layout_marginEnd="@dimen/dimen8"
+                                android:onClick="@{()->writePostViewModel.setHashTag(HashTag.AGREEMENT,!writePostViewModel.isPleasantEnvironmentChecked)}"
                                 android:textAppearance="?body3"
-                                app:bds_text="@string/filter_hashtag_pleasant_environment" />
+                                app:bds_text="@string/filter_hashtag_pleasant_environment"
+                                app:isOn="@{writePostViewModel.isPleasantEnvironmentChecked}"
+                                app:shape="@{`outlined`}" />
 
                             <com.depromeet.bds.component.BdsChoiceChip
                                 android:id="@+id/bdschoice_hashtag_quiet_atmosphere"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/dimen8"
+                                android:layout_marginEnd="@dimen/dimen8"
+                                android:onClick="@{()->writePostViewModel.setHashTag(HashTag.QUIET_AMBIENCE,!writePostViewModel.isQuietAtmosphereChecked)}"
                                 android:textAppearance="?body3"
-                                app:bds_text="@string/filter_hashtag_quiet_atmosphere" />
+                                app:bds_text="@string/filter_hashtag_quiet_atmosphere"
+                                app:isOn="@{writePostViewModel.isQuietAtmosphereChecked}"
+                                app:shape="@{`outlined`}" />
+
+                            <com.depromeet.bds.component.BdsChoiceChip
+                                android:id="@+id/bdschoice_hashtag_station_area"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dimen8"
+                                android:layout_marginEnd="@dimen/dimen8"
+                                android:onClick="@{()->writePostViewModel.setHashTag(HashTag.STATION_AREA,!writePostViewModel.isStationAreaChecked)}"
+                                android:textAppearance="?body3"
+                                app:bds_text="@string/filter_hashtag_station_area"
+                                app:isOn="@{writePostViewModel.isStationAreaChecked}"
+                                app:shape="@{`outlined`}" />
 
 
                         </com.google.android.flexbox.FlexboxLayout>

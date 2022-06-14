@@ -6,18 +6,18 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/dimen16"
-        android:paddingVertical="@dimen/dimen12">
+        android:paddingTop="@dimen/dimen14">
 
 
         <TextView
             android:id="@+id/tv_item_search_shop_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen16"
+            android:layout_marginEnd="@dimen/dimen10"
             android:includeFontPadding="false"
             android:text="sample address"
             android:textAppearance="?body4"
-            android:layout_marginEnd="@dimen/dimen10"
             android:textColorHint="?grey_scale90"
             app:layout_constraintEnd_toStartOf="@+id/tv_item_search_shop_address_select"
             app:layout_constraintStart_toStartOf="parent"
@@ -26,14 +26,13 @@
 
         <TextView
             android:id="@+id/tv_item_search_shop_address"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen2"
-            android:layout_marginEnd="@dimen/dimen56"
+            android:layout_marginTop="@dimen/dimen4"
             android:text="sample address"
             android:textAppearance="?caption2"
             android:textColor="?grey_scale60"
-            app:layout_constraintEnd_toStartOf="@id/tv_item_search_shop_address_select"
+            app:layout_constraintEnd_toEndOf="@+id/tv_item_search_shop_name"
             app:layout_constraintStart_toStartOf="@id/tv_item_search_shop_name"
             app:layout_constraintTop_toBottomOf="@id/tv_item_search_shop_name"
             tools:text="가가가가가어리ㅏ어나러아ㅓㄹㅇ아ㅓ라어라어라어라어라어아러아ㅓ라얼ㄹ아ㅓ랑러" />
@@ -42,6 +41,7 @@
             android:id="@+id/tv_item_search_shop_address_select"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dimen16"
             android:background="@drawable/bg_place_register_photo"
             android:paddingHorizontal="@dimen/dimen12"
             android:paddingVertical="@dimen/dimen8"
@@ -51,5 +51,12 @@
             app:layout_constraintBottom_toBottomOf="@id/tv_item_search_shop_address"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_item_search_shop_name" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/dimen14"
+            android:background="?grey_scale40"
+            app:layout_constraintTop_toBottomOf="@+id/tv_item_search_shop_address" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

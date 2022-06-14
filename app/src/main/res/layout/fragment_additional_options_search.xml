@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.depromeet.baton.domain.model.AdditionalOptions" />
+
+        <variable
+            name="filterViewModel"
+            type="com.depromeet.baton.presentation.ui.search.viewmodel.FilterSearchViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".presentation.ui.filter.view.TicketKindFragment">
+
+        <TextView
+            android:id="@+id/tv_additional_options_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/filter_additional_options_select"
+            android:textAppearance="?body3"
+            android:textColor="?grey_scale70"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_additional_options_select_explain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen4"
+            android:text="@string/filter_additional_options_select_explain"
+            android:textAppearance="?caption2"
+            android:textColor="?grey_scale70"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_additional_options_select"
+            app:layout_constraintStart_toEndOf="@id/tv_additional_options_select"
+            app:layout_constraintTop_toTopOf="@id/tv_additional_options_select" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen12"
+            app:layout_constraintTop_toBottomOf="@id/tv_additional_options_select_explain">
+
+            <com.depromeet.bds.component.BdsChoiceChip
+                android:id="@+id/bdschoice_additional_options_shower_room"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{()->filterViewModel.setAdditionalOptions(AdditionalOptions.SHOWER_ROOM,!filterViewModel.isShowerRoomChecked)}"
+                android:textAppearance="?body3"
+                app:bds_text="@string/filter_additional_options_shower_room"
+                app:isOn="@{filterViewModel.isShowerRoomChecked}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shape="@{`outlined`}" />
+
+            <com.depromeet.bds.component.BdsChoiceChip
+                android:id="@+id/bdschoice_additional_options_locker_room"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen8"
+                android:onClick="@{()->filterViewModel.setAdditionalOptions(AdditionalOptions.LOCKER_ROOM,!filterViewModel.isLockerRoomChecked)}"
+                android:textAppearance="?body3"
+                app:bds_text="@string/filter_additional_options_locker_room"
+                app:isOn="@{filterViewModel.isLockerRoomChecked}"
+                app:layout_constraintStart_toEndOf="@id/bdschoice_additional_options_shower_room"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shape="@{`outlined`}" />
+
+            <com.depromeet.bds.component.BdsChoiceChip
+                android:id="@+id/bdschoice_additional_options_sport_wear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen8"
+                android:onClick="@{()->filterViewModel.setAdditionalOptions(AdditionalOptions.SPORT_WEAR,!filterViewModel.isSportWearChecked)}"
+                android:textAppearance="?body3"
+                app:bds_text="@string/filter_additional_options_sport_wear"
+                app:isOn="@{filterViewModel.isSportWearChecked}"
+                app:layout_constraintStart_toEndOf="@id/bdschoice_additional_options_locker_room"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shape="@{`outlined`}" />
+
+            <com.depromeet.bds.component.BdsChoiceChip
+                android:id="@+id/bdschoice_additional_options_gx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen8"
+                android:onClick="@{()->filterViewModel.setAdditionalOptions(AdditionalOptions.GX,!filterViewModel.isGxChecked)}"
+                android:textAppearance="?body3"
+                app:bds_text="@string/filter_additional_options_gx"
+                app:isOn="@{filterViewModel.isGxChecked}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bdschoice_additional_options_shower_room"
+                app:shape="@{`outlined`}" />
+
+            <com.depromeet.bds.component.BdsChoiceChip
+                android:id="@+id/bdschoice_additional_options_re_transfer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen8"
+                android:onClick="@{()->filterViewModel.setAdditionalOptions(AdditionalOptions.RE_TRANSFER,!filterViewModel.isReTransferChecked)}"
+                android:textAppearance="?body3"
+                app:bds_text="@string/filter_additional_options_re_transfer"
+                app:isOn="@{filterViewModel.isReTransferChecked}"
+                app:layout_constraintStart_toEndOf="@id/bdschoice_additional_options_gx"
+                app:layout_constraintTop_toTopOf="@id/bdschoice_additional_options_gx"
+                app:shape="@{`outlined`}" />
+
+            <com.depromeet.bds.component.BdsChoiceChip
+                android:id="@+id/bdschoice_additional_options_refund"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen8"
+                android:onClick="@{()->filterViewModel.setAdditionalOptions(AdditionalOptions.REFUND,!filterViewModel.isRefundChecked)}"
+                android:textAppearance="?body3"
+                app:bds_text="@string/filter_additional_options_refund"
+                app:isOn="@{filterViewModel.isRefundChecked}"
+                app:layout_constraintStart_toEndOf="@id/bdschoice_additional_options_re_transfer"
+                app:layout_constraintTop_toTopOf="@id/bdschoice_additional_options_re_transfer"
+                app:shape="@{`outlined`}" />
+
+            <com.depromeet.bds.component.BdsChoiceChip
+                android:id="@+id/bdschoice_additional_options_holding"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen8"
+                android:onClick="@{()->filterViewModel.setAdditionalOptions(AdditionalOptions.HOLDING,!filterViewModel.isHoldingChecked)}"
+                android:textAppearance="?body3"
+                app:bds_text="@string/filter_additional_options_holding"
+                app:isOn="@{filterViewModel.isHoldingChecked}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bdschoice_additional_options_gx"
+                app:shape="@{`outlined`}" />
+
+            <com.depromeet.bds.component.BdsChoiceChip
+                android:id="@+id/bdschoice_additional_options_bargaining"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen8"
+                android:onClick="@{()->filterViewModel.setAdditionalOptions(AdditionalOptions.BARGAINING,!filterViewModel.isBargainingChecked)}"
+                android:textAppearance="?body3"
+                app:bds_text="@string/filter_additional_options_bargaining"
+                app:isOn="@{filterViewModel.isBargainingChecked}"
+                app:layout_constraintStart_toEndOf="@id/bdschoice_additional_options_holding"
+                app:layout_constraintTop_toTopOf="@id/bdschoice_additional_options_holding"
+                app:shape="@{`outlined`}" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

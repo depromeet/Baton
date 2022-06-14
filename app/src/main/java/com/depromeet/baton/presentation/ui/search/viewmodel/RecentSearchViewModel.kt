@@ -1,4 +1,4 @@
-package com.depromeet.baton.presentation.ui.search
+package com.depromeet.baton.presentation.ui.search.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.depromeet.baton.domain.model.BatonHashTag

@@ -7,5 +7,5 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class AddressEntity(
     @SerializedName("address") val address: String,
-    @SerializedName("roadAddress") val roadAddress: String
+    @SerializedName("roadAddress") val roadAddress: String,
 ) : Parcelable

@@ -1,4 +1,4 @@
-package com.depromeet.baton.presentation.ui.search
+package com.depromeet.baton.presentation.ui.search.adapter
 
 import android.view.View
 import com.depromeet.baton.databinding.ListItemKeywordBinding

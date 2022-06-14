@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="viewModel"
+            type="com.depromeet.baton.presentation.ui.search.viewmodel.FilterSearchViewModel" />
+
+        <variable
             name="itemDecoration"
             type="com.depromeet.baton.presentation.util.TicketItemVerticalDecoration" />
 
@@ -20,7 +24,7 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fcv_home"
-            android:name="com.depromeet.baton.presentation.ui.filter.view.FilterChipFragment"
+            android:name="com.depromeet.baton.presentation.ui.search.view.filter.FilterChipSearchFragment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen12"
@@ -42,7 +46,37 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fcv_home"
             app:spanCount="2"
+            app:uiState="@{viewModel.filteredTicketUiState }"
             tools:itemCount="5"
             tools:listitem="@layout/item_ticket" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen68"
+            android:layout_marginBottom="@dimen/dimen68"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fcv_home">
+
+            <ImageView
+                android:id="@+id/iv_home_no_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_no_result_found"
+                app:emptyState="@{viewModel.filteredTicketUiState }"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen16"
+                android:text="검색 결과가 없어요"
+                android:textAppearance="?body3"
+                android:textColor="?grey_scale70"
+                app:emptyState="@{viewModel.filteredTicketUiState }"
+                app:layout_constraintEnd_toEndOf="@+id/iv_home_no_result"
+                app:layout_constraintStart_toStartOf="@+id/iv_home_no_result"
+                app:layout_constraintTop_toBottomOf="@+id/iv_home_no_result" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

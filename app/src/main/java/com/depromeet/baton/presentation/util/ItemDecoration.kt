@@ -1,7 +1,6 @@
 package com.depromeet.baton.presentation.util
 
 import android.graphics.Rect
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.bds.utils.toPx
@@ -57,21 +56,3 @@ class TicketItemVerticalDecoration : RecyclerView.ItemDecoration() {
         private const val BOTTOM_SPACE = 24
     }
 }
-
-class DetailImgDecoration: RecyclerView.ItemDecoration() {
-
-    override fun getItemOffsets(
-        outRect: Rect,
-        view: View,
-        parent: RecyclerView,
-        state: RecyclerView.State
-    ) {
-
-        outRect.right = 0
-        outRect.left = 0
-
-    }
-
-}
-
-
