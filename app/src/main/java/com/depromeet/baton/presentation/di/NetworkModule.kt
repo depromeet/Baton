@@ -53,7 +53,7 @@ class NetworkModule {
         okHttpClient: OkHttpClient,
         moshi: Moshi,
     ): Retrofit {
-        return internalCreateRetrofit("https://baton.yonghochoi.com/user/", okHttpClient, moshi)
+        return internalCreateRetrofit("https://baton.yonghochoi.com/", okHttpClient, moshi)
     }
 
     @Provides

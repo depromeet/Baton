@@ -20,5 +20,5 @@ data class LoginKakaoResponse(
 
 data class LoginKakaoNoSocialUserResponse(
     @Json(name = "uid") val uid: String,
-    @Json(name = "nickname") val nickname: String,
+    @Json(name = "nickname") val nickname: String?,
 )

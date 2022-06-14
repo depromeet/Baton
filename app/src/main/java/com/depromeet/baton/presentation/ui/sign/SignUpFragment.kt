@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.fragment.navArgs
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentSignUpBinding
 import com.depromeet.baton.domain.api.user.SignApi
@@ -34,9 +35,12 @@ import kotlin.reflect.KProperty
 @AndroidEntryPoint
 class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sign_up) {
     private val viewModel: SignUpViewModel by activityViewModels()
+    private val args: SignUpFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.args = args.args
 
         viewModel.uiState
             .flowWithLifecycle(viewLifecycle)
@@ -71,7 +75,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
 @Parcelize
 data class SignUpStartArgs(
     val uid: String,
-    val nickname: String
+    val nickname: String?
 ) : Parcelable
 
 data class SignUpUiState(
@@ -93,7 +97,8 @@ class SignUpViewModel @Inject constructor(
     private val authRepository: AuthRepository
 ) : BaseViewModel() {
 
-    private val args = requireNotNull(savedStateHandle.get<SignUpStartArgs>("args"))
+    //    private val args = requireNotNull(savedStateHandle.get<SignUpStartArgs>("args"))
+    lateinit var args: SignUpStartArgs
 
     private val _uiState: MutableStateFlow<SignUpUiState> = MutableStateFlow(createState())
     val uiState = _uiState.asStateFlow()
@@ -101,7 +106,7 @@ class SignUpViewModel @Inject constructor(
     private val _viewEvents: MutableStateFlow<List<ViewEvent>> = MutableStateFlow(emptyList())
     val viewEvents = _viewEvents.asStateFlow()
 
-    private val builder = KakaoRequestBuilder(args.uid)
+    private val builder by lazy { KakaoRequestBuilder(args.uid) }
 
     private fun createState(): SignUpUiState {
         return SignUpUiState(
@@ -187,7 +192,7 @@ class SignUpViewModel @Inject constructor(
     }
 
     sealed class ViewEvent {
-        object ToHome: ViewEvent()
+        object ToHome : ViewEvent()
         data class SignUpFailure(val message: String) : ViewEvent()
     }
 }
