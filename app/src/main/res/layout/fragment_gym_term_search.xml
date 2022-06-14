@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="filterViewModel"
+            type="com.depromeet.baton.presentation.ui.search.viewmodel.FilterSearchViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ctl_term_gym"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/dimen24"
+        android:visibility="@{filterViewModel.isOnlyGymChecked==true ? View.VISIBLE : View.INVISIBLE , default=invisible}"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/tv_term_gym"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="남은 기간"
+            android:textAppearance="?body3"
+            android:textColor="?grey_scale70"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_term_selected_gym"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen8"
+            android:text="@{@string/gym_term_range(filterViewModel.gymTermRangeFormatted.first, filterViewModel.gymTermRangeFormatted.second)}"
+            android:textAppearance="?headline2"
+            android:textColor="?grey_scale90"
+            android:visibility="@{filterViewModel.isGymTermFiltered==true ? View.VISIBLE : View.INVISIBLE}"
+            app:layout_constraintStart_toStartOf="@id/tv_term_gym"
+            app:layout_constraintTop_toBottomOf="@id/tv_term_gym" />
+
+        <TextView
+            android:id="@+id/tv_term_selected_all_gym"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen8"
+            android:text="전체"
+            android:textAppearance="?headline2"
+            android:textColor="?grey_scale90"
+            android:visibility="@{filterViewModel.isGymTermFiltered==true ? View.INVISIBLE : View.VISIBLE, default=visible}"
+            app:layout_constraintStart_toStartOf="@id/tv_term_gym"
+            app:layout_constraintTop_toBottomOf="@id/tv_term_gym" />
+
+        <com.depromeet.bds.component.BdsRangeSlider
+            android:id="@+id/bds_term_rangeslider_gym"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen10"
+            app:bds_progress="12"
+            app:bds_range_max="12"
+            app:layout_constraintTop_toBottomOf="@id/tv_term_selected_gym" />
+
+        <TextView
+            android:id="@+id/tv_slider_min_gym"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen8"
+            android:text="0개월"
+            android:textAppearance="?caption1"
+            android:textColor="?grey_scale60"
+            app:layout_constraintStart_toStartOf="@id/bds_term_rangeslider_gym"
+            app:layout_constraintTop_toBottomOf="@id/bds_term_rangeslider_gym" />
+
+        <TextView
+            android:id="@+id/tv_term_line_gym"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="6개월"
+            android:textAppearance="?caption1"
+            android:textColor="?grey_scale60"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bds_term_rangeslider_gym" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="@dimen/dimen8"
+            android:layout_marginBottom="@dimen/dimen4"
+            android:background="?grey_scale50"
+            app:layout_constraintBottom_toTopOf="@+id/tv_term_line_gym"
+            app:layout_constraintEnd_toEndOf="@+id/tv_term_line_gym"
+            app:layout_constraintStart_toStartOf="@+id/tv_term_line_gym" />
+
+        <TextView
+            android:id="@+id/tv_slider_max_gym"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen8"
+            android:layout_marginEnd="@dimen/dimen8"
+            android:text="12개월 이상"
+            android:textAppearance="?caption1"
+            android:textColor="?grey_scale60"
+            app:layout_constraintEnd_toEndOf="@id/bds_term_rangeslider_gym"
+            app:layout_constraintTop_toBottomOf="@id/bds_term_rangeslider_gym" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

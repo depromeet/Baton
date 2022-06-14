@@ -17,7 +17,8 @@ import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
 import com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel
 import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter
 import com.depromeet.baton.presentation.ui.home.viewmodel.HomeViewModel
-import com.depromeet.baton.presentation.ui.search.SearchViewModel
+import com.depromeet.baton.presentation.ui.search.viewmodel.FilterSearchViewModel
+import com.depromeet.baton.presentation.ui.search.viewmodel.SearchViewModel
 import com.depromeet.baton.presentation.ui.writepost.view.WritePostActivity
 import com.depromeet.baton.presentation.util.TicketItemVerticalDecoration
 import com.depromeet.baton.util.BatonSpfManager
@@ -32,6 +33,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private val homeViewModel: HomeViewModel by activityViewModels()
     private val searchViewModel: SearchViewModel by activityViewModels()
     private val filterViewModel: FilterViewModel by activityViewModels()
+    private val filterSearchViewModel: FilterSearchViewModel by activityViewModels()
     private lateinit var ticketItemRvAdapter: TicketItemRvAdapter
 
     @Inject
@@ -42,6 +44,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         binding.filterViewModel = filterViewModel
         initView()
     }
+
 
     override fun onResume() {
         super.onResume()
@@ -115,6 +118,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             rvHome.layoutManager = gridLayoutManager
         }
 
+
         filterViewModel.filteredTicketList.observe(viewLifecycleOwner) {
             ticketItemRvAdapter.submitList(it)
         }
@@ -122,8 +126,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private fun setTicketItemClickListener(ticketItem: FilteredTicket) {
         //sample
-        val ticketId =1
-        startActivity(TicketDetailActivity.start(requireContext(),ticketId))
+        val ticketId = 1
+        startActivity(TicketDetailActivity.start(requireContext(), ticketId))
     }
 }
 

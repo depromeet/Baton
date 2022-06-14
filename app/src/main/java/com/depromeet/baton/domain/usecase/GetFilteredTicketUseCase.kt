@@ -1,6 +1,7 @@
-package com.depromeet.baton.domain.repository
+package com.depromeet.baton.domain.usecase
 
 import com.depromeet.baton.data.mapper.SearchMapper
+import com.depromeet.baton.domain.repository.SearchRepository
 import com.depromeet.baton.presentation.base.UIState
 import com.depromeet.baton.util.BatonSpfManager
 import javax.inject.Inject

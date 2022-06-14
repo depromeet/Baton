@@ -95,7 +95,7 @@ interface SearchService {
         @Query("longitude") longitude: Float,
         @Query("query") query: String,
         @Query("maxDistance") maxDistance: Int,
-    ): List<ResponseFilteredTicket>
+    ):  Response<ResponseFilteredTicket>
 
     @Multipart
     @POST("ticket/post")

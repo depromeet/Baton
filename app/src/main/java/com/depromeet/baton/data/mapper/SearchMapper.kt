@@ -13,10 +13,10 @@ object SearchMapper {
             val response = uiState.data as ResponseFilteredTicket
             return UIState.Success(response.content?.map {
                 FilteredTicket(
-                    id = it.id!!,
+                    id = it.id,
                     location = it.location,
                     address = it.address,
-                    price = priceFormat(it.price!!.toFloat()),
+                    price = priceFormat(it.price.toFloat()),
                     mainImage = it.mainImage,
                     tags = it.tags,
                     remainingDay = it.remainingDay?.toString(),

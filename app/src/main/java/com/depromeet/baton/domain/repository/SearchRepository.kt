@@ -1,6 +1,5 @@
 package com.depromeet.baton.domain.repository
 
-import com.depromeet.baton.data.response.ResponseFilteredTicket
 import com.depromeet.baton.data.response.ResponsePostTicket
 import com.depromeet.baton.data.response.ResponseTicketInfo
 import com.depromeet.baton.domain.api.search.SearchApi
@@ -182,7 +181,6 @@ class SearchRepository @Inject constructor(
         )
     }
 
-
     suspend fun getTicketInfo(
         id: Int,
         latitude: Float = spfManager.getLocation().latitude.toFloat(),
@@ -202,7 +200,7 @@ class SearchRepository @Inject constructor(
         longitude: Float = spfManager.getLocation().longitude.toFloat(),
         maxDistance: Int = spfManager.getMaxDistance().getDistance(),
         query: String
-    ): List<ResponseFilteredTicket> {
+    ): UIState {
         return searchApi.getTicketSearchResult(page, size, latitude, longitude, query, maxDistance)
     }
 
@@ -214,7 +212,7 @@ class SearchRepository @Inject constructor(
         private val HAST_TAGS = listOf(
             BatonHashTag("친절한 선생님"),
             BatonHashTag("체계적인 수업"),
-            BatonHashTag("맞춤케어"),
+            BatonHashTag("맞춤 케어"),
             BatonHashTag("넓은 시설"),
             BatonHashTag("다양한 기구"),
             BatonHashTag("사람이 많은"),

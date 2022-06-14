@@ -10,7 +10,7 @@ import com.depromeet.baton.presentation.base.BaseActivity
 import com.depromeet.baton.presentation.ui.chatting.ChattingFragment
 import com.depromeet.baton.presentation.ui.home.view.HomeFragment
 import com.depromeet.baton.presentation.ui.mypage.MyPageFragment
-import com.depromeet.baton.presentation.ui.search.SearchFragment
+import com.depromeet.baton.presentation.ui.search.view.SearchFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -67,6 +67,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     fun moveToSearch() {
         binding.bnvMain.selectedItemId = R.id.menu_main_search
+    }
+
+
+    fun moveToHome() {
+        binding.bnvMain.selectedItemId = R.id.menu_main_home
     }
 
     fun moveToChatting() {

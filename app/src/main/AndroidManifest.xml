@@ -81,9 +81,7 @@
         <activity
             android:name=".presentation.main.MainActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan">
-
-        </activity>
+            android:windowSoftInputMode="adjustPan" />
 
         <!-- BEAN: android:launchMode="singleTask" 넣어야 동작하네; -->
         <activity

@@ -18,7 +18,8 @@ import com.depromeet.bds.component.BdsComponentTextField
 import com.depromeet.bds.component.BdsFilter
 
 @BindingAdapter("bds_text", "isSelected")
-fun setBdsFilterChip(view: BdsFilter, text: String, isSelected: Boolean) {
+fun setBdsFilterChip(view: BdsFilter, text: String?, isSelected: Boolean) {
+    if(text!=null)
     view.text = text
     view.isSelected = isSelected
 }
@@ -92,15 +93,6 @@ fun setBdsCheckbox(view: BdsCheckbox, isChecked: Boolean) {
 fun setBdsAppbarTitle(view: BdsBackwardAppBar, title: String?) {
     title?.let {
         view.setTitle(title)
-    }
-}
-
-@BindingAdapter("periodChecked")
-fun addTextChangeListener(view: EditText, isPeriodChecked: Boolean) {
-    if (isPeriodChecked) {
-        view.doAfterTextChanged {
-            dateWithDotFormat(it.toString(), view)
-        }
     }
 }
 
