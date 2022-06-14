@@ -37,7 +37,7 @@
         <activity
             android:name="com.depromeet.baton.presentation.ui.routing.RoutingActivity"
             android:exported="true"
-            android:theme="@style/Theme.App.Starting" >
+            android:theme="@style/Theme.App.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -81,13 +81,15 @@
         <activity
             android:name=".presentation.main.MainActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan">
+
+        </activity>
 
         <!-- BEAN: android:launchMode="singleTask" 넣어야 동작하네; -->
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
-            android:launchMode="singleTask"
-            android:exported="true">
+            android:exported="true"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 

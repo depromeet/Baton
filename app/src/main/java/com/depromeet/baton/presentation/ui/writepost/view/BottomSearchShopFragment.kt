@@ -1,85 +1,61 @@
 package com.depromeet.baton.presentation.ui.writepost.view
 
-import android.app.Dialog
 import android.os.Bundle
 import android.text.Editable
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.core.view.isNotEmpty
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentBottomSearchShopBinding
+import com.depromeet.baton.presentation.base.BaseBottomDialogFragment
 import com.depromeet.baton.presentation.ui.address.SearchShopRvAdapter
 import com.depromeet.baton.presentation.ui.writepost.viewmodel.WritePostViewModel
 import com.depromeet.bds.component.BdsSearchBar
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 
 
 @AndroidEntryPoint
-class BottomSearchShopFragment : BottomSheetDialogFragment() {
-    private var _binding: FragmentBottomSearchShopBinding? = null
-    private val binding get() = _binding ?: error("View를 참조하기 위해 binding이 초기화되지 않았습니다.")
+class BottomSearchShopFragment : BaseBottomDialogFragment<FragmentBottomSearchShopBinding>(R.layout.fragment_bottom_search_shop) {
+
     private val writePostViewModel: WritePostViewModel by activityViewModels()
     private lateinit var searchShopRvAdapter: SearchShopRvAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_bottom_search_shop, container, false)
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.lifecycleOwner = viewLifecycleOwner
         binding.writePostViewModel = writePostViewModel
+
+        initView()
+    }
+
+    private fun initView() {
         setSearchShopRvAdapter()
-        setShopSelectedObserve()
-        setCloseBtnOnClickListener()
         setInputField()
-        goToSelfWriteFragment()
+        setObserve()
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return BottomSheetDialog(requireContext(), R.style.BottomSheetDialog).apply {
-            setOnShowListener { setupFullHeight(it as BottomSheetDialog) }
+    private fun setObserve() {
+        writePostViewModel.bottomSearchUiState
+            .flowWithLifecycle(lifecycle)
+            .onEach { uiState -> binding.uiState = uiState }
+            .launchIn(lifecycleScope)
+
+        //리사이클러뷰에서 선택한 경우
+        writePostViewModel.isShopSelected.observe(this) {
+            writePostViewModel.bottomSearchUiState.value.setBottomDialogDismiss.invoke()
         }
-    }
-
-    private fun setupFullHeight(bottomSheetDialog: BottomSheetDialog) {
-        val bottomSheet =
-            bottomSheetDialog.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
-        val behavior = BottomSheetBehavior.from(bottomSheet!!)
-        behavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
 
     private fun setSearchShopRvAdapter() {
         searchShopRvAdapter = SearchShopRvAdapter(writePostViewModel)
         binding.rvBottomPlace.adapter = searchShopRvAdapter
-    }
-
-    private fun setCloseBtnOnClickListener() {
-        binding.ivBottomSearchClose.setOnClickListener {
-            writePostViewModel.setSearchShopPosition(WritePostViewModel.DIALOG_DISMISS)
-        }
-    }
-
-    private fun setShopSelectedObserve() {
-        writePostViewModel.isShopSelected.observe(this) {
-            writePostViewModel.setSearchShopPosition(WritePostViewModel.DIALOG_DISMISS)
-        }
     }
 
     private fun setInputField() {
@@ -109,22 +85,5 @@ class BottomSearchShopFragment : BottomSheetDialogFragment() {
                 }
             }
         }
-    }
-
-    private fun goToSelfWriteFragment() {
-        with(binding) {
-            bdsBtnBottomSearchNoResult.setOnClickListener {
-                writePostViewModel?.setSearchShopPosition(WritePostViewModel.SELF_WRITE)
-            }
-            bdsBtnBottomSearchSelfWrite.setOnClickListener {
-                writePostViewModel?.setSearchShopPosition(WritePostViewModel.SELF_WRITE)
-            }
-        }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        writePostViewModel.shopInfoList.value.clear()
-        _binding = null
     }
 }

@@ -10,6 +10,9 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.widget.NestedScrollView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
@@ -17,10 +20,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.baton.BatonApp
 import com.depromeet.baton.BatonApp.Companion.TAG
 import com.depromeet.baton.R
-import com.depromeet.baton.data.response.ResponseFilteredTicket
 import com.depromeet.baton.databinding.ActivityTicketDetailBinding
 import com.depromeet.baton.databinding.ItemPrimaryOutlineTagBinding
 import com.depromeet.baton.databinding.ItemPrimaryTagBinding
+import com.depromeet.baton.domain.model.FilteredTicket
 import com.depromeet.baton.domain.model.TicketStatus
 import com.depromeet.baton.presentation.base.BaseActivity
 import com.depromeet.baton.presentation.bottom.BottomMenuItem
@@ -29,8 +32,7 @@ import com.depromeet.baton.presentation.bottom.BottomSheetFragment.Companion.CHE
 import com.depromeet.baton.presentation.bottom.BottomSheetFragment.Companion.DEFAULT_ITEM_VIEW
 import com.depromeet.baton.presentation.ui.detail.viewModel.*
 import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter
-import com.depromeet.baton.presentation.ui.home.view.TicketItem
-import com.depromeet.baton.presentation.ui.sign.ServiceTermDetailActivity
+import com.depromeet.baton.presentation.util.TicketIteHorizontalDecoration
 import com.depromeet.baton.presentation.util.*
 import com.depromeet.baton.util.BatonSpfManager
 import com.depromeet.bds.component.BdsToast
@@ -62,7 +64,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     private lateinit var ticketTagAdapter :TicketTagAdapter<ItemPrimaryTagBinding>
     private lateinit var gymTagAdapter: TicketTagAdapter<ItemPrimaryOutlineTagBinding>
     private val ticketItemRvAdapter =
-        TicketItemRvAdapter(TicketItemRvAdapter.SCROLL_TYPE_HORIZONTAL, this@TicketDetailActivity, ::setTicketItemClickListener)
+        TicketItemRvAdapter(TicketItemRvAdapter.SCROLL_TYPE_HORIZONTAL,  ::setTicketItemClickListener)
     private val ticketImgRvAdapter = TicketImgRvAdapter()
 
     @Inject lateinit var spfManager : BatonSpfManager
@@ -148,8 +150,9 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
                     //TODO showChatBottom
                 }
                 DetailViewEvent.EventClickLike->{
-                   if(viewModel.ticketState.value!!.ticket.isLikeTicket)
-                       this@TicketDetailActivity.BdsToast("관심 상품이 등록되었습니다.",binding.ticketDetailFooter.top).show()
+                    if(viewModel.ticketState.value!!.ticket.isLikeTicket)
+                        this@TicketDetailActivity.BdsToast("관심 상품이 등록되었습니다.",binding.ticketDetailFooter.top).show()
+
                     binding.ticketDetailLikeBtn.toggle()
                 }
             }
@@ -223,16 +226,16 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
             val mLayoutManager = LinearLayoutManager(this@TicketDetailActivity, LinearLayoutManager.HORIZONTAL, false)
             ticketDetailImgRv.adapter = ticketImgRvAdapter
             ticketDetailImgRv.layoutManager = mLayoutManager
-             val snapHelper =  PagerSnapHelper()
-             snapHelper.attachToRecyclerView(ticketDetailImgRv)
-             ticketDetailImgRv.onFlingListener = snapHelper
-             ticketDetailImgRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                     super.onScrollStateChanged(recyclerView, newState)
-                     ticketDetailImgStartTv.text =((recyclerView.layoutManager as LinearLayoutManager)
-                         .findFirstVisibleItemPosition()+1).toString()
-                 }
-             })
+            val snapHelper =  PagerSnapHelper()
+            snapHelper.attachToRecyclerView(ticketDetailImgRv)
+            ticketDetailImgRv.onFlingListener = snapHelper
+            ticketDetailImgRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    ticketDetailImgStartTv.text =((recyclerView.layoutManager as LinearLayoutManager)
+                        .findFirstVisibleItemPosition()+1).toString()
+                }
+            })
         }
     }
 
@@ -296,6 +299,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
             when(index){
                 0 -> run{
                     showBottom(CHECK_ITEM_VIEW, DetailBottomOption.STATUS, statusItemClick)
+
                 }
                 1 -> { //delete
                     viewModel.deleteTicket(0) // Api 호출
@@ -325,7 +329,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         bottomSheetFragment.show(supportFragmentManager, BatonApp.TAG)
     }
 
-    private fun setTicketItemClickListener(ticketItem: ResponseFilteredTicket) {
+    private fun setTicketItemClickListener(ticketItem: FilteredTicket) {
         startActivity(Intent(this@TicketDetailActivity, TicketDetailActivity::class.java).apply {
             //TODO 게시글 id넘기기
         })
@@ -337,10 +341,10 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     override fun onMapReady(map: NaverMap) {
         runBlocking {
             val mapInit = launch {
-               this@TicketDetailActivity.naverMap = map
-           }
-           mapInit.join()
-           setMarkerPosition()
+                this@TicketDetailActivity.naverMap = map
+            }
+            mapInit.join()
+            setMarkerPosition()
         }
     }
 
@@ -413,4 +417,3 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         }
     }
 }
-

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.depromeet.baton.R
 import com.depromeet.baton.data.response.ResponseFilteredTicket
 import com.depromeet.baton.databinding.FragmentSearchDetailBinding
+import com.depromeet.baton.domain.model.FilteredTicket
 import com.depromeet.baton.presentation.base.BaseFragment
 import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
 import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter
@@ -22,7 +23,7 @@ class SearchDetailFragment : BaseFragment<FragmentSearchDetailBinding>(R.layout.
     private fun setTicketItemRvAdapter() {
         with(binding) {
             val ticketItemRvAdapter =
-                TicketItemRvAdapter(TicketItemRvAdapter.SCROLL_TYPE_VERTICAL, requireContext(), ::setTicketItemClickListener)
+                TicketItemRvAdapter(TicketItemRvAdapter.SCROLL_TYPE_VERTICAL,::setTicketItemClickListener)
             val gridLayoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
 
             adapter = ticketItemRvAdapter
@@ -33,7 +34,7 @@ class SearchDetailFragment : BaseFragment<FragmentSearchDetailBinding>(R.layout.
         }
     }
 
-    private fun setTicketItemClickListener(ticketItem: ResponseFilteredTicket) {
+    private fun setTicketItemClickListener(ticketItem: FilteredTicket) {
         startActivity(Intent(requireContext(), TicketDetailActivity::class.java).apply {
             //TODO 게시글 id넘기기
         })

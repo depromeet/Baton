@@ -5,13 +5,11 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
-import com.depromeet.baton.R
-import com.depromeet.baton.databinding.ActivityAddressBinding.inflate
-import com.depromeet.baton.databinding.ItemBottomsheetCheckBinding
+
 import com.depromeet.baton.databinding.ItemPrimaryOutlineTagBinding
 import com.depromeet.baton.databinding.ItemPrimaryTagBinding
 import com.depromeet.baton.domain.model.BatonHashTag
-import com.depromeet.baton.domain.model.HashTag
+
 
 class TicketTagAdapter<B : ViewDataBinding>(
     private val layout : Int,
@@ -43,10 +41,10 @@ class TicketTagAdapter<B : ViewDataBinding>(
         fun bind(item : BatonHashTag){
             when(binding){
                 is ItemPrimaryTagBinding->{
-                    binding.primaryTag.setText(item.title)
+                    binding.primaryTag.setContent(item.title)
                 }
                 is ItemPrimaryOutlineTagBinding->{
-                    binding.primaryLineTag.setText(item.title)
+                    binding.primaryLineTag.setContent(item.title)
                 }
             }
         }

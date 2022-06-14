@@ -1,5 +1,6 @@
 package com.depromeet.baton.presentation.ui.address.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.depromeet.baton.map.domain.entity.AddressEntity
 import com.depromeet.baton.map.domain.entity.LocationEntity

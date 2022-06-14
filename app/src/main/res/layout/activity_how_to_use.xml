@@ -83,7 +83,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dimen56"
+                        android:layout_marginTop="@dimen/dimen32"
                         android:text="거래 방법이 궁금해요"
                         android:textAppearance="?headline2"
                         android:textColor="?grey_scale90" />
@@ -191,7 +191,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen16"
                         android:text="@string/how_to_use_method1"
-                        android:textAppearance="?caption2"
+                        android:textAppearance="?body4"
                         android:textColor="?grey_scale70"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -202,8 +202,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen12"
                         android:text="@string/transaction_method_info_answer1"
-                        android:textAppearance="?caption2"
-                        android:textColor="?primary40"
+                        android:textAppearance="?body3"
+                        android:textColor="?primary50"
                         app:layout_constraintStart_toStartOf="@+id/tv_how_to_use_one"
                         app:layout_constraintTop_toBottomOf="@+id/tv_how_to_use_one" />
 
@@ -212,7 +212,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/transaction_method_info_answer2"
-                        android:textAppearance="?caption1"
+                        android:textAppearance="?body3"
                         android:textColor="?grey_scale80"
                         app:layout_constraintStart_toEndOf="@+id/tv_tooltip_one"
                         app:layout_constraintTop_toTopOf="@id/tv_tooltip_one" />
@@ -223,7 +223,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen4"
                         android:text="@string/transaction_method_info_answer3"
-                        android:textAppearance="?caption1"
+                        android:textAppearance="?body3"
                         android:textColor="?grey_scale80"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_tooltip_two" />
@@ -234,8 +234,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen12"
                         android:text="@string/transaction_method_info_answer4"
-                        android:textAppearance="?caption1"
-                        android:textColor="?secondary40"
+                        android:textAppearance="?body3"
+                        android:textColor="?secondary50"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_tooltip_three" />
 
@@ -244,7 +244,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/transaction_method_info_answer5"
-                        android:textAppearance="?caption1"
+                        android:textAppearance="?body3"
                         android:textColor="?grey_scale80"
                         app:layout_constraintStart_toEndOf="@id/tv_tooltip_four"
                         app:layout_constraintTop_toTopOf="@id/tv_tooltip_four" />
@@ -255,7 +255,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen4"
                         android:text="@string/transaction_method_info_answer8"
-                        android:textAppearance="?caption1"
+                        android:textAppearance="?body3"
                         android:textColor="?grey_scale80"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_tooltip_five" />
@@ -266,7 +266,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen4"
                         android:text="@string/transaction_method_info_answer9"
-                        android:textAppearance="?caption1"
+                        android:textAppearance="?body3"
                         android:textColor="?grey_scale80"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_tooltip_six" />
@@ -277,7 +277,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen12"
                         android:text="@string/how_to_use_method2"
-                        android:textAppearance="?caption2"
+                        android:textAppearance="?body4"
                         android:textColor="?grey_scale70"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_tooltip_nine"
@@ -295,7 +295,7 @@
                         android:id="@+id/tv_how_to_use_careful_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dimen56"
+                        android:layout_marginTop="@dimen/dimen32"
                         android:text="거래 전 주의해주세요"
                         android:textAppearance="?headline2"
                         android:textColor="?grey_scale90"
@@ -308,7 +308,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen8"
                         android:text="@string/how_to_use_careful1"
-                        android:textAppearance="?caption2"
+                        android:textAppearance="?body4"
                         android:textColor="?grey_scale70"
                         android:textColorHint="?grey_scale70"
                         app:layout_constraintTop_toBottomOf="@+id/tv_how_to_use_careful_title" />
@@ -319,7 +319,7 @@
                     android:id="@+id/view_how_to_use"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginTop="@dimen/dimen32"
+                    android:layout_marginTop="@dimen/dimen48"
                     android:background="?bg"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ctl_how_to_use_careful" />

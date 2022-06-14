@@ -246,7 +246,7 @@
 
     <style name="Theme.Bds.Tag.Default.Small" parent="">
         <item name="bdsTagHorizontalPadding">@dimen/dimen4</item>
-        <item name="bdsTagVerticalPadding">@dimen/dimen2</item>
+        <item name="bdsTagVerticalPadding">@dimen/dimen4</item>
         <item name="bdsTagTextAppearance">?caption3</item>
     </style>
 
