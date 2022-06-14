@@ -1,6 +1,7 @@
 package com.depromeet.baton.remote.search
 
 import com.depromeet.baton.data.response.ResponseFilteredTicket
+import com.depromeet.baton.data.response.ResponsePostTicket
 import com.depromeet.baton.data.response.ResponseTicketInfo
 import com.depromeet.baton.data.response.TicketSearchResponse
 import okhttp3.MultipartBody
@@ -73,7 +74,7 @@ interface SearchService {
         @Query("isHold") isHold: Boolean?,
         @Query("canNego") canNego: Boolean?,
         @Query("isMembership") isMembership: Boolean?,
-    ): List<ResponseFilteredTicket>
+    ): Response<ResponseFilteredTicket>
 
     @GET("ticket/info/{ID}")
     suspend fun getTicketInfo(
@@ -95,17 +96,14 @@ interface SearchService {
         @Query("longitude") longitude: Float,
         @Query("query") query: String,
         @Query("maxDistance") maxDistance: Int,
-    ): List<ResponseFilteredTicket>
+    ):  Response<ResponseFilteredTicket>
 
     @Multipart
     @POST("ticket/post")
     suspend fun postTicket(
-        @PartMap body: HashMap<String, RequestBody>,
-        @Part image: MultipartBody.Part?
-    ): ResponseFilteredTicket
-
-
-
+      @PartMap body: HashMap<String, RequestBody?>,
+        @Part images: MutableList<MultipartBody.Part>?
+    ): ResponsePostTicket
 
     @GET("ticket/query")
     suspend fun getUserTicketInfo(
@@ -117,4 +115,5 @@ interface SearchService {
     ): Response<TicketSearchResponse>
 
 
+  
 }

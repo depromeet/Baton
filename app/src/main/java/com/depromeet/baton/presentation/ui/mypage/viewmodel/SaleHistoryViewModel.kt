@@ -2,6 +2,7 @@ package com.depromeet.baton.presentation.ui.mypage.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.depromeet.baton.data.response.UserBuyListResponse
+import com.depromeet.baton.domain.model.MypageTicketResponse
 import com.depromeet.baton.domain.model.TicketInfo
 import com.depromeet.baton.domain.model.TicketSimpleInfo
 import com.depromeet.baton.domain.repository.TicketInfoRepository
@@ -42,89 +43,17 @@ class SaleHistoryViewModel @Inject constructor(
     }
 
     private fun getSaleHistory() {
-        Timber.e("recall saleouthistory")
-        val dummy = arrayListOf<TicketSimpleInfo>(
-            TicketSimpleInfo(
-                1,
-                "1장ㅈ" + change,
-                "광진구 중곡동 텍스트 1234번지",
-                200000,
-                "https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/18ee9e14-ceec-41a3-a458-97ec0d1099b1.jpeg",
-                "2022-06-02T03:34:23+09:00",
-                0,
-                tags = emptyList(),
-                images = emptyList(),
-                true,
-                null,
-                "2023-04-05",
-                0.0,
-                0.0,
-                1000.0
-            ),
-            TicketSimpleInfo(
-                2,
-                "2장ㅈ" + change,
-                "광진구 중곡동 텍스트 1234번지",
-                200000,
-                "https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/18ee9e14-ceec-41a3-a458-97ec0d1099b1.jpeg",
-                "2022-06-05T03:34:23+09:00",
-                0,
-                tags = emptyList(),
-                images = emptyList(),
-                true,
-                null,
-                "2023-04-05",
-                0.0,
-                0.0,
-                1000.0
-            ),
-            TicketSimpleInfo(
-                3,
-                "3장ㅈ" + change,
-                "광진구 중곡동 텍스트 1234번지",
-                200000,
-                "https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/18ee9e14-ceec-41a3-a458-97ec0d1099b1.jpeg",
-                "2022-06-05T03:34:23+09:00",
-                0,
-                tags = emptyList(),
-                images = emptyList(),
-                true,
-                null,
-                "2023-04-05",
-                0.0,
-                0.0,
-                1000.0
-            ),
-            TicketSimpleInfo(
-                4,
-                "4장ㅈ" + change,
-                "광진구 중곡동 텍스트 1234번지",
-                200000,
-                "https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/18ee9e14-ceec-41a3-a458-97ec0d1099b1.jpeg",
-                "2022-06-06T03:34:23+09:00",
-                0,
-                tags = emptyList(),
-                images = emptyList(),
-                true,
-                null,
-                "2023-04-05",
-                0.0,
-                0.0,
-                1000.0
-            )
-        )
         viewModelScope.launch {
             runCatching {
                 userinfoRepository.getUserSellList(1, TicketState.SALE.option)
             }.onSuccess { res ->
                 run {
                     when (res) {
-                        is NetworkResult.Success<List<TicketSimpleInfo>> -> {
+                        is NetworkResult.Success -> {
                             val list = res.data?.toListItems()
-                            val dummys = dummy.toListItems()
                             _uiState.update { it.copy(list = list, isLoading = false) }
                         }
-                        is NetworkResult.Error<List<TicketSimpleInfo>> -> {
+                        is NetworkResult.Error -> {
                             Timber.e("call api " + res.message)
                         }
                     }
@@ -136,105 +65,33 @@ class SaleHistoryViewModel @Inject constructor(
     }
 
     fun deleteTicket(ticketId: Int) {
-        /*viewModelScope.launch {
+        viewModelScope.launch {
            runCatching {
                ticketinfoRepository.deleteTicket(ticketId)
            }.onFailure {
                 Timber.e(it.message)
            }
-        }*/
+        }
     }
 
     fun getSoldoutHistory() {
-        Timber.e("recall soldouthistory")
-        val dummy = arrayListOf<TicketSimpleInfo>(
-            TicketSimpleInfo(
-                1,
-                "1장ㅈ" + change,
-                "광진구 중곡동 텍스트 1234번지",
-                200000,
-                "https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/18ee9e14-ceec-41a3-a458-97ec0d1099b1.jpeg",
-                "2022-06-02T03:34:23+09:00",
-                2,
-                tags = emptyList(),
-                images = emptyList(),
-                true,
-                null,
-                "2023-04-05",
-                0.0,
-                0.0,
-                1000.0
-            ),
-            TicketSimpleInfo(
-                2,
-                "2장ㅈ" + change,
-                "광진구 중곡동 텍스트 1234번지",
-                200000,
-                "https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/18ee9e14-ceec-41a3-a458-97ec0d1099b1.jpeg",
-                "2022-06-05T03:34:23+09:00",
-                2,
-                tags = emptyList(),
-                images = emptyList(),
-                true,
-                null,
-                "2023-04-05",
-                0.0,
-                0.0,
-                1000.0
-            ),
-            TicketSimpleInfo(
-                3,
-                "3장ㅈ" + change,
-                "광진구 중곡동 텍스트 1234번지",
-                200000,
-                "https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/18ee9e14-ceec-41a3-a458-97ec0d1099b1.jpeg",
-                "2022-06-05T03:34:23+09:00",
-                2,
-                tags = emptyList(),
-                images = emptyList(),
-                true,
-                null,
-                "2023-04-05",
-                0.0,
-                0.0,
-                1000.0
-            ),
-            TicketSimpleInfo(
-                4,
-                "4장ㅈ" + change,
-                "광진구 중곡동 텍스트 1234번지",
-                200000,
-                "https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/18ee9e14-ceec-41a3-a458-97ec0d1099b1.jpeg",
-                "2022-06-06T03:34:23+09:00",
-                2,
-                tags = emptyList(),
-                images = emptyList(),
-                true,
-                null,
-                "2023-04-05",
-                0.0,
-                0.0,
-                1000.0
-            )
-        )
         viewModelScope.launch {
             runCatching {
                 userinfoRepository.getUserSellList(1, TicketState.SOLDOUT.option)
             }.onSuccess { res ->
                 run {
                     when (res) {
-                        is NetworkResult.Success<List<TicketSimpleInfo>> -> {
+                        is NetworkResult.Success -> {
                             val list = res.data?.toListItems()
-                            val dummys = dummy.toListItems()
                             _soldoutUiState.update { it.copy(list = list, isLoading = false) }
                         }
-                        is NetworkResult.Error<List<TicketSimpleInfo>> -> {
-                            Timber.e("call api " + res.message)
+                        is NetworkResult.Error -> {
+                            Timber.e( res.message)
                         }
                     }
                 }
             }.onFailure { e ->
-                Timber.e(e.toString() + "recall")
+                Timber.e(e.message)
             }
         }
     }
@@ -249,7 +106,7 @@ class SaleHistoryViewModel @Inject constructor(
     }
 
 
-    private fun List<TicketSimpleInfo>.toListItems(): List<SaleTicketListItem> {
+    private fun List<MypageTicketResponse>.toListItems(): List<SaleTicketListItem> {
         val result = arrayListOf<SaleTicketListItem>() // 결과를 리턴할 리스트
         var groupHeaderDate = "" // 그룹날짜
         this.forEachIndexed { index, item ->

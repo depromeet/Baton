@@ -24,9 +24,5 @@ class ListPaddingDecoration(
         }
 
         outRect.right = padding
-        val adapter = parent.adapter
-        if (adapter != null && itemPosition == adapter.itemCount - 1) {
-            outRect.right = 0
-        }
     }
 }

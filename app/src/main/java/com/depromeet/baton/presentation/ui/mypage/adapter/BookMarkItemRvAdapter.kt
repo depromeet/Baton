@@ -6,6 +6,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.CheckedTextView
+import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.databinding.DataBindingUtil
@@ -18,6 +19,10 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.depromeet.baton.data.response.BookmarkTicket
 import com.depromeet.baton.data.response.ResponseFilteredTicket
 import com.depromeet.baton.databinding.ItemTicketBinding
+import com.depromeet.baton.domain.model.FilteredTicket
+import com.depromeet.baton.domain.model.TicketKind
+import com.depromeet.baton.presentation.util.distanceFormatUtil
+import com.depromeet.baton.presentation.util.priceFormat
 import com.depromeet.baton.util.SimpleDiffUtil
 import com.depromeet.bds.utils.toPx
 import timber.log.Timber
@@ -46,20 +51,10 @@ class BookMarkItemRvAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: BookmarkTicket, position: Int) {
             with(binding) {
-
-               // tvItemTicketCardBadge.text = item.card
-                tvItemTicketShopName.text = item.ticket.location
-                tvItemTicketPrice.text = item.ticket.price.toString()
-                tvItemTicketRemainingDay.text = "남은기간 ~" //todo 남은일자 계산해야댐 ㅠ
-                tvItemTicketPlace.text = item.ticket.address
-                tvItemTicketDistance.text = (item.ticket.distance.toInt()/1000).toString()+"m"
-                ctvItemTicketLike.isChecked = true
-
-
-                Glide.with(context)
-                    .load(item.ticket.mainImage)
-                    .transform(CenterCrop(), RoundedCorners(4.toPx()))
-                    .into(binding.ibtnItemTicket)
+                ticket = FilteredTicket(item.ticket.id, item.ticket.location, item.ticket.address, priceFormat(item.ticket.price.toFloat()), item.ticket.mainImage
+                ,item.ticket.tags,item.ticket.remainingDay.toString(),item.ticket.remainingNumber.toString(), item.ticket.latitude, item.ticket.longitude,
+                    distanceFormatUtil(item.ticket.distance), item.ticket.type)
+                executePendingBindings()
 
                 setLikeBtnClickListener(ctvItemTicketLike)
 
@@ -69,7 +64,6 @@ class BookMarkItemRvAdapter(
                     clickListener(item)
                 }
                 ctvItemTicketLike.setOnClickListener {
-                    Timber.e("click like")
                     ctvItemTicketLike.isChecked=false
                     clickBookmarkListener(item, position)
                     removeItem(position)
@@ -84,7 +78,7 @@ class BookMarkItemRvAdapter(
         submitList(newList)
     }
 
-    private fun setEmptyImage(position: Int, view: AppCompatImageButton) {
+    private fun setEmptyImage(position: Int, view: ImageView) {
         when (position % 4) {
             0 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_health_86)
             1 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_etc_86)

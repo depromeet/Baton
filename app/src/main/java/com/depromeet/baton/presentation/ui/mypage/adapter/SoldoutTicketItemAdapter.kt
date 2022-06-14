@@ -97,7 +97,7 @@ class SoldoutTicketItemAdapter(
                 itemSaleRemainDateTv.text = item.ticket.data.remainingNumber.toString()
                 itemSaleLocationTv.text = item.ticket.data.address
                 itemSaleDistanceTv.text = item.ticket.data.distance.toString()
-                // itemSaleBadgeTv.text=  item.ticket.card
+                 itemSaleBadgeTv.text=  item.ticket.data.type
 
                 Glide.with(context)
                     .load(item.ticket.data.mainImage)

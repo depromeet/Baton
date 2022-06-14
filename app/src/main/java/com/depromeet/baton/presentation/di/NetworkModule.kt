@@ -33,9 +33,9 @@ class NetworkModule {
 
         return OkHttpClient.Builder()
             .addInterceptor(logging)
-            .connectTimeout(3, TimeUnit.SECONDS)
-            .readTimeout(3, TimeUnit.SECONDS)
-            .writeTimeout(3, TimeUnit.SECONDS)
+            .connectTimeout(1000, TimeUnit.MILLISECONDS)
+            .readTimeout(1000, TimeUnit.MILLISECONDS)
+            .writeTimeout(1000, TimeUnit.MILLISECONDS)
             .build()
     }
 
@@ -71,6 +71,13 @@ class NetworkModule {
         return retrofit.create()
     }
 
+
+    @Provides
+    @Singleton
+    fun provideTicketInfoService(@Server(ServerType.Search) retrofit: Retrofit): TicketInfoService {
+        return retrofit.create()
+    }
+
     @Provides
     @Singleton
     fun provideUserInfoService(@Server(ServerType.User) retrofit: Retrofit): UserInfoService {
@@ -83,11 +90,6 @@ class NetworkModule {
         return retrofit.create()
     }
 
-    @Provides
-    @Singleton
-    fun provideTicketInfoService(@Server(ServerType.Search) retrofit: Retrofit): TicketInfoService{
-        return retrofit.create()
-    }
 
     private fun internalCreateRetrofit(
         baseUrl: String,

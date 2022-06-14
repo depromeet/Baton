@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.depromeet.baton.domain.model.TradeType" />
+        <import type="com.depromeet.baton.domain.model.TransferFee" />
+
+        <variable
+            name="filterViewModel"
+            type="com.depromeet.baton.presentation.ui.search.viewmodel.FilterSearchViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".presentation.ui.filter.view.TicketKindFragment">
+
+        <TextView
+            android:id="@+id/tv_transaction_method_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/filter_transaction_method_select"
+            android:textAppearance="?body3"
+            android:textColor="?grey_scale70"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/ctl_transaction_method"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen12"
+            app:alignContent="flex_start"
+            app:alignItems="flex_start"
+            app:flexWrap="wrap"
+            app:layout_constraintTop_toBottomOf="@id/tv_transaction_method_select">
+
+            <com.depromeet.bds.component.BdsChoiceChip
+                android:id="@+id/bdschoice_transaction_method_select_face"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{()->filterViewModel.setTradeType(TradeType.CONTECT,!filterViewModel.isFaceChecked)}"
+                android:textAppearance="?body3"
+                app:bds_text="@string/filter_transaction_method_select_face"
+                app:isOn="@{filterViewModel.isFaceChecked}"
+                app:shape="@{`outlined`}" />
+
+            <com.depromeet.bds.component.BdsChoiceChip
+                android:id="@+id/bdschoice_transaction_method_nonface"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen8"
+                android:onClick="@{()->filterViewModel.setTradeType(TradeType.UNTECT,!filterViewModel.isNonFaceChecked)}"
+                android:textAppearance="?body3"
+                app:bds_text="@string/filter_transaction_method_select_non_face"
+                app:isOn="@{filterViewModel.isNonFaceChecked}"
+                app:shape="@{`outlined`}" />
+
+
+        </com.google.android.flexbox.FlexboxLayout>
+
+        <TextView
+            android:id="@+id/tv_transaction_method_cost_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen24"
+            android:text="@string/filter_transaction_method_cost_select"
+            android:textAppearance="?body3"
+            android:textColor="?grey_scale70"
+            app:layout_constraintStart_toStartOf="@id/ctl_transaction_method"
+            app:layout_constraintTop_toBottomOf="@id/ctl_transaction_method" />
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen12"
+            app:layout_constraintTop_toBottomOf="@id/tv_transaction_method_cost_select">
+
+            <com.depromeet.bds.component.BdsChoiceChip
+                android:id="@+id/bdschoice_transaction_method_cost_select_seller"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{()->filterViewModel.setTransferFeeType(TransferFee.SELLER,!filterViewModel.isSellerChecked)}"
+                android:textAppearance="?body3"
+                app:bds_text="@string/filter_transaction_method_cost_select_seller"
+                app:isOn="@{filterViewModel.isSellerChecked}"
+                app:shape="@{`outlined`}" />
+
+            <com.depromeet.bds.component.BdsChoiceChip
+                android:id="@+id/bdschoice_transaction_method_cost_select_consumer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen8"
+                android:onClick="@{()->filterViewModel.setTransferFeeType(TransferFee.CONSUMER,!filterViewModel.isConsumerChecked)}"
+                android:textAppearance="?body3"
+                app:bds_text="@string/filter_transaction_method_cost_select_consumer"
+                app:isOn="@{filterViewModel.isConsumerChecked}"
+                app:shape="@{`outlined`}" />
+
+            <com.depromeet.bds.component.BdsChoiceChip
+                android:id="@+id/bdschoice_transaction_method_cost_select_na"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen8"
+                android:onClick="@{()->filterViewModel.setTransferFeeType(TransferFee.NONE,!filterViewModel.isNaChecked)}"
+                android:textAppearance="?body3"
+                app:bds_text="@string/filter_transaction_method_cost_select_na"
+                app:isOn="@{filterViewModel.isNaChecked}"
+                app:shape="@{`outlined`}" />
+
+
+        </com.google.android.flexbox.FlexboxLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

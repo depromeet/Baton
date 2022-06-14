@@ -44,6 +44,7 @@ class LikeTicketFragment : BaseFragment<FragmentLikeTicketBinding>(R.layout.frag
             .onEach { state ->
                 run{
                     binding.uistate=state
+                    Timber.e(state.list .toString())
                     ticketItemRvAdapter.submitList( state.list )
                 }
             }

@@ -19,6 +19,8 @@ import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ItemTicketSaleBinding
 import com.depromeet.baton.databinding.ItemTicketSaleFooterBinding
 import com.depromeet.baton.databinding.ItemTicketSaleHeaderBinding
+import com.depromeet.baton.domain.model.FilterType
+import com.depromeet.baton.domain.model.TicketKind
 import com.depromeet.baton.domain.model.TicketStatus
 import com.depromeet.baton.presentation.ui.mypage.model.SaleTicketItem
 import com.depromeet.baton.presentation.ui.mypage.model.SaleTicketListItem
@@ -93,15 +95,15 @@ class SaleTicketItemAdapter(
                 itemSaleLocationTv.text = if(item.ticket.data.address.length > 15) item.ticket.data.address.substring(0,15)+"..." else item.ticket.data.address
                 itemSaleDistanceTv.text = distanceFormatUtil( item.ticket.data.distance)
 
-                if(item.ticket.data.state ==0){
+                if(item.ticket.data.state == TicketStatus.SALE.ordinal){
                     itemSaleStatusView.visibility = View.GONE
                     itemSaleStatusChip.visibility =View.GONE
                 }else{
-                    val resource= setUi(TicketStatus.values().get(item.ticket.data.state))
+                    val resource= setUi(TicketStatus.values().get(item.ticket.data.state) )
                     itemSaleStatusIc.setImageResource(resource.icon)
                     itemSaleStatusTv.text = resource.title
                     itemSaleStatusChip.text = resource.title
-                    if(item.ticket.data.state==2) itemSaleMenuBtn.visibility=View.GONE
+                    if(item.ticket.data.state==TicketStatus.RESERVATION.ordinal) itemSaleMenuBtn.visibility=View.GONE
                 }
 
                 if(item.ticket.data.mainImage !=null)Glide.with(context)
@@ -109,7 +111,8 @@ class SaleTicketItemAdapter(
                     .transform(CenterCrop(), RoundedCorners(4.toPx()))
                     .into(binding.itemSaleImageIv)
                 else{
-                    setEmptyImage(item.ticket.data.state, itemSaleImageIv)
+                    if(item.ticket.data.type!=null)setEmptyImage(TicketKind.valueOf(item.ticket.data.type!!).ordinal, itemSaleImageIv)
+                    //TODO type 요청
                 }
 
                 itemSaleMenuBtn.setOnClickListener {
@@ -171,9 +174,9 @@ class SaleTicketItemAdapter(
     private fun setEmptyImage(ticket: Int ,view:ImageView) {
         when (ticket % 4) {
             0 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_health_86)
-            1 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_etc_86)
-            2 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_pt_86)
-            3 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_pilates_86)
+            1 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_pt_86)
+            2 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_pilates_86)
+            3 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_etc_86)
         }
     }
 

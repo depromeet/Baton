@@ -1,6 +1,7 @@
 package com.depromeet.baton.util
 
 import android.content.Context
+import android.util.Log
 import com.depromeet.baton.map.domain.entity.AddressEntity
 import com.naver.maps.geometry.LatLng
 import dagger.hilt.android.qualifiers.ApplicationContext

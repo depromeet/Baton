@@ -82,10 +82,8 @@
 
     <!--TODO 디자인 시스템에 없는 Button: WritePostActivity-->
     <style name="Widget.MaterialButton" parent="Widget.MaterialComponents.Button">
-        <item name="android:minHeight">0dp</item>
         <item name="android:minWidth">0dp</item>
         <item name="android:includeFontPadding">false</item>
-        <item name="android:button">@null</item>
         <item name="android:stateListAnimator">@null</item>
         <item name="cornerRadius">@dimen/dimen8</item>
     </style>

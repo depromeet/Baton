@@ -1,12 +1,13 @@
 package com.depromeet.baton.presentation.ui.mypage.model
 
 import com.depromeet.baton.R
+import com.depromeet.baton.domain.model.MypageTicketResponse
 import com.depromeet.baton.domain.model.TicketSimpleInfo
 
 data class SaleTicketItem (
    val typeId : Int,
    val date : String,
-   val data : TicketSimpleInfo
+   val data : MypageTicketResponse
 )
 
 sealed class SaleTicketListItem{

@@ -5,6 +5,10 @@
 
     <data>
 
+        <variable
+            name="uiState"
+            type="com.depromeet.baton.presentation.ui.writepost.viewmodel.WritePostViewModel.BottomSearchUiState" />
+
         <import type="com.depromeet.baton.presentation.base.UIState" />
 
         <variable
@@ -41,7 +45,8 @@
                 android:id="@+id/iv_bottom_search_close"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/dimen16"
+                android:onClick="@{_->uiState.setBottomDialogDismiss.invoke()}"
+                android:padding="@dimen/dimen16"
                 android:src="@drawable/ic_close_18"
                 app:layout_constraintBottom_toBottomOf="@+id/bds_searchbar_bottom_place"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -60,7 +65,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="@+id/iv_bottom_search_close"
-                app:layout_constraintStart_toStartOf="@+id/bds_searchbar_bottom_place"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/view_bottom_place"
                 app:uiState="@{writePostViewModel.shopSearchUiState }"
                 tools:visibility="visible">
@@ -69,7 +74,7 @@
                     android:id="@+id/rv_bottom_place"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen32"
+                    android:layout_marginTop="@dimen/dimen8"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -118,6 +123,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen16"
+                    android:onClick="@{_->uiState.onGoSelfWriteClick.invoke()}"
                     android:theme="@style/Theme.Bds.TertiaryButton.Medium"
                     app:bds_text="직접 입력하기"
                     app:layout_constraintEnd_toEndOf="@id/tv_bottom_place_no_result_found"
@@ -129,9 +135,10 @@
                 android:id="@+id/bds_btn_bottom_search_no_result"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dimen68"
+                android:onClick="@{_->uiState.onGoSelfWriteClick.invoke()}"
                 android:theme="@style/Theme.Bds.TertiaryButton.Medium"
                 app:bds_text="찾고있는 헬스장이 없나요?"
-                android:layout_marginBottom="@dimen/dimen68"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/ctl_bottom_search_result_exist"
                 app:layout_constraintStart_toStartOf="@+id/ctl_bottom_search_result_exist"

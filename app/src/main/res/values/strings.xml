@@ -86,7 +86,7 @@
     <string name="filter_hashtag_customized_care">&#35;맞춤 케어</string>
     <string name="filter_hashtag_wide_facility">&#35;넓은 시설</string>
     <string name="filter_hashtag_various_instruments">&#35;다양한 기구</string>
-    <string name="filter_hashtag_new_instruments">&#35;최신기구</string>
+    <string name="filter_hashtag_new_instruments">&#35;최신 기구</string>
     <string name="filter_hashtag_crowded">&#35;사람이 많은</string>
     <string name="filter_hashtag_few_people">&#35;사람이 적은</string>
     <string name="filter_hashtag_pleasant_environment">&#35;쾌적한 환경</string>
@@ -143,6 +143,10 @@
     <string name="price_range">%s원 ~ %s원</string>
     <string name="pt_term_range">%s회 ~ %s회</string>
     <string name="gym_term_range">%s개월 ~ %s개월</string>
+    <string name="ticket_distance_format">%sm</string>
+    <string name="ticket_price_format">%s원</string>
+    <string name="ticket_remaining_day">%s일 남음</string>
+    <string name="ticket_remaining_number">%s회 남음</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -173,7 +177,7 @@
     <string name="how_to_use_introduce2">바통에서 더 이상 사용하지 않는 회원권은 빠르게 판매하고\n평소 눈여겨 보던 우리 동네 헬스장 회원권은 저렴한 가격에\n구매해보세요!</string>
     <string name="how_to_use_method2">거래 하기 전 상세 페이지에서 거래 방법을 확인하고\n거래 문의를 통해 판매자(구매자)와 거래를 진행해보세요.</string>
     <string name="how_to_use_method1">양도권 거래 방법은 현장결제와 선결제로 나눠져요.</string>
-    <string name="how_to_use_careful1">구매 사기 예방을 위해 바통은 현장결제를 권장하는 편이에요.\n거래하기 전 등록된 회원권 정보가 계약 내용과도 일치하는지\n확인하면 더 안전한 거래를 할 수 있어요!</string>
+    <string name="how_to_use_careful1">구매 사기 예방을 위해 바통은 현장결제를 권장하는 편이에요. 거래하기 전 등록된 회원권 정보가 계약 내용과도 일치하는지 확인하면 더 안전한 거래를 할 수 있어요!</string>
     <string name="how_to_use_careful2">바통(주)는 통신판매 중개자로서 통신 판매의 당사자가 아닙니다. 본 양도권은 개별 판매자가 직접 등록한 양도권으로 회원권 정보, 양도 거래에 관한 의무와 책임은 각 판매자와 구매자에게 있습니다.</string>
 
     <string name="service_term_title"> 바통(주)는 통신판매 중개자로서 통신판매의 당사자가 아닙니다.\n본 양도권은 개별 판매자가 직접 등록한 양도권으로 회원권 정보,\n

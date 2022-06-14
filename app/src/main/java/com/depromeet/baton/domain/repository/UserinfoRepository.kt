@@ -3,6 +3,7 @@ package com.depromeet.baton.domain.repository
 import com.depromeet.baton.data.response.*
 import com.depromeet.baton.domain.api.search.SearchApi
 import com.depromeet.baton.domain.api.user.UserInfoApi
+import com.depromeet.baton.domain.model.MypageTicketResponse
 import com.depromeet.baton.domain.model.TicketSimpleInfo
 import com.depromeet.baton.domain.model.UserInfo
 import com.depromeet.baton.map.base.BaseApiResponse
@@ -28,7 +29,7 @@ class UserinfoRepository @Inject constructor(
         return withContext(Dispatchers.IO){safeApiCall { userInfoApi.getUserBuyHistory(userIdx) }}
     }
 
-    suspend fun getUserSellList(userIdx: Int ,state : Int ? =0) : NetworkResult<List<TicketSimpleInfo>>{
+    suspend fun getUserSellList(userIdx: Int ,state : Int ? =0) : NetworkResult<List<MypageTicketResponse>>{
         return  withContext(Dispatchers.IO){safeApiCall { userInfoApi.getUserSellHistory(userIdx,state) }}
     }
 }

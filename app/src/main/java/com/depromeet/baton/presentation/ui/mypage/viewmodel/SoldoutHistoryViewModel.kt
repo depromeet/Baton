@@ -1,6 +1,7 @@
 package com.depromeet.baton.presentation.ui.mypage.viewmodel
 
 import androidx.lifecycle.viewModelScope
+import com.depromeet.baton.domain.model.MypageTicketResponse
 import com.depromeet.baton.domain.model.TicketSimpleInfo
 import com.depromeet.baton.domain.repository.UserinfoRepository
 import com.depromeet.baton.map.util.NetworkResult
@@ -28,39 +29,28 @@ class SoldoutHistoryViewModel @Inject constructor(
     }
 
     fun getSoldoutHistory(state: TicketState){
-        val dummy= arrayListOf<TicketSimpleInfo>(
-            TicketSimpleInfo(1,    "1장ㅈ",  "광진구 중곡동 텍스트 1234번지",200000,"https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/18ee9e14-ceec-41a3-a458-97ec0d1099b1.jpeg","2022-06-02T03:34:23+09:00",
-                2, tags=emptyList(), images=emptyList(),true,null,"2023-04-05",0.0,0.0,1000.0),
-            TicketSimpleInfo(2,    "2장ㅈ",  "광진구 중곡동 텍스트 1234번지",200000,"https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/18ee9e14-ceec-41a3-a458-97ec0d1099b1.jpeg","2022-06-05T03:34:23+09:00",
-                2, tags=emptyList(), images=emptyList(),true,null,"2023-04-05",0.0,0.0,1000.0),
-            TicketSimpleInfo(3,    "3장ㅈ",  "광진구 중곡동 텍스트 1234번지",200000,"https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/18ee9e14-ceec-41a3-a458-97ec0d1099b1.jpeg","2022-06-05T03:34:23+09:00",
-                2, tags=emptyList(), images=emptyList(),true,null,"2023-04-05",0.0,0.0,1000.0),
-            TicketSimpleInfo(4,    "4장ㅈ",  "광진구 중곡동 텍스트 1234번지",200000,"https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/18ee9e14-ceec-41a3-a458-97ec0d1099b1.jpeg","2022-06-06T03:34:23+09:00",
-                2, tags=emptyList(), images=emptyList(),true,null,"2023-04-05",0.0,0.0,1000.0)
-        )
         viewModelScope.launch {
             runCatching {
                 userinfoRepository.getUserSellList(1,state.option)
             }.onSuccess {
                     res ->run{
                 when(res){
-                    is NetworkResult.Success<List<TicketSimpleInfo>> ->{
+                    is NetworkResult.Success<List<MypageTicketResponse>> ->{
                         val list= res.data?.toListItems()
-                        val dummys = dummy.toListItems()
-                        _uiState.update { it.copy(list = dummys , isLoading = false) }
+                        _uiState.update { it.copy(list = list , isLoading = false) }
                     }
-                    is NetworkResult.Error<List<TicketSimpleInfo>> ->{
-                        Timber.e("call api "+res.message)
+                    is NetworkResult.Error<List<MypageTicketResponse>> ->{
+                        Timber.e(res.message)
                     }
                  }
               }
             }.onFailure {
-                    e -> Timber.e(e.toString()+"recall")
+                    e -> Timber.e(e.toString())
             }
         }
     }
 
-    private fun List<TicketSimpleInfo>.toListItems(): List<SaleTicketListItem> {
+    private fun List<MypageTicketResponse>.toListItems(): List<SaleTicketListItem> {
         val result = arrayListOf<SaleTicketListItem>() // 결과를 리턴할 리스트
         var groupHeaderDate = "" // 그룹날짜
         this.forEachIndexed { index, item->

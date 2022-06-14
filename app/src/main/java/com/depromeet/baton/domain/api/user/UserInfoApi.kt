@@ -4,6 +4,7 @@ import com.depromeet.baton.data.response.BookmarkTicket
 import com.depromeet.baton.data.response.UserBuyListResponse
 import com.depromeet.baton.data.response.UserProfileResponse
 import com.depromeet.baton.databinding.ItemPrimaryOutlineTagBinding
+import com.depromeet.baton.domain.model.MypageTicketResponse
 import com.depromeet.baton.domain.model.TicketSimpleInfo
 import com.depromeet.baton.map.base.BaseApiResponse
 import com.depromeet.baton.remote.user.UserInfoService
@@ -28,7 +29,7 @@ class UserInfoApi @Inject constructor(
         return service.getUserBuyTickets(userIdx)
     }
 
-    suspend fun getUserSellHistory(userIdx: Int, state: Int?) : Response<List<TicketSimpleInfo>>{
+    suspend fun getUserSellHistory(userIdx: Int, state: Int?) : Response<List<MypageTicketResponse>>{
         return service.getUserSellTickets(userIdx,state)
     }
 

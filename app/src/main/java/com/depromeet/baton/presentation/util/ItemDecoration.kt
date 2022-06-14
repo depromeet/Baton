@@ -3,7 +3,6 @@ package com.depromeet.baton.presentation.util
 import android.R.attr.spacing
 import android.R.attr.windowMinWidthMajor
 import android.graphics.Rect
-import android.util.Log
 import android.view.View
 import android.widget.GridView
 import androidx.recyclerview.widget.GridLayoutManager

@@ -28,6 +28,7 @@ class BdsCheckbox @JvmOverloads constructor(
         val layoutInflater = LayoutInflater.from(context)
         binding = BdsComponentCheckboxBinding.inflate(layoutInflater, this, true)
 
+
         context.withStyledAttributes(attrs, R.styleable.BdsCheckbox) {
             binding.checkbox.isChecked = getBoolean(R.styleable.BdsCheckbox_isChecked, false)
             binding.checkbox.isEnabled = getBoolean(R.styleable.BdsCheckbox_isEnabled, true)
@@ -35,7 +36,8 @@ class BdsCheckbox @JvmOverloads constructor(
     }
 
 
-    fun setOnClickListener(listener: () -> Unit) {
+
+   fun setOnClickListener(listener: () -> Unit) {
         binding.checkbox.setOnClickListener { listener() }
     }
 

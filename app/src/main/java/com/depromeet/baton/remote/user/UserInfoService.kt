@@ -1,6 +1,7 @@
 package com.depromeet.baton.remote.user
 
 import com.depromeet.baton.data.response.*
+import com.depromeet.baton.domain.model.MypageTicketResponse
 import com.depromeet.baton.domain.model.TicketSimpleInfo
 import retrofit2.Response
 import retrofit2.http.DELETE
@@ -29,6 +30,6 @@ interface UserInfoService {
     suspend fun getUserSellTickets(
         @Path("id") userIdx : Int,
         @Query("state") state :Int?=0
-    ) : Response<List<TicketSimpleInfo>>
+    ) : Response<List<MypageTicketResponse>>
 
 }
