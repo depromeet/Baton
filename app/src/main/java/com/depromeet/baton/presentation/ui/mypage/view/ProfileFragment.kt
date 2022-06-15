@@ -7,6 +7,9 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.depromeet.baton.BatonApp
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentProfileBinding
@@ -53,12 +56,6 @@ class ProfileFragment() :BaseFragment<FragmentProfileBinding>(R.layout.fragment_
     }
 
 
-    private fun changedProfile(){
-        requireContext().BdsToast("변경이 완료됐습니다.",binding.profileCompleteBtn.top).show()
-     //   binding.profileMyprofileIv.setImageURI(profileViewModel.temporaryUiState.value.profileImage)
-        binding.profileCompleteBtn.isEnabled=true
-    }
-
 
     private fun onBackPressed(){
         parentFragmentManager.popBackStack()
@@ -66,7 +63,6 @@ class ProfileFragment() :BaseFragment<FragmentProfileBinding>(R.layout.fragment_
 
     private fun setOnClickComplete(){
         profileViewModel.submitProfile()
-        onBackPressed()
     }
 
     private fun setObserver(){
@@ -74,6 +70,11 @@ class ProfileFragment() :BaseFragment<FragmentProfileBinding>(R.layout.fragment_
             .flowWithLifecycle(viewLifecycle)
             .onEach { uiState -> run{
                 binding.uiState = uiState
+                Glide.with(requireContext())
+                    .load(uiState.profileImage)
+                    .error(com.depromeet.bds.R.drawable.img_profile_basic_smile_56)
+                    .transform(CircleCrop())
+                    .into(binding.profileMyprofileIv)
             } }
             .launchIn(viewLifecycleScope)
 
@@ -91,10 +92,13 @@ class ProfileFragment() :BaseFragment<FragmentProfileBinding>(R.layout.fragment_
                 }
                 ProfileViewModel.ProfileViewEvent.EventUpdateProfileImage->{
                     myPageViewModel.updateProfileImg(profileViewModel.uiState.value.profileImage)
-                    changedProfile()
+                    requireContext().BdsToast("변경이 완료됐습니다.",binding.profileCompleteBtn.top).show()
+                    binding.profileCompleteBtn.isEnabled=true
                 }
                 ProfileViewModel.ProfileViewEvent.EventUpdateProfileInfo ->{
-                    myPageViewModel.updateNickname(profileViewModel.uiState.value.nickName)
+                    requireContext().BdsToast("변경이 완료됐어요.").show()
+                    myPageViewModel.updateProfile(profileViewModel.uiState.value.nickName,profileViewModel.uiState.value.phoneNumber)
+                    onBackPressed()
                 }
             }
             profileViewModel.consumeViewEvent(viewEvent)

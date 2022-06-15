@@ -108,7 +108,8 @@ class SaleTicketItemAdapter(
                     if(item.ticket.data.state==TicketStatus.RESERVATION.ordinal) itemSaleMenuBtn.visibility=View.GONE
                 }
 
-                if(item.ticket.data.mainImage !=null)Glide.with(context)
+                if(item.ticket.data.mainImage !=null)
+                    Glide.with(context)
                     .load(item.ticket.data.mainImage)
                     .transform(CenterCrop(), RoundedCorners(4.toPx()))
                     .into(binding.itemSaleImageIv)

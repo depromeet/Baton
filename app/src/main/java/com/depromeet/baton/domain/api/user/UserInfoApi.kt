@@ -7,10 +7,7 @@ import com.depromeet.baton.databinding.ItemPrimaryOutlineTagBinding
 import com.depromeet.baton.domain.model.MypageTicketResponse
 import com.depromeet.baton.domain.model.TicketSimpleInfo
 import com.depromeet.baton.map.base.BaseApiResponse
-import com.depromeet.baton.remote.user.UserAccount
-import com.depromeet.baton.remote.user.UserAddressRequest
-import com.depromeet.baton.remote.user.UserAddressResponse
-import com.depromeet.baton.remote.user.UserInfoService
+import com.depromeet.baton.remote.user.*
 import retrofit2.Response
 import timber.log.Timber
 import javax.inject.Inject
@@ -22,6 +19,9 @@ class UserInfoApi @Inject constructor(
 ){
     suspend fun getUserProfile(userIdx : Int) : Response<UserProfileResponse> {
        return service.getUserProfile(userIdx)
+    }
+    suspend fun updateUserProfile(userIdx : Int , body : UserProfileRequest) : Response<UserProfileRequest> {
+        return service.updateUserProfile(userIdx , body)
     }
 
       suspend fun getUserBookmarks(bookmarkId : Int , state: Int?=0) :Response<List<BookmarkTicket>>{

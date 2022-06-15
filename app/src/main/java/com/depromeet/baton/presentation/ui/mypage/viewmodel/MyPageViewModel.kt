@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.bumptech.glide.Glide
 import com.depromeet.baton.data.response.UserProfileResponse
 import com.depromeet.baton.domain.model.UserInfo
 import com.depromeet.baton.domain.repository.AuthRepository
@@ -50,10 +51,10 @@ class MyPageViewModel @Inject constructor(
                     is NetworkResult.Success ->{
                         _uiState.update {
                             MypageUiState(
-                                nickName = res.data!!.name,
+                                nickName = res.data!!.nickname,
                                 phoneNumber = res.data!!.phone_number.replace(Regex("[^0-9]*"),""),
                                 joinDate = res.data!!.created_on ,
-                                profileImage = uriConverter(context, R.drawable.ic_img_profile_startled_56),
+                                profileImage = uriConverter(context, R.drawable.ic_img_profile_basic_smile_56),
                                 account =  res.data!!.account
                             )
                         }
@@ -67,8 +68,8 @@ class MyPageViewModel @Inject constructor(
     }
 
 
-    fun updateNickname(nickName: String ){
-        _uiState.update { it.copy(nickName = nickName) }
+    fun updateProfile(nickName: String ,phoneNumber: String){
+        _uiState.update { it.copy(nickName = nickName , phoneNumber = phoneNumber) }
     }
 
     fun updateProfileImg(profileImage: Uri){

@@ -39,9 +39,7 @@ class MyBookmarkViewModel @Inject constructor(
                     result -> _netWorkState.update { result }
                         when(result) {
                             is NetworkResult.Success -> {
-                                Timber.e(result.data.toString())
-                                if (result.data != null)
-                                    _uiState.update { it.copy(list = result.data!!, isLoading = false) }
+                                _uiState.update { it.copy(list = result.data!!, isLoading = false) }
                             }
                             is NetworkResult.Error -> {
                                 _uiState.update { it.copy(isLoading = false) }

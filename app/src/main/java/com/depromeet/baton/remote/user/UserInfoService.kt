@@ -13,6 +13,13 @@ interface UserInfoService {
     @GET("users/{id}")
     suspend fun getUserProfile(@Path("id") userIdx : Int) : Response<UserProfileResponse>
 
+    @PUT("users/{id}")
+    suspend fun updateUserProfile(
+        @Path("id") userIdx : Int,
+        @Body body : UserProfileRequest
+    ) : Response<UserProfileRequest>
+
+
     @DELETE("users/{id}")
     suspend fun deleteUser(@Path("id") userIdx : Int)
 
@@ -56,6 +63,12 @@ interface UserInfoService {
     ) : Response<UserAccount>
 
 }
+
+data class UserProfileRequest(
+    @Json(name="nickname") val nickname :String,
+    @Json(name="phone_number")val phoneNum : String
+)
+
 data class UserAddressRequest(
     @Json(name="latitude")val latitude : Float,
     @Json(name="longitude")val longitude : Float,

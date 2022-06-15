@@ -9,13 +9,13 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_img_empty_sale"
+        android:src="@drawable/ic_img_empty_purchase"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?body1"
         android:layout_marginTop="@dimen/dimen16"
-        android:text="거래내역이 없어요."/>
+        android:text="구매내역이 없어요."/>
 
 </LinearLayout>

@@ -17,8 +17,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.flowWithLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.depromeet.baton.R
-import com.depromeet.baton.databinding.FragmentProfileBottomBinding
 import com.depromeet.baton.presentation.ui.mypage.adapter.ProfileIconAdapter
 import com.depromeet.baton.presentation.ui.mypage.model.ProfileIcon
 import com.depromeet.baton.presentation.ui.mypage.model.ProfileIconItem
@@ -106,8 +107,13 @@ class ProfileBottomFragment(): BottomSheetDialogFragment() {
     }
 
     private fun setImage(uri : Uri){
-        if(nowImgUrl==null) profileViewModel.uiState.value.profileImage
-        view?.findViewById<ImageView>(R.id.profile_bottom_my_iv)?.setImageURI(nowImgUrl?:uri)
+        if(nowImgUrl==null) nowImgUrl=profileViewModel.uiState.value.profileImage
+        Glide.with(requireContext())
+            .load(nowImgUrl?:uri)
+            .error(com.depromeet.bds.R.drawable.img_profile_basic_smile_56)
+            .transform(CircleCrop())
+            .into(view?.findViewById<ImageView>(R.id.profile_bottom_my_iv)!!)
+        //view?.findViewById<ImageView>(R.id.profile_bottom_my_iv)?.setImageURI(nowImgUrl?:uri)
         view?.findViewById<Button>(R.id.profile_bottom_check_btn)?.isEnabled=true
     }
 

@@ -10,6 +10,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.load.resource.bitmap.TransformationUtils.circleCrop
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentMyPageBinding
 import com.depromeet.baton.presentation.base.BaseFragment
@@ -31,7 +35,6 @@ import timber.log.Timber
 class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page) {
 
     private val myPageViewModel  by  viewModels<MyPageViewModel>()
-    private val profileViewModel by activityViewModels<ProfileViewModel>()
 
     private val saleHistoryFragment by lazy{ SaleHistoryFragment()}
     private val purchaseHistoryFragment by lazy { PurchaseHistoryFragment() }
@@ -121,6 +124,11 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             .onEach { uiState ->
                 run{
                     binding.uiState =uiState
+                    Glide.with(requireContext())
+                        .load(uiState.profileImage)
+                        .error(com.depromeet.bds.R.drawable.img_profile_basic_smile_56)
+                        .transform(CircleCrop())
+                        .into(binding.mypageProfileIv)
                 }
             }
             .launchIn(viewLifecycleScope)
