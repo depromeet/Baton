@@ -6,6 +6,7 @@ import android.os.Build
 import android.text.Editable
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -75,12 +76,14 @@ class WritePostViewModel @Inject constructor(
     //멤버십 정보
     @RequiresApi(Build.VERSION_CODES.O)
     private val _membershipInfoUiState: MutableStateFlow<MembershipInfoUiState> = MutableStateFlow(createMembershipInfoState())
+
     @RequiresApi(Build.VERSION_CODES.O)
     val membershipInfoUiState = _membershipInfoUiState.asStateFlow()
 
     //판매방식
     @RequiresApi(Build.VERSION_CODES.O)
     private val _transactionMethodUiState: MutableStateFlow<TransactionMethodUiState> = MutableStateFlow(createTransactionMethodState())
+
     @RequiresApi(Build.VERSION_CODES.O)
     val transactionMethodUiState = _transactionMethodUiState.asStateFlow()
 
@@ -91,6 +94,9 @@ class WritePostViewModel @Inject constructor(
     private val _descriptionUiState: MutableStateFlow<DescriptionUiState> = MutableStateFlow(createDescriptionState())
     val descriptionUiState = _descriptionUiState.asStateFlow()
 
+    //게시글 작성 완료
+    val _uiState = MutableLiveData<UIState?>(UIState.Init)
+    val uiState: LiveData<UIState?> get() = _uiState
 
     //todo 그외 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
@@ -540,7 +546,7 @@ class WritePostViewModel @Inject constructor(
 
 
         //만료일로부터 남은 날
-        if (_isPeriodChecked.value == true && term.length == 8) {
+        if (term.length == 8) {
             _periodFormatted.value = dateDifferenceFormat(term) + "일"
         } else {
             _periodFormatted.value = "0일"
@@ -551,6 +557,7 @@ class WritePostViewModel @Inject constructor(
             ticketKindCheckedList.value?.containsValue(true) == true
                     && (_isPeriodChecked.value == true || _isNumberChecked.value == true)
                     && term.isNotEmpty()
+                    //   && term.isDigitsOnly()
                     && price.isNotEmpty()
 
         //작성한 만료일이 현재 시간보다 이전이거나 date 형식에 맞지 않는지 검사
@@ -714,6 +721,9 @@ class WritePostViewModel @Inject constructor(
     //todo ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡapiㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
     @RequiresApi(Build.VERSION_CODES.O)
     fun postTicket() {
+        _uiState.value = (UIState.Loading)
+
+
         var expiryDate: String? = null
         var remainingNumber: Int? = null
         val term = _membershipInfoUiState.value.termChanged
@@ -754,6 +764,7 @@ class WritePostViewModel @Inject constructor(
                 .onSuccess {
                     _postId.value = it.id
                     _postSuccess.call()
+                    _uiState.value = (UIState.Init)
                 }
                 .onFailure {
                     Timber.e(it)
