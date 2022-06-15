@@ -28,6 +28,7 @@ class EmptyAccountActivity : BaseActivity<ActivityEmptyAccountBinding>(R.layout.
             AddAccountActivity.start(this)
             finish()
         }
+        binding.appbar.setOnBackwardClick{onBackPressed()}
     }
     companion object {
         fun start(context: Context){

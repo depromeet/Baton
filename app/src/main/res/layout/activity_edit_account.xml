@@ -5,7 +5,7 @@
     <data>
         <variable
             name="uiState"
-            type="com.depromeet.baton.presentation.ui.mypage.view.EditAccountUiState" />
+            type="com.depromeet.baton.presentation.ui.mypage.viewmodel.EditAccountUiState" />
     </data>
 
     <FrameLayout
@@ -76,8 +76,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@{uiState.bank}"
-                            android:clickable="@{uiState.checkEdit}"
+                            android:onClick="@{_ -> uiState.onBankSelectionClick.invoke()}"
                             android:enabled="@{uiState.checkEdit}"
+                            android:focusable="false"
                             android:hint="은행을 선택해주세요."
                             android:inputType="none" />
                     </com.depromeet.bds.component.BdsComponentTextField>
