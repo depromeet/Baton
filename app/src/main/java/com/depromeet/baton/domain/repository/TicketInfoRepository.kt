@@ -21,6 +21,7 @@ import javax.inject.Singleton
 class TicketInfoRepository  @Inject constructor(
     private val ticketApi: TicketInfoApi,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher ) :BaseApiResponse(){
+
     suspend fun getTicketInfo(ticketId : Int, log :Float, lat :Float) : NetworkResult<TicketInfo>{
         return  withContext(ioDispatcher){
            safeApiCall { ticketApi.getTicketInfo(ticketId,log,lat) }

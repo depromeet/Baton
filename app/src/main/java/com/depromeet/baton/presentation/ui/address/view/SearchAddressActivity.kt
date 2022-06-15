@@ -84,10 +84,13 @@ class SearchAddressActivity : BaseActivity<ActivitySearchAddressBinding>(R.layou
 
     private fun setAdapter() {
         listAdapter = SearchAddressAdapter { selectedItem: AddressInfo ->
-            listItemClicked(
-                selectedItem
-            )
+            listItemClicked(selectedItem)
         }
+        listAdapter.setQueryListener(object: SearchAddressAdapter.SearchColorListener{
+            override fun getQuery(): String {
+                return binding.searchAddressEt.getText()
+            }
+        })
         binding.searchAddressRecycler.adapter = listAdapter
     }
 
