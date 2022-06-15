@@ -35,14 +35,12 @@ class SaleHistoryViewModel @Inject constructor(
         MutableStateFlow(SoldoutHistoryUiState())
     val soldoutUiState = _soldoutUiState.asStateFlow()
 
-    var change = 1
-
-    init {
+/*    init {
         getSaleHistory()
         getSoldoutHistory()
-    }
+    }*/
 
-    private fun getSaleHistory() {
+    fun getSaleHistory() {
         viewModelScope.launch {
             runCatching {
                 userinfoRepository.getUserSellList(1, TicketState.SALE.option)
@@ -100,7 +98,6 @@ class SaleHistoryViewModel @Inject constructor(
     //TODO 판매상태변경 => removeItem 처리할지 재로딩 할지 결정
     fun changeStatus(ticketId: Int, status: Int) {
         //변경후 초기화
-        change++
         getSaleHistory()
         getSoldoutHistory()
     }

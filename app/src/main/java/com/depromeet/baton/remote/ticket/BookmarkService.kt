@@ -19,7 +19,7 @@ interface  BookmarkService {
     @DELETE("bookmarks/{id}")
     suspend fun deleteBookmark(
         @Path("id") bookmarkId : Int
-    ) : Response<String>
+    ) : Response<BookmarkDeleteResponse>
 }
 
 data class BookmarkRequest(
@@ -30,4 +30,8 @@ data class BookmarkRequest(
 data class BookmarkResponse(
     @Json(name="user") val user : Int,
     @Json(name="ticket") val ticket : Int
+)
+
+data class BookmarkDeleteResponse(
+    @Json(name="detail") val msg :String
 )

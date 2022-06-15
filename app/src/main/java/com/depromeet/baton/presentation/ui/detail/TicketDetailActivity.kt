@@ -162,10 +162,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
                     //TODO showChatBottom
                 }
                 DetailViewEvent.EventClickLike->{
-                    if(viewModel.ticketState.value!!.ticket.isLikeTicket)
                         this@TicketDetailActivity.BdsToast("관심 상품이 등록되었습니다.",binding.ticketDetailFooter.top).show()
-
-                    binding.ticketDetailLikeBtn.toggle()
                 }
                 DetailViewEvent.EventClickDelete->{
                     finish()
@@ -314,7 +311,6 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
             when(index){
                 0 -> run{
                     showBottom(CHECK_ITEM_VIEW, DetailBottomOption.STATUS, statusItemClick)
-
                 }
                 1 -> { //delete
                     viewModel.deleteTicket() // Api 호출
@@ -345,7 +341,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     }
 
     private fun setTicketItemClickListener(ticketItem: FilteredTicket) {
-        startActivity(TicketDetailActivity.start(this,ticketId = ticketItem.id))
+        TicketDetailActivity.start(this,ticketId = ticketItem.id)
     }
 
 
@@ -435,10 +431,10 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     }
 
     companion object {
-        fun start(context: Context,ticketId: Int):Intent{
+        fun start(context: Context,ticketId: Int){
             val intent = Intent(context, TicketDetailActivity::class.java)
             intent.putExtra("ticketId",ticketId)
-            return intent
+            context.startActivity(intent)
         }
     }
 }

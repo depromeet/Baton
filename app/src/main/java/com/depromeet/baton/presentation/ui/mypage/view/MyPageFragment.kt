@@ -1,14 +1,11 @@
 package com.depromeet.baton.presentation.ui.mypage.view
 
-import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import com.depromeet.baton.R
@@ -134,14 +131,28 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 // 뒤로가기 눌렀을 때 동작할 코드
-               if(this@MyPageFragment.isAdded && childFragmentManager.fragments.isNotEmpty()) childFragmentManager.popBackStack()
+               if(this@MyPageFragment.isAdded && childFragmentManager.fragments.isNotEmpty()){
+                   clearBackStack()
+               }
             }
         })
     }
 
 
     private fun replaceFragment(fragment: Fragment, tag :String?=null){
-        childFragmentManager.beginTransaction().add(R.id.fragment_container_view,fragment,tag).addToBackStack(null).commit()
+        childFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container_view,fragment,tag)
+            .addToBackStack(null).commit()
     }
 
+    private fun clearBackStack() {
+        val fragmentManager = childFragmentManager
+        while (fragmentManager.backStackEntryCount !== 0) {
+            fragmentManager.popBackStackImmediate()
+        }
+
+        Timber.e(childFragmentManager.fragments.toString())
+        Timber.e(parentFragmentManager.fragments.toString())
+    }
+    
 }

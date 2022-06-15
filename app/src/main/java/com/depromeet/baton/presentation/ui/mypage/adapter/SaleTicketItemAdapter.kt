@@ -22,10 +22,12 @@ import com.depromeet.baton.databinding.ItemTicketSaleHeaderBinding
 import com.depromeet.baton.domain.model.FilterType
 import com.depromeet.baton.domain.model.TicketKind
 import com.depromeet.baton.domain.model.TicketStatus
+import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
 import com.depromeet.baton.presentation.ui.mypage.model.SaleTicketItem
 import com.depromeet.baton.presentation.ui.mypage.model.SaleTicketListItem
 import com.depromeet.baton.presentation.util.dateFormatUtil
 import com.depromeet.baton.presentation.util.distanceFormatUtil
+import com.depromeet.baton.presentation.util.priceFormat
 import com.depromeet.baton.util.SimpleDiffUtil
 import com.depromeet.bds.utils.toPx
 import timber.log.Timber
@@ -90,7 +92,7 @@ class SaleTicketItemAdapter(
             with(binding) {
                 itemSaleNameTv.text = if(item.ticket.data.location.length > 15) item.ticket.data.location.substring(0,15)+"..." else item.ticket.data.location
 
-                itemSalePriceTv.text = item.ticket.data.price.toString()
+                itemSalePriceTv.text =  priceFormat(item.ticket.data.price.toFloat())
                 itemSaleRemainDateTv.text = item.ticket.data.remainingNumber.toString()
                 itemSaleLocationTv.text = if(item.ticket.data.address.length > 15) item.ticket.data.address.substring(0,15)+"..." else item.ticket.data.address
                 itemSaleDistanceTv.text = distanceFormatUtil( item.ticket.data.distance)
@@ -125,6 +127,10 @@ class SaleTicketItemAdapter(
                     selectedItem=item
                     selectedPos= position
                     onClickStatusMenu(item, selectedPos!!)
+                }
+
+                itemSaleImageIv.setOnClickListener {
+                    TicketDetailActivity.start(context,item.ticket.data.id)
                 }
             }
         }

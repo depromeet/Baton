@@ -23,17 +23,17 @@ import com.depromeet.bds.component.DialogType
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import timber.log.Timber
 
 @AndroidEntryPoint
 class SaleTabFragment : BaseFragment<FragmentSaleTabBinding>(R.layout.fragment_sale_tab){
 
-    private val saleViewModel by viewModels<SaleHistoryViewModel>()
+    private val saleViewModel by viewModels<SaleHistoryViewModel>(ownerProducer = {requireActivity()})
     private  val ticketItemRvAdapter by lazy {
         SaleTicketItemAdapter(requireContext(), ::onClickMenuItemListener, ::onClickStatusMenuItemListener)
     }
 
     private lateinit var alertDialog : BdsDialog
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,6 +47,7 @@ class SaleTabFragment : BaseFragment<FragmentSaleTabBinding>(R.layout.fragment_s
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        saleViewModel.getSaleHistory()
         setTicketItemRv()
         setObserver()
     }
@@ -62,8 +63,6 @@ class SaleTabFragment : BaseFragment<FragmentSaleTabBinding>(R.layout.fragment_s
 
 
     private fun setObserver() {
-
-
         saleViewModel.uiState
             .flowWithLifecycle(viewLifecycle)
             .onEach {

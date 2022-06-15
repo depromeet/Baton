@@ -127,7 +127,7 @@ class EditAccountViewModel @Inject constructor(
     private fun createState():EditAccountUiState {
        val account= savedStateHandle.get<Bundle>("account") as Bundle
        val info =  account.get("data") as UserAccount
-     
+
         return EditAccountUiState(
             name = info.holder,
             bank = info.bank,
