@@ -29,6 +29,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginEnd="@dimen/dimen16"
         android:background="?wh100"
         tools:context=".presentation.ui.writepost.view.MembershipInformationFragment">
 
@@ -198,56 +199,44 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
 
-                    <com.depromeet.bds.component.BdsComponentTextField
-                        android:id="@+id/bds_textfield"
+                    <EditText
+                        android:id="@+id/et_term"
+                        style="@style/Widget.Bds.TextFieldInnerEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen8"
-                        android:focusable="true"
+                        android:afterTextChanged="@{it -> uiState.onTermChanged.invoke(it)}"
+                        android:background="@drawable/temp_textfield_background"
+                        android:hint="ex.20220803(숫자만 입력해주세요)"
+                        android:inputType="number"
+                        android:maxLength="11"
+                        android:paddingHorizontal="@dimen/dimen16"
+                        android:paddingVertical="@dimen/dimen14"
                         android:visibility="@{viewModel.isPeriodChecked==true ? View.VISIBLE : View.INVISIBLE}"
-                        app:bdsBorderColor="@color/selector_bds_textfield_border_color"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_membership_input"
-                        tools:visibility="invisible">
+                        app:layout_constraintTop_toBottomOf="@+id/tv_membership_input" />
 
-                        <EditText
-                            android:id="@+id/et_term"
-                            android:maxLength="11"
-                            style="@style/Widget.Bds.TextFieldInnerEditText"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:afterTextChanged="@{it -> uiState.onTermChanged.invoke(it)}"
-                            android:hint="ex.20220803(숫자만 입력해주세요)"
-                            android:inputType="number"
-                    />
 
-                    </com.depromeet.bds.component.BdsComponentTextField>
-
-                    <com.depromeet.bds.component.BdsComponentTextField
-                        android:id="@+id/bds_textfield_term"
+                    <EditText
+                        android:id="@+id/et_term_number"
+                        style="@style/Widget.Bds.TextFieldInnerEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen8"
-                        android:focusable="true"
+                        android:afterTextChanged="@{it -> uiState.onTermChanged.invoke(it)}"
+                        android:background="@drawable/temp_textfield_background"
+                        android:hint="ex.5(숫자만 입력해주세요)"
+                        android:imeOptions="actionSearch"
+                        android:inputType="number"
+                        android:paddingHorizontal="@dimen/dimen16"
+                        android:paddingVertical="@dimen/dimen14"
                         android:visibility="@{viewModel.isNumberChecked==true ? View.VISIBLE : View.INVISIBLE}"
-                        app:bdsBorderColor="@color/selector_bds_textfield_border_color"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_membership_input"
-                        tools:visibility="invisible">
+                        app:layout_constraintTop_toBottomOf="@+id/tv_membership_input"
+                        tools:visibility="visible" />
 
-                        <EditText
-                            android:id="@+id/et_term_number"
-                            style="@style/Widget.Bds.TextFieldInnerEditText"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:afterTextChanged="@{it -> uiState.onTermChanged.invoke(it)}"
-                            android:hint="ex.5(숫자만 입력해주세요)"
-                            android:imeOptions="actionSearch"
-                            android:inputType="number" />
-
-                    </com.depromeet.bds.component.BdsComponentTextField>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -258,7 +247,7 @@
                         android:textColor="?grey_scale60"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@id/ctl_membership_input"
-                        app:layout_constraintTop_toTopOf="@+id/bds_textfield"
+                        app:layout_constraintTop_toTopOf="@+id/et_term_number"
                         tools:text="0회" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -282,25 +271,22 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
 
-                    <com.depromeet.bds.component.BdsComponentTextField
-                        android:id="@+id/et_membership_info_price"
+                    <EditText
+                        android:id="@+id/et_price"
+                        style="@style/Widget.Bds.TextFieldInnerEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen8"
+                        android:afterTextChanged="@{it -> uiState.onPriceChanged.invoke(it)}"
+                        android:background="@drawable/temp_textfield_background"
+                        android:hint="ex.600000원(숫자만 입력해주세요)"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:paddingHorizontal="@dimen/dimen16"
+                        android:paddingVertical="@dimen/dimen14"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_membership_info_price">
-
-                        <EditText
-                            android:id="@+id/et_price"
-                            style="@style/Widget.Bds.TextFieldInnerEditText"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:afterTextChanged="@{it -> uiState.onPriceChanged.invoke(it)}"
-                            android:hint="ex.600000원(숫자만 입력해주세요)"
-                            android:inputType="number"
-                            android:maxLines="1" />
-                    </com.depromeet.bds.component.BdsComponentTextField>
+                        app:layout_constraintTop_toBottomOf="@id/tv_membership_info_price" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -309,7 +295,7 @@
                         android:paddingStart="@dimen/dimen8"
                         android:paddingTop="@dimen/dimen8"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/et_membership_info_price">
+                        app:layout_constraintTop_toBottomOf="@+id/et_price">
 
                         <com.depromeet.bds.component.BdsCheckbox
                             android:id="@+id/checkbox_bargaining"

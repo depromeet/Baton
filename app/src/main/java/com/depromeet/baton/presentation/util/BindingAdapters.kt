@@ -75,6 +75,7 @@ fun ImageView.bindImage(uri: String?, roundedCorners: Boolean) {
         } else {
             Glide.with(context)
                 .load(uri)
+                .centerCrop()
                 .into(this)
         }
     }
