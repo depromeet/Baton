@@ -4,7 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
@@ -29,6 +31,7 @@ import timber.log.Timber
 class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page) {
 
     private val myPageViewModel  by  viewModels<MyPageViewModel>()
+    private val profileViewModel by activityViewModels<ProfileViewModel>()
 
     private val saleHistoryFragment by lazy{ SaleHistoryFragment()}
     private val purchaseHistoryFragment by lazy { PurchaseHistoryFragment() }
@@ -65,6 +68,9 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                 replaceFragment(likeTicketFragment)
             }
             mypageProfileIv.setOnClickListener {
+                profileEditFragment.arguments =  bundleOf("nickName" to myPageViewModel.uiState.value.nickName,
+                    "phoneNumber" to myPageViewModel.uiState.value.phoneNumber ,
+                    "profileImg" to myPageViewModel.uiState.value.profileImage.toString() )
                 replaceFragment(profileEditFragment,"profileFragment")
             }
             mypageNotification.setOnClickListener {
@@ -150,9 +156,6 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         while (fragmentManager.backStackEntryCount !== 0) {
             fragmentManager.popBackStackImmediate()
         }
-
-        Timber.e(childFragmentManager.fragments.toString())
-        Timber.e(parentFragmentManager.fragments.toString())
     }
-    
+
 }

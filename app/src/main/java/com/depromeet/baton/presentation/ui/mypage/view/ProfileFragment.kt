@@ -1,5 +1,6 @@
 package com.depromeet.baton.presentation.ui.mypage.view
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
@@ -31,18 +32,14 @@ class ProfileFragment() :BaseFragment<FragmentProfileBinding>(R.layout.fragment_
         initView()
         setObserver()
         setListener()
-
-
     }
 
 
     private fun initView(){
-        val name = myPageViewModel.uiState.value.nickName
-        val phone = myPageViewModel.uiState.value.phoneNumber
-        val profile = myPageViewModel.uiState.value.profileImage.toString()
-        if(name!=null && phone!=null) profileViewModel.initProfileInfo(name, phone, profile)
-
-
+        val name = arguments?.getString("nickName" ,"")
+        val phone =arguments?.getString("phoneNumber","")
+        val profile = arguments?.getString("profileImg","")
+        if(name!=null && phone!=null) profileViewModel.initProfileInfo(name, phone, profile!!)
     }
 
     private fun setListener(){
@@ -101,19 +98,6 @@ class ProfileFragment() :BaseFragment<FragmentProfileBinding>(R.layout.fragment_
                 }
             }
             profileViewModel.consumeViewEvent(viewEvent)
-        }
-    }
-
-    companion object{
-        fun newInstance(nickname : String, phoneNumber : String , profile : String ):ProfileFragment {
-            val args = Bundle().apply {
-                putString("nickName", nickname)
-                putString("phoneNumber", phoneNumber)
-                putString("profileImg", profile)
-            }
-            val fragment = ProfileFragment()
-            fragment.arguments = args
-            return fragment
         }
     }
 
