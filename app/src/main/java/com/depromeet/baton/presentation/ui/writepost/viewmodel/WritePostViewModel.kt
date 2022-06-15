@@ -125,10 +125,10 @@ class WritePostViewModel @Inject constructor(
 
     //등록 완료
     private val _postSuccess = SingleLiveEvent<Any>()
-    val postSuccess: LiveData<Any> = _postSuccess
+    val postSuccess: SingleLiveEvent<Any> = _postSuccess
 
-    //등록 완료
-    private val _postId = MutableLiveData(0)
+
+    private val _postId = MutableLiveData<Int>()
     val postId: LiveData<Int> = _postId
 
     //글자 수 저장
@@ -723,7 +723,6 @@ class WritePostViewModel @Inject constructor(
     fun postTicket() {
         _uiState.value = (UIState.Loading)
 
-
         var expiryDate: String? = null
         var remainingNumber: Int? = null
         val term = _membershipInfoUiState.value.termChanged
@@ -757,6 +756,7 @@ class WritePostViewModel @Inject constructor(
             longitude = _selectedShopInfo.value?.longitude ?: spfManager.getLocation().longitude,
             tags = hashTagCheckedList.value
         ).toRequestBody()
+
         viewModelScope.launch {
             runCatching {
                 searchRepository.postTicket(body, _selectedPhotoMultipartList.value)
@@ -767,6 +767,7 @@ class WritePostViewModel @Inject constructor(
                     _uiState.value = (UIState.Init)
                 }
                 .onFailure {
+                    _uiState.value = (UIState.Init)
                     Timber.e(it)
                 }
         }
