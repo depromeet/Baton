@@ -54,7 +54,7 @@ class SaleHistoryViewModel @Inject constructor(
                             _uiState.update { it.copy(list = list, isLoading = false) }
                         }
                         is NetworkResult.Error -> {
-                            Timber.e("call api " + res.message)
+                            Timber.e(res.message)
                         }
                     }
                 }

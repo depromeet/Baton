@@ -69,8 +69,6 @@ class SoldoutHistoryViewModel @Inject constructor(
                 Timber.e("buyItem.date null point exception")
             }
         }
-        Timber.e("convert : "+result.toString())
-
         return result
 
     }
@@ -80,11 +78,3 @@ class SoldoutHistoryViewModel @Inject constructor(
     }
 }
 
-/*
-data class SoldoutHistoryUiState(
-    var list : List<SaleTicketListItem> ?  = emptyList(),
-    val isLoading : Boolean ? = true
-){
-    val emptyState  = (list.isNullOrEmpty()&& isLoading==false)
-}
-*/

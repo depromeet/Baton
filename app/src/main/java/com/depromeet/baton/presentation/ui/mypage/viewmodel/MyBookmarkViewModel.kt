@@ -63,7 +63,7 @@ class MyBookmarkViewModel @Inject constructor(
             }.onSuccess {
                 res ->
                     when(res){
-                        is NetworkResult.Success<String> ->  Timber.e("success to delete ${bookmarkId}")
+                        is NetworkResult.Success<String> ->  {}
                         is NetworkResult.Error<String> ->  Timber.e("fail to delete ${res.message}")
                     }
 
