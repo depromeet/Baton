@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.depromeet.bds.component.BdsBackwardAppBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:bds_title="계좌 설정"
+            />
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_img_empty_filter_gray"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?headline2"
+                android:layout_marginVertical="@dimen/dimen16"
+                android:textColor="?grey_scale90"
+                android:text="등록된 계좌가 없습니다."
+                />
+            <com.depromeet.bds.component.BdsButton
+                android:id="@+id/empty_acount_add_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/Theme.Bds.TertiaryButton.Large"
+                app:bds_text="계좌 등록하기"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>

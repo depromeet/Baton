@@ -17,6 +17,7 @@ import com.depromeet.baton.presentation.base.BaseFragment
 import com.depromeet.baton.presentation.ui.mypage.viewmodel.MyPageViewModel
 import com.depromeet.baton.presentation.ui.mypage.viewmodel.ProfileViewModel
 import com.depromeet.baton.presentation.ui.routing.RoutingActivity
+import com.depromeet.baton.presentation.ui.sign.AddAccountActivity
 import com.depromeet.baton.presentation.ui.sign.SignActivity
 import com.depromeet.baton.presentation.util.viewLifecycle
 import com.depromeet.baton.presentation.util.viewLifecycleScope
@@ -50,6 +51,11 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         setDialog()
     }
 
+    override fun onStart() {
+        super.onStart()
+        myPageViewModel.getProfile()
+    }
+
     private fun initView(){
         with(binding){
             mypageSaleHistoryCd.setOnClickListener {
@@ -72,6 +78,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             }
             mypageWithdrawal.setOnClickListener { withdrawalDialog.show() }
             mypageServiceTerm.setOnClickListener { replaceFragment(serviceTermFragment) }
+            mypageAccount.setOnClickListener { startAccountView() }
         }
     }
 
@@ -115,6 +122,13 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             }
             .launchIn(viewLifecycleScope)
     }
+
+
+    private fun startAccountView(){
+        if(myPageViewModel.uiState.value.account==null) EmptyAccountActivity.start(requireContext())  //계좌정보 추가
+        else EditAccountActivity.start(requireContext(), myPageViewModel.uiState.value.account!!)
+    }
+
 
     private fun setBackPressed(){
         requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {

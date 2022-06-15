@@ -13,6 +13,7 @@ import com.depromeet.baton.domain.repository.UserinfoRepository
 import com.depromeet.baton.map.util.NetworkResult
 import com.depromeet.baton.presentation.base.BaseViewModel
 import com.depromeet.baton.presentation.util.uriConverter
+import com.depromeet.baton.remote.user.UserAccount
 import com.depromeet.baton.util.BatonSpfManager
 import com.depromeet.bds.R
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -34,35 +35,33 @@ class MyPageViewModel @Inject constructor(
 
     private val context : Context = application
 
-    private val _uiState: MutableStateFlow<MypageUiState> = MutableStateFlow(MypageUiState(profileImage = null))
+    private val _uiState: MutableStateFlow<MypageUiState> = MutableStateFlow(MypageUiState(profileImage = null, account = null))
     val uiState = _uiState.asStateFlow()
 
     private val _viewEvents: MutableStateFlow<List<ViewEvent>> = MutableStateFlow(emptyList())
     val viewEvents = _viewEvents.asStateFlow()
 
-    private val _res = MutableLiveData<UserInfo>()
-    val res get()=_res
 
-    init {
-        //APi 호출
+    fun getProfile(){
         viewModelScope.launch {
             runCatching {
-                val res = userinfoRepository.getUserProfile(1)
+                val res = userinfoRepository.getUserProfile(2) //TODO authInfo
                 when(res){
-                    is NetworkResult.Success<UserProfileResponse> ->{
+                    is NetworkResult.Success ->{
                         _uiState.update {
                             MypageUiState(
                                 nickName = res.data!!.name,
                                 phoneNumber = res.data!!.phone_number.replace(Regex("[^0-9]*"),""),
                                 joinDate = res.data!!.created_on ,
-                                profileImage = uriConverter(context, R.drawable.ic_img_profile_startled_56)
+                                profileImage = uriConverter(context, R.drawable.ic_img_profile_startled_56),
+                                account =  res.data!!.account
                             )
                         }
                     }
-
+                    is NetworkResult.Error->{
+                        Timber.e(res.message)
+                    }
                 }
-            }.onFailure {
-                Timber.e("fail "+ it.message)
             }
         }
     }
@@ -96,6 +95,7 @@ data class MypageUiState(
     val phoneNumber: String?="",
     val joinDate: String?="",
     val profileImage: Uri?,
+    val account : UserAccount?,
 ){
     val isLoading = nickName==""
 }
