@@ -7,6 +7,7 @@ import com.depromeet.baton.databinding.ItemPrimaryOutlineTagBinding
 import com.depromeet.baton.domain.model.MypageTicketResponse
 import com.depromeet.baton.domain.model.TicketSimpleInfo
 import com.depromeet.baton.map.base.BaseApiResponse
+import com.depromeet.baton.remote.ticket.MypageBasicResponse
 import com.depromeet.baton.remote.user.*
 import retrofit2.Response
 import timber.log.Timber
@@ -24,7 +25,7 @@ class UserInfoApi @Inject constructor(
         return service.updateUserProfile(userIdx , body)
     }
 
-      suspend fun getUserBookmarks(bookmarkId : Int , state: Int?=0) :Response<List<BookmarkTicket>>{
+    suspend fun getUserBookmarks(bookmarkId : Int , state: Int?=0) :Response<List<BookmarkTicket>>{
         return service.getUserBookmarks(bookmarkId, state)
     }
 
@@ -50,5 +51,9 @@ class UserInfoApi @Inject constructor(
 
     suspend fun postUserAccount(userIdx : Int, request: UserAccount) : Response<UserAccount> {
         return service.postUserAccount(userIdx, request)
+    }
+
+    suspend fun deleteUser(userIdx :Int) : Response<MypageBasicResponse>{
+        return service.deleteUser(userIdx)
     }
 }

@@ -9,6 +9,7 @@ import com.depromeet.baton.domain.model.TicketSimpleInfo
 import com.depromeet.baton.domain.model.UserInfo
 import com.depromeet.baton.map.base.BaseApiResponse
 import com.depromeet.baton.map.util.NetworkResult
+import com.depromeet.baton.remote.ticket.MypageBasicResponse
 import com.depromeet.baton.remote.user.UserProfileRequest
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -39,5 +40,9 @@ class UserinfoRepository @Inject constructor(
 
     suspend fun getUserSellList(userIdx: Int ,state : Int ? =0) : NetworkResult<List<MypageTicketResponse>>{
         return  withContext( ioDispatcher){safeApiCall { userInfoApi.getUserSellHistory(userIdx,state) }}
+    }
+
+    suspend fun deleteUser(userIdx: Int) :NetworkResult<MypageBasicResponse>{
+        return withContext(ioDispatcher){safeApiCall { userInfoApi.deleteUser(userIdx) }}
     }
 }

@@ -4,6 +4,7 @@ import android.os.Parcelable
 import com.depromeet.baton.data.response.*
 import com.depromeet.baton.domain.model.MypageTicketResponse
 import com.depromeet.baton.domain.model.TicketSimpleInfo
+import com.depromeet.baton.remote.ticket.MypageBasicResponse
 import com.squareup.moshi.Json
 import kotlinx.parcelize.Parcelize
 import retrofit2.Response
@@ -20,8 +21,10 @@ interface UserInfoService {
     ) : Response<UserProfileRequest>
 
 
+    //TODO response 변경 요청
     @DELETE("users/{id}")
     suspend fun deleteUser(@Path("id") userIdx : Int)
+    :Response<MypageBasicResponse>
 
     @GET("users/{id}/bookmarks")
     suspend fun getUserBookmarks(

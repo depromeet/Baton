@@ -6,10 +6,9 @@ import com.depromeet.baton.domain.api.user.UserInfoApi
 import com.depromeet.baton.domain.di.IoDispatcher
 import com.depromeet.baton.map.base.BaseApiResponse
 import com.depromeet.baton.map.util.NetworkResult
-import com.depromeet.baton.remote.ticket.BookmarkDeleteResponse
+import com.depromeet.baton.remote.ticket.MypageBasicResponse
 import com.depromeet.baton.remote.ticket.BookmarkResponse
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -25,7 +24,7 @@ class BookmarkRepository @Inject constructor(
         return  withContext(ioDispatcher){safeApiCall { userInfoApi.getUserBookmarks(userIdx, state) }}
     }
 
-    suspend fun deleteBookmark(bookmarkId : Int) : NetworkResult<BookmarkDeleteResponse>{
+    suspend fun deleteBookmark(bookmarkId : Int) : NetworkResult<MypageBasicResponse>{
         return withContext(ioDispatcher){safeApiCall { bookmarkApi.deleteBookmark(bookmarkId) }}
     }
 
