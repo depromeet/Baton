@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.depromeet.baton">
 
-    <meta-data android:name="android.webkit.WebView.EnableSafeBrowsing" android:value="true" />
+    <meta-data
+        android:name="android.webkit.WebView.EnableSafeBrowsing"
+        android:value="true" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -19,7 +21,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         tools:replace="android:name">
-
+        <activity
+            android:name=".ChatRoomActivity"
+            android:exported="false" />
         <activity
             android:name=".presentation.ui.home.view.HowToUseActivity"
             android:exported="false" />
@@ -79,13 +83,10 @@
         <activity
             android:name=".presentation.ui.detail.TicketDetailActivity"
             android:exported="false" />
-
         <activity
             android:name=".presentation.main.MainActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan" />
-
-        <!-- BEAN: android:launchMode="singleTask" 넣어야 동작하네; -->
+            android:windowSoftInputMode="adjustPan" /> <!-- BEAN: android:launchMode="singleTask" 넣어야 동작하네; -->
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true"

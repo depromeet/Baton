@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/dimen16">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="top"
+            android:src="@drawable/ic_img_profile_curiosity_40"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/chatmessage_tv_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen4"
+            android:background="@drawable/bg_chat_sender"
+            android:maxWidth="@dimen/dimen256"
+            android:paddingHorizontal="@dimen/dimen12"
+            android:paddingVertical="@dimen/dimen8"
+            android:textAppearance="?caption2"
+            android:textColor="?grey_scale80"
+            app:layout_constraintStart_toEndOf="@+id/imageView3"
+            app:layout_constraintTop_toTopOf="@+id/imageView3"
+            tools:text="메세지 메세지 내용메세지 내용메세지 내용메세지 내용메세지 내용메세지 내용메세지 내용메세지 내용내용" />
+
+        <TextView
+            android:id="@+id/chatmessage_tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/dimen4"
+            android:textAppearance="?caption4"
+            android:textColor="?grey_scale60"
+            app:layout_constraintBottom_toBottomOf="@+id/chatmessage_tv_message"
+            app:layout_constraintStart_toEndOf="@+id/chatmessage_tv_message"
+            tools:text="오전 11:22" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

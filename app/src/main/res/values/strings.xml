@@ -161,11 +161,11 @@
         <item name="ticket_detail_delete_option">삭제하기</item>
     </string-array>
 
-    <string-array  name="ticketSaleStatus">
-        <item name = "ticket_status_sale">판매중</item>
-        <item name = "ticket_status_reserve">예약중</item>
-        <item name = "ticket_status_completed">거래완료</item>
-    </string-array >
+    <string-array name="ticketSaleStatus">
+        <item name="ticket_status_sale">판매중</item>
+        <item name="ticket_status_reserve">예약중</item>
+        <item name="ticket_status_completed">거래완료</item>
+    </string-array>
 
     <string name="sign_up">회원 가입</string>
 
