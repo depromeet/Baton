@@ -321,7 +321,6 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
             when (index) {
                 0 -> run {
                     showBottom(CHECK_ITEM_VIEW, DetailBottomOption.STATUS, statusItemClick)
-
                 }
                 1 -> { //delete
                     viewModel.deleteTicket() // Api 호출
@@ -355,7 +354,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     }
 
     private fun setTicketItemClickListener(ticketItem: FilteredTicket) {
-        startActivity(TicketDetailActivity.start(this, ticketId = ticketItem.id))
+        TicketDetailActivity.start(this,ticketId = ticketItem.id)
     }
 
 
@@ -446,10 +445,10 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     }
 
     companion object {
-        fun start(context: Context, ticketId: Int): Intent {
+        fun start(context: Context,ticketId: Int){
             val intent = Intent(context, TicketDetailActivity::class.java)
-            intent.putExtra("ticketId", ticketId)
-            return intent
+            intent.putExtra("ticketId",ticketId)
+            context.startActivity(intent)
         }
     }
 }

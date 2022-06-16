@@ -9,6 +9,8 @@ import com.depromeet.baton.domain.model.TicketSimpleInfo
 import com.depromeet.baton.domain.model.UserInfo
 import com.depromeet.baton.map.base.BaseApiResponse
 import com.depromeet.baton.map.util.NetworkResult
+import com.depromeet.baton.remote.ticket.MypageBasicResponse
+import com.depromeet.baton.remote.user.UserProfileRequest
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -19,21 +21,28 @@ import javax.inject.Singleton
 @Singleton
 class UserinfoRepository @Inject constructor(
     private val userInfoApi : UserInfoApi,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
-) :BaseApiResponse() {
+    @IoDispatcher val ioDispatcher: CoroutineDispatcher) :BaseApiResponse() {
     suspend fun getUserProfile(userIdx : Int) : NetworkResult<UserProfileResponse> {
-       return withContext(ioDispatcher){safeApiCall { userInfoApi.getUserProfile(userIdx) }}
+       return withContext( ioDispatcher){safeApiCall { userInfoApi.getUserProfile(userIdx) }}
+    }
+
+    suspend fun updateUserProfile(userIdx: Int, nickname :String, phoneNum :String) :NetworkResult<UserProfileRequest>{
+        return withContext(ioDispatcher){safeApiCall { userInfoApi.updateUserProfile( userIdx, UserProfileRequest(nickname, phoneNum)) }}
     }
 
     suspend fun getUserBookmarks(userIdx : Int, state : Int ? =0) :  NetworkResult<List<BookmarkTicket>>{
-        return  withContext(ioDispatcher){safeApiCall { userInfoApi.getUserBookmarks(userIdx, state) }}
+        return  withContext( ioDispatcher){safeApiCall { userInfoApi.getUserBookmarks(userIdx, state) }}
     }
 
     suspend fun getUserBuyList(userIdx: Int) :NetworkResult<List<UserBuyListResponse>>{
-        return withContext(ioDispatcher){safeApiCall { userInfoApi.getUserBuyHistory(userIdx) }}
+        return withContext( ioDispatcher){safeApiCall { userInfoApi.getUserBuyHistory(userIdx) }}
     }
 
     suspend fun getUserSellList(userIdx: Int ,state : Int ? =0) : NetworkResult<List<MypageTicketResponse>>{
-        return  withContext(ioDispatcher){safeApiCall { userInfoApi.getUserSellHistory(userIdx,state) }}
+        return  withContext( ioDispatcher){safeApiCall { userInfoApi.getUserSellHistory(userIdx,state) }}
+    }
+
+    suspend fun deleteUser(userIdx: Int) :NetworkResult<MypageBasicResponse>{
+        return withContext(ioDispatcher){safeApiCall { userInfoApi.deleteUser(userIdx) }}
     }
 }

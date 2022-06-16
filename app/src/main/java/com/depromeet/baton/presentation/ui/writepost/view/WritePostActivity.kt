@@ -86,10 +86,10 @@ class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activi
         }
 
         writePostViewModel.postSuccess.observe(this) {
+            //  this.BdsToast("판매글 등록이 완료됐어요.", binding.btnWritePostBack.top).show()
             this.BdsToast("판매글 등록이 완료됐어요").show()
-            startActivity(
-                TicketDetailActivity.start(this@WritePostActivity, writePostViewModel.postId.value!!)
-            )
+            TicketDetailActivity.start(this@WritePostActivity, writePostViewModel.postId.value!!)
+         
             finish()
         }
     }

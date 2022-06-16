@@ -56,6 +56,7 @@ class BookMarkItemRvAdapter(
                     distanceFormatUtil(item.ticket.distance), item.ticket.type)
                 executePendingBindings()
 
+                ctvItemTicketLike.isChecked=true
                 setLikeBtnClickListener(ctvItemTicketLike)
 
                 if (item.ticket.mainImage==null) setEmptyImage(position, ibtnItemTicket)

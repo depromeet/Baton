@@ -724,7 +724,7 @@
                     android:layout_marginStart="@dimen/dimen16"
                     android:background="@null"
                     android:checkMark="@drawable/selector_like"
-                    android:checked="@{!ticketState.ticket.isLikeTicket}"
+                    android:checked="@{ticketState.bookmarkState}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

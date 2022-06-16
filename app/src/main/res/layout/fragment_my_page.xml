@@ -279,6 +279,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     />
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/mypage_account"
                     android:padding="@dimen/dimen16"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">

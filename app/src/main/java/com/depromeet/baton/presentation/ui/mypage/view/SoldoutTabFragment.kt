@@ -25,15 +25,16 @@ import timber.log.Timber
 @AndroidEntryPoint
 class SoldoutTabFragment  : BaseFragment<FragmentSoldoutTabBinding>(R.layout.fragment_soldout_tab) {
 
-    private val saleViewModel by viewModels<SaleHistoryViewModel>()
+    private val saleViewModel by viewModels<SaleHistoryViewModel>(ownerProducer = {requireActivity()})
     private  val ticketItemRvAdapter by lazy {
         SaleTicketItemAdapter(requireContext(), ::onClickMenuItemListener,::onClickStatusMenuItemListener)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        saleViewModel.getSoldoutHistory()
         setTicketItemRv()
-         setObserver()
+        setObserver()
     }
 
 

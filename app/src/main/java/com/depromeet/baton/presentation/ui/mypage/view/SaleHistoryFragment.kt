@@ -1,5 +1,6 @@
 package com.depromeet.baton.presentation.ui.mypage.view
 
+import android.app.Fragment
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
@@ -17,12 +18,14 @@ import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import timber.log.Timber
 
 @AndroidEntryPoint
 class SaleHistoryFragment  : BaseFragment<FragmentSaleHistoryBinding>(R.layout.fragment_sale_history){
 
-    private val saleHistoryFragment = SaleTabFragment()
+    private val saleTabFragment = SaleTabFragment()
     private val soldOutTabFragment = SoldoutTabFragment()
+    private lateinit var pagerAdapter: MyPageViewAdapter
     private val titles = listOf(
         "판매중",
         "거래내역"
@@ -43,18 +46,14 @@ class SaleHistoryFragment  : BaseFragment<FragmentSaleHistoryBinding>(R.layout.f
     }
 
     private fun initViewPager(){
-        val pagerAdapter = MyPageViewAdapter(requireActivity())
-        pagerAdapter.addFragment(saleHistoryFragment)
-        pagerAdapter.addFragment(soldOutTabFragment)
-
+        pagerAdapter = MyPageViewAdapter(this, arrayListOf(saleTabFragment,soldOutTabFragment))
         binding.viewPager.adapter = pagerAdapter
+        binding.viewPager.isSaveEnabled=false
 
         // TabLayout attach
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = titles[position]
         }.attach()
-
     }
-
 
 }

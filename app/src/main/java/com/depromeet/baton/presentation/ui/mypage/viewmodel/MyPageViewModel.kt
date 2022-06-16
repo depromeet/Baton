@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.bumptech.glide.Glide
 import com.depromeet.baton.data.response.UserProfileResponse
 import com.depromeet.baton.domain.model.UserInfo
 import com.depromeet.baton.domain.repository.AuthRepository
@@ -13,6 +14,7 @@ import com.depromeet.baton.domain.repository.UserinfoRepository
 import com.depromeet.baton.map.util.NetworkResult
 import com.depromeet.baton.presentation.base.BaseViewModel
 import com.depromeet.baton.presentation.util.uriConverter
+import com.depromeet.baton.remote.user.UserAccount
 import com.depromeet.baton.util.BatonSpfManager
 import com.depromeet.bds.R
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,72 +32,105 @@ class MyPageViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val savedStateHandle: SavedStateHandle,
     private val userinfoRepository: UserinfoRepository
-): BaseViewModel() {
+) : BaseViewModel() {
 
-    private val context : Context = application
+    private val context: Context = application
 
-    private val _uiState: MutableStateFlow<MypageUiState> = MutableStateFlow(MypageUiState(profileImage = null))
+    private val _uiState: MutableStateFlow<MypageUiState> =
+        MutableStateFlow(MypageUiState(profileImage = null, account = null))
     val uiState = _uiState.asStateFlow()
 
     private val _viewEvents: MutableStateFlow<List<ViewEvent>> = MutableStateFlow(emptyList())
     val viewEvents = _viewEvents.asStateFlow()
 
-    private val _res = MutableLiveData<UserInfo>()
-    val res get()=_res
 
-    init {
-        //APi 호출
+    fun getProfile() {
         viewModelScope.launch {
             runCatching {
-                val res = userinfoRepository.getUserProfile(1)
-                when(res){
-                    is NetworkResult.Success<UserProfileResponse> ->{
+                val res = userinfoRepository.getUserProfile(2) //TODO authInfo
+                when (res) {
+                    is NetworkResult.Success -> {
                         _uiState.update {
                             MypageUiState(
-                                nickName = res.data!!.name,
-                                phoneNumber = res.data!!.phone_number.replace(Regex("[^0-9]*"),""),
-                                joinDate = res.data!!.created_on ,
-                                profileImage = uriConverter(context, R.drawable.ic_img_profile_startled_56)
+                                nickName = res.data!!.nickname,
+                                phoneNumber = res.data!!.phone_number.replace(Regex("[^0-9]*"), ""),
+                                joinDate = res.data!!.created_on,
+                                profileImage = uriConverter(
+                                    context,
+                                    R.drawable.ic_img_profile_basic_smile_56
+                                ),
+                                account = res.data!!.account
                             )
                         }
                     }
-
+                    is NetworkResult.Error -> {
+                        Timber.e(res.message)
+                    }
                 }
-            }.onFailure {
-                Timber.e("fail "+ it.message)
             }
         }
     }
 
 
-    fun updateNickname(nickName: String ){
-        _uiState.update { it.copy(nickName = nickName) }
+    fun updateProfile(nickName: String, phoneNumber: String) {
+        _uiState.update { it.copy(nickName = nickName, phoneNumber = phoneNumber) }
     }
 
-    fun updateProfileImg(profileImage: Uri){
-        _uiState.update { it.copy(profileImage= profileImage) }
+    fun updateProfileImg(profileImage: Uri) {
+        _uiState.update { it.copy(profileImage = profileImage) }
     }
 
-    fun logout(){
+    fun logout() {
         authRepository.logout()
         spfManager.clearAll()
+    }
+
+    fun deleteUser() {
+
+        //TODO authinofo
+      /*  viewModelScope.launch {
+            runCatching {
+
+               userinfoRepository.deleteUser(userId)
+            }.onSuccess {
+                when (it) {
+                    is NetworkResult.Success -> {
+                        addViewEvent(ViewEvent.EventWithdrawal("탈퇴 되었습니다."))
+                          authRepository.logout()
+                          spfManager.clearAll()
+                    }
+                    is NetworkResult.Error -> {
+                        Timber.e(it.message)
+                        addViewEvent(ViewEvent.EventWithdrawal("가입된 유저가 아닙니다."))
+                    }
+                }
+            }
+                .onFailure { it -> Timber.e(it.message) }
+        }
+        */
     }
 
     fun consumeViewEvent(viewEvent: ViewEvent) {
         _viewEvents.update { it - viewEvent }
     }
 
+    private fun addViewEvent(viewEvent: ViewEvent) {
+        _viewEvents.update { it + viewEvent }
+    }
 
-    sealed interface ViewEvent {
 
+    sealed class ViewEvent {
+       data class EventWithdrawal(val msg :String): ViewEvent()
     }
 
 }
+
 data class MypageUiState(
-    val nickName: String?="",
-    val phoneNumber: String?="",
-    val joinDate: String?="",
+    val nickName: String? = "",
+    val phoneNumber: String? = "",
+    val joinDate: String? = "",
     val profileImage: Uri?,
-){
-    val isLoading = nickName==""
+    val account: UserAccount?,
+) {
+    val isLoading = nickName == ""
 }

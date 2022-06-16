@@ -127,7 +127,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private fun setTicketItemClickListener(ticketItem: FilteredTicket) {
         //sample
         val ticketId = ticketItem.id
-        startActivity(TicketDetailActivity.start(requireContext(), ticketId))
+        TicketDetailActivity.start(requireContext(), ticketId)
     }
 }
 
