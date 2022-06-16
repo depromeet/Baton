@@ -32,34 +32,38 @@ class MyPageViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val savedStateHandle: SavedStateHandle,
     private val userinfoRepository: UserinfoRepository
-): BaseViewModel() {
+) : BaseViewModel() {
 
-    private val context : Context = application
+    private val context: Context = application
 
-    private val _uiState: MutableStateFlow<MypageUiState> = MutableStateFlow(MypageUiState(profileImage = null, account = null))
+    private val _uiState: MutableStateFlow<MypageUiState> =
+        MutableStateFlow(MypageUiState(profileImage = null, account = null))
     val uiState = _uiState.asStateFlow()
 
     private val _viewEvents: MutableStateFlow<List<ViewEvent>> = MutableStateFlow(emptyList())
     val viewEvents = _viewEvents.asStateFlow()
 
 
-    fun getProfile(){
+    fun getProfile() {
         viewModelScope.launch {
             runCatching {
                 val res = userinfoRepository.getUserProfile(2) //TODO authInfo
-                when(res){
-                    is NetworkResult.Success ->{
+                when (res) {
+                    is NetworkResult.Success -> {
                         _uiState.update {
                             MypageUiState(
                                 nickName = res.data!!.nickname,
-                                phoneNumber = res.data!!.phone_number.replace(Regex("[^0-9]*"),""),
-                                joinDate = res.data!!.created_on ,
-                                profileImage = uriConverter(context, R.drawable.ic_img_profile_basic_smile_56),
-                                account =  res.data!!.account
+                                phoneNumber = res.data!!.phone_number.replace(Regex("[^0-9]*"), ""),
+                                joinDate = res.data!!.created_on,
+                                profileImage = uriConverter(
+                                    context,
+                                    R.drawable.ic_img_profile_basic_smile_56
+                                ),
+                                account = res.data!!.account
                             )
                         }
                     }
-                    is NetworkResult.Error->{
+                    is NetworkResult.Error -> {
                         Timber.e(res.message)
                     }
                 }
@@ -68,35 +72,65 @@ class MyPageViewModel @Inject constructor(
     }
 
 
-    fun updateProfile(nickName: String ,phoneNumber: String){
-        _uiState.update { it.copy(nickName = nickName , phoneNumber = phoneNumber) }
+    fun updateProfile(nickName: String, phoneNumber: String) {
+        _uiState.update { it.copy(nickName = nickName, phoneNumber = phoneNumber) }
     }
 
-    fun updateProfileImg(profileImage: Uri){
-        _uiState.update { it.copy(profileImage= profileImage) }
+    fun updateProfileImg(profileImage: Uri) {
+        _uiState.update { it.copy(profileImage = profileImage) }
     }
 
-    fun logout(){
+    fun logout() {
         authRepository.logout()
         spfManager.clearAll()
+    }
+
+    fun deleteUser() {
+
+        //TODO authinofo
+      /*  viewModelScope.launch {
+            runCatching {
+
+               userinfoRepository.deleteUser(userId)
+            }.onSuccess {
+                when (it) {
+                    is NetworkResult.Success -> {
+                        addViewEvent(ViewEvent.EventWithdrawal("탈퇴 되었습니다."))
+                          authRepository.logout()
+                          spfManager.clearAll()
+                    }
+                    is NetworkResult.Error -> {
+                        Timber.e(it.message)
+                        addViewEvent(ViewEvent.EventWithdrawal("가입된 유저가 아닙니다."))
+                    }
+                }
+            }
+                .onFailure { it -> Timber.e(it.message) }
+        }
+        */
     }
 
     fun consumeViewEvent(viewEvent: ViewEvent) {
         _viewEvents.update { it - viewEvent }
     }
 
+    private fun addViewEvent(viewEvent: ViewEvent) {
+        _viewEvents.update { it + viewEvent }
+    }
 
-    sealed interface ViewEvent {
 
+    sealed class ViewEvent {
+       data class EventWithdrawal(val msg :String): ViewEvent()
     }
 
 }
+
 data class MypageUiState(
-    val nickName: String?="",
-    val phoneNumber: String?="",
-    val joinDate: String?="",
+    val nickName: String? = "",
+    val phoneNumber: String? = "",
+    val joinDate: String? = "",
     val profileImage: Uri?,
-    val account : UserAccount?,
-){
-    val isLoading = nickName==""
+    val account: UserAccount?,
+) {
+    val isLoading = nickName == ""
 }

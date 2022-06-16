@@ -25,6 +25,7 @@ import com.depromeet.baton.presentation.ui.sign.SignActivity
 import com.depromeet.baton.presentation.util.viewLifecycle
 import com.depromeet.baton.presentation.util.viewLifecycleScope
 import com.depromeet.bds.component.BdsDialog
+import com.depromeet.bds.component.BdsToast
 import com.depromeet.bds.component.DialogType
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -115,7 +116,11 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
     }
 
     private fun onClickWithdrawalConfirm(){
+        myPageViewModel.deleteUser()
         withdrawalDialog.dismiss()
+        val intent = Intent(requireActivity(), SignActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(intent)
     }
 
     private fun setObserver(){
@@ -132,6 +137,22 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                 }
             }
             .launchIn(viewLifecycleScope)
+
+        myPageViewModel.viewEvents
+            .flowWithLifecycle(viewLifecycle)
+            .onEach(::handleViewEvents)
+            .launchIn(viewLifecycleScope)
+    }
+
+    private fun handleViewEvents( events: List<MyPageViewModel.ViewEvent>) {
+        events.firstOrNull()?.let { viewEvent ->
+            when (viewEvent) {
+               is MyPageViewModel.ViewEvent.EventWithdrawal ->{
+                   requireContext().BdsToast(viewEvent.msg).show()
+               }
+            }
+           myPageViewModel.consumeViewEvent(viewEvent)
+        }
     }
 
 
