@@ -62,28 +62,6 @@ interface UserInfoService {
         @Body body: UserAccount,
     ) : Response<UserAccount>
 
-    @PATCH("users/{id}/address")
-    suspend fun updateUserAddress(
-        @Path("id") userIdx : Int,
-        @Body body: UserAddressRequest
-    ) : Response<UserAddressResponse>
-
-    @PATCH("users/{id}/account")
-    suspend fun updateUserAccount(
-        @Path("id") userIdx : Int,
-        @Body body: UserAccount
-    ) : Response<UserAccount>
-
-    @GET("users/{id}/account")
-    suspend fun getUserAccount(
-        @Path("id") userIdx : Int,
-    ) : Response<UserAccount>
-
-    @POST("users/{id}/account")
-    suspend fun postUserAccount(
-        @Path("id") userIdx : Int,
-        @Body body: UserAccount
-    ) : Response<UserAccount>
 
 }
 

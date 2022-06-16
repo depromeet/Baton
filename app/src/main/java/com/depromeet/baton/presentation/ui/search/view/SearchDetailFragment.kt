@@ -92,6 +92,6 @@ class SearchDetailFragment : BaseFragment<FragmentSearchDetailBinding>(R.layout.
     }
 
     private fun setTicketItemClickListener(ticketItem: FilteredTicket) {
-        startActivity(TicketDetailActivity.start(requireContext(), ticketItem.id))
+       TicketDetailActivity.start(requireContext(), ticketItem.id)
     }
 }

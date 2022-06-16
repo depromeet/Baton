@@ -354,7 +354,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     }
 
     private fun setTicketItemClickListener(ticketItem: FilteredTicket) {
-        startActivity(TicketDetailActivity.start(this,ticketId = ticketItem.id))
+        TicketDetailActivity.start(this,ticketId = ticketItem.id)
     }
 
 
@@ -445,10 +445,10 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     }
 
     companion object {
-        fun start(context: Context,ticketId: Int):Intent{
+        fun start(context: Context,ticketId: Int){
             val intent = Intent(context, TicketDetailActivity::class.java)
             intent.putExtra("ticketId",ticketId)
-            return intent
+            context.startActivity(intent)
         }
     }
 }
