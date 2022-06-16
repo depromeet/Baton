@@ -42,6 +42,9 @@ class SignUpCurrentLocationActivity :
     private val permissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { granted ->
+        if (granted.any { it.value }) viewModel.fetchLocation()
+        else showToast("권한을 허락해주세요.")
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
