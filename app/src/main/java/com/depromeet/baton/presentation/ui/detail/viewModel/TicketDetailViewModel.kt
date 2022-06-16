@@ -9,6 +9,7 @@ import com.depromeet.baton.R
 import com.depromeet.baton.data.response.ResponseFilteredTicket
 import com.depromeet.baton.domain.model.*
 import com.depromeet.baton.domain.repository.AuthRepository
+import com.depromeet.baton.domain.repository.BookmarkRepository
 import com.depromeet.baton.domain.repository.TicketInfoRepository
 import com.depromeet.baton.map.util.NetworkResult
 import com.depromeet.baton.presentation.ui.detail.model.*
@@ -16,6 +17,7 @@ import com.depromeet.baton.presentation.util.dateFormatUtil
 import com.depromeet.baton.presentation.util.priceFormat
 import com.depromeet.baton.presentation.util.uriConverter
 import com.depromeet.baton.util.BatonSpfManager
+import com.depromeet.bds.component.BdsToast
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -33,6 +35,7 @@ class TicketDetailViewModel @Inject constructor(
     private val spfManager: BatonSpfManager,
     private val authRepository: AuthRepository,
     private val ticketInfoRepository: TicketInfoRepository,
+    private val bookmarkRepository: BookmarkRepository,
     private val savedStateHandle: SavedStateHandle
 ) : AndroidViewModel(application) {
 
@@ -72,7 +75,7 @@ class TicketDetailViewModel @Inject constructor(
                     is NetworkResult.Success->{
                         if (res.data != null) {
                             val ticket = res.data!!
-                            val tempUserId = 1  //TODO userID 변경 authRepository.authInfo?.userId
+                            val tempUserId = 4  //TODO userID 변경 authRepository.authInfo?.userId
                             val tempSellerId = ticket.seller.id
                             val state = DetailTicketInfoUiState(
                                 DetailTicketInfo(
@@ -119,6 +122,7 @@ class TicketDetailViewModel @Inject constructor(
                                     isMembership = ticket.isMembership,
                                     remainingNumber = ticket.remainingNumber,
                                     isLikeTicket = ticket.isBookmarked,
+                                    bookmarkId = null,
                                     bookmarkView = ticket.bookmarkCount,
                                     countView = ticket.viewCount
                                 ),
@@ -210,9 +214,49 @@ class TicketDetailViewModel @Inject constructor(
 
     private fun onClickLike() {
         //bookmark API 호출
+        ticketState.value?.let {
+            if(it.ticket.isLikeTicket) deleteBookmark()
+            else addBookmark()
+        }
+    }
+
+    private fun addBookmark(){
+        val temp = ticketState.value!!
+        viewModelScope.launch {
+            runCatching {
+                val userId = 1 //TODO authinfo  변경
+                bookmarkRepository.postBookmark(userId,temp.ticket.ticketId)
+            }.onSuccess {
+                when(it){
+                    is NetworkResult.Success ->{
+                        _ticketState.postValue(temp.copy(ticket = temp.ticket.copy(isLikeTicket = true)))
+                        addViewEvent(DetailViewEvent.EventClickLike)
+                    }
+                    is NetworkResult.Error->{
+                        Timber.e(it.message)
+                    }
+                }
+            }.onFailure {  Timber.e(it.message) }
+        }
+    }
+
+    private fun deleteBookmark(){
         val temp = _ticketState.value!!
-        _ticketState.postValue(temp.copy(ticket = temp.ticket.copy(isLikeTicket = !temp.ticket.isLikeTicket)))
-        addViewEvent(DetailViewEvent.EventClickLike)
+       /* viewModelScope.launch {
+            runCatching {
+                bookmarkRepository.deleteBookmark(temp.ticket.bookmarkId!!)
+            }.onSuccess {
+                when(it){
+                    is NetworkResult.Success ->{
+                        _ticketState.postValue(temp.copy(ticket = temp.ticket.copy(isLikeTicket = !temp.ticket.isLikeTicket, bookmarkId = null)))
+                    }
+                    is NetworkResult.Error->{
+                        Timber.e(it.message)
+                    }
+                }
+            }.onFailure {  Timber.e(it.message) }
+        }*/
+        _ticketState.postValue(temp.copy(ticket = temp.ticket.copy(isLikeTicket = false, bookmarkId = null)))
     }
 
     private fun addViewEvent(viewEvent: DetailViewEvent) {
@@ -256,6 +300,9 @@ class TicketDetailViewModel @Inject constructor(
         val remainText = if (ticket.isMembership) "남은 기간" else "남은 횟수"
         val remainCount =
             if (ticket.isMembership) "${ticket.remainDate}일" else "${ticket.remainingNumber}회"
+
+        //bookmark id 가 null 이면 관심 상품 아님
+        val bookmarkState  =ticket.isLikeTicket //&&ticket.bookmarkId!=null 추가하기
 
     }
 

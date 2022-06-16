@@ -49,7 +49,7 @@ class TicketMoreViewModel @Inject constructor(
         viewModelScope.launch {
             runCatching {
                 //TODO 추천 아이템 불러오기
-                getFilteredTicketUseCase.execute(page=0, size = MAX_ITEM, longitude = spfManager.getMyLongitude(), latitude = spfManager.getMyLatitude(), maxDistance = spfManager.getMaxDistance().getDistance())
+                getFilteredTicketUseCase.execute(page=0, size = MAX_ITEM, longitude = spfManager.getMyLongitude(), latitude = spfManager.getMyLatitude(), maxDistance = spfManager.getMaxDistance().getDistance(), sortType = "DISTANCE")
             }.onSuccess {
                 when (it) {
                     is UIState.Success<*> -> {

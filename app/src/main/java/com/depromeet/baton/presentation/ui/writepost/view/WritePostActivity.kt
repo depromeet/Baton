@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
@@ -14,6 +15,7 @@ import com.depromeet.baton.databinding.ActivityWritePostBinding
 import com.depromeet.baton.presentation.base.BaseActivity
 import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
 import com.depromeet.baton.presentation.ui.writepost.viewmodel.WritePostViewModel
+import com.depromeet.bds.component.BdsToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -85,7 +87,9 @@ class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activi
 
         writePostViewModel.postSuccess.observe(this) {
             //  this.BdsToast("판매글 등록이 완료됐어요.", binding.btnWritePostBack.top).show()
-            startActivity(TicketDetailActivity.start(this@WritePostActivity, writePostViewModel.postId.value!!))
+            this.BdsToast("판매글 등록이 완료됐어요").show()
+            TicketDetailActivity.start(this@WritePostActivity, writePostViewModel.postId.value!!)
+         
             finish()
         }
     }

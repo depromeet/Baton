@@ -26,22 +26,26 @@ class BdsDialog  constructor(
         view?.findViewById<Button>(R.id.bds_dialog_single_confirm_btn)?.setOnClickListener { onClickConfirm() }
     }
 
-    fun setHorizonDialog(onClickConfirm :()-> Unit , onClickCancel :()-> Unit)  {
+    fun setHorizonDialog(onClickConfirm :()-> Unit , onClickCancel :()-> Unit,confirmText : String?=null, cancelText:String?=null)  {
         view?.findViewById<LinearLayout>(R.id.bds_dialog_two_horizon)?.visibility=View.VISIBLE
         view?.findViewById<Button>(R.id.bds_dialog_horizon_confirm_btn)?.setOnClickListener { onClickConfirm() }
         view?.findViewById<Button>(R.id.bds_dialog_horizon_cancel_btn)?.setOnClickListener {
             onClickCancel()
             alertDialog?.dismiss()
         }
+        confirmText?.let {   view?.findViewById<Button>(R.id.bds_dialog_horizon_confirm_btn)?.setText(confirmText) }
+        cancelText?.let {   view?.findViewById<Button>(R.id.bds_dialog_horizon_cancel_btn)?.setText(confirmText) }
     }
 
-    fun setVerticalDialog(onClickConfirm :()-> Unit, onClickCancel :()-> Unit){
+    fun setVerticalDialog(onClickConfirm :()-> Unit, onClickCancel :()-> Unit, confirmText : String?=null, cancelText:String?=null){
         view?.findViewById<GridLayout>(R.id.bds_dialog_two_vertical)?.visibility=View.VISIBLE
         view?.findViewById<Button>(R.id.bds_dialog_vertical_confirm_btn)?.setOnClickListener { onClickConfirm() }
         view?.findViewById<Button>(R.id.bds_dialog_vertical_cancel_btn)?.setOnClickListener {
             onClickCancel()
             alertDialog?.dismiss()
         }
+        confirmText?.let {   view?.findViewById<Button>(R.id.bds_dialog_vertical_confirm_btn)?.setText(confirmText) }
+        cancelText?.let {   view?.findViewById<Button>(R.id.bds_dialog_vertical_cancel_btn)?.setText(confirmText) }
     }
 
     fun setImage(res: Int){

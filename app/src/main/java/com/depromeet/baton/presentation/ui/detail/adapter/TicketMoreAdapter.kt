@@ -66,7 +66,7 @@ class TicketMoreAdapter(
 
                 setLikeBtnClickListener(ctvItemTicketLike)
 
-                if (item.mainImage== null) setEmptyImage(TicketKind.valueOf(item.type),ibtnItemTicket)
+                if (item.mainImage== null &&item.type!=null) setEmptyImage(TicketKind.valueOf(item.type),ibtnItemTicket)
 
                 root.setOnClickListener {
                     clickListener(item)

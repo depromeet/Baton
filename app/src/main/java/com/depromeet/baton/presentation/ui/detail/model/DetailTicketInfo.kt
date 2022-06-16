@@ -28,6 +28,7 @@ data class DetailTicketInfo (
     val isHolding : Boolean,
     val remainingNumber : Int?,
     val isLikeTicket :Boolean,
+    val bookmarkId : Int?,
     val bookmarkView : Int? =0,
     val countView :Int? =0
 ){

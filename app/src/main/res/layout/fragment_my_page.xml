@@ -1,19 +1,444 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-
+        <variable name="fragment" type="com.depromeet.baton.presentation.ui.mypage.view.MyPageFragment" />
+        <variable
+            name="uiState"
+            type="com.depromeet.baton.presentation.ui.mypage.viewmodel.MypageUiState" />
     </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".presentation.ui.MyPageFragment">
+        android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fragment_container_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <TextView
+        <ScrollView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/dimen16"
+                tools:context=".presentation.ui.mypage.view.MyPageFragment"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="@dimen/dimen16">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dimen16"
+                        android:text="마이페이지"
+                        android:textAppearance="?headline2" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?grey_scale30"
+                        android:layout_marginBottom="@dimen/dimen16"
+                        />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/mypage_profile_iv"
+                            android:layout_width="@dimen/dimen64"
+                            android:layout_height="@dimen/dimen64"
+                            android:src="@{uiState.profileImage}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/mypage_profile_nickname_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dimen8"
+                            android:layout_marginTop="@dimen/dimen10"
+                            android:text="@{uiState.nickName}"
+                            android:textAppearance="?headline1"
+                            android:textColor="?grey_scale90"
+                            app:layout_constraintStart_toEndOf="@id/mypage_profile_iv"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/mypage_join"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="가입일:"
+                            android:textAppearance="?caption3"
+                            android:textColor="?grey_scale70"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="@id/mypage_profile_nickname_tv"
+                            app:layout_constraintTop_toBottomOf="@id/mypage_profile_nickname_tv" />
+
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dimen4"
+                            android:background="@null"
+                            android:src="@drawable/ic_edit_filled_16"
+                            app:layout_constraintBottom_toBottomOf="@id/mypage_profile_nickname_tv"
+                            app:layout_constraintStart_toEndOf="@id/mypage_profile_nickname_tv"
+                            app:layout_constraintTop_toTopOf="@id/mypage_profile_nickname_tv"
+                            tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck,TouchTargetSizeCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
+
+                        <TextView
+                            android:id="@+id/mypage_join_date_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{uiState.joinDate}"
+                            android:textAppearance="?caption3"
+                            android:textColor="?grey_scale70"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/mypage_join"
+                            app:layout_constraintTop_toBottomOf="@id/mypage_profile_nickname_tv" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <com.google.android.flexbox.FlexboxLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen24"
+                        app:flexDirection="row"
+                        app:alignContent="stretch"
+                        app:justifyContent="space_between">
+
+                        <LinearLayout
+                            app:layout_flexGrow="1"
+                            android:layout_marginRight="@dimen/dimen8"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/mypage_sale_history_cd"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dimen72"
+                                android:backgroundTint="?primary5"
+                                app:cardCornerRadius="@dimen/dimen8"
+                                app:cardElevation="0dp">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingVertical="@dimen/dimen24"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_frame" />
+                            </androidx.cardview.widget.CardView>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dimen4"
+                                android:text="판매내역"
+                                android:textAppearance="?caption1"
+                                android:textColor="?grey_scale70" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            app:layout_flexGrow="1"
+                            android:layout_marginHorizontal="@dimen/dimen8"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/mypage_purchase_cd"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dimen72"
+                                android:backgroundTint="?primary5"
+                                app:cardCornerRadius="@dimen/dimen8"
+                                app:cardElevation="0dp">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_purchase_history" />
+                            </androidx.cardview.widget.CardView>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dimen4"
+                                android:text="구매내역"
+                                android:textAppearance="?caption1"
+                                android:textColor="?grey_scale70" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            app:layout_flexGrow="1"
+                            android:layout_marginLeft="@dimen/dimen8"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/mypage_like_cd"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dimen72"
+                                android:backgroundTint="?primary5"
+                                app:cardCornerRadius="@dimen/dimen8"
+                                app:cardElevation="0dp">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_like_product" />
+                            </androidx.cardview.widget.CardView>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dimen4"
+                                android:text="관심상품"
+                                android:textAppearance="?caption1"
+                                android:textColor="?grey_scale70" />
+                        </LinearLayout>
+                    </com.google.android.flexbox.FlexboxLayout>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen12"
+                    android:layout_marginTop="@dimen/dimen12"
+                    android:background="?bg" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="@dimen/dimen16"
+                        android:paddingTop="@dimen/dimen16"
+                        android:paddingBottom="@dimen/dimen4"
+                        android:text="설정"
+                        android:textAppearance="?body3"
+                        android:textColor="?grey_scale70"
+                        />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?grey_scale30"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/mypage_notification"
+                    android:padding="@dimen/dimen16"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="알림 설정"
+                        android:textAppearance="?body1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        />
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@null"
+                        android:src="@drawable/ic_arrow_line_16"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:paddingRight="@dimen/dimen16"
+                        />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?grey_scale40"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/mypage_account"
+                    android:padding="@dimen/dimen16"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="계좌 설정"
+                        android:textAppearance="?body1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        />
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@null"
+                        android:src="@drawable/ic_arrow_line_16"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:paddingRight="@dimen/dimen16"
+                        />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?grey_scale40"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/mypage_service_term"
+                    android:padding="@dimen/dimen16"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="서비스 이용약관"
+                        android:textAppearance="?body1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+
+                        />
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@null"
+                        android:src="@drawable/ic_arrow_line_16"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:paddingRight="@dimen/dimen16"
+                        />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?grey_scale40"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:padding="@dimen/dimen16"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="버전 정보"
+                        android:textAppearance="?body1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="v1.0"
+                        android:textAppearance="?body3"
+                        android:textColor="?primary40"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:paddingRight="@dimen/dimen16"
+                        />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?grey_scale40"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen12"
+                    android:background="?bg" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="@dimen/dimen16"
+                        android:paddingTop="@dimen/dimen16"
+                        android:paddingBottom="@dimen/dimen4"
+                        android:text="기타"
+                        android:textAppearance="?body3"
+                        android:textColor="?grey_scale70"
+                        />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?bg" />
+                    <TextView
+                        android:id="@+id/mypage_logout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="로그아웃"
+                        android:textAppearance="?body1"
+                        android:padding="@dimen/dimen16"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/mypage_withdrawal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="회원탈퇴"
+                    android:textAppearance="?body1"
+                    android:padding="@dimen/dimen16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:textColor="?grey_scale60"
+                    />
+
+            </LinearLayout>
+        </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/myPage_progress"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_fileName="spinner.json"
+            app:isVisible="@{uiState.isLoading}"
+
+            />
+    </FrameLayout>
 </layout>

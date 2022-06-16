@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:viewBindingIgnore="true"
+    >
+    <data>
+        <variable
+            name="uistate"
+            type="com.depromeet.baton.presentation.ui.mypage.viewmodel.PurchaseHistoryUiState" />
+
+    </data>
+
+    <LinearLayout
+        android:background="?wh100"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".presentation.ui.mypage.view.PurchaseHistoryFragment"
+        >
+
+        <com.depromeet.bds.component.BdsBackwardAppBar
+            android:id="@+id/purchase_history_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen12"
+            app:bds_title="구매내역" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <include
+                layout="@layout/view_empty_purchase_history"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/purchase_history_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/item_ticket_purchase"
+                android:background="?wh100"
+                tools:itemCount="10"
+                android:overScrollMode="never"
+                app:isVisible="@{!uistate.emptyState}"
+                />
+
+        </FrameLayout>
+    </LinearLayout>
+</layout>

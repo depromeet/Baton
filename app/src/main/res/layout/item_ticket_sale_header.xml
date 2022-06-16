@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout
+        android:layout_marginHorizontal="@dimen/dimen16"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/item_ticket_sale_header_date_tv"
+            android:textAppearance="?body3"
+            android:textColor="?grey_scale70"
+            android:layout_marginTop="@dimen/dimen16"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"/>
+    </RelativeLayout>
+</layout>

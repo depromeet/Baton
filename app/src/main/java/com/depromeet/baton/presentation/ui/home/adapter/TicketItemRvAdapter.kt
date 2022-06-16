@@ -36,7 +36,7 @@ class TicketItemRvAdapter(
                 //가로스크롤뷰
                 if (scrollType == SCROLL_TYPE_HORIZONTAL) {
                     val lp = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT)
-                    lp.width = 160.toPx()
+                    lp.width = 156.toPx()
                     ctlItemTicketContainer.layoutParams = lp
                 }
 
