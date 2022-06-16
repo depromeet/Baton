@@ -5,7 +5,7 @@
 
     <data>
 
-        <import type="com.depromeet.baton.domain.model.HashTag"/>
+        <import type="com.depromeet.baton.domain.model.HashTag" />
 
         <variable
             name="writePostViewModel"
@@ -25,8 +25,11 @@
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/sv_place_register"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
 
@@ -57,6 +60,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen8"
+                        android:layout_marginEnd="@dimen/dimen16"
                         app:layout_constraintTop_toBottomOf="@id/tv_place_register">
 
                         <include
@@ -171,24 +175,30 @@
                             android:textColor="?grey_scale70" />
                     </LinearLayout>
 
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_place_register"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dimen8"
+                        android:layout_marginStart="@dimen/dimen16"
                         android:orientation="horizontal"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintBottom_toBottomOf="@+id/ibtn_place_register"
-                        app:layout_constraintStart_toEndOf="@id/ibtn_place_register"
-                        tools:itemCount="5"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toEndOf="@+id/ibtn_place_register"
+                        app:layout_constraintTop_toTopOf="@+id/ibtn_place_register"
+                        tools:itemCount="115"
                         tools:listitem="@layout/item_photo" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/ctl_place_register_hashtag"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen24"
-                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginEnd="@dimen/dimen16"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/ibtn_place_register"
                         app:layout_constraintTop_toBottomOf="@+id/ibtn_place_register">
 
                         <TextView
@@ -205,12 +215,13 @@
                             android:id="@+id/place_register_choice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
                             android:text="(선택사항)"
                             android:textAppearance="?caption2"
                             android:textColor="?grey_scale60"
                             app:layout_constraintBottom_toBottomOf="@id/tv_hashtag"
                             app:layout_constraintStart_toEndOf="@id/tv_hashtag"
-                            app:layout_constraintTop_toTopOf="@id/tv_hashtag" />
+                            app:layout_constraintTop_toTopOf="@+id/tv_hashtag" />
 
                         <com.google.android.flexbox.FlexboxLayout
                             android:layout_width="match_parent"

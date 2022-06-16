@@ -32,7 +32,7 @@ class SearchDetailFragment : BaseFragment<FragmentSearchDetailBinding>(R.layout.
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.viewModel=filterSearchViewModel
+        binding.viewModel = filterSearchViewModel
         searchViewModel.setCurrentLevel(1)
         setTicketItemRvAdapter()
 
@@ -92,9 +92,6 @@ class SearchDetailFragment : BaseFragment<FragmentSearchDetailBinding>(R.layout.
     }
 
     private fun setTicketItemClickListener(ticketItem: FilteredTicket) {
-        startActivity(Intent(requireContext(), TicketDetailActivity::class.java).apply {
-            //TODO 게시글 id넘기기
-        })
+        startActivity(TicketDetailActivity.start(requireContext(), ticketItem.id))
     }
-
 }

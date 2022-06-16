@@ -22,7 +22,9 @@ import com.depromeet.baton.presentation.main.MainActivity
 import com.depromeet.baton.presentation.ui.address.viewmodel.AddressViewModel
 import com.depromeet.baton.presentation.ui.address.viewmodel.DistanceType
 import com.depromeet.baton.util.BatonSpfManager
+import com.depromeet.bds.component.BdsDialog
 import com.depromeet.bds.component.BdsToast
+import com.depromeet.bds.component.DialogType
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
@@ -31,8 +33,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class AddressActivity : BaseActivity<ActivityAddressBinding>(R.layout.activity_address) {
 
-    @Inject
-    lateinit var spfManager: BatonSpfManager
+    @Inject lateinit var spfManager: BatonSpfManager
+    private val dialog by lazy {  BdsDialog(this,DialogType.SECONDARY) }
     private val addressViewModel by viewModels<AddressViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,9 +101,7 @@ class AddressActivity : BaseActivity<ActivityAddressBinding>(R.layout.activity_a
                 }
 
             }
-
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
 
         })
@@ -157,7 +157,6 @@ class AddressActivity : BaseActivity<ActivityAddressBinding>(R.layout.activity_a
                     // 거부 및 다시보지 않기를 선택한 경우
                     else {
                         // 권한 설정으로 이동할 수 있도록 알림창을 띄운다
-                        //TODO : Dialog custom 적용
                         showDialogToGetPermission()
                     }
                 }
@@ -168,20 +167,25 @@ class AddressActivity : BaseActivity<ActivityAddressBinding>(R.layout.activity_a
 
 
     private fun showDialogToGetPermission() {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("위치 권한설정").setMessage("현재 위치를 파악하기 위해 위치 권한 접근이 필요합니다")
-            .setPositiveButton("확인") { dialog, i ->
-                val intent = Intent(
-                    ACTION_APPLICATION_DETAILS_SETTINGS,
-                    Uri.fromParts("package", packageName, null)
-                )
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
-            }
-        builder.setNegativeButton("취소") { dialog, i -> }
-        val dialog = builder.create()
+        dialog.setHorizonDialog(::onClickConfirm, ::onClickCancel)
+        dialog.setTitle("위치 권한 설정이 필요합니다.")
+        dialog.setContent("현재 위치를 기반으로 거래 가능한 양도권을 보여드립니다.")
+        dialog.setImage(com.depromeet.bds.R.drawable.ic_img_empty_warning)
         dialog.show()
     }
+
+    private fun onClickConfirm(){
+        dialog.dismiss()
+        val intent = Intent(
+            ACTION_APPLICATION_DETAILS_SETTINGS,
+            Uri.fromParts("package", packageName, null)
+        )
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+
+    }
+
+    private fun onClickCancel(){}
 
     companion object {
         val PERMISSION_REQUEST = 99
