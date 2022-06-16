@@ -98,6 +98,7 @@ class MembershipInformationFragment : BaseFragment<FragmentMembershipInformation
         with(binding) {
             etTerm.text = Editable.Factory.getInstance().newEditable(writePostViewModel.termWithDot.value)
             etTermNumber.text = Editable.Factory.getInstance().newEditable(writePostViewModel.termWithDot.value)
+
             etPrice.text = Editable.Factory.getInstance().newEditable(writePostViewModel.membershipInfoUiState.value.priceChanged)
         }
     }

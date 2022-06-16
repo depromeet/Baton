@@ -17,6 +17,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginEnd="@dimen/dimen16"
         android:background="?wh100"
         tools:context=".presentation.ui.writepost.view.DescriptionFragment">
 
@@ -36,7 +37,7 @@
             android:layout_height="182dp"
             android:layout_marginTop="@dimen/dimen8"
             android:afterTextChanged="@{it->uiState.onDescriptionChanged.invoke(it)}"
-            android:background="@drawable/temp_choice_chip_bacground"
+            android:background="@drawable/temp_textfield_background"
             android:gravity="top"
             android:hint="@string/description_hint"
             android:includeFontPadding="false"
@@ -59,5 +60,19 @@
             android:textColor="?grey_scale50"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/et_description" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/my_location_progress"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="spinner.json"
+            app:lottie_loop="true"
+            app:showOnLoading="@{writePostViewModel.uiState}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

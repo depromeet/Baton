@@ -52,6 +52,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             Timber.d("beanbean ime > ${it.text}")
             searchViewModel.searchKeyword(it.text.toString())
         }
+        // 이 코드를 추가하면 키보드 내림 자동 포커스가 됩니다 =효민-
+        /*  KeyboardVisibilityEvent.setEventListener(requireActivity()) {
+            binding?.searchBar.searchBarKeyBoardListener(it)
+        }*/
 
         viewLifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {

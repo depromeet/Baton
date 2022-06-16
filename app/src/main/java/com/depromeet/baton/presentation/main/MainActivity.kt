@@ -3,13 +3,16 @@ package com.depromeet.baton.presentation.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ActivityMainBinding
 import com.depromeet.baton.presentation.base.BaseActivity
 import com.depromeet.baton.presentation.ui.chatting.ChattingFragment
+import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
 import com.depromeet.baton.presentation.ui.home.view.HomeFragment
-import com.depromeet.baton.presentation.ui.mypage.MyPageFragment
+import com.depromeet.baton.presentation.ui.mypage.view.MyPageFragment
 import com.depromeet.baton.presentation.ui.search.view.SearchFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,12 +24,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private val chattingFragment: ChattingFragment by lazy { ChattingFragment() }
     private val myPageFragment: MyPageFragment by lazy { MyPageFragment() }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
         initBottomNavigation()
         setBottomNavigationSelectedListener()
+
     }
 
     private fun initBottomNavigation() {
@@ -50,7 +55,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                     return@setOnItemSelectedListener true
                 }
                 R.id.menu_main_mypage -> {
-                    replace(myPageFragment)
+                    replace(myPageFragment,"myPageFragment")
                     return@setOnItemSelectedListener true
                 }
             }
@@ -58,10 +63,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         }
     }
 
-    private fun replace(fragment: Fragment) {
+    private fun replace(fragment: Fragment,tag :String?=null) {
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.fcv_main, fragment, null)
+            .replace(R.id.fcv_main, fragment, tag)
             .commit()
     }
 

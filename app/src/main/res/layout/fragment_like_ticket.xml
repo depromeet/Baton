@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="itemDecoration"
+            type="com.depromeet.baton.presentation.util.TicketItemVerticalDecoration" />
+
+         <variable
+             name="uistate"
+             type="com.depromeet.baton.presentation.ui.mypage.viewmodel.BookmarkUiState" />
+
+    </data>
+    <LinearLayout
+        android:id="@+id/like_fragment_view_container"
+        android:orientation="vertical"
+        android:background="?wh100"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.depromeet.bds.component.BdsBackwardAppBar
+            android:id="@+id/like_ticket_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:bds_title="관심상품"
+
+            />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:background="?wh100"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:isVisible="@{uistate.isEmpty}">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_img_empty_like"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?body1"
+                    android:layout_marginTop="@dimen/dimen16"
+                    android:text="관심상품이 없어요."/>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/mypage_like_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/item_ticket"
+                android:layout_marginHorizontal="@dimen/dimen16"
+                android:layout_marginTop="@dimen/dimen12"
+                android:nestedScrollingEnabled="false"
+                app:itemDecoration="@{itemDecoration}"
+                app:spanCount="2"
+                app:isVisible="@{!uistate.isEmpty}"
+                />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/like_progress"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_fileName="spinner.json"
+                app:isVisible="@{uistate.loading}"
+
+                />
+        </FrameLayout>
+
+    </LinearLayout>
+</layout>

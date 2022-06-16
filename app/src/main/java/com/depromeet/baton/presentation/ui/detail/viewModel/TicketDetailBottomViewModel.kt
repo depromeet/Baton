@@ -33,7 +33,7 @@ class TicketDetailBottomViewModel@Inject constructor():BaseViewModel() {
     }
 
     companion object{
-        val sellerOption = arrayListOf("판매 상태 변경하기","수정하기","삭제하기")
+        val sellerOption = arrayListOf("판매 상태 변경하기","삭제하기") //TODO 수정하기
         val buyerOption = arrayListOf("신고하기")
         val statusOption = arrayListOf("판매중","예약중","거래완료")
         val reportOption = arrayListOf("사칭/사기","상업적 광고 및 판매","게시판 성격에 부적절함","낚시/도배")

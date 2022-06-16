@@ -161,13 +161,16 @@
         <item name="ticket_detail_delete_option">삭제하기</item>
     </string-array>
 
-    <string-array name="ticketSaleStatus">
-        <item name="ticket_status_sale">판매중</item>
-        <item name="ticket_status_reserve">예약중</item>
-        <item name="ticket_status_completed">거래완료</item>
-    </string-array>
+    <string-array  name="ticketSaleStatus">
+        <item name = "ticket_status_sale">판매중</item>
+        <item name = "ticket_status_reserve">예약중</item>
+        <item name = "ticket_status_completed">거래완료</item>
+    </string-array >
 
     <string name="sign_up">회원 가입</string>
+
+    <string name="mypage_ticket_menu_change">정보 수정하기</string>
+    <string name="mypage_ticket_menu_delete">삭제</string>
 
     <!--바통 이용법-->
     <string name="how_to_use_introduce1">바통은 헬스 양도권 거래 전문 플랫폼으로 내 위치를 기반으로\n가까운 매물을 확인하고 판매자와 구매자가 편리하고 안전하게\n양도권을 거래할 수 있는 플랫폼이에요.</string>
@@ -177,4 +180,6 @@
     <string name="how_to_use_careful1">구매 사기 예방을 위해 바통은 현장결제를 권장하는 편이에요. 거래하기 전 등록된 회원권 정보가 계약 내용과도 일치하는지 확인하면 더 안전한 거래를 할 수 있어요!</string>
     <string name="how_to_use_careful2">바통(주)는 통신판매 중개자로서 통신 판매의 당사자가 아닙니다. 본 양도권은 개별 판매자가 직접 등록한 양도권으로 회원권 정보, 양도 거래에 관한 의무와 책임은 각 판매자와 구매자에게 있습니다.</string>
 
+    <string name="service_term_title"> 바통(주)는 통신판매 중개자로서 통신판매의 당사자가 아닙니다.\n본 양도권은 개별 판매자가 직접 등록한 양도권으로 회원권 정보,\n
+        양도 거래에 관한 의무와 책임은 각 판매자에게 있습니다.</string>
 </resources>

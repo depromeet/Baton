@@ -12,6 +12,7 @@ import androidx.core.view.children
 import androidx.core.view.isVisible
 import com.depromeet.bds.R
 import com.depromeet.bds.databinding.BdsComponentTextFieldBinding
+import com.depromeet.bds.utils.setTextAppearanceCompat
 
 // 자식으로 EditText 를 받고 거기에 위임하자.
 // EditText 관련 안드로이드 서포트 동작을 전부 오버라이드 하는 것은 미친 짓임.
@@ -94,7 +95,9 @@ class BdsComponentTextField @JvmOverloads constructor(
                     colorStateList?.let { binding.txtHelper.setTextColor(it) }
                 }
         }
+
     }
+
 
     fun clearStatus() {
         errorMessage = null

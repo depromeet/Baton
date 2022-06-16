@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.depromeet.bds.component.*
 import com.depromeet.bds.utils.toPx
+import com.airbnb.lottie.LottieAnimationView
 import com.depromeet.bds.component.BdsBackwardAppBar
 import com.depromeet.bds.component.BdsChoiceChip
 import com.depromeet.bds.component.BdsComponentTextField
@@ -74,6 +75,7 @@ fun ImageView.bindImage(uri: String?, roundedCorners: Boolean) {
         } else {
             Glide.with(context)
                 .load(uri)
+                .centerCrop()
                 .into(this)
         }
     }
@@ -99,4 +101,6 @@ fun setBdsAppbarTitle(view: BdsBackwardAppBar, title: String?) {
 fun BdsBackwardAppBar.bindTitle(title: String?) {
     bdsTitle = title
 }
+
+
 

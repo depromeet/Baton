@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="?wh100"
+        android:clickable="true"
+        android:orientation="vertical">
+        <com.depromeet.bds.component.BdsBackwardAppBar
+            android:id="@+id/notify_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:bds_title="알림 설정"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?body3"
+            android:text="채팅 알림"
+            android:textColor="?grey_scale70"
+            android:layout_marginHorizontal="@dimen/dimen16"
+            android:paddingTop="@dimen/dimen16"
+            android:paddingBottom="@dimen/dimen4"
+            />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?body1"
+                android:text="채팅 메시지 알림"
+                android:padding="@dimen/dimen16"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+
+                />
+            <com.depromeet.bds.component.BdsToggle
+                android:id="@+id/notify_chatting_toggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:padding="@dimen/dimen16"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen12"
+            android:background="?bg"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?body3"
+            android:text="찜 상품 알림"
+            android:textColor="?grey_scale70"
+            android:layout_marginHorizontal="@dimen/dimen16"
+            android:paddingTop="@dimen/dimen16"
+            android:paddingBottom="@dimen/dimen4"
+            />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?body1"
+                android:text="가격 인하 알림"
+                android:padding="@dimen/dimen16"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+
+                />
+            <com.depromeet.bds.component.BdsToggle
+                android:id="@+id/notify_price_toggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:padding="@dimen/dimen16"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+</layout>
