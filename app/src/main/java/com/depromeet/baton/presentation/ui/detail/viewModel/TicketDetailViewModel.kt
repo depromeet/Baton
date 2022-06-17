@@ -75,18 +75,18 @@ class TicketDetailViewModel @Inject constructor(
                     is NetworkResult.Success->{
                         if (res.data != null) {
                             val ticket = res.data!!
-                            val tempUserId = 4  //TODO userID 변경 authRepository.authInfo?.userId
-                            val tempSellerId = ticket.seller.id
+                            val userId = authRepository.authInfo!!.userId  //TODO userID 변경 authRepository.authInfo?.userId
+                            val sellerId = ticket.seller.id
                             val state = DetailTicketInfoUiState(
                                 DetailTicketInfo(
                                     ticketId = ticket.id,
                                     ticketType = TicketKind.valueOf(ticket.type),
                                     seller = DetailTicketInfo.Seller(
-                                        tempSellerId,
+                                        sellerId,
                                         ticket.seller.nickname,
                                         ticket.seller.createdOn
                                     ),
-                                    isOwner = tempUserId == tempSellerId,
+                                    isOwner = userId == sellerId,
                                     detailUrl = "https://map.naver.com/v5/search/${ticket.location.replace(" ","")}",
                                     mapUrl = "https://map.naver.com/index.nhn?slng=${spfManager.getMyLongitude()}&slat=${spfManager.getMyLatitude()}" +
                                             "&stext=내 위치&elng=${ticket!!.longitude}&elat=${ticket!!.latitude}" +
@@ -203,8 +203,18 @@ class TicketDetailViewModel @Inject constructor(
                 spfManager.getMyLatitude()
             )
         }
-        addViewEvent(DetailViewEvent.EventClickDelete)
+    }
 
+    fun reportSeller(option: Int){
+        val ticketId = savedStateHandle.get<Int>("ticketId")!!
+        viewModelScope.launch {
+            //TODO 통과용 임시 api 호출
+            ticketInfoRepository.getTicketInfo(
+                ticketId = ticketId,
+                spfManager.getMyLongitude(),
+                spfManager.getMyLatitude()
+            )
+        }
     }
 
     private fun onClickChat() {
@@ -224,7 +234,7 @@ class TicketDetailViewModel @Inject constructor(
         val temp = ticketState.value!!
         viewModelScope.launch {
             runCatching {
-                val userId = 1 //TODO authinfo  변경
+                val userId = authRepository.authInfo!!.userId
                 bookmarkRepository.postBookmark(userId,temp.ticket.ticketId)
             }.onSuccess {
                 when(it){
@@ -274,7 +284,7 @@ class TicketDetailViewModel @Inject constructor(
     ) {
 
         val isChatEnabled = true //TODO 문의했던 회원권인지 판단
-        val chatBtnText = if (isChatEnabled) "문의하기" else "이미 문의 회원권이에요"
+        val chatBtnText = if(ticket.isOwner)"채팅목록" else if (isChatEnabled) "채팅하기" else "이미 문의 회원권이에요"
 
         val priceStr = priceFormat(ticket.price.toFloat())
         val monthTagisVisible = if (ticket.remainDate!=null&& ticket.isMembership && ticket.remainDate > 30) View.VISIBLE else View.GONE

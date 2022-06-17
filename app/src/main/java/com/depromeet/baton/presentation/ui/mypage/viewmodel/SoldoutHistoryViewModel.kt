@@ -3,6 +3,7 @@ package com.depromeet.baton.presentation.ui.mypage.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.depromeet.baton.domain.model.MypageTicketResponse
 import com.depromeet.baton.domain.model.TicketSimpleInfo
+import com.depromeet.baton.domain.repository.AuthRepository
 import com.depromeet.baton.domain.repository.UserinfoRepository
 import com.depromeet.baton.map.util.NetworkResult
 import com.depromeet.baton.presentation.base.BaseViewModel
@@ -19,7 +20,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SoldoutHistoryViewModel @Inject constructor(
-    private val userinfoRepository: UserinfoRepository
+    private val userinfoRepository: UserinfoRepository,
+    private val authRepository: AuthRepository
 ) : BaseViewModel(){
     private val _uiState: MutableStateFlow<SoldoutHistoryUiState> = MutableStateFlow(SoldoutHistoryUiState())
     val uiState = _uiState.asStateFlow()
@@ -31,7 +33,7 @@ class SoldoutHistoryViewModel @Inject constructor(
     fun getSoldoutHistory(state: TicketState){
         viewModelScope.launch {
             runCatching {
-                userinfoRepository.getUserSellList(1,state.option)
+                userinfoRepository.getUserSellList(authRepository.authInfo!!.userId,state.option)
             }.onSuccess {
                     res ->run{
                 when(res){

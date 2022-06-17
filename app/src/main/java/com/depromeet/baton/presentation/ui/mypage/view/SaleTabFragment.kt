@@ -109,10 +109,6 @@ class SaleTabFragment : BaseFragment<FragmentSaleTabBinding>(R.layout.fragment_s
         popup.setOnMenuItemClickListener {
             onContextItemSelected(it)
         }
-        popup.setOnDismissListener {
-            // Respond to popup being dismissed.
-        }
-
         popup.show()
     }
 
@@ -145,8 +141,7 @@ class SaleTabFragment : BaseFragment<FragmentSaleTabBinding>(R.layout.fragment_s
     }
 
     private fun onClickConfirm(){
-        //saleViewModel.deleteTicket(it.first!!.ticket.typeId)
-
+        saleViewModel.deleteTicket(ticketItemRvAdapter.getSelectedItem().first!!.ticket.typeId)
         ticketItemRvAdapter.removeSelectedItem(ticketItemRvAdapter.getSelectedItem().second!!)
         alertDialog.dismiss()
     }

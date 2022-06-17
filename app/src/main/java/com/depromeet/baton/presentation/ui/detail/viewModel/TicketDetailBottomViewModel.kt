@@ -29,6 +29,7 @@ class TicketDetailBottomViewModel@Inject constructor():BaseViewModel() {
             DetailBottomOption.STATUS -> statusOption
             DetailBottomOption.BUYER -> buyerOption
             DetailBottomOption.REPORT-> reportOption
+            DetailBottomOption.USER-> sellerReportOption
         }
     }
 
@@ -37,11 +38,12 @@ class TicketDetailBottomViewModel@Inject constructor():BaseViewModel() {
         val buyerOption = arrayListOf("신고하기")
         val statusOption = arrayListOf("판매중","예약중","거래완료")
         val reportOption = arrayListOf("사칭/사기","상업적 광고 및 판매","게시판 성격에 부적절함","낚시/도배")
+        val sellerReportOption = arrayListOf("사칭/사기", "전문 판매업자","비매너 사용자","낚시/도배")
     }
 }
 
 enum class DetailBottomOption(val title: String){
-    SELLER("글 메뉴"), BUYER("글메뉴"),STATUS("상태 변경"),REPORT("신고사유 선택")
+    SELLER("글 메뉴"), BUYER("글메뉴"),STATUS("상태 변경"),REPORT("신고사유 선택"),USER("신고사유 선택")
 }
 
 
