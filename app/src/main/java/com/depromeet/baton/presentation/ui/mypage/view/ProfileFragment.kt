@@ -92,7 +92,7 @@ class ProfileFragment() :BaseFragment<FragmentProfileBinding>(R.layout.fragment_
                 }
                 ProfileViewModel.ProfileViewEvent.EventUpdateProfileImage->{
                     myPageViewModel.updateProfileImg(profileViewModel.uiState.value.profileImage)
-                    requireContext().BdsToast("변경이 완료됐습니다.",binding.profileCompleteBtn.top).show()
+                    requireContext().BdsToast("변경이 완료됐어요.",binding.profileCompleteBtn.top).show()
                     binding.profileCompleteBtn.isEnabled=true
                 }
                 ProfileViewModel.ProfileViewEvent.EventUpdateProfileInfo ->{
