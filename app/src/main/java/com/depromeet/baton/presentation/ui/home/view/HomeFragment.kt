@@ -4,6 +4,7 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
@@ -49,7 +50,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         initView()
     }
 
-
     override fun onResume() {
         super.onResume()
         initLayout()
@@ -60,6 +60,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         initLayout()
         setTicketItemRvAdapter()
         setObserve()
+        setTicketCountObserve()
     }
 
     private fun setObserve() {
@@ -80,11 +81,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         binding.tvHomeLocation.text = if (roadAddress != "") {
             roadAddress.slice(0..5) + "..."
         } else "위치 설정"
+    }
 
-        Handler(Looper.getMainLooper())
-            .postDelayed({
-                homeViewModel.checkToolTipState(filterViewModel.ticketCount.value!!, spfManager.getAddress().roadAddress)
-            }, 2000)
+    private fun setTicketCountObserve() {
+        filterViewModel.ticketCount.observe(viewLifecycleOwner) {
+            homeViewModel.checkToolTipState(it!!, spfManager.getAddress().roadAddress)
+        }
     }
 
     private fun showToolTip() {

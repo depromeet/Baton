@@ -19,7 +19,7 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
 
     private val _initLocation = MutableLiveData<String?>()
 
-    fun checkToolTipState(ticketCount: Int, location: String? = null) {
+    fun checkToolTipState(ticketCount: Int, location: String) {
         if (location != _initLocation.value && ticketCount == 0) {
             _initLocation.value = location
             handleToolTipShow()

@@ -35,7 +35,7 @@ class FilterViewModel @Inject constructor(
     val filteredTicketCount: LiveData<Int?> = _filteredTicketCount
 
     //양도권 개수
-    private val _ticketCount = MutableLiveData(0)
+    private val _ticketCount = MutableLiveData(1)
     val ticketCount: LiveData<Int?> = _ticketCount
 
     //필터링된 양도권 리스트
