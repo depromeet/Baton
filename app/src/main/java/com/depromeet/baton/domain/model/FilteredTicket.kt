@@ -13,5 +13,5 @@ data class FilteredTicket(
     val longitude: Double,
     val distance: String?,
     val type: String?,
-    val bookmarkId: Boolean?
+ //   val bookmarkId: Boolean? todo
 )
