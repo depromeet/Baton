@@ -50,10 +50,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                     replace(searchFragment)
                     return@setOnItemSelectedListener true
                 }
-                R.id.menu_main_chatting -> {
-                    replace(chattingFragment)
-                    return@setOnItemSelectedListener true
-                }
+//                R.id.menu_main_chatting -> {
+//                    replace(chattingFragment)
+//                    return@setOnItemSelectedListener true
+//                }
                 R.id.menu_main_mypage -> {
                     replace(myPageFragment,"myPageFragment")
                     return@setOnItemSelectedListener true
@@ -80,7 +80,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     }
 
     fun moveToChatting() {
-        binding.bnvMain.selectedItemId = R.id.menu_main_chatting
+//        binding.bnvMain.selectedItemId = R.id.menu_main_chatting
     }
 
     companion object {
