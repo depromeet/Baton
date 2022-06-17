@@ -162,7 +162,7 @@
             app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
             app:layout_constraintTop_toBottomOf="@+id/ctl_date"
             tools:itemCount="24"
-            tools:listitem="@layout/item_chat_send" />
+            tools:listitem="@layout/item_chat_receiver" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout2"

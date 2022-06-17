@@ -32,6 +32,7 @@ class ChatTest : FeatureSpec({
             val chatRoom = ChatRoom(1, 2, "bean", "seungmin")
             val publisher: RealTimeDataPublisher = MemoryRealTimeDataPublisher()
             val chatRepository = ChatRepository(publisher)
+            //chatController를 사용자, 유저로 생각할수있음 뷰 이벤트 받ㅇ서 다 처리하는 애니까
             val chatController = ChatController(chatRoom, chatRepository, scope)
 
             chatRepository.start()
@@ -44,14 +45,14 @@ class ChatTest : FeatureSpec({
                 .launchIn(scope)
 
             chatController.run {
-                receiveMessages()
-                setMessage("hello world")
-                send()
+                receiveMessages() //화면에 그림 그리기를 의도함
+                setMessage("hello world") //사용자가 메시지 채팅후
+                send() //사용자가 메시지를 보낸다
             }
 
             delay(100)
 
-            val value = chatController.uiState.first()
+            val value = chatController.uiState.first() //그리고 나면 챗 컨트롤러의 유아이 스테이트가 사용자가 보낸 메시지로 채져있을것
             value.messages.first() shouldBe "hello world"
         }
 
@@ -111,6 +112,7 @@ class ChatTest : FeatureSpec({
             val a = roomA.uiState.first()
             a.messages.first() shouldBe messageForA
 
+            //룸 B에 보낸건 룸B에만 있고,,
             val b = roomB.uiState.first()
             b.messages.first() shouldBe messageForB
         }
@@ -123,6 +125,8 @@ class ChatTest : FeatureSpec({
 
             chatRepository.start()
 
+            //이런 식으로 메시지가 순차적으로 들어온다고 했을때 이 3개가 레포지토리에 들어오면
+            //chatController의 state가 메시지를 전부 확인할 수 있는 형태로 emit될거다
             val message1 = "hello world"
             val message2 = "multiple messages are allowed"
             val message3 = "hello fellow."
