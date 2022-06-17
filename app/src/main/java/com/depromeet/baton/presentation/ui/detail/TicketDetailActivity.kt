@@ -157,10 +157,9 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
                 DetailViewEvent.EventClickChat -> {
                     //TODO showChatBottom
                 }
+                DetailViewEvent.EventClickUnLike->{ binding.ticketDetailLikeBtn.toggle() }
                 DetailViewEvent.EventClickLike -> {
-                    if (viewModel.ticketState.value!!.ticket.isLikeTicket)
-                        this@TicketDetailActivity.BdsToast("관심 상품이 등록되었습니다.", binding.ticketDetailFooter.top).show()
-
+                    this@TicketDetailActivity.BdsToast("관심 상품이 등록되었습니다.", binding.ticketDetailFooter.top).show()
                     binding.ticketDetailLikeBtn.toggle()
                 }
                 DetailViewEvent.EventClickDelete -> {
