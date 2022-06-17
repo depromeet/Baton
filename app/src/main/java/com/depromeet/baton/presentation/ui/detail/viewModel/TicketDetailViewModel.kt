@@ -116,8 +116,8 @@ class TicketDetailViewModel @Inject constructor(
                                     isHolding = ticket.isHolding,
                                     isMembership = ticket.isMembership,
                                     remainingNumber = ticket.remainingNumber,
-                                    isLikeTicket = false,
                                     bookmarkId = ticket.bookmarkId,
+                                    isLikeTicket = ticket.bookmarkId!=null,
                                     bookmarkView = ticket.bookmarkCount,
                                     countView = ticket.viewCount
                                 ),
@@ -229,16 +229,17 @@ class TicketDetailViewModel @Inject constructor(
         val temp = ticketState.value!!
         viewModelScope.launch {
             runCatching {
-                val userId = authRepository.authInfo!!.userId
+                val userId = 1//authRepository.authInfo!!.userId
                 bookmarkRepository.postBookmark(userId,temp.ticket.ticketId)
-            }.onSuccess {
-                when(it){
+            }.onSuccess { res->
+                when(res){
                     is NetworkResult.Success ->{
+                        Timber.e(res.data!!.ticket.toString())
                         _ticketState.postValue(temp.copy(ticket = temp.ticket.copy(isLikeTicket = true)))
                         addViewEvent(DetailViewEvent.EventClickLike)
                     }
                     is NetworkResult.Error->{
-                        Timber.e(it.message)
+                        Timber.e(res.message)
                     }
                 }
             }.onFailure {  Timber.e(it.message) }
@@ -247,21 +248,21 @@ class TicketDetailViewModel @Inject constructor(
 
     private fun deleteBookmark(){
         val temp = _ticketState.value!!
-       /* viewModelScope.launch {
+       viewModelScope.launch {
             runCatching {
                 bookmarkRepository.deleteBookmark(temp.ticket.bookmarkId!!)
             }.onSuccess {
                 when(it){
                     is NetworkResult.Success ->{
-                        _ticketState.postValue(temp.copy(ticket = temp.ticket.copy(isLikeTicket = !temp.ticket.isLikeTicket, bookmarkId = null)))
+                        _ticketState.postValue(temp.copy(ticket = temp.ticket.copy( isLikeTicket = false)))
+                        addViewEvent(DetailViewEvent.EventClickUnLike)
                     }
                     is NetworkResult.Error->{
                         Timber.e(it.message)
                     }
                 }
             }.onFailure {  Timber.e(it.message) }
-        }*/
-        _ticketState.postValue(temp.copy(ticket = temp.ticket.copy(isLikeTicket = false, bookmarkId = null)))
+        }
     }
 
     private fun addViewEvent(viewEvent: DetailViewEvent) {
@@ -307,7 +308,7 @@ class TicketDetailViewModel @Inject constructor(
             if (ticket.isMembership) "${ticket.remainDate}일" else "${ticket.remainingNumber}회"
 
         //bookmark id 가 null 이면 관심 상품 아님
-        val bookmarkState  = ticket.bookmarkId!=null
+        val bookmarkState  = ticket.isLikeTicket
 
     }
 
@@ -322,6 +323,7 @@ sealed class TicketDetailNetWork() {
 
 sealed class DetailViewEvent {
     object EventClickLike : DetailViewEvent()
+    object EventClickUnLike : DetailViewEvent()
     object EventClickChat : DetailViewEvent()
     object EventClickDelete : DetailViewEvent()
 }
