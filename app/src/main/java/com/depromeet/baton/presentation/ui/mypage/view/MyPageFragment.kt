@@ -1,5 +1,6 @@
 package com.depromeet.baton.presentation.ui.mypage.view
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -46,12 +47,12 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
 
     private lateinit var logoutDialog: BdsDialog
     private lateinit var withdrawalDialog: BdsDialog
+    private lateinit var callback: OnBackPressedCallback
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
         setObserver()
-        setBackPressed()
         setDialog()
     }
 
@@ -160,14 +161,18 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
 
 
     private fun setBackPressed(){
-        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+        callback= object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 // 뒤로가기 눌렀을 때 동작할 코드
                if(this@MyPageFragment.isAdded && childFragmentManager.fragments.isNotEmpty()){
                    clearBackStack()
+               }else{
+                  //TODO 앱종료 처리
+                   requireActivity().finishAffinity()
                }
             }
-        })
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this@MyPageFragment, callback)
     }
 
 
@@ -179,9 +184,20 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
 
     private fun clearBackStack() {
         val fragmentManager = childFragmentManager
+        Timber.e("${fragmentManager.fragments}")
         while (fragmentManager.backStackEntryCount !== 0) {
             fragmentManager.popBackStackImmediate()
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        setBackPressed()
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        callback.remove()
     }
 
 }
