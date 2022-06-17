@@ -199,6 +199,12 @@ class WritePostViewModel @Inject constructor(
     private val _termWithDot = MutableLiveData("")
     val termWithDot: LiveData<String> = _termWithDot
 
+    private val _isNumberTextInit = SingleLiveEvent<Any>()
+    val isNumberTextInit: SingleLiveEvent<Any> = _isNumberTextInit
+
+    private val _isPeriodTextInit = SingleLiveEvent<Any>()
+    val isPeriodTextInit: SingleLiveEvent<Any> = _isPeriodTextInit
+
 
     /*추가옵션*/
     private var additionalOptionsCheckedList = MapListLiveData<AdditionalOptions, Boolean>()
@@ -527,10 +533,21 @@ class WritePostViewModel @Inject constructor(
         //기간, 횟수 하나만 선택 가능
         _isPeriodChecked.value = false
         _isNumberChecked.value = false
+
         when (kind) {
-            Term.PERIOD -> _isPeriodChecked.value = isChecked
-            Term.NUMBER -> _isNumberChecked.value = isChecked
-        }
+            Term.PERIOD -> {
+                _isPeriodChecked.value = isChecked
+                if(isChecked)
+                    _isNumberTextInit.call()
+            }
+            Term.NUMBER -> {
+                _isNumberChecked.value = isChecked
+                if(isChecked)
+                _isPeriodTextInit.call()
+            }
+        } 
+
+        handleTermDetailChanged(Editable.Factory.getInstance().newEditable(""))
         setLevelTwoNextBtnEnable()
     }
 
@@ -557,7 +574,6 @@ class WritePostViewModel @Inject constructor(
             ticketKindCheckedList.value?.containsValue(true) == true
                     && (_isPeriodChecked.value == true || _isNumberChecked.value == true)
                     && term.isNotEmpty()
-                    //   && term.isDigitsOnly()
                     && price.isNotEmpty()
 
         //작성한 만료일이 현재 시간보다 이전이거나 date 형식에 맞지 않는지 검사
@@ -569,6 +585,7 @@ class WritePostViewModel @Inject constructor(
         ) {
             _isLevelTwoNextBtnEnable.value = false
         }
+
 
         setNextLevelEnable()
     }
