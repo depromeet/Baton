@@ -11,10 +11,10 @@ import retrofit2.Response
 import retrofit2.http.*
 
 interface UserInfoService {
-    @GET("users/{id}")
+    @GET("user/users/{id}")
     suspend fun getUserProfile(@Path("id") userIdx : Int) : Response<UserProfileResponse>
 
-    @PUT("users/{id}")
+    @PUT("user/users/{id}")
     suspend fun updateUserProfile(
         @Path("id") userIdx : Int,
         @Body body : UserProfileRequest
@@ -22,44 +22,44 @@ interface UserInfoService {
 
 
     //TODO response 변경 요청
-    @DELETE("users/{id}")
+    @DELETE("user/users/{id}")
     suspend fun deleteUser(@Path("id") userIdx : Int)
     :Response<MypageBasicResponse>
 
-    @GET("users/{id}/bookmarks")
+    @GET("user/users/{id}/bookmarks")
     suspend fun getUserBookmarks(
         @Path("id") bookmarkId: Int,
         @Query("state")state :Int?=0
 
     ) : Response<List<BookmarkTicket>>
 
-    @GET("users/{id}/buys")
+    @GET("user/users/{id}/buys")
     suspend fun getUserBuyTickets(@Path("id") userIdx : Int): Response<List<UserBuyListResponse>>
 
-    @GET("users/{id}/sells")
+    @GET("user/users/{id}/sells")
     suspend fun getUserSellTickets(
         @Path("id") userIdx : Int,
         @Query("state") state :Int?=0
     ) : Response<List<MypageTicketResponse>>
 
-    @PATCH("users/{id}/address")
+    @PATCH("user/users/{id}/address")
     suspend fun updateUserAddress(
         @Path("id") userIdx : Int,
         @Body body: UserAddressRequest
     ) : Response<UserAddressResponse>
 
-    @PATCH("users/{id}/account")
+    @PATCH("user/users/{id}/account")
     suspend fun updateUserAccount(
         @Path("id") userIdx : Int,
         @Body body: UserAccount
     ) : Response<UserAccount>
 
-    @GET("users/{id}/account")
+    @GET("user/users/{id}/account")
     suspend fun getUserAccount(
         @Path("id") userIdx : Int,
     ) : Response<UserAccount>
 
-    @POST("users/{id}/account")
+    @POST("user/users/{id}/account")
     suspend fun postUserAccount(
         @Path("id") userIdx : Int,
         @Body body: UserAccount,
