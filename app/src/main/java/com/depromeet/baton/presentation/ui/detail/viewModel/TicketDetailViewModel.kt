@@ -229,12 +229,11 @@ class TicketDetailViewModel @Inject constructor(
         val temp = ticketState.value!!
         viewModelScope.launch {
             runCatching {
-                val userId = 1//authRepository.authInfo!!.userId
+                val userId = authRepository.authInfo!!.userId
                 bookmarkRepository.postBookmark(userId,temp.ticket.ticketId)
             }.onSuccess { res->
                 when(res){
                     is NetworkResult.Success ->{
-                        Timber.e(res.data!!.ticket.toString())
                         _ticketState.postValue(temp.copy(ticket = temp.ticket.copy(isLikeTicket = true)))
                         addViewEvent(DetailViewEvent.EventClickLike)
                     }
