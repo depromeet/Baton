@@ -9,7 +9,7 @@ class MypageTicketResponse(
     @Json(name = "price") val price: Int,
     @Json(name = "mainImage") val mainImage: String?,
     @Json(name = "createAt") val createAt: String,
-    @Json(name = "state") val state: String, //? TODO string , enum 통일 필요
+    @Json(name = "state") val state: String, 
     @Json(name = "tags") val tags: List<String>,
     @Json(name = "images") val images: List<Any>? = emptyList(),
     @Json(name = "isMembership") val isMembership: Boolean,
