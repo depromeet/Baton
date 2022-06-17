@@ -21,6 +21,7 @@ import com.depromeet.baton.presentation.ui.sign.WelcomeViewModel.ViewEvent
 import com.depromeet.baton.presentation.util.viewLifecycle
 import com.depromeet.baton.presentation.util.viewLifecycleScope
 import com.depromeet.baton.util.loginWithKakao
+import com.depromeet.baton.util.showToast
 import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -67,15 +68,12 @@ class WelcomeFragment : BaseFragment<FragmentWelcomeBinding>(R.layout.fragment_w
                             Timber.d("beanbean kakao token : $oauthToken")
                             viewModel.loginWithKakao(oauthToken.accessToken)
                         } catch (error: Throwable) {
-                            Toast.makeText(requireContext(), error.message, Toast.LENGTH_SHORT)
-                                .show()
+                            showToast(error.message)
                             Timber.e(error)
                         }
                     }
                 }
-                is ViewEvent.ShowToast -> {
-                    Toast.makeText(requireContext(), viewEvent.message, Toast.LENGTH_SHORT).show()
-                }
+                is ViewEvent.ShowToast -> showToast(viewEvent.message)
             }
             viewModel.consumeViewEvent(viewEvent)
         }
@@ -149,7 +147,7 @@ class WelcomeViewModel @Inject constructor(
     }
 
     sealed interface ViewEvent {
-        data class ToSignUp(val uid: String, val nickname: String) : ViewEvent
+        data class ToSignUp(val uid: String, val nickname: String?) : ViewEvent
         object ToHome : ViewEvent
         object ToKakaoLogin : ViewEvent
         data class ShowToast(val message: String) : ViewEvent

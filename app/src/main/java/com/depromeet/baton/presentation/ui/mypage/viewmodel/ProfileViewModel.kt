@@ -6,6 +6,7 @@ import android.net.Uri
 import android.text.Editable
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.depromeet.baton.domain.repository.AuthRepository
 import com.depromeet.baton.domain.repository.UserinfoRepository
 import com.depromeet.baton.map.util.NetworkResult
 import com.depromeet.baton.presentation.base.BaseViewModel
@@ -21,7 +22,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel@Inject constructor(
-    private val userinfoRepository: UserinfoRepository
+    private val userinfoRepository: UserinfoRepository,
+    private val authRepository: AuthRepository
 ): BaseViewModel(){
 
 
@@ -72,7 +74,7 @@ class ProfileViewModel@Inject constructor(
          if(uiState.value.isEnabled)
              viewModelScope.launch {
                  runCatching {
-                     val userId =1 // TODO authinfo
+                     val userId = authRepository.authInfo!!.userId // TODO authinfo
                      userinfoRepository.updateUserProfile(userId,uiState.value.nickName, uiState.value.phoneNumber)
                  }.onSuccess {
                      when(it){

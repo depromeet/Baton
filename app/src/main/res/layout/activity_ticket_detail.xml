@@ -630,7 +630,7 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/dimen40"
+                        android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/dimen16"
                         android:paddingHorizontal="@dimen/dimen16">
 
@@ -645,6 +645,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
+                            android:id="@+id/ticket_detail_seller_nickname_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/dimen10"
@@ -658,9 +659,20 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@{ticketState.ticket.seller.create_on}"
-                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/ticket_detail_seller_nickname_tv"
+                            app:layout_constraintStart_toStartOf="@id/ticket_detail_seller_nickname_tv"
+                            app:layout_constraintBottom_toBottomOf="parent" />
+
+                        <com.depromeet.bds.component.BdsButton
+                            android:id="@+id/ticket_detail_report_btn"
+                            android:theme="@style/Theme.Bds.OutlinedButton.Small"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:bds_text="판매자 신고하기"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="@id/ticket_detail_profile_iv"
+                            app:layout_constraintBottom_toBottomOf="@id/ticket_detail_profile_iv"
+                            />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -729,6 +741,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:onClick="@{_->ticketState.onAddLikeClick.invoke()}"
+                    app:isVisible="@{!ticketState.ticket.isOwner}"
                     />
 
                 <androidx.appcompat.widget.AppCompatButton

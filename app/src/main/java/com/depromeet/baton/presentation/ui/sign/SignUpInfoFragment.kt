@@ -50,7 +50,8 @@ class SignUpInfoFragment : BaseFragment<FragmentSignUpInfoBinding>(R.layout.frag
                 }
                 ViewEvent.ToAddressSetting -> {
                     signUpViewModel.remember(viewModel)
-                    navController.navigate(R.id.action_signUpInfoFragment_to_signUpAddressFragment)
+                    SignUpInfoFragmentDirections.actionSignUpInfoFragmentToSignUpAddressFragment()
+                        .also { navController.navigate(it) }
                 }
             }
             viewModel.consumeViewEvent(viewEvent)
@@ -81,7 +82,9 @@ data class SignUpInfoUiState(
     val isEnabled = name.isNotBlank() &&
             nameErrorReason == null &&
             phoneNumber.isNotBlank() &&
-            phoneNumberErrorReason == null
+            phoneNumberErrorReason == null &&
+            nickName.isNotBlank() &&
+            nickNameErrorReason == null
 }
 
 @HiltViewModel

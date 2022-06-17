@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
+import org.junit.Ignore
 
 class MemoryRealTimeDataPublisher : RealTimeDataPublisher {
     private val _objs = MutableSharedFlow<RealTimeData>(replay = 100)
@@ -23,7 +24,7 @@ class MemoryRealTimeDataPublisher : RealTimeDataPublisher {
     }
 
 }
-
+@Ignore
 class ChatTest : FeatureSpec({
     feature("채팅 기능") {
         val scope = CoroutineScope(Dispatchers.Unconfined)

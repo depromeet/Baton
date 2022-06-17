@@ -37,14 +37,10 @@ class AuthRepository @Inject constructor(
     }
 
     fun logout(){
-        authInfo?.let{
-            val editor = pref.edit()
-            editor.clear()
-            editor.apply()
-        }
+        authInfo = null
     }
 
     companion object {
-        private const val PREF = "auth"
+        private const val PREF = "auth_"
     }
 }

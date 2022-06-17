@@ -5,6 +5,7 @@ import com.depromeet.baton.data.response.UserBuyListResponse
 import com.depromeet.baton.domain.model.MypageTicketResponse
 import com.depromeet.baton.domain.model.TicketInfo
 import com.depromeet.baton.domain.model.TicketSimpleInfo
+import com.depromeet.baton.domain.repository.AuthRepository
 import com.depromeet.baton.domain.repository.TicketInfoRepository
 import com.depromeet.baton.domain.repository.UserinfoRepository
 import com.depromeet.baton.map.util.NetworkResult
@@ -25,6 +26,7 @@ import javax.inject.Inject
 class SaleHistoryViewModel @Inject constructor(
     private val userinfoRepository: UserinfoRepository,
     private val ticketinfoRepository: TicketInfoRepository,
+    private val authRepository: AuthRepository,
     val spfManager: BatonSpfManager
 ) : BaseViewModel() {
     private val _uiState: MutableStateFlow<SaleHistoryUiState> =
@@ -43,7 +45,7 @@ class SaleHistoryViewModel @Inject constructor(
     fun getSaleHistory() {
         viewModelScope.launch {
             runCatching {
-                userinfoRepository.getUserSellList(1, TicketState.SALE.option)
+                userinfoRepository.getUserSellList(authRepository.authInfo!!.userId, TicketState.SALE.option)
             }.onSuccess { res ->
                 run {
                     when (res) {
@@ -75,7 +77,7 @@ class SaleHistoryViewModel @Inject constructor(
     fun getSoldoutHistory() {
         viewModelScope.launch {
             runCatching {
-                userinfoRepository.getUserSellList(1, TicketState.SOLDOUT.option)
+                userinfoRepository.getUserSellList(authRepository.authInfo!!.userId, TicketState.SOLDOUT.option)
             }.onSuccess { res ->
                 run {
                     when (res) {

@@ -10,6 +10,5 @@ interface AddressRepository {
     suspend fun getMyAddress() : Flow<NetworkResult<LocationEntity>>
     suspend fun getLocation() : Flow<NetworkResult<LocationEntity>>
     suspend fun GPStoAddress(location : LatLng): Flow<NetworkResult<LocationEntity>>
-   // suspend fun AddresstoGPS(address : String) : Flow<NetworkResult<LocationEntity>> //TODO ADDRESS ->GPS
     fun stopAddressRequest() : Unit
 }

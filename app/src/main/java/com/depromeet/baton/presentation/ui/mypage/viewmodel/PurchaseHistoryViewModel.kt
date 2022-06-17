@@ -3,6 +3,7 @@ package com.depromeet.baton.presentation.ui.mypage.viewmodel
 import android.view.View
 import androidx.lifecycle.viewModelScope
 import com.depromeet.baton.data.response.UserBuyListResponse
+import com.depromeet.baton.domain.repository.AuthRepository
 import com.depromeet.baton.domain.repository.UserinfoRepository
 import com.depromeet.baton.presentation.base.BaseViewModel
 import com.depromeet.baton.presentation.ui.mypage.model.SaleTicketItem
@@ -18,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PurchaseHistoryViewModel @Inject constructor(
-    private val userinfoRepository: UserinfoRepository
+    private val userinfoRepository: UserinfoRepository,
+    private val authRepository: AuthRepository
 ) :BaseViewModel(){
     private val _uiState: MutableStateFlow<PurchaseHistoryUiState> = MutableStateFlow(PurchaseHistoryUiState())
     val uiState = _uiState.asStateFlow()
@@ -30,7 +32,7 @@ class PurchaseHistoryViewModel @Inject constructor(
     private fun getHistory(){
         viewModelScope.launch {
            runCatching {
-                userinfoRepository.getUserBuyList(1)
+                userinfoRepository.getUserBuyList(authRepository.authInfo!!.userId)
             }.onSuccess {
                 res ->
                     val list= res.data?.toListItems()

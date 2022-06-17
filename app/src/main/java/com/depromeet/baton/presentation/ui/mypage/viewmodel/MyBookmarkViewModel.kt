@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.depromeet.baton.data.response.BookmarkTicket
 import com.depromeet.baton.domain.di.IoDispatcher
 import com.depromeet.baton.domain.di.MainDispatcher
+import com.depromeet.baton.domain.repository.AuthRepository
 import com.depromeet.baton.domain.repository.BookmarkRepository
 import com.depromeet.baton.domain.repository.UserinfoRepository
 import com.depromeet.baton.map.util.NetworkResult
@@ -22,6 +23,7 @@ class MyBookmarkViewModel @Inject constructor(
     private val spfManager: BatonSpfManager,
     @IoDispatcher private val Dispatcher: CoroutineDispatcher,
     private val bookmarkRepository: BookmarkRepository,
+    private val authRepository: AuthRepository,
     private val userinfoRepository: UserinfoRepository) : BaseViewModel() {
 
     private val _uiState = MutableStateFlow<BookmarkUiState>(BookmarkUiState(emptyList(),true))
@@ -34,7 +36,7 @@ class MyBookmarkViewModel @Inject constructor(
     fun getBookMarkList(){
        viewModelScope.launch{
             runCatching {
-                userinfoRepository.getUserBookmarks(1,0)
+                userinfoRepository.getUserBookmarks(authRepository.authInfo!!.userId,0)
             }.onSuccess {
                     result -> _netWorkState.update { result }
                         when(result) {
