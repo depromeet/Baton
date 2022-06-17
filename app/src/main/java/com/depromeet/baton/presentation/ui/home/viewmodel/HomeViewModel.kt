@@ -1,19 +1,25 @@
 package com.depromeet.baton.presentation.ui.home.viewmodel
 
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.depromeet.baton.domain.model.TicketKind
+import com.depromeet.baton.domain.repository.AuthRepository
+import com.depromeet.baton.domain.repository.BookmarkRepository
 import com.depromeet.baton.presentation.base.BaseViewModel
 import com.depromeet.baton.presentation.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor() : BaseViewModel() {
+class HomeViewModel @Inject constructor(
+    private val authRepository: AuthRepository,
+    private val bookmarkRepository: BookmarkRepository,
+) : BaseViewModel() {
     private val _viewEvents: MutableStateFlow<List<HomeViewEvent>> = MutableStateFlow(emptyList())
     val viewEvents = _viewEvents.asStateFlow()
 
@@ -26,7 +32,7 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
     val fromAddress: SingleLiveEvent<Any> = _fromAddress
 
     fun checkToolTipState(ticketCount: Int, location: String) {
-        if ( ticketCount == 0) {
+        if (ticketCount == 0) {
             _initLocation.value = location
             handleToolTipShow()
         }
@@ -87,6 +93,23 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
 
     fun consumeViewEvent(viewEvent: HomeViewEvent) {
         _viewEvents.update { it - viewEvent }
+    }
+
+    fun postBookmark(ticketId: Int) {
+        viewModelScope.launch {
+            val userId = authRepository.authInfo!!.userId
+            runCatching { bookmarkRepository.postBookmark(userId, ticketId) }
+                .onSuccess { }
+                .onFailure { Timber.e("북마크 추가 실패") }
+        }
+    }
+
+    fun deleteBookmark(ticketId: Int) {
+        viewModelScope.launch {
+            runCatching { bookmarkRepository.deleteBookmark(ticketId) }
+                .onSuccess { }
+                .onFailure { Timber.e("북마크 삭제 실패") }
+        }
     }
 
     sealed interface HomeViewEvent {

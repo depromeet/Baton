@@ -27,6 +27,8 @@ import com.depromeet.baton.databinding.ItemPrimaryTagBinding
 import com.depromeet.baton.domain.model.FilteredTicket
 import com.depromeet.baton.domain.model.TicketSimpleInfo
 import com.depromeet.baton.domain.model.TicketStatus
+import com.depromeet.baton.domain.repository.AuthRepository
+import com.depromeet.baton.domain.repository.BookmarkRepository
 import com.depromeet.baton.presentation.base.BaseActivity
 import com.depromeet.baton.presentation.base.WebActivity
 import com.depromeet.baton.presentation.bottom.BottomMenuItem
@@ -71,11 +73,12 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
 
     private lateinit var ticketTagAdapter: TicketTagAdapter<ItemPrimaryTagBinding>
     private lateinit var gymTagAdapter: TicketTagAdapter<ItemPrimaryOutlineTagBinding>
-    private val ticketItemRvAdapter = TicketItemRvAdapter(SCROLL_TYPE_HORIZONTAL, ::setTicketItemClickListener)
+    private val ticketItemRvAdapter = TicketItemRvAdapter(SCROLL_TYPE_HORIZONTAL, ::setTicketItemClickListener, ::setBookmarkDeleteClickListener, ::setBookmarkAddClickListener)
     private val ticketImgRvAdapter = TicketImgRvAdapter(this)
 
     @Inject
     lateinit var spfManager: BatonSpfManager
+
 
     private val viewModel by viewModels<TicketDetailViewModel>()
     private val bottomViewModel by viewModels<TicketDetailBottomViewModel>()
@@ -192,7 +195,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
             ticketDetailToolbar.setOnIconClick { onClickMenu() }
 
             ticketDetailReportBtn.setOnClickListener {
-                showBottom(DEFAULT_ITEM_VIEW, DetailBottomOption.USER, reportSellerItemClick )
+                showBottom(DEFAULT_ITEM_VIEW, DetailBottomOption.USER, reportSellerItemClick)
             }
 
             ticketDetailUrlBtn.setOnClickListener {
@@ -367,9 +370,16 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     }
 
     private fun setTicketItemClickListener(ticketItem: FilteredTicket) {
-        TicketDetailActivity.start(this,ticketId = ticketItem.id)
+        TicketDetailActivity.start(this, ticketId = ticketItem.id)
     }
 
+    private fun setBookmarkDeleteClickListener(ticketItem: FilteredTicket) {
+        ticketMoreViewModel.postMoreTicketBookmark(ticketItem.id)
+    }
+
+    private fun setBookmarkAddClickListener(ticketItem: FilteredTicket) {
+        ticketMoreViewModel.deleteMoreTicketBookmark(ticketItem.id)
+    }
 
     /** Naver MAP Init **/
     override fun onMapReady(map: NaverMap) {
@@ -458,9 +468,9 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     }
 
     companion object {
-        fun start(context: Context,ticketId: Int){
+        fun start(context: Context, ticketId: Int) {
             val intent = Intent(context, TicketDetailActivity::class.java)
-            intent.putExtra("ticketId",ticketId)
+            intent.putExtra("ticketId", ticketId)
             context.startActivity(intent)
         }
     }

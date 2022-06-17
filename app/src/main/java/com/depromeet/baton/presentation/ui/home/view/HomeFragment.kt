@@ -3,7 +3,6 @@ package com.depromeet.baton.presentation.ui.home.view
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
@@ -59,7 +58,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             homeViewModel.setFromAddress(false)
         }
     }
-//부산 당사
+
     private fun initView() {
         initLayout()
         setTicketItemRvAdapter()
@@ -147,7 +146,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private fun setTicketItemRvAdapter() {
         with(binding) {
             ticketItemRvAdapter =
-                TicketItemRvAdapter(TicketItemRvAdapter.SCROLL_TYPE_VERTICAL, ::setTicketItemClickListener)
+                TicketItemRvAdapter(TicketItemRvAdapter.SCROLL_TYPE_VERTICAL, ::setTicketItemClickListener, ::setBookmarkDeleteClickListener, ::setBookmarkAddClickListener)
             val gridLayoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
             adapter = ticketItemRvAdapter
             rvHome.itemAnimator = null
@@ -162,9 +161,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     private fun setTicketItemClickListener(ticketItem: FilteredTicket) {
-        //sample
-        val ticketId = ticketItem.id
-        TicketDetailActivity.start(requireContext(), ticketId)
+        TicketDetailActivity.start(requireContext(), ticketItem.id)
+    }
+
+    private fun setBookmarkDeleteClickListener(ticketItem: FilteredTicket) {
+        homeViewModel.postBookmark(ticketItem.id)
+    }
+
+    private fun setBookmarkAddClickListener(ticketItem: FilteredTicket) {
+        homeViewModel.deleteBookmark(ticketItem.id)
     }
 }
 
