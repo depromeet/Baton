@@ -97,7 +97,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             .setMarginBottom(5)
             .setMarginLeft(16)
             .setTextSize(10f)
-            .setTextColor(com.depromeet.bds.R.color.bg)
             .setArrowPositionRules(ArrowPositionRules.ALIGN_ANCHOR)
             .setArrowDrawableResource(com.depromeet.bds.R.drawable.ic_tooltip_subtract)
             .setArrowSize(10)
