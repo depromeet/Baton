@@ -144,15 +144,15 @@
                     tools:text="1000" />
 
                 <com.airbnb.lottie.LottieAnimationView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     app:layout_constraintBottom_toBottomOf="@+id/btn_bottom_filter_search"
                     app:layout_constraintEnd_toEndOf="@+id/btn_bottom_filter_search"
                     app:layout_constraintStart_toStartOf="@+id/btn_bottom_filter_search"
                     app:layout_constraintTop_toTopOf="@+id/btn_bottom_filter_search"
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"
-                    app:lottie_fileName="spinner.CTA"
+                    app:lottie_fileName="spinner_CTA.json"
                     app:showOnLoading="@{filterViewModel.filteredTicketCountUiState}" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -83,14 +83,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         Handler(Looper.getMainLooper())
             .postDelayed({
-                setTicketCountObserve()
+                homeViewModel.checkToolTipState(filterViewModel.ticketCount.value!!, spfManager.getAddress().roadAddress)
             }, 2000)
-    }
-
-    private fun setTicketCountObserve() {
-        filterViewModel.ticketCount.observe(viewLifecycleOwner) {
-            homeViewModel.checkToolTipState(it!!, spfManager.getAddress().roadAddress)
-        }
     }
 
     private fun showToolTip() {
