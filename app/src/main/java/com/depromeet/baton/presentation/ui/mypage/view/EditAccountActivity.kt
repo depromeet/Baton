@@ -67,7 +67,7 @@ class EditAccountActivity :BaseActivity<ActivityEditAccountBinding>(R.layout.act
             viewEvents.firstOrNull()?.let { viewEvent ->
                 when (viewEvent) {
                     is EditAccountViewModel.ViewEvent.EditAccountDone -> {
-                        this.BdsToast("계좌 수정이 완료됐어요.").show()
+                        this.BdsToast("계좌 수정이 완료됐어요.",binding.root.bottom).show()
                     }
                     is EditAccountViewModel.ViewEvent.EditAccountFailure ->{
                         this.BdsToast(viewEvent.msg).show()
