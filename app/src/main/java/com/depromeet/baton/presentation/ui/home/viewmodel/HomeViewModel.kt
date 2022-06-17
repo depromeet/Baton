@@ -1,8 +1,11 @@
 package com.depromeet.baton.presentation.ui.home.viewmodel
 
+import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.depromeet.baton.domain.model.TicketKind
 import com.depromeet.baton.presentation.base.BaseViewModel
+import com.depromeet.baton.presentation.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,11 +22,18 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
 
     private val _initLocation = MutableLiveData<String?>()
 
+    private val _fromAddress = SingleLiveEvent<Any>()
+    val fromAddress: SingleLiveEvent<Any> = _fromAddress
+
     fun checkToolTipState(ticketCount: Int, location: String) {
-        if (location != _initLocation.value && ticketCount == 0) {
+        if ( ticketCount == 0) {
             _initLocation.value = location
             handleToolTipShow()
         }
+    }
+
+    fun setFromAddress(state: Boolean) {
+        _fromAddress.value = state
     }
 
     private fun createHomeState(): HomeUiState {

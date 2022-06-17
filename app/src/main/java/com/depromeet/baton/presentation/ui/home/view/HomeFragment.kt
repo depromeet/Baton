@@ -1,12 +1,10 @@
 package com.depromeet.baton.presentation.ui.home.view
 
-import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -22,7 +20,6 @@ import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
 import com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel
 import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter
 import com.depromeet.baton.presentation.ui.home.viewmodel.HomeViewModel
-import com.depromeet.baton.presentation.ui.search.viewmodel.FilterSearchViewModel
 import com.depromeet.baton.presentation.ui.search.viewmodel.SearchViewModel
 import com.depromeet.baton.presentation.ui.writepost.view.WritePostActivity
 import com.depromeet.baton.presentation.util.TicketItemVerticalDecoration
@@ -54,13 +51,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         super.onResume()
         initLayout()
         filterViewModel.updateFilteredTicketList()
+        if (homeViewModel.fromAddress.value == true) {
+            Handler(Looper.getMainLooper())
+                .postDelayed({
+                    homeViewModel.checkToolTipState(filterViewModel.ticketCount.value!!, spfManager.getAddress().roadAddress)
+                }, 600)
+            homeViewModel.setFromAddress(false)
+        }
     }
-
+//부산 당사
     private fun initView() {
         initLayout()
         setTicketItemRvAdapter()
         setObserve()
-        setTicketCountObserve()
     }
 
     private fun setObserve() {
@@ -81,12 +84,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         binding.tvHomeLocation.text = if (roadAddress != "") {
             roadAddress.slice(0..5) + "..."
         } else "위치 설정"
-    }
-
-    private fun setTicketCountObserve() {
-        filterViewModel.ticketCount.observe(viewLifecycleOwner) {
-            homeViewModel.checkToolTipState(it!!, spfManager.getAddress().roadAddress)
-        }
     }
 
     private fun showToolTip() {
@@ -114,7 +111,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private fun handleViewEvents(viewEvents: List<HomeViewModel.HomeViewEvent>) {
         viewEvents.firstOrNull()?.let { viewEvent ->
             when (viewEvent) {
-                HomeViewModel.HomeViewEvent.ToLocation -> AddressActivity.start(requireContext())
+                HomeViewModel.HomeViewEvent.ToLocation -> {
+                    homeViewModel.setFromAddress(true)
+                    AddressActivity.start(requireContext())
+                }
 
                 HomeViewModel.HomeViewEvent.ToSearch -> (activity as MainActivity).moveToSearch() //todo 검색 keyword 초기화
 
