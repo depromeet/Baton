@@ -1,5 +1,6 @@
 package com.depromeet.baton.presentation.ui.home.viewmodel
 
+import androidx.lifecycle.MutableLiveData
 import com.depromeet.baton.domain.model.TicketKind
 import com.depromeet.baton.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,6 +17,14 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
     private val _homeUiState: MutableStateFlow<HomeUiState> = MutableStateFlow(createHomeState())
     val homeUiState = _homeUiState.asStateFlow()
 
+    private val _initLocation = MutableLiveData<String?>()
+
+    fun checkToolTipState(ticketCount: Int, location: String? = null) {
+        if (location != _initLocation.value && ticketCount == 0) {
+            _initLocation.value = location
+            handleToolTipShow()
+        }
+    }
 
     private fun createHomeState(): HomeUiState {
         return HomeUiState(
@@ -25,6 +34,7 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
             onHowToClick = ::handleHowToClick,
             onQuickClick = ::handleQuickClick,
             onWritePostClick = ::handleWritePostClick,
+            onToolTip = ::handleToolTipShow,
         )
     }
 
@@ -57,6 +67,10 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
         addViewEvent(HomeViewEvent.ToWritePost)
     }
 
+    private fun handleToolTipShow() {
+        addViewEvent(HomeViewEvent.ShowToolTip)
+    }
+
     private fun addViewEvent(viewEvent: HomeViewEvent) {
         _viewEvents.update { it + viewEvent }
     }
@@ -75,6 +89,7 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
         object ToQuickPilates : HomeViewEvent
         object ToQuickEtc : HomeViewEvent
         object ToWritePost : HomeViewEvent
+        object ShowToolTip : HomeViewEvent
     }
 
     data class HomeUiState(
@@ -84,6 +99,7 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
         val onHowToClick: () -> Unit,
         val onQuickClick: (Any) -> Unit,
         val onWritePostClick: () -> Unit,
+        val onToolTip: () -> Unit,
     )
 }
 
