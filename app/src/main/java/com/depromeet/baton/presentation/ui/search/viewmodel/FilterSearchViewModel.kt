@@ -721,7 +721,7 @@ open class FilterSearchViewModel @Inject constructor(
 
     /** 검색결과 리스트 가져오기 */
     fun getSearchResultTicketList(query: String) {
-
+        _filteredTicketUiState.value = UIState.Loading
 
         setQuery(query)
 

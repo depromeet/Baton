@@ -9,10 +9,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
-    android:layout_marginBottom="@dimen/dimen32"
+    android:layout_marginBottom="@dimen/dimen28"
     android:animateLayoutChanges="false"
     android:paddingTop="20dp"
-    android:paddingBottom="@dimen/dimen32"
+    android:paddingBottom="@dimen/dimen28"
     android:backgroundTint="?wh100"
     android:background="@drawable/bds_bottom_sheet_background"
     android:orientation="vertical">

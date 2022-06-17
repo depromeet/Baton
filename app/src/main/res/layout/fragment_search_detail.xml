@@ -78,5 +78,19 @@
                 app:layout_constraintStart_toStartOf="@+id/iv_home_no_result"
                 app:layout_constraintTop_toBottomOf="@+id/iv_home_no_result" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/my_location_progress"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="spinner.json"
+            app:lottie_loop="true"
+            app:showOnLoading="@{viewModel.filteredTicketUiState}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -580,6 +580,29 @@ class FilterViewModel @Inject constructor(
         return Pair(minRemainNumber, minRemainMonth)
     }
 
+    private fun setFormattedMonth(): Pair<Int?, Int?> {
+        var maxRemainNumber: Int? = null
+        var maxRemainMonth: Int? = null
+
+        maxRemainNumber = if (_ptTermRange.value?.second?.toInt() == 60 && _ptTermRange.value?.first?.toInt() == 0) {
+            null
+        } else if (_ptTermRange.value?.second?.toInt() == 60) {
+            60
+        } else {
+            _ptTermRange.value?.second?.toInt()?.plus(1)
+        }
+
+        maxRemainMonth = if (_gymTermRange.value?.first?.toInt() == 0 && _gymTermRange.value?.second?.toInt() == 12) {
+            null
+        } else if (_gymTermRange.value?.second?.toInt() == 12) {
+            12
+        } else {
+            _gymTermRange.value?.second?.toInt()?.plus(1)
+        }
+
+        return Pair(maxRemainNumber, maxRemainMonth)
+    }
+
     /** ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡAPIㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
     /** 필터링된 양도권 개수 가져오기 */
     private fun updateFilteredTicketCount() {
@@ -593,9 +616,9 @@ class FilterViewModel @Inject constructor(
                     minPrice = if (priceRange.value?.first?.toInt() == 0) null else priceRange.value?.first?.toInt(),
                     maxPrice = if (priceRange.value?.second?.toInt() == 1500000) null else priceRange.value?.second?.toInt(),
                     minRemainNumber = setTermFormattedData().first,
-                    maxRemainNumber = if (_ptTermRange.value?.second?.toInt() == 60 && _ptTermRange.value?.first?.toInt() == 0) null else _ptTermRange.value?.second?.toInt()?.plus(1),
+                    maxRemainNumber = setFormattedMonth().first,
                     minRemainMonth = setTermFormattedData().second,
-                    maxRemainMonth = if (_gymTermRange.value?.first?.toInt() == 0 && _gymTermRange.value?.second?.toInt() == 12) null else _gymTermRange.value?.second?.toInt()?.plus(1),
+                    maxRemainMonth = setFormattedMonth().second,
                     ticketTypes = ticketKindCheckedList.value?.filter { it.value }?.map { it.key.toString() },
                     ticketTradeType = setTicketTypeFormattedData().first,
                     transferFee = setTicketTypeFormattedData().second,
@@ -631,6 +654,8 @@ class FilterViewModel @Inject constructor(
     /** 필터링된 양도권 리스트 가져오기 */
     fun updateFilteredTicketList() {
         viewModelScope.launch {
+            _filteredTicketUiState.value = UIState.Loading
+
             kotlin.runCatching {
                 getFilteredTicketUseCase.execute(
                     page = 0,
@@ -639,9 +664,9 @@ class FilterViewModel @Inject constructor(
                     minPrice = if (priceRange.value?.first?.toInt() == 0) null else priceRange.value?.first?.toInt(),
                     maxPrice = if (priceRange.value?.second?.toInt() == 1500000) null else priceRange.value?.second?.toInt(),
                     minRemainNumber = setTermFormattedData().first,
-                    maxRemainNumber = if (_ptTermRange.value?.second?.toInt() == 60 && _ptTermRange.value?.first?.toInt() == 0) null else _ptTermRange.value?.second?.toInt()?.plus(1),
+                    maxRemainNumber = setFormattedMonth().first,
                     minRemainMonth = setTermFormattedData().second,
-                    maxRemainMonth = if (_gymTermRange.value?.first?.toInt() == 0 && _gymTermRange.value?.second?.toInt() == 12) null else _gymTermRange.value?.second?.toInt()?.plus(1),
+                    maxRemainMonth = setFormattedMonth().second,
                     ticketTypes = ticketKindCheckedList.value?.filter { it.value }?.map { it.key.toString() },
                     ticketTradeType = setTicketTypeFormattedData().first,
                     transferFee = setTicketTypeFormattedData().second,
