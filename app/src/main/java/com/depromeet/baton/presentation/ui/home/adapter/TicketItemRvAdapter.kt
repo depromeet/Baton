@@ -1,6 +1,7 @@
 package com.depromeet.baton.presentation.ui.home.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckedTextView
 import android.widget.ImageView
@@ -51,8 +52,9 @@ class TicketItemRvAdapter(
                     itemTicketTagEtc.text = "+$etcSize"
                 }
 
-                //좋아요 버튼
-                setLikeBtnClickListener(ctvItemTicketLike, item)
+                //좋아요 버튼 todo 서버연결
+                ctvItemTicketLike.visibility= View.INVISIBLE
+               // setLikeBtnClickListener(ctvItemTicketLike, item)
 
                 //엠티뷰
                 setEmptyImage(position, ivItemEmpty)
