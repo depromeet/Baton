@@ -94,17 +94,20 @@
                         android:text=" 더 이상 사용하지 않는 회원권은 빠르게 판매하고"
                         android:textAppearance="?body3"
                         android:textColor="?grey_scale80"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
                         app:layout_constraintStart_toEndOf="@id/tv_two"
                         app:layout_constraintTop_toBottomOf="@+id/tv_one" />
 
                     <TextView
                         android:id="@+id/tv_four"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:paddingTop="@dimen/dimen2"
-                        android:text="평소 눈여겨 보던 우리 동네 헬스장 회원권은 저렴한 가격에\n구매해보세요!"
+                        android:text="평소 눈여겨 보던 우리 동네 헬스장 회원권은 저렴한 가격에 구매해보세요!"
                         android:textAppearance="?body3"
                         android:textColor="?grey_scale80"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_three" />
 
