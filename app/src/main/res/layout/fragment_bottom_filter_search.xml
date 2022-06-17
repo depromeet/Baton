@@ -152,7 +152,7 @@
                     app:layout_constraintTop_toTopOf="@+id/btn_bottom_filter_search"
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"
-                    app:lottie_rawRes="@raw/ticket_search_loading"
+                    app:lottie_fileName="spinner_CTA.json"
                     app:showOnLoading="@{filterViewModel.filteredTicketCountUiState}" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
