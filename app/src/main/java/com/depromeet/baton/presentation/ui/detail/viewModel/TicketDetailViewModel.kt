@@ -75,18 +75,18 @@ class TicketDetailViewModel @Inject constructor(
                     is NetworkResult.Success->{
                         if (res.data != null) {
                             val ticket = res.data!!
-                            val tempUserId = ticket.seller.id  //TODO userID 변경 authRepository.authInfo?.userId
-                            val tempSellerId = ticket.seller.id
+                            val userId = authRepository.authInfo!!.userId  //TODO userID 변경 authRepository.authInfo?.userId
+                            val sellerId = ticket.seller.id
                             val state = DetailTicketInfoUiState(
                                 DetailTicketInfo(
                                     ticketId = ticket.id,
                                     ticketType = TicketKind.valueOf(ticket.type),
                                     seller = DetailTicketInfo.Seller(
-                                        tempSellerId,
+                                        sellerId,
                                         ticket.seller.nickname,
                                         ticket.seller.createdOn
                                     ),
-                                    isOwner = tempUserId == tempSellerId,
+                                    isOwner = userId == sellerId,
                                     detailUrl = "https://map.naver.com/v5/search/${ticket.location.replace(" ","")}",
                                     mapUrl = "https://map.naver.com/index.nhn?slng=${spfManager.getMyLongitude()}&slat=${spfManager.getMyLatitude()}" +
                                             "&stext=내 위치&elng=${ticket!!.longitude}&elat=${ticket!!.latitude}" +
@@ -234,7 +234,7 @@ class TicketDetailViewModel @Inject constructor(
         val temp = ticketState.value!!
         viewModelScope.launch {
             runCatching {
-                val userId = 1 //TODO authinfo  변경
+                val userId = authRepository.authInfo!!.userId
                 bookmarkRepository.postBookmark(userId,temp.ticket.ticketId)
             }.onSuccess {
                 when(it){

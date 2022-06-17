@@ -104,7 +104,7 @@ class MyDetailLocationViewModel @Inject constructor(
     fun updateAddress( detail : String){
         viewModelScope.launch {
             _uiState.update { it.copy(btnisEnable = false, isLoading = true) }
-            val userId =1 // TODO authinfo 변경 필요
+            val userId = authRepository.authInfo!!.userId // TODO authinfo 변경 필요
             val res = userInfoRepository.updateAddress(userId,spfManager.getMyLatitude(), spfManager.getMyLongitude(),spfManager.getAddress().roadAddress,detail)
             res.run{
                 _networkState.update { res }

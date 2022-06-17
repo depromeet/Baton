@@ -47,7 +47,7 @@ class MyPageViewModel @Inject constructor(
     fun getProfile() {
         viewModelScope.launch {
             runCatching {
-                val res = userinfoRepository.getUserProfile(2) //TODO authInfo
+                val res = userinfoRepository.getUserProfile(authRepository.authInfo!!.userId) //TODO authInfo
                 when (res) {
                     is NetworkResult.Success -> {
                         _uiState.update {
