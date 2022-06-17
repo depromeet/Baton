@@ -25,7 +25,7 @@
             android:id="@+id/iv_item_photo_cancle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dimen52"
+            android:layout_marginStart="@dimen/dimen56"
             android:src="@drawable/ic_cancel_filled_20"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

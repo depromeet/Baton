@@ -43,7 +43,7 @@ class MembershipInformationFragment : BaseFragment<FragmentMembershipInformation
         setTermIsChecked()
         setCheckboxOnClickListener()
 
-            binding.etTerm.addTextChangedListener(CustomTextWatcher(binding.etTerm))
+        binding.etTerm.addTextChangedListener(CustomTextWatcher(binding.etTerm))
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -60,6 +60,15 @@ class MembershipInformationFragment : BaseFragment<FragmentMembershipInformation
         }
         writePostViewModel.isNumberChecked.observe(viewLifecycleOwner) {
             binding.ctvMembershipFrequencyTerm.isChecked = it
+        }
+
+        writePostViewModel.isPeriodTextInit.observe(viewLifecycleOwner) {
+            binding.etTerm.text = Editable.Factory.getInstance().newEditable("")
+            binding.etTermNumber.text = Editable.Factory.getInstance().newEditable("")
+        }
+        writePostViewModel.isNumberTextInit.observe(viewLifecycleOwner) {
+            binding.etTermNumber.text = Editable.Factory.getInstance().newEditable("")
+            binding.etTerm.text = Editable.Factory.getInstance().newEditable("")
         }
     }
 
@@ -96,7 +105,15 @@ class MembershipInformationFragment : BaseFragment<FragmentMembershipInformation
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setEditText() {
         with(binding) {
-            etTerm.text = Editable.Factory.getInstance().newEditable(writePostViewModel.termWithDot.value)
+            writePostViewModel.isPeriodChecked.observe(viewLifecycleOwner) {
+                if (it)
+                    etTerm.text = Editable.Factory.getInstance().newEditable(writePostViewModel.termWithDot.value)
+            }
+
+            writePostViewModel.isNumberChecked.observe(viewLifecycleOwner) {
+                if (it)
+                    etTerm.text = Editable.Factory.getInstance().newEditable(writePostViewModel.termWithDot.value)
+            }
             etTermNumber.text = Editable.Factory.getInstance().newEditable(writePostViewModel.termWithDot.value)
 
             etPrice.text = Editable.Factory.getInstance().newEditable(writePostViewModel.membershipInfoUiState.value.priceChanged)

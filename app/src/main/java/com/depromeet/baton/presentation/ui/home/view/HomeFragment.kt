@@ -1,6 +1,9 @@
 package com.depromeet.baton.presentation.ui.home.view
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
@@ -17,11 +20,11 @@ import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
 import com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel
 import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter
 import com.depromeet.baton.presentation.ui.home.viewmodel.HomeViewModel
-import com.depromeet.baton.presentation.ui.search.viewmodel.FilterSearchViewModel
 import com.depromeet.baton.presentation.ui.search.viewmodel.SearchViewModel
 import com.depromeet.baton.presentation.ui.writepost.view.WritePostActivity
 import com.depromeet.baton.presentation.util.TicketItemVerticalDecoration
 import com.depromeet.baton.util.BatonSpfManager
+import com.skydoves.balloon.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -33,7 +36,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private val homeViewModel: HomeViewModel by activityViewModels()
     private val searchViewModel: SearchViewModel by activityViewModels()
     private val filterViewModel: FilterViewModel by activityViewModels()
-    private val filterSearchViewModel: FilterSearchViewModel by activityViewModels()
     private lateinit var ticketItemRvAdapter: TicketItemRvAdapter
 
     @Inject
@@ -45,13 +47,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         initView()
     }
 
-
     override fun onResume() {
         super.onResume()
         initLayout()
         filterViewModel.updateFilteredTicketList()
+        if (homeViewModel.fromAddress.value == true) {
+            Handler(Looper.getMainLooper())
+                .postDelayed({
+                    homeViewModel.checkToolTipState(filterViewModel.ticketCount.value!!, spfManager.getAddress().roadAddress)
+                }, 600)
+            homeViewModel.setFromAddress(false)
+        }
     }
-
+//부산 당사
     private fun initView() {
         initLayout()
         setTicketItemRvAdapter()
@@ -71,14 +79,42 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     private fun initLayout() {
-        binding.tvHomeLocation.text = if (spfManager.getAddress().roadAddress != "") spfManager.getAddress().roadAddress.slice(0..5) + "..."
-        else "위치 설정"
+        val roadAddress = spfManager.getAddress().roadAddress
+
+        binding.tvHomeLocation.text = if (roadAddress != "") {
+            roadAddress.slice(0..5) + "..."
+        } else "위치 설정"
+    }
+
+    private fun showToolTip() {
+        val balloon = Balloon.Builder(requireContext())
+            .setWidthRatio(0.0f)
+            .setHeight(BalloonSizeSpec.WRAP)
+            .setElevation(3)
+            .setMarginBottom(5)
+            .setMarginLeft(16)
+            .setTextSize(10f)
+            .setArrowPositionRules(ArrowPositionRules.ALIGN_ANCHOR)
+            .setArrowDrawableResource(com.depromeet.bds.R.drawable.ic_tooltip_subtract)
+            .setArrowSize(10)
+            .setArrowPosition(0.57f)
+            .setPadding(10)
+            .setCornerRadius(4f)
+            .setBackgroundColorResource(com.depromeet.bds.R.color.bg)
+            .setBalloonAnimation(BalloonAnimation.ELASTIC)
+            .setLayout(com.depromeet.baton.R.layout.tooltip_home)
+            .setLifecycleOwner(this)
+            .build()
+        binding.ctlHomeLocation.showAlignBottom(balloon, 0, 0)
     }
 
     private fun handleViewEvents(viewEvents: List<HomeViewModel.HomeViewEvent>) {
         viewEvents.firstOrNull()?.let { viewEvent ->
             when (viewEvent) {
-                HomeViewModel.HomeViewEvent.ToLocation -> AddressActivity.start(requireContext())
+                HomeViewModel.HomeViewEvent.ToLocation -> {
+                    homeViewModel.setFromAddress(true)
+                    AddressActivity.start(requireContext())
+                }
 
                 HomeViewModel.HomeViewEvent.ToSearch -> (activity as MainActivity).moveToSearch() //todo 검색 keyword 초기화
 
@@ -96,6 +132,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
                 HomeViewModel.HomeViewEvent.ToWritePost -> WritePostActivity.start(requireContext())
 
+                HomeViewModel.HomeViewEvent.ShowToolTip -> showToolTip()
             }
             homeViewModel.consumeViewEvent(viewEvent)
         }
