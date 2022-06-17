@@ -55,12 +55,9 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         setDialog()
     }
 
-    override fun onStart() {
-        super.onStart()
-        myPageViewModel.getProfile()
-    }
 
     private fun initView(){
+        myPageViewModel.getProfile()
         with(binding){
             mypageSaleHistoryCd.setOnClickListener {
                 replaceFragment(saleHistoryFragment)
@@ -72,10 +69,10 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                 replaceFragment(likeTicketFragment)
             }
             mypageProfileIv.setOnClickListener {
-                profileEditFragment.arguments =  bundleOf("nickName" to myPageViewModel.uiState.value.nickName,
+               val bundle =  bundleOf("nickName" to myPageViewModel.uiState.value.nickName,
                     "phoneNumber" to myPageViewModel.uiState.value.phoneNumber ,
                     "profileImg" to myPageViewModel.uiState.value.profileImage.toString() )
-                replaceFragment(profileEditFragment,"profileFragment")
+                replaceFragment( ProfileFragment.newInstance(bundle),"profileFragment")
             }
             mypageNotification.setOnClickListener {
                 replaceFragment(notificationFragment)

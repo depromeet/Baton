@@ -48,6 +48,7 @@ class AddAccountActivity : BaseActivity<ActivityAddAccountBinding>(R.layout.acti
                 ViewEvent.AddAccountDone -> {
                     // do something
                     this.BdsToast("계좌가 등록됐어요.").show()
+                    finish()
                 }
                 is ViewEvent.OpenBankSelection -> {
                     showBankBottom()

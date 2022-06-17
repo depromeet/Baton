@@ -2,6 +2,12 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="ticket"
+            type="com.depromeet.baton.domain.model.MypageTicketResponse" />
+    </data>
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -160,6 +166,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/dimen2"
+                        app:tint="?grey_scale70"
                         android:src="@drawable/ic_location_filled_16"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -167,7 +174,7 @@
 
                     <TextView
                         android:id="@+id/item_sale_location_tv"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dimen4"
                         android:text="광진구dsvvvdvsdvdsvssdvdsvdvdvdsvds"
@@ -188,7 +195,6 @@
                         android:textAppearance="?caption1"
                         android:textColor="?secondary50"
                         app:layout_constraintStart_toEndOf="@id/item_sale_location_tv"
-                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
