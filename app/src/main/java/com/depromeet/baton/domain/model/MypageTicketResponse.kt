@@ -2,7 +2,6 @@ package com.depromeet.baton.domain.model
 
 import com.squareup.moshi.Json
 
-//TODO TicketResponse Search 서버 모델과 일치하도록 요청 필요
 class MypageTicketResponse(
     @Json(name = "id") val id: Int,
     @Json(name = "location") val location: String,
@@ -10,18 +9,18 @@ class MypageTicketResponse(
     @Json(name = "price") val price: Int,
     @Json(name = "mainImage") val mainImage: String?,
     @Json(name = "createAt") val createAt: String,
-    @Json(name = "state") val state: Int, //? TODO string , enum 통일 필요
+    @Json(name = "state") val state: String, //? TODO string , enum 통일 필요
     @Json(name = "tags") val tags: List<String>,
     @Json(name = "images") val images: List<Any>? = emptyList(),
     @Json(name = "isMembership") val isMembership: Boolean,
-    @Json(name = "remainNumber") val remainingNumber: Int? = -1,
-    @Json(name = "remainingDay") val remainingDay: Int? = -1,
+    @Json(name = "remainingNumber") val remainingNumber: Int? ,
+    @Json(name = "remainingDay") val remainingDay: Int?,
     @Json(name = "expiryDate") val expiryDate: String? = "",
     @Json(name = "latitude") val latitude: Double,
     @Json(name = "longitude") val longitude: Double,
     @Json(name = "distance") val distance: Double,
-    val isBookmark: Boolean? = false,
-    val type :String= "HEALTH"
+    @Json(name="bookmarkId")  val bookmarkId : Int?,
+    @Json(name="type")  val type : String,
 ) {
     data class Image(
         @Json(name = "id") val id: Int? = 0,

@@ -105,15 +105,4 @@ interface SearchService {
         @Part images: MutableList<MultipartBody.Part>?
     ): ResponsePostTicket
 
-    @GET("ticket/query")
-    suspend fun getUserTicketInfo(
-        @Query("page") page: Int,
-        @Query("size") size: Int,
-        @Query("latitude") latitude: Float,
-        @Query("longitude") longitude: Float,
-        @Query("maxDistance") maxDistance :Int=10000,
-    ): Response<TicketSearchResponse>
-
-
-  
 }

@@ -14,11 +14,14 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.depromeet.baton.databinding.ItemTicketPurchaseBinding
 import com.depromeet.baton.databinding.ItemTicketSaleFooterBinding
 import com.depromeet.baton.databinding.ItemTicketSaleHeaderBinding
+import com.depromeet.baton.domain.model.TicketKind
 import com.depromeet.baton.presentation.ui.mypage.model.SaleTicketListItem
 import com.depromeet.baton.presentation.util.dateFormatUtil
 import com.depromeet.baton.presentation.util.distanceFormatUtil
+import com.depromeet.baton.presentation.util.priceFormat
 import com.depromeet.baton.util.SimpleDiffUtil
 import com.depromeet.bds.utils.toPx
+import timber.log.Timber
 
 class PurchaseTicketItemAdapter(
     private val context: Context,
@@ -76,12 +79,22 @@ class PurchaseTicketItemAdapter(
         SaleTicketViewHolder(binding) {
         override fun bind(item: SaleTicketListItem, position: Int) {
             with(binding) {
-                itemSaleNameTv.text = item.ticket.data.location
-                itemSalePriceTv.text = item.ticket.data.price.toString()
-                itemSaleRemainDateTv.text = item.ticket.data.remainingNumber.toString()
-                itemSaleLocationTv.text = item.ticket.data.address
-                itemSaleDistanceTv.text = distanceFormatUtil(item.ticket.data.distance)
-               // itemSaleBadgeTv.text=  item.ticket.card
+                itemSaleNameTv.text =  item.ticket.data.location
+                itemSalePriceTv.text = priceFormat(item.ticket.data.price.toFloat())+"원"
+
+                itemSaleRemainDateTv.text =
+                    if(item.ticket.data.remainingNumber!=null) "${item.ticket.data.remainingNumber}회 남음"
+                    else "${item.ticket.data.remainingDay}일 남음"
+
+                itemSaleLocationTv.text = if(item.ticket.data.address.length > 15) item.ticket.data.address.substring(0,15)+"..." else item.ticket.data.address
+                itemSaleDistanceTv.text = distanceFormatUtil( item.ticket.data.distance)
+
+                itemSaleBadgeTv.text=  when(TicketKind.valueOf(item.ticket.data.type).ordinal){
+                    0 -> "헬스"
+                    1-> "PT"
+                    2-> "필라테스"
+                    else-> "ETC"
+                }
 
                 Glide.with(context)
                     .load(item.ticket.data.mainImage)
@@ -95,17 +108,4 @@ class PurchaseTicketItemAdapter(
         }
     }
 
-
-
-
-  /*  companion object {
-        private val diffCallback = object : DiffUtil.ItemCallback<SaleTicketListItem>() {
-            override fun areItemsTheSame(oldItem: SaleTicketListItem, newItem: SaleTicketListItem): Boolean =
-                oldItem.ticket.shopName == newItem.ticket.shopName
-
-            override fun areContentsTheSame(oldItem: SaleTicketListItem, newItem: SaleTicketListItem): Boolean =
-                oldItem.ticket.shopName == newItem.ticket.shopName
-        }
-
-    }*/
 }

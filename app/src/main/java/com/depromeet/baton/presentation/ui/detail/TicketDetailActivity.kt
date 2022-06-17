@@ -4,17 +4,13 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.HorizontalScrollView
 import androidx.activity.viewModels
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -25,7 +21,6 @@ import com.depromeet.baton.databinding.ActivityTicketDetailBinding
 import com.depromeet.baton.databinding.ItemPrimaryOutlineTagBinding
 import com.depromeet.baton.databinding.ItemPrimaryTagBinding
 import com.depromeet.baton.domain.model.FilteredTicket
-import com.depromeet.baton.domain.model.TicketSimpleInfo
 import com.depromeet.baton.domain.model.TicketStatus
 import com.depromeet.baton.presentation.base.BaseActivity
 import com.depromeet.baton.presentation.base.WebActivity
@@ -34,14 +29,11 @@ import com.depromeet.baton.presentation.bottom.BottomSheetFragment
 import com.depromeet.baton.presentation.bottom.BottomSheetFragment.Companion.CHECK_ITEM_VIEW
 import com.depromeet.baton.presentation.bottom.BottomSheetFragment.Companion.DEFAULT_ITEM_VIEW
 import com.depromeet.baton.presentation.ui.detail.adapter.TicketImgRvAdapter
-import com.depromeet.baton.presentation.ui.detail.adapter.TicketMoreAdapter
 import com.depromeet.baton.presentation.ui.detail.adapter.TicketTagAdapter
 import com.depromeet.baton.presentation.ui.detail.viewModel.*
 import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter
 import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter.Companion.SCROLL_TYPE_HORIZONTAL
-import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter.Companion.SCROLL_TYPE_VERTICAL
 import com.depromeet.baton.presentation.util.TicketIteHorizontalDecoration
-import com.depromeet.baton.presentation.util.*
 import com.depromeet.baton.util.BatonSpfManager
 import com.depromeet.bds.component.BdsToast
 import com.depromeet.bds.utils.toPx
@@ -306,7 +298,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         override fun onSelectedItem(selected: BottomMenuItem, index: Int) {
             when (index) {
                 0 -> viewModel.ticketStatusHandler(TicketStatus.SALE)
-                1 -> viewModel.ticketStatusHandler(TicketStatus.RESERVATION)
+                1 -> viewModel.ticketStatusHandler(TicketStatus.RESERVED)
                 2 -> viewModel.ticketStatusHandler(TicketStatus.SOLDOUT)
             }
         }
