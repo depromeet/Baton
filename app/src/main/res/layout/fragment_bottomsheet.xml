@@ -3,52 +3,50 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bottom_view"
-    app:behavior_hideable="false"
-    app:behavior_peekHeight="0dp"
-    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
     android:layout_marginBottom="@dimen/dimen28"
     android:animateLayoutChanges="false"
-    android:paddingTop="20dp"
-    android:paddingBottom="@dimen/dimen28"
-    android:backgroundTint="?wh100"
     android:background="@drawable/bds_bottom_sheet_background"
-    android:orientation="vertical">
+    android:backgroundTint="?wh100"
+    android:orientation="vertical"
+    android:paddingTop="20dp"
+    android:paddingBottom="@dimen/dimen10"
+    app:behavior_hideable="false"
+    app:behavior_peekHeight="0dp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
- <TextView
-       android:id="@+id/bottom_sheet_title_tv"
+    <TextView
+        android:id="@+id/bottom_sheet_title_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?headline2"
-        android:text="title"
         android:gravity="center"
+        android:text="title"
+        android:textAppearance="?headline2"
 
         />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="?grey_scale40"
-        android:layout_margin="@dimen/dimen16"
-        />
+        android:layout_marginTop="@dimen/dimen16"
+        android:background="?grey_scale40" />
 
-<!--    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:overScrollMode="never"
-        >-->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/bottom_sheet_rv"
-            app:layout_constraintTop_toTopOf="parent"
+    <!--    <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_bottomsheet"
+            android:layout_height="match_parent"
             android:overScrollMode="never"
-            />
-<!--    </androidx.core.widget.NestedScrollView>-->
+            >-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/bottom_sheet_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/item_bottomsheet" />
+    <!--    </androidx.core.widget.NestedScrollView>-->
 
 
-</LinearLayout >
+</LinearLayout>

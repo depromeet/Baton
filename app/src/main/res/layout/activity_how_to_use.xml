@@ -47,7 +47,7 @@
                     android:src="@drawable/img_how_to_use"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/ll_how_to_use_top"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -62,33 +62,63 @@
                         android:layout_marginTop="@dimen/dimen40"
                         android:text="바통을 소개할게요"
                         android:textAppearance="?headline2"
-                        android:textColor="?grey_scale90" />
+                        android:textColor="?grey_scale90"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/tv_one"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen8"
                         android:text="@string/how_to_use_introduce1"
-                        android:textAppearance="?caption2"
-                        android:textColor="?grey_scale70" />
+                        android:textAppearance="?body4"
+                        android:textColor="?grey_scale70"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_introduce_baton" />
 
                     <TextView
+                        android:id="@+id/tv_two"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingTop="@dimen/dimen2"
-                        android:text="@string/how_to_use_introduce2"
-                        android:textAppearance="?caption2"
-                        android:textColor="?grey_scale80" />
+                        android:text="바통에서"
+                        android:textAppearance="?body4"
+                        android:textColor="?grey_scale70"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_one" />
 
                     <TextView
+                        android:id="@+id/tv_three"
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/dimen2"
+                        android:text=" 더 이상 사용하지 않는 회원권은 빠르게 판매하고"
+                        android:textAppearance="?body3"
+                        android:textColor="?grey_scale80"
+                        app:layout_constraintStart_toEndOf="@id/tv_two"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_one" />
+
+                    <TextView
+                        android:id="@+id/tv_four"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/dimen2"
+                        android:text="평소 눈여겨 보던 우리 동네 헬스장 회원권은 저렴한 가격에\n구매해보세요!"
+                        android:textAppearance="?body3"
+                        android:textColor="?grey_scale80"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_three" />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen32"
                         android:text="거래 방법이 궁금해요"
                         android:textAppearance="?headline2"
-                        android:textColor="?grey_scale90" />
+                        android:textColor="?grey_scale90"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_four" />
 
-                </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/ctl_how_to_use_middle"
