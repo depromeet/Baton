@@ -1,8 +1,10 @@
 package com.depromeet.baton.presentation.ui.sign
 
+import android.app.Activity
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
@@ -18,12 +20,14 @@ import com.depromeet.baton.presentation.ui.address.model.AddressInfo
 import com.depromeet.baton.presentation.ui.sign.SignUpAddressViewModel.ViewEvent
 import com.depromeet.baton.presentation.util.viewLifecycle
 import com.depromeet.baton.presentation.util.viewLifecycleScope
+import com.depromeet.baton.util.showToast
 import com.depromeet.bds.component.BdsSearchBar
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -63,30 +67,47 @@ class SignUpAddressFragment :
             .launchIn(viewLifecycleScope)
     }
 
+    private val currentLocationLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                try {
+                    val resultArgs = it.data!!
+                        .getParcelableExtra<SignUpCurrentLocationActivity.ResultArgs>(
+                            SignUpCurrentLocationActivity.RESULT_ARGS
+                        )!!
+
+                    navigateToDetail(resultArgs.addressData)
+                } catch (e: Throwable) {
+                    Timber.e(e)
+                    showToast(e.message)
+                }
+            }
+        }
+
     private fun handleViewEvents(viewEvents: List<ViewEvent>) {
         viewEvents.firstOrNull()?.let { viewEvent ->
             when (viewEvent) {
                 ViewEvent.ToCurrentLocationSetting -> {
-                    // do something
+                    val intent = SignUpCurrentLocationActivity.intent(context)
+                    currentLocationLauncher.launch(intent)
                 }
                 is ViewEvent.ToAddressDetailSetting -> {
                     signUpViewModel.remember(viewModel)
-                    navController.navigate(
-                        R.id.action_signUpAddressFragment_to_signUpAddressDetailFragment,
-                        Bundle().apply {
-                            putParcelable(
-                                SignUpAddressDetailViewModel.ARGS,
-                                SignUpAddressDetailStartArgs(
-                                    viewEvent.roadAddress,
-                                    viewEvent.address
-                                )
-                            )
-                        }
-                    )
+                    navigateToDetail(viewEvent.addressData)
                 }
             }
             viewModel.consumeViewEvent(viewEvent)
         }
+    }
+
+    private fun navigateToDetail(addressData: AddressData) {
+        SignUpAddressFragmentDirections
+            .actionSignUpAddressFragmentToSignUpAddressDetailFragment(
+                SignUpAddressDetailStartArgs(addressData)
+            )
+            .also { navController.navigate(it) }
     }
 }
 
@@ -130,8 +151,13 @@ class SignUpAddressViewModel @Inject constructor(
     fun handleAddressClick(addressInfo: AddressInfo) {
         addViewEvent(
             ViewEvent.ToAddressDetailSetting(
-                addressInfo.roadAddress,
-                addressInfo.address
+                //TODO: Latitude... longitude ...
+                AddressData(
+                    addressInfo.roadAddress,
+                    addressInfo.address,
+                    0f,
+                    0f
+                )
             )
         )
     }
@@ -161,7 +187,7 @@ class SignUpAddressViewModel @Inject constructor(
 
     sealed interface ViewEvent {
         object ToCurrentLocationSetting : ViewEvent
-        data class ToAddressDetailSetting(val roadAddress: String, val address: String) : ViewEvent
+        data class ToAddressDetailSetting(val addressData: AddressData) : ViewEvent
     }
 
     init {

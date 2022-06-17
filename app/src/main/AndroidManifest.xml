@@ -23,6 +23,9 @@
         tools:replace="android:name">
 
         <activity
+            android:name=".presentation.ui.sign.SignUpCurrentLocationActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.ui.home.view.HowToUseActivity"
             android:exported="false" />
         <activity

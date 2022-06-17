@@ -26,12 +26,16 @@ class SignApi @Inject constructor(
             service.loginKakao(request).let { KakaoLoginResult.Success(it) }
         } catch (throwable: Throwable) {
             if (throwable is HttpException && throwable.code() == 401) {
-                val errorResponse = throwable.response()?.errorBody()
-                    .also { Timber.d("beanbean error response > $it") }
-                    ?.let { loginKakaoNoSocialAdapter.fromJson(it.string()) }
-                errorResponse
-                    ?.let { KakaoLoginResult.NoSocialUser(it) }
-                    ?: KakaoLoginResult.Failure(throwable)
+                try {
+                    val errorResponse = throwable.response()?.errorBody()
+                        .also { Timber.d("beanbean error response > $it") }
+                        ?.let { loginKakaoNoSocialAdapter.fromJson(it.string()) }
+                    errorResponse
+                        ?.let { KakaoLoginResult.NoSocialUser(it) }
+                        ?: KakaoLoginResult.Failure(throwable)
+                } catch (e: Throwable) {
+                    KakaoLoginResult.Failure(e)
+                }
             } else {
                 KakaoLoginResult.Failure(throwable)
             }

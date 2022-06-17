@@ -50,7 +50,8 @@ class SignUpTermFragment : BaseFragment<FragmentSignUpTermBinding>(R.layout.frag
                 }
                 ViewEvent.ToInfo -> {
                     signUpViewModel.remember(viewModel)
-                    navController.navigate(R.id.action_signUpTermFragment_to_signUpInfoFragment)
+                    SignUpTermFragmentDirections.actionSignUpTermFragmentToSignUpInfoFragment()
+                        .also { navController.navigate(it) }
                 }
             }
             viewModel.consumeViewEvent(viewEvent)

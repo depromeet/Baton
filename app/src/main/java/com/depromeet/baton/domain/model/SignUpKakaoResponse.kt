@@ -5,6 +5,7 @@ import com.squareup.moshi.Json
 //BEAN: 이거 중간 중간 저장해야함.
 class SignUpKakaoRequest(
     val uid: String,
+    val provider: String,
     val user: User,
 ) {
     data class User(

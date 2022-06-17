@@ -45,6 +45,6 @@ class AuthRepository @Inject constructor(
     }
 
     companion object {
-        private const val PREF = "auth"
+        private const val PREF = "auth_"
     }
 }
