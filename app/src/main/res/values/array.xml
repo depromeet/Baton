@@ -317,4 +317,28 @@
         <item>서귀포시</item>
         <item>제주시</item>
     </string-array>
+
+    <string-array name="bank_items">
+        <item>KB국민은행</item>
+        <item>신한은행</item>
+        <item>우리은행</item>
+        <item>KEB하나은행</item>
+
+        <item>IBK기업은행</item>
+        <item>NH농협은행</item>
+        <item>SH수협은행</item>
+        <item>KDB산업은행</item>
+
+        <item>SC제일은행</item>
+        <item>카카오뱅크</item>
+        <item>케이뱅크</item>
+        <item>외한은행</item>
+
+        <item>대구은행</item>
+        <item>부산은행</item>
+        <item>경남은행</item>
+        <item>광주은행</item>
+        <item>전북은행</item>
+        <item>제주은행</item>
+    </string-array>
 </resources>

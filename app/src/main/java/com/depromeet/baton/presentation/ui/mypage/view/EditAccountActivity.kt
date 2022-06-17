@@ -83,7 +83,7 @@ class EditAccountActivity :BaseActivity<ActivityEditAccountBinding>(R.layout.act
     }
 
     private fun showBankBottom(){
-        val list =  EditAccountViewModel.supportedBanks.map {
+        val list =  resources.getStringArray(R.array.bank_items).map {
             BottomMenuItem(it, it==viewModel.uiState.value.bank)
         }
         val bottom =BottomSheetFragment.newInstance("은행선택",list,CHECK_ITEM_VIEW ,object:

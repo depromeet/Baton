@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.text.Editable
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.depromeet.baton.R
 import com.depromeet.baton.domain.repository.AccountRepository
+import com.depromeet.baton.domain.repository.AuthRepository
 import com.depromeet.baton.map.util.NetworkResult
 import com.depromeet.baton.presentation.base.BaseViewModel
 import com.depromeet.baton.presentation.util.RegexConstant
@@ -43,6 +45,7 @@ data class EditAccountUiState(
 @HiltViewModel
 class EditAccountViewModel @Inject constructor(
     val savedStateHandle: SavedStateHandle,
+    private val authRepository: AuthRepository,
     private val accountRepository: AccountRepository
 ) : BaseViewModel() {
 
@@ -70,7 +73,7 @@ class EditAccountViewModel @Inject constructor(
 
     fun editAccount(){
         viewModelScope.launch {
-            val userId =2
+            val userId = authRepository.authInfo!!.userId
             runCatching {
                 uiState?.let {
                     accountRepository.updateAccount(userId,it.value.name, it.value.bank,it.value.account)
@@ -127,15 +130,5 @@ class EditAccountViewModel @Inject constructor(
         data class OpenBankSelection(val selectedBank: String) : ViewEvent
     }
 
-    companion object {
-        val supportedBanks = listOf(
-            "NH농협은행",
-            "KB국민은행",
-            "카카오뱅크",
-            "신한은행",
-            "우리은행",
-            "하나은행",
-            "신협"
-        )
-    }
+
 }
