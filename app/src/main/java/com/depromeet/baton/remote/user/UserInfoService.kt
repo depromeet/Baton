@@ -21,8 +21,8 @@ interface UserInfoService {
     ) : Response<UserProfileRequest>
 
 
-    //TODO response 변경 요청
-    @DELETE("user/users/{id}")
+
+    @DELETE("socialusers/{id}")
     suspend fun deleteUser(@Path("id") userIdx : Int)
     :Response<MypageBasicResponse>
 
