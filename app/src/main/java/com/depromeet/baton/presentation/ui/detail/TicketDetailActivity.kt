@@ -191,6 +191,10 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
             ticketDetailToolbar.setOnBackwardClick { onBackPressed() }
             ticketDetailToolbar.setOnIconClick { onClickMenu() }
 
+            ticketDetailReportBtn.setOnClickListener {
+                showBottom(DEFAULT_ITEM_VIEW, DetailBottomOption.USER, reportSellerItemClick )
+            }
+
             ticketDetailUrlBtn.setOnClickListener {
                 val url = viewModel.ticketState.value?.ticket!!.detailUrl
                 startActivity(WebActivity.start(this@TicketDetailActivity, url))
@@ -336,6 +340,15 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
             viewModel.reportTicket(index)
         }
     }
+
+    /** bottom Item Click Listener **/
+    private val reportSellerItemClick = object : BottomSheetFragment.Companion.OnItemClick {
+        override fun onSelectedItem(selected: BottomMenuItem, index: Int) {
+            this@TicketDetailActivity.BdsToast("신고가 접수되었습니다.", binding.ticketDetailFooter.top).show()
+            viewModel.reportSeller(index) // TODO 글과 유저 신고 분리
+        }
+    }
+
 
     /** 채팅 Bottom 외 **/
     private fun showBottom(viewType: Int, status: DetailBottomOption, onItemClick: BottomSheetFragment.Companion.OnItemClick) {

@@ -203,8 +203,18 @@ class TicketDetailViewModel @Inject constructor(
                 spfManager.getMyLatitude()
             )
         }
-        addViewEvent(DetailViewEvent.EventClickDelete)
+    }
 
+    fun reportSeller(option: Int){
+        val ticketId = savedStateHandle.get<Int>("ticketId")!!
+        viewModelScope.launch {
+            //TODO 통과용 임시 api 호출
+            ticketInfoRepository.getTicketInfo(
+                ticketId = ticketId,
+                spfManager.getMyLongitude(),
+                spfManager.getMyLatitude()
+            )
+        }
     }
 
     private fun onClickChat() {
