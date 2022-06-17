@@ -8,12 +8,12 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface  BookmarkService {
-    @POST("bookmarks")
+    @POST("user/bookmarks")
     suspend fun postBookmark(
         @Body request : BookmarkRequest
     ) : Response<BookmarkResponse>
 
-    @DELETE("bookmarks/{id}")
+    @DELETE("user/bookmarks/{id}")
     suspend fun deleteBookmark(
         @Path("id") bookmarkId : Int
     ) : Response<MypageBasicResponse>
