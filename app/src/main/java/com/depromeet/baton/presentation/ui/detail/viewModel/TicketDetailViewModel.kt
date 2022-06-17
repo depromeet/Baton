@@ -75,7 +75,7 @@ class TicketDetailViewModel @Inject constructor(
                     is NetworkResult.Success->{
                         if (res.data != null) {
                             val ticket = res.data!!
-                            val tempUserId = 4  //TODO userID 변경 authRepository.authInfo?.userId
+                            val tempUserId = ticket.seller.id  //TODO userID 변경 authRepository.authInfo?.userId
                             val tempSellerId = ticket.seller.id
                             val state = DetailTicketInfoUiState(
                                 DetailTicketInfo(
@@ -284,7 +284,7 @@ class TicketDetailViewModel @Inject constructor(
     ) {
 
         val isChatEnabled = true //TODO 문의했던 회원권인지 판단
-        val chatBtnText = if (isChatEnabled) "문의하기" else "이미 문의 회원권이에요"
+        val chatBtnText = if(ticket.isOwner)"채팅목록" else if (isChatEnabled) "채팅하기" else "이미 문의 회원권이에요"
 
         val priceStr = priceFormat(ticket.price.toFloat())
         val monthTagisVisible = if (ticket.remainDate!=null&& ticket.isMembership && ticket.remainDate > 30) View.VISIBLE else View.GONE

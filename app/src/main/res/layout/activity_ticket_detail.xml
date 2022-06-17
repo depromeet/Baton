@@ -741,6 +741,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:onClick="@{_->ticketState.onAddLikeClick.invoke()}"
+                    app:isVisible="@{!ticketState.ticket.isOwner}"
                     />
 
                 <androidx.appcompat.widget.AppCompatButton
