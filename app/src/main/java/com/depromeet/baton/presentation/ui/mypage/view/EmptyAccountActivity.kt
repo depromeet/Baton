@@ -25,7 +25,7 @@ class EmptyAccountActivity : BaseActivity<ActivityEmptyAccountBinding>(R.layout.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.emptyAcountAddBtn.setOnClickListener {
-            AddAccountActivity.start(this)
+            PostAccountActivity.start(this)
             finish()
         }
         binding.appbar.setOnBackwardClick{onBackPressed()}
