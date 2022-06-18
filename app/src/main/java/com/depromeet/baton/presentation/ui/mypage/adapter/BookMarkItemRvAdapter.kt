@@ -51,9 +51,17 @@ class BookMarkItemRvAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: BookmarkTicket, position: Int) {
             with(binding) {
+
+               val badge =  when(TicketKind.valueOf(item.ticket.type).ordinal){
+                    0 -> "헬스"
+                    1-> "PT"
+                    2-> "필라테스"
+                    else-> "ETC"
+                }
+
                 ticket = FilteredTicket(item.ticket.id, item.ticket.location, item.ticket.address, priceFormat(item.ticket.price.toFloat()), item.ticket.mainImage
-                ,item.ticket.tags,item.ticket.remainingDay.toString(),item.ticket.remainingNumber.toString(), item.ticket.latitude, item.ticket.longitude,
-                    distanceFormatUtil(item.ticket.distance), item.ticket.type)
+                    ,item.ticket.tags,item.ticket.remainingDay.toString(),item.ticket.remainingNumber.toString(), item.ticket.latitude, item.ticket.longitude,
+                    distanceFormatUtil(item.ticket.distance), badge)
                 executePendingBindings()
 
                 ctvItemTicketLike.isChecked=true
