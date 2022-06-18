@@ -113,8 +113,6 @@ class ProfileBottomFragment(): BottomSheetDialogFragment() {
             .error(com.depromeet.bds.R.drawable.img_profile_basic_smile_56)
             .transform(CircleCrop())
             .into(view?.findViewById<ImageView>(R.id.profile_bottom_my_iv)!!)
-        //view?.findViewById<ImageView>(R.id.profile_bottom_my_iv)?.setImageURI(nowImgUrl?:uri)
-        view?.findViewById<Button>(R.id.profile_bottom_check_btn)?.isEnabled=true
     }
 
     private fun onClickCamera(){
@@ -176,6 +174,7 @@ class ProfileBottomFragment(): BottomSheetDialogFragment() {
     private fun setPhotoImage(image: Image){
         nowImgUrl = image.uri
         view?.findViewById<ImageView>(R.id.profile_bottom_my_iv)?.setImageURI(nowImgUrl)
+        view?.findViewById<Button>(R.id.profile_bottom_check_btn)?.isEnabled=true
     }
 
 

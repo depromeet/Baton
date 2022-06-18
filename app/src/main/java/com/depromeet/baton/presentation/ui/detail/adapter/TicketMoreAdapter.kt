@@ -56,7 +56,7 @@ class TicketMoreAdapter(
 
                 tvItemTicketPlace.text = item.address
                 tvItemTicketDistance.text = distanceFormatUtil(item.distance)
-                ctvItemTicketLike.isChecked = item.isBookmark ?:false
+                ctvItemTicketLike.isChecked = item.bookmarkId!=null
 
                 if (item.mainImage!= null)
                     Glide.with(context)

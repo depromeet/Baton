@@ -86,11 +86,10 @@ class MyPageViewModel @Inject constructor(
     }
 
     fun deleteUser() {
-
         //TODO authinofo
-      /*  viewModelScope.launch {
+       viewModelScope.launch {
             runCatching {
-
+               val userId = authRepository.authInfo!!.userId
                userinfoRepository.deleteUser(userId)
             }.onSuccess {
                 when (it) {
@@ -107,7 +106,7 @@ class MyPageViewModel @Inject constructor(
             }
                 .onFailure { it -> Timber.e(it.message) }
         }
-        */
+
     }
 
     fun consumeViewEvent(viewEvent: ViewEvent) {
