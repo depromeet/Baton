@@ -13,8 +13,7 @@ import timber.log.Timber
 @AndroidEntryPoint
 class SaleHistoryFragment  : BaseFragment<FragmentSaleHistoryBinding>(R.layout.fragment_sale_history){
 
-    private val saleTabFragment = SaleTabFragment()
-    private val soldOutTabFragment = SoldoutTabFragment()
+
     private lateinit var pagerAdapter: MyPageViewAdapter
     private val titles = listOf(
         "판매중",
@@ -36,22 +35,31 @@ class SaleHistoryFragment  : BaseFragment<FragmentSaleHistoryBinding>(R.layout.f
     }
 
     private fun initViewPager(){
-        pagerAdapter = MyPageViewAdapter(this, arrayListOf(saleTabFragment,soldOutTabFragment))
-        binding.viewPager.adapter = pagerAdapter
-        binding.viewPager.isSaveEnabled=false
+      runCatching{
+           clearBackStack()
+           val saleTabFragment = SaleTabFragment()
+           val soldOutTabFragment = SoldoutTabFragment()
 
-        // TabLayout attach
-        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
-            tab.text = titles[position]
-        }.attach()
+          pagerAdapter = MyPageViewAdapter(this, arrayListOf(saleTabFragment,soldOutTabFragment))
+            binding.viewPager.adapter = pagerAdapter
+            binding.viewPager.isSaveEnabled=false
+
+            // TabLayout attach
+            TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+                tab.text = titles[position]
+            }.attach()
+        }.onFailure {
+            Timber.e(it.message)
+      }
+
     }
 
-    override fun onDetach() {
-        super.onDetach()
+    override fun onDestroyView() {
+        super.onDestroyView()
         clearBackStack()
     }
 
-    private fun clearBackStack() {
+   private fun clearBackStack() {
         val fragmentManager = childFragmentManager
         while (fragmentManager.backStackEntryCount !== 0) {
             fragmentManager.popBackStackImmediate()

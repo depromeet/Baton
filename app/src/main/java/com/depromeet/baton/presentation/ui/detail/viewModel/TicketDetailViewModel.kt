@@ -309,7 +309,7 @@ class TicketDetailViewModel @Inject constructor(
         val dayPrice = if(ticket.remainDate!=null) priceFormat(ticket.price / ticket.remainDate!!.toFloat()) + "원" else ""
 
         val sellViewisVisible = ticket.ticketStatus == TicketStatus.SALE && ticket.imgList.isEmpty()
-        val DONEViewisVisible = ticket.ticketStatus == TicketStatus.DONE
+        val soldoutViewisVisible = ticket.ticketStatus == TicketStatus.DONE
         val reservedViewisVisible = ticket.ticketStatus == TicketStatus.RESERVED
 
         val canNegoStr = if (ticket.canNego) "가격제안 가능" else "가격제안 불가능"

@@ -105,12 +105,13 @@ class SaleTicketItemAdapter(
                 if(TicketStatus.valueOf(item.ticket.data.state) == TicketStatus.SALE){
                     itemSaleStatusView.visibility = View.GONE
                     itemSaleStatusChip.visibility =View.GONE
+                    itemSaleGap.visibility = View.GONE
                 }else{
                     val resource= setUi(TicketStatus.valueOf(item.ticket.data.state) )
                     itemSaleStatusIc.setImageResource(resource.icon)
                     itemSaleStatusTv.text = resource.title
                     itemSaleStatusChip.text = resource.title
-                    if(item.ticket.data.state==TicketStatus.RESERVED.value) itemSaleMenuBtn.visibility=View.GONE
+                    if(item.ticket.data.state == TicketStatus.DONE.name)  itemSaleMenuBtn.visibility=View.GONE
                 }
 
                 if(item.ticket.data.mainImage !=null)
@@ -179,16 +180,16 @@ class SaleTicketItemAdapter(
         when(state){
             TicketStatus.SALE -> return TicketStateUi.SaleUi
             TicketStatus.RESERVED ->return TicketStateUi.ReservationUi
-            TicketStatus.SOLDOUT ->return  TicketStateUi.SoldoutUi
+            TicketStatus.DONE ->return  TicketStateUi.SoldoutUi
         }
     }
 
     private fun setEmptyImage(ticket: Int ,view:ImageView) {
         when (ticket % 4) {
-            0 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_health_86)
-            1 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_pt_86)
-            2 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_pilates_86)
-            3 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_etc_86)
+            0 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_img_empty_health_44)
+            1 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_img_empty_pt_44)
+            2 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_img_empty_pilates_44)
+            3 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_img_empty_etc_44)
         }
     }
 

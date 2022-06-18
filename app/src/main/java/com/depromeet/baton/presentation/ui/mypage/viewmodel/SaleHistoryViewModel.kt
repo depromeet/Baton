@@ -5,6 +5,7 @@ import com.depromeet.baton.data.response.UserBuyListResponse
 import com.depromeet.baton.domain.model.MypageTicketResponse
 import com.depromeet.baton.domain.model.TicketInfo
 import com.depromeet.baton.domain.model.TicketSimpleInfo
+import com.depromeet.baton.domain.model.TicketStatus
 import com.depromeet.baton.domain.repository.AuthRepository
 import com.depromeet.baton.domain.repository.TicketInfoRepository
 import com.depromeet.baton.domain.repository.UserinfoRepository
@@ -100,7 +101,7 @@ class SaleHistoryViewModel @Inject constructor(
         //변경후 초기화
         viewModelScope.launch {
             runCatching {
-                ticketinfoRepository.updateTicketState(ticketId,TicketState.values()[status].name)
+                ticketinfoRepository.updateTicketState(ticketId, TicketStatus.values()[status].name )
             }.onSuccess {
                 when(it){
                     is NetworkResult.Success ->{

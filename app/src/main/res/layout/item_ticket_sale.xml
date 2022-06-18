@@ -34,15 +34,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:background="?grey_scale30"
+                        android:layout_width="@dimen/dimen86"
+                        android:layout_height="@dimen/dimen86">
                         <ImageView
                             android:id="@+id/item_sale_image_iv"
-                            android:layout_width="@dimen/dimen86"
-                            android:layout_height="@dimen/dimen86"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            android:src="@drawable/ic_empty_etc_86" />
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:src="@drawable/ic_img_empty_etc_44" />
                         <TextView
                             android:id="@+id/item_sale_badge_tv"
                             android:layout_width="wrap_content"

@@ -58,9 +58,11 @@ class BookMarkItemRvAdapter(
                     2-> "필라테스"
                     else-> "ETC"
                 }
+                val remainDay=  if(item.ticket.remainingDay==null) null else item.ticket.remainingDay.toString()
+                val remainNumber=  if(item.ticket.remainingNumber==null) null else item.ticket.remainingNumber.toString()
 
                 ticket = FilteredTicket(item.ticket.id, item.ticket.location, item.ticket.address, priceFormat(item.ticket.price.toFloat()), item.ticket.mainImage
-                    ,item.ticket.tags,item.ticket.remainingDay.toString(),item.ticket.remainingNumber.toString(), item.ticket.latitude, item.ticket.longitude,
+                    ,item.ticket.tags,remainDay, remainNumber, item.ticket.latitude, item.ticket.longitude,
                     distanceFormatUtil(item.ticket.distance), badge)
                 executePendingBindings()
 

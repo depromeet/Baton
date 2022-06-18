@@ -32,9 +32,13 @@ class SoldoutTabFragment  : BaseFragment<FragmentSoldoutTabBinding>(R.layout.fra
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        saleViewModel.getSoldoutHistory()
         setTicketItemRv()
         setObserver()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        saleViewModel.getSoldoutHistory()
     }
 
 
@@ -74,7 +78,6 @@ class SoldoutTabFragment  : BaseFragment<FragmentSoldoutTabBinding>(R.layout.fra
             override fun onSelectedItem(selected: BottomMenuItem, pos: Int) { //
                 if(pos !=2 ){
                     saleViewModel.changeStatus(ticketItem.ticket.data.id, pos)
-                  //  ticketItemRvAdapter.removeSelectedItem(position)
                 }
             }}
         )

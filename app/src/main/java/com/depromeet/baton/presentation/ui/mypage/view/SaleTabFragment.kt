@@ -47,9 +47,13 @@ class SaleTabFragment : BaseFragment<FragmentSaleTabBinding>(R.layout.fragment_s
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        saleViewModel.getSaleHistory()
         setTicketItemRv()
         setObserver()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        saleViewModel.getSaleHistory()
     }
 
 
@@ -92,6 +96,7 @@ class SaleTabFragment : BaseFragment<FragmentSaleTabBinding>(R.layout.fragment_s
         val bottom = BottomSheetFragment.newInstance("상태 변경",list,CHECK_ITEM_VIEW, object: BottomSheetFragment.Companion.OnItemClick{
             override fun onSelectedItem(selected: BottomMenuItem, pos: Int) { //
                 if(pos !=0 ){
+                    Timber.e(pos.toString())
                     saleViewModel.changeStatus(ticketItem.ticket.data.id, pos)
                    // ticketItemRvAdapter.removeSelectedItem(position)
                 }

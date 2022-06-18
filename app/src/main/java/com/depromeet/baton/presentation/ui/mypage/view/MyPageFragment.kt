@@ -38,9 +38,9 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
 
     private val myPageViewModel  by  viewModels<MyPageViewModel>()
 
-    private val saleHistoryFragment by lazy{ SaleHistoryFragment()}
+    private var saleHistoryFragment = SaleHistoryFragment()
     private val purchaseHistoryFragment by lazy { PurchaseHistoryFragment() }
-    private val likeTicketFragment by lazy{ LikeTicketFragment() }
+    private var likeTicketFragment = LikeTicketFragment()
     private val profileEditFragment by lazy{ ProfileFragment() }
     private val notificationFragment by lazy{ NotificationFragment() }
     private val serviceTermFragment by lazy { ServiceTermFragment() }
@@ -61,12 +61,21 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         myPageViewModel.getProfile()
         with(binding){
             mypageSaleHistoryCd.setOnClickListener {
-                replaceFragment(saleHistoryFragment)
+               if(saleHistoryFragment.isAdded){
+                   requireActivity().supportFragmentManager.beginTransaction().remove(saleHistoryFragment).commit()
+                   saleHistoryFragment= SaleHistoryFragment()
+               }
+
+               replaceFragment(saleHistoryFragment)
             }
             mypagePurchaseCd.setOnClickListener {
                 replaceFragment(purchaseHistoryFragment)
             }
             mypageLikeCd.setOnClickListener {
+                if(likeTicketFragment.isAdded){
+                    requireActivity().supportFragmentManager.beginTransaction().remove(likeTicketFragment).commit()
+                    likeTicketFragment= LikeTicketFragment()
+                }
                 replaceFragment(likeTicketFragment)
             }
             mypageProfileIv.setOnClickListener {
