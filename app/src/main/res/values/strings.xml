@@ -129,7 +129,7 @@
     <string name="transaction_method_info_answer6">구매자가 추후 이체 하거나 방문 전 미리 입금하는 것을 뜻해요.</string>
     <string name="transaction_method_info_answer7">*거래 방법은 개인에 따라 달라질 수 있으니 참고만 해주세요.</string>
     <string name="transaction_method_info_answer8">구매자가 방문해 계약 내용을 확인하고 계좌이체 하거나</string>
-    <string name="transaction_method_info_answer9">방문 전 판매자에게 먼저 입금하는 것을 뜻해요</string>
+    <string name="transaction_method_info_answer9">방문 전 판매자에게 먼저 입금하는 것을 뜻해요.</string>
 
     <!-- 판매글 등록-설명글-->
     <string name="description">설명글</string>

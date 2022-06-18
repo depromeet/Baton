@@ -90,7 +90,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             .setWidthRatio(0.0f)
             .setHeight(BalloonSizeSpec.WRAP)
             .setElevation(3)
-            .setMarginBottom(5)
+            .setMarginBottom(10)
             .setMarginLeft(16)
             .setTextSize(10f)
             .setArrowPositionRules(ArrowPositionRules.ALIGN_ANCHOR)
@@ -104,7 +104,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             .setLayout(com.depromeet.baton.R.layout.tooltip_home)
             .setLifecycleOwner(this)
             .build()
-        binding.ctlHomeLocation.showAlignBottom(balloon, 0, 0)
+        binding.viewTooltip.showAlignBottom(balloon, 0, 0)
     }
 
     private fun handleViewEvents(viewEvents: List<HomeViewModel.HomeViewEvent>) {

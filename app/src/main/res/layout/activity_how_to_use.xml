@@ -88,10 +88,11 @@
 
                     <TextView
                         android:id="@+id/tv_three"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="0dp"
                         android:paddingTop="@dimen/dimen2"
-                        android:text=" 더 이상 사용하지 않는 회원권은 빠르게 판매하고"
+                        android:text=" 더 이상 사용하지 않는 회원권은 빠르게"
                         android:textAppearance="?body3"
                         android:textColor="?grey_scale80"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -104,7 +105,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:paddingTop="@dimen/dimen2"
-                        android:text="평소 눈여겨 보던 우리 동네 헬스장 회원권은 저렴한 가격에 구매해보세요!"
+                        android:text="판매하고 평소 눈여겨 보던 우리 동네 헬스장 회원권은 저렴한 가격에 구매해보세요!"
                         android:textAppearance="?body3"
                         android:textColor="?grey_scale80"
                         app:layout_constraintEnd_toEndOf="parent"

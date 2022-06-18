@@ -87,6 +87,7 @@ class SearchDetailFragment : BaseFragment<FragmentSearchDetailBinding>(R.layout.
 
         filterSearchViewModel.filteredTicketList.observe(viewLifecycleOwner) {
             ticketItemRvAdapter.submitList(it)
+            ticketItemRvAdapter.notifyDataSetChanged()
         }
     }
 
