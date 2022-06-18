@@ -10,6 +10,7 @@ import com.depromeet.baton.domain.repository.TicketInfoRepository
 import com.depromeet.baton.domain.repository.UserinfoRepository
 import com.depromeet.baton.map.util.NetworkResult
 import com.depromeet.baton.presentation.base.BaseViewModel
+import com.depromeet.baton.presentation.ui.detail.viewModel.TicketDetailNetWork
 import com.depromeet.baton.presentation.ui.mypage.model.SaleTicketItem
 import com.depromeet.baton.presentation.ui.mypage.model.SaleTicketListItem
 import com.depromeet.baton.presentation.util.dateFormatUtil
@@ -37,10 +38,6 @@ class SaleHistoryViewModel @Inject constructor(
         MutableStateFlow(SoldoutHistoryUiState())
     val soldoutUiState = _soldoutUiState.asStateFlow()
 
-/*    init {
-        getSaleHistory()
-        getSoldoutHistory()
-    }*/
 
     fun getSaleHistory() {
         viewModelScope.launch {
@@ -101,8 +98,24 @@ class SaleHistoryViewModel @Inject constructor(
     //TODO 판매상태변경 => removeItem 처리할지 재로딩 할지 결정
     fun changeStatus(ticketId: Int, status: Int) {
         //변경후 초기화
-        getSaleHistory()
-        getSoldoutHistory()
+        viewModelScope.launch {
+            runCatching {
+                ticketinfoRepository.updateTicketState(ticketId,TicketState.values()[status].name)
+            }.onSuccess {
+                when(it){
+                    is NetworkResult.Success ->{
+                        getSaleHistory()
+                        getSoldoutHistory()
+                    }
+                    is NetworkResult.Error->{
+                        Timber.e("${it.message}")
+                    }
+                }
+            }.onFailure {
+                Timber.e(it.message)
+            }
+        }
+
     }
 
 

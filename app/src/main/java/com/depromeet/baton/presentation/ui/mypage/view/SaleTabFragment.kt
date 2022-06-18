@@ -93,7 +93,7 @@ class SaleTabFragment : BaseFragment<FragmentSaleTabBinding>(R.layout.fragment_s
             override fun onSelectedItem(selected: BottomMenuItem, pos: Int) { //
                 if(pos !=0 ){
                     saleViewModel.changeStatus(ticketItem.ticket.data.id, pos)
-                    ticketItemRvAdapter.removeSelectedItem(position)
+                   // ticketItemRvAdapter.removeSelectedItem(position)
                 }
             }}
         )

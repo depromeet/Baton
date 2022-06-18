@@ -170,7 +170,23 @@ class TicketDetailViewModel @Inject constructor(
 
     fun ticketStatusHandler(status: TicketStatus) {
         val temp = _ticketState.value!!
-        _ticketState.postValue(temp.copy(ticket = temp.ticket.copy(ticketStatus = status)))
+        viewModelScope.launch {
+            runCatching {
+                _netWorkState.update { TicketDetailNetWork.Loading }
+                ticketInfoRepository.updateTicketState(temp.ticket.ticketId, status.name)
+            }.onSuccess {
+                when(it){
+                    is NetworkResult.Success ->{
+                        _netWorkState.update { TicketDetailNetWork.Success }
+                        _ticketState.postValue(temp.copy(ticket = temp.ticket.copy(ticketStatus = status)))
+                    }
+                    is NetworkResult.Error->{
+                        Timber.e("${it.message}")
+                        _netWorkState.update { TicketDetailNetWork.Failure("판매상태 변경에 실패했습니다.") }
+                    }
+                }
+            }
+        }
     }
 
     private fun updateTicket(ticket: DetailTicketInfo) {

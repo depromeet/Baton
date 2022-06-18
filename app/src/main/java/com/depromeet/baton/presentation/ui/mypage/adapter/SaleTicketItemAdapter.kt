@@ -24,6 +24,7 @@ import com.depromeet.baton.presentation.util.dateFormatUtil
 import com.depromeet.baton.presentation.util.distanceFormatUtil
 import com.depromeet.baton.presentation.util.priceFormat
 import com.depromeet.bds.utils.toPx
+import timber.log.Timber
 
 class SaleTicketItemAdapter(
     private val context: Context,
@@ -101,7 +102,7 @@ class SaleTicketItemAdapter(
                 }
 
 
-                if(item.ticket.data.state == TicketStatus.SALE.value){
+                if(TicketStatus.valueOf(item.ticket.data.state) == TicketStatus.SALE){
                     itemSaleStatusView.visibility = View.GONE
                     itemSaleStatusChip.visibility =View.GONE
                 }else{
