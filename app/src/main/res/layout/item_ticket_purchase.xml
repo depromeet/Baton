@@ -126,10 +126,10 @@
                     android:textAppearance="?caption1"
                     android:textColor="?primary50" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -137,6 +137,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/dimen2"
+                        app:tint="?grey_scale70"
                         android:src="@drawable/ic_location_filled_16"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -147,9 +148,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dimen4"
-                        android:text="광진구"
+                        android:text="광진구dsvvvdvsdvdsvssdvdsvdvdvdsvds"
                         android:textAppearance="?caption1"
                         android:textColor="?grey_scale70"
+                        android:maxLength="20"
+                        app:layout_constraintStart_toEndOf="@id/location_iv"
+                        app:layout_constraintEnd_toStartOf="@id/item_sale_distance_tv"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -161,9 +165,10 @@
                         android:text="12m"
                         android:textAppearance="?caption1"
                         android:textColor="?secondary50"
+                        app:layout_constraintStart_toEndOf="@id/item_sale_location_tv"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
-                </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </com.google.android.flexbox.FlexboxLayout>
 

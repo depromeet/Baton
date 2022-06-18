@@ -44,6 +44,7 @@ class SaleHistoryViewModel @Inject constructor(
 
     fun getSaleHistory() {
         viewModelScope.launch {
+            //authRepository.authInfo!!.userId
             runCatching {
                 userinfoRepository.getUserSellList(authRepository.authInfo!!.userId, TicketState.SALE.option)
             }.onSuccess { res ->

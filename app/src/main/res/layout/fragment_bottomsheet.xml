@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
-    android:layout_marginBottom="@dimen/dimen28"
+    android:layout_marginBottom="28dp"
     android:animateLayoutChanges="false"
     android:background="@drawable/bds_bottom_sheet_background"
     android:backgroundTint="?wh100"
@@ -17,15 +17,14 @@
     app:behavior_peekHeight="0dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
+
     <TextView
         android:id="@+id/bottom_sheet_title_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="title"
-        android:textAppearance="?headline2"
-
-        />
+        android:textAppearance="?headline2" />
 
     <View
         android:layout_width="match_parent"
@@ -33,21 +32,15 @@
         android:layout_marginTop="@dimen/dimen16"
         android:background="?grey_scale40" />
 
-    <!--    <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:overScrollMode="never"
-            >-->
     <androidx.recyclerview.widget.RecyclerView
-        android:paddingTop="@dimen/dimen10"
         android:id="@+id/bottom_sheet_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:overScrollMode="never"
+        android:paddingTop="@dimen/dimen10"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/item_bottomsheet" />
-    <!--    </androidx.core.widget.NestedScrollView>-->
 
 
 </LinearLayout>

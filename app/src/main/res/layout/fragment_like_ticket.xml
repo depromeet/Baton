@@ -16,6 +16,7 @@
         android:id="@+id/like_fragment_view_container"
         android:orientation="vertical"
         android:background="?wh100"
+        android:clickable="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <com.depromeet.bds.component.BdsBackwardAppBar
@@ -31,6 +32,7 @@
             <LinearLayout
                 android:background="?wh100"
                 android:gravity="center"
+                android:clickable="true"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

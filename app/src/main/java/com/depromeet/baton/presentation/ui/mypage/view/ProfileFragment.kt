@@ -42,7 +42,7 @@ class ProfileFragment() :BaseFragment<FragmentProfileBinding>(R.layout.fragment_
         val name = arguments?.getString("nickName" ,"")
         val phone =arguments?.getString("phoneNumber","")
         val profile = arguments?.getString("profileImg","")
-        if(name!=null && phone!=null) profileViewModel.initProfileInfo(name, phone, profile!!)
+        profileViewModel.initProfileInfo(name!!, phone!!, profile!!)
     }
 
     private fun setListener(){
@@ -102,6 +102,14 @@ class ProfileFragment() :BaseFragment<FragmentProfileBinding>(R.layout.fragment_
                 }
             }
             profileViewModel.consumeViewEvent(viewEvent)
+        }
+    }
+
+    companion object{
+        fun newInstance(bundle: Bundle) : ProfileFragment{
+            val fragment = ProfileFragment()
+            fragment.arguments = bundle
+            return fragment
         }
     }
 
