@@ -100,7 +100,7 @@
             android:layout_margin="16dp"
             android:enabled="@{uiState.enabled}"
             android:theme="@style/Theme.Bds.PrimaryButton.Large"
-            android:onClick="@{it -> uiState.onClickSubmit.invoke(it)}"
+            android:onClick="@{it -> uiState.onClickSubmit.invoke()}"
             app:bds_text="완료" />
     </FrameLayout>
 </layout>

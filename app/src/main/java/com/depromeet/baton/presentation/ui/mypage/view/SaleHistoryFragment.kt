@@ -1,23 +1,13 @@
 package com.depromeet.baton.presentation.ui.mypage.view
 
-import android.app.Fragment
 import android.os.Bundle
 import android.view.View
-import androidx.activity.OnBackPressedCallback
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.flowWithLifecycle
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentSaleHistoryBinding
 import com.depromeet.baton.presentation.base.BaseFragment
 import com.depromeet.baton.presentation.ui.mypage.adapter.MyPageViewAdapter
-import com.depromeet.baton.presentation.ui.mypage.viewmodel.PurchaseHistoryViewModel
-import com.depromeet.baton.presentation.ui.mypage.viewmodel.SaleHistoryViewModel
-import com.depromeet.baton.presentation.util.viewLifecycle
-import com.depromeet.baton.presentation.util.viewLifecycleScope
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -54,6 +44,18 @@ class SaleHistoryFragment  : BaseFragment<FragmentSaleHistoryBinding>(R.layout.f
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = titles[position]
         }.attach()
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        clearBackStack()
+    }
+
+    private fun clearBackStack() {
+        val fragmentManager = childFragmentManager
+        while (fragmentManager.backStackEntryCount !== 0) {
+            fragmentManager.popBackStackImmediate()
+        }
     }
 
 }

@@ -3,8 +3,6 @@ package com.depromeet.baton.presentation.ui.mypage.view
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import androidx.activity.OnBackPressedCallback
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import com.bumptech.glide.Glide

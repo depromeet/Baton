@@ -164,11 +164,12 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         callback= object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 // 뒤로가기 눌렀을 때 동작할 코드
-               if(this@MyPageFragment.isAdded && childFragmentManager.fragments.isNotEmpty()){
-                   clearBackStack()
+              if( this@MyPageFragment.isAdded
+                  &&  requireActivity().supportFragmentManager.fragments.map { it.tag }.contains("myPageFragment")
+                  && requireActivity().supportFragmentManager.fragments.size>2){
+                  requireActivity().supportFragmentManager.popBackStack()
                }else{
-                  //TODO 앱종료 처리
-                   requireActivity().finishAffinity()
+                  requireActivity().finish()
                }
             }
         }
@@ -177,17 +178,11 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
 
 
     private fun replaceFragment(fragment: Fragment, tag :String?=null){
-        childFragmentManager.beginTransaction()
+       requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container_view,fragment,tag)
             .addToBackStack(null).commit()
     }
 
-    private fun clearBackStack() {
-        val fragmentManager = childFragmentManager
-        while (fragmentManager.backStackEntryCount !== 0) {
-            fragmentManager.popBackStackImmediate()
-        }
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
