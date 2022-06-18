@@ -14,6 +14,7 @@ object SearchMapper {
             return UIState.Success(response.content?.map {
                 FilteredTicket(
                     id = it.id,
+                 //   bookmarkId = it.bookmarkId != null, todo
                     location = it.location,
                     address = it.address,
                     price = priceFormat(it.price.toFloat()),

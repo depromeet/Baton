@@ -10,9 +10,10 @@
         android:id="@+id/tv_tooltip_one"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="매물이 없다면 현재 위치를 변경해보세요!"
+        android:text="매물이 없다면 위치 범위를 변경해보세요!"
         android:textAppearance="?caption3"
         android:textColor="?grey_scale90"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+

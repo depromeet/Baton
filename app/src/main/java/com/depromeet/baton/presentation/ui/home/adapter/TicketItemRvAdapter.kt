@@ -1,6 +1,7 @@
 package com.depromeet.baton.presentation.ui.home.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckedTextView
 import android.widget.ImageView
@@ -15,7 +16,9 @@ import com.depromeet.bds.utils.toPx
 
 class TicketItemRvAdapter(
     private val scrollType: String,
-    private val clickListener: (FilteredTicket) -> Unit
+    private val clickListener: (FilteredTicket) -> Unit,
+    private val bookMarkDeleteClickListener: (FilteredTicket) -> Unit,
+    private val bookMarkAddClickListener: (FilteredTicket) -> Unit
 ) : ListAdapter<FilteredTicket, TicketItemRvAdapter.TicketItemViewHolder>(SimpleDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TicketItemViewHolder {
@@ -49,8 +52,9 @@ class TicketItemRvAdapter(
                     itemTicketTagEtc.text = "+$etcSize"
                 }
 
-                //좋아요 버튼
-                setLikeBtnClickListener(ctvItemTicketLike)
+                //좋아요 버튼 todo 서버연결
+                ctvItemTicketLike.visibility= View.INVISIBLE
+               // setLikeBtnClickListener(ctvItemTicketLike, item)
 
                 //엠티뷰
                 setEmptyImage(position, ivItemEmpty)
@@ -70,8 +74,10 @@ class TicketItemRvAdapter(
         }
     }
 
-    private fun setLikeBtnClickListener(view: CheckedTextView) {
+    private fun setLikeBtnClickListener(view: CheckedTextView, item: FilteredTicket) {
         view.setOnClickListener {
+            if (view.isChecked) bookMarkAddClickListener(item)
+            else bookMarkDeleteClickListener(item)
             view.toggle()
         }
     }

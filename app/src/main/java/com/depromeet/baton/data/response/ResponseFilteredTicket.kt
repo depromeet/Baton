@@ -30,7 +30,8 @@ data class ResponseFilteredTicket(
         val latitude: Double,
         val longitude: Double,
         val distance: Double?,
-        val type: String
+        val type: String,
+      //  val bookmarkId: Int? todo
     )
 
     data class Pageable(

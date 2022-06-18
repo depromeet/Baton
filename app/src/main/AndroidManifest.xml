@@ -15,9 +15,9 @@
     <application
         android:name=".BatonApp"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:icon="@mipmap/ic_baton_logo"
+        android:label="바통"
+        android:roundIcon="@mipmap/ic_baton_logo_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         tools:replace="android:name">
@@ -99,7 +99,7 @@
         <activity
             android:name=".presentation.main.MainActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"/>
 
         <!-- BEAN: android:launchMode="singleTask" 넣어야 동작하네; -->
         <activity

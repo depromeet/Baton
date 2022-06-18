@@ -8,6 +8,8 @@ import com.depromeet.baton.domain.model.FilteredTicket
 import com.depromeet.baton.R
 import com.depromeet.baton.data.response.ResponseFilteredTicket
 import com.depromeet.baton.domain.model.TicketSimpleInfo
+import com.depromeet.baton.domain.repository.AuthRepository
+import com.depromeet.baton.domain.repository.BookmarkRepository
 import com.depromeet.baton.domain.repository.SearchRepository
 import com.depromeet.baton.domain.repository.TicketInfoRepository
 import com.depromeet.baton.domain.usecase.GetFilteredTicketUseCase
@@ -28,9 +30,11 @@ import javax.inject.Inject
 class TicketMoreViewModel @Inject constructor(
     private val spfManager: BatonSpfManager,
     private val savedStateHandle: SavedStateHandle,
-    private val  getFilteredTicketUseCase: GetFilteredTicketUseCase,
-    private val ticketInfoRepository: TicketInfoRepository
-):BaseViewModel(){
+    private val getFilteredTicketUseCase: GetFilteredTicketUseCase,
+    private val ticketInfoRepository: TicketInfoRepository,
+    private val authRepository: AuthRepository,
+    private val bookmarkRepository: BookmarkRepository,
+) : BaseViewModel() {
     private val _uiState = MutableStateFlow<List<FilteredTicket>>(emptyList())
     val uiState = _uiState.asStateFlow()
 
@@ -39,14 +43,22 @@ class TicketMoreViewModel @Inject constructor(
 
     private val MAX_ITEM = 5
 
-    init{
+    init {
         initState()
     }
-    fun initState(){
+
+    fun initState() {
         viewModelScope.launch {
             runCatching {
                 //TODO 추천 아이템 불러오기
-                getFilteredTicketUseCase.execute(page=0, size = MAX_ITEM, longitude = spfManager.getMyLongitude(), latitude = spfManager.getMyLatitude(), maxDistance = spfManager.getMaxDistance().getDistance(), sortType = "DISTANCE")
+                getFilteredTicketUseCase.execute(
+                    page = 0,
+                    size = MAX_ITEM,
+                    longitude = spfManager.getMyLongitude(),
+                    latitude = spfManager.getMyLatitude(),
+                    maxDistance = spfManager.getMaxDistance().getDistance(),
+                    sortType = "DISTANCE"
+                )
             }.onSuccess {
                 when (it) {
                     is UIState.Success<*> -> {
@@ -57,17 +69,33 @@ class TicketMoreViewModel @Inject constructor(
                         }
                     }
                 }
-            }.onFailure {
-                    error -> Timber.e(error.message)
+            }.onFailure { error ->
+                Timber.e(error.message)
                 _networkState.update { TicketMoreNetwork.Failure(error.message.toString()) }
             }
         }
     }
 
+    fun postMoreTicketBookmark(ticketID: Int) {
+        viewModelScope.launch {
+            val userId = authRepository.authInfo!!.userId
+            runCatching { bookmarkRepository.postBookmark(userId, ticketID) }
+                .onSuccess { Timber.d("북마크 추가 성공") }
+                .onFailure { Timber.e(it.message) }
+        }
+    }
+
+    fun deleteMoreTicketBookmark(ticketID: Int) {
+        viewModelScope.launch {
+            runCatching { bookmarkRepository.deleteBookmark(ticketID) }
+                .onSuccess { Timber.d("북마크 삭제 성공") }
+                .onFailure { Timber.e(it.message) }
+        }
+    }
 }
 
-sealed class TicketMoreNetwork(){
-    object  Success : TicketMoreNetwork()
-    data class Failure(val msg : String) : TicketMoreNetwork()
+sealed class TicketMoreNetwork() {
+    object Success : TicketMoreNetwork()
+    data class Failure(val msg: String) : TicketMoreNetwork()
     object Loading : TicketMoreNetwork()
 }

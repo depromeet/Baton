@@ -333,9 +333,14 @@ open class FilterSearchViewModel @Inject constructor(
         _filteredChipList.value?.clear()
         _filteredChipList.value = _filteredChipList.value
 
+        _isEtcChecked.value = false
+        _isGymChecked.value = false
+        _isPtChecked.value = false
+        _isPilatesYogaChecked.value = false
+
         updateAllStatus()
         setFilterTypeOrderList()
-        updateFilteredTicketList()
+        //      updateFilteredTicketList()
     }
 
     fun setResetClick(state: Boolean) {
@@ -504,6 +509,7 @@ open class FilterSearchViewModel @Inject constructor(
         updateFilteredTicketList()
         updateResetAndSearchValid()  //리셋버튼 상태 업데이트
         setFilterPosition()  //홈에서 바로 초기화 누르는 경우가 있음
+        updateFilteredTicketList()
     }
 
     //초기화, 검색 valid 처리  ->필터링된 칩 리스트가 없거나/슬라이드가 전부 전체로 되어있지 않은 경우 초기화 가능
@@ -670,6 +676,8 @@ open class FilterSearchViewModel @Inject constructor(
 
     /** 필터링된 양도권 리스트 가져오기 */
     fun updateFilteredTicketList() {
+        _searchQuery.value = ""
+
         viewModelScope.launch {
             kotlin.runCatching {
                 getFilteredTicketUseCase.execute(
@@ -696,11 +704,12 @@ open class FilterSearchViewModel @Inject constructor(
                     canNego = if (isBargainingChecked.value == false) null else isBargainingChecked.value,
                 )
             }.onSuccess {
-                if (_searchQuery.value!!.isEmpty()) {
+                if (_searchQuery.value == "") {
                     when (it) {
                         is UIState.Success<*> -> {
                             @Suppress("UNCHECKED_CAST")
                             _filteredTicketList.value = it.data as List<FilteredTicket>
+                            _filteredTicketList.value = _filteredTicketList.value
                             _ticketCount.value = _filteredTicketList.value!!.size
 
                             if (ticketCount.value != 0) {
@@ -719,12 +728,15 @@ open class FilterSearchViewModel @Inject constructor(
         }
     }
 
+    init{
+
+    }
+
     /** 검색결과 리스트 가져오기 */
     fun getSearchResultTicketList(query: String) {
+        _filteredTicketUiState.value = UIState.Loading
 
-
-        setQuery(query)
-
+        _searchQuery.value = query
         when (_searchQuery.value) {
             HashTag.KIND_TEACHER.value.removePrefix("#") -> return
             HashTag.SYSTEMATIC_CLASS.value.removePrefix("#") -> return
@@ -758,7 +770,7 @@ open class FilterSearchViewModel @Inject constructor(
                     query = query
                 )
             }.onSuccess {
-                if (_searchQuery.value!!.isNotEmpty()) {
+                if (_searchQuery.value != "") {
                     when (it) {
                         is UIState.Success<*> -> {
                             filterReset()
@@ -768,7 +780,7 @@ open class FilterSearchViewModel @Inject constructor(
 
                             if (_ticketCount.value != 0) {
                                 _filteredTicketUiState.value = UIState.HasData
-                            } else {
+                            } else if (_filteredTicketList.value.isNullOrEmpty() || _ticketCount.value == 0) {
                                 _filteredTicketUiState.value = UIState.NoData
                             }
                         }
@@ -780,6 +792,7 @@ open class FilterSearchViewModel @Inject constructor(
                 Timber.e(it)
             }
         }
+
     }
 
     private fun setQuery(query: String) {
