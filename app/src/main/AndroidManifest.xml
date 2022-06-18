@@ -17,7 +17,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_baton_logo"
         android:label="바통"
-        android:roundIcon="@mipmap/ic_baton_logo_round"
+        android:roundIcon="@mipmap/ic_baton_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         tools:replace="android:name">
