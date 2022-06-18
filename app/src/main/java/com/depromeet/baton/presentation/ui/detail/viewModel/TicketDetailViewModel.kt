@@ -118,7 +118,7 @@ class TicketDetailViewModel @Inject constructor(
                                     remainingNumber = ticket.remainingNumber,
                                     bookmarkId = ticket.bookmarkId,
                                     isLikeTicket = ticket.bookmarkId!=null,
-                                    bookmarkView = ticket.bookmarkCount,
+                                    bookmarkView = ticket.bookmarkCount ?:0,
                                     countView = ticket.viewCount
                                 ),
                                 onAddChatBtnClick = ::onClickChat,
@@ -234,7 +234,11 @@ class TicketDetailViewModel @Inject constructor(
             }.onSuccess { res->
                 when(res){
                     is NetworkResult.Success ->{
-                        _ticketState.postValue(temp.copy(ticket = temp.ticket.copy(isLikeTicket = true)))
+                        _ticketState.postValue(temp.copy(
+                            ticket = temp.ticket.copy(
+                                isLikeTicket = true,
+                                bookmarkView= temp.ticket.bookmarkView!! +1 )
+                        ))
                         addViewEvent(DetailViewEvent.EventClickLike)
                     }
                     is NetworkResult.Error->{
@@ -253,7 +257,7 @@ class TicketDetailViewModel @Inject constructor(
             }.onSuccess {
                 when(it){
                     is NetworkResult.Success ->{
-                        _ticketState.postValue(temp.copy(ticket = temp.ticket.copy( isLikeTicket = false)))
+                        _ticketState.postValue(temp.copy(ticket = temp.ticket.copy( isLikeTicket = false,  bookmarkView= temp.ticket.bookmarkView!! -1 )))
                         addViewEvent(DetailViewEvent.EventClickUnLike)
                     }
                     is NetworkResult.Error->{
@@ -287,9 +291,9 @@ class TicketDetailViewModel @Inject constructor(
         val dayTagisVisible = if (ticket.isMembership) View.VISIBLE else View.GONE
         val dayPrice = if(ticket.remainDate!=null) priceFormat(ticket.price / ticket.remainDate!!.toFloat()) + "원" else ""
 
-        val sellViewisVisible =ticket.ticketStatus == TicketStatus.SALE && ticket.imgList.isEmpty()
+        val sellViewisVisible = ticket.ticketStatus == TicketStatus.SALE && ticket.imgList.isEmpty()
         val soldoutViewisVisible = ticket.ticketStatus == TicketStatus.SOLDOUT
-        val reservedViewisVisible =ticket.ticketStatus == TicketStatus.RESERVED
+        val reservedViewisVisible = ticket.ticketStatus == TicketStatus.RESERVED
 
         val canNegoStr = if (ticket.canNego) "가격제안 가능" else "가격제안 불가능"
 

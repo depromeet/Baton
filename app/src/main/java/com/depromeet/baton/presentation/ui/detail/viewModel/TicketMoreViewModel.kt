@@ -34,9 +34,6 @@ class TicketMoreViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<List<FilteredTicket>>(emptyList())
     val uiState = _uiState.asStateFlow()
 
-    private val _filteredTicketList = MutableLiveData<List<FilteredTicket>?>()
-    val filteredTicketList: LiveData<List<FilteredTicket>?> = _filteredTicketList
-
     private val _networkState = MutableStateFlow<TicketMoreNetwork>(TicketMoreNetwork.Loading)
     val networkState = _networkState.asStateFlow()
 
