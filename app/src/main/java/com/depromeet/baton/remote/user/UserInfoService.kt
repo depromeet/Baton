@@ -22,7 +22,7 @@ interface UserInfoService {
 
 
 
-    @DELETE("socialusers/{id}")
+    @DELETE("auth/socialusers/{id}")
     suspend fun deleteUser(@Path("id") userIdx : Int)
     :Response<MypageBasicResponse>
 
