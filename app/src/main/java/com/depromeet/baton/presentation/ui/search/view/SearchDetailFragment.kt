@@ -1,6 +1,5 @@
 package com.depromeet.baton.presentation.ui.search.view
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
@@ -32,7 +31,7 @@ class SearchDetailFragment : BaseFragment<FragmentSearchDetailBinding>(R.layout.
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.viewModel=filterSearchViewModel
+        binding.viewModel = filterSearchViewModel
         searchViewModel.setCurrentLevel(1)
         setTicketItemRvAdapter()
 
@@ -77,7 +76,7 @@ class SearchDetailFragment : BaseFragment<FragmentSearchDetailBinding>(R.layout.
     private fun setTicketItemRvAdapter() {
         with(binding) {
             ticketItemRvAdapter =
-                TicketItemRvAdapter(TicketItemRvAdapter.SCROLL_TYPE_VERTICAL, ::setTicketItemClickListener)
+                TicketItemRvAdapter(TicketItemRvAdapter.SCROLL_TYPE_VERTICAL, ::setTicketItemClickListener, ::setBookmarkDeleteClickListener, ::setBookmarkAddClickListener)
             val gridLayoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
 
             adapter = ticketItemRvAdapter
@@ -88,13 +87,19 @@ class SearchDetailFragment : BaseFragment<FragmentSearchDetailBinding>(R.layout.
 
         filterSearchViewModel.filteredTicketList.observe(viewLifecycleOwner) {
             ticketItemRvAdapter.submitList(it)
+            ticketItemRvAdapter.notifyDataSetChanged()
         }
     }
 
     private fun setTicketItemClickListener(ticketItem: FilteredTicket) {
-        startActivity(Intent(requireContext(), TicketDetailActivity::class.java).apply {
-            //TODO 게시글 id넘기기
-        })
+       TicketDetailActivity.start(requireContext(), ticketItem.id)
     }
 
+    private fun setBookmarkDeleteClickListener(ticketItem: FilteredTicket) {
+        searchViewModel.postBookmark(ticketItem.id)
+    }
+
+    private fun setBookmarkAddClickListener(ticketItem: FilteredTicket) {
+        searchViewModel.deleteBookmark(ticketItem.id)
+    }
 }

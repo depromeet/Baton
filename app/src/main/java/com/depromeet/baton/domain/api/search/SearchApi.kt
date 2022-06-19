@@ -85,7 +85,7 @@ class SearchApi @Inject constructor(private val searchService: SearchService) {
         )
         if (response.isSuccessful) {
             emit(UIState.Success(response.body()))
-            delay(INTERVAL_REFRESH)
+          //  delay(INTERVAL_REFRESH)
         } else {
             emit(UIState.Error("[${response.code()}] - ${response.raw()}"))
         }

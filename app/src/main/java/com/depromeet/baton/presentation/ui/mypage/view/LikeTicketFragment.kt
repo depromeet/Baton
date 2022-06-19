@@ -24,7 +24,7 @@ import timber.log.Timber
 
 @AndroidEntryPoint
 class LikeTicketFragment : BaseFragment<FragmentLikeTicketBinding>(R.layout.fragment_like_ticket) {
-    private val viewModel by viewModels<MyBookmarkViewModel>()
+    private val viewModel by viewModels<MyBookmarkViewModel>(ownerProducer = {requireActivity()})
 
     private val ticketItemRvAdapter by lazy{
         BookMarkItemRvAdapter( requireContext(), ::setTicketItemClickListener, ::setTicketBookmarkListener)
@@ -32,13 +32,13 @@ class LikeTicketFragment : BaseFragment<FragmentLikeTicketBinding>(R.layout.frag
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.getBookMarkList()
         initRecyclerView()
         setOnBackPressed()
         setObserver()
     }
 
     private fun setObserver(){
-
         viewModel.uiState
             .flowWithLifecycle(viewLifecycle)
             .onEach { state ->
@@ -69,7 +69,7 @@ class LikeTicketFragment : BaseFragment<FragmentLikeTicketBinding>(R.layout.frag
 
     private fun setTicketItemClickListener(ticketItem:BookmarkTicket) {
         //TODO 관심상품 삭제
-        startActivity(TicketDetailActivity.start(requireContext(),ticketItem.ticket.id))
+        TicketDetailActivity.start(requireContext(),ticketItem.ticket.id)
     }
 
     private fun setTicketBookmarkListener(ticketItem: BookmarkTicket, position :Int){

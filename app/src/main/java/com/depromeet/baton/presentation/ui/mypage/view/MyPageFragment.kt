@@ -1,26 +1,32 @@
 package com.depromeet.baton.presentation.ui.mypage.view
 
-import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
 import androidx.activity.OnBackPressedCallback
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.load.resource.bitmap.TransformationUtils.circleCrop
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentMyPageBinding
 import com.depromeet.baton.presentation.base.BaseFragment
 import com.depromeet.baton.presentation.ui.mypage.viewmodel.MyPageViewModel
 import com.depromeet.baton.presentation.ui.mypage.viewmodel.ProfileViewModel
 import com.depromeet.baton.presentation.ui.routing.RoutingActivity
+import com.depromeet.baton.presentation.ui.sign.AddAccountActivity
 import com.depromeet.baton.presentation.ui.sign.SignActivity
 import com.depromeet.baton.presentation.util.viewLifecycle
 import com.depromeet.baton.presentation.util.viewLifecycleScope
 import com.depromeet.bds.component.BdsDialog
+import com.depromeet.bds.component.BdsToast
 import com.depromeet.bds.component.DialogType
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -41,16 +47,18 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
 
     private lateinit var logoutDialog: BdsDialog
     private lateinit var withdrawalDialog: BdsDialog
+    private lateinit var callback: OnBackPressedCallback
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
         setObserver()
-        setBackPressed()
         setDialog()
     }
 
+
     private fun initView(){
+        myPageViewModel.getProfile()
         with(binding){
             mypageSaleHistoryCd.setOnClickListener {
                 replaceFragment(saleHistoryFragment)
@@ -62,7 +70,10 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                 replaceFragment(likeTicketFragment)
             }
             mypageProfileIv.setOnClickListener {
-                replaceFragment(profileEditFragment,"profileFragment")
+               val bundle =  bundleOf("nickName" to myPageViewModel.uiState.value.nickName,
+                    "phoneNumber" to myPageViewModel.uiState.value.phoneNumber ,
+                    "profileImg" to myPageViewModel.uiState.value.profileImage.toString() )
+                replaceFragment( ProfileFragment.newInstance(bundle),"profileFragment")
             }
             mypageNotification.setOnClickListener {
                 replaceFragment(notificationFragment)
@@ -72,6 +83,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             }
             mypageWithdrawal.setOnClickListener { withdrawalDialog.show() }
             mypageServiceTerm.setOnClickListener { replaceFragment(serviceTermFragment) }
+            mypageAccount.setOnClickListener { startAccountView() }
         }
     }
 
@@ -94,7 +106,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         myPageViewModel.logout() //sharedPreference 모두 삭제
         logoutDialog.dismiss()
         val intent = Intent(requireActivity(), SignActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(intent)
     }
     private fun onClickCancel(){
@@ -102,7 +114,11 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
     }
 
     private fun onClickWithdrawalConfirm(){
+        myPageViewModel.deleteUser()
         withdrawalDialog.dismiss()
+        val intent = Intent(requireActivity(), SignActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(intent)
     }
 
     private fun setObserver(){
@@ -111,23 +127,76 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             .onEach { uiState ->
                 run{
                     binding.uiState =uiState
+                    Glide.with(requireContext())
+                        .load(uiState.profileImage)
+                        .error(com.depromeet.bds.R.drawable.img_profile_basic_smile_56)
+                        .transform(CircleCrop())
+                        .into(binding.mypageProfileIv)
                 }
             }
             .launchIn(viewLifecycleScope)
+
+        myPageViewModel.viewEvents
+            .flowWithLifecycle(viewLifecycle)
+            .onEach(::handleViewEvents)
+            .launchIn(viewLifecycleScope)
     }
 
+    private fun handleViewEvents( events: List<MyPageViewModel.ViewEvent>) {
+        events.firstOrNull()?.let { viewEvent ->
+            when (viewEvent) {
+               is MyPageViewModel.ViewEvent.EventWithdrawal ->{
+                   requireContext().BdsToast(viewEvent.msg).show()
+               }
+            }
+           myPageViewModel.consumeViewEvent(viewEvent)
+        }
+    }
+
+
+    private fun startAccountView(){
+        if(myPageViewModel.uiState.value.account==null) EmptyAccountActivity.start(requireContext())  //계좌정보 추가
+        else EditAccountActivity.start(requireContext(), myPageViewModel.uiState.value.account!!)
+    }
+
+
     private fun setBackPressed(){
-        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+        callback= object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 // 뒤로가기 눌렀을 때 동작할 코드
-               if(this@MyPageFragment.isAdded && childFragmentManager.fragments.isNotEmpty()) childFragmentManager.popBackStack()
+               if(this@MyPageFragment.isAdded && childFragmentManager.fragments.isNotEmpty()){
+                   clearBackStack()
+               }else{
+                  //TODO 앱종료 처리
+                   requireActivity().finishAffinity()
+               }
             }
-        })
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this@MyPageFragment, callback)
     }
 
 
     private fun replaceFragment(fragment: Fragment, tag :String?=null){
-        childFragmentManager.beginTransaction().add(R.id.fragment_container_view,fragment,tag).addToBackStack(null).commit()
+        childFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container_view,fragment,tag)
+            .addToBackStack(null).commit()
+    }
+
+    private fun clearBackStack() {
+        val fragmentManager = childFragmentManager
+        while (fragmentManager.backStackEntryCount !== 0) {
+            fragmentManager.popBackStackImmediate()
+        }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        setBackPressed()
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        callback.remove()
     }
 
 }

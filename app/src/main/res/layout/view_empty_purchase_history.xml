@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="?wh100"
     android:gravity="center"
+    android:clickable="true"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -9,13 +10,13 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_img_empty_sale"
+        android:src="@drawable/ic_img_empty_purchase"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?body1"
         android:layout_marginTop="@dimen/dimen16"
-        android:text="거래내역이 없어요."/>
+        android:text="구매내역이 없어요."/>
 
 </LinearLayout>

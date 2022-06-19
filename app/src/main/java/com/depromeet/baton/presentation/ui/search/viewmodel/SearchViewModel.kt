@@ -1,6 +1,9 @@
 package com.depromeet.baton.presentation.ui.search.viewmodel
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.depromeet.baton.domain.repository.AuthRepository
+import com.depromeet.baton.domain.repository.BookmarkRepository
 import com.depromeet.baton.presentation.base.BaseViewModel
 import com.depromeet.baton.presentation.ui.search.view.SearchUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -8,10 +11,15 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchViewModel @Inject constructor() : BaseViewModel() {
+class SearchViewModel @Inject constructor(
+    private val authRepository: AuthRepository,
+    private val bookmarkRepository: BookmarkRepository,
+) : BaseViewModel() {
 
     val lastSearchKeyword = MutableLiveData<String>("")
 
@@ -57,6 +65,23 @@ class SearchViewModel @Inject constructor() : BaseViewModel() {
 
     fun consumeViewEvent(viewEvent: ViewEvent) {
         _viewEvents.update { it - viewEvent }
+    }
+
+    fun postBookmark(ticketId: Int) {
+        viewModelScope.launch {
+            val userId = authRepository.authInfo!!.userId
+            runCatching { bookmarkRepository.postBookmark(userId, ticketId) }
+                .onSuccess { Timber.d("북마크 추가 성공") }
+                .onFailure { Timber.e(it.message) }
+        }
+    }
+
+    fun deleteBookmark(ticketId: Int) {
+        viewModelScope.launch {
+            runCatching { bookmarkRepository.deleteBookmark(ticketId) }
+                .onSuccess { Timber.d("북마크 삭제 성공") }
+                .onFailure { Timber.e(it.message) }
+        }
     }
 
     sealed interface ViewEvent {

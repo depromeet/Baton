@@ -8,9 +8,6 @@
             name="uiState"
             type="com.depromeet.baton.presentation.ui.mypage.viewmodel.MypageUiState" />
     </data>
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/fragment_container_view"
         android:layout_width="match_parent"
@@ -279,6 +276,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     />
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/mypage_account"
                     android:padding="@dimen/dimen16"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -427,17 +425,22 @@
 
             </LinearLayout>
         </ScrollView>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            >
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/myPage_progress"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_fileName="spinner.json"
+                app:isVisible="@{uiState.isLoading}"
+                />
+        </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/myPage_progress"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_fileName="spinner.json"
-            app:isVisible="@{uiState.isLoading}"
 
-            />
-    </FrameLayout>
 </layout>

@@ -70,6 +70,16 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <View
+                        android:layout_width="1dp"
+                        android:id="@+id/view_tooltip"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/dimen24"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_home_location"
+                        app:layout_constraintEnd_toEndOf="@id/tv_home_location"
+                        app:layout_constraintStart_toStartOf="@id/tv_home_location"
+                        app:layout_constraintTop_toTopOf="@id/tv_home_location" />
+
                     <ImageView
                         android:id="@+id/iv_home_more"
                         android:layout_width="wrap_content"
@@ -188,9 +198,9 @@
 
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/btn_home_more"
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dimen12"
+                            android:layout_marginTop="@dimen/dimen18"
                             android:layout_marginEnd="@dimen/dimen56"
                             android:layout_marginBottom="@dimen/dimen40"
                             android:background="@drawable/temp_home_see_more"
@@ -200,7 +210,7 @@
                             android:paddingHorizontal="@dimen/dimen16"
                             android:paddingVertical="@dimen/dimen12"
                             android:text="@string/home_banner_see_more"
-                            android:textAppearance="?caption3"
+                            android:textAppearance="?caption1"
                             android:textColor="?wh100"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="@id/tv_home_banner_title_two"
@@ -434,6 +444,21 @@
                         app:layout_constraintStart_toStartOf="@+id/iv_home_no_result"
                         app:layout_constraintTop_toBottomOf="@+id/iv_home_no_result" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/my_location_progress"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:lottie_autoPlay="true"
+                    app:lottie_fileName="spinner.json"
+                    app:lottie_loop="true"
+                    app:showOnLoading="@{filterViewModel.filteredTicketUiState}" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.amar.library.ui.StickyScrollView>
 

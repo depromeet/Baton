@@ -10,6 +10,6 @@ interface SignService {
     @POST("login/kakao")
     suspend fun loginKakao(@Body request: LoginKakaoRequest): LoginKakaoResponse
 
-    @POST("socialusers/kakao")
+    @POST("socialusers")
     suspend fun socialUsersKakao(@Body request: SignUpKakaoRequest): LoginKakaoResponse
 }

@@ -23,7 +23,7 @@ import timber.log.Timber
 @AndroidEntryPoint
 class PurchaseHistoryFragment: BaseFragment<FragmentPurchaseHistoryBinding>(R.layout.fragment_purchase_history){
 
-    private val purchaseViewModel by viewModels<PurchaseHistoryViewModel>()
+    private val purchaseViewModel by viewModels<PurchaseHistoryViewModel>(ownerProducer = {requireActivity()})
 
     private  val ticketItemRvAdapter by lazy {
         PurchaseTicketItemAdapter(requireContext(), ::onClickItemListener)
@@ -61,7 +61,7 @@ class PurchaseHistoryFragment: BaseFragment<FragmentPurchaseHistoryBinding>(R.la
     //메뉴버튼 클릭
 
     private fun onClickItemListener(ticketItem : SaleTicketListItem){
-        startActivity(TicketDetailActivity.start(requireContext(),ticketItem.ticket.typeId))
+        TicketDetailActivity.start(requireContext(),ticketItem.ticket.data.id)
     }
 
     private fun setOnBackPressed(){

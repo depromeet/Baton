@@ -5,20 +5,27 @@ import android.content.Context
 import android.net.Uri
 import android.text.Editable
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
+import com.depromeet.baton.domain.repository.AuthRepository
+import com.depromeet.baton.domain.repository.UserinfoRepository
+import com.depromeet.baton.map.util.NetworkResult
 import com.depromeet.baton.presentation.base.BaseViewModel
 import com.depromeet.baton.presentation.util.RegexConstant
+import com.depromeet.baton.presentation.util.uriConverter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel@Inject constructor(
-    application: Application,
-    private val savedStateHandle: SavedStateHandle
+    private val userinfoRepository: UserinfoRepository,
+    private val authRepository: AuthRepository
 ): BaseViewModel(){
+
 
     private val _uiState: MutableStateFlow<ProfileUiState> = MutableStateFlow(createState())
     val uiState = _uiState.asStateFlow()
@@ -32,7 +39,7 @@ class ProfileViewModel@Inject constructor(
         return ProfileUiState(
             nickName = "",
             phoneNumber = "",
-            profileImage =Uri.parse(""),
+            profileImage = Uri.parse(""),
             onNickNameChanged = ::handleNickNameChanged,
             onPhoneNumberChanged = ::handlePhoneNumberChanged,
             onProfileChanged = ::submitProfileImg,
@@ -64,7 +71,18 @@ class ProfileViewModel@Inject constructor(
 
      fun submitProfile(){
         //변경 API 호출
-        addViewEvent(ProfileViewEvent.EventUpdateProfileInfo)
+         if(uiState.value.isEnabled)
+             viewModelScope.launch {
+                 runCatching {
+                     val userId = authRepository.authInfo!!.userId // TODO authinfo
+                     userinfoRepository.updateUserProfile(userId,uiState.value.nickName, uiState.value.phoneNumber)
+                 }.onSuccess {
+                     when(it){
+                         is NetworkResult.Success->{ addViewEvent(ProfileViewEvent.EventUpdateProfileInfo)}
+                         is NetworkResult.Error->{Timber.e(it.message)}
+                     }
+                 }
+             }
     }
 
     fun consumeViewEvent(profileViewEvent: ProfileViewEvent) {
@@ -97,7 +115,7 @@ class ProfileViewModel@Inject constructor(
      val onSubmit: () -> Unit,
 ) {
     val nickNameErrorReason =
-        if (RegexConstant.ONLY_COMPLETE_HANGLE_SPACE.matches(nickName)) null
+        if (RegexConstant.NICKNAME_REGEX.matches(nickName)) null
         else "올바른 닉네임을 입력해주세요."
     val phoneNumberErrorReason =
         if (RegexConstant.ONLY_NUMBERS.matches(phoneNumber) && phoneNumber.length == 11) null

@@ -2,6 +2,7 @@ package com.depromeet.baton.presentation.di
 
 import com.depromeet.baton.annotation.Server
 import com.depromeet.baton.annotation.ServerType
+import com.depromeet.baton.remote.AuthNetworkInterceptor
 import com.depromeet.baton.remote.search.SearchService
 import com.depromeet.baton.remote.ticket.BookmarkService
 import com.depromeet.baton.remote.ticket.TicketInfoService
@@ -26,16 +27,19 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient {
+    fun provideOkHttpClient(
+        authNetworkInterceptor: AuthNetworkInterceptor
+    ): OkHttpClient {
         val logging = HttpLoggingInterceptor().apply {
             this.setLevel(HttpLoggingInterceptor.Level.BODY)
         }
 
         return OkHttpClient.Builder()
+            .connectTimeout(3000, TimeUnit.MILLISECONDS)
+            .readTimeout(3000, TimeUnit.MILLISECONDS)
+            .writeTimeout(3000, TimeUnit.MILLISECONDS)
             .addInterceptor(logging)
-            .connectTimeout(1000, TimeUnit.MILLISECONDS)
-            .readTimeout(1000, TimeUnit.MILLISECONDS)
-            .writeTimeout(1000, TimeUnit.MILLISECONDS)
+            .addNetworkInterceptor(authNetworkInterceptor)
             .build()
     }
 
@@ -56,7 +60,7 @@ class NetworkModule {
         okHttpClient: OkHttpClient,
         moshi: Moshi,
     ): Retrofit {
-        return internalCreateRetrofit("https://baton.yonghochoi.com/user/", okHttpClient, moshi)
+        return internalCreateRetrofit("https://baton.yonghochoi.com/", okHttpClient, moshi)
     }
 
     @Provides

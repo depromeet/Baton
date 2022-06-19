@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/bg">
+
+    <TextView
+        android:id="@+id/tv_tooltip_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="매물이 없다면 위치 범위를 변경해보세요!"
+        android:textAppearance="?caption3"
+        android:textColor="?grey_scale90"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+

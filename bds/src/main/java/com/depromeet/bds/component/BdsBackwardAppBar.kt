@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Button
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.withStyledAttributes
@@ -58,6 +59,10 @@ class BdsBackwardAppBar @JvmOverloads constructor(
 
     fun setTitle(title: String) {
         binding.tvTitle.text = title
+    }
+
+    fun setButtonText(button: String){
+        binding.button.text = button
     }
 
     fun setOnBackwardClick(listener: View.OnClickListener) {

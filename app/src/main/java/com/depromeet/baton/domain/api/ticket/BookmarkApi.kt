@@ -1,5 +1,6 @@
 package com.depromeet.baton.domain.api.ticket
 
+import com.depromeet.baton.remote.ticket.MypageBasicResponse
 import com.depromeet.baton.remote.ticket.BookmarkRequest
 import com.depromeet.baton.remote.ticket.BookmarkResponse
 import com.depromeet.baton.remote.ticket.BookmarkService
@@ -16,7 +17,7 @@ class BookmarkApi  @Inject constructor(
         return service.postBookmark(BookmarkRequest(userIdx,ticketId))
     }
 
-    suspend fun deleteBookmark(bookmarkId: Int) : Response<String>{
+    suspend fun deleteBookmark(bookmarkId: Int) : Response<MypageBasicResponse>{
         return service.deleteBookmark(bookmarkId)
     }
 }

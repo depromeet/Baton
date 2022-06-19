@@ -11,8 +11,11 @@ import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ActivityAddAccountBinding
 import com.depromeet.baton.presentation.base.BaseActivity
 import com.depromeet.baton.presentation.base.BaseViewModel
+import com.depromeet.baton.presentation.bottom.BottomMenuItem
+import com.depromeet.baton.presentation.bottom.BottomSheetFragment
 import com.depromeet.baton.presentation.ui.sign.AddAccountViewModel.ViewEvent
 import com.depromeet.baton.presentation.util.RegexConstant
+import com.depromeet.bds.component.BdsToast
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
@@ -44,19 +47,29 @@ class AddAccountActivity : BaseActivity<ActivityAddAccountBinding>(R.layout.acti
             when (viewEvent) {
                 ViewEvent.AddAccountDone -> {
                     // do something
+                    this.BdsToast("계좌가 등록됐어요.").show()
+                    finish()
                 }
                 is ViewEvent.OpenBankSelection -> {
-                    //BEAN: 은행 선택 바텀 시트 추가 필요
-//                    BottomSheetFragment(
-//                        "은행 선택",
-//                        AddAccountViewModel.supportedBanks.map {
-//                            BottomMenuItem(it, false)
-//                        }
-//                    )
+                    showBankBottom()
                 }
             }
             viewModel.consumeViewEvent(viewEvent)
         }
+    }
+
+    private fun showBankBottom(){
+        val list =  resources.getStringArray(R.array.bank_items).map {
+            BottomMenuItem(it, it==viewModel.uiState.value.bank)
+        }
+        val bottom =
+            BottomSheetFragment.newInstance("은행선택",list, BottomSheetFragment.CHECK_ITEM_VIEW,object:
+                BottomSheetFragment.Companion.OnItemClick {
+                override fun onSelectedItem(selected: BottomMenuItem, pos: Int) {
+                    viewModel.handleBankSelected(selected.listItem!!)
+                }
+            })
+        bottom.show(supportFragmentManager,null)
     }
 
     companion object {

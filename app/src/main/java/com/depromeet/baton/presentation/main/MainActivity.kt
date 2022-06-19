@@ -50,12 +50,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                     replace(searchFragment)
                     return@setOnItemSelectedListener true
                 }
-                R.id.menu_main_chatting -> {
-                    replace(chattingFragment)
-                    return@setOnItemSelectedListener true
-                }
+//                R.id.menu_main_chatting -> {
+//                    replace(chattingFragment)
+//                    return@setOnItemSelectedListener true
+//                }
                 R.id.menu_main_mypage -> {
-                    replace(myPageFragment,"myPageFragment")
+                    replace(myPageFragment, "myPageFragment")
                     return@setOnItemSelectedListener true
                 }
             }
@@ -63,7 +63,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         }
     }
 
-    private fun replace(fragment: Fragment,tag :String?=null) {
+    private fun replace(fragment: Fragment, tag: String? = null) {
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fcv_main, fragment, tag)
@@ -80,7 +80,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     }
 
     fun moveToChatting() {
-        binding.bnvMain.selectedItemId = R.id.menu_main_chatting
+//        binding.bnvMain.selectedItemId = R.id.menu_main_chatting
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
     }
 
     companion object {

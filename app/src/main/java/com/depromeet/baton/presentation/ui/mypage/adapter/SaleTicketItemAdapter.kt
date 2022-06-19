@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.appcompat.widget.AppCompatImageButton
-import androidx.core.os.persistableBundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
@@ -15,20 +13,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ItemTicketSaleBinding
 import com.depromeet.baton.databinding.ItemTicketSaleFooterBinding
 import com.depromeet.baton.databinding.ItemTicketSaleHeaderBinding
-import com.depromeet.baton.domain.model.FilterType
 import com.depromeet.baton.domain.model.TicketKind
 import com.depromeet.baton.domain.model.TicketStatus
-import com.depromeet.baton.presentation.ui.mypage.model.SaleTicketItem
+import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
 import com.depromeet.baton.presentation.ui.mypage.model.SaleTicketListItem
 import com.depromeet.baton.presentation.util.dateFormatUtil
 import com.depromeet.baton.presentation.util.distanceFormatUtil
-import com.depromeet.baton.util.SimpleDiffUtil
+import com.depromeet.baton.presentation.util.priceFormat
 import com.depromeet.bds.utils.toPx
-import timber.log.Timber
 
 class SaleTicketItemAdapter(
     private val context: Context,
@@ -88,25 +83,37 @@ class SaleTicketItemAdapter(
         SaleTicketViewHolder(binding) {
         override fun bind(item: SaleTicketListItem, position: Int) {
             with(binding) {
-                itemSaleNameTv.text = if(item.ticket.data.location.length > 15) item.ticket.data.location.substring(0,15)+"..." else item.ticket.data.location
+                itemSaleNameTv.text =  item.ticket.data.location
+                itemSalePriceTv.text = priceFormat(item.ticket.data.price.toFloat())+"원"
 
-                itemSalePriceTv.text = item.ticket.data.price.toString()
-                itemSaleRemainDateTv.text = item.ticket.data.remainingNumber.toString()
+                itemSaleRemainDateTv.text =
+                    if(item.ticket.data.remainingNumber!=null) "${item.ticket.data.remainingNumber}회 남음"
+                    else "${item.ticket.data.remainingDay}일 남음"
+
                 itemSaleLocationTv.text = if(item.ticket.data.address.length > 15) item.ticket.data.address.substring(0,15)+"..." else item.ticket.data.address
                 itemSaleDistanceTv.text = distanceFormatUtil( item.ticket.data.distance)
 
-                if(item.ticket.data.state == TicketStatus.SALE.ordinal){
+                itemSaleBadgeTv.text=  when(TicketKind.valueOf(item.ticket.data.type).ordinal){
+                    0 -> "헬스"
+                    1-> "PT"
+                    2-> "필라테스"
+                    else-> "ETC"
+                }
+
+
+                if(item.ticket.data.state == TicketStatus.SALE.value){
                     itemSaleStatusView.visibility = View.GONE
                     itemSaleStatusChip.visibility =View.GONE
                 }else{
-                    val resource= setUi(TicketStatus.values().get(item.ticket.data.state) )
+                    val resource= setUi(TicketStatus.valueOf(item.ticket.data.state) )
                     itemSaleStatusIc.setImageResource(resource.icon)
                     itemSaleStatusTv.text = resource.title
                     itemSaleStatusChip.text = resource.title
-                    if(item.ticket.data.state==TicketStatus.RESERVATION.ordinal) itemSaleMenuBtn.visibility=View.GONE
+                    if(item.ticket.data.state==TicketStatus.RESERVED.value) itemSaleMenuBtn.visibility=View.GONE
                 }
 
-                if(item.ticket.data.mainImage !=null)Glide.with(context)
+                if(item.ticket.data.mainImage !=null)
+                    Glide.with(context)
                     .load(item.ticket.data.mainImage)
                     .transform(CenterCrop(), RoundedCorners(4.toPx()))
                     .into(binding.itemSaleImageIv)
@@ -125,6 +132,10 @@ class SaleTicketItemAdapter(
                     selectedItem=item
                     selectedPos= position
                     onClickStatusMenu(item, selectedPos!!)
+                }
+
+                itemSaleImageIv.setOnClickListener {
+                    TicketDetailActivity.start(context,item.ticket.data.id)
                 }
             }
         }
@@ -166,7 +177,7 @@ class SaleTicketItemAdapter(
     fun setUi(state: TicketStatus):TicketStateUi{
         when(state){
             TicketStatus.SALE -> return TicketStateUi.SaleUi
-            TicketStatus.RESERVATION ->return TicketStateUi.ReservationUi
+            TicketStatus.RESERVED ->return TicketStateUi.ReservationUi
             TicketStatus.SOLDOUT ->return  TicketStateUi.SoldoutUi
         }
     }

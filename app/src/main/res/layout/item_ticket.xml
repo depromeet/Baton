@@ -75,7 +75,7 @@
                 android:layout_marginEnd="@dimen/dimen12"
                 android:layout_marginBottom="@dimen/dimen12"
                 android:checkMark="@drawable/selector_like"
-                android:checked="false"
+
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -67,6 +67,9 @@
                             style="@style/Widget.Bds.TextFieldInnerEditText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:onClick="@{_ -> uiState.onBankSelectionClick.invoke()}"
+                            android:text="@{uiState.bank}"
                             android:hint="은행을 선택해주세요."
                             android:inputType="none" />
                     </com.depromeet.bds.component.BdsComponentTextField>
@@ -82,6 +85,7 @@
                             style="@style/Widget.Bds.TextFieldInnerEditText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:inputType="number"
                             android:afterTextChanged="@{it -> uiState.onAccountChanged.invoke(it)}"
                             android:hint="‘-’를 제외한 번호를 입력해주세요." />
                     </com.depromeet.bds.component.BdsComponentTextField>
