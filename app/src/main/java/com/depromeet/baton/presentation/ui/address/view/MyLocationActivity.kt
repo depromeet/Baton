@@ -43,7 +43,7 @@ class MyLocationActivity :BaseActivity<ActivityMylocationBinding>(R.layout.activ
 
     private fun initView(){
         binding.myLocationToolbar.titleTv.text="현재 위치"
-        binding.myLocationProgress.setAnimation("spinner.json")
+        binding.myLocationProgress.setAnimation("spinner_CTA.json")
 
     }
 

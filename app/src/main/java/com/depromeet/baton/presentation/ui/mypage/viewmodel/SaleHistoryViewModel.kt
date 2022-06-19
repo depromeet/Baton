@@ -44,6 +44,7 @@ class SaleHistoryViewModel @Inject constructor(
         viewModelScope.launch {
             //authRepository.authInfo!!.userId
             runCatching {
+                _uiState.update { it.copy( isLoading = true) }
                 userinfoRepository.getUserSellList(authRepository.authInfo!!.userId, TicketState.SALE.option)
             }.onSuccess { res ->
                 run {
@@ -76,6 +77,7 @@ class SaleHistoryViewModel @Inject constructor(
     fun getSoldoutHistory() {
         viewModelScope.launch {
             runCatching {
+                _soldoutUiState.update { it.copy( isLoading = true) }
                 userinfoRepository.getUserSellList(authRepository.authInfo!!.userId, TicketState.SOLDOUT.option)
             }.onSuccess { res ->
                 run {

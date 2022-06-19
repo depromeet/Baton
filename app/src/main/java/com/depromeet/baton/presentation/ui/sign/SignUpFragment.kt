@@ -152,6 +152,7 @@ class SignUpViewModel @Inject constructor(
             //효민 local 저장했습니다
             spfManager.saveLocation(LatLng(this@with.addressData.latitude.toDouble() ,this@with.addressData.longitude.toDouble()))
             spfManager.saveDetailAddress(this@with.detailAddress)
+            spfManager.saveAddress( this@with.addressData.roadAddress,  this@with.addressData.address)
 
             builder.apply {
                 latitude = this@with.addressData.latitude

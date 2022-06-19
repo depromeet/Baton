@@ -61,12 +61,8 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         myPageViewModel.getProfile()
         with(binding){
             mypageSaleHistoryCd.setOnClickListener {
-               if(saleHistoryFragment.isAdded){
-                   requireActivity().supportFragmentManager.beginTransaction().remove(saleHistoryFragment).commit()
-                   saleHistoryFragment= SaleHistoryFragment()
-               }
-
-               replaceFragment(saleHistoryFragment)
+            
+                replaceFragment(saleHistoryFragment)
             }
             mypagePurchaseCd.setOnClickListener {
                 replaceFragment(purchaseHistoryFragment)

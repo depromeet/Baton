@@ -100,18 +100,27 @@ class SaleTicketItemAdapter(
                     2-> "필라테스"
                     else-> "ETC"
                 }
-
-
-                if(TicketStatus.valueOf(item.ticket.data.state) == TicketStatus.SALE){
-                    itemSaleStatusView.visibility = View.GONE
-                    itemSaleStatusChip.visibility =View.GONE
-                    itemSaleGap.visibility = View.GONE
-                }else{
-                    val resource= setUi(TicketStatus.valueOf(item.ticket.data.state) )
-                    itemSaleStatusIc.setImageResource(resource.icon)
-                    itemSaleStatusTv.text = resource.title
-                    itemSaleStatusChip.text = resource.title
-                    if(item.ticket.data.state == TicketStatus.DONE.name)  itemSaleMenuBtn.visibility=View.GONE
+                when(item.ticket.data.state){
+                     TicketStatus.SALE.name ->{
+                         itemSaleStatusView.visibility = View.GONE
+                         itemSaleStatusChip.visibility =View.GONE
+                         itemSaleGap.visibility = View.GONE
+                     }
+                    TicketStatus.RESERVED.name->{
+                        val resource= setUi(TicketStatus.RESERVED)
+                        itemSaleStatusIc.setImageResource(resource.icon)
+                        itemSaleStatusTv.text = resource.title
+                        itemSaleStatusChip.text = resource.title
+                        itemSaleStatusView.visibility = View.VISIBLE
+                    }
+                    TicketStatus.DONE.name->{
+                        val resource= setUi(TicketStatus.DONE)
+                        itemSaleStatusIc.setImageResource(resource.icon)
+                        itemSaleStatusTv.text = resource.title
+                        itemSaleStatusChip.text = resource.title
+                        itemSaleMenuBtn.visibility=View.GONE
+                        itemSaleStatusView.visibility = View.VISIBLE
+                    }
                 }
 
                 if(item.ticket.data.mainImage !=null)
@@ -120,8 +129,7 @@ class SaleTicketItemAdapter(
                     .transform(CenterCrop(), RoundedCorners(4.toPx()))
                     .into(binding.itemSaleImageIv)
                 else{
-                    if(item.ticket.data.type!=null)setEmptyImage(TicketKind.valueOf(item.ticket.data.type!!).ordinal, itemSaleImageIv)
-                    //TODO type 요청
+                    setEmptyImage(item.ticket.data.type, itemSaleImageIv)
                 }
 
                 itemSaleMenuBtn.setOnClickListener {
@@ -184,12 +192,12 @@ class SaleTicketItemAdapter(
         }
     }
 
-    private fun setEmptyImage(ticket: Int ,view:ImageView) {
-        when (ticket % 4) {
-            0 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_img_empty_health_44)
-            1 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_img_empty_pt_44)
-            2 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_img_empty_pilates_44)
-            3 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_img_empty_etc_44)
+    private fun setEmptyImage(type : String ,view:ImageView) {
+        when (type) {
+            TicketKind.HEALTH.name -> view.setImageResource(com.depromeet.bds.R.drawable.ic_img_empty_health_44)
+            TicketKind.PT.name-> view.setImageResource(com.depromeet.bds.R.drawable.ic_img_empty_pt_44)
+            TicketKind.PILATES_YOGA.name-> view.setImageResource(com.depromeet.bds.R.drawable.ic_img_empty_pilates_44)
+            TicketKind.ETC.name -> view.setImageResource(com.depromeet.bds.R.drawable.ic_img_empty_etc_44)
         }
     }
 

@@ -67,7 +67,6 @@ class SoldoutTabFragment  : BaseFragment<FragmentSoldoutTabBinding>(R.layout.fra
     //상태변경 클릭
 
     private fun onClickStatusMenuItemListener(ticketItem : SaleTicketListItem, pos:Int){
-        //TODO 현재 ticket isChecked 처리
         showBottom(ticketItem,pos)
     }
     private fun showBottom(ticketItem: SaleTicketListItem,position: Int){

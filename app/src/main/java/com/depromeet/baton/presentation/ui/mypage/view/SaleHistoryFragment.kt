@@ -1,7 +1,9 @@
 package com.depromeet.baton.presentation.ui.mypage.view
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentSaleHistoryBinding
 import com.depromeet.baton.presentation.base.BaseFragment
@@ -20,6 +22,15 @@ class SaleHistoryFragment  : BaseFragment<FragmentSaleHistoryBinding>(R.layout.f
         "거래내역"
     )
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewPager()
@@ -36,13 +47,10 @@ class SaleHistoryFragment  : BaseFragment<FragmentSaleHistoryBinding>(R.layout.f
 
     private fun initViewPager(){
       runCatching{
-           clearBackStack()
-           val saleTabFragment = SaleTabFragment()
-           val soldOutTabFragment = SoldoutTabFragment()
 
-          pagerAdapter = MyPageViewAdapter(this, arrayListOf(saleTabFragment,soldOutTabFragment))
+            pagerAdapter = MyPageViewAdapter(childFragmentManager,this.lifecycle)
             binding.viewPager.adapter = pagerAdapter
-            binding.viewPager.isSaveEnabled=false
+            binding.viewPager.isSaveEnabled= false
 
             // TabLayout attach
             TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
@@ -56,7 +64,7 @@ class SaleHistoryFragment  : BaseFragment<FragmentSaleHistoryBinding>(R.layout.f
 
     override fun onDestroyView() {
         super.onDestroyView()
-        clearBackStack()
+       // clearBackStack()
     }
 
    private fun clearBackStack() {

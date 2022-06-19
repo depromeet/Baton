@@ -9,6 +9,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentSaleTabBinding
+import com.depromeet.baton.domain.model.TicketStatus
 import com.depromeet.baton.presentation.base.BaseFragment
 import com.depromeet.baton.presentation.bottom.BottomMenuItem
 import com.depromeet.baton.presentation.bottom.BottomSheetFragment
@@ -92,14 +93,10 @@ class SaleTabFragment : BaseFragment<FragmentSaleTabBinding>(R.layout.fragment_s
 
     private fun showBottom(ticketItem: SaleTicketListItem,position: Int){
         val list = resources.getStringArray(R.array.ticketSaleStatus).map { BottomMenuItem(it)}
-        list.get(0).isChecked=true
+        list.get(TicketStatus.valueOf(ticketItem.ticket.data.state).ordinal).isChecked=true
         val bottom = BottomSheetFragment.newInstance("상태 변경",list,CHECK_ITEM_VIEW, object: BottomSheetFragment.Companion.OnItemClick{
             override fun onSelectedItem(selected: BottomMenuItem, pos: Int) { //
-                if(pos !=0 ){
-                    Timber.e(pos.toString())
-                    saleViewModel.changeStatus(ticketItem.ticket.data.id, pos)
-                   // ticketItemRvAdapter.removeSelectedItem(position)
-                }
+                saleViewModel.changeStatus(ticketItem.ticket.data.id, pos)
             }}
         )
         bottom.show(childFragmentManager,null)

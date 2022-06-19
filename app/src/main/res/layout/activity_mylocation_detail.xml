@@ -86,7 +86,7 @@
             android:layout_gravity="center"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            app:lottie_fileName="spinner.json"
+            app:lottie_fileName="spinner_CTA.json"
             app:isVisible="@{uistate.isLoading}"
             />
     </RelativeLayout>

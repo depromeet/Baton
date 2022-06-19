@@ -86,7 +86,7 @@ class TicketDetailViewModel @Inject constructor(
                                     mapUrl = "https://map.naver.com/index.nhn?slng=${spfManager.getMyLongitude()}&slat=${spfManager.getMyLatitude()}" +
                                             "&stext=내 위치&elng=${ticket!!.longitude}&elat=${ticket!!.latitude}" +
                                             "&pathType=3&showMap=true&etext=${ticket!!.location}&menu=route",
-                                    emptyIcon = initEmptyIcon(TicketKind.PILATES_YOGA),
+                                    emptyIcon = initEmptyIcon(ticket.type),
                                     location = DetailLocationInfo(
                                         location = ticket.location,
                                         ticket.address,
@@ -138,17 +138,17 @@ class TicketDetailViewModel @Inject constructor(
     }
 
     //썸네일이 있는 경우 & 없는 경우 thumbnail 처리
-    private fun initEmptyIcon(type: TicketKind): Uri {
+    private fun initEmptyIcon(type: String): Uri {
         return when (type) {
-            TicketKind.HEALTH -> uriConverter(
+            TicketKind.HEALTH.name -> uriConverter(
                 context,
                 com.depromeet.bds.R.drawable.ic_empty_health_86
             )
-            TicketKind.PILATES_YOGA -> uriConverter(
+            TicketKind.PILATES_YOGA.name -> uriConverter(
                 context,
                 com.depromeet.bds.R.drawable.ic_empty_pilates_86
             )
-            TicketKind.PT -> uriConverter(context , com.depromeet.bds.R.drawable.ic_empty_pt_86)
+            TicketKind.PT.name -> uriConverter(context , com.depromeet.bds.R.drawable.ic_empty_pt_86)
             else -> uriConverter(context, com.depromeet.bds.R.drawable.ic_empty_etc_86)
         }
     }
