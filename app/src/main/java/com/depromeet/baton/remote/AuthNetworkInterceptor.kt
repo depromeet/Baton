@@ -13,7 +13,7 @@ class AuthNetworkInterceptor @Inject constructor(
 ) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val newRequest = chain.request().newBuilder()
-            .addHeaderIfPresent("Authorization", "Bearer ${authRepository.authInfo?.accessToken}")
+            .addHeaderIfPresent("Authorization", authRepository.authInfo?.accessToken?.let { "Bearer $it" })
             .build()
 
         return chain.proceed(newRequest)
