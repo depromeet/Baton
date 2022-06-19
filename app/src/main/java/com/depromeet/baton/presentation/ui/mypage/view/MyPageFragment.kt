@@ -36,7 +36,7 @@ import timber.log.Timber
 @AndroidEntryPoint
 class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page) {
 
-    private val myPageViewModel  by  viewModels<MyPageViewModel>()
+    private val myPageViewModel  by  viewModels<MyPageViewModel>(ownerProducer = {requireActivity()})
 
     private var saleHistoryFragment = SaleHistoryFragment()
     private val purchaseHistoryFragment by lazy { PurchaseHistoryFragment() }
@@ -61,7 +61,6 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         myPageViewModel.getProfile()
         with(binding){
             mypageSaleHistoryCd.setOnClickListener {
-            
                 replaceFragment(saleHistoryFragment)
             }
             mypagePurchaseCd.setOnClickListener {
@@ -130,7 +129,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         myPageViewModel.uiState
             .flowWithLifecycle(viewLifecycle)
             .onEach { uiState ->
-                run{
+                run{ 
                     binding.uiState =uiState
                     Glide.with(requireContext())
                         .load(uiState.profileImage)

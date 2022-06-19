@@ -26,7 +26,7 @@ import timber.log.Timber
 class ProfileFragment() :BaseFragment<FragmentProfileBinding>(R.layout.fragment_profile) {
 
     private val profileViewModel by viewModels<ProfileViewModel>(ownerProducer = {requireActivity()})
-    private val myPageViewModel by viewModels<MyPageViewModel>(ownerProducer = {requireParentFragment()})
+    private val myPageViewModel by viewModels<MyPageViewModel>(ownerProducer = {requireActivity()})
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
