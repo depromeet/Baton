@@ -1,6 +1,10 @@
 package com.depromeet.chat
 
 import com.depromeet.baton.chat.*
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import io.kotest.common.ExperimentalKotest
 import io.kotest.core.spec.style.FeatureSpec
 import io.kotest.matchers.shouldBe
@@ -11,6 +15,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import org.junit.Ignore
+import javax.inject.Singleton
+
 
 class MemoryRealTimeDataPublisher : RealTimeDataPublisher {
     private val _objs = MutableSharedFlow<RealTimeData>(replay = 100)
@@ -54,7 +60,7 @@ class ChatTest : FeatureSpec({
             delay(100)
 
             val value = chatController.uiState.first() //그리고 나면 챗 컨트롤러의 유아이 스테이트가 사용자가 보낸 메시지로 채져있을것
-            value.messages.first() shouldBe "hello world"
+            value.messages?.first() shouldBe "hello world"
         }
 
         scenario("채팅방에 여러 메시지를 보낼 수 있다.") {
@@ -111,11 +117,11 @@ class ChatTest : FeatureSpec({
             delay(100)
 
             val a = roomA.uiState.first()
-            a.messages.first() shouldBe messageForA
+            a.messages?.first() shouldBe messageForA
 
             //룸 B에 보낸건 룸B에만 있고,,
             val b = roomB.uiState.first()
-            b.messages.first() shouldBe messageForB
+            b.messages?.first() shouldBe messageForB
         }
 
         scenario("채팅을 끊을 수 있다.") {

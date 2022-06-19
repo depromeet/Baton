@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -12,8 +13,30 @@
         tools:context=".presentation.ui.ChattingFragment">
 
         <TextView
+            android:id="@+id/tv_title"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
+            android:layout_height="wrap_content"
+            android:paddingVertical="17dp"
+            android:paddingStart="@dimen/dimen16"
+            android:text="채팅 목록"
+            android:textAppearance="?headline2"
+            android:textColor="?grey_scale90" />
+
+        <View
+            android:id="@+id/view_top"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?bg"
+            app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_chat_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_top"
+            app:layout_constraintVertical_bias="1"
+            tools:itemCount="6"
+            tools:listitem="@layout/item_chat_list" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

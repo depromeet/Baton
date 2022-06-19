@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/dimen16">
+
+        <ImageView
+            android:id="@+id/iv_profile"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_gravity="top"
+            android:layout_marginStart="@dimen/dimen20"
+            android:src="@drawable/ic_img_profile_curiosity_40"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/tv_sort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen10"
+            android:textAppearance="?caption3"
+            android:textColor="?grey_scale60"
+            app:layout_constraintStart_toEndOf="@+id/iv_profile"
+            app:layout_constraintTop_toTopOf="@+id/iv_profile"
+            tools:text="[필라테스] 휴메이크 휘트니스 석촌점" />
+
+        <TextView
+            android:id="@+id/tv_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/dimen2"
+            android:textAppearance="?headline4"
+            android:textColor="?grey_scale80"
+            app:layout_constraintStart_toStartOf="@+id/tv_sort"
+            app:layout_constraintTop_toBottomOf="@+id/tv_sort"
+            tools:text="헬스하는사람1" />
+
+        <TextView
+            android:id="@+id/tv_message"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/dimen2"
+            android:layout_marginEnd="@dimen/dimen10"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="?caption2"
+            android:textColor="?grey_scale80"
+            app:layout_constraintEnd_toStartOf="@+id/tv_count"
+            app:layout_constraintStart_toStartOf="@+id/tv_nickname"
+            app:layout_constraintTop_toBottomOf="@+id/tv_nickname"
+            tools:text="판매중인디용판재용판재용용판용판재용용판용판재용용판용판재용용판용판재용용판용용판재용판" />
+
+        <TextView
+            android:id="@+id/when"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dimen16"
+            android:textAppearance="?caption4"
+            android:textColor="?grey_scale70"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_sort"
+            tools:text="1일 전" />
+
+        <TextView
+            android:id="@+id/tv_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bacground_circle_alert_1_9"
+            android:gravity="center"
+            android:text="1"
+            android:textAppearance="?caption3"
+            android:textColor="?wh100"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_message"
+            app:layout_constraintEnd_toEndOf="@+id/when"
+            app:layout_constraintTop_toTopOf="@+id/tv_message" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?grey_scale40"
+            android:layout_marginTop="@dimen/dimen16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_message" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

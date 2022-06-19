@@ -13,12 +13,12 @@ import java.util.*
 
 
 class ChatMessageAdapter(
-    private val auth: Int
+    private val userId: Int
 ) : ListAdapter<Message, RecyclerView.ViewHolder>(SimpleDiffUtil()) {
     private val date = Date(System.currentTimeMillis())
     private val sdf = SimpleDateFormat("yyyy:MM:dd hh:mm:ss aa", Locale("ko", "KR"))
     private val strDate = sdf.format(date)
-    private val hour = if (strDate.slice(20..21) == "오후") (strDate.slice(11..12).toInt() + 12).toString() else strDate.slice(11..15)
+    private val hour = if (strDate.slice(20..21) == "오후") (strDate.slice(11..12).toInt() + 12).toString() else strDate.slice(11..12)
     private val formattedDate = strDate.slice(20..21) + " " + hour + strDate.slice(13..15)
 
     inner class MyChatItemViewHolder(private val binding: ItemMyChatBinding) :
@@ -62,7 +62,7 @@ class ChatMessageAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (auth == currentList[position].senderId)
+        return if (userId == currentList[position].senderId)
             MY_CHAT
         else OTHER_CHAT
     }
