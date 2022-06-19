@@ -30,12 +30,12 @@
             android:background="@drawable/bg_chat_sender"
             android:maxWidth="@dimen/dimen256"
             android:paddingHorizontal="@dimen/dimen12"
-            android:paddingVertical="@dimen/dimen8"
+            android:paddingVertical="@dimen/dimen10"
+            tools:text="dddddddddddddd"
             android:textAppearance="?caption2"
             android:textColor="?grey_scale80"
             app:layout_constraintStart_toEndOf="@+id/imageView3"
-            app:layout_constraintTop_toTopOf="@+id/imageView3"
-            tools:text="메세지 메세지 내용메세지 내용메세지 내용메세지 내용메세지 내용메세지 내용메세지 내용메세지 내용내용" />
+            app:layout_constraintTop_toTopOf="@+id/imageView3"/>
 
         <TextView
             android:id="@+id/chatmessage_tv_date"
