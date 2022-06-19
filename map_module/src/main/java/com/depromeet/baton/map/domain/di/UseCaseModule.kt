@@ -19,7 +19,7 @@ class UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideGetAddressUseCase(repository: AddressRepository) = GetAddressUseCase(repository)
+    fun provideGetAddressUseCase(repository: AddressRepository,searchAddressRepository: SearchAddressRepository) = GetAddressUseCase(repository,searchAddressRepository)
 
 
     @Provides
