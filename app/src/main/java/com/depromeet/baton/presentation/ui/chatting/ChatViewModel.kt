@@ -17,6 +17,8 @@ class ChatViewModel @Inject constructor(
 
 ) : BaseViewModel() {
 
+    private val _uiState = MutableLiveData<UIState>(UIState.HasData)
+    val uiState: LiveData<UIState> = _uiState
 
     private val _chatRoomUiState: MutableStateFlow<ChatRoomUiState> = MutableStateFlow(createChatRoomState())
     val chatRoomUiState = _chatRoomUiState.asStateFlow()

@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen4"
                 android:background="@drawable/bg_chat_receiver"
-                android:maxWidth="@dimen/dimen256"
+                android:maxWidth="@dimen/dimen230"
                 android:paddingVertical="@dimen/dimen10"
                 android:paddingStart="@dimen/dimen12"
                 android:paddingEnd="@dimen/dimen8"

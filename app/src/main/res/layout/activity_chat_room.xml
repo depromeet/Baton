@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="uiState"
             type="com.depromeet.baton.presentation.ui.chatting.ChatViewModel.ChatRoomUiState" />
@@ -170,6 +171,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
             app:layout_constraintTop_toBottomOf="@+id/ctl_date"
+            app:uiState="@{viewModel.uiState }"
             tools:itemCount="24"
             tools:listitem="@layout/item_my_chat" />
 
@@ -214,12 +216,43 @@
                 android:id="@+id/iv_send"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:clickable="@{uiState.enabled}"
                 android:layout_marginEnd="@dimen/dimen10"
                 android:background="@{uiState.enabled ? @drawable/ic_send_filled_24 : @drawable/ic_send_24}"
+                android:clickable="@{uiState.enabled}"
                 app:layout_constraintBottom_toBottomOf="@+id/ev_chat"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/ev_chat" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:emptyState="@{viewModel.uiState }">
+
+            <ImageView
+                android:id="@+id/iv_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_empmty_chat"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen10"
+                android:gravity="center_horizontal"
+                android:text="카카오톡ID 등으로 대화를 유도하는 경우, \n피해가 있을 수 있으니 주의하세요!"
+                android:textAppearance="?caption2"
+                android:textColor="?grey_scale60"
+                app:layout_constraintEnd_toEndOf="@id/iv_empty"
+                app:layout_constraintStart_toStartOf="@id/iv_empty"
+                app:layout_constraintTop_toBottomOf="@id/iv_empty" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

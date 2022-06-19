@@ -26,7 +26,7 @@ class ChatMessageAdapter(
         fun bind(chat: Message) {
             binding.apply {
                 chatmessageTvMessage.text = chat.message
-                chatmessageTvDate.text = formattedDate
+                chatmessageTvDate.text = formattedDate //todo 일단 현재시간
             }
         }
     }
@@ -36,7 +36,7 @@ class ChatMessageAdapter(
         fun bind(chat: Message) {
             binding.apply {
                 chatmessageTvMessage.text = chat.message
-                chatmessageTvDate.text = formattedDate
+                chatmessageTvDate.text = formattedDate  //todo 일단 현재시간
             }
         }
     }
