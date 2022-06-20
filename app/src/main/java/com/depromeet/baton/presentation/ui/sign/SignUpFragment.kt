@@ -24,6 +24,7 @@ import com.depromeet.baton.presentation.ui.sign.SignUpViewModel.ViewEvent
 import com.depromeet.baton.presentation.util.viewLifecycle
 import com.depromeet.baton.presentation.util.viewLifecycleScope
 import com.depromeet.baton.util.BatonSpfManager
+import com.depromeet.baton.util.gpsConverter
 import com.naver.maps.geometry.LatLng
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
