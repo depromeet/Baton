@@ -262,7 +262,7 @@ class ChatController(
         else _emptyUiState.value = UIState.HasData
     }
 
-    private fun setMessage(message: String) {
+    fun setMessage(message: String) {
         currentMessage.set(message)
     }
 
