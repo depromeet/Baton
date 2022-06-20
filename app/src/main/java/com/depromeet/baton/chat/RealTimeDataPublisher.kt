@@ -2,6 +2,7 @@ package com.depromeet.baton.chat
 
 import android.os.Parcelable
 import android.text.Editable
+import android.util.Log
 import androidx.annotation.GuardedBy
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -120,21 +121,21 @@ class ChatRepository(
         return flow<List<Message>> {
             emit(
                 listOf(
-                    Message(1, State.DELIVERED, "이거 사줘줘하이하이하이하이하이하이줮줘주"),
-                    Message(1, State.DELIVERED, "하이"),
-                    Message(0, State.DELIVERED, "하하이하이이"),
-                    Message(1, State.DELIVERED, "하하이하이하이하이하이이"),
-                    Message(0, State.DELIVERED, "하이"),
-                    Message(0, State.DELIVERED, "하하하이하이하이하이하이하이하이하이하이하이하이하이하이하이하이이하이하이이"),
-                    Message(0, State.DELIVERED, "하이"),
-                    Message(1, State.DELIVERED, "이거 사줘줘하이하이하이하이하이하이줮줘주"),
-                    Message(1, State.DELIVERED, "하이"),
-                    Message(0, State.DELIVERED, "하하이하이이"),
-                    Message(1, State.DELIVERED, "하하이하이하이하이하이이"),
-                    Message(1, State.DELIVERED, "이거 사줘줘하이하이하이하이하이하이줮줘주"),
-                    Message(1, State.DELIVERED, "하이"),
-                    Message(0, State.DELIVERED, "하하이하이이"),
-                    Message(1, State.DELIVERED, "하하이하이하이하이하이이"),
+                    Message(1, State.SENT, "이거 사줘줘하이하이하이하이하이하이줮줘주"),
+                    Message(1, State.SENT, "하이"),
+                    Message(0, State.SENT, "하하이하이이"),
+                    Message(1, State.SENT, "하하이하이하이하이하이이"),
+                    Message(0, State.SENT, "하이"),
+                    Message(0, State.SENT, "하하하이하이하이하이하이하이하이하이하이하이하이하이하이하이하이이하이하이이"),
+                    Message(0, State.SENT, "하이"),
+                    Message(1, State.SENT, "이거 사줘줘하이하이하이하이하이하이줮줘주"),
+                    Message(1, State.SENT, "하이"),
+                    Message(0, State.SENT, "하하이하이이"),
+                    Message(1, State.SENT, "하하이하이하이하이하이이"),
+                    Message(1, State.SENT, "이거 사줘줘하이하이하이하이하이하이줮줘주"),
+                    Message(1, State.SENT, "하이"),
+                    Message(0, State.SENT, "하하이하이이"),
+                    Message(1, State.SENT, "하하이하이하이하이하이이"),
                 )
             )
         }

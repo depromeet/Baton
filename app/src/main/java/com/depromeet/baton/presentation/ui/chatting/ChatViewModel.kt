@@ -7,23 +7,24 @@ import androidx.lifecycle.viewModelScope
 import com.depromeet.baton.chat.*
 import com.depromeet.baton.domain.repository.AuthRepository
 import com.depromeet.baton.presentation.base.BaseViewModel
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Singleton
 
 @HiltViewModel
 class ChatViewModel @Inject constructor(
-    private val authRepository: AuthRepository,
-    //  private val chatRepository: ChatRepository,
-    private val savedStateHandle: SavedStateHandle
+    private val chatRepository: ChatRepository,
+    authRepository: AuthRepository,
+    savedStateHandle: SavedStateHandle
 ) : BaseViewModel() {
-
-
-    private val publisher: RealTimeDataPublisher = MemoryRealTimeDataPublisher()
-    private val chatRepository = ChatRepository(publisher)
 
     private val _chatRoomList = MutableLiveData<List<ChatRoom>>()
     val chatRoomList: LiveData<List<ChatRoom>> = _chatRoomList
@@ -34,7 +35,7 @@ class ChatViewModel @Inject constructor(
     }
 
     /** 채팅 이력 리스트에서 선택한 채팅방 */
-    var chatRoom = savedStateHandle.get<ChatRoom>(ChatRoomActivity.GO_CHAT_ROOM_KEY)
+    val chatRoom = savedStateHandle.get<ChatRoom>(ChatRoomActivity.GO_CHAT_ROOM_KEY)
         ?: ChatRoom(authRepository.authInfo?.userId!!, 2, "", "")
     val chatController = ChatController(chatRoom, chatRepository, viewModelScope)
 
@@ -75,13 +76,8 @@ class ChatViewModel @Inject constructor(
                     )
                 )
 
-                //todo
-                /* chatRepository.getChatRoom()
-               when (it) {
-                   is UIState.Success<*> -> {
-                   //  _chatRoomList.value  = it.data as List<ChatRoom>
-                   }
-               }*/
+                //todo chatRepository.getChatRoom()
+
             }.onSuccess {
             }.onFailure {
                 Timber.e(it.toString())
@@ -95,6 +91,7 @@ class ChatViewModel @Inject constructor(
     }
 }
 
+//todo 분리
 class MemoryRealTimeDataPublisher : RealTimeDataPublisher {
     private val _objs = MutableSharedFlow<RealTimeData>(replay = 100)
 
@@ -107,3 +104,20 @@ class MemoryRealTimeDataPublisher : RealTimeDataPublisher {
     }
 }
 
+//todo 분리
+@Module
+@InstallIn(SingletonComponent::class)
+object ChatModule {
+
+    @Provides
+    @Singleton
+    fun provideRealTimeDataPublisher(): RealTimeDataPublisher {
+        return MemoryRealTimeDataPublisher()
+    }
+
+    @Provides
+    @Singleton
+    fun provideChatRepository(publisher: RealTimeDataPublisher): ChatRepository {
+        return ChatRepository(publisher)
+    }
+}
