@@ -30,9 +30,13 @@ class LikeTicketFragment : BaseFragment<FragmentLikeTicketBinding>(R.layout.frag
         BookMarkItemRvAdapter( requireContext(), ::setTicketItemClickListener, ::setTicketBookmarkListener)
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getBookMarkList()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getBookMarkList()
         initRecyclerView()
         setOnBackPressed()
         setObserver()

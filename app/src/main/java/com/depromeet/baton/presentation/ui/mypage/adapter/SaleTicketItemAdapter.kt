@@ -24,6 +24,7 @@ import com.depromeet.baton.presentation.util.dateFormatUtil
 import com.depromeet.baton.presentation.util.distanceFormatUtil
 import com.depromeet.baton.presentation.util.priceFormat
 import com.depromeet.bds.utils.toPx
+import timber.log.Timber
 
 class SaleTicketItemAdapter(
     private val context: Context,
@@ -99,17 +100,27 @@ class SaleTicketItemAdapter(
                     2-> "필라테스"
                     else-> "ETC"
                 }
-
-
-                if(item.ticket.data.state == TicketStatus.SALE.value){
-                    itemSaleStatusView.visibility = View.GONE
-                    itemSaleStatusChip.visibility =View.GONE
-                }else{
-                    val resource= setUi(TicketStatus.valueOf(item.ticket.data.state) )
-                    itemSaleStatusIc.setImageResource(resource.icon)
-                    itemSaleStatusTv.text = resource.title
-                    itemSaleStatusChip.text = resource.title
-                    if(item.ticket.data.state==TicketStatus.RESERVED.value) itemSaleMenuBtn.visibility=View.GONE
+                when(item.ticket.data.state){
+                     TicketStatus.SALE.name ->{
+                         itemSaleStatusView.visibility = View.GONE
+                         itemSaleStatusChip.visibility =View.GONE
+                         itemSaleGap.visibility = View.GONE
+                     }
+                    TicketStatus.RESERVED.name->{
+                        val resource= setUi(TicketStatus.RESERVED)
+                        itemSaleStatusIc.setImageResource(resource.icon)
+                        itemSaleStatusTv.text = resource.title
+                        itemSaleStatusChip.text = resource.title
+                        itemSaleStatusView.visibility = View.VISIBLE
+                    }
+                    TicketStatus.DONE.name->{
+                        val resource= setUi(TicketStatus.DONE)
+                        itemSaleStatusIc.setImageResource(resource.icon)
+                        itemSaleStatusTv.text = resource.title
+                        itemSaleStatusChip.text = resource.title
+                        itemSaleMenuBtn.visibility=View.GONE
+                        itemSaleStatusView.visibility = View.VISIBLE
+                    }
                 }
 
                 if(item.ticket.data.mainImage !=null)
@@ -118,8 +129,7 @@ class SaleTicketItemAdapter(
                     .transform(CenterCrop(), RoundedCorners(4.toPx()))
                     .into(binding.itemSaleImageIv)
                 else{
-                    if(item.ticket.data.type!=null)setEmptyImage(TicketKind.valueOf(item.ticket.data.type!!).ordinal, itemSaleImageIv)
-                    //TODO type 요청
+                    setEmptyImage(item.ticket.data.type, itemSaleImageIv)
                 }
 
                 itemSaleMenuBtn.setOnClickListener {
@@ -178,16 +188,16 @@ class SaleTicketItemAdapter(
         when(state){
             TicketStatus.SALE -> return TicketStateUi.SaleUi
             TicketStatus.RESERVED ->return TicketStateUi.ReservationUi
-            TicketStatus.SOLDOUT ->return  TicketStateUi.SoldoutUi
+            TicketStatus.DONE ->return  TicketStateUi.SoldoutUi
         }
     }
 
-    private fun setEmptyImage(ticket: Int ,view:ImageView) {
-        when (ticket % 4) {
-            0 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_health_86)
-            1 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_pt_86)
-            2 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_pilates_86)
-            3 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_etc_86)
+    private fun setEmptyImage(type : String ,view:ImageView) {
+        when (type) {
+            TicketKind.HEALTH.name -> view.setImageResource(com.depromeet.bds.R.drawable.ic_img_empty_health_44)
+            TicketKind.PT.name-> view.setImageResource(com.depromeet.bds.R.drawable.ic_img_empty_pt_44)
+            TicketKind.PILATES_YOGA.name-> view.setImageResource(com.depromeet.bds.R.drawable.ic_img_empty_pilates_44)
+            TicketKind.ETC.name -> view.setImageResource(com.depromeet.bds.R.drawable.ic_img_empty_etc_44)
         }
     }
 

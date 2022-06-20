@@ -88,6 +88,7 @@ data class AddAccountUiState(
     val onBankSelected: (String) -> Unit,
     val onAccountChanged: (Editable?) -> Unit,
     val onBankSelectionClick: () -> Unit,
+    val onClickSubmit : () -> Unit
 ) {
     private val isNameValid = name.isNotBlank() && RegexConstant.ONLY_COMPLETE_HANGLE.matches(name)
 
@@ -118,6 +119,7 @@ class AddAccountViewModel @Inject constructor() : BaseViewModel() {
             onBankSelected = ::handleBankSelected,
             onAccountChanged = ::handleAccountChanged,
             onBankSelectionClick = ::handleBankSelectionClick,
+            onClickSubmit = ::submit
         )
     }
 
@@ -137,6 +139,12 @@ class AddAccountViewModel @Inject constructor() : BaseViewModel() {
         val currentBank = uiState.value.bank
         addViewEvent(ViewEvent.OpenBankSelection(currentBank))
     }
+
+    private fun submit(){
+        addViewEvent(ViewEvent.AddAccountDone)
+    }
+
+
 
     private fun addViewEvent(viewEvent: ViewEvent) {
         _viewEvents.update { it + viewEvent }

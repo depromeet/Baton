@@ -73,7 +73,7 @@ data class SignUpInfoUiState(
         if (RegexConstant.ONLY_COMPLETE_HANGLE.matches(name)) null
         else "올바른 이름을 입력해주세요."
     val nickNameErrorReason =
-        if (RegexConstant.ONLY_COMPLETE_HANGLE_SPACE.matches(nickName)) null
+        if (RegexConstant.NICKNAME_REGEX.matches(nickName)) null
         else "올바른 닉네임을 입력해주세요."
     val phoneNumberErrorReason =
         if (RegexConstant.ONLY_NUMBERS.matches(phoneNumber) && phoneNumber.length == 11) null

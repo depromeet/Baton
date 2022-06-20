@@ -1,5 +1,6 @@
 package com.depromeet.baton.remote.ticket
 
+import com.depromeet.baton.data.response.ResponseTicketInfo
 import com.depromeet.baton.domain.model.TicketInfo
 import com.depromeet.baton.domain.model.TicketSimpleInfo
 import com.squareup.moshi.Json
@@ -30,8 +31,21 @@ interface TicketInfoService {
         @Query("latitude") latitude : Float,
         @Query("maxDistance") distance:Int,
     ): Response<TicketQueryResponse>
+
+
+    @PUT("/search/ticket/info/{id}")
+    suspend fun updateTicketState(
+        @Path("id") ticketId :Int,
+        @Body ticketState: TicketStateRequest
+    ): Response<ResponseTicketInfo>
+
 }
 
 data class TicketQueryResponse(
     @Json(name="content")val content : List<TicketSimpleInfo>
+)
+
+
+data class TicketStateRequest(
+    val ticketState: String
 )
