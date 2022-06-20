@@ -51,7 +51,7 @@
                                 android:layout_gravity="center"
                                 android:src="@{ticketState.ticket.emptyIcon}"
                                 app:isVisible="@{ticketState.sellViewisVisible}"
-                                app:tint="?grey_scale60" />
+                                 />
 
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/ticket_detail_img_rv"

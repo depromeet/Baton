@@ -1,12 +1,14 @@
 package com.depromeet.baton.presentation.ui.sign
 
 import android.app.Activity
+import android.app.Application
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
@@ -20,6 +22,7 @@ import com.depromeet.baton.presentation.ui.address.model.AddressInfo
 import com.depromeet.baton.presentation.ui.sign.SignUpAddressViewModel.ViewEvent
 import com.depromeet.baton.presentation.util.viewLifecycle
 import com.depromeet.baton.presentation.util.viewLifecycleScope
+import com.depromeet.baton.util.gpsConverter
 import com.depromeet.baton.util.showToast
 import com.depromeet.bds.component.BdsSearchBar
 import dagger.hilt.android.AndroidEntryPoint
@@ -128,8 +131,9 @@ data class SignUpAddressUiState(
 @OptIn(FlowPreview::class)
 @HiltViewModel
 class SignUpAddressViewModel @Inject constructor(
+    application : Application,
     private val searchAddressUseCase: SearchAddressUseCase,
-) : BaseViewModel() {
+) : AndroidViewModel(application){
 
     private val _uiState: MutableStateFlow<SignUpAddressUiState> = MutableStateFlow(createState())
     val uiState = _uiState.asStateFlow()
@@ -149,14 +153,15 @@ class SignUpAddressViewModel @Inject constructor(
     }
 
     fun handleAddressClick(addressInfo: AddressInfo) {
+        val location = gpsConverter(getApplication(), addressInfo.roadAddress)
         addViewEvent(
             ViewEvent.ToAddressDetailSetting(
                 //TODO: Latitude... longitude ...
                 AddressData(
                     addressInfo.roadAddress,
                     addressInfo.address,
-                    0f,
-                    0f
+                    latitude= location.latitude.toFloat(),
+                    longitude = location.longitude.toFloat()
                 )
             )
         )
