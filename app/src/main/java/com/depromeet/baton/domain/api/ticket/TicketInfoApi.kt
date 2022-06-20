@@ -1,9 +1,13 @@
 package com.depromeet.baton.domain.api.ticket
 
+import com.depromeet.baton.data.response.ResponseTicketInfo
+import com.depromeet.baton.data.response.TicketSearchResponse
 import com.depromeet.baton.domain.model.TicketInfo
 import com.depromeet.baton.domain.model.TicketSimpleInfo
+import com.depromeet.baton.map.util.NetworkResult
 import com.depromeet.baton.remote.ticket.TicketInfoService
 import com.depromeet.baton.remote.ticket.TicketQueryResponse
+import com.depromeet.baton.remote.ticket.TicketStateRequest
 import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -23,4 +27,8 @@ class TicketInfoApi @Inject constructor(
    suspend fun getMoreTicket( size:Int, longitude : Float , latitude:Float, distance : Int) :Response<TicketQueryResponse>{
        return service.getMoreTicket(size=size, longitude = longitude, latitude = latitude, distance = distance)
    }
+
+    suspend fun updateTicketState(ticketId: Int, state : String) : Response<ResponseTicketInfo>{
+        return service.updateTicketState(ticketId, TicketStateRequest(state))
+    }
 }
