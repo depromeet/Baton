@@ -106,7 +106,6 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
     }
 
     private fun onClickLogoutConfirm(){
-        //TODO logout logic
         myPageViewModel.logout() //sharedPreference 모두 삭제
         logoutDialog.dismiss()
         val intent = Intent(requireActivity(), SignActivity::class.java)
