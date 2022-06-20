@@ -22,7 +22,7 @@ class ChatMessageAdapter(
         fun bind(chat: Message) {
             binding.apply {
                 chatmessageTvMessage.text = chat.message
-                chatmessageTvDate.text = getChatDate() //todo 일단 현재시간
+                chatmessageTvDate.text = getChatTime() //todo 일단 현재시간
             }
         }
     }
@@ -33,7 +33,7 @@ class ChatMessageAdapter(
             binding.apply {
                 profileImg = receiverProfileImg
                 chatmessageTvMessage.text = chat.message
-                chatmessageTvDate.text = getChatDate()  //todo 일단 현재시간
+                chatmessageTvDate.text = getChatTime()  //todo 일단 현재시간
             }
         }
     }
@@ -64,7 +64,7 @@ class ChatMessageAdapter(
         else RECEIVER_CHAT
     }
 
-    private fun getChatDate(): String {
+    private fun getChatTime(): String {
         val date = Date(System.currentTimeMillis())
         val simpleDateFormat = SimpleDateFormat("yyyy:MM:dd hh:mm:ss aa", Locale("ko", "KR"))
         val strDate = simpleDateFormat.format(date)

@@ -34,7 +34,8 @@ class ChatViewModel @Inject constructor(
     }
 
     /** 채팅 이력 리스트에서 선택한 채팅방 */
-    var chatRoom = savedStateHandle.get<ChatRoom>(ChatRoomActivity.GO_CHAT_ROOM_KEY) ?: ChatRoom(authRepository.authInfo?.userId!!, 2, "", "")
+    var chatRoom = savedStateHandle.get<ChatRoom>(ChatRoomActivity.GO_CHAT_ROOM_KEY)
+        ?: ChatRoom(authRepository.authInfo?.userId!!, 2, "", "")
     val chatController = ChatController(chatRoom, chatRepository, viewModelScope)
 
     /** 채팅 이력 리스트에서 선택한 채팅방에서 채팅 시작 */
@@ -43,12 +44,12 @@ class ChatViewModel @Inject constructor(
         chatController.receiveMessages()
     }
 
-    //todo
+    //todo 채팅이력 가져오기 api
     private fun getChatRoomList() {
         viewModelScope.launch {
             runCatching {
 
-                //todo  ChatRoom 임시
+                //todo  ChatRoom list 임시
                 _chatRoomList.value = listOf(
                     ChatRoom(
                         senderId = 1,

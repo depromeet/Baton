@@ -1,7 +1,6 @@
 package com.depromeet.baton.presentation.ui.chatting
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import com.depromeet.baton.R
@@ -27,7 +26,7 @@ class ChatRoomListFragment : BaseFragment<FragmentChattingBinding>(R.layout.frag
             rvChatList.adapter = chatRoomAdapter
         }
 
-        //todo
+        //todo 채팅 이력 리스트 넘기기
         chatViewModel.chatRoomList.observe(viewLifecycleOwner) { chatRoomList ->
             chatRoomAdapter.submitList(chatRoomList)
         }
