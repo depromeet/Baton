@@ -329,7 +329,8 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     private val reportItemClick = object : BottomSheetFragment.Companion.OnItemClick {
         override fun onSelectedItem(selected: BottomMenuItem, index: Int) {
             this@TicketDetailActivity.BdsToast("신고가 접수되었습니다.", binding.ticketDetailFooter.top).show()
-            viewModel.reportTicket(index)
+            viewModel.deleteTicket()
+            //viewModel.reportTicket(index)
         }
     }
 
@@ -337,7 +338,8 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     private val reportSellerItemClick = object : BottomSheetFragment.Companion.OnItemClick {
         override fun onSelectedItem(selected: BottomMenuItem, index: Int) {
             this@TicketDetailActivity.BdsToast("신고가 접수되었습니다.", binding.ticketDetailFooter.top).show()
-            viewModel.reportSeller(index) // TODO 글과 유저 신고 분리
+            viewModel.deleteTicket()
+            //viewModel.reportSeller(index) // TODO 글과 유저 신고 분리
         }
     }
 

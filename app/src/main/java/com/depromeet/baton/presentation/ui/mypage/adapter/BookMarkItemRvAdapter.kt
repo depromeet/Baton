@@ -52,7 +52,7 @@ class BookMarkItemRvAdapter(
 
                 ticket = FilteredTicket(item.ticket.id, item.ticket.location, item.ticket.address, priceFormat(item.ticket.price.toFloat()), item.ticket.mainImage
                     ,item.ticket.tags,remainDay, remainNumber, item.ticket.latitude, item.ticket.longitude,
-                    distanceFormatUtil(item.ticket.distance), badge)
+                    item.ticket.distance.toInt().toString(), badge)
                 executePendingBindings()
 
                 ctvItemTicketLike.isChecked=true

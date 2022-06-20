@@ -61,6 +61,10 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         myPageViewModel.getProfile()
         with(binding){
             mypageSaleHistoryCd.setOnClickListener {
+                if(saleHistoryFragment.isAdded){
+                    requireActivity().supportFragmentManager.beginTransaction().remove(saleHistoryFragment).commit()
+                    saleHistoryFragment=SaleHistoryFragment()
+                }
                 replaceFragment(saleHistoryFragment)
             }
             mypagePurchaseCd.setOnClickListener {
@@ -163,38 +167,10 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
     }
 
 
-    private fun setBackPressed(){
-        callback= object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                // 뒤로가기 눌렀을 때 동작할 코드
-              if( this@MyPageFragment.isAdded
-                  &&  requireActivity().supportFragmentManager.fragments.map { it.tag }.contains("myPageFragment")
-                  && requireActivity().supportFragmentManager.fragments.size>2){
-                  requireActivity().supportFragmentManager.popBackStack()
-               }else{
-                  requireActivity().finish()
-               }
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(this@MyPageFragment, callback)
-    }
-
-
     private fun replaceFragment(fragment: Fragment, tag :String?=null){
        requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container_view,fragment,tag)
             .addToBackStack(null).commit()
-    }
-
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        setBackPressed()
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        callback.remove()
     }
 
 }
