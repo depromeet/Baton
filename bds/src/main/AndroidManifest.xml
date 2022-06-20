@@ -2,8 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.depromeet.bds">
-
+<!--
     <application
         android:theme="@style/BatonTheme"
-        tools:node="remove" />
+        tools:node="remove" />-->
+
 </manifest>
