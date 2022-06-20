@@ -57,17 +57,13 @@ class MyLocationViewModel @Inject constructor(
         addressUseCase.getMyAddress().collect { values ->
             when (values) {
                 is NetworkResult.Success -> {
-                    _res.value = values
-                    if (values.data!!.address.roadAddress == "") {
-                        getRoadAddress(values.data!!.address.address)
-                    } else {
+                        _res.value = values
                         _roadState.value = values.data!!.address.roadAddress
                         _jibunState.value = "[지번]${values.data!!.address.address}"
                         _uiState.value = (UIState.HasData)
                         addressUseCase.stopLocationUpdate()
                         spfManager.saveAddress(values.data!!.address.roadAddress, values.data!!.address.address)
                         spfManager.saveLocation(values.data!!.location)
-                    }
                 }
                 is NetworkResult.Error -> {
                     Timber.e(values.message)
@@ -81,54 +77,5 @@ class MyLocationViewModel @Inject constructor(
         }
     }
 
-
-    private fun getRoadAddress(jibun: String) {
-       var RETRY_COUNT = 0
-       viewModelScope.launch {
-            searchAddressUseCase.searchAddress(jibun).collect {
-                when (it) {
-                    is SearchItem.Content -> {
-                        _roadState.value = it.data!!.get(0).roadAddress
-                        _jibunState.value = "[지번]${jibun}"
-                        _uiState.value = (UIState.HasData)
-                        addressUseCase.stopLocationUpdate()
-                        this.cancel()
-                    }
-                    is SearchItem.Empty -> {
-                        if (RETRY_COUNT >3){
-                            _uiState.value = (UIState.NoData)
-                            _snackbarText.value = Event("위치정보를 찾을 수 없습니다")
-                            addressUseCase.stopLocationUpdate()
-                            this.cancel()
-                        }
-                        RETRY_COUNT++
-                    }
-                }
-            }
-        }
-    }
-
-    fun gpsToAddress(location: LatLng) = viewModelScope.launch {
-        _uiState.value = (UIState.Loading)
-        addressUseCase.gpsConverter(location).collect { values ->
-            when (values) {
-                is NetworkResult.Success -> {
-                    if (values.data!!.address.roadAddress == "") {
-                        getRoadAddress(values.data!!.address.address)
-                    } else {
-                        _roadState.value = values.data!!.address.roadAddress
-                        _jibunState.value = values.data!!.address.address
-                        _uiState.value = (UIState.HasData)
-                    }
-                }
-                is NetworkResult.Error -> {
-                    Timber.e(values.message)
-                }
-                is NetworkResult.Loading -> {
-                    _uiState.value = (UIState.Loading)
-                }
-            }
-        }
-    }
 
 }

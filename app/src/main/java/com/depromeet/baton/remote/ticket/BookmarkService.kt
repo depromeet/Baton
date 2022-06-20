@@ -25,6 +25,7 @@ data class BookmarkRequest(
 )
 
 data class BookmarkResponse(
+    @Json(name="id") val id : Int,
     @Json(name="user") val user : Int,
     @Json(name="ticket") val ticket : Int
 )

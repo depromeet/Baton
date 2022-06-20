@@ -1,5 +1,6 @@
 package com.depromeet.baton.domain.repository
 
+import com.depromeet.baton.data.response.ResponseTicketInfo
 import com.depromeet.baton.domain.api.search.SearchApi
 import com.depromeet.baton.domain.api.ticket.TicketInfoApi
 import com.depromeet.baton.domain.di.IoDispatcher
@@ -36,5 +37,9 @@ class TicketInfoRepository  @Inject constructor(
 
     suspend fun getMoreTicket(size : Int,  log :Float, lat :Float, distance: Int) :NetworkResult<TicketQueryResponse>{
         return withContext(ioDispatcher){ safeApiCall { ticketApi.getMoreTicket(size,log,lat,distance) }}
+    }
+
+    suspend fun updateTicketState(ticketId: Int, state : String) : NetworkResult<ResponseTicketInfo>{
+        return withContext(ioDispatcher){safeApiCall { ticketApi.updateTicketState(ticketId, state) }}
     }
 }

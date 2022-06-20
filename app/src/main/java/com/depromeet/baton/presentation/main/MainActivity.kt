@@ -83,7 +83,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        finish()
+       //finish()
     }
 
     companion object {

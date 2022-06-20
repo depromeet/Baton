@@ -36,11 +36,11 @@ import timber.log.Timber
 @AndroidEntryPoint
 class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page) {
 
-    private val myPageViewModel  by  viewModels<MyPageViewModel>()
+    private val myPageViewModel  by  viewModels<MyPageViewModel>(ownerProducer = {requireActivity()})
 
-    private val saleHistoryFragment by lazy{ SaleHistoryFragment()}
+    private var saleHistoryFragment = SaleHistoryFragment()
     private val purchaseHistoryFragment by lazy { PurchaseHistoryFragment() }
-    private val likeTicketFragment by lazy{ LikeTicketFragment() }
+    private var likeTicketFragment = LikeTicketFragment()
     private val profileEditFragment by lazy{ ProfileFragment() }
     private val notificationFragment by lazy{ NotificationFragment() }
     private val serviceTermFragment by lazy { ServiceTermFragment() }
@@ -61,12 +61,20 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         myPageViewModel.getProfile()
         with(binding){
             mypageSaleHistoryCd.setOnClickListener {
+                if(saleHistoryFragment.isAdded){
+                    requireActivity().supportFragmentManager.beginTransaction().remove(saleHistoryFragment).commit()
+                    saleHistoryFragment=SaleHistoryFragment()
+                }
                 replaceFragment(saleHistoryFragment)
             }
             mypagePurchaseCd.setOnClickListener {
                 replaceFragment(purchaseHistoryFragment)
             }
             mypageLikeCd.setOnClickListener {
+                if(likeTicketFragment.isAdded){
+                    requireActivity().supportFragmentManager.beginTransaction().remove(likeTicketFragment).commit()
+                    likeTicketFragment= LikeTicketFragment()
+                }
                 replaceFragment(likeTicketFragment)
             }
             mypageProfileIv.setOnClickListener {
@@ -102,7 +110,6 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
     }
 
     private fun onClickLogoutConfirm(){
-        //TODO logout logic
         myPageViewModel.logout() //sharedPreference 모두 삭제
         logoutDialog.dismiss()
         val intent = Intent(requireActivity(), SignActivity::class.java)
@@ -125,7 +132,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         myPageViewModel.uiState
             .flowWithLifecycle(viewLifecycle)
             .onEach { uiState ->
-                run{
+                run{ 
                     binding.uiState =uiState
                     Glide.with(requireContext())
                         .load(uiState.profileImage)
@@ -160,43 +167,10 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
     }
 
 
-    private fun setBackPressed(){
-        callback= object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                // 뒤로가기 눌렀을 때 동작할 코드
-               if(this@MyPageFragment.isAdded && childFragmentManager.fragments.isNotEmpty()){
-                   clearBackStack()
-               }else{
-                  //TODO 앱종료 처리
-                   requireActivity().finishAffinity()
-               }
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(this@MyPageFragment, callback)
-    }
-
-
     private fun replaceFragment(fragment: Fragment, tag :String?=null){
-        childFragmentManager.beginTransaction()
+       requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container_view,fragment,tag)
             .addToBackStack(null).commit()
-    }
-
-    private fun clearBackStack() {
-        val fragmentManager = childFragmentManager
-        while (fragmentManager.backStackEntryCount !== 0) {
-            fragmentManager.popBackStackImmediate()
-        }
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        setBackPressed()
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        callback.remove()
     }
 
 }

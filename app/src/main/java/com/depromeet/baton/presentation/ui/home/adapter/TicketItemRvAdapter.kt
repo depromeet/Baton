@@ -54,10 +54,10 @@ class TicketItemRvAdapter(
 
                 //좋아요 버튼 todo 서버연결
                 ctvItemTicketLike.visibility= View.INVISIBLE
-               // setLikeBtnClickListener(ctvItemTicketLike, item)
+                // setLikeBtnClickListener(ctvItemTicketLike, item)
 
                 //엠티뷰
-                setEmptyImage(ticket.type ?: "기타", ivItemEmpty)
+                setEmptyImage(item.type ?: "기타", ivItemEmpty)
 
                 //상세페이지로
                 root.setOnClickListener { clickListener(item) }

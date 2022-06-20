@@ -312,6 +312,8 @@ open class FilterSearchViewModel @Inject constructor(
 
     /** ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ필터 전체 리셋 관리ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
     fun filterReset() {
+        _searchQuery.value = ""
+
         _isResetClick.value = true
         //가격 초기화
         _priceRange.value = Pair(TermFragment.MIN, TermFragment.PRICE_MAX)
@@ -676,7 +678,8 @@ open class FilterSearchViewModel @Inject constructor(
 
     /** 필터링된 양도권 리스트 가져오기 */
     fun updateFilteredTicketList() {
-        _searchQuery.value = ""
+
+        if (!searchMyQuery.value.isNullOrEmpty()) return
 
         viewModelScope.launch {
             kotlin.runCatching {
@@ -704,22 +707,20 @@ open class FilterSearchViewModel @Inject constructor(
                     canNego = if (isBargainingChecked.value == false) null else isBargainingChecked.value,
                 )
             }.onSuccess {
-                if (_searchQuery.value == "") {
-                    when (it) {
-                        is UIState.Success<*> -> {
-                            @Suppress("UNCHECKED_CAST")
-                            _filteredTicketList.value = it.data as List<FilteredTicket>
-                            _filteredTicketList.value = _filteredTicketList.value
-                            _ticketCount.value = _filteredTicketList.value!!.size
+                when (it) {
+                    is UIState.Success<*> -> {
+                        @Suppress("UNCHECKED_CAST")
+                        _filteredTicketList.value = it.data as List<FilteredTicket>
+                        _filteredTicketList.value = _filteredTicketList.value
+                        _ticketCount.value = _filteredTicketList.value!!.size
 
-                            if (ticketCount.value != 0) {
-                                _filteredTicketUiState.value = UIState.HasData
-                            } else {
-                                _filteredTicketUiState.value = UIState.NoData
-                            }
+                        if (ticketCount.value != 0) {
+                            _filteredTicketUiState.value = UIState.HasData
+                        } else {
+                            _filteredTicketUiState.value = UIState.NoData
                         }
-                        else -> _filteredTicketUiState.value = UIState.Loading
                     }
+                    else -> _filteredTicketUiState.value = UIState.Loading
                 }
             }.onFailure {
                 _filteredTicketUiState.value = UIState.Loading
@@ -728,16 +729,12 @@ open class FilterSearchViewModel @Inject constructor(
         }
     }
 
-    init{
-
-    }
-
     /** 검색결과 리스트 가져오기 */
     fun getSearchResultTicketList(query: String) {
         _filteredTicketUiState.value = UIState.Loading
 
-        _searchQuery.value = query
-        when (_searchQuery.value) {
+
+        when (query) {
             HashTag.KIND_TEACHER.value.removePrefix("#") -> return
             HashTag.SYSTEMATIC_CLASS.value.removePrefix("#") -> return
             HashTag.CUSTOMIZED_CARE.value.removePrefix("#") -> return
@@ -757,6 +754,7 @@ open class FilterSearchViewModel @Inject constructor(
 
         filterReset()
 
+        setMyQuery(query)
         if (query == "") {
             updateFilteredTicketList()
             return
@@ -770,15 +768,14 @@ open class FilterSearchViewModel @Inject constructor(
                     query = query
                 )
             }.onSuccess {
-                if (_searchQuery.value != "") {
+                if (!_searchMyQuery.value.isNullOrEmpty()) {
                     when (it) {
                         is UIState.Success<*> -> {
                             filterReset()
                             @Suppress("UNCHECKED_CAST")
                             _filteredTicketList.value = it.data as List<FilteredTicket>
                             _ticketCount.value = _filteredTicketList.value!!.size
-
-                            if (_ticketCount.value != 0) {
+                            if (!_filteredTicketList.value.isNullOrEmpty()) {
                                 _filteredTicketUiState.value = UIState.HasData
                             } else if (_filteredTicketList.value.isNullOrEmpty() || _ticketCount.value == 0) {
                                 _filteredTicketUiState.value = UIState.NoData
@@ -798,4 +795,12 @@ open class FilterSearchViewModel @Inject constructor(
     private fun setQuery(query: String) {
         _searchQuery.value = query
     }
+
+    private fun setMyQuery(query: String) {
+        _searchMyQuery.value = query
+    }
+
+    //검색 쿼리
+    private val _searchMyQuery = MutableLiveData<String>()
+    val searchMyQuery: LiveData<String> = _searchMyQuery
 }
