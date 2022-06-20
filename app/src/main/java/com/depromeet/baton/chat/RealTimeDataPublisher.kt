@@ -37,9 +37,6 @@ interface RealTimeDataPublisher {
 }
 
 // TODO: 프로토콜 명세 적용할 것
-//서버에서 준 스펙 이거고 이 정보 보내면 소켓에 실러 보내겠다고 했는데 우리는 이 정보를 기존에 알 방법 없음
-//이걸 받아온다는 거 정도만 알 수 있고 기타 커뮤니케이션 모름
-//얘네는 소켓 레벨에서 관리하는 레벨
 data class RealTimeMessage(
     val senderId: Int,
     val receiverId: Int,
@@ -56,18 +53,18 @@ enum class State {
     READ
 }
 
-//ChatRoom은 서버 스펙에 맞춰 갈거임 이런거 다 서버쪽에서 주긴 할텐데
-//그 전에 얘네를 받아오는 api가 없어서 이부분 고민 필요
-//보내는,받는이의 아이디를 통해 채팅룸은 분리 가능
-//채팅룸이랑 메시지를 화면에 필요한 코드로 mapping하는 코드를 넣어도 됨
-//레포지토리 레벨에서 관리하는 객체들이라고 생각
-//나는 ChatRoom이랑 flow로 받아오는 Message로 ui그리면 됨
+//todo 다빈: 채팅이력 ChatRoom 임시
 @Parcelize
 data class ChatRoom(
     val senderId: Int,
     val receiverId: Int,
     val senderName: String,
     val receiverName: String,
+    val shopName: String? = null, //임시
+    val LastMessage: String? = null, //임시
+    val messageCount: Int? = null, //임시
+    val receiverProfileImg:String?=null, //임시
+    val howOld:Int?=null //임시
 ) : Parcelable
 
 data class Message(
@@ -75,7 +72,6 @@ data class Message(
     val state: State,
     val message: String,
 )
-
 
 class ChatRepository(
     private val publisher: RealTimeDataPublisher,
@@ -92,8 +88,6 @@ class ChatRepository(
     private val counter = AtomicInteger(0)
     private var job: Job? = null
 
-    //레포지토리 사용시 start호출하고 끝날때 stop호출해라
-    //웹소켓 받아오는 일을 종료하고 싶어서 이건 그냥 규약처럼 써라
     fun start() {
         if (counter.getAndIncrement() == 0) {
             synchronized(this) { job = receiveRealTimeMessages() }
@@ -158,8 +152,6 @@ class ChatRepository(
         return MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
     }
 
-    //메시지 받고 싶을때->채팅방정보와 메시지를 보내면 얘가 알아서 소켓에 쏠거임
-//사용자가 전송 누를때 이 함수 호출
     suspend fun send(room: ChatRoom, message: Message) {
         publisher.send(message.toRealTimeMessage(room))
     }

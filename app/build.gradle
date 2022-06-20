@@ -110,6 +110,7 @@ dependencies {
     implementation(Dep.imagepicker)
 
     implementation(Dep.stickyScrollView)
+    implementation(Dep.circleimageview)
 
     testImplementation(Dep.Test.junit)
     androidTestImplementation(Dep.AndroidTest.core)

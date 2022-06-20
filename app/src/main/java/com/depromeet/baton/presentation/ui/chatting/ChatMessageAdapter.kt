@@ -5,70 +5,75 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.baton.chat.Message
-import com.depromeet.baton.databinding.ItemMyChatBinding
-import com.depromeet.baton.databinding.ItemOtherChatBinding
+import com.depromeet.baton.databinding.ItemReceiverChatBinding
+import com.depromeet.baton.databinding.ItemSenderChatBinding
 import com.depromeet.baton.util.SimpleDiffUtil
 import java.text.SimpleDateFormat
 import java.util.*
 
 
 class ChatMessageAdapter(
-    private val userId: Int
+    private val userId: Int,
+    private val receiverProfileImg: String
 ) : ListAdapter<Message, RecyclerView.ViewHolder>(SimpleDiffUtil()) {
-    private val date = Date(System.currentTimeMillis())
-    private val sdf = SimpleDateFormat("yyyy:MM:dd hh:mm:ss aa", Locale("ko", "KR"))
-    private val strDate = sdf.format(date)
-    private val hour = if (strDate.slice(20..21) == "오후") (strDate.slice(11..12).toInt() + 12).toString() else strDate.slice(11..12)
-    private val formattedDate = strDate.slice(20..21) + " " + hour + strDate.slice(13..15)
 
-    inner class MyChatItemViewHolder(private val binding: ItemMyChatBinding) :
+    inner class SenderChatItemViewHolder(private val binding: ItemSenderChatBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(chat: Message) {
             binding.apply {
                 chatmessageTvMessage.text = chat.message
-                chatmessageTvDate.text = formattedDate //todo 일단 현재시간
+                chatmessageTvDate.text = getChatDate() //todo 일단 현재시간
             }
         }
     }
 
-    inner class OtherChatItemViewHolder(private val binding: ItemOtherChatBinding) :
+    inner class ReceiverChatItemViewHolder(private val binding: ItemReceiverChatBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(chat: Message) {
             binding.apply {
+                profileImg = receiverProfileImg
                 chatmessageTvMessage.text = chat.message
-                chatmessageTvDate.text = formattedDate  //todo 일단 현재시간
+                chatmessageTvDate.text = getChatDate()  //todo 일단 현재시간
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == MY_CHAT) {
-            MyChatItemViewHolder(
-                ItemMyChatBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return if (viewType == SENDER_CHAT) {
+            SenderChatItemViewHolder(
+                ItemSenderChatBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             )
         } else {
-            OtherChatItemViewHolder(
-                ItemOtherChatBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ReceiverChatItemViewHolder(
+                ItemReceiverChatBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             )
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (getItemViewType(position) == MY_CHAT) {
-            (holder as MyChatItemViewHolder).bind(currentList[position])
+        if (getItemViewType(position) == SENDER_CHAT) {
+            (holder as SenderChatItemViewHolder).bind(currentList[position])
         } else {
-            (holder as OtherChatItemViewHolder).bind(currentList[position])
+            (holder as ReceiverChatItemViewHolder).bind(currentList[position])
         }
     }
 
     override fun getItemViewType(position: Int): Int {
         return if (userId == currentList[position].senderId)
-            MY_CHAT
-        else OTHER_CHAT
+            SENDER_CHAT
+        else RECEIVER_CHAT
+    }
+
+    private fun getChatDate(): String {
+        val date = Date(System.currentTimeMillis())
+        val simpleDateFormat = SimpleDateFormat("yyyy:MM:dd hh:mm:ss aa", Locale("ko", "KR"))
+        val strDate = simpleDateFormat.format(date)
+        val hour = if (strDate.slice(20..21) == "오후") (strDate.slice(11..12).toInt() + 12).toString() else strDate.slice(11..12)
+        return strDate.slice(20..21) + " " + hour + strDate.slice(13..15)
     }
 
     companion object {
-        private const val MY_CHAT = 1
-        private const val OTHER_CHAT = 2
+        private const val SENDER_CHAT = 1
+        private const val RECEIVER_CHAT = 2
     }
 }

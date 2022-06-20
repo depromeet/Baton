@@ -136,6 +136,7 @@
     <string name="description_hint">양도 이유, 회원권 정보, 거래방법 등을\n자세히 입력하면 빠르게 판매할 수 있어요.</string>
     <string name="descriptionFormat">%1$d/100</string>
     <string name="photoSizeFormat">%1$d/5</string>
+    <string name="chatNameFormat">%s님과 대화</string>
 
     <string name="search_option_alignment">정렬</string>
     <string name="search_option_count">%s개</string>
@@ -147,6 +148,7 @@
     <string name="ticket_price_format">%s원</string>
     <string name="ticket_remaining_day">%s일 남음</string>
     <string name="ticket_remaining_number">%s회 남음</string>
+    <string name="chatHowOldFormat">%1$d일 전</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

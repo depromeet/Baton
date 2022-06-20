@@ -16,7 +16,7 @@ import com.depromeet.baton.chat.ChatRoom
 import com.depromeet.baton.databinding.ActivityChatRoomBinding
 import com.depromeet.baton.domain.repository.AuthRepository
 import com.depromeet.baton.presentation.base.BaseActivity
-import com.depromeet.baton.presentation.util.getDateDay
+import com.depromeet.baton.presentation.util.getDayByDate
 import com.depromeet.baton.presentation.util.isScrollable
 import com.depromeet.baton.presentation.util.setStackFromEnd
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,6 +41,7 @@ class ChatRoomActivity : BaseActivity<ActivityChatRoomBinding>(R.layout.activity
         setContentView(binding.root)
         binding.viewModel = chatViewModel
 
+        chatViewModel.startChat()
         initLayout()
         setObserve()
         setRvAdapter()
@@ -61,7 +62,7 @@ class ChatRoomActivity : BaseActivity<ActivityChatRoomBinding>(R.layout.activity
     }
 
     private fun setRvAdapter() {
-        chatMessageAdapter = ChatMessageAdapter(1)
+        chatMessageAdapter = ChatMessageAdapter(1,chatViewModel.chatRoom.receiverProfileImg!!)
         binding.rvChat.adapter = chatMessageAdapter // todo val userId = authRepository.authInfo?.userId!!
     }
 
@@ -70,7 +71,7 @@ class ChatRoomActivity : BaseActivity<ActivityChatRoomBinding>(R.layout.activity
         val date = Date(System.currentTimeMillis())
         val simpleDateFormat = SimpleDateFormat("yyyy.MM.dd", Locale("ko", "KR"))
         val strDate = simpleDateFormat.format(date)
-        binding.tvDate.text = "$strDate (${getDateDay(strDate)})"
+        binding.tvDate.text = "$strDate (${getDayByDate(strDate)})"
     }
 
     private fun handleViewEvents(viewEvents: List<ChatController.ViewEvent>) {
@@ -99,7 +100,6 @@ class ChatRoomActivity : BaseActivity<ActivityChatRoomBinding>(R.layout.activity
                     binding.rvChat.scrollBy(0, oldBottom - bottom) // 스크롤 유지를 위해 추가
                 }
             }
-
 
         binding.apply {
             rvChat.scrollToPosition(chatMessageAdapter.itemCount - 1)  //최초 진입 시 스크롤 가장 아래로
@@ -133,6 +133,6 @@ class ChatRoomActivity : BaseActivity<ActivityChatRoomBinding>(R.layout.activity
             context.startActivity(intent)
         }
 
-        private const val GO_CHAT_ROOM_KEY = "com.depromeet.baton.presentation.ui.chatting"
+        const val GO_CHAT_ROOM_KEY = "com.depromeet.baton.presentation.ui.chatting"
     }
 }

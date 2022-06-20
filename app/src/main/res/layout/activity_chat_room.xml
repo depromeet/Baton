@@ -32,15 +32,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dimen48"
-            android:text="나조님과의 대화"
             android:textAppearance="?headline2"
             android:textColor="?grey_scale90"
+            android:text="@{@string/chatNameFormat(viewModel.chatRoom.receiverName)}"
             app:layout_constraintBottom_toBottomOf="@+id/bds_backward_appbar"
             app:layout_constraintStart_toStartOf="@+id/bds_backward_appbar"
             app:layout_constraintTop_toTopOf="@+id/bds_backward_appbar" />
 
         <ImageView
-            android:id="@+id/imageFilterView"
+            android:id="@+id/iv_see_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="@{_ -> uiState.seeMoreClick}"
@@ -178,7 +178,7 @@
             app:layout_constraintVertical_bias="1.0"
             tools:itemCount="24"
             tools:layout_editor_absoluteX="16dp"
-            tools:listitem="@layout/item_my_chat" />
+            tools:listitem="@layout/item_sender_chat" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout2"

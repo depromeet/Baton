@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+<variable
+    name="profileImg"
+    type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -12,15 +14,17 @@
         android:layout_height="wrap_content"
         android:paddingBottom="@dimen/dimen16">
 
-        <ImageView
+
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageView3"
+            image="@{profileImg}"
             android:layout_width="35dp"
+            roundedCorners="@{false}"
             android:layout_height="35dp"
             android:layout_gravity="top"
             android:src="@drawable/ic_img_profile_curiosity_40"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
 
         <TextView
             android:id="@+id/chatmessage_tv_message"

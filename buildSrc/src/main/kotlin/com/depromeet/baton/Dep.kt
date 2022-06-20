@@ -181,6 +181,7 @@ object Dep {
     const val glide_compiler = "com.github.bumptech.glide:compiler:4.13.0"
     const val imagepicker = "com.github.nguyenhoanglam:ImagePicker:1.5.2"
     const val stickyScrollView="com.github.amarjain07:StickyScrollView:1.0.3"
+    const val circleimageview=  "de.hdodenhof:circleimageview:3.1.0"
 
     // https://developers.kakao.com/docs/latest/ko/getting-started/sdk-android#select-module
     object Kakao {

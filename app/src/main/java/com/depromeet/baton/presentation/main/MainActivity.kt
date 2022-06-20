@@ -3,14 +3,11 @@ package com.depromeet.baton.presentation.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ActivityMainBinding
 import com.depromeet.baton.presentation.base.BaseActivity
-import com.depromeet.baton.presentation.ui.chatting.ChattingFragment
-import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
+import com.depromeet.baton.presentation.ui.chatting.ChatRoomListFragment
 import com.depromeet.baton.presentation.ui.home.view.HomeFragment
 import com.depromeet.baton.presentation.ui.mypage.view.MyPageFragment
 import com.depromeet.baton.presentation.ui.search.view.SearchFragment
@@ -21,7 +18,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private val homeFragment: HomeFragment by lazy { HomeFragment() }
     private val searchFragment: SearchFragment by lazy { SearchFragment() }
-    private val chattingFragment: ChattingFragment by lazy { ChattingFragment() }
+    private val chattingFragment: ChatRoomListFragment by lazy { ChatRoomListFragment() }
     private val myPageFragment: MyPageFragment by lazy { MyPageFragment() }
 
 

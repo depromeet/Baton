@@ -53,7 +53,7 @@ fun dateFormatUtil(date: String): String {
 }
 
 @SuppressLint("SimpleDateFormat")
-fun getDateDay(date: String): String {
+fun getDayByDate(date: String): String {
     val pattern = "yyyy.MM.dd"
     val fm = SimpleDateFormat(pattern)
     fm.timeZone = TimeZone.getTimeZone("Asia/Seoul")

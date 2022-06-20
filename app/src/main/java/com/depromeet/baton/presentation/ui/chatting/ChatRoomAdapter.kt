@@ -9,18 +9,18 @@ import com.depromeet.baton.databinding.ItemChatListBinding
 import com.depromeet.baton.util.SimpleDiffUtil
 
 
-class ChatListAdapter(
-    private val clickListener: ((ChatRoom) -> Unit),
-) : ListAdapter<ChatRoom, ChatListAdapter.ViewHolder>(SimpleDiffUtil()) {
+class ChatRoomAdapter(
+    private val onClick: (ChatRoom) -> Unit,
+) : ListAdapter<ChatRoom, ChatRoomAdapter.ViewHolder>(SimpleDiffUtil()) {
 
     inner class ViewHolder(
         private val binding: ItemChatListBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(item: ChatRoom) {
             with(binding) {
-
-
-                root.setOnClickListener { clickListener(item) }
+                chatRoom=item
+                executePendingBindings()
+                root.setOnClickListener { onClick(item) }
             }
         }
     }

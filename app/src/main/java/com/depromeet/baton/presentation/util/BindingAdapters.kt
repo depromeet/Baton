@@ -102,7 +102,7 @@ fun BdsBackwardAppBar.bindTitle(title: String?) {
 fun RecyclerView.bindingItem(uiState: ChatController.MessageUiState) {
     val boundAdapter = this.adapter
     if (boundAdapter is ChatMessageAdapter) {
-        boundAdapter.submitList(uiState.messages as List<Message>)
+        boundAdapter.submitList(uiState.messages)
     }
 }
 
