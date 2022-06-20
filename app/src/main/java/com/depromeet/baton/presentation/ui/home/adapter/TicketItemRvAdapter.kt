@@ -54,10 +54,10 @@ class TicketItemRvAdapter(
 
                 //좋아요 버튼 todo 서버연결
                 ctvItemTicketLike.visibility= View.INVISIBLE
-               // setLikeBtnClickListener(ctvItemTicketLike, item)
+                // setLikeBtnClickListener(ctvItemTicketLike, item)
 
                 //엠티뷰
-                setEmptyImage(position, ivItemEmpty)
+                setEmptyImage(item.type ?: "기타", ivItemEmpty)
 
                 //상세페이지로
                 root.setOnClickListener { clickListener(item) }
@@ -65,12 +65,12 @@ class TicketItemRvAdapter(
         }
     }
 
-    private fun setEmptyImage(position: Int, view: ImageView) {
-        when (position % 4) {
-            0 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_health_86)
-            1 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_etc_86)
-            2 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_pt_86)
-            3 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_pilates_86)
+    private fun setEmptyImage(type: String, view: ImageView) {
+        when (type) {
+            "헬스" -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_health_86)
+            "기타" -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_etc_86)
+            "PT" -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_pt_86)
+            "필라테스" -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_pilates_86)
         }
     }
 
