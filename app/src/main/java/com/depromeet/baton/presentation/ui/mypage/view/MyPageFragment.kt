@@ -49,6 +49,11 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
     private lateinit var withdrawalDialog: BdsDialog
     private lateinit var callback: OnBackPressedCallback
 
+    override fun onResume() {
+        super.onResume()
+        myPageViewModel.getProfile()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()

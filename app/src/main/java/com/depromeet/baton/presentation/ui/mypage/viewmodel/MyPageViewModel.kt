@@ -83,7 +83,6 @@ class MyPageViewModel @Inject constructor(
 
     fun logout() {
         authRepository.logout()
-        spfManager.clearAll()
     }
 
     fun deleteUser() {
