@@ -1,0 +1,49 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+  desc "Runs all the tests"
+  lane :test do
+    gradle(task: "test")
+  end
+
+  desc "Deploy on Firebase AppDistribution (for qa-team)"
+  lane :firebase do
+    gradle(task: "clean assembleRelease")
+    firebase_app_distribution(
+      app: "1:717789708058:android:74bba38d82c15eac5c76a3",
+      groups: "qa-team",
+      release_notes: "first fastlane distribution"
+    )
+  end
+
+  desc "Upload AAB to PlayStore (internal)"
+  lane :playstore do
+    gradle(task: "clean")
+    gradle(
+      task: "bundle",
+      build_type: "Release",
+      print_command: true
+    )
+    upload_to_play_store(
+      track: "internal",
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+  end
+end

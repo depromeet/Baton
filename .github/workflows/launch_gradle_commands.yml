@@ -20,6 +20,9 @@ on:
       SECRETS_STRINGS:
         description: "secrets_strings"
         required: true
+      KEYSTORE:
+        description: "keystore file"
+        required: true
 
 jobs:
   launch_gradle_commands:
@@ -37,15 +40,18 @@ jobs:
       - name: Write compile time google-services.json file
         env:
           GOOGLE_SERVICES: ${{ secrets.GOOGLE_SERVICES }}
-        run: echo $GOOGLE_SERVICES > app/google-services.json
+        run: echo "$GOOGLE_SERVICES" > app/google-services.json
 
       - name: Write compile time keystore.properties file
         env:
           KEYSTORE_PROPERTIES: ${{ secrets.KEYSTORE_PROPERTIES }}
-        run: echo $KEYSTORE_PROPERTIES > keystore.properties
+        run: echo "$KEYSTORE_PROPERTIES" > keystore.properties
 
       - name: Write compile time secrets_strings.xml file
         run: echo "${{ secrets.SECRETS_STRINGS }}" | base64 -d > app/src/main/res/values/secrets_strings.xml
+
+      - name: Write compile time baton-keystore.jks file
+        run: echo "${{ secrets.KEYSTORE }}" | base64 -d > app/baton-keystore.jks
 
       - uses: gradle/gradle-build-action@v2
         with:
