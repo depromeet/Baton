@@ -25,7 +25,8 @@ class MemoryRealTimeDataPublisher : RealTimeDataPublisher {
 }
 
 class ChatTest : FeatureSpec({
-    feature("채팅 기능") {
+    // 단순 코드 시연용이라서 ignore 한다.
+    feature("채팅 기능").config(enabled = false) {
         val scope = CoroutineScope(Dispatchers.Unconfined)
 
         scenario("메시지를 보낸다.") {
