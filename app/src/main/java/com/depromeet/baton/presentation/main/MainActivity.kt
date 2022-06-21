@@ -3,6 +3,8 @@ package com.depromeet.baton.presentation.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ActivityMainBinding
@@ -12,6 +14,7 @@ import com.depromeet.baton.presentation.ui.home.view.HomeFragment
 import com.depromeet.baton.presentation.ui.mypage.view.MyPageFragment
 import com.depromeet.baton.presentation.ui.search.view.SearchFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.system.exitProcess
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
@@ -20,7 +23,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private val searchFragment: SearchFragment by lazy { SearchFragment() }
     private val chattingFragment: ChatRoomListFragment by lazy { ChatRoomListFragment() }
     private val myPageFragment: MyPageFragment by lazy { MyPageFragment() }
-
+    private var backBtnWaitTime = 0L
+    private val toast: Toast by lazy { Toast.makeText(this, "'뒤로' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,8 +86,29 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
-       //finish()
+        //검색뷰 백스택
+        val fragmentList = supportFragmentManager.fragments
+        for (fragment in fragmentList) {
+            if (fragment is OnBackPressedListener) {
+                (fragment as OnBackPressedListener).onBackPressed()
+                return
+            }
+        }
+
+/*        // todo 뒤로가기 두번 클릭시 앱 종료 -> 필요시
+        if (System.currentTimeMillis() - backBtnWaitTime >= BACK_BTN_WAIT_TIME) {
+            backBtnWaitTime = System.currentTimeMillis()
+            toast.show()
+        } else {
+            toast.cancel()
+            ActivityCompat.finishAffinity(this)
+            System.runFinalization()
+            exitProcess(0)
+        }*/
+    }
+
+    interface OnBackPressedListener {
+        fun onBackPressed()
     }
 
     companion object {
@@ -92,5 +117,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             context.startActivity(intent)
         }
+
+        private const val BACK_BTN_WAIT_TIME = 2000L
     }
 }

@@ -26,7 +26,7 @@ import timber.log.Timber
 
 
 @AndroidEntryPoint
-class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_search) {
+class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_search), MainActivity.OnBackPressedListener {
 
     private val filterSearchViewModel: FilterSearchViewModel by activityViewModels()
     private val searchViewModel: SearchViewModel by activityViewModels()
@@ -77,6 +77,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
     private fun searchKeyword() {
         with(binding.searchBar) {
+            setHint("지역, 센터명, 해시태그 검색")
+
             textListener = object : BdsSearchBar.TextListener {
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 }
@@ -92,7 +94,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
                 override fun afterTextChanged(s: Editable?) {}
             }
-            binding.searchBar.setHint("지역, 센터명, 해시태그 검색")
 
             KeyboardVisibilityEvent.setEventListener(requireActivity()) {
                 searchBarKeyBoardListener(it)
@@ -123,6 +124,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         super.onPause()
         searchViewModel.setLastKeyword(binding.searchBar.getText())
         searchViewModel.searchKeyword(binding.searchBar.getText())
+    }
+
+    override fun onBackPressed() {
+       searchViewModel.searchUiState.value.onBackBtnClick.invoke()
     }
 }
 
