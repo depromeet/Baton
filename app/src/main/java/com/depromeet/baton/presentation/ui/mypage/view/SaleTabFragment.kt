@@ -122,10 +122,10 @@ class SaleTabFragment : BaseFragment<FragmentSaleTabBinding>(R.layout.fragment_s
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.mypage_ticket_menu_change-> {
+          /*  R.id.mypage_ticket_menu_change-> {
                 // Respond to context menu item 1 click.
                 true
-            }
+            }*/
             R.id.mypage_ticket_menu_delete -> {
                 alertDialog.show()
                 true
@@ -138,7 +138,7 @@ class SaleTabFragment : BaseFragment<FragmentSaleTabBinding>(R.layout.fragment_s
         alertDialog = BdsDialog(requireContext(), DialogType.SECONDARY)
         alertDialog.setHorizonDialog(::onClickConfirm , ::onClickCancel)
         alertDialog.setTitle("정말 삭제하시겠어요?")
-        alertDialog.setContent("삭제시, 등록햇던 정보가 전부 사라져요")
+        alertDialog.setContent("삭제 시, 등록했던 정보가 전부 사라져요.")
         alertDialog.setImage(com.depromeet.bds.R.drawable.ic_img_empty_warning)
     }
 

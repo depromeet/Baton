@@ -15,21 +15,11 @@ import timber.log.Timber
 @AndroidEntryPoint
 class SaleHistoryFragment  : BaseFragment<FragmentSaleHistoryBinding>(R.layout.fragment_sale_history){
 
-
     private lateinit var pagerAdapter: MyPageViewAdapter
     private val titles = listOf(
         "판매중",
         "거래내역"
     )
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -60,18 +50,6 @@ class SaleHistoryFragment  : BaseFragment<FragmentSaleHistoryBinding>(R.layout.f
             Timber.e(it.message)
       }
 
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-       // clearBackStack()
-    }
-
-   private fun clearBackStack() {
-        val fragmentManager = childFragmentManager
-        while (fragmentManager.backStackEntryCount !== 0) {
-            fragmentManager.popBackStackImmediate()
-        }
     }
 
 }
