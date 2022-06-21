@@ -496,7 +496,7 @@ open class FilterSearchViewModel @Inject constructor(
             updateAllStatus(_priceRangeFormatted.value!!.first + "원~" + _priceRangeFormatted.value!!.second + "원", false)
         } else {
             _isPriceFiltered.value = true
-            _priceRangeFormatted.value = Pair(priceFormat(min), priceFormat(max))
+            _priceRangeFormatted.value = Pair(priceFormatWithZero(min), priceFormatWithZero(max))
             updateAllStatus(_priceRangeFormatted.value!!.first + "원~" + _priceRangeFormatted.value!!.second + "원", true)
         }
     }
