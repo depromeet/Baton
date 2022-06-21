@@ -52,10 +52,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             Timber.d("beanbean ime > ${it.text}")
             searchViewModel.searchKeyword(it.text.toString())
         }
-        // 이 코드를 추가하면 키보드 내림 자동 포커스가 됩니다 =효민-
-        /*  KeyboardVisibilityEvent.setEventListener(requireActivity()) {
-            binding?.searchBar.searchBarKeyBoardListener(it)
-        }*/
 
         viewLifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -82,7 +78,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     private fun searchKeyword() {
         with(binding.searchBar) {
             textListener = object : BdsSearchBar.TextListener {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                }
+
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     val query = s.toString()
                     if (query.isNotEmpty() && query != searchViewModel.lastSearchKeyword.value) {
@@ -94,6 +92,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
                 override fun afterTextChanged(s: Editable?) {}
             }
+            binding.searchBar.setHint("지역, 센터명, 해시태그 검색")
 
             KeyboardVisibilityEvent.setEventListener(requireActivity()) {
                 searchBarKeyBoardListener(it)

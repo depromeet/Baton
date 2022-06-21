@@ -72,7 +72,7 @@ class PlaceRegisterFragment : BaseFragment<FragmentPlaceRegisterBinding>(R.layou
 
     private fun selectedShopObserve() {
         writePostViewModel.selectedShopInfo.observe(viewLifecycleOwner) { selectedShopInfo ->
-            binding.tvPlaceRegister.text = "이름"
+            binding.tvPlaceRegister.text = "장소명"
             binding.tvPlaceRegisterAddress.visibility = View.VISIBLE
 
             with(binding.includeBdsSearchbarOne) {

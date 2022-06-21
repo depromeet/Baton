@@ -82,7 +82,9 @@ class BottomSearchShopFragment : BaseBottomDialogFragment<FragmentBottomSearchSh
                 searchBarKeyBoardListener(it)
             }
 
-            lifecycleScope.launch {
+            setHint("헬스장 이름이나 도로명 주소 검색")
+
+           lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     writePostViewModel.shopInfoList.collect { shopInfoList ->
                         if (isNotEmpty()) searchShopRvAdapter.submitList(shopInfoList)

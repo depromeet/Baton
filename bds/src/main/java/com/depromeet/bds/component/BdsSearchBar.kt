@@ -116,6 +116,10 @@ class BdsSearchBar @JvmOverloads constructor(
         }
     }
 
+    fun setHint(hint: String) {
+        binding.searchBarEt.hint = hint
+    }
+
     fun setSearchBarEnabled() {
         if (binding.searchBarEt.hasFocus()) {
             binding.root.isSelected = false
