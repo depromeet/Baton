@@ -120,7 +120,7 @@ class BottomFilterFragment : BottomSheetDialogFragment() {
         filterViewModel.filteredChipList.observe(viewLifecycleOwner) { filteredChipList ->
             filteredChipRvAdapter.submitList(filteredChipList?.map { it }) {
                 if (filteredChipList != null) {
-                    binding.rvBottomFilter.scrollToPosition(filteredChipRvAdapter.itemCount - 1)  //최초 진입 시 스크롤 가장 아래로
+                    binding.rvBottomFilter.scrollToPosition(filteredChipRvAdapter.itemCount - 1)
                 }
             }
         }

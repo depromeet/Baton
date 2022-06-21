@@ -123,7 +123,6 @@ class BottomFilterSearchFragment : BottomSheetDialogFragment() {
             filteredChipRvAdapter = FilteredChipRvAdapter(filterViewModel ?: return, requireContext())
             rvBottomFilter.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = filteredChipRvAdapter
-
             itemDecoration = ChipSpacesItemDecoration(8.toPx())
         }
     }
@@ -131,10 +130,12 @@ class BottomFilterSearchFragment : BottomSheetDialogFragment() {
     private fun setFilteredChipObserve() {
         filterSearchViewModel.filteredChipList.observe(viewLifecycleOwner) { filteredChipList ->
             filteredChipRvAdapter.submitList(filteredChipList?.map { it }?.distinct()) {
+                if (filteredChipList != null) {
+                    binding.rvBottomFilter.scrollToPosition(filteredChipRvAdapter.itemCount - 1)
+                }
             }
         }
     }
-
 
     override fun onDestroyView() {
         filterSearchViewModel.setFilterTypeOrderList()
