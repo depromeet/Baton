@@ -86,6 +86,11 @@ fun setBdsTag(view: BdsTag, text: String?) {
     if (text != null) view.text = text
 }
 
+@BindingAdapter("bds_text")
+fun setBdsTag(view: BdsButton, text: String?) {
+    view.setText(text)
+}
+
 @BindingAdapter("isChecked")
 fun setBdsCheckbox(view: BdsCheckbox, isChecked: Boolean) {
     view.isChecked = isChecked
