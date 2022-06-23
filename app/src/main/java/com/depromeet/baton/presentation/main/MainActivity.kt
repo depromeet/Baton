@@ -16,6 +16,7 @@ import com.depromeet.baton.presentation.ui.chatting.ChatRoomListFragment
 import com.depromeet.baton.presentation.ui.home.view.HomeFragment
 import com.depromeet.baton.presentation.ui.mypage.view.MyPageFragment
 import com.depromeet.baton.presentation.ui.search.view.SearchFragment
+import com.depromeet.bds.component.BdsToast
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
@@ -33,7 +34,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     // private val chattingFragment: ChatRoomListFragment by lazy { ChatRoomListFragment() }
     private val myPageFragment: MyPageFragment by lazy { MyPageFragment() }
     private var backBtnWaitTime = 0L
-    private val toast: Toast by lazy { Toast.makeText(this, "'뒤로' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT) }
+    private val toast: Toast by lazy { this.BdsToast("'뒤로' 버튼을 한번 더 누르시면 종료됩니다.") }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
