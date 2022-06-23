@@ -48,6 +48,7 @@
                         app:bds_label="예금주">
 
                         <EditText
+                            android:id="@+id/et_name"
                             style="@style/Widget.Bds.TextFieldInnerEditText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -82,6 +83,7 @@
                         app:bds_label="계좌번호">
 
                         <EditText
+                            android:id="@+id/et_account"
                             style="@style/Widget.Bds.TextFieldInnerEditText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

@@ -1,8 +1,10 @@
 package com.depromeet.baton.presentation.ui.sign
 
+import android.app.Activity
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
@@ -16,12 +18,14 @@ import com.depromeet.baton.presentation.ui.sign.SignUpInfoViewModel.ViewEvent
 import com.depromeet.baton.presentation.util.RegexConstant
 import com.depromeet.baton.presentation.util.viewLifecycle
 import com.depromeet.baton.presentation.util.viewLifecycleScope
+import com.depromeet.baton.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -45,11 +49,25 @@ class SignUpInfoFragment : BaseFragment<FragmentSignUpInfoBinding>(R.layout.frag
             .launchIn(viewLifecycleScope)
     }
 
+    private val addAccountLauncher = registerForActivityResult(StartActivityForResult()) {
+        if (it.resultCode == Activity.RESULT_OK) {
+            try {
+                val account =
+                    it.data!!.getParcelableExtra<SignAccount>(AddAccountActivity.RESULT_ARGS)!!
+                viewModel.setAccount(account)
+            } catch (ignored: Throwable) {
+                Timber.e(ignored)
+                showToast("알수없는 에러 발생")
+            }
+        }
+    }
+
     private fun handleViewEvents(viewEvents: List<ViewEvent>) {
         viewEvents.firstOrNull()?.let { viewEvent ->
             when (viewEvent) {
-                ViewEvent.ToAddAccount -> {
-                    AddAccountActivity.start(requireContext())
+                is ViewEvent.ToAddAccount -> {
+                    AddAccountActivity.intent(requireContext(), viewEvent.account)
+                        .also { addAccountLauncher.launch(it) }
                 }
                 ViewEvent.ToAddressSetting -> {
                     signUpViewModel.remember(viewModel)
@@ -62,16 +80,11 @@ class SignUpInfoFragment : BaseFragment<FragmentSignUpInfoBinding>(R.layout.frag
     }
 }
 
-data class Validation(
-    val value: String = "",
-    val errorReason: String? = null,
-    val isValidating: Boolean = false
-)
-
 data class SignUpInfoUiState(
     val name: Validation,
     val nickName: Validation,
     val phoneNumber: Validation,
+    val account: SignAccount?,
     val onNameChanged: (Editable?) -> Unit,
     val onNickNameChanged: (Editable?) -> Unit,
     val onPhoneNumberChanged: (Editable?) -> Unit,
@@ -83,6 +96,7 @@ data class SignUpInfoUiState(
     }
 
     val isEnabled = name.isEnabled() && nickName.isEnabled() && phoneNumber.isEnabled()
+    val accountText: String = if (account == null) "추가하기" else "계좌 정보 수정"
 }
 
 @HiltViewModel
@@ -99,6 +113,7 @@ class SignUpInfoViewModel @Inject constructor() : BaseViewModel() {
             name = Validation(),
             nickName = Validation(),
             phoneNumber = Validation(),
+            account = null,
             onNameChanged = ::handleNameChanged,
             onNickNameChanged = ::handleNickNameChanged,
             onPhoneNumberChanged = ::handlePhoneNumberChanged,
@@ -112,7 +127,15 @@ class SignUpInfoViewModel @Inject constructor() : BaseViewModel() {
         nameValidationJob?.cancel()
 
         val value = text.toString()
-        _uiState.update { it.copy(name = it.name.copy(value = value, errorReason = null, isValidating = false)) }
+        _uiState.update {
+            it.copy(
+                name = it.name.copy(
+                    value = value,
+                    errorReason = null,
+                    isValidating = false
+                )
+            )
+        }
 
         if (RegexConstant.ONLY_COMPLETE_HANGLE.matches(value)) return
 
@@ -120,8 +143,19 @@ class SignUpInfoViewModel @Inject constructor() : BaseViewModel() {
 
         nameValidationJob = viewModelScope.launch {
             delay(FIELD_VALIDATION_MILLIS)
-            _uiState.update { it.copy(name = it.name.copy(errorReason = "올바른 이름을 입력해주세요.", isValidating = false)) }
+            _uiState.update {
+                it.copy(
+                    name = it.name.copy(
+                        errorReason = "올바른 이름을 입력해주세요.",
+                        isValidating = false
+                    )
+                )
+            }
         }
+    }
+
+    fun setAccount(account: SignAccount) {
+        _uiState.update { it.copy(account = account) }
     }
 
     private var nickNameValidationJob: Job? = null
@@ -129,7 +163,15 @@ class SignUpInfoViewModel @Inject constructor() : BaseViewModel() {
         nickNameValidationJob?.cancel()
 
         val value = text.toString()
-        _uiState.update { it.copy(nickName = it.nickName.copy(value = value, errorReason = null, isValidating = false)) }
+        _uiState.update {
+            it.copy(
+                nickName = it.nickName.copy(
+                    value = value,
+                    errorReason = null,
+                    isValidating = false
+                )
+            )
+        }
 
         if (RegexConstant.NICKNAME_REGEX.matches(value)) return
 
@@ -137,7 +179,14 @@ class SignUpInfoViewModel @Inject constructor() : BaseViewModel() {
 
         nickNameValidationJob = viewModelScope.launch {
             delay(FIELD_VALIDATION_MILLIS)
-            _uiState.update { it.copy(nickName = it.nickName.copy(errorReason = "올바른 닉네임을 입력해주세요.", isValidating = false)) }
+            _uiState.update {
+                it.copy(
+                    nickName = it.nickName.copy(
+                        errorReason = "올바른 닉네임을 입력해주세요.",
+                        isValidating = false
+                    )
+                )
+            }
         }
     }
 
@@ -146,7 +195,15 @@ class SignUpInfoViewModel @Inject constructor() : BaseViewModel() {
         phoneNumberValidationJob?.cancel()
 
         val value = text.toString()
-        _uiState.update { it.copy(phoneNumber = it.phoneNumber.copy(value = value, errorReason = null, isValidating = false)) }
+        _uiState.update {
+            it.copy(
+                phoneNumber = it.phoneNumber.copy(
+                    value = value,
+                    errorReason = null,
+                    isValidating = false
+                )
+            )
+        }
 
         if (RegexConstant.ONLY_NUMBERS.matches(value) && value.length == 11) return
 
@@ -154,12 +211,19 @@ class SignUpInfoViewModel @Inject constructor() : BaseViewModel() {
 
         phoneNumberValidationJob = viewModelScope.launch {
             delay(FIELD_VALIDATION_MILLIS)
-            _uiState.update { it.copy(phoneNumber = it.phoneNumber.copy(errorReason = "올바른 휴대폰 번호를 입력해주세요.", isValidating = false)) }
+            _uiState.update {
+                it.copy(
+                    phoneNumber = it.phoneNumber.copy(
+                        errorReason = "올바른 휴대폰 번호를 입력해주세요.",
+                        isValidating = false
+                    )
+                )
+            }
         }
     }
 
     private fun handleAddAccountClick() {
-        addViewEvent(ViewEvent.ToAddAccount)
+        addViewEvent(ViewEvent.ToAddAccount(_uiState.value.account))
     }
 
     private fun handleSubmit() {
@@ -175,7 +239,7 @@ class SignUpInfoViewModel @Inject constructor() : BaseViewModel() {
     }
 
     sealed interface ViewEvent {
-        object ToAddAccount : ViewEvent
+        data class ToAddAccount(val account: SignAccount?) : ViewEvent
         object ToAddressSetting : ViewEvent
     }
 

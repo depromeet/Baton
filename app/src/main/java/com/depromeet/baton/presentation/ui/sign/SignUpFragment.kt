@@ -140,6 +140,11 @@ class SignUpViewModel @Inject constructor(
             name = source.name.value
             nickname = source.nickName.value.takeIf { it.isNotBlank() } ?: args.nickname
             phoneNumber = source.phoneNumber.value
+            account = source.account?.run {
+                SignUpKakaoRequest.Account(
+                    name, bank, account
+                )
+            }
         }
     }
 
