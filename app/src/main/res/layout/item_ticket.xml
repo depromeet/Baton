@@ -180,7 +180,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:paddingStart="@dimen/dimen4"
-                    android:text="@{@string/ticket_distance_format(ticket.distance)}"
                     android:textAppearance="?caption2"
                     android:textColor="?secondary50"
                     app:layout_constraintEnd_toEndOf="parent"

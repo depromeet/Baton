@@ -1,15 +1,12 @@
 package com.depromeet.baton.presentation.ui.search.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.depromeet.baton.domain.model.*
-import com.depromeet.baton.domain.usecase.GetFilteredTicketUseCase
 import com.depromeet.baton.domain.repository.SearchRepository
+import com.depromeet.baton.domain.usecase.GetFilteredTicketUseCase
 import com.depromeet.baton.domain.usecase.GetTicketSearchResultUseCase
-import com.depromeet.baton.map.domain.entity.ShopEntity
-import com.depromeet.baton.map.domain.usecase.SearchItem
 import com.depromeet.baton.presentation.base.BaseViewModel
 import com.depromeet.baton.presentation.base.UIState
 import com.depromeet.baton.presentation.ui.filter.view.TermFragment
@@ -25,6 +22,10 @@ open class FilterSearchViewModel @Inject constructor(
     private val getFilteredTicketUseCase: GetFilteredTicketUseCase,
     private val getTicketSearchResultUseCase: GetTicketSearchResultUseCase
 ) : BaseViewModel() {
+
+    //현재 정렬
+    private val _currentAlignment = MutableLiveData("정렬순")
+    val currentAlignment: LiveData<String> = _currentAlignment
 
     //바텀 필터링 카운트 UI 상태
     private val _filteredTicketCountUiState = MutableLiveData<UIState>(UIState.Loading)
@@ -192,7 +193,7 @@ open class FilterSearchViewModel @Inject constructor(
     private val _isTermRangeFiltered = MutableLiveData<Boolean>()
 
     //가격
-    private val _priceRangeFormatted = MutableLiveData(Pair("0", "15,000,000"))
+    private val _priceRangeFormatted = MutableLiveData(Pair("0","1,500,000"))
     val priceRangeFormatted: LiveData<Pair<String, String>> = _priceRangeFormatted
 
     private val _priceRange = MutableLiveData(Pair(0f, 1500000f))
@@ -430,6 +431,7 @@ open class FilterSearchViewModel @Inject constructor(
 
     fun setAlignment(standard: Alignment) {
         _alignmentCheckedOption.value = standard
+        _currentAlignment.value=standard.value
         updateFilteredTicketList()  //정렬 누르면 홈 필터 리스트+개수 초기화
     }
 
@@ -496,7 +498,7 @@ open class FilterSearchViewModel @Inject constructor(
             updateAllStatus(_priceRangeFormatted.value!!.first + "원~" + _priceRangeFormatted.value!!.second + "원", false)
         } else {
             _isPriceFiltered.value = true
-            _priceRangeFormatted.value = Pair(priceFormat(min), priceFormat(max))
+            _priceRangeFormatted.value = Pair(priceFormatWithZero(min), priceFormatWithZero(max))
             updateAllStatus(_priceRangeFormatted.value!!.first + "원~" + _priceRangeFormatted.value!!.second + "원", true)
         }
     }

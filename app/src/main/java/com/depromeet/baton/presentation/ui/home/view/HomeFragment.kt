@@ -117,7 +117,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
                 HomeViewModel.HomeViewEvent.ToSearch -> (activity as MainActivity).moveToSearch() //todo 검색 keyword 초기화
 
-                HomeViewModel.HomeViewEvent.ToAlarm -> (activity as MainActivity).moveToChatting()
+                HomeViewModel.HomeViewEvent.ToAlarm ->(activity as MainActivity).moveToChatting()
 
                 HomeViewModel.HomeViewEvent.ToHowTo -> HowToUseActivity.start(requireContext())
 
@@ -156,7 +156,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
 
         filterViewModel.filteredTicketList.observe(viewLifecycleOwner) {
-            ticketItemRvAdapter.submitList(it)
+            ticketItemRvAdapter.submitList(it?.reversed())
         }
     }
 

@@ -2,6 +2,7 @@ package com.depromeet.baton.presentation.ui.filter.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -69,6 +70,8 @@ class FilteredChipRvAdapter(
               }
               else -> {
                   view.text = chip as String
+                  if(view.text.contains("1,500,000")) {view.text=view.text.replace("1,500,000원", "1,500,000원 이상")}
+
                   view.setOnClickListener {
                       if (view.text.contains("회")) {
                           filterViewModel.setPtTerm(TermFragment.MIN, TermFragment.PT_MAX)
@@ -117,6 +120,7 @@ class FilteredChipRvAdapter(
                 }
                 else -> {
                     view.text = chip as String
+                    if(view.text.contains("1,500,000")) {view.text=view.text.replace("1,500,000원", "1,500,000원 이상")}
                     view.setOnClickListener {
                         if (view.text.contains("회")) {
                             filterViewModel.setPtTerm(TermFragment.MIN, TermFragment.PT_MAX)

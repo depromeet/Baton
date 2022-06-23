@@ -1,27 +1,23 @@
 package com.depromeet.baton.presentation.util
 
 import android.view.View
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.core.view.isVisible
-import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.depromeet.baton.chat.ChatController
+import com.depromeet.baton.chat.Message
+import com.depromeet.baton.presentation.ui.chatting.ChatMessageAdapter
 import com.depromeet.bds.component.*
 import com.depromeet.bds.utils.toPx
-import com.airbnb.lottie.LottieAnimationView
-import com.depromeet.bds.component.BdsBackwardAppBar
-import com.depromeet.bds.component.BdsChoiceChip
-import com.depromeet.bds.component.BdsComponentTextField
-import com.depromeet.bds.component.BdsFilter
 
 @BindingAdapter("bds_text", "isSelected")
 fun setBdsFilterChip(view: BdsFilter, text: String?, isSelected: Boolean) {
-    if(text!=null)
-    view.text = text
+    if (text != null)
+        view.text = text
     view.isSelected = isSelected
 }
 
@@ -107,5 +103,12 @@ fun BdsBackwardAppBar.bindTitle(title: String?) {
     bdsTitle = title
 }
 
+@BindingAdapter("messageItem")
+fun RecyclerView.bindingItem(uiState: ChatController.MessageUiState) {
+    val boundAdapter = this.adapter
+    if (boundAdapter is ChatMessageAdapter) {
+        boundAdapter.submitList(uiState.messages)
+    }
+}
 
 

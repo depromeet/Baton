@@ -3,15 +3,15 @@ package com.depromeet.baton.presentation.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ActivityMainBinding
 import com.depromeet.baton.presentation.base.BaseActivity
-import com.depromeet.baton.presentation.ui.chatting.ChattingFragment
-import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
+import com.depromeet.baton.presentation.ui.chatting.ChatRoomListFragment
 import com.depromeet.baton.presentation.ui.home.view.HomeFragment
 import com.depromeet.baton.presentation.ui.mypage.view.MyPageFragment
 import com.depromeet.baton.presentation.ui.search.view.SearchFragment
@@ -19,15 +19,18 @@ import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.system.exitProcess
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private val homeFragment: HomeFragment by lazy { HomeFragment() }
     private val searchFragment: SearchFragment by lazy { SearchFragment() }
-    private val chattingFragment: ChattingFragment by lazy { ChattingFragment() }
-    private val myPageFragment: MyPageFragment by lazy { MyPageFragment() }
 
+    // private val chattingFragment: ChatRoomListFragment by lazy { ChatRoomListFragment() }
+    private val myPageFragment: MyPageFragment by lazy { MyPageFragment() }
+    private var backBtnWaitTime = 0L
+    private val toast: Toast by lazy { Toast.makeText(this, "'뒤로' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,10 +61,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                     replace(searchFragment)
                     return@setOnItemSelectedListener true
                 }
-//                R.id.menu_main_chatting -> {
-//                    replace(chattingFragment)
-//                    return@setOnItemSelectedListener true
-//                }
+
+/*                R.id.menu_main_chatting -> {
+                    replace(chattingFragment)
+                    return@setOnItemSelectedListener true
+                }*/
                 R.id.menu_main_mypage -> {
                     replace(myPageFragment, "myPageFragment")
                     return@setOnItemSelectedListener true
@@ -88,12 +92,33 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     }
 
     fun moveToChatting() {
-//        binding.bnvMain.selectedItemId = R.id.menu_main_chatting
+        //    binding.bnvMain.selectedItemId = R.id.menu_main_chatting
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
-       //finish()
+        //검색뷰 백스택
+        val fragmentList = supportFragmentManager.fragments
+        for (fragment in fragmentList) {
+            if (fragment is OnBackPressedListener) {
+                (fragment as OnBackPressedListener).onBackPressed()
+                return
+            }
+        }
+
+/*        // todo 뒤로가기 두번 클릭시 앱 종료 -> 필요시
+        if (System.currentTimeMillis() - backBtnWaitTime >= BACK_BTN_WAIT_TIME) {
+            backBtnWaitTime = System.currentTimeMillis()
+            toast.show()
+        } else {
+            toast.cancel()
+            ActivityCompat.finishAffinity(this)
+            System.runFinalization()
+            exitProcess(0)
+        }*/
+    }
+
+    interface OnBackPressedListener {
+        fun onBackPressed()
     }
 
     companion object {
@@ -102,5 +127,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             context.startActivity(intent)
         }
+
+        private const val BACK_BTN_WAIT_TIME = 2000L
     }
 }

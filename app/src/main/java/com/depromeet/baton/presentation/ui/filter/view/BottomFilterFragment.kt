@@ -103,7 +103,6 @@ class BottomFilterFragment : BottomSheetDialogFragment() {
     private fun setSearchOnClickListener() {
         binding.btnBottomFilterSearch.setOnClickListener {
             filterViewModel.setFilterPosition()
-            //        filterViewModel.updateFilteredTicketList() //필터링된 리스트 가져오기
             dialog?.dismiss()
         }
     }
@@ -113,7 +112,6 @@ class BottomFilterFragment : BottomSheetDialogFragment() {
             filteredChipRvAdapter = FilteredChipRvAdapter(filterViewModel ?: return, requireContext())
             rvBottomFilter.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = filteredChipRvAdapter
-            //     rvBottomFilter.itemAnimator = null
             itemDecoration = ChipSpacesItemDecoration(8.toPx())
         }
     }
@@ -122,7 +120,7 @@ class BottomFilterFragment : BottomSheetDialogFragment() {
         filterViewModel.filteredChipList.observe(viewLifecycleOwner) { filteredChipList ->
             filteredChipRvAdapter.submitList(filteredChipList?.map { it }) {
                 if (filteredChipList != null) {
-                    //  if (filteredChipList.isNotEmpty()) binding.rvBottomFilter.scrollToPosition(0)
+                    binding.rvBottomFilter.scrollToPosition(filteredChipRvAdapter.itemCount - 1)
                 }
             }
         }

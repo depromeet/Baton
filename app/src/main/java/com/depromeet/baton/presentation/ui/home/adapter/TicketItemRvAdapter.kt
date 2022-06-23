@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.baton.databinding.ItemTicketBinding
 import com.depromeet.baton.domain.model.FilteredTicket
+import com.depromeet.baton.presentation.util.distanceFormatUtil
 import com.depromeet.baton.util.SimpleDiffUtil
 import com.depromeet.bds.utils.toPx
 
@@ -52,8 +53,11 @@ class TicketItemRvAdapter(
                     itemTicketTagEtc.text = "+$etcSize"
                 }
 
+                //거리
+                tvItemTicketDistance.text = distanceFormatUtil(item.distance!!.toDouble())
+
                 //좋아요 버튼 todo 서버연결
-                ctvItemTicketLike.visibility= View.INVISIBLE
+                ctvItemTicketLike.visibility = View.INVISIBLE
                 // setLikeBtnClickListener(ctvItemTicketLike, item)
 
                 //엠티뷰

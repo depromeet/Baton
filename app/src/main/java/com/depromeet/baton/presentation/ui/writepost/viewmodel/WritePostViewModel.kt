@@ -1,12 +1,9 @@
 package com.depromeet.baton.presentation.ui.writepost.viewmodel
 
-import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Build
 import android.text.Editable
-import android.util.Log
 import androidx.annotation.RequiresApi
-import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope

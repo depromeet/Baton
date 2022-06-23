@@ -136,17 +136,20 @@
     <string name="description_hint">양도 이유, 회원권 정보, 거래방법 등을\n자세히 입력하면 빠르게 판매할 수 있어요.</string>
     <string name="descriptionFormat">%1$d/100</string>
     <string name="photoSizeFormat">%1$d/5</string>
+    <string name="chatNameFormat">%s님과 대화</string>
 
     <string name="search_option_alignment">정렬</string>
     <string name="search_option_count">%s개</string>
     <string name="search_option_all">전체</string>
-    <string name="price_range">%s원 ~ %s원</string>
+    <string name="price_range">%s원 ~ %s원 이상</string>
+    <string name="price_range_normal">%s원 ~ %s원</string>
     <string name="pt_term_range">%s회 ~ %s회</string>
     <string name="gym_term_range">%s개월 ~ %s개월</string>
     <string name="ticket_distance_format">%sm</string>
     <string name="ticket_price_format">%s원</string>
     <string name="ticket_remaining_day">%s일 남음</string>
     <string name="ticket_remaining_number">%s회 남음</string>
+    <string name="chatHowOldFormat">%1$d일 전</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -161,11 +164,11 @@
         <item name="ticket_detail_delete_option">삭제하기</item>
     </string-array>
 
-    <string-array  name="ticketSaleStatus">
-        <item name = "ticket_status_sale">판매중</item>
-        <item name = "ticket_status_reserve">예약중</item>
-        <item name = "ticket_status_completed">거래완료</item>
-    </string-array >
+    <string-array name="ticketSaleStatus">
+        <item name="ticket_status_sale">판매중</item>
+        <item name="ticket_status_reserve">예약중</item>
+        <item name="ticket_status_completed">거래완료</item>
+    </string-array>
 
     <string name="sign_up">회원 가입</string>
 

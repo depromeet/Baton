@@ -21,7 +21,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         tools:replace="android:name">
+        <activity
+            android:name=".presentation.ui.chatting.ChatRoomActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
+            <!--            <intent-filter>
+                            <action android:name="android.intent.action.MAIN" />
 
+                            <category android:name="android.intent.category.LAUNCHER" />
+                        </intent-filter>-->
+        </activity>
         <activity
             android:name=".presentation.ui.sign.SignUpCurrentLocationActivity"
             android:exported="false" />
@@ -84,7 +93,6 @@
         <activity
             android:name=".presentation.ui.detail.TicketDetailActivity"
             android:exported="false" />
-
         <activity
             android:name=".presentation.ui.mypage.view.EditAccountActivity"
             android:exported="false" />
@@ -99,9 +107,10 @@
         <activity
             android:name=".presentation.main.MainActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
 
         <!-- BEAN: android:launchMode="singleTask" 넣어야 동작하네; -->
+
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true"
