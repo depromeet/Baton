@@ -23,6 +23,7 @@
             android:layout_height="@dimen/dimen48"
             android:layout_marginHorizontal="@dimen/dimen16"
             android:layout_marginTop="@dimen/dimen16"
+            app:bds_placeholder_text="지번, 도로명, 건물명으로 검색해주세요."
             />
 
         <androidx.constraintlayout.widget.ConstraintLayout

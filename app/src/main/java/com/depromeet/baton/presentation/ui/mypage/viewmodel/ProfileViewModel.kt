@@ -12,6 +12,7 @@ import com.depromeet.baton.map.util.NetworkResult
 import com.depromeet.baton.presentation.base.BaseViewModel
 import com.depromeet.baton.presentation.util.RegexConstant
 import com.depromeet.baton.presentation.util.uriConverter
+import com.depromeet.baton.util.BatonSpfManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,7 +24,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel@Inject constructor(
     private val userinfoRepository: UserinfoRepository,
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val spfManager: BatonSpfManager
 ): BaseViewModel(){
 
 
@@ -39,7 +41,7 @@ class ProfileViewModel@Inject constructor(
         return ProfileUiState(
             nickName = "",
             phoneNumber = "",
-            profileImage = Uri.parse(""),
+            profileImage = Uri.parse(spfManager.getProfileIcon()),
             onNickNameChanged = ::handleNickNameChanged,
             onPhoneNumberChanged = ::handlePhoneNumberChanged,
             onProfileChanged = ::submitProfileImg,
@@ -66,6 +68,7 @@ class ProfileViewModel@Inject constructor(
     fun submitProfileImg(uri : Uri){
         //Bottom 에서 확인 눌렀을 때
         _uiState.update { it.copy( profileImage = uri , isChanged = true) }
+        spfManager.saveProfileIcon(uri.toString())
         addViewEvent(ProfileViewEvent.EventUpdateProfileImage)
     }
 
@@ -74,7 +77,7 @@ class ProfileViewModel@Inject constructor(
          if(uiState.value.isEnabled)
              viewModelScope.launch {
                  runCatching {
-                     val userId = authRepository.authInfo!!.userId // TODO authinfo
+                     val userId = authRepository.authInfo!!.userId
                      userinfoRepository.updateUserProfile(userId,uiState.value.nickName, uiState.value.phoneNumber)
                  }.onSuccess {
                      when(it){
@@ -115,8 +118,8 @@ class ProfileViewModel@Inject constructor(
      val onSubmit: () -> Unit,
 ) {
     val nickNameErrorReason =
-        if (RegexConstant.NICKNAME_REGEX.matches(nickName)) null
-        else "올바른 닉네임을 입력해주세요."
+        if (nickName.isNotBlank()&&RegexConstant.NICKNAME_REGEX.matches(nickName)) null
+        else  "올바른 닉네임을 입력해주세요."
     val phoneNumberErrorReason =
         if (RegexConstant.ONLY_NUMBERS.matches(phoneNumber) && phoneNumber.length == 11) null
         else "올바른 휴대폰 번호를 입력해주세요."

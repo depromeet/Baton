@@ -48,7 +48,7 @@ class MyPageViewModel @Inject constructor(
     fun getProfile() {
         viewModelScope.launch {
             runCatching {
-                val res = userinfoRepository.getUserProfile(authRepository.authInfo!!.userId) //TODO authInfo
+                val res = userinfoRepository.getUserProfile(authRepository.authInfo!!.userId)
                 when (res) {
                     is NetworkResult.Success -> {
                         _uiState.update {
@@ -56,10 +56,7 @@ class MyPageViewModel @Inject constructor(
                                 nickName = res.data!!.nickname,
                                 phoneNumber = res.data!!.phone_number.replace(Regex("[^0-9]*"), ""),
                                 joinDate = res.data!!.created_on,
-                                profileImage = uriConverter(
-                                    context,
-                                    R.drawable.ic_img_profile_basic_smile_56
-                                ),
+                                profileImage = Uri.parse(spfManager.getProfileIcon()), //TODO img null 일때 처리
                                 account = res.data!!.account
                             )
                         }
@@ -83,11 +80,9 @@ class MyPageViewModel @Inject constructor(
 
     fun logout() {
         authRepository.logout()
-        spfManager.clearAll()
     }
 
     fun deleteUser() {
-        //TODO authinofo
        viewModelScope.launch {
             runCatching {
                val userId = authRepository.authInfo!!.userId
@@ -101,7 +96,7 @@ class MyPageViewModel @Inject constructor(
                     }
                     is NetworkResult.Error -> {
                         Timber.e(it.message)
-                        addViewEvent(ViewEvent.EventWithdrawal("가입된 유저가 아닙니다."))
+                        addViewEvent(ViewEvent.EventWithdrawal("탈퇴에 실패했습니다."))
                     }
                 }
             }

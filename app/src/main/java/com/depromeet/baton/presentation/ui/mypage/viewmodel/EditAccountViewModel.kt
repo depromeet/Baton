@@ -29,10 +29,9 @@ data class EditAccountUiState(
     val onAccountChanged: (Editable?) -> Unit,
     val onBankSelectionClick: () -> Unit,
 ) {
-    private val isNameValid = name.isNotBlank() && RegexConstant.ONLY_COMPLETE_HANGLE.matches(name)
+    private val isNameValid = name.isNotEmpty() && RegexConstant.ONLY_COMPLETE_HANGLE.matches(name)
 
-    //BEAN: 일단 계좌 번호 길이 13으루
-    private val isAccountValid = account.length == 13&& RegexConstant.ONLY_NUMBERS.matches(account)
+    private val isAccountValid = account.length >=11 && RegexConstant.ONLY_NUMBERS.matches(account)
 
     val nameErrorReason = if (isNameValid) null else "올바른 예금주명을 입력해주세요."
     val accountErrorReason = if (isAccountValid) null else "올바른 계좌번호를 입력해주세요."

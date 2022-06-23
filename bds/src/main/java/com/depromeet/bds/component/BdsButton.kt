@@ -49,7 +49,7 @@ class BdsButton @JvmOverloads constructor(
         }
     }
 
-    fun setText(text:String){
+    fun setText(text:String?){
         binding.tvText.text=text
     }
 }

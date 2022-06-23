@@ -6,18 +6,19 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.replace
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.*
 import androidx.lifecycle.flowWithLifecycle
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.bitmap.TransformationUtils.circleCrop
+import com.bumptech.glide.signature.ObjectKey
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentMyPageBinding
 import com.depromeet.baton.presentation.base.BaseFragment
+import com.depromeet.baton.presentation.main.MainActivity
+import com.depromeet.baton.presentation.ui.home.view.HomeFragment
 import com.depromeet.baton.presentation.ui.mypage.viewmodel.MyPageViewModel
 import com.depromeet.baton.presentation.ui.mypage.viewmodel.ProfileViewModel
 import com.depromeet.baton.presentation.ui.routing.RoutingActivity
@@ -49,6 +50,11 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
     private lateinit var withdrawalDialog: BdsDialog
     private lateinit var callback: OnBackPressedCallback
 
+    override fun onResume() {
+        super.onResume()
+        myPageViewModel.getProfile()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
@@ -71,13 +77,9 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                 replaceFragment(purchaseHistoryFragment)
             }
             mypageLikeCd.setOnClickListener {
-                if(likeTicketFragment.isAdded){
-                    requireActivity().supportFragmentManager.beginTransaction().remove(likeTicketFragment).commit()
-                    likeTicketFragment= LikeTicketFragment()
-                }
                 replaceFragment(likeTicketFragment)
             }
-            mypageProfileIv.setOnClickListener {
+            mypageProfileEditIc.setOnClickListener {
                val bundle =  bundleOf("nickName" to myPageViewModel.uiState.value.nickName,
                     "phoneNumber" to myPageViewModel.uiState.value.phoneNumber ,
                     "profileImg" to myPageViewModel.uiState.value.profileImage.toString() )
@@ -138,6 +140,11 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                         .load(uiState.profileImage)
                         .error(com.depromeet.bds.R.drawable.img_profile_basic_smile_56)
                         .transform(CircleCrop())
+                        .apply{
+                            this.signature(ObjectKey("mypage-profile"))
+                            .skipMemoryCache(true)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        }
                         .into(binding.mypageProfileIv)
                 }
             }
@@ -160,8 +167,24 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         }
     }
 
+    private fun setBackpressListener(){
+        callback = object : OnBackPressedCallback(true ) {
+            override fun handleOnBackPressed() {
+                val frags = requireActivity().supportFragmentManager.fragments
+                if( frags.find { it.tag=="myPageFragment"} !=null && frags.size>=3 ){
+                    requireActivity().supportFragmentManager.popBackStack()
+                }else if(frags.find { it.tag=="myPageFragment"} !=null && frags.size<=2){
+                    (activity as MainActivity).bottomNavigationHandler(R.id.menu_main_home)
+                    clearBackStack()
+                }
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this,callback)
+    }
 
-    private fun startAccountView(){
+
+
+   private fun startAccountView(){
         if(myPageViewModel.uiState.value.account==null) EmptyAccountActivity.start(requireContext())  //계좌정보 추가
         else EditAccountActivity.start(requireContext(), myPageViewModel.uiState.value.account!!)
     }
@@ -171,6 +194,21 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
        requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container_view,fragment,tag)
             .addToBackStack(null).commit()
+    }
+
+    fun clearBackStack() {
+        val fragmentManager: FragmentManager = requireActivity().supportFragmentManager
+        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        setBackpressListener()
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        callback.remove()
     }
 
 }

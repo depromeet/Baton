@@ -5,6 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ActivityMainBinding
@@ -13,6 +15,9 @@ import com.depromeet.baton.presentation.ui.chatting.ChatRoomListFragment
 import com.depromeet.baton.presentation.ui.home.view.HomeFragment
 import com.depromeet.baton.presentation.ui.mypage.view.MyPageFragment
 import com.depromeet.baton.presentation.ui.search.view.SearchFragment
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationBarView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.system.exitProcess
 
@@ -39,6 +44,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private fun initBottomNavigation() {
         replace(homeFragment)
         binding.bnvMain.itemIconTintList = null
+    }
+
+    fun bottomNavigationHandler(id : Int){
+        binding.bnvMain.selectedItemId= binding.bnvMain.menu.findItem(id).itemId
     }
 
     private fun setBottomNavigationSelectedListener() {

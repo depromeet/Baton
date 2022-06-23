@@ -55,7 +55,10 @@ class AddressActivity : BaseActivity<ActivityAddressBinding>(R.layout.activity_a
 
     private fun initView() {
         binding.addressToolbar.titleTv.text = "위치설정"
-        binding.addressDistanceTv.text = spfManager.getMaxDistance().getMaxDistanceWithUnit()
+        binding.addressDistanceTv.text.apply {
+            val distance =spfManager.getMaxDistance().getMaxDistanceWithUnit()
+            if( distance=="500m") "" else distance
+        }
         binding.distanceSeekBar.setPadding(0, 0, 0, 0)
 
         binding.distanceSeekBar.setProgress(addressViewModel.setDistanceProgress(spfManager.getMaxDistance()!!))

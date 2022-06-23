@@ -67,7 +67,9 @@ class SaleHistoryViewModel @Inject constructor(
     fun deleteTicket(ticketId: Int) {
         viewModelScope.launch {
            runCatching {
-               ticketinfoRepository.deleteTicket(ticketId)
+                ticketinfoRepository.deleteTicket(ticketId)
+               getSaleHistory()
+               getSoldoutHistory()
            }.onFailure {
                 Timber.e(it.message)
            }
