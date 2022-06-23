@@ -6,8 +6,8 @@ import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navGraphViewModels
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentSignUpInfoBinding
 import com.depromeet.baton.presentation.base.BaseFragment
@@ -18,7 +18,10 @@ import com.depromeet.baton.presentation.util.viewLifecycle
 import com.depromeet.baton.presentation.util.viewLifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -59,32 +62,27 @@ class SignUpInfoFragment : BaseFragment<FragmentSignUpInfoBinding>(R.layout.frag
     }
 }
 
+data class Validation(
+    val value: String = "",
+    val errorReason: String? = null,
+    val isValidating: Boolean = false
+)
+
 data class SignUpInfoUiState(
-    val name: String,
-    val nickName: String,
-    val phoneNumber: String,
+    val name: Validation,
+    val nickName: Validation,
+    val phoneNumber: Validation,
     val onNameChanged: (Editable?) -> Unit,
     val onNickNameChanged: (Editable?) -> Unit,
     val onPhoneNumberChanged: (Editable?) -> Unit,
     val onAddAccountClick: () -> Unit,
     val onSubmit: () -> Unit,
 ) {
-    val nameErrorReason =
-        if (RegexConstant.ONLY_COMPLETE_HANGLE.matches(name)) null
-        else "올바른 이름을 입력해주세요."
-    val nickNameErrorReason =
-        if (RegexConstant.NICKNAME_REGEX.matches(nickName)) null
-        else "올바른 닉네임을 입력해주세요."
-    val phoneNumberErrorReason =
-        if (RegexConstant.ONLY_NUMBERS.matches(phoneNumber) && phoneNumber.length == 11) null
-        else "올바른 휴대폰 번호를 입력해주세요."
+    private fun Validation.isEnabled(): Boolean {
+        return value.isNotBlank() && errorReason == null && !isValidating
+    }
 
-    val isEnabled = name.isNotBlank() &&
-            nameErrorReason == null &&
-            phoneNumber.isNotBlank() &&
-            phoneNumberErrorReason == null &&
-            nickName.isNotBlank() &&
-            nickNameErrorReason == null
+    val isEnabled = name.isEnabled() && nickName.isEnabled() && phoneNumber.isEnabled()
 }
 
 @HiltViewModel
@@ -98,9 +96,9 @@ class SignUpInfoViewModel @Inject constructor() : BaseViewModel() {
 
     private fun createState(): SignUpInfoUiState {
         return SignUpInfoUiState(
-            name = "",
-            nickName = "",
-            phoneNumber = "",
+            name = Validation(),
+            nickName = Validation(),
+            phoneNumber = Validation(),
             onNameChanged = ::handleNameChanged,
             onNickNameChanged = ::handleNickNameChanged,
             onPhoneNumberChanged = ::handlePhoneNumberChanged,
@@ -109,16 +107,55 @@ class SignUpInfoViewModel @Inject constructor() : BaseViewModel() {
         )
     }
 
+    private var nameValidationJob: Job? = null
     private fun handleNameChanged(text: Editable?) {
-        _uiState.update { it.copy(name = text.toString()) }
+        nameValidationJob?.cancel()
+
+        val value = text.toString()
+        _uiState.update { it.copy(name = it.name.copy(value = value, errorReason = null, isValidating = false)) }
+
+        if (RegexConstant.ONLY_COMPLETE_HANGLE.matches(value)) return
+
+        _uiState.update { it.copy(name = it.name.copy(isValidating = true)) }
+
+        nameValidationJob = viewModelScope.launch {
+            delay(FIELD_VALIDATION_MILLIS)
+            _uiState.update { it.copy(name = it.name.copy(errorReason = "올바른 이름을 입력해주세요.", isValidating = false)) }
+        }
     }
 
+    private var nickNameValidationJob: Job? = null
     private fun handleNickNameChanged(text: Editable?) {
-        _uiState.update { it.copy(nickName = text.toString()) }
+        nickNameValidationJob?.cancel()
+
+        val value = text.toString()
+        _uiState.update { it.copy(nickName = it.nickName.copy(value = value, errorReason = null, isValidating = false)) }
+
+        if (RegexConstant.NICKNAME_REGEX.matches(value)) return
+
+        _uiState.update { it.copy(nickName = it.nickName.copy(isValidating = true)) }
+
+        nickNameValidationJob = viewModelScope.launch {
+            delay(FIELD_VALIDATION_MILLIS)
+            _uiState.update { it.copy(nickName = it.nickName.copy(errorReason = "올바른 닉네임을 입력해주세요.", isValidating = false)) }
+        }
     }
 
+    private var phoneNumberValidationJob: Job? = null
     private fun handlePhoneNumberChanged(text: Editable?) {
-        _uiState.update { it.copy(phoneNumber = text.toString()) }
+        phoneNumberValidationJob?.cancel()
+
+        val value = text.toString()
+        _uiState.update { it.copy(phoneNumber = it.phoneNumber.copy(value = value, errorReason = null, isValidating = false)) }
+
+        if (RegexConstant.ONLY_NUMBERS.matches(value) && value.length == 11) return
+
+        _uiState.update { it.copy(phoneNumber = it.phoneNumber.copy(isValidating = true)) }
+
+        phoneNumberValidationJob = viewModelScope.launch {
+            delay(FIELD_VALIDATION_MILLIS)
+            _uiState.update { it.copy(phoneNumber = it.phoneNumber.copy(errorReason = "올바른 휴대폰 번호를 입력해주세요.", isValidating = false)) }
+        }
     }
 
     private fun handleAddAccountClick() {
@@ -140,5 +177,9 @@ class SignUpInfoViewModel @Inject constructor() : BaseViewModel() {
     sealed interface ViewEvent {
         object ToAddAccount : ViewEvent
         object ToAddressSetting : ViewEvent
+    }
+
+    companion object {
+        private const val FIELD_VALIDATION_MILLIS = 1000L
     }
 }

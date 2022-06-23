@@ -35,7 +35,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    app:bds_error_message="@{uiState.nameErrorReason}"
+                    app:bds_error_message="@{uiState.name.errorReason}"
                     app:bds_helper_message="이름은 다시 수정할 수 없으니 정확하게 입력해주세요!"
                     app:bds_helper_textColor="?information"
                     app:bds_label="이름">
@@ -52,7 +52,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    app:bds_error_message="@{uiState.nickNameErrorReason}"
+                    app:bds_error_message="@{uiState.nickName.errorReason}"
                     app:bds_label="닉네임">
 
                     <EditText
@@ -67,7 +67,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    app:bds_error_message="@{uiState.phoneNumberErrorReason}"
+                    app:bds_error_message="@{uiState.phoneNumber.errorReason}"
                     app:bds_helper_message="회원님의 정확한 번호를 입력해주세요."
                     app:bds_helper_textColor="?information"
                     app:bds_label="휴대폰 번호">

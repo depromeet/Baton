@@ -137,9 +137,9 @@ class SignUpViewModel @Inject constructor(
     fun remember(infoViewModel: SignUpInfoViewModel) {
         val source = infoViewModel.uiState.value
         builder.apply {
-            name = source.name
-            nickname = source.nickName.takeIf { it.isNotBlank() } ?: args.nickname
-            phoneNumber = source.phoneNumber
+            name = source.name.value
+            nickname = source.nickName.value.takeIf { it.isNotBlank() } ?: args.nickname
+            phoneNumber = source.phoneNumber.value
         }
     }
 
