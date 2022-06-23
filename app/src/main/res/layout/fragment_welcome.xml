@@ -17,10 +17,14 @@
         android:orientation="vertical"
         tools:ignore="HardcodedText">
 
+        <View
+            android:layout_width="1px"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="96dp"
             android:layout_marginBottom="2dp"
             android:text="안쓰는 헬스 회원권, "
             android:textAlignment="center"
@@ -30,27 +34,26 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="3dp"
             android:text="내 근처에서 바통터치!"
             android:textAlignment="center"
             android:textAppearance="?display4"
             android:textColor="?wh100" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="280dp"
+            android:layout_height="280dp"
             android:layout_gravity="center"
             android:src="@drawable/ic_ig_welcome" />
 
         <View
             android:layout_width="1px"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_height="30dp" />
 
         <com.depromeet.bds.component.BdsLinearLayout
             android:id="@+id/button_kakao"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="12dp"
@@ -69,6 +72,12 @@
                 app:drawableStartCompat="@drawable/ig_kakao" />
         </com.depromeet.bds.component.BdsLinearLayout>
 
+        <View
+            android:layout_width="1px"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <!-- FIXME: 네이버 로그인 도입 전 까지는 블락 -->
         <com.depromeet.bds.component.BdsLinearLayout
             android:id="@+id/button_naver"
             android:layout_width="match_parent"
@@ -79,6 +88,7 @@
             android:gravity="center"
             android:onClick="@{_ -> uiState.onNaverClick.invoke()}"
             android:padding="12dp"
+            android:visibility="gone"
             app:bdsBackgroundColor="?wh100"
             app:bdsBorderColor="?grey_scale40"
             app:bdsBorderWidth="1dp"
