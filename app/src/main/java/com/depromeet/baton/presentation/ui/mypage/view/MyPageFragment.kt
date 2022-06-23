@@ -173,7 +173,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                 val frags = requireActivity().supportFragmentManager.fragments
                 if( frags.find { it.tag=="myPageFragment"} !=null && frags.size>=3 ){
                     requireActivity().supportFragmentManager.popBackStack()
-                }else if( frags.isNotEmpty() && frags.get(1).tag == "myPageFragment"){
+                }else if(frags.find { it.tag=="myPageFragment"} !=null && frags.size<=2){
                     (activity as MainActivity).bottomNavigationHandler(R.id.menu_main_home)
                     clearBackStack()
                 }

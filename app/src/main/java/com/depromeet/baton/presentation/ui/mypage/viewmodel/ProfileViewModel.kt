@@ -118,8 +118,8 @@ class ProfileViewModel@Inject constructor(
      val onSubmit: () -> Unit,
 ) {
     val nickNameErrorReason =
-        if (RegexConstant.NICKNAME_REGEX.matches(nickName)) null
-        else "올바른 닉네임을 입력해주세요."
+        if (nickName.isNotBlank()&&RegexConstant.NICKNAME_REGEX.matches(nickName)) null
+        else  "올바른 닉네임을 입력해주세요."
     val phoneNumberErrorReason =
         if (RegexConstant.ONLY_NUMBERS.matches(phoneNumber) && phoneNumber.length == 11) null
         else "올바른 휴대폰 번호를 입력해주세요."
