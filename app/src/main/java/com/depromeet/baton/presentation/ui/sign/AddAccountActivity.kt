@@ -6,9 +6,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.text.Editable
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ActivityAddAccountBinding
 import com.depromeet.baton.presentation.base.BaseActivity
@@ -19,8 +21,12 @@ import com.depromeet.baton.presentation.ui.sign.AddAccountViewModel.ViewEvent
 import com.depromeet.baton.presentation.util.RegexConstant
 import com.depromeet.bds.component.BdsToast
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
+import timber.log.Timber
 import javax.inject.Inject
 
 @Parcelize
@@ -105,26 +111,21 @@ class AddAccountActivity : BaseActivity<ActivityAddAccountBinding>(R.layout.acti
     }
 }
 
-//TODO: validation 적용하기
 data class AddAccountUiState(
-    val name: String,
+    val name: Validation,
     val bank: String,
-    val account: String,
+    val account: Validation,
     val onNameChanged: (Editable?) -> Unit,
     val onBankSelected: (String) -> Unit,
     val onAccountChanged: (Editable?) -> Unit,
     val onBankSelectionClick: () -> Unit,
     val onClickSubmit: () -> Unit
 ) {
-    private val isNameValid = name.isNotBlank() && RegexConstant.ONLY_COMPLETE_HANGLE.matches(name)
+    private fun Validation.isEnabled(): Boolean {
+        return value.isNotBlank() && errorReason == null && !isValidating
+    }
 
-    //BEAN: 일단 무조건 통과로
-    private val isAccountValid = true
-
-    val nameErrorReason = if (isNameValid) null else "올바른 예금주명을 입력해주세요."
-    val accountErrorReason = if (isAccountValid) null else "올바른 계좌번호를 입력해주세요."
-
-    val isEnabled = isNameValid && isAccountValid && bank.isNotBlank()
+    val isEnabled = name.isEnabled() && bank.isNotBlank()
 }
 
 @HiltViewModel
@@ -138,9 +139,9 @@ class AddAccountViewModel @Inject constructor() : BaseViewModel() {
 
     private fun createState(): AddAccountUiState {
         return AddAccountUiState(
-            name = "",
+            name = Validation(),
             bank = "",
-            account = "",
+            account = Validation(),
             onNameChanged = ::handleNameChanged,
             onBankSelected = ::handleBankSelected,
             onAccountChanged = ::handleAccountChanged,
@@ -152,15 +153,43 @@ class AddAccountViewModel @Inject constructor() : BaseViewModel() {
     fun setAccount(account: SignAccount?) {
         _uiState.update {
             it.copy(
-                name = account?.name.orEmpty(),
+                name = it.name.copy(value = account?.name.orEmpty()),
                 bank = account?.bank.orEmpty(),
-                account = account?.account.orEmpty(),
+                account = it.account.copy(value = account?.account.orEmpty()),
             )
         }
     }
 
+    private var job1: Job? = null
     private fun handleNameChanged(editable: Editable?) {
-        _uiState.update { it.copy(name = editable.toString()) }
+        job1?.cancel()
+
+        val value = editable.toString()
+        _uiState.update {
+            it.copy(
+                name = it.name.copy(
+                    value = value,
+                    isValidating = false,
+                    errorReason = null
+                )
+            )
+        }
+
+        if (RegexConstant.ONLY_COMPLETE_HANGLE.matches(value)) return
+
+        _uiState.update { it.copy(name = it.name.copy(isValidating = true)) }
+
+        job1 = viewModelScope.launch {
+            delay(FIELD_VALIDATION_MILLIS)
+            _uiState.update {
+                it.copy(
+                    name = it.name.copy(
+                        errorReason = "올바른 예금주명을 입력해주세요.",
+                        isValidating = false
+                    )
+                )
+            }
+        }
     }
 
     fun handleBankSelected(bank: String) {
@@ -168,7 +197,17 @@ class AddAccountViewModel @Inject constructor() : BaseViewModel() {
     }
 
     private fun handleAccountChanged(editable: Editable?) {
-        _uiState.update { it.copy(account = editable.toString()) }
+        //FIXME: 아직 account에 validation 동작이 없다.
+        val value = editable.toString()
+        _uiState.update {
+            it.copy(
+                account = it.account.copy(
+                    value = value,
+                    isValidating = false,
+                    errorReason = null
+                )
+            )
+        }
     }
 
     private fun handleBankSelectionClick() {
@@ -183,10 +222,11 @@ class AddAccountViewModel @Inject constructor() : BaseViewModel() {
     private fun makeAccount(): SignAccount? {
         val state = _uiState.value
 
-        val name = state.name
+        val name = state.name.value
         val bank = state.bank
-        val account = state.account
+        val account = state.account.value
 
+        Timber.d("beanbean makeAccount > $name $bank $account")
         if (name.isBlank() || bank.isBlank() || account.isBlank()) return null
         return SignAccount(name, bank, account)
     }
@@ -202,5 +242,9 @@ class AddAccountViewModel @Inject constructor() : BaseViewModel() {
     sealed interface ViewEvent {
         data class AddAccountDone(val account: SignAccount) : ViewEvent
         data class OpenBankSelection(val selectedBank: String) : ViewEvent
+    }
+
+    companion object {
+        private const val FIELD_VALIDATION_MILLIS = 1000L
     }
 }

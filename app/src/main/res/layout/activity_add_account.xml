@@ -44,7 +44,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="24dp"
-                        app:bds_error_message="@{uiState.nameErrorReason}"
+                        app:bds_error_message="@{uiState.name.errorReason}"
                         app:bds_label="예금주">
 
                         <EditText
@@ -79,7 +79,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="24dp"
-                        app:bds_error_message="@{uiState.accountErrorReason}"
+                        app:bds_error_message="@{uiState.account.errorReason}"
                         app:bds_label="계좌번호">
 
                         <EditText
