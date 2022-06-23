@@ -70,7 +70,7 @@ class TicketDetailViewModel @Inject constructor(
                     is NetworkResult.Success->{
                         if (res.data != null) {
                             val ticket = res.data!!
-                            val userId = authRepository.authInfo!!.userId  //TODO userID 변경 authRepository.authInfo?.userId
+                            val userId = authRepository.authInfo!!.userId
                             val sellerId = ticket.seller.id
                             val state = DetailTicketInfoUiState(
                                 DetailTicketInfo(
@@ -95,7 +95,6 @@ class TicketDetailViewModel @Inject constructor(
                                         ticket.distance.toFloat()
                                     ),
                                     createdDate = dateFormatUtil(ticket.createAt),
-                                    remainDate = ticket.remainingDay,  
                                     price = ticket.price,
                                     ticketStatus = TicketStatus.valueOf(ticket.state),
                                     transferFee = TransferFee.valueOf(ticket.transferFee),
@@ -115,6 +114,7 @@ class TicketDetailViewModel @Inject constructor(
                                     imgList = ticket.images as List<TicketInfo.Image>,
                                     isHolding = ticket.isHolding,
                                     isMembership = ticket.isMembership,
+                                    remainDate = ticket.remainingDay,
                                     remainingNumber = ticket.remainingNumber,
                                     bookmarkId = ticket.bookmarkId,
                                     isLikeTicket = ticket.bookmarkId!=null,
@@ -324,8 +324,7 @@ class TicketDetailViewModel @Inject constructor(
         val emptyAdditionalTagVisible = if (ticket.tags.isNotEmpty()) View.GONE else View.VISIBLE
 
         val remainText = if (ticket.isMembership) "남은 기간" else "남은 횟수"
-        val remainCount =
-            if (ticket.isMembership) "${ticket.remainDate}일" else "${ticket.remainingNumber}회"
+        val remainCount = if (ticket.isMembership) "${ticket.remainDate}일" else "${ticket.remainingNumber}회"
 
         //bookmark id 가 null 이면 관심 상품 아님
         val bookmarkState  = ticket.isLikeTicket

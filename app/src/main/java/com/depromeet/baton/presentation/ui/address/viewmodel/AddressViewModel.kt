@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.depromeet.baton.util.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,7 +22,7 @@ class AddressViewModel @Inject constructor(val spfManager: BatonSpfManager): Vie
     val timeState: LiveData<String> get()=_timeState
 
     //설정 범위
-    private val _maxDistance = MutableLiveData<String>("500m")
+    private val _maxDistance = MutableLiveData<String>("")
     val maxDistance : LiveData<String> get()=_maxDistance
 
     init {
