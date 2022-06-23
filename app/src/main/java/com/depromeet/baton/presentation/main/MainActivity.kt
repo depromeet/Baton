@@ -21,7 +21,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private val homeFragment: HomeFragment by lazy { HomeFragment() }
     private val searchFragment: SearchFragment by lazy { SearchFragment() }
-    private val chattingFragment: ChatRoomListFragment by lazy { ChatRoomListFragment() }
+
+    // private val chattingFragment: ChatRoomListFragment by lazy { ChatRoomListFragment() }
     private val myPageFragment: MyPageFragment by lazy { MyPageFragment() }
     private var backBtnWaitTime = 0L
     private val toast: Toast by lazy { Toast.makeText(this, "'뒤로' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT) }
@@ -52,10 +53,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                     return@setOnItemSelectedListener true
                 }
 
-                R.id.menu_main_chatting -> {
+/*                R.id.menu_main_chatting -> {
                     replace(chattingFragment)
                     return@setOnItemSelectedListener true
-                }
+                }*/
                 R.id.menu_main_mypage -> {
                     replace(myPageFragment, "myPageFragment")
                     return@setOnItemSelectedListener true
@@ -82,7 +83,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     }
 
     fun moveToChatting() {
-        binding.bnvMain.selectedItemId = R.id.menu_main_chatting
+        //    binding.bnvMain.selectedItemId = R.id.menu_main_chatting
     }
 
     override fun onBackPressed() {
