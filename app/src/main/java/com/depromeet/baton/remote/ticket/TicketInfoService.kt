@@ -1,5 +1,6 @@
 package com.depromeet.baton.remote.ticket
 
+import androidx.annotation.Keep
 import com.depromeet.baton.data.response.ResponseTicketInfo
 import com.depromeet.baton.domain.model.TicketInfo
 import com.depromeet.baton.domain.model.TicketSimpleInfo
@@ -41,11 +42,12 @@ interface TicketInfoService {
 
 }
 
+@Keep
 data class TicketQueryResponse(
     @Json(name="content")val content : List<TicketSimpleInfo>
 )
 
-
+@Keep
 data class TicketStateRequest(
     val ticketState: String
 )

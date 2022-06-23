@@ -1,5 +1,8 @@
 package com.depromeet.baton.domain.model
 
+import androidx.annotation.Keep
+
+@Keep
 data class FilteredTicket(
     val id: Int,
     val location: String?,

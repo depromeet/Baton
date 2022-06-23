@@ -1,5 +1,8 @@
 package com.depromeet.baton.map.data.model.response
 
+import androidx.annotation.Keep
+
+@Keep
 data class ResponseNaverLocal(
     var lastBuildDate: String = "",
     var total: Int = 0,

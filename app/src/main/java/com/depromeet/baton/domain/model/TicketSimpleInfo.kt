@@ -1,8 +1,10 @@
 package com.depromeet.baton.domain.model
 
+import androidx.annotation.Keep
 import com.depromeet.baton.data.response.ResponseFilteredTicket
 import com.squareup.moshi.Json
 
+@Keep
 data class TicketSimpleInfo(
     @Json(name="id") val id : Int,
     @Json(name="location") val location: String,

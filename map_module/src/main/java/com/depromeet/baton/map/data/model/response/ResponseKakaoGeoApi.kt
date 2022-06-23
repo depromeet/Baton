@@ -1,8 +1,9 @@
 package com.depromeet.baton.map.data.model
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
-
+@Keep
 data class KakaoGeoResponse (
     @SerializedName("meta")
     val meta : Meta ,

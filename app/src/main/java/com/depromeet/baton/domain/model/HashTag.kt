@@ -1,5 +1,10 @@
 package com.depromeet.baton.domain.model
 
+import androidx.annotation.Keep
+import com.squareup.moshi.JsonClass
+
+@Keep
+@JsonClass(generateAdapter = false)
 enum class HashTag(val value: String) {
     KIND_TEACHER("#친절한 선생님"),
     SYSTEMATIC_CLASS("#체계적인 수업"),

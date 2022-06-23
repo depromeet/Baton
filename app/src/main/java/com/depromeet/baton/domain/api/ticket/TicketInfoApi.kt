@@ -1,10 +1,7 @@
 package com.depromeet.baton.domain.api.ticket
 
 import com.depromeet.baton.data.response.ResponseTicketInfo
-import com.depromeet.baton.data.response.TicketSearchResponse
 import com.depromeet.baton.domain.model.TicketInfo
-import com.depromeet.baton.domain.model.TicketSimpleInfo
-import com.depromeet.baton.map.util.NetworkResult
 import com.depromeet.baton.remote.ticket.TicketInfoService
 import com.depromeet.baton.remote.ticket.TicketQueryResponse
 import com.depromeet.baton.remote.ticket.TicketStateRequest

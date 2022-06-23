@@ -1,10 +1,12 @@
 package com.depromeet.baton.data.request
 
+import androidx.annotation.Keep
 import com.depromeet.baton.domain.model.HashTag
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 
+@Keep
 data class RequestTicketPost(
     val location: String,
     val address: String,

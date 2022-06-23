@@ -1,6 +1,8 @@
 package com.depromeet.baton.data.response
 
+import androidx.annotation.Keep
 
+@Keep
 data class ResponseFilteredTicket(
     val content: List<Content>?,
     val pageable: Pageable?,

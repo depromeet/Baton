@@ -1,5 +1,10 @@
 package com.depromeet.baton.domain.model
 
+import androidx.annotation.Keep
+import com.squareup.moshi.JsonClass
+
+@Keep
+@JsonClass(generateAdapter = false)
 enum class AdditionalOptions(val value: String) {
     SHOWER_ROOM("샤워실 포함"),
     LOCKER_ROOM("락카룸 포함"),

@@ -1,7 +1,9 @@
 package com.depromeet.baton.domain.model
 
+import androidx.annotation.Keep
 import com.squareup.moshi.Json
 
+@Keep
 class MypageTicketResponse(
     @Json(name = "id") val id: Int,
     @Json(name = "location") val location: String,
