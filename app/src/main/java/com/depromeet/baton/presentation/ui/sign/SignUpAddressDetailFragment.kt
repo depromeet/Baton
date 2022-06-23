@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.text.Editable
 import android.view.View
+import androidx.annotation.Keep
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.SavedStateHandle
@@ -128,6 +129,7 @@ class SignUpAddressDetailViewModel @Inject constructor(
     }
 }
 
+@Keep
 @Parcelize
 data class SignUpAddressDetailStartArgs(
     val addressData: AddressData

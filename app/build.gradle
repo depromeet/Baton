@@ -109,6 +109,7 @@ dependencies {
 
     implementation platform(Dep.Firebase.bom)
     implementation(Dep.Firebase.analytics)
+    implementation(Dep.Firebase.crashlytics)
     implementation(Dep.Firebase.messaging)
 
     implementation(Dep.Map.naver_sdk)

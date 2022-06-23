@@ -1,9 +1,11 @@
 package com.depromeet.baton.map.data.model
 
+import androidx.annotation.Keep
 import com.tickaroo.tikxml.annotation.Element
 import com.tickaroo.tikxml.annotation.PropertyElement
 import com.tickaroo.tikxml.annotation.Xml
 
+@Keep
 @Xml(name = "results")
 data class AddressResult(
     @Element
@@ -12,6 +14,7 @@ data class AddressResult(
     val juso: List<Juso>?,
 )
 
+@Keep
 @Xml(name = "common")
 data class Common(
     @PropertyElement(name="totalCount")
@@ -25,6 +28,8 @@ data class Common(
     @PropertyElement(name="errorMessage")
     val errorMessage: String?,
 )
+
+@Keep
 @Xml(name = "juso")
 data class Juso(
     @PropertyElement(name="roadAddr")
