@@ -35,7 +35,7 @@ import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 
 @AndroidEntryPoint
-class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page) {
+class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page),MainActivity.OnBackPressedListener {
 
     private val myPageViewModel  by  viewModels<MyPageViewModel>(ownerProducer = {requireActivity()})
 
@@ -48,7 +48,6 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
 
     private lateinit var logoutDialog: BdsDialog
     private lateinit var withdrawalDialog: BdsDialog
-    private lateinit var callback: OnBackPressedCallback
 
     override fun onResume() {
         super.onResume()
@@ -167,23 +166,6 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         }
     }
 
-    private fun setBackpressListener(){
-        callback = object : OnBackPressedCallback(true ) {
-            override fun handleOnBackPressed() {
-                val frags = requireActivity().supportFragmentManager.fragments
-                if( frags.find { it.tag=="myPageFragment"} !=null && frags.size>=3 ){
-                    requireActivity().supportFragmentManager.popBackStack()
-                }else if(frags.find { it.tag=="myPageFragment"} !=null && frags.size<=2){
-                    (activity as MainActivity).bottomNavigationHandler(R.id.menu_main_home)
-                    clearBackStack()
-                }
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(this,callback)
-    }
-
-
-
    private fun startAccountView(){
         if(myPageViewModel.uiState.value.account==null) EmptyAccountActivity.start(requireContext())  //계좌정보 추가
         else EditAccountActivity.start(requireContext(), myPageViewModel.uiState.value.account!!)
@@ -196,19 +178,14 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             .addToBackStack(null).commit()
     }
 
-    fun clearBackStack() {
-        val fragmentManager: FragmentManager = requireActivity().supportFragmentManager
-        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+    override fun onBackPressed() {
+        val frags = requireActivity().supportFragmentManager.fragments
+        if( frags.find { it.tag=="myPageFragment"} !=null && frags.size>=3 ){
+            requireActivity().supportFragmentManager.popBackStack()
+        }else if(frags.find { it.tag=="myPageFragment"} !=null && frags.size<=2){
+            (activity as MainActivity).bottomNavigationHandler(R.id.menu_main_home)
+        }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        setBackpressListener()
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        callback.remove()
-    }
 
 }

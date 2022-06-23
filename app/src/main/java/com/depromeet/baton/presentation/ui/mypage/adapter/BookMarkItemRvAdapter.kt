@@ -40,7 +40,6 @@ class BookMarkItemRvAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: BookmarkTicket, position: Int) {
             with(binding) {
-               Timber.e("${item.ticket.mainImage} ${item.ticket.type}")
                val badge =  when(TicketKind.valueOf(item.ticket.type).ordinal){
                     0 -> "헬스"
                     1-> "PT"

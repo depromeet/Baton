@@ -8,6 +8,7 @@ import androidx.core.app.ActivityCompat
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ActivityMainBinding
 import com.depromeet.baton.presentation.base.BaseActivity
@@ -19,6 +20,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
+import timber.log.Timber.Forest.tag
 import kotlin.system.exitProcess
 
 @AndroidEntryPoint
@@ -105,7 +108,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             }
         }
 
-/*        // todo 뒤로가기 두번 클릭시 앱 종료 -> 필요시
         if (System.currentTimeMillis() - backBtnWaitTime >= BACK_BTN_WAIT_TIME) {
             backBtnWaitTime = System.currentTimeMillis()
             toast.show()
@@ -114,7 +116,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             ActivityCompat.finishAffinity(this)
             System.runFinalization()
             exitProcess(0)
-        }*/
+        }
     }
 
     interface OnBackPressedListener {
