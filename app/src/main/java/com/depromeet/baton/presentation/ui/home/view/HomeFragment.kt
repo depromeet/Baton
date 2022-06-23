@@ -156,7 +156,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
 
         filterViewModel.filteredTicketList.observe(viewLifecycleOwner) {
-            ticketItemRvAdapter.submitList(it?.reversed())
+            ticketItemRvAdapter.submitList(it)
         }
     }
 
