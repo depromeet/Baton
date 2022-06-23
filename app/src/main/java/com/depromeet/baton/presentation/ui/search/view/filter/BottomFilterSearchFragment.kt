@@ -107,7 +107,6 @@ class BottomFilterSearchFragment : BottomSheetDialogFragment() {
     private fun setCurrentFilterPosition() {
         filterSearchViewModel.currentFilterPosition.observe(viewLifecycleOwner) { currentFilterPosition ->
             binding.vpBottomFilter.setCurrentItem(currentFilterPosition, false)
-            Timber.d("${binding.vpBottomFilter.currentItem}")
         }
     }
 

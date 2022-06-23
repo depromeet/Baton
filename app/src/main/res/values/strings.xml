@@ -141,7 +141,8 @@
     <string name="search_option_alignment">정렬</string>
     <string name="search_option_count">%s개</string>
     <string name="search_option_all">전체</string>
-    <string name="price_range">%s원 ~ %s원</string>
+    <string name="price_range">%s원 ~ %s원 이상</string>
+    <string name="price_range_normal">%s원 ~ %s원</string>
     <string name="pt_term_range">%s회 ~ %s회</string>
     <string name="gym_term_range">%s개월 ~ %s개월</string>
     <string name="ticket_distance_format">%sm</string>

@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen8"
-            android:text="@{@string/price_range(filterViewModel.priceRangeFormatted.first, filterViewModel.priceRangeFormatted.second)}"
+            android:text="@{filterViewModel.priceRangeFormatted.second.contains(`1,500,000`) ? @string/price_range(filterViewModel.priceRangeFormatted.first, filterViewModel.priceRangeFormatted.second) : @string/price_range_normal(filterViewModel.priceRangeFormatted.first, filterViewModel.priceRangeFormatted.second)}"
             android:textAppearance="?headline2"
             android:textColor="?grey_scale90"
             android:visibility="@{filterViewModel.isPriceFiltered==true ? View.VISIBLE : View.INVISIBLE}"

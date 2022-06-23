@@ -188,7 +188,7 @@ class FilterViewModel @Inject constructor(
     private val _isTermRangeFiltered = MutableLiveData<Boolean>()
 
     //가격
-    private val _priceRangeFormatted = MutableLiveData(Pair("0", "15,000,000"))
+    private val _priceRangeFormatted = MutableLiveData(Pair("0", "1,500,000"))
     val priceRangeFormatted: LiveData<Pair<String, String>> = _priceRangeFormatted
 
     private val _priceRange = MutableLiveData(Pair(0f, 1500000f))
