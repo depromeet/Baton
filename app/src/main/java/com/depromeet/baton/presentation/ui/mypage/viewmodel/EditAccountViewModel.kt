@@ -31,7 +31,7 @@ data class EditAccountUiState(
 ) {
     private val isNameValid = name.isNotEmpty() && RegexConstant.ONLY_COMPLETE_HANGLE.matches(name)
 
-    private val isAccountValid = account.length <=11 && RegexConstant.ONLY_NUMBERS.matches(account)
+    private val isAccountValid = account.length >=11 && RegexConstant.ONLY_NUMBERS.matches(account)
 
     val nameErrorReason = if (isNameValid) null else "올바른 예금주명을 입력해주세요."
     val accountErrorReason = if (isAccountValid) null else "올바른 계좌번호를 입력해주세요."
