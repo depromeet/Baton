@@ -10,6 +10,7 @@ data class SignUpKakaoRequest(
     val provider: String,
     val user: User,
 ) {
+    @Keep
     data class User(
         val name: String,
         val nickname: String,
@@ -22,7 +23,7 @@ data class SignUpKakaoRequest(
         @Json(name = "check_privacy_policy") val checkPrivacyPolicy: Boolean,
         val account: Account?,
     )
-
+    @Keep
     data class Account(
         val holder: String,
         val bank: String,

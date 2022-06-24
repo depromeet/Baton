@@ -38,12 +38,14 @@ data class TicketInfo(
     @Json(name="bookmarkCount")  val bookmarkCount : Int,
     @Json(name="viewCount")  val viewCount: Int,
 ) {
+    @Keep
     data class Image(
         @Json(name="id")val id: Int?=0,
         @Json(name="url") val url: String?="",
         @Json(name="thumbnailUrl")val thumbnailUrl: String?="",
         @Json(name="isMain")val isMain: Boolean?=false
     )
+    @Keep
     data class Seller(
         @Json(name="id")val id: Int,
         @Json(name="name")val name : String?="",

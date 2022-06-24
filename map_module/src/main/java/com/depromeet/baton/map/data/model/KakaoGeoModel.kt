@@ -1,8 +1,13 @@
 package com.depromeet.baton.map.data.model
 
+import androidx.annotation.Keep
+import com.depromeet.baton.map.data.model.response.KakaoGeoResponse
 import com.depromeet.baton.map.domain.entity.LocationEntity
 import com.depromeet.baton.map.util.NetworkResult
+import com.squareup.moshi.JsonClass
 
+@Keep
+@JsonClass(generateAdapter = false)
 class KakaoGeoModel(_lat : Double, _long: Double, _response: NetworkResult<KakaoGeoResponse>) {
     var response = _response
     var latitude =_lat

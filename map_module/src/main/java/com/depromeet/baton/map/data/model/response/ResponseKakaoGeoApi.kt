@@ -1,4 +1,4 @@
-package com.depromeet.baton.map.data.model
+package com.depromeet.baton.map.data.model.response
 
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
@@ -6,18 +6,23 @@ import com.google.gson.annotations.SerializedName
 @Keep
 data class KakaoGeoResponse (
     @SerializedName("meta")
-    val meta : Meta ,
+    val meta : Meta,
     @SerializedName("documents")
     val documents : List<Documents>
 ){
-    data class Meta ( val total_count : Int)
+    @Keep
+    data class Meta (
+        @SerializedName("total_count")
+        val total_count : Int)
 
+    @Keep
     data class Documents (
         @SerializedName("road_address")
         val road_address : RoadAddress?,
         @SerializedName("address")
-        val address :  KakaoAddress
+        val address : KakaoAddress
     ){
+        @Keep
         data class KakaoAddress(
             val address_name : String,
             val region_1depth_name: String,
@@ -27,6 +32,7 @@ data class KakaoGeoResponse (
             val main_address_no : String,
             val sub_address_no : String,
         )
+        @Keep
         data class RoadAddress(
             val address_name : String,
             val region_1depth_name: String,

@@ -1,20 +1,15 @@
 package com.depromeet.baton.domain.repository
 
 import com.depromeet.baton.data.response.*
-import com.depromeet.baton.domain.api.search.SearchApi
 import com.depromeet.baton.domain.api.user.UserInfoApi
 import com.depromeet.baton.domain.di.IoDispatcher
 import com.depromeet.baton.domain.model.MypageTicketResponse
-import com.depromeet.baton.domain.model.TicketSimpleInfo
-import com.depromeet.baton.domain.model.UserInfo
 import com.depromeet.baton.map.base.BaseApiResponse
 import com.depromeet.baton.map.util.NetworkResult
 import com.depromeet.baton.remote.ticket.MypageBasicResponse
 import com.depromeet.baton.remote.user.UserProfileRequest
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 

@@ -1,6 +1,6 @@
 package com.depromeet.baton.map.data.service
 
-import com.depromeet.baton.map.data.model.AddressResult
+import com.depromeet.baton.map.data.model.response.AddressResult
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

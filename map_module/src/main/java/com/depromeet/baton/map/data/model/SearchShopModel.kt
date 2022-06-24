@@ -1,9 +1,13 @@
 package com.depromeet.baton.map.data.model
 
+import androidx.annotation.Keep
 import com.depromeet.baton.map.data.model.response.ResponseNaverLocal
 import com.depromeet.baton.map.domain.entity.*
 import com.naver.maps.geometry.Tm128
+import com.squareup.moshi.JsonClass
 
+@Keep
+@JsonClass(generateAdapter = false)
 class SearchShopModel(_response : ResponseNaverLocal) {
     val response =_response
 

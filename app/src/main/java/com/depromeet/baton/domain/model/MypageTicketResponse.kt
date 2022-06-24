@@ -24,6 +24,7 @@ class MypageTicketResponse(
     @Json(name="bookmarkId")  val bookmarkId : Int?,
     @Json(name="type")  val type : String,
 ) {
+    @Keep
     data class Image(
         @Json(name = "id") val id: Int? = 0,
         @Json(name = "url") val url: String? = "",

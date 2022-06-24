@@ -181,18 +181,6 @@ class SearchRepository @Inject constructor(
         )
     }
 
-    suspend fun getTicketInfo(
-        id: Int,
-        latitude: Float = spfManager.getLocation().latitude.toFloat(),
-        longitude: Float = spfManager.getLocation().longitude.toFloat(),
-    ): ResponseTicketInfo {
-        return searchApi.getTicketInfo(id, latitude, longitude)
-    }
-
-    suspend fun deleteTicketInfo(id: Int) {
-        return searchApi.deleteTicketInfo(id)
-    }
-
     suspend fun getTicketSearchResult(
         page: Int,
         size: Int,

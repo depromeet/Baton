@@ -30,3 +30,18 @@
 -keep class * extends androidx.fragment.app.Fragment{}
 -keepnames class * extends android.os.Parcelable
 -keepnames class * extends java.io.Serializable
+
+# Ignore our XML Serialization classes
+
+# TikXML
+-keep class com.tickaroo.tikxml.** { *; }
+-keep @com.tickaroo.tikxml.annotation.Xml public class *
+-keep class **$$TypeAdapter { *; }
+
+-keepclasseswithmembernames class * {
+    @com.tickaroo.tikxml.* <fields>;
+}
+
+-keepclasseswithmembernames class * {
+    @com.tickaroo.tikxml.* <methods>;
+}

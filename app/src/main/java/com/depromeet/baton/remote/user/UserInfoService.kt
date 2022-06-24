@@ -89,6 +89,7 @@ data class UserAddressResponse(
     @Json(name="detailed_address")val detailAddress :String
 )
 
+@Keep
 @Parcelize
 data class UserAccount(
     @Json(name="holder")val holder: String,

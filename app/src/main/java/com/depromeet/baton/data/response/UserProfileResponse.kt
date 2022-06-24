@@ -2,6 +2,7 @@ package com.depromeet.baton.data.response
 
 import androidx.annotation.Keep
 import com.depromeet.baton.remote.user.UserAccount
+import com.google.gson.annotations.JsonAdapter
 import com.squareup.moshi.Json
 
 @Keep
