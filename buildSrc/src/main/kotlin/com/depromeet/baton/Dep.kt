@@ -8,6 +8,7 @@ object Dep {
         const val hilt = "com.google.dagger:hilt-android-gradle-plugin:${Dagger.version}"
         const val spotless = "com.diffplug.spotless:spotless-plugin-gradle:6.2.0"
         const val googleService = "com.google.gms:google-services:4.3.10"
+        const val firebaseCrashlytics="com.google.firebase:firebase-crashlytics-gradle:2.2.0"
     }
 
     object Kotlin {
@@ -143,6 +144,7 @@ object Dep {
     object Firebase {
         const val bom = "com.google.firebase:firebase-bom:29.0.4"
         const val analytics = "com.google.firebase:firebase-analytics-ktx"
+        const val crashlytics = "com.google.firebase:firebase-crashlytics-ktx"
         const val messaging = "com.google.firebase:firebase-messaging-ktx:23.0.0"
     }
 
@@ -181,6 +183,7 @@ object Dep {
     const val glide_compiler = "com.github.bumptech.glide:compiler:4.13.0"
     const val imagepicker = "com.github.nguyenhoanglam:ImagePicker:1.5.2"
     const val stickyScrollView="com.github.amarjain07:StickyScrollView:1.0.3"
+    const val circleimageview=  "de.hdodenhof:circleimageview:3.1.0"
 
     // https://developers.kakao.com/docs/latest/ko/getting-started/sdk-android#select-module
     object Kakao {
