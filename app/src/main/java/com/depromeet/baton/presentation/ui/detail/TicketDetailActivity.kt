@@ -22,8 +22,6 @@ import com.depromeet.baton.databinding.ItemPrimaryOutlineTagBinding
 import com.depromeet.baton.databinding.ItemPrimaryTagBinding
 import com.depromeet.baton.domain.model.FilteredTicket
 import com.depromeet.baton.domain.model.TicketStatus
-import com.depromeet.baton.domain.repository.AuthRepository
-import com.depromeet.baton.domain.repository.BookmarkRepository
 import com.depromeet.baton.presentation.base.BaseActivity
 import com.depromeet.baton.presentation.base.WebActivity
 import com.depromeet.baton.presentation.bottom.BottomMenuItem
@@ -301,7 +299,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
             when (index) {
                 0 -> viewModel.ticketStatusHandler(TicketStatus.SALE)
                 1 -> viewModel.ticketStatusHandler(TicketStatus.RESERVED)
-                2 -> viewModel.ticketStatusHandler(TicketStatus.SOLDOUT)
+                2 -> viewModel.ticketStatusHandler(TicketStatus.DONE)
             }
         }
     }
@@ -331,7 +329,8 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     private val reportItemClick = object : BottomSheetFragment.Companion.OnItemClick {
         override fun onSelectedItem(selected: BottomMenuItem, index: Int) {
             this@TicketDetailActivity.BdsToast("신고가 접수되었습니다.", binding.ticketDetailFooter.top).show()
-            viewModel.reportTicket(index)
+            viewModel.deleteTicket()
+            //viewModel.reportTicket(index)
         }
     }
 
@@ -339,7 +338,8 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     private val reportSellerItemClick = object : BottomSheetFragment.Companion.OnItemClick {
         override fun onSelectedItem(selected: BottomMenuItem, index: Int) {
             this@TicketDetailActivity.BdsToast("신고가 접수되었습니다.", binding.ticketDetailFooter.top).show()
-            viewModel.reportSeller(index) // TODO 글과 유저 신고 분리
+            viewModel.deleteTicket()
+            //viewModel.reportSeller(index) // TODO 글과 유저 신고 분리
         }
     }
 
@@ -435,6 +435,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
 
     override fun onPause() {
         super.onPause()
+        viewModel.checkLikeStatus()
         mapView.onPause()
     }
 
@@ -447,6 +448,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         super.onStop()
         mapView.onStop()
     }
+
 
     override fun onDestroy() {
         super.onDestroy()

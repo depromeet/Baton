@@ -3,7 +3,6 @@ package com.depromeet.baton.remote.search
 import com.depromeet.baton.data.response.ResponseFilteredTicket
 import com.depromeet.baton.data.response.ResponsePostTicket
 import com.depromeet.baton.data.response.ResponseTicketInfo
-import com.depromeet.baton.data.response.TicketSearchResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response

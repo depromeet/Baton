@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.baton.databinding.ItemTicketBinding
 import com.depromeet.baton.domain.model.FilteredTicket
+import com.depromeet.baton.presentation.util.distanceFormatUtil
 import com.depromeet.baton.util.SimpleDiffUtil
 import com.depromeet.bds.utils.toPx
 
@@ -52,12 +53,15 @@ class TicketItemRvAdapter(
                     itemTicketTagEtc.text = "+$etcSize"
                 }
 
+                //거리
+                tvItemTicketDistance.text = distanceFormatUtil(item.distance!!.toDouble())
+
                 //좋아요 버튼 todo 서버연결
-                ctvItemTicketLike.visibility= View.INVISIBLE
-               // setLikeBtnClickListener(ctvItemTicketLike, item)
+                ctvItemTicketLike.visibility = View.INVISIBLE
+                // setLikeBtnClickListener(ctvItemTicketLike, item)
 
                 //엠티뷰
-                setEmptyImage(position, ivItemEmpty)
+                setEmptyImage(item.type ?: "기타", ivItemEmpty)
 
                 //상세페이지로
                 root.setOnClickListener { clickListener(item) }
@@ -65,12 +69,12 @@ class TicketItemRvAdapter(
         }
     }
 
-    private fun setEmptyImage(position: Int, view: ImageView) {
-        when (position % 4) {
-            0 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_health_86)
-            1 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_etc_86)
-            2 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_pt_86)
-            3 -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_pilates_86)
+    private fun setEmptyImage(type: String, view: ImageView) {
+        when (type) {
+            "헬스" -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_health_86)
+            "기타" -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_etc_86)
+            "PT" -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_pt_86)
+            "필라테스" -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_pilates_86)
         }
     }
 

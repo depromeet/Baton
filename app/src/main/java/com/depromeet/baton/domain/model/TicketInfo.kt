@@ -1,7 +1,9 @@
 package com.depromeet.baton.domain.model
 
+import androidx.annotation.Keep
 import com.squareup.moshi.Json
 
+@Keep
 data class TicketInfo(
     @Json(name="id") val id : Int,
     @Json(name="seller") val seller : Seller,
@@ -27,8 +29,8 @@ data class TicketInfo(
     @Json(name="images") val images: List<Image> ? = emptyList(),
     @Json(name="isHolding")  val isHolding: Boolean,
     @Json(name="isMembership")  val isMembership: Boolean,
-    @Json(name="remainNumber") val remainingNumber: Int?=0,
-    @Json(name="remainingDay") val remainingDay: Int?=0,
+    @Json(name="remainingNumber") val remainingNumber: Int?,
+    @Json(name="remainingDay") val remainingDay: Int?,
     @Json(name="latitude")  val latitude: Double,
     @Json(name="longitude")  val longitude: Double,
     @Json(name="distance")  val distance: Double,
@@ -36,12 +38,14 @@ data class TicketInfo(
     @Json(name="bookmarkCount")  val bookmarkCount : Int,
     @Json(name="viewCount")  val viewCount: Int,
 ) {
+    @Keep
     data class Image(
         @Json(name="id")val id: Int?=0,
         @Json(name="url") val url: String?="",
         @Json(name="thumbnailUrl")val thumbnailUrl: String?="",
         @Json(name="isMain")val isMain: Boolean?=false
     )
+    @Keep
     data class Seller(
         @Json(name="id")val id: Int,
         @Json(name="name")val name : String?="",

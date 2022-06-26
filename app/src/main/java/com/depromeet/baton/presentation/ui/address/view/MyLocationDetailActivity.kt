@@ -46,7 +46,10 @@ class MyLocationDetailActivity : BaseActivity<ActivityMylocationDetailBinding>(R
                     is NetworkResult.Success -> {
                         nextView()
                     }
-                    is NetworkResult.Error ->{this.BdsToast("주소 정보 저장에 실패했습니다").show()}
+                    is NetworkResult.Error ->{
+                        this.BdsToast("주소 정보 저장에 실패했습니다").show()
+                        finish()
+                    }
                 }
             }.launchIn(lifecycleScope)
 

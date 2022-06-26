@@ -13,6 +13,7 @@ jobs:
       GOOGLE_SERVICES: ${{ secrets.GOOGLE_SERVICES }}
       KEYSTORE_PROPERTIES: ${{ secrets.KEYSTORE_PROPERTIES }}
       SECRETS_STRINGS: ${{ secrets.SECRETS_STRINGS }}
+      KEYSTORE: ${{ secrets.KEYSTORE }}
     with:
       commands: build
 #

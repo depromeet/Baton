@@ -1,6 +1,8 @@
 package com.depromeet.baton.data.response
 
+import androidx.annotation.Keep
 
+@Keep
 data class ResponseFilteredTicket(
     val content: List<Content>?,
     val pageable: Pageable?,
@@ -14,6 +16,7 @@ data class ResponseFilteredTicket(
     val first: Boolean?,
     val empty: Boolean?
 ) {
+    @Keep
     data class Content(
         val createAt: String?,
         val expiryDate: String?,
@@ -33,7 +36,7 @@ data class ResponseFilteredTicket(
         val type: String,
       //  val bookmarkId: Int? todo
     )
-
+    @Keep
     data class Pageable(
         val sort: Sort?,
         val offset: Int?,
@@ -42,13 +45,14 @@ data class ResponseFilteredTicket(
         val paged: Boolean?,
         val unpaged: Boolean?
     ) {
+        @Keep
         data class Sort(
             val empty: Boolean?,
             val sorted: Boolean?,
             val unsorted: Boolean?
         )
     }
-
+    @Keep
     data class Sort(
         val empty: Boolean?,
         val sorted: Boolean?,

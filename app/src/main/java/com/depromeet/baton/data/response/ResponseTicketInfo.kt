@@ -1,5 +1,8 @@
 package com.depromeet.baton.data.response
 
+import androidx.annotation.Keep
+
+@Keep
 data class ResponseTicketInfo(
     val createAt: String?,
     val expiryDate: Any?,

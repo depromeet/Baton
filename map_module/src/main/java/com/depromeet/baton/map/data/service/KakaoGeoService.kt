@@ -1,7 +1,7 @@
 package com.depromeet.baton.map.data.service
 
 
-import com.depromeet.baton.map.data.model.KakaoGeoResponse
+import com.depromeet.baton.map.data.model.response.KakaoGeoResponse
 import com.depromeet.map.BuildConfig
 import retrofit2.Response
 

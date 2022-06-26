@@ -1,8 +1,12 @@
 package com.depromeet.baton.map.domain.entity
 
 
+import androidx.annotation.Keep
 import com.naver.maps.geometry.LatLng
+import com.squareup.moshi.JsonClass
 
+@Keep
+@JsonClass(generateAdapter = false)
 class LocationEntity(_latitude :Double, _longitude :Double){
     var latitude :Double = 0.0
     var longitude  :Double = 0.0

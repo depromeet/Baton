@@ -1,9 +1,8 @@
 package com.depromeet.baton.map.data.dataSource
 
 import com.depromeet.baton.map.base.BaseApiResponse
-import com.depromeet.baton.map.data.model.AddressResult
+import com.depromeet.baton.map.data.model.response.AddressResult
 import com.depromeet.baton.map.data.model.response.ResponseNaverLocal
-import com.depromeet.baton.map.data.service.NaverApiClient
 import com.depromeet.baton.map.data.service.SearchAddressService
 import com.depromeet.baton.map.data.service.SearchShopService
 import com.depromeet.baton.map.util.NetworkResult

@@ -1,12 +1,17 @@
 package com.depromeet.baton.chat
 
+import android.os.Parcelable
+import android.text.Editable
+import android.util.Log
 import androidx.annotation.GuardedBy
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.SupervisorJob
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.depromeet.baton.presentation.base.UIState
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
+import kotlinx.parcelize.Parcelize
+import timber.log.Timber
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicReference
 
@@ -44,12 +49,19 @@ enum class State {
     READ
 }
 
+//todo 다빈: 채팅이력 ChatRoom 임시
+@Parcelize
 data class ChatRoom(
     val senderId: Int,
     val receiverId: Int,
     val senderName: String,
     val receiverName: String,
-)
+    val shopName: String? = null, //임시
+    val LastMessage: String? = null, //임시
+    val messageCount: Int? = null, //임시
+    val receiverProfileImg: String? = null, //임시
+    val howOld: Int? = null //임시
+) : Parcelable
 
 data class Message(
     val senderId: Int,
@@ -104,10 +116,32 @@ class ChatRepository(
             .launchIn(scope)
     }
 
+    //todo 다빈: test
     fun getMessages(room: ChatRoom): Flow<List<Message>> {
-        return synchronized(messageLock) {
-            roomMessageStateFlowMap.getOrPut(room) { createDefaultMessageSharedFlow() }
+        return flow<List<Message>> {
+            emit(
+                listOf(
+                    Message(1, State.SENT, "이거 사줘줘하이하이하이하이하이하이줮줘주"),
+                    Message(1, State.SENT, "하이"),
+                    Message(0, State.SENT, "하하이하이이"),
+                    Message(1, State.SENT, "하하이하이하이하이하이이"),
+                    Message(0, State.SENT, "하이"),
+                    Message(0, State.SENT, "하하하이하이하이하이하이하이하이하이하이하이하이하이하이하이하이이하이하이이"),
+                    Message(0, State.SENT, "하이"),
+                    Message(1, State.SENT, "이거 사줘줘하이하이하이하이하이하이줮줘주"),
+                    Message(1, State.SENT, "하이"),
+                    Message(0, State.SENT, "하하이하이이"),
+                    Message(1, State.SENT, "하하이하이하이하이하이이"),
+                    Message(1, State.SENT, "이거 사줘줘하이하이하이하이하이하이줮줘주"),
+                    Message(1, State.SENT, "하이"),
+                    Message(0, State.SENT, "하하이하이이"),
+                    Message(1, State.SENT, "하하이하이하이하이하이이"),
+                )
+            )
         }
+        /*    return synchronized(messageLock) {
+                roomMessageStateFlowMap.getOrPut(room) { createDefaultMessageSharedFlow() }
+            }*/
     }
 
     private fun createDefaultMessageSharedFlow(): MutableSharedFlow<MutableList<Message>> {
@@ -138,35 +172,94 @@ class ChatRepository(
     }
 }
 
-//////////////////////// presentation layer
-
-data class MessageUiState(
-    val messages: List<String>
-)
-
 class ChatController(
     private val room: ChatRoom,
     private val chatRepository: ChatRepository,
     private val scope: CoroutineScope,
 ) {
     private val currentMessage: AtomicReference<String> = AtomicReference("")
+
+    //empty view 처리
+    private val _emptyUiState = MutableLiveData<UIState>(UIState.NoData)
+    val emptyUiState: LiveData<UIState> = _emptyUiState
+
     private val _uiState: MutableStateFlow<MessageUiState> = MutableStateFlow(createInitialState())
     val uiState = _uiState.asStateFlow()
 
+    private val _viewEvents: MutableStateFlow<List<ViewEvent>> = MutableStateFlow(emptyList())
+    val viewEvents = _viewEvents.asStateFlow()
+
     private fun createInitialState(): MessageUiState {
-        return MessageUiState(emptyList())
+        return MessageUiState(
+            messages = listOf(),
+            sendMessage = "",
+            onSendMessageChanged = ::handleSendMessageChanged,
+            sendMessageClick = ::handleSendMessageClick,
+            seeMoreClick = ::handleSeeMoreDialogClick,
+            turnOffNotificationClick = ::handleTurnOffNotificationClick,
+            turnOnNotificationClick = ::handleTurnOnNotificationClick,
+            leaveClick = ::handleLeaveClick
+        )
+    }
+
+    private fun addViewEvent(viewEvent: ViewEvent) {
+        _viewEvents.update { it + viewEvent }
+    }
+
+    fun consumeViewEvent(viewEvent: ViewEvent) {
+        _viewEvents.update { it - viewEvent }
+    }
+
+    private fun handleSendMessageChanged(editable: Editable?) {
+        setMessage("$editable")
+        _uiState.update { it.copy(sendMessage = "$editable") }
+    }
+
+    private fun handleSendMessageClick() {
+        addViewEvent(ViewEvent.SendMessage)
+    }
+
+    private fun handleSendMessageDone() {
+        addViewEvent(ViewEvent.SendMessageDone)
+    }
+
+    private fun handleSeeMoreDialogClick() {
+        addViewEvent(ViewEvent.OpenSeeMoreDialog)
+    }
+
+    private fun handleTurnOffNotificationClick() {
+        addViewEvent(ViewEvent.TurnOffNotification)
+    }
+
+    private fun handleTurnOnNotificationClick() {
+        addViewEvent(ViewEvent.TurnOnNotification)
+    }
+
+    private fun handleLeaveClick() {
+        addViewEvent(ViewEvent.LeaveChatRoom)
     }
 
     fun receiveMessages() {
         fun List<Message>.toMessageUiState(): MessageUiState {
-            // TODO: 어케 구현하누?
-            return MessageUiState(this.map { it.message })
+            return MessageUiState(
+                messages = this,
+                currentMessage.get(),
+                ::handleSendMessageChanged,
+                ::handleSendMessageClick,
+                ::handleSeeMoreDialogClick,
+                ::handleTurnOffNotificationClick,
+                ::handleTurnOnNotificationClick,
+                ::handleLeaveClick
+            )
         }
 
         chatRepository.getMessages(room)
             .map { it.toMessageUiState() }
             .onEach { _uiState.emit(it) }
             .launchIn(scope)
+
+        if (_uiState.value.messages.isEmpty()) _emptyUiState.value = UIState.NoData //엠티뷰 분기
+        else _emptyUiState.value = UIState.HasData
     }
 
     fun setMessage(message: String) {
@@ -176,20 +269,47 @@ class ChatController(
     /**
      * [currentMessage]를 채팅방에 보낸다.
      */
-    suspend fun send() {
-        fun makeMessage(): Message {
-            return Message(
-                senderId = room.senderId,
-                state = State.SENT,
-                message = currentMessage.get()
-            )
+    fun send() {
+        scope.launch {
+            runCatching {
+                fun makeMessage(): Message {
+                    return Message(
+                        senderId = room.senderId,
+                        state = State.SENT,
+                        message = currentMessage.get()
+                    )
+                }
+                chatRepository.send(room, makeMessage())
+            }
+                .onSuccess {
+                    setMessage("")
+                    handleSendMessageDone() //layout 초기화
+                }
+                .onFailure {
+                    Timber.e("메시지 전송 실패")
+                }
         }
-
-        chatRepository.send(room, makeMessage())
-        setMessage("")
     }
 
-    fun leave() {}
-    fun turnOffNotification() {}
-    fun turnOnNotification() {}
+    sealed interface ViewEvent {
+        object SendMessage : ViewEvent
+        object SendMessageDone : ViewEvent
+        object OpenSeeMoreDialog : ViewEvent
+        object TurnOffNotification : ViewEvent
+        object TurnOnNotification : ViewEvent
+        object LeaveChatRoom : ViewEvent
+    }
+
+    data class MessageUiState(
+        val messages: List<Message>,
+        val sendMessage: String?,
+        val onSendMessageChanged: (Editable?) -> Unit,
+        val sendMessageClick: () -> Unit,
+        val seeMoreClick: () -> Unit,
+        val turnOffNotificationClick: () -> Unit,
+        val turnOnNotificationClick: () -> Unit,
+        val leaveClick: () -> Unit,
+    ) {
+        val isEnabled = sendMessage?.isNotBlank()
+    }
 }

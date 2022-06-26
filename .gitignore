@@ -7,6 +7,8 @@
 .gradle/
 build/
 
+com.depromeet.chat/
+
 # Local configuration file (sdk path, etc)
 local.properties
 
@@ -172,3 +174,5 @@ fabric.properties
 !/gradle/wrapper/gradle-wrapper.jar
 
 # End of https://www.toptal.com/developers/gitignore/api/android,androidstudio
+
+play-store-credentials.json

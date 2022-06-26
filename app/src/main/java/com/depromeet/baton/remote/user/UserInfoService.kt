@@ -1,6 +1,7 @@
 package com.depromeet.baton.remote.user
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import com.depromeet.baton.data.response.*
 import com.depromeet.baton.domain.model.MypageTicketResponse
 import com.depromeet.baton.domain.model.TicketSimpleInfo
@@ -68,11 +69,13 @@ interface UserInfoService {
 
 }
 
+@Keep
 data class UserProfileRequest(
     @Json(name="nickname") val nickname :String,
     @Json(name="phone_number")val phoneNum : String
 )
 
+@Keep
 data class UserAddressRequest(
     @Json(name="latitude")val latitude : Float,
     @Json(name="longitude")val longitude : Float,
@@ -80,11 +83,13 @@ data class UserAddressRequest(
     @Json(name="detailed_address")val detailAddress :String
 )
 
+@Keep
 data class UserAddressResponse(
     @Json(name="address")val address : String,
     @Json(name="detailed_address")val detailAddress :String
 )
 
+@Keep
 @Parcelize
 data class UserAccount(
     @Json(name="holder")val holder: String,

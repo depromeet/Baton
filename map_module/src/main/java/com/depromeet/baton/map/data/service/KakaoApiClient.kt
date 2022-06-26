@@ -9,6 +9,8 @@ import okhttp3.OkHttpClient
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.io.IOException
 
@@ -24,10 +26,11 @@ object KakaoApiClient {
             val client = OkHttpClient.Builder()
                 .addInterceptor( logger )
                 .build()
-            val moshiBuilder = Moshi.Builder().add(KotlinJsonAdapterFactory()) .build()
+
             retrofit = Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .addConverterFactory(MoshiConverterFactory.create(moshiBuilder))
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()
             return retrofit

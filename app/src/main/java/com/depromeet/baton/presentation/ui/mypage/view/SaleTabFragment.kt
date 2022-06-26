@@ -9,6 +9,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentSaleTabBinding
+import com.depromeet.baton.domain.model.TicketStatus
 import com.depromeet.baton.presentation.base.BaseFragment
 import com.depromeet.baton.presentation.bottom.BottomMenuItem
 import com.depromeet.baton.presentation.bottom.BottomSheetFragment
@@ -47,9 +48,13 @@ class SaleTabFragment : BaseFragment<FragmentSaleTabBinding>(R.layout.fragment_s
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        saleViewModel.getSaleHistory()
         setTicketItemRv()
         setObserver()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        saleViewModel.getSaleHistory()
     }
 
 
@@ -88,13 +93,10 @@ class SaleTabFragment : BaseFragment<FragmentSaleTabBinding>(R.layout.fragment_s
 
     private fun showBottom(ticketItem: SaleTicketListItem,position: Int){
         val list = resources.getStringArray(R.array.ticketSaleStatus).map { BottomMenuItem(it)}
-        list.get(0).isChecked=true
+        list.get(TicketStatus.valueOf(ticketItem.ticket.data.state).ordinal).isChecked=true
         val bottom = BottomSheetFragment.newInstance("상태 변경",list,CHECK_ITEM_VIEW, object: BottomSheetFragment.Companion.OnItemClick{
             override fun onSelectedItem(selected: BottomMenuItem, pos: Int) { //
-                if(pos !=0 ){
-                    saleViewModel.changeStatus(ticketItem.ticket.data.id, pos)
-                    ticketItemRvAdapter.removeSelectedItem(position)
-                }
+                saleViewModel.changeStatus(ticketItem.ticket.data.id, pos)
             }}
         )
         bottom.show(childFragmentManager,null)
@@ -120,10 +122,10 @@ class SaleTabFragment : BaseFragment<FragmentSaleTabBinding>(R.layout.fragment_s
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.mypage_ticket_menu_change-> {
+          /*  R.id.mypage_ticket_menu_change-> {
                 // Respond to context menu item 1 click.
                 true
-            }
+            }*/
             R.id.mypage_ticket_menu_delete -> {
                 alertDialog.show()
                 true
@@ -136,7 +138,7 @@ class SaleTabFragment : BaseFragment<FragmentSaleTabBinding>(R.layout.fragment_s
         alertDialog = BdsDialog(requireContext(), DialogType.SECONDARY)
         alertDialog.setHorizonDialog(::onClickConfirm , ::onClickCancel)
         alertDialog.setTitle("정말 삭제하시겠어요?")
-        alertDialog.setContent("삭제시, 등록햇던 정보가 전부 사라져요")
+        alertDialog.setContent("삭제 시, 등록했던 정보가 전부 사라져요.")
         alertDialog.setImage(com.depromeet.bds.R.drawable.ic_img_empty_warning)
     }
 

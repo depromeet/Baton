@@ -4,7 +4,7 @@ import com.depromeet.baton.map.base.BaseApiResponse
 import com.depromeet.baton.map.data.service.KakaoGeoService
 import com.depromeet.baton.map.data.dataSource.GPSDataSource
 import com.depromeet.baton.map.data.model.KakaoGeoModel
-import com.depromeet.baton.map.data.model.KakaoGeoResponse
+import com.depromeet.baton.map.data.model.response.KakaoGeoResponse
 import com.depromeet.baton.map.domain.entity.LocationEntity
 import com.depromeet.baton.map.domain.repository.AddressRepository
 import com.depromeet.baton.map.util.NetworkResult
@@ -48,8 +48,10 @@ class AddressRepositoryImpl  @Inject constructor(
     private fun checkApiResult(_latitude : Double,  _longitude :Double,request :NetworkResult<KakaoGeoResponse>) :  NetworkResult<LocationEntity > {
      return if(request.data?.meta!!.total_count ==0 ) NetworkResult.Error("위치정보를 찾을 수 없습니다")
      else {
+            Timber.d(request.data?.toString())
             val result= KakaoGeoModel(_latitude,_longitude,request)
-            NetworkResult.Success<LocationEntity>(result.mapToDomain())
+            Timber.d(result.mapToDomain().toString())
+            NetworkResult.Success(result.mapToDomain())
         }
     }
 

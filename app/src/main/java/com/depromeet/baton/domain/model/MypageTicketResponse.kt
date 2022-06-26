@@ -1,7 +1,9 @@
 package com.depromeet.baton.domain.model
 
+import androidx.annotation.Keep
 import com.squareup.moshi.Json
 
+@Keep
 class MypageTicketResponse(
     @Json(name = "id") val id: Int,
     @Json(name = "location") val location: String,
@@ -22,6 +24,7 @@ class MypageTicketResponse(
     @Json(name="bookmarkId")  val bookmarkId : Int?,
     @Json(name="type")  val type : String,
 ) {
+    @Keep
     data class Image(
         @Json(name = "id") val id: Int? = 0,
         @Json(name = "url") val url: String? = "",

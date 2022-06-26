@@ -33,6 +33,7 @@
         android:maxLines="1"
         android:lineHeight="@dimen/dimen20"
         android:text="텍스트 입력중"
+        android:hint=""
         android:textAppearance="?body4"
         android:textColor="@color/selector_bds_searchbar_text_color"
         app:layout_constraintBottom_toBottomOf="parent"

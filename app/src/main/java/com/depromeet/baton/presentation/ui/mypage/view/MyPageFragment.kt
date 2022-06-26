@@ -6,18 +6,19 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.replace
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.*
 import androidx.lifecycle.flowWithLifecycle
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.bitmap.TransformationUtils.circleCrop
+import com.bumptech.glide.signature.ObjectKey
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentMyPageBinding
 import com.depromeet.baton.presentation.base.BaseFragment
+import com.depromeet.baton.presentation.main.MainActivity
+import com.depromeet.baton.presentation.ui.home.view.HomeFragment
 import com.depromeet.baton.presentation.ui.mypage.viewmodel.MyPageViewModel
 import com.depromeet.baton.presentation.ui.mypage.viewmodel.ProfileViewModel
 import com.depromeet.baton.presentation.ui.routing.RoutingActivity
@@ -34,20 +35,24 @@ import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 
 @AndroidEntryPoint
-class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page) {
+class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page),MainActivity.OnBackPressedListener {
 
-    private val myPageViewModel  by  viewModels<MyPageViewModel>()
+    private val myPageViewModel  by  viewModels<MyPageViewModel>(ownerProducer = {requireActivity()})
 
-    private val saleHistoryFragment by lazy{ SaleHistoryFragment()}
+    private var saleHistoryFragment = SaleHistoryFragment()
     private val purchaseHistoryFragment by lazy { PurchaseHistoryFragment() }
-    private val likeTicketFragment by lazy{ LikeTicketFragment() }
+    private var likeTicketFragment = LikeTicketFragment()
     private val profileEditFragment by lazy{ ProfileFragment() }
     private val notificationFragment by lazy{ NotificationFragment() }
     private val serviceTermFragment by lazy { ServiceTermFragment() }
 
     private lateinit var logoutDialog: BdsDialog
     private lateinit var withdrawalDialog: BdsDialog
-    private lateinit var callback: OnBackPressedCallback
+
+    override fun onResume() {
+        super.onResume()
+        myPageViewModel.getProfile()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -61,6 +66,10 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         myPageViewModel.getProfile()
         with(binding){
             mypageSaleHistoryCd.setOnClickListener {
+                if(saleHistoryFragment.isAdded){
+                    requireActivity().supportFragmentManager.beginTransaction().remove(saleHistoryFragment).commit()
+                    saleHistoryFragment=SaleHistoryFragment()
+                }
                 replaceFragment(saleHistoryFragment)
             }
             mypagePurchaseCd.setOnClickListener {
@@ -69,7 +78,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             mypageLikeCd.setOnClickListener {
                 replaceFragment(likeTicketFragment)
             }
-            mypageProfileIv.setOnClickListener {
+            mypageProfileEditIc.setOnClickListener {
                val bundle =  bundleOf("nickName" to myPageViewModel.uiState.value.nickName,
                     "phoneNumber" to myPageViewModel.uiState.value.phoneNumber ,
                     "profileImg" to myPageViewModel.uiState.value.profileImage.toString() )
@@ -102,7 +111,6 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
     }
 
     private fun onClickLogoutConfirm(){
-        //TODO logout logic
         myPageViewModel.logout() //sharedPreference 모두 삭제
         logoutDialog.dismiss()
         val intent = Intent(requireActivity(), SignActivity::class.java)
@@ -125,12 +133,17 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         myPageViewModel.uiState
             .flowWithLifecycle(viewLifecycle)
             .onEach { uiState ->
-                run{
+                run{ 
                     binding.uiState =uiState
                     Glide.with(requireContext())
                         .load(uiState.profileImage)
                         .error(com.depromeet.bds.R.drawable.img_profile_basic_smile_56)
                         .transform(CircleCrop())
+                        .apply{
+                            this.signature(ObjectKey("mypage-profile"))
+                            .skipMemoryCache(true)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        }
                         .into(binding.mypageProfileIv)
                 }
             }
@@ -153,50 +166,26 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         }
     }
 
-
-    private fun startAccountView(){
+   private fun startAccountView(){
         if(myPageViewModel.uiState.value.account==null) EmptyAccountActivity.start(requireContext())  //계좌정보 추가
         else EditAccountActivity.start(requireContext(), myPageViewModel.uiState.value.account!!)
     }
 
 
-    private fun setBackPressed(){
-        callback= object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                // 뒤로가기 눌렀을 때 동작할 코드
-               if(this@MyPageFragment.isAdded && childFragmentManager.fragments.isNotEmpty()){
-                   clearBackStack()
-               }else{
-                  //TODO 앱종료 처리
-                   requireActivity().finishAffinity()
-               }
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(this@MyPageFragment, callback)
-    }
-
-
     private fun replaceFragment(fragment: Fragment, tag :String?=null){
-        childFragmentManager.beginTransaction()
+       requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container_view,fragment,tag)
             .addToBackStack(null).commit()
     }
 
-    private fun clearBackStack() {
-        val fragmentManager = childFragmentManager
-        while (fragmentManager.backStackEntryCount !== 0) {
-            fragmentManager.popBackStackImmediate()
+    override fun onBackPressed() {
+        val frags = requireActivity().supportFragmentManager.fragments
+        if( frags.find { it.tag=="myPageFragment"} !=null && frags.size>=3 ){
+            requireActivity().supportFragmentManager.popBackStack()
+        }else if(frags.find { it.tag=="myPageFragment"} !=null && frags.size<=2){
+            (activity as MainActivity).bottomNavigationHandler(R.id.menu_main_home)
         }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        setBackPressed()
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        callback.remove()
-    }
 
 }

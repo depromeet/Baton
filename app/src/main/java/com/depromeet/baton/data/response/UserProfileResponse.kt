@@ -1,8 +1,11 @@
 package com.depromeet.baton.data.response
 
+import androidx.annotation.Keep
 import com.depromeet.baton.remote.user.UserAccount
+import com.google.gson.annotations.JsonAdapter
 import com.squareup.moshi.Json
 
+@Keep
 data class UserProfileResponse(
     @Json(name = "id") val id: Int,
     @Json(name = "name") val name: String,

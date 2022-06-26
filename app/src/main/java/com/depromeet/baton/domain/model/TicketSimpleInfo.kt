@@ -1,8 +1,10 @@
 package com.depromeet.baton.domain.model
 
+import androidx.annotation.Keep
 import com.depromeet.baton.data.response.ResponseFilteredTicket
 import com.squareup.moshi.Json
 
+@Keep
 data class TicketSimpleInfo(
     @Json(name="id") val id : Int,
     @Json(name="location") val location: String,
@@ -14,7 +16,7 @@ data class TicketSimpleInfo(
     @Json(name="tags") val tags: List<String>,
     @Json(name="images") val images: List<Image> ? = emptyList(),
     @Json(name="isMembership")  val isMembership: Boolean,
-    @Json(name="remainNumber") val remainingNumber: Int?=-1,
+    @Json(name="remainingNumber") val remainingNumber: Int?=-1,
     @Json(name="remainingDay") val remainingDay: Int?= -1,
     @Json(name="expiryDate")  val expiryDate: String?="",
     @Json(name="latitude")  val latitude: Double,
@@ -26,6 +28,7 @@ data class TicketSimpleInfo(
     @Json(name="type")  val type : String,
 
 ) {
+    @Keep
     data class Image(
         @Json(name="id")val id: Int?=0,
         @Json(name="url")val url: String?="",

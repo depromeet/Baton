@@ -77,6 +77,16 @@ class BatonSpfManager@Inject constructor(@ApplicationContext context: Context){
         return MaxDistance(distance)
     }
 
+    fun saveProfileIcon(url : String){
+        val editor = mSharedPreferences.edit()
+        editor.putString("profileImg",url)
+        editor.apply()
+    }
+
+    fun getProfileIcon() :String{
+        return mSharedPreferences.getString("profileImg","")!!
+    }
+
     fun clearAll(){
         val editor = mSharedPreferences.edit()
         editor.clear()

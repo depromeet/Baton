@@ -51,7 +51,7 @@
                                 android:layout_gravity="center"
                                 android:src="@{ticketState.ticket.emptyIcon}"
                                 app:isVisible="@{ticketState.sellViewisVisible}"
-                                app:tint="?grey_scale60" />
+                                 />
 
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/ticket_detail_img_rv"
@@ -639,7 +639,7 @@
                             android:layout_width="@dimen/dimen40"
                             android:layout_height="@dimen/dimen40"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/dummy_icon"
+                            android:src="@drawable/img_profile_basic_smile_56"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />

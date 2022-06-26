@@ -23,6 +23,9 @@ import com.depromeet.baton.presentation.main.MainActivity
 import com.depromeet.baton.presentation.ui.sign.SignUpViewModel.ViewEvent
 import com.depromeet.baton.presentation.util.viewLifecycle
 import com.depromeet.baton.presentation.util.viewLifecycleScope
+import com.depromeet.baton.util.BatonSpfManager
+import com.depromeet.baton.util.gpsConverter
+import com.naver.maps.geometry.LatLng
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -94,6 +97,7 @@ data class SignUpUiState(
 class SignUpViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val signApi: SignApi,
+    private val spfManager: BatonSpfManager,
     private val authRepository: AuthRepository
 ) : BaseViewModel() {
 
@@ -133,9 +137,14 @@ class SignUpViewModel @Inject constructor(
     fun remember(infoViewModel: SignUpInfoViewModel) {
         val source = infoViewModel.uiState.value
         builder.apply {
-            name = source.name
-            nickname = source.nickName.takeIf { it.isNotBlank() } ?: args.nickname
-            phoneNumber = source.phoneNumber
+            name = source.name.value
+            nickname = source.nickName.value.takeIf { it.isNotBlank() } ?: args.nickname
+            phoneNumber = source.phoneNumber.value
+            account = source.account?.run {
+                SignUpKakaoRequest.Account(
+                    name, bank, account
+                )
+            }
         }
     }
 
@@ -146,6 +155,11 @@ class SignUpViewModel @Inject constructor(
     @Synchronized
     fun remember(detailViewModel: SignUpAddressDetailViewModel) {
         with(detailViewModel.uiState.value) {
+            //효민 local 저장했습니다
+            spfManager.saveLocation(LatLng(this@with.addressData.latitude.toDouble() ,this@with.addressData.longitude.toDouble()))
+            spfManager.saveDetailAddress(this@with.detailAddress)
+            spfManager.saveAddress( this@with.addressData.roadAddress,  this@with.addressData.address)
+
             builder.apply {
                 latitude = this@with.addressData.latitude
                 longitude = this@with.addressData.longitude

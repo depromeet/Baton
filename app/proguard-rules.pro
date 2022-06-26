@@ -23,3 +23,25 @@
 # https://developers.kakao.com/docs/latest/ko/getting-started/sdk-android#set-up-pro-guard
 -keep class com.kakao.sdk.**.model.* { <fields>; }
 -keep class * extends com.google.gson.TypeAdapter
+
+# 네비게이션 컴포넌트
+# https://codehunter.cc/a/android/proguard-causing-runtime-exception-with-android-navigation-component
+-keepnames class androidx.navigation.fragment.NavHostFragment
+-keep class * extends androidx.fragment.app.Fragment{}
+-keepnames class * extends android.os.Parcelable
+-keepnames class * extends java.io.Serializable
+
+# Ignore our XML Serialization classes
+
+# TikXML
+-keep class com.tickaroo.tikxml.** { *; }
+-keep @com.tickaroo.tikxml.annotation.Xml public class *
+-keep class **$$TypeAdapter { *; }
+
+-keepclasseswithmembernames class * {
+    @com.tickaroo.tikxml.* <fields>;
+}
+
+-keepclasseswithmembernames class * {
+    @com.tickaroo.tikxml.* <methods>;
+}

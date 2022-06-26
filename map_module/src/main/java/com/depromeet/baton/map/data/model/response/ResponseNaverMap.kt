@@ -1,5 +1,9 @@
 package com.depromeet.baton.map.data.model.response
 
+import androidx.annotation.Keep
+import com.google.gson.annotations.SerializedName
+
+@Keep
 data class ResponseNaverLocal(
     var lastBuildDate: String = "",
     var total: Int = 0,
@@ -8,6 +12,7 @@ data class ResponseNaverLocal(
     var category : String="",
     var items: List<Items>
 ){
+    @Keep
     data class Items(
         var title : String = "",
         var link : String = "",
