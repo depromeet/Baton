@@ -44,11 +44,11 @@ class AddressViewModel @Inject constructor(val spfManager: BatonSpfManager): Vie
         when(type){
             DistanceType.MAX500M ->{
                 resultMeter = 500.0F
-
             }
             DistanceType.MAX1KM -> {
                 resultMeter = value * 500 / 1000.0F + 500.0F
-                _maxDistance.value= String.format("%1.0f",(resultMeter)) +"m"
+                val value =String.format("%1.0f",(resultMeter))
+               _maxDistance.value=if(value == "500" ) "" else value +"m"
             }
            DistanceType.MAX3KM ->{
                resultMeter =  value%1000 *2 +1000.0F
@@ -97,6 +97,8 @@ class AddressViewModel @Inject constructor(val spfManager: BatonSpfManager): Vie
 
         }else{
             //m 단위
+            if(distance=="") return  (500.0f/1000 /AVERAGE_SPEED * 60).toInt().toString()
+
             val value = distance.substring(0,distance.indexOf("m")).toFloat()
             (value/1000 /AVERAGE_SPEED * 60).toInt().toString()
         }

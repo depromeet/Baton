@@ -189,10 +189,6 @@ class TicketDetailViewModel @Inject constructor(
         }
     }
 
-    private fun updateTicket(ticket: DetailTicketInfo) {
-        val temp = _ticketState.value!!
-        _ticketState.postValue(temp.copy(ticket = ticket))
-    }
 
     fun deleteTicket() {
         //Api
@@ -203,28 +199,44 @@ class TicketDetailViewModel @Inject constructor(
         addViewEvent(DetailViewEvent.EventClickDelete)
     }
 
-    fun reportTicket(option: Int) {
-        //TODO 신고 API 호출
+    fun reportTicket(option: String) {
         val ticketId = savedStateHandle.get<Int>("ticketId")!!
         viewModelScope.launch {
-            //TODO 통과용 임시 api 호출
-            ticketInfoRepository.getTicketInfo(
-                ticketId = ticketId,
-                spfManager.getMyLongitude(),
-                spfManager.getMyLatitude()
-            )
+            runCatching {
+                ticketInfoRepository.reportTicket(
+                    ticketId = ticketId,
+                    content = option
+                )
+            }.onSuccess {
+                when(it){
+                    is NetworkResult.Success ->{
+                        addViewEvent(DetailViewEvent.EventReportDone)
+                    }
+                    is NetworkResult.Error->{
+                        Timber.e(it.message)
+                    }
+                }
+            }
         }
     }
 
-    fun reportSeller(option: Int){
-        val ticketId = savedStateHandle.get<Int>("ticketId")!!
+    fun reportSeller(option: String){
         viewModelScope.launch {
-            //TODO 통과용 임시 api 호출
-            ticketInfoRepository.getTicketInfo(
-                ticketId = ticketId,
-                spfManager.getMyLongitude(),
-                spfManager.getMyLatitude()
-            )
+            runCatching {
+                ticketInfoRepository.reportUser(
+                    userId = ticketState.value!!.ticket.seller.userId,
+                    content = option
+                )
+            }.onSuccess {
+                when(it){
+                    is NetworkResult.Success ->{
+                        addViewEvent(DetailViewEvent.EventReportDone)
+                    }
+                    is NetworkResult.Error->{
+                        Timber.e(it.message)
+                    }
+                }
+            }
         }
     }
 
@@ -345,6 +357,7 @@ sealed class DetailViewEvent {
     object EventClickUnLike : DetailViewEvent()
     object EventClickChat : DetailViewEvent()
     object EventClickDelete : DetailViewEvent()
+    object EventReportDone : DetailViewEvent()
 }
 
 

@@ -166,6 +166,10 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
                 DetailViewEvent.EventClickDelete -> {
                     finish()
                 }
+                DetailViewEvent.EventReportDone->{
+                    this@TicketDetailActivity.BdsToast("신고가 접수되었습니다.", binding.ticketDetailFooter.top).show()
+                    finish()
+                }
             }
             viewModel.consumeViewEvent(viewEvent)
         }
@@ -328,18 +332,14 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     /** bottom Item Click Listener **/
     private val reportItemClick = object : BottomSheetFragment.Companion.OnItemClick {
         override fun onSelectedItem(selected: BottomMenuItem, index: Int) {
-            this@TicketDetailActivity.BdsToast("신고가 접수되었습니다.", binding.ticketDetailFooter.top).show()
-            viewModel.deleteTicket()
-            //viewModel.reportTicket(index)
+            viewModel.reportTicket(selected.listItem!!)
         }
     }
 
     /** bottom Item Click Listener **/
     private val reportSellerItemClick = object : BottomSheetFragment.Companion.OnItemClick {
         override fun onSelectedItem(selected: BottomMenuItem, index: Int) {
-            this@TicketDetailActivity.BdsToast("신고가 접수되었습니다.", binding.ticketDetailFooter.top).show()
-            viewModel.deleteTicket()
-            //viewModel.reportSeller(index) // TODO 글과 유저 신고 분리
+            viewModel.reportSeller(selected.listItem!!)
         }
     }
 
