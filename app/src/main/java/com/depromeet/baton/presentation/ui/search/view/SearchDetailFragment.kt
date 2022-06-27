@@ -67,6 +67,7 @@ class SearchDetailFragment : BaseFragment<FragmentSearchDetailBinding>(R.layout.
 
     private fun setTicketKindFilter(ticket: TicketKind) {
         filterSearchViewModel.setTicketKind(ticket, true, true)
+        searchViewModel.setCurrentLevel(0)
     }
 
     private fun setHashTagFilter(tag: HashTag) {

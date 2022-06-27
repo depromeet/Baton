@@ -63,7 +63,6 @@ class FilterChipFragment : BaseFragment<FragmentFilterChipBinding>(R.layout.frag
             val bottomSheetFragment = BottomSheetFragment.newInstance(
                 "정렬", menu.map { BottomMenuItem(it) },
                 BottomSheetFragment.CHECK_ITEM_VIEW, onItemClick,
-                currentPos
             )
 
             bottomSheetFragment.show(
