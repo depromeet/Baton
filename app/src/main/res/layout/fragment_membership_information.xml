@@ -394,7 +394,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_membership_info_detail">
 
-                        <LinearLayout
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/ll_shower_room"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -407,8 +407,8 @@
                                 android:layout_height="wrap_content"
                                 android:paddingVertical="@dimen/dimen4"
                                 app:isChecked="@{viewModel.isShowerRoomChecked}"
-                                app:layout_constraintEnd_toStartOf="@id/tv_membership_info_bargaining"
-                                app:layout_constraintTop_toBottomOf="@+id/et_membership_info_price" />
+                                app:layout_constraintStart_toStartOf="@+id/ll_shower_room"
+                                app:layout_constraintTop_toTopOf="parent" />
 
                             <TextView
                                 android:id="@+id/tv_membership_info_shower_room"
@@ -417,14 +417,16 @@
                                 android:layout_gravity="center_vertical"
                                 android:text="@string/filter_additional_options_shower_room"
                                 android:textAppearance="?body3"
-                                android:textColor="?grey_scale60" />
-                        </LinearLayout>
+                                android:textColor="?grey_scale60"
+                                app:layout_constraintBottom_toBottomOf="@+id/checkbox_shower_room"
+                                app:layout_constraintStart_toEndOf="@id/checkbox_shower_room"
+                                app:layout_constraintTop_toTopOf="@id/checkbox_shower_room" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        <LinearLayout
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/cll_locker_room"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingEnd="@dimen/dimen8">
+                            android:layout_height="wrap_content">
 
 
                             <com.depromeet.bds.component.BdsCheckbox
@@ -433,26 +435,27 @@
                                 android:layout_height="wrap_content"
                                 android:paddingVertical="@dimen/dimen4"
                                 app:isChecked="@{viewModel.isLockerRoomChecked}"
-                                app:layout_constraintEnd_toStartOf="@id/tv_membership_info_bargaining"
-                                app:layout_constraintTop_toBottomOf="@+id/et_membership_info_price" />
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
 
                             <TextView
                                 android:id="@+id/tv_membership_info_locker_room"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
+                                android:paddingEnd="@dimen/dimen8"
                                 android:text="@string/filter_additional_options_locker_room"
                                 android:textAppearance="?body3"
                                 android:textColor="?grey_scale60"
-                                app:layout_constraintTop_toTopOf="@+id/checkbox_membership_info_bargaining" />
-                        </LinearLayout>
+                                app:layout_constraintBottom_toBottomOf="@+id/checkbox_locker_room"
+                                app:layout_constraintStart_toEndOf="@+id/checkbox_locker_room"
+                                app:layout_constraintTop_toTopOf="@+id/checkbox_locker_room" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        <LinearLayout
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/ll_sport_wear"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/dimen8"
-                            android:paddingEnd="@dimen/dimen8">
+                            android:layout_height="wrap_content">
 
 
                             <com.depromeet.bds.component.BdsCheckbox
@@ -461,33 +464,27 @@
                                 android:layout_height="wrap_content"
                                 android:paddingVertical="@dimen/dimen4"
                                 app:isChecked="@{viewModel.isSportWearChecked}"
-                                app:layout_constraintEnd_toStartOf="@id/tv_membership_info_bargaining"
-                                app:layout_constraintTop_toBottomOf="@+id/et_membership_info_price" />
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
 
                             <TextView
                                 android:id="@+id/tv_membership_info_sport_wear"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
+                                android:paddingEnd="@dimen/dimen8"
                                 android:text="@string/filter_additional_options_sport_wear"
                                 android:textAppearance="?body3"
-                                android:textColor="?grey_scale60" />
-                        </LinearLayout>
-                    </com.google.android.flexbox.FlexboxLayout>
+                                android:textColor="?grey_scale60"
+                                app:layout_constraintBottom_toBottomOf="@+id/checkbox_sport_wear"
+                                app:layout_constraintStart_toEndOf="@+id/checkbox_sport_wear"
+                                app:layout_constraintTop_toTopOf="@+id/checkbox_sport_wear" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <com.google.android.flexbox.FlexboxLayout
-                        android:id="@+id/fbl_bottom"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/fbl_membership_info">
-
-                        <LinearLayout
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/ll_gx"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingEnd="@dimen/dimen8">
+                            android:layout_height="wrap_content">
 
                             <com.depromeet.bds.component.BdsCheckbox
                                 android:id="@+id/checkbox_gx"
@@ -495,24 +492,28 @@
                                 android:layout_height="wrap_content"
                                 android:paddingVertical="@dimen/dimen4"
                                 app:isChecked="@{viewModel.isGxChecked}"
-                                app:layout_constraintEnd_toStartOf="@id/tv_membership_info_bargaining"
-                                app:layout_constraintTop_toBottomOf="@+id/et_membership_info_price" />
+                                app:layout_constraintBottom_toBottomOf="@+id/ll_gx"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="@+id/ll_gx" />
 
                             <TextView
                                 android:id="@+id/tv_membership_info_gx"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
+                                android:paddingEnd="@dimen/dimen8"
                                 android:text="@string/filter_additional_options_gx"
                                 android:textAppearance="?body3"
-                                android:textColor="?grey_scale60" />
-                        </LinearLayout>
+                                android:textColor="?grey_scale60"
+                                app:layout_constraintBottom_toBottomOf="@+id/checkbox_gx"
+                                app:layout_constraintStart_toEndOf="@+id/checkbox_gx"
+                                app:layout_constraintTop_toTopOf="@+id/checkbox_gx" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        <LinearLayout
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/ll_retransfer"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingEnd="@dimen/dimen8">
+                            android:layout_height="wrap_content">
 
                             <com.depromeet.bds.component.BdsCheckbox
                                 android:id="@+id/checkbox_retransfer"
@@ -520,24 +521,27 @@
                                 android:layout_height="wrap_content"
                                 android:paddingVertical="@dimen/dimen4"
                                 app:isChecked="@{viewModel.isReTransferChecked}"
-                                app:layout_constraintEnd_toStartOf="@id/tv_membership_info_bargaining"
-                                app:layout_constraintTop_toBottomOf="@+id/et_membership_info_price" />
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="@+id/ll_retransfer" />
 
                             <TextView
                                 android:id="@+id/tv_membership_info_re_transfer"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
+                                android:paddingEnd="@dimen/dimen8"
                                 android:text="@string/filter_additional_options_re_transfer"
                                 android:textAppearance="?body3"
-                                android:textColor="?grey_scale60" />
-                        </LinearLayout>
+                                android:textColor="?grey_scale60"
+                                app:layout_constraintBottom_toBottomOf="@+id/checkbox_retransfer"
+                                app:layout_constraintStart_toEndOf="@+id/checkbox_retransfer"
+                                app:layout_constraintTop_toTopOf="@+id/checkbox_retransfer" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        <LinearLayout
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/ll_refund"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingEnd="@dimen/dimen8">
+                            android:layout_height="wrap_content">
 
                             <com.depromeet.bds.component.BdsCheckbox
                                 android:id="@+id/checkbox_refund"
@@ -545,46 +549,55 @@
                                 android:layout_height="wrap_content"
                                 android:paddingVertical="@dimen/dimen4"
                                 app:isChecked="@{viewModel.isRefundChecked}"
-                                app:layout_constraintEnd_toStartOf="@id/tv_membership_info_bargaining"
-                                app:layout_constraintTop_toBottomOf="@+id/et_membership_info_price" />
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
 
                             <TextView
                                 android:id="@+id/tv_membership_info_refund"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
+                                android:paddingEnd="@dimen/dimen8"
                                 android:text="@string/filter_additional_options_refund"
                                 android:textAppearance="?body3"
-                                android:textColor="?grey_scale60" />
-                        </LinearLayout>
+                                android:textColor="?grey_scale60"
+                                app:layout_constraintBottom_toBottomOf="@+id/checkbox_refund"
+                                app:layout_constraintStart_toEndOf="@+id/checkbox_refund"
+                                app:layout_constraintTop_toTopOf="@+id/checkbox_refund" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/ll_holding"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingEnd="@dimen/dimen8"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/fbl_bottom">
+
+                            <com.depromeet.bds.component.BdsCheckbox
+                                android:id="@+id/checkbox_holding"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingVertical="@dimen/dimen4"
+                                app:isChecked="@{viewModel.isHoldingChecked}"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:paddingEnd="@dimen/dimen8"
+                                android:text="@string/filter_additional_options_holding"
+                                android:textAppearance="?body3"
+                                android:textColor="?grey_scale60"
+                                app:layout_constraintBottom_toBottomOf="@+id/checkbox_holding"
+                                app:layout_constraintStart_toEndOf="@+id/checkbox_holding"
+                                app:layout_constraintTop_toTopOf="@+id/checkbox_holding" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
                     </com.google.android.flexbox.FlexboxLayout>
 
-                    <LinearLayout
-                        android:id="@+id/ll_holding"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingEnd="@dimen/dimen8"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/fbl_bottom">
-
-                        <com.depromeet.bds.component.BdsCheckbox
-                            android:id="@+id/checkbox_holding"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingVertical="@dimen/dimen4"
-                            app:isChecked="@{viewModel.isHoldingChecked}"
-                            app:layout_constraintEnd_toStartOf="@id/tv_membership_info_bargaining"
-                            app:layout_constraintTop_toBottomOf="@+id/et_membership_info_price" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:text="@string/filter_additional_options_holding"
-                            android:textAppearance="?body3"
-                            android:textColor="?grey_scale60" />
-                    </LinearLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
