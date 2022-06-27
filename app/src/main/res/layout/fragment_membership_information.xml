@@ -73,8 +73,8 @@
 
                     <HorizontalScrollView
                         android:layout_width="wrap_content"
-                        android:scrollbars="none"
                         android:layout_height="wrap_content"
+                        android:scrollbars="none"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_membership_info">
@@ -170,10 +170,10 @@
                         tools:textAppearance="?body3" />
 
                     <CheckedTextView
-                        android:layout_marginEnd="@dimen/dimen16"
                         android:id="@+id/ctv_membership_frequency_term"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/dimen16"
                         android:background="@drawable/temp_selector_choice_chip"
                         android:onClick="@{()->uiState.onChipChecked.invoke(Term.NUMBER,!viewModel.isNumberChecked)}"
                         android:paddingVertical="@dimen/dimen8"
@@ -188,10 +188,10 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_marginEnd="@dimen/dimen16"
                     android:id="@+id/ctl_membership_input"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dimen16"
                     android:visibility="@{viewModel.isPeriodChecked || viewModel.isNumberChecked ? View.VISIBLE : View.GONE }"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -227,6 +227,34 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_membership_input" />
 
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen16"
+                        android:layout_marginTop="7dp"
+                        android:visibility="@{viewModel.isDateError==true ? View.VISIBLE : View.INVISIBLE}"
+                        app:layout_constraintStart_toStartOf="@+id/et_term"
+                        app:layout_constraintTop_toBottomOf="@+id/et_term">
+
+                        <ImageView
+                            android:id="@+id/iv_error"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_error_line"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dimen4"
+                            android:text="지난 날짜는 등록할 수 없어요"
+                            android:textAppearance="?caption2"
+                            android:textColor="?error"
+                            app:layout_constraintBottom_toBottomOf="@id/iv_error"
+                            app:layout_constraintStart_toEndOf="@id/iv_error"
+                            app:layout_constraintTop_toTopOf="@+id/iv_error" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <EditText
                         android:id="@+id/et_term_number"
@@ -255,17 +283,17 @@
                         android:text="@{viewModel.isPeriodChecked ? viewModel.periodFormatted : `회` }"
                         android:textAppearance="?body3"
                         android:textColor="?grey_scale60"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@+id/et_term"
                         app:layout_constraintEnd_toEndOf="@id/ctl_membership_input"
                         app:layout_constraintTop_toTopOf="@+id/et_term_number"
                         tools:text="0회" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_marginEnd="@dimen/dimen16"
                     android:id="@+id/ctl_membership_info_price"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dimen16"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/ctl_membership_input">
@@ -327,10 +355,10 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_marginEnd="@dimen/dimen16"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen20"
+                    android:layout_marginEnd="@dimen/dimen16"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/ctl_membership_info_price">
 
