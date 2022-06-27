@@ -29,7 +29,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginEnd="@dimen/dimen16"
         android:background="?wh100"
         tools:context=".presentation.ui.writepost.view.MembershipInformationFragment">
 
@@ -72,57 +71,66 @@
                         app:layout_constraintBottom_toBottomOf="@id/tv_membership_info"
                         app:layout_constraintStart_toEndOf="@+id/tv_membership_info" />
 
-                    <LinearLayout
+                    <HorizontalScrollView
                         android:layout_width="wrap_content"
+                        android:scrollbars="none"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dimen8"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_membership_info">
 
-
-                        <com.depromeet.bds.component.BdsChoiceChip
-                            android:id="@+id/bdschoice_membership_info_gym"
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:onClick="@{()->uiState.onChipChecked.invoke(TicketKind.HEALTH,!viewModel.isGymChecked)}"
-                            app:bds_text="@string/filter_ticket_gym"
-                            app:isOn="@{viewModel.isGymChecked}"
+                            android:layout_marginTop="@dimen/dimen8"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:shape="@{`outlined`}" />
+                            app:layout_constraintTop_toBottomOf="@+id/tv_membership_info">
 
-                        <com.depromeet.bds.component.BdsChoiceChip
-                            android:id="@+id/bdschoice_membership_info_pt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/dimen8"
-                            android:onClick="@{()->uiState.onChipChecked.invoke(TicketKind.PT,!viewModel.isPtChecked)}"
-                            app:bds_text="@string/filter_ticket_pt"
-                            app:isOn="@{viewModel.isPtChecked}"
-                            app:layout_constraintStart_toEndOf="@id/bdschoice_ticket_kind_gym"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:shape="@{`outlined`}" />
 
-                        <com.depromeet.bds.component.BdsChoiceChip
-                            android:id="@+id/bdschoice_membership_info_pilates"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/dimen8"
-                            android:onClick="@{()->uiState.onChipChecked.invoke(TicketKind.PILATES_YOGA,!viewModel.isPilatesYogaChecked)}"
-                            app:bds_text="필라테스"
-                            app:isOn="@{viewModel.isPilatesYogaChecked}"
-                            app:shape="@{`outlined`}" />
+                            <com.depromeet.bds.component.BdsChoiceChip
+                                android:id="@+id/bdschoice_membership_info_gym"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:onClick="@{()->uiState.onChipChecked.invoke(TicketKind.HEALTH,!viewModel.isGymChecked)}"
+                                app:bds_text="@string/filter_ticket_gym"
+                                app:isOn="@{viewModel.isGymChecked}"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:shape="@{`outlined`}" />
 
-                        <com.depromeet.bds.component.BdsChoiceChip
-                            android:id="@+id/bdschoice_ticket_kind_etc"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="@dimen/dimen8"
-                            android:onClick="@{()->uiState.onChipChecked.invoke(TicketKind.ETC,!viewModel.isEtcChecked)}"
-                            app:bds_text="@string/filter_ticket_etc"
-                            app:isOn="@{viewModel.isEtcChecked}"
-                            app:shape="@{`outlined`}" />
-                    </LinearLayout>
+                            <com.depromeet.bds.component.BdsChoiceChip
+                                android:id="@+id/bdschoice_membership_info_pt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dimen8"
+                                android:onClick="@{()->uiState.onChipChecked.invoke(TicketKind.PT,!viewModel.isPtChecked)}"
+                                app:bds_text="@string/filter_ticket_pt"
+                                app:isOn="@{viewModel.isPtChecked}"
+                                app:layout_constraintStart_toEndOf="@id/bdschoice_ticket_kind_gym"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:shape="@{`outlined`}" />
+
+                            <com.depromeet.bds.component.BdsChoiceChip
+                                android:id="@+id/bdschoice_membership_info_pilates"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dimen8"
+                                android:onClick="@{()->uiState.onChipChecked.invoke(TicketKind.PILATES_YOGA,!viewModel.isPilatesYogaChecked)}"
+                                app:bds_text="필라테스"
+                                app:isOn="@{viewModel.isPilatesYogaChecked}"
+                                app:shape="@{`outlined`}" />
+
+                            <com.depromeet.bds.component.BdsChoiceChip
+                                android:id="@+id/bdschoice_ticket_kind_etc"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="@dimen/dimen8"
+                                android:onClick="@{()->uiState.onChipChecked.invoke(TicketKind.ETC,!viewModel.isEtcChecked)}"
+                                app:bds_text="@string/filter_ticket_etc"
+                                app:isOn="@{viewModel.isEtcChecked}"
+                                app:shape="@{`outlined`}" />
+                        </LinearLayout>
+                    </HorizontalScrollView>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -162,6 +170,7 @@
                         tools:textAppearance="?body3" />
 
                     <CheckedTextView
+                        android:layout_marginEnd="@dimen/dimen16"
                         android:id="@+id/ctv_membership_frequency_term"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -179,6 +188,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_marginEnd="@dimen/dimen16"
                     android:id="@+id/ctl_membership_input"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -252,6 +262,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_marginEnd="@dimen/dimen16"
                     android:id="@+id/ctl_membership_info_price"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -316,6 +327,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_marginEnd="@dimen/dimen16"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen20"
