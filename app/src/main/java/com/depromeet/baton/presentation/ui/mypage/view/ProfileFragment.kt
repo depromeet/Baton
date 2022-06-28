@@ -68,9 +68,10 @@ class ProfileFragment() :BaseFragment<FragmentProfileBinding>(R.layout.fragment_
             .flowWithLifecycle(viewLifecycle)
             .onEach { uiState -> run{
                 binding.uiState = uiState
+                Timber.e("${uiState.profileImage}")
                 Glide.with(requireContext())
                     .load(uiState.profileImage)
-                    .error(com.depromeet.bds.R.drawable.img_profile_basic_smile_56)
+                    .error(com.depromeet.bds.R.drawable.ic_img_profile_basic_smile_56)
                     .transform(CircleCrop())
                     .into(binding.profileMyprofileIv)
             } }
@@ -89,8 +90,7 @@ class ProfileFragment() :BaseFragment<FragmentProfileBinding>(R.layout.fragment_
                    onBackPressed()
                 }
                 ProfileViewModel.ProfileViewEvent.EventUpdateProfileImage->{
-                    myPageViewModel.updateProfileImg(profileViewModel.uiState.value.profileImage)
-                    requireContext().BdsToast("변경이 완료됐어요.",binding.profileCompleteBtn.top).show()
+                    myPageViewModel.updateProfileImg(profileViewModel.uiState.value.profileImage.toString())
                     binding.profileCompleteBtn.isEnabled=true
                 }
                 ProfileViewModel.ProfileViewEvent.EventUpdateProfileInfo ->{

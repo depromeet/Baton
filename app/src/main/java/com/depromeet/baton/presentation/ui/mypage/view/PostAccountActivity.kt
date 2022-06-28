@@ -54,7 +54,7 @@ class PostAccountActivity : BaseActivity<ActivityPostAccountBinding>(R.layout.ac
         viewEvents.firstOrNull()?.let { viewEvent ->
             when (viewEvent) {
                 is PostAccountViewModel.ViewEvent.EditAccountDone -> {
-                    this.BdsToast("계좌가 등록 됐어요.").show()
+                    this.BdsToast("계좌가 등록 됐어요.",binding.root.bottom).show()
                     finish()
                 }
                 is PostAccountViewModel.ViewEvent.EditAccountFailure ->{

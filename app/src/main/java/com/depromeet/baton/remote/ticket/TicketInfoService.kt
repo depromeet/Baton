@@ -23,22 +23,21 @@ interface TicketInfoService {
     ): Response<String>
 
 
-    @GET("/search/ticket/query")
-    suspend fun getMoreTicket(
-        @Query("page") page:Int?=0,
-        @Query("size") size:Int,
-        @Query("sortType") sortType: String? = "RECENT",
-        @Query("longitude") longitude : Float,
-        @Query("latitude") latitude : Float,
-        @Query("maxDistance") distance:Int,
-    ): Response<TicketQueryResponse>
-
-
     @PUT("/search/ticket/info/{id}")
     suspend fun updateTicketState(
         @Path("id") ticketId :Int,
         @Body ticketState: TicketStateRequest
     ): Response<ResponseTicketInfo>
+
+    @POST("/search/report/ticket")
+    suspend fun reportTicket(
+        @Body body : TicketReportRequest
+    ) : Response<String>
+
+    @POST("/search/report/user")
+    suspend fun reportUser(
+        @Body body : UserReportRequest
+    ) : Response<String>
 
 }
 
@@ -50,4 +49,16 @@ data class TicketQueryResponse(
 @Keep
 data class TicketStateRequest(
     val ticketState: String
+)
+
+@Keep
+data class TicketReportRequest(
+    @Json(name="ticketId") val ticketId : Int,
+    @Json(name="content") val content : String
+)
+
+@Keep
+data class UserReportRequest(
+    @Json(name="userId") val userId : Int,
+    @Json(name="content") val content : String
 )

@@ -137,7 +137,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                     binding.uiState =uiState
                     Glide.with(requireContext())
                         .load(uiState.profileImage)
-                        .error(com.depromeet.bds.R.drawable.img_profile_basic_smile_56)
+                        .error(com.depromeet.bds.R.drawable.ic_img_profile_basic_smile_56)
                         .transform(CircleCrop())
                         .apply{
                             this.signature(ObjectKey("mypage-profile"))

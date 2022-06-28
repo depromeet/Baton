@@ -48,6 +48,36 @@ class MultiPartResolver @Inject constructor(
         return MultipartBody.Part.createFormData("images", file.name, surveyBody)
     }
 
+
+    fun createSingleImgMultiPart(uri: Uri): MultipartBody.Part {
+        var resizedWidth = RESIZED_SIZE
+        var resizedHeight = RESIZED_SIZE
+        val options = BitmapFactory.Options()
+        val inputStream = context.contentResolver.openInputStream(uri)
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        getRotatedBitmap(
+            BitmapFactory.decodeStream(inputStream, null, options),
+            getOrientationOfImage(uri)
+        )?.let {
+            if (it.width >= RESIZED_SIZE && it.height >= RESIZED_SIZE) {
+                if (it.width >= it.height) {
+                    resizedWidth = resizedHeight * (it.width.toFloat() / it.height.toFloat())
+                } else {
+                    resizedHeight = resizedWidth * (it.height.toFloat() / it.width.toFloat())
+                }
+            } else {
+                resizedWidth = it.width.toFloat()
+                resizedHeight = it.height.toFloat()
+            }
+            Bitmap.createScaledBitmap(it, resizedWidth.toInt(), resizedHeight.toInt(), true)
+                .compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+        }
+        val file = File(replaceFileName(uri.toString()))
+        val surveyBody =
+            byteArrayOutputStream.toByteArray().toRequestBody("image/jpeg".toMediaTypeOrNull())
+        return MultipartBody.Part.createFormData("image", file.name, surveyBody)
+    }
+
     private fun getOrientationOfImage(uri: Uri): Int {
         val inputStream = context.contentResolver.openInputStream(uri)
         val exif: ExifInterface? = try {
