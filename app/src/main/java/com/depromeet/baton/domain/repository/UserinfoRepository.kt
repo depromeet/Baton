@@ -55,7 +55,5 @@ class UserinfoRepository @Inject constructor(
         return withContext(ioDispatcher) {safeApiCall { userInfoApi.deleteProfileImage(userIdx) }}
     }
 
-    private fun createPartFromString(stringData: String?): RequestBody? {
-        return stringData?.toRequestBody("text/plain".toMediaTypeOrNull())
-    }
+
 }

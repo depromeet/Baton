@@ -49,7 +49,7 @@ class PostAccountViewModel @Inject constructor(
             val userId = authRepository.authInfo!!.userId
             runCatching {
                 uiState?.let {
-                    accountRepository.postAccount(userId,it.value.name, it.value.bank,it.value.account)
+                    accountRepository.updateAccount(userId,it.value.name, it.value.bank,it.value.account)
                 }
             }.onSuccess {
                 when(it){

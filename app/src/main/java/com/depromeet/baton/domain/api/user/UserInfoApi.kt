@@ -54,8 +54,8 @@ class UserInfoApi @Inject constructor(
         return service.updateUserAccount(userIdx, request)
     }
 
-    suspend fun postUserAccount(userIdx : Int, request: UserAccount) : Response<UserAccount> {
-        return service.postUserAccount(userIdx, request)
+    suspend fun deleteUserAccount(userIdx : Int,) : Response<MypageBasicResponse> {
+        return service.deleteUserAccount(userIdx)
     }
 
     suspend fun deleteUser(userIdx :Int) : Response<MypageBasicResponse>{

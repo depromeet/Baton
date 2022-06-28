@@ -96,8 +96,23 @@ class EditAccountViewModel @Inject constructor(
     }
 
     private fun removeAccount() {
-        //TODO API 호출
-        addViewEvent(ViewEvent.RemoveAccountDone)
+        viewModelScope.launch {
+            val userId = authRepository.authInfo!!.userId
+            runCatching {
+                uiState?.let {
+                    accountRepository.deleteAccount(userId)
+                }
+            }.onSuccess {
+                when(it){
+                    is NetworkResult.Success ->{ addViewEvent(ViewEvent.RemoveAccountDone)}
+                    is NetworkResult.Error ->{
+                        Timber.e(it.message)
+                        addViewEvent(ViewEvent.EditAccountFailure("계좌삭제 실패"))
+                    }
+                }
+            }
+        }
+
     }
 
     private fun handleNameChanged(editable: Editable?) {

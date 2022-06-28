@@ -3,6 +3,7 @@ package com.depromeet.baton.domain.repository
 import com.depromeet.baton.domain.api.user.UserInfoApi
 import com.depromeet.baton.map.base.BaseApiResponse
 import com.depromeet.baton.map.util.NetworkResult
+import com.depromeet.baton.remote.ticket.MypageBasicResponse
 import com.depromeet.baton.remote.user.UserAccount
 import com.depromeet.baton.remote.user.UserAddressRequest
 import com.depromeet.baton.remote.user.UserAddressResponse
@@ -19,16 +20,12 @@ class AccountRepository @Inject constructor(private val userInfoApi: UserInfoApi
        return withContext(ioDispatcher){ safeApiCall { userInfoApi.updateUserAddress(userIdx, UserAddressRequest(latitude,longitude,address,detail))}}
     }
 
-    suspend fun postAccount(userIdx:Int,holder: String, bank:String, number: String ) : NetworkResult<UserAccount> {
-        return withContext(ioDispatcher){safeApiCall { userInfoApi.postUserAccount(userIdx,UserAccount( holder,bank,number))}}
-    }
-
     suspend fun updateAccount(userIdx:Int,holder: String, bank:String, number: String ): NetworkResult<UserAccount>{
         return withContext(ioDispatcher){ safeApiCall { userInfoApi.updateUserAccount(userIdx,UserAccount( holder,bank,number)) }}
     }
 
-    suspend fun getAccount(userIdx:Int ): NetworkResult<UserAccount>{
-        return withContext(ioDispatcher){safeApiCall { userInfoApi.getUserAccount(userIdx)}}
+    suspend fun deleteAccount(userIdx:Int ): NetworkResult<MypageBasicResponse>{
+        return withContext(ioDispatcher){safeApiCall { userInfoApi.deleteUserAccount(userIdx)}}
     }
 
 }

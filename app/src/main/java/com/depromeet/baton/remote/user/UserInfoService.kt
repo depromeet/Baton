@@ -50,7 +50,7 @@ interface UserInfoService {
         @Body body: UserAddressRequest
     ) : Response<UserAddressResponse>
 
-    @PATCH("user/users/{id}/account")
+    @PUT("user/users/{id}/account")
     suspend fun updateUserAccount(
         @Path("id") userIdx : Int,
         @Body body: UserAccount
@@ -61,11 +61,10 @@ interface UserInfoService {
         @Path("id") userIdx : Int,
     ) : Response<UserAccount>
 
-    @POST("user/users/{id}/account")
-    suspend fun postUserAccount(
+    @DELETE("user/users/{id}/account")
+    suspend fun deleteUserAccount(
         @Path("id") userIdx : Int,
-        @Body body: UserAccount,
-    ) : Response<UserAccount>
+    ) : Response<MypageBasicResponse>
 
     @Multipart
     @PATCH("user/users/{id}/image")
