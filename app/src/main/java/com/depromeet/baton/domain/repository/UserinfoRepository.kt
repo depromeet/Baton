@@ -51,9 +51,19 @@ class UserinfoRepository @Inject constructor(
         return withContext(ioDispatcher){safeApiCall { userInfoApi.updateProfileImage(userIdx, url) }}
     }
 
+
+    suspend fun updateProfileIcon(token:String,userIdx: Int, url : String) :NetworkResult<UserProfileImg>{
+        return withContext(ioDispatcher){safeApiCall { userInfoApi.updateProfileIcon(getHeaderMap(token),userIdx, url) }}
+    }
+
     suspend fun deleteProfileImage(userIdx: Int) :NetworkResult<MypageBasicResponse>{
         return withContext(ioDispatcher) {safeApiCall { userInfoApi.deleteProfileImage(userIdx) }}
     }
 
-
+    private fun getHeaderMap(token :String): Map<String, String> {
+        val headerMap = mutableMapOf<String, String>()
+      //  headerMap.put("Authorization", "Bearer $token")
+        headerMap.put("Content-type", "application/json")
+        return headerMap
+    }
 }

@@ -3,19 +3,11 @@ package com.depromeet.baton.domain.api.user
 import com.depromeet.baton.data.response.BookmarkTicket
 import com.depromeet.baton.data.response.UserBuyListResponse
 import com.depromeet.baton.data.response.UserProfileResponse
-import com.depromeet.baton.databinding.ItemPrimaryOutlineTagBinding
 import com.depromeet.baton.domain.model.MypageTicketResponse
-import com.depromeet.baton.domain.model.TicketSimpleInfo
-import com.depromeet.baton.map.base.BaseApiResponse
 import com.depromeet.baton.remote.ticket.MypageBasicResponse
 import com.depromeet.baton.remote.user.*
-import okhttp3.MediaType
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import retrofit2.Response
-import retrofit2.http.Multipart
-import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -63,9 +55,13 @@ class UserInfoApi @Inject constructor(
     }
 
     suspend fun updateProfileImage(userIdx: Int, url: MultipartBody.Part) : Response<UserProfileImg>{
-        Timber.e("${url.body.contentType()}")
         return service.updateUserProfileImg(userIdx, url)
     }
+
+    suspend fun updateProfileIcon( header: Map<String, String>, userIdx: Int,url : String) : Response<UserProfileImg>{
+        return service.updateUserProfileImgByUrl(header,userIdx, UserProfileImg(url))
+    }
+
 
     suspend fun deleteProfileImage(userIdx: Int) : Response<MypageBasicResponse>{
         return service.deleteUserProfileImg(userIdx)

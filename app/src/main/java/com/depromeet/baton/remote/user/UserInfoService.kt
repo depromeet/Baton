@@ -16,13 +16,11 @@ interface UserInfoService {
     @GET("user/users/{id}")
     suspend fun getUserProfile(@Path("id") userIdx : Int) : Response<UserProfileResponse>
 
-    @PUT("user/users/{id}")
+    @PATCH("user/users/{id}")
     suspend fun updateUserProfile(
         @Path("id") userIdx : Int,
         @Body body : UserProfileRequest
     ) : Response<UserProfileRequest>
-
-
 
     @DELETE("socialusers/{id}")
     suspend fun deleteUser(@Path("id") userIdx : Int)
@@ -73,6 +71,15 @@ interface UserInfoService {
         @Part image: MultipartBody.Part?,
     ) : Response<UserProfileImg>
 
+    @PUT("user/users/{id}/image")
+
+    suspend fun updateUserProfileImgByUrl(
+        @HeaderMap headers: Map<String, String>,
+        @Path("id") userIdx : Int,
+        @Body image: UserProfileImg,
+    ) : Response<UserProfileImg>
+
+
     @GET("user/users/{id}/image")
     suspend fun getUserProfileImg(
         @Path("id") userIdx : Int,
@@ -97,6 +104,7 @@ data class UserProfileRequest(
 data class UserProfileImg(
     @Json(name="image") val image:String?
 )
+
 
 @Keep
 data class UserAddressRequest(

@@ -79,10 +79,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                 replaceFragment(likeTicketFragment)
             }
             mypageProfileEditIc.setOnClickListener {
-               val bundle =  bundleOf("nickName" to myPageViewModel.uiState.value.nickName,
-                    "phoneNumber" to myPageViewModel.uiState.value.phoneNumber ,
-                    "profileImg" to myPageViewModel.uiState.value.profileImage.toString() )
-                replaceFragment( ProfileFragment.newInstance(bundle),"profileFragment")
+                replaceFragment( ProfileFragment(),"profileFragment")
             }
             mypageNotification.setOnClickListener {
                 replaceFragment(notificationFragment)
@@ -182,10 +179,8 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         val frags = requireActivity().supportFragmentManager.fragments
         if( frags.find { it.tag=="myPageFragment"} !=null && frags.size>=3 ){
             requireActivity().supportFragmentManager.popBackStack()
-        }else if(frags.find { it.tag=="myPageFragment"} !=null && frags.size<=2){
+        }else if(frags.find { it.tag=="myPageFragment"} !=null ){
             (activity as MainActivity).bottomNavigationHandler(R.id.menu_main_home)
         }
     }
-
-
 }

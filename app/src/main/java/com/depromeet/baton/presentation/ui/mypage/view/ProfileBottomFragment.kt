@@ -11,9 +11,7 @@ import android.widget.Button
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.flowWithLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -130,7 +128,7 @@ class ProfileBottomFragment(): BottomSheetDialogFragment() {
     private fun onClickEmotion(profileIcon: ProfileIcon, pos: Int){
         view?.findViewById<ImageView>(R.id.profile_bottom_my_iv)?.setImageResource(profileIcon.size56)
         view?.findViewById<Button>(R.id.profile_bottom_check_btn)?.isEnabled=true
-        nowImgUrl = uriConverter(requireContext(),profileIcon.size56)
+        nowImgUrl = Uri.parse(profileIcon.url)
     }
 
     private fun setRemoveBtnOnClickListener(){

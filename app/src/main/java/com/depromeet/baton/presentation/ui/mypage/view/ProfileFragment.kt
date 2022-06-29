@@ -37,10 +37,7 @@ class ProfileFragment() :BaseFragment<FragmentProfileBinding>(R.layout.fragment_
 
 
     private fun initView(){
-        val name = arguments?.getString("nickName" ,"")
-        val phone =arguments?.getString("phoneNumber","")
-        val profile = arguments?.getString("profileImg","")
-        profileViewModel.initProfileInfo(name!!, phone!!, profile!!)
+        profileViewModel.initProfileInfo()
     }
 
     private fun setListener(){
@@ -68,7 +65,7 @@ class ProfileFragment() :BaseFragment<FragmentProfileBinding>(R.layout.fragment_
             .flowWithLifecycle(viewLifecycle)
             .onEach { uiState -> run{
                 binding.uiState = uiState
-                Timber.e("${uiState.profileImage}")
+                Timber.d("hyomin ${uiState.profileImage}")
                 Glide.with(requireContext())
                     .load(uiState.profileImage)
                     .error(com.depromeet.bds.R.drawable.ic_img_profile_basic_smile_56)
@@ -90,24 +87,19 @@ class ProfileFragment() :BaseFragment<FragmentProfileBinding>(R.layout.fragment_
                    onBackPressed()
                 }
                 ProfileViewModel.ProfileViewEvent.EventUpdateProfileImage->{
-                    myPageViewModel.updateProfileImg(profileViewModel.uiState.value.profileImage.toString())
                     binding.profileCompleteBtn.isEnabled=true
                 }
                 ProfileViewModel.ProfileViewEvent.EventUpdateProfileInfo ->{
                     requireContext().BdsToast("변경이 완료됐어요.").show()
-                    myPageViewModel.updateProfile(profileViewModel.uiState.value.nickName,profileViewModel.uiState.value.phoneNumber)
+                    myPageViewModel.updateProfile(
+                        profileViewModel.uiState.value.nickName,
+                        profileViewModel.uiState.value.phoneNumber,
+                        profileViewModel.uiState.value.profileImage.toString()
+                        )
                     onBackPressed()
                 }
             }
             profileViewModel.consumeViewEvent(viewEvent)
-        }
-    }
-
-    companion object{
-        fun newInstance(bundle: Bundle) : ProfileFragment{
-            val fragment = ProfileFragment()
-            fragment.arguments = bundle
-            return fragment
         }
     }
 

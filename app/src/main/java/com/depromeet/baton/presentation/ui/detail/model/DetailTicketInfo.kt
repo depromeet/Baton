@@ -35,7 +35,8 @@ data class DetailTicketInfo (
     data class Seller(
         val userId : Int,
         val nickname : String,
-        val create_on :String// true: male /false:female
+        val create_on :String,
+        val image :String?
     )
 }
 

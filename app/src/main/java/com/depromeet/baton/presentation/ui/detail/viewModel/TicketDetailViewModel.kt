@@ -1,4 +1,4 @@
-package com.depromeet.baton.presentation.ui.detail.viewModel
+ package com.depromeet.baton.presentation.ui.detail.viewModel
 
 import android.app.Application
 import android.content.Context
@@ -79,7 +79,8 @@ class TicketDetailViewModel @Inject constructor(
                                     seller = DetailTicketInfo.Seller(
                                         sellerId,
                                         ticket.seller.nickname,
-                                        ticket.seller.createdOn
+                                        ticket.seller.createdOn,
+                                        ticket.seller.image
                                     ),
                                     isOwner = userId == sellerId,
                                     detailUrl = "https://map.naver.com/v5/search/${ticket.location.replace(" ","")}",

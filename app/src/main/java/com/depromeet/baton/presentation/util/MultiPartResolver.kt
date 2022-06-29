@@ -5,14 +5,22 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.net.Uri
+import android.util.Log
 import androidx.exifinterface.media.ExifInterface
 import dagger.hilt.android.qualifiers.ActivityContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import timber.log.Timber
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
+import java.io.InputStream
+import java.net.HttpURLConnection
+import java.net.URL
 import javax.inject.Inject
 
 
@@ -69,14 +77,16 @@ class MultiPartResolver @Inject constructor(
                 resizedWidth = it.width.toFloat()
                 resizedHeight = it.height.toFloat()
             }
-            Bitmap.createScaledBitmap(it, resizedWidth.toInt(), resizedHeight.toInt(), true)
+           val result= Bitmap.createScaledBitmap(it, resizedWidth.toInt(), resizedHeight.toInt(), true)
                 .compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+            Timber.e("$result")
         }
-        val file = File(replaceFileName(uri.toString()))
+        val file = File("${uri.toString().replace(".", "_")}.png")
         val surveyBody =
-            byteArrayOutputStream.toByteArray().toRequestBody("image/jpeg".toMediaTypeOrNull())
+            byteArrayOutputStream.toByteArray().toRequestBody("image/png".toMediaTypeOrNull())
         return MultipartBody.Part.createFormData("image", file.name, surveyBody)
     }
+
 
     private fun getOrientationOfImage(uri: Uri): Int {
         val inputStream = context.contentResolver.openInputStream(uri)

@@ -1,37 +1,38 @@
 package com.depromeet.baton.presentation.ui.mypage.viewmodel
 
 import android.app.Application
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.text.Editable
-import android.text.TextUtils.replace
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.depromeet.baton.R
-import com.depromeet.baton.data.request.createPartFromString
 import com.depromeet.baton.domain.repository.AuthRepository
 import com.depromeet.baton.domain.repository.UserinfoRepository
 import com.depromeet.baton.map.util.NetworkResult
-import com.depromeet.baton.presentation.base.BaseViewModel
 import com.depromeet.baton.presentation.util.MultiPartResolver
 import com.depromeet.baton.presentation.util.RegexConstant
 import com.depromeet.baton.presentation.util.uriConverter
 import com.depromeet.baton.util.BatonSpfManager
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import timber.log.Timber
-import java.io.ByteArrayOutputStream
 import java.io.File
+import java.net.URI
+import java.net.URL
 import javax.inject.Inject
+
 
 @HiltViewModel
 class ProfileViewModel@Inject constructor(
@@ -68,8 +69,24 @@ class ProfileViewModel@Inject constructor(
         )
     }
 
-    fun initProfileInfo( name : String , phone :String, profile : String ){
-        _uiState.update { it.copy( nickName = name , phoneNumber = phone , profileImage = Uri.parse(profile), isLoading = false) }
+    fun initProfileInfo(){
+        viewModelScope.launch {
+            runCatching {
+                val res = userinfoRepository.getUserProfile(authRepository.authInfo!!.userId)
+                when (res) {
+                    is NetworkResult.Success -> {
+                        _uiState.update {
+                            it.copy(
+                                nickName = res.data!!.nickname,
+                                phoneNumber = res.data!!.phone_number ,
+                                profileImage = res.data!!.profileImg?.let { Uri.parse(it) }, isLoading = false) }
+                    }
+                    is NetworkResult.Error -> {
+                        Timber.e(res.message)
+                    }
+                }
+            }
+        }
     }
 
 
@@ -88,9 +105,6 @@ class ProfileViewModel@Inject constructor(
         addViewEvent(ProfileViewEvent.EventUpdateProfileImage)
     }
 
-    fun removeProfileImg(){
-        _uiState.update { it.copy( profileImage = uriConverter(context,com.depromeet.bds.R.drawable.ic_img_profile_basic_smile_56 ) , isChanged = true) }
-    }
 
      fun submitProfile(){
         //변경 API 호출
@@ -105,18 +119,17 @@ class ProfileViewModel@Inject constructor(
                          is NetworkResult.Error->{Timber.e(it.message)}
                      }
                  }
-                 /** 프로필 이미지 변경**/
              }
     }
-    private fun replaceFileName(fileName: String): String = "${fileName.replace(".", "_")}.jpeg"
-
     private fun updateProfileImage(){
         viewModelScope.launch {
             val userId = authRepository.authInfo!!.userId
             runCatching {
                 with(uiState.value.profileImage){
                     if(this != null){
-                        multiPartResolver.createSingleImgMultiPart(this).let {
+                        if(this.toString().contains("https")) /** icon 변경 **/
+                            userinfoRepository.updateProfileIcon(authRepository.authInfo!!.accessToken,userId,this.toString())
+                        else  multiPartResolver.createSingleImgMultiPart(this).let {
                             userinfoRepository.updateProfileImage(userId, it)
                         }
                     }
@@ -124,15 +137,12 @@ class ProfileViewModel@Inject constructor(
                 }
             }.onSuccess {
                 when(it){
-                    is NetworkResult.Success->{ addViewEvent(ProfileViewEvent.EventUpdateProfileInfo)}
-                    is NetworkResult.Error->{Timber.e(it.message)}
+                    is NetworkResult.Success->{     addViewEvent(ProfileViewEvent.EventUpdateProfileInfo) }
+                    is NetworkResult.Error ->{Timber.e(it.message)}
                 }
             }
         }
     }
-
-
-
 
     fun consumeViewEvent(profileViewEvent: ProfileViewEvent) {
         _viewEvents.update { it - profileViewEvent }
@@ -141,8 +151,6 @@ class ProfileViewModel@Inject constructor(
     private fun addViewEvent(profileViewEvent: ProfileViewEvent) {
         _viewEvents.update { it + profileViewEvent }
     }
-
-
 
     sealed interface ProfileViewEvent {
         object EventUpdateProfileInfo: ProfileViewEvent
