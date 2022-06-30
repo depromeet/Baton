@@ -11,19 +11,19 @@
 
 [내 근처 헬스장]
 집, 회사의 주소를 등록하고 가장 가까운 헬스장의 회원권 탐색해보세요.
-<img src="img/location.png" width="250"/><br/>
-![](img/main.png)
+<br/><img src="img/location.png" width="250"/><br/>
+<br/><img src="img/main.png" width="250"/><br/>
 [맞춤형 검색필터]
 원하는 기간, 가격, 헬스장 정보까지 설정하고, 바통에서 원하는 회원권을 득템해보세요.
-![](img/filter.png)
+<br/><img src="img/filter.png" width="250"/><br/>
 [간편한 회원권 등록]
 복잡한 회원권 정보를 쉽고 빠르게 등록해보세요.
-![](img/regist.png)
+<br/><img src="img/regist.png" width="250"/><br/>
 [빠른 거래를 위한 채팅]
 원하는 매물을 발견하셨나요? 바로 판매자에게 채팅을 걸어 거래해보세요.
 [마이 페이지]
 개인 프로필을 꾸며보세요.
-![](img/mypage.png)
+<br/><img src="img/mypage.png" width="250"/><br/>
 
 # 사용 기술
 
