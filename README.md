@@ -50,7 +50,7 @@
 헬스장을 원하는 기간에 저렴한 가격으로 구매할 수 있습니다.
 ```
 # Preview
-<img width="340" src = "https://user-images.githubusercontent.com/84564695/180597693-e36c641e-a8d3-4d97-b31d-6959ce705107.png" /> <img width="600" src = "https://user-images.githubusercontent.com/84564695/180597694-3f2e2ea3-68a7-450b-a888-0def81c3430e.png" />
+<img width="340" src = "https://user-images.githubusercontent.com/84564695/180597693-e36c641e-a8d3-4d97-b31d-6959ce705107.png" /> <img width="500" src = "https://user-images.githubusercontent.com/84564695/180597854-cccfacbb-78dc-470f-b7c4-bbd09ddd64c5.png" /><img width="850" src = "https://user-images.githubusercontent.com/84564695/180597694-3f2e2ea3-68a7-450b-a888-0def81c3430e.png" />
 # 주요 기능
 
 ```
