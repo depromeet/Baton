@@ -299,7 +299,7 @@ class TicketDetailViewModel @Inject constructor(
         val onAddLikeClick: () -> Unit
     ) {
 
-        val isChatEnabled = true //TODO 문의했던 회원권인지 판단
+        val isChatEnabled = false //TODO 문의했던 회원권인지 판단
         val chatBtnText = if(ticket.isOwner)"문의목록" else if (isChatEnabled) "문의하기" else "이미 문의한 회원권이에요"
 
         val priceStr = priceFormat(ticket.price.toFloat())+"원"
