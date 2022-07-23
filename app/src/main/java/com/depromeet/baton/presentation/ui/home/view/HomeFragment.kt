@@ -57,6 +57,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 }, 600)
             homeViewModel.setFromAddress(false)
         }
+        if (spfManager.getInitToolTip()) {
+            showToolTip()
+            spfManager.setInitToolTip(false)
+        }
     }
 
     private fun initView() {
@@ -81,7 +85,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         val roadAddress = spfManager.getAddress().roadAddress
 
         binding.tvHomeLocation.text = if (roadAddress != "") {
-            roadAddress.slice(0..5) + "..."
+            roadAddress.slice(0..9) + "..."
         } else "위치 설정"
     }
 
@@ -117,7 +121,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
                 HomeViewModel.HomeViewEvent.ToSearch -> (activity as MainActivity).moveToSearch() //todo 검색 keyword 초기화
 
-                HomeViewModel.HomeViewEvent.ToAlarm ->(activity as MainActivity).moveToChatting()
+                HomeViewModel.HomeViewEvent.ToAlarm -> (activity as MainActivity).moveToChatting()
 
                 HomeViewModel.HomeViewEvent.ToHowTo -> HowToUseActivity.start(requireContext())
 

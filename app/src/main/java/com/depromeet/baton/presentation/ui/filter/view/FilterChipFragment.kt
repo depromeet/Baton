@@ -17,7 +17,7 @@ class FilterChipFragment : BaseFragment<FragmentFilterChipBinding>(R.layout.frag
 
     private val filterViewModel: FilterViewModel by activityViewModels()
 
-   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.filterViewModel = filterViewModel
         binding.filterChipFragment = this
@@ -37,7 +37,9 @@ class FilterChipFragment : BaseFragment<FragmentFilterChipBinding>(R.layout.frag
     }
 
     private fun setAlignClickListener() {
-        val menu = arrayListOf("가까운 거리순", "낮은 가격순", "인기순", "남은 기간 많은 순", "남은 횟수 많은 순").map { BottomMenuItem(it) }
+        var currentPos = -1
+
+        val menu = arrayListOf("가까운 거리순", "낮은 가격순", "인기순", "남은 기간 많은 순", "남은 횟수 많은 순")
         binding.tvBdsfilterSortingAlignment.setOnClickListener {
             val onItemClick = object : BottomSheetFragment.Companion.OnItemClick {
                 override fun onSelectedItem(selected: BottomMenuItem, index: Int) {
@@ -51,9 +53,16 @@ class FilterChipFragment : BaseFragment<FragmentFilterChipBinding>(R.layout.frag
                 }
             }
 
+            when (filterViewModel.currentAlignment.value) {
+                menu[0] -> currentPos = 0
+                menu[1] -> currentPos = 1
+                menu[2] -> currentPos = 2
+                menu[3] -> currentPos = 3
+                menu[4] -> currentPos = 4
+            }
             val bottomSheetFragment = BottomSheetFragment.newInstance(
-                "정렬", menu,
-                BottomSheetFragment.CHECK_ITEM_VIEW, onItemClick
+                "정렬", menu.map { BottomMenuItem(it) },
+                BottomSheetFragment.CHECK_ITEM_VIEW, onItemClick,
             )
 
             bottomSheetFragment.show(

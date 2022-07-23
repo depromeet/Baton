@@ -17,6 +17,7 @@ import com.depromeet.baton.presentation.main.MainActivity
 import com.depromeet.baton.presentation.ui.sign.SignUpAddressDetailViewModel.ViewEvent
 import com.depromeet.baton.presentation.util.viewLifecycle
 import com.depromeet.baton.presentation.util.viewLifecycleScope
+import com.depromeet.baton.util.BatonSpfManager
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -27,6 +28,8 @@ import javax.inject.Inject
 class SignUpAddressDetailFragment :
     BaseFragment<FragmentSignUpAddressDetailBinding>(R.layout.fragment_sign_up_address_detail) {
 
+    @Inject
+    lateinit var spfManager: BatonSpfManager
     private val viewModel: SignUpAddressDetailViewModel by viewModels()
     private val signUpViewModel: SignUpViewModel by activityViewModels()
 
@@ -44,12 +47,14 @@ class SignUpAddressDetailFragment :
             .launchIn(viewLifecycleScope)
     }
 
+
     private fun handleViewEvents(viewEvents: List<ViewEvent>) {
         viewEvents.firstOrNull()?.let { viewEvent ->
             when (viewEvent) {
                 ViewEvent.ToSignUp -> {
                     signUpViewModel.remember(viewModel)
                     signUpViewModel.signUp()
+                    spfManager.setInitToolTip(true)
                 }
                 ViewEvent.ToHome -> {
                     MainActivity.start(requireContext())
@@ -120,7 +125,7 @@ class SignUpAddressDetailViewModel @Inject constructor(
     }
 
     sealed interface ViewEvent {
-        object ToSignUp: ViewEvent
+        object ToSignUp : ViewEvent
         object ToHome : ViewEvent
     }
 

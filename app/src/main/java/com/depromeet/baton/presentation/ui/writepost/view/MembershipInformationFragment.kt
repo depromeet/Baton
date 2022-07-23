@@ -55,6 +55,20 @@ class MembershipInformationFragment : BaseFragment<FragmentMembershipInformation
     }
 
     private fun setTermIsChecked() {
+        binding.etTerm.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                binding.etTerm.setBackgroundResource(com.depromeet.bds.R.drawable.temp_textfield_chip_bacground)
+            } else {
+                    binding.etTerm.setBackgroundResource(com.depromeet.bds.R.drawable.temp_choice_chip_bacground)
+            }
+            writePostViewModel.isDateError.observe(viewLifecycleOwner) {
+                if (it) binding.etTerm.setBackgroundResource(com.depromeet.bds.R.drawable.temp_textfield_chip_background_error)
+                else if (binding.etTerm.isFocused) {
+                    binding.etTerm.setBackgroundResource(com.depromeet.bds.R.drawable.temp_textfield_chip_bacground)
+                }
+            }
+        }
+
         writePostViewModel.isPeriodChecked.observe(viewLifecycleOwner) {
             binding.ctvMembershipFixedTerm.isChecked = it
         }

@@ -134,14 +134,14 @@
             <com.depromeet.bds.component.BdsButton
                 android:id="@+id/bds_btn_bottom_search_no_result"
                 android:layout_width="wrap_content"
+                android:layout_marginTop="@dimen/dimen40"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dimen68"
                 android:onClick="@{_->uiState.onGoSelfWriteClick.invoke()}"
                 android:theme="@style/Theme.Bds.TertiaryButton.Medium"
                 app:bds_text="찾고있는 헬스장이 없나요?"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/ctl_bottom_search_result_exist"
                 app:layout_constraintStart_toStartOf="@+id/ctl_bottom_search_result_exist"
+                app:layout_constraintTop_toBottomOf="@+id/ctl_bottom_search_result_exist"
                 app:uiState="@{writePostViewModel.shopSearchUiState }" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
