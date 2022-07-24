@@ -20,7 +20,8 @@
         android:roundIcon="@mipmap/ic_baton_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
-        tools:replace="android:name">
+        tools:replace="android:label"
+    >
         <activity
             android:name=".presentation.ui.chatting.ChatRoomActivity"
             android:exported="true"
@@ -86,7 +87,7 @@
             android:exported="false" />
         <activity
             android:name="com.nguyenhoanglam.imagepicker.ui.imagepicker.ImagePickerActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".presentation.base.WebActivity"
             android:exported="false" />

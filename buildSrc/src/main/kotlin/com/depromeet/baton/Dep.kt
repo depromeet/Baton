@@ -8,6 +8,7 @@ object Dep {
         const val hilt = "com.google.dagger:hilt-android-gradle-plugin:${Dagger.version}"
         const val spotless = "com.diffplug.spotless:spotless-plugin-gradle:6.2.0"
         const val googleService = "com.google.gms:google-services:4.3.10"
+        const val crashlytics ="com.google.firebase:firebase-crashlytics-gradle:2.9.1"
     }
 
     object Kotlin {
