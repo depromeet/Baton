@@ -181,7 +181,7 @@ object Dep {
     const val ballon = "com.github.skydoves:balloon:1.4.5"
     const val glide = "com.github.bumptech.glide:glide:4.13.0"
     const val glide_compiler = "com.github.bumptech.glide:compiler:4.13.0"
-    const val imagepicker = "com.github.nguyenhoanglam:ImagePicker:1.5.2"
+    const val imagepicker = "com.github.nguyenhoanglam:ImagePicker:1.5.3"
     const val stickyScrollView="com.github.amarjain07:StickyScrollView:1.0.3"
     const val circleimageview=  "de.hdodenhof:circleimageview:3.1.0"
 
