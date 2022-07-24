@@ -8,6 +8,7 @@ object Dep {
         const val hilt = "com.google.dagger:hilt-android-gradle-plugin:${Dagger.version}"
         const val spotless = "com.diffplug.spotless:spotless-plugin-gradle:6.2.0"
         const val googleService = "com.google.gms:google-services:4.3.10"
+        const val firebaseCrashlytics="com.google.firebase:firebase-crashlytics-gradle:2.2.0"
     }
 
     object Kotlin {
@@ -180,7 +181,7 @@ object Dep {
     const val ballon = "com.github.skydoves:balloon:1.4.5"
     const val glide = "com.github.bumptech.glide:glide:4.13.0"
     const val glide_compiler = "com.github.bumptech.glide:compiler:4.13.0"
-    const val imagepicker = "com.github.nguyenhoanglam:ImagePicker:1.5.2"
+    const val imagepicker = "com.github.nguyenhoanglam:ImagePicker:1.5.3"
     const val stickyScrollView="com.github.amarjain07:StickyScrollView:1.0.3"
     const val circleimageview=  "de.hdodenhof:circleimageview:3.1.0"
 

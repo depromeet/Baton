@@ -31,20 +31,10 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    signingConfigs {
-        releaseWithSignedKey {
-            storeFile file(keystoreProperties["SIGNED_STORE_FILE"])
-            storePassword keystoreProperties["SIGNED_STORE_PASSWORD"]
-            keyAlias keystoreProperties["SIGNED_KEY_ALIAS"]
-            keyPassword keystoreProperties["SIGNED_KEY_PASSWORD"]
-        }
-    }
     buildTypes {
         release {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.releaseWithSignedKey
         }
     }
     compileOptions {
@@ -109,7 +99,6 @@ dependencies {
 
     implementation platform(Dep.Firebase.bom)
     implementation(Dep.Firebase.analytics)
-    implementation(Dep.Firebase.crashlytics)
     implementation(Dep.Firebase.messaging)
 
     implementation(Dep.Map.naver_sdk)
@@ -121,7 +110,6 @@ dependencies {
     implementation(Dep.imagepicker)
 
     implementation(Dep.stickyScrollView)
-    implementation(Dep.circleimageview)
 
     testImplementation(Dep.Test.junit)
     androidTestImplementation(Dep.AndroidTest.core)
