@@ -175,6 +175,9 @@
     <string name="mypage_ticket_menu_change">정보 수정하기</string>
     <string name="mypage_ticket_menu_delete">삭제</string>
 
+    <stirng name="message_checked">읽음</stirng>
+    <stirng name="message_unChecked">안읽음</stirng>
+
     <!--바통 이용법-->
     <string name="how_to_use_introduce1">바통은 헬스 양도권 거래 전문 플랫폼으로 내 위치를 기반으로 가까운 매물을 확인하고 판매자와 구매자가 편리하고 안전하게 양도권을 거래할 수 있는 플랫폼이에요.</string>
     <string name="how_to_use_introduce2">바통에서 더 이상 사용하지 않는 회원권은 빠르게 판매하고 평소 눈여겨 보던 우리 동네 헬스장 회원권은 저렴한 가격에 구매해보세요!</string>
