@@ -1,15 +1,20 @@
 package com.depromeet.baton.presentation.util
 
+import android.net.Uri
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.signature.ObjectKey
 import com.depromeet.baton.chat.ChatController
-import com.depromeet.baton.chat.Message
+import com.depromeet.baton.domain.model.Message
 import com.depromeet.baton.presentation.ui.chatting.ChatMessageAdapter
 import com.depromeet.bds.component.*
 import com.depromeet.bds.utils.toPx
@@ -111,4 +116,24 @@ fun RecyclerView.bindingItem(uiState: ChatController.MessageUiState) {
     }
 }
 
+
+@BindingAdapter("messageImg")
+fun ImageView.bindImage(message: Message) {
+    Glide.with(context)
+        .load(message.image ?:message.empty)
+        .transform(CircleCrop())
+        .apply{
+            this.signature(ObjectKey("ask-profile"))
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+        }
+        .into(this)
+}
+
+@BindingAdapter("messageText")
+fun setMessageDayText(text: TextView, message: Message) {
+    if(message.isChecked == null ) text.setText("")
+    else if(message.isChecked ) text.setText("읽음")
+    else text.setText("안읽음")
+}
 
