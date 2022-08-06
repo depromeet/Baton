@@ -104,6 +104,11 @@
             android:name=".presentation.ui.mypage.view.PostAccountActivity"
             android:exported="false" />
 
+        <activity android:name=".presentation.ui.ask.view.MsgRcvActivity"
+            android:exported="false" />
+        <activity android:name=".presentation.ui.ask.view.MsgSendActivity"
+            android:exported="false" />
+
         <activity
             android:name=".presentation.main.MainActivity"
             android:exported="false"

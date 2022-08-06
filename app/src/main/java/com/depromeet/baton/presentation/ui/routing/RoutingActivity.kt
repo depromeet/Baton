@@ -1,7 +1,6 @@
 package com.depromeet.baton.presentation.ui.routing
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
@@ -11,6 +10,8 @@ import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ActivityRoutingBinding
 import com.depromeet.baton.presentation.base.BaseActivity
 import com.depromeet.baton.presentation.main.MainActivity
+import com.depromeet.baton.presentation.ui.ask.view.MsgRcvActivity
+import com.depromeet.baton.presentation.ui.ask.view.MsgSendActivity
 import com.depromeet.baton.presentation.ui.routing.RoutingViewModel.ViewEvent
 import com.depromeet.baton.presentation.ui.sign.SignActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,6 +36,8 @@ class RoutingActivity : BaseActivity<ActivityRoutingBinding>(R.layout.activity_r
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+
 
         splashScreen.setOnExitAnimationListener {
             Timber.d("beanbean > splash 종료")

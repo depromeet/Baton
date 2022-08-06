@@ -8,6 +8,7 @@ import com.depromeet.baton.chat.ChatRoom
 import com.depromeet.baton.databinding.ItemChatListBinding
 import com.depromeet.baton.databinding.ItemMessageBinding
 import com.depromeet.baton.domain.model.Message
+import com.depromeet.baton.domain.model.MsgType
 import com.depromeet.baton.util.SimpleDiffUtil
 
 class MessageitemAdapter (

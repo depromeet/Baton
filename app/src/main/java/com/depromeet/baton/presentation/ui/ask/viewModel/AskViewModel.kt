@@ -1,7 +1,7 @@
-package com.depromeet.baton.presentation.ui.ask
+package com.depromeet.baton.presentation.ui.ask.viewModel
 
-import com.depromeet.baton.R
 import com.depromeet.baton.domain.model.Message
+import com.depromeet.baton.domain.model.MsgType
 import com.depromeet.baton.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +13,7 @@ import javax.inject.Inject
 class AskViewModel @Inject constructor() : BaseViewModel(){
 
     val ints= Collections.nCopies(20,
-        Message(null , null,"헬스","방배","닉네임","댜러댜러ㅑ더","1일전",false))
+        Message(1 , MsgType.SEND,null,"헬스","방배","닉네임","댜러댜러ㅑ더","1일전",false))
 
     private val _sendUiState: MutableStateFlow<AskSendUiState> =
         MutableStateFlow(AskSendUiState(ints.toList()))

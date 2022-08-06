@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="uiState"
+            type="com.depromeet.baton.presentation.ui.ask.viewModel.SendMessageUiState " />
+
+    </data>
+    <LinearLayout
+        android:weightSum="1"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dimen16"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginTop="@dimen/dimen16"
+            android:layout_marginBottom="@dimen/dimen16"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:text="보낸 내역"
+                android:textAppearance="?headline2"
+                android:textAlignment="center"
+                />
+            <ImageView
+                android:id="@+id/message_close_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:src="@drawable/ic_close_line_24"
+                android:onClick="@{_->uiState.onBackClick.invoke()}"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen14"
+            >
+            <ImageView
+                android:id="@+id/message_iv"
+                android:layout_width="@dimen/dimen40"
+                android:layout_height="@dimen/dimen40"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:background="?grey_scale40"
+                />
+
+            <TextView
+                android:id="@+id/message_gym_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{uiState.gymName}"
+                android:textColor="?grey_scale80"
+                android:textAppearance="?caption1"
+                android:layout_marginLeft="@dimen/dimen12"
+                android:paddingRight="@dimen/dimen2"
+                app:layout_constraintStart_toEndOf="@id/message_iv"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/message_price_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen4"
+                android:layout_marginLeft="@dimen/dimen12"
+                android:text="@{uiState.price}"
+                android:textAppearance="?headline2"
+                app:layout_constraintStart_toEndOf="@id/message_iv"
+                app:layout_constraintTop_toBottomOf="@id/message_gym_tv" />
+
+            <TextView
+                android:id="@+id/message_nego_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimen8"
+                android:text="@{uiState.canNegoStr}"
+                android:textAppearance="?caption3"
+                android:textColor="?secondary50"
+                android:textAlignment="center"
+                app:layout_constraintTop_toTopOf="@id/message_price_tv"
+                app:layout_constraintBottom_toBottomOf="@id/message_price_tv"
+                app:layout_constraintStart_toEndOf="@id/message_price_tv" />
+
+            <ImageButton
+                android:id="@+id/ticket_detail_url_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_link_line_16"
+                app:tint="?grey_scale80"
+                android:onClick="@{_->uiState.onUrlClick.invoke()}"
+                app:layout_constraintBottom_toBottomOf="@+id/message_gym_tv"
+                app:layout_constraintStart_toEndOf="@id/message_gym_tv"
+                app:layout_constraintTop_toTopOf="@+id/message_gym_tv" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="판매자 정보"
+            android:textAppearance="?headline3"
+            android:layout_marginTop="25dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?body3"
+            android:layout_marginTop="@dimen/dimen12"
+            android:text="@{uiState.nickName}"
+            android:textColor="?grey_scale80"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="문의내용"
+            android:textAppearance="?headline3"
+            android:layout_marginTop="@dimen/dimen26"
+            />
+
+        <TextView
+            android:id="@+id/et_description"
+            android:layout_width="match_parent"
+            android:layout_height="182dp"
+            android:layout_marginTop="@dimen/dimen8"
+            android:background="@drawable/temp_textfield_background"
+            android:gravity="top"
+            android:includeFontPadding="false"
+            android:padding="@dimen/dimen16"
+            android:paddingHorizontal="@dimen/dimen16"
+            android:paddingVertical="@dimen/dimen14"
+            android:textAppearance="?body4"
+            android:text="@{uiState.content}"
+            />
+
+    </LinearLayout>
+</layout>

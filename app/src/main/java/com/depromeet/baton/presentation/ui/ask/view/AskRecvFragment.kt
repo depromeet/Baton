@@ -7,10 +7,9 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentAskTabBinding
-import com.depromeet.baton.databinding.FragmentSaleTabBinding
 import com.depromeet.baton.domain.model.Message
 import com.depromeet.baton.presentation.base.BaseFragment
-import com.depromeet.baton.presentation.ui.ask.AskViewModel
+import com.depromeet.baton.presentation.ui.ask.viewModel.AskViewModel
 import com.depromeet.baton.presentation.util.viewLifecycle
 import com.depromeet.baton.presentation.util.viewLifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,5 +46,6 @@ class AskRecvFragment : BaseFragment<FragmentAskTabBinding>(R.layout.fragment_as
 
     private fun onClickMessage(message : Message){
         Timber.e(message.id.toString())
+        MsgRcvActivity.start(requireContext() , message.id!!)
     }
 }
