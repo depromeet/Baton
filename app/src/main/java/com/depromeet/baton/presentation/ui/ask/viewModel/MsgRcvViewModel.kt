@@ -1,6 +1,7 @@
 package com.depromeet.baton.presentation.ui.ask.viewModel
 
 import androidx.lifecycle.SavedStateHandle
+import com.depromeet.baton.R
 import com.depromeet.baton.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -47,6 +48,7 @@ class MsgRcvViewModel @Inject constructor(
 data class RcvMessageUiState(
     val image : String ? ="",
     val gymName : String? ="석촌 어딘가",
+    val status : String?= "삭제됨",
     val address: String ? ="",
     val price : String ? ="20,000",
     val canNego : Boolean =true,
@@ -58,6 +60,7 @@ data class RcvMessageUiState(
     val onUrlClick :()->Unit
 ){
     val canNegoStr = if(canNego) "가격 제안 가능" else ""
+    val urlColor = if(status=="삭제됨") com.depromeet.bds.R.color.gy60 else com.depromeet.bds.R.color.gy80
 
 }
 

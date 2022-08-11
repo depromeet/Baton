@@ -1,11 +1,14 @@
 package com.depromeet.baton.presentation.util
 
-import android.net.Uri
+import android.annotation.SuppressLint
+import android.content.res.ColorStateList
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.ImageViewCompat
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -18,6 +21,7 @@ import com.depromeet.baton.domain.model.Message
 import com.depromeet.baton.presentation.ui.chatting.ChatMessageAdapter
 import com.depromeet.bds.component.*
 import com.depromeet.bds.utils.toPx
+
 
 @BindingAdapter("bds_text", "isSelected")
 fun setBdsFilterChip(view: BdsFilter, text: String?, isSelected: Boolean) {
@@ -137,3 +141,19 @@ fun setMessageDayText(text: TextView, message: Message) {
     else text.setText("안읽음")
 }
 
+@SuppressLint("ResourceAsColor")
+@BindingAdapter("messageTextStatus")
+fun setMessageTextStatus(text: TextView, status : String?) {
+    if(status =="삭제됨" ){
+        text.setTextColor(com.depromeet.bds.R.attr.grey_scale60)
+    }
+}
+
+@BindingAdapter("tint")
+fun bindImageTint(imageView: ImageView, colorId: Int) {
+    if (colorId == 0) {
+        return
+    }
+    val tint = ContextCompat.getColor(imageView.context, colorId)
+    ImageViewCompat.setImageTintList(imageView, ColorStateList.valueOf(tint))
+}

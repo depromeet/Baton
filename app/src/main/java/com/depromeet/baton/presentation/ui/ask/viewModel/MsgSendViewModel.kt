@@ -39,6 +39,7 @@ class MsgSendViewModel  @Inject constructor(
 data class SendMessageUiState(
     val image : String ? ="",
     val gymName : String? ="석촌 어딘가",
+    val status : String? ="예약중",
     val address: String?="https://kimyk60.tistory.com/36",
     val price : String ? ="20,000",
     val canNego : Boolean =true,
@@ -48,6 +49,7 @@ data class SendMessageUiState(
     val onUrlClick :()->Unit
 ){
     val canNegoStr = if(canNego) "가격 제안 가능" else ""
+    val urlColor = if(status=="삭제됨") com.depromeet.bds.R.color.gy60 else com.depromeet.bds.R.color.gy80
 
 }
 

@@ -58,19 +58,40 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:background="?grey_scale40"
+                        android:layout_marginEnd="@dimen/dimen12"
                         />
+                    <View
+                        android:id="@+id/message_padding"
+                        app:layout_constraintStart_toEndOf="@id/message_iv"
+                        android:background="@drawable/background_radius_4dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_width="@dimen/dimen12"
+                        android:layout_height="40dp"/>
+                    <TextView
+                        android:id="@+id/message_status_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{uiState.status}"
+                        android:fontFamily="@font/spo_bold"
+                        android:textFontWeight="700"
+                        android:textSize="@dimen/dimen12"
+                        android:lineHeight="@dimen/dimen16"
+                        android:paddingRight="@dimen/dimen4"
+                        android:textColor="?grey_scale60"
+                        isVisible="@{uiState.status!=null}"
+                        app:layout_constraintStart_toEndOf="@id/message_padding"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/message_gym_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@{uiState.gymName}"
-                        android:textColor="?grey_scale80"
                         android:textAppearance="?caption1"
-                        android:layout_marginLeft="@dimen/dimen12"
+                        android:textColor="?grey_scale80"
+                        messageTextStatus="@{uiState.status}"
                         android:paddingRight="@dimen/dimen2"
-                        app:layout_constraintStart_toEndOf="@id/message_iv"
+                        app:layout_constraintStart_toEndOf="@id/message_status_tv"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
@@ -81,8 +102,10 @@
                         android:layout_marginLeft="@dimen/dimen12"
                         android:text="@{uiState.price}"
                         android:textAppearance="?headline2"
+                        android:textColor="?grey_scale90"
+                        messageTextStatus="@{uiState.status}"
                         app:layout_constraintStart_toEndOf="@id/message_iv"
-                        app:layout_constraintTop_toBottomOf="@id/message_gym_tv" />
+                        app:layout_constraintTop_toBottomOf="@id/message_status_tv" />
 
                     <TextView
                         android:id="@+id/message_nego_tv"
@@ -92,18 +115,19 @@
                         android:text="@{uiState.canNegoStr}"
                         android:textAppearance="?caption3"
                         android:textColor="?secondary50"
+                        messageTextStatus="@{uiState.status}"
                         android:textAlignment="center"
                         app:layout_constraintTop_toTopOf="@id/message_price_tv"
                         app:layout_constraintBottom_toBottomOf="@id/message_price_tv"
                         app:layout_constraintStart_toEndOf="@id/message_price_tv" />
 
-                    <ImageButton
+                    <ImageView
                         android:id="@+id/ticket_detail_url_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
                         android:src="@drawable/ic_link_line_16"
-                        app:tint="?grey_scale80"
+                        tint="@{uiState.urlColor}"
                         android:onClick="@{_->uiState.onUrlClick.invoke()}"
                         app:layout_constraintBottom_toBottomOf="@+id/message_gym_tv"
                         app:layout_constraintStart_toEndOf="@id/message_gym_tv"

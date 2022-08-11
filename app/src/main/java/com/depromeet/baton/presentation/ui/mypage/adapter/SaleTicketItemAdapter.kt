@@ -103,21 +103,17 @@ class SaleTicketItemAdapter(
                 when(item.ticket.data.state){
                      TicketStatus.SALE.name ->{
                          itemSaleStatusView.visibility = View.GONE
-                         itemSaleStatusChip.visibility =View.GONE
-                         itemSaleGap.visibility = View.GONE
                      }
                     TicketStatus.RESERVED.name->{
                         val resource= setUi(TicketStatus.RESERVED)
                         itemSaleStatusIc.setImageResource(resource.icon)
                         itemSaleStatusTv.text = resource.title
-                        itemSaleStatusChip.text = resource.title
                         itemSaleStatusView.visibility = View.VISIBLE
                     }
                     TicketStatus.DONE.name->{
                         val resource= setUi(TicketStatus.DONE)
                         itemSaleStatusIc.setImageResource(resource.icon)
                         itemSaleStatusTv.text = resource.title
-                        itemSaleStatusChip.text = resource.title
                         itemSaleMenuBtn.visibility=View.GONE
                         itemSaleStatusView.visibility = View.VISIBLE
                     }
