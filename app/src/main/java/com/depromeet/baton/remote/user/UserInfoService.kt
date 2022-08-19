@@ -2,6 +2,7 @@ package com.depromeet.baton.remote.user
 
 import android.os.Parcelable
 import androidx.annotation.Keep
+import com.depromeet.baton.data.request.UserToken
 import com.depromeet.baton.data.response.*
 import com.depromeet.baton.domain.model.MypageTicketResponse
 import com.depromeet.baton.domain.model.TicketSimpleInfo
@@ -20,8 +21,6 @@ interface UserInfoService {
         @Path("id") userIdx : Int,
         @Body body : UserProfileRequest
     ) : Response<UserProfileRequest>
-
-
 
     @DELETE("socialusers/{id}")
     suspend fun deleteUser(@Path("id") userIdx : Int)
@@ -66,7 +65,11 @@ interface UserInfoService {
         @Body body: UserAccount,
     ) : Response<UserAccount>
 
-
+    @PATCH("user/users/{id}")
+    suspend fun updateDeviceToken(
+        @Path("id") userIdx : Int,
+        @Body body: UserToken,
+    ) : Response<ResponseUserToken>
 }
 
 @Keep

@@ -2,11 +2,15 @@ package com.depromeet.baton.presentation.ui.home.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.depromeet.baton.data.request.UserToken
+import com.depromeet.baton.data.response.ResponseUserToken
 import com.depromeet.baton.domain.model.TicketKind
 import com.depromeet.baton.domain.repository.AuthRepository
 import com.depromeet.baton.domain.repository.BookmarkRepository
+import com.depromeet.baton.domain.repository.UserinfoRepository
 import com.depromeet.baton.presentation.base.BaseViewModel
 import com.depromeet.baton.presentation.util.SingleLiveEvent
+import com.depromeet.baton.util.BatonSpfManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,7 +22,9 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val authRepository: AuthRepository,
+    private val userinfoRepository: UserinfoRepository,
     private val bookmarkRepository: BookmarkRepository,
+    private val batonSpfManager: BatonSpfManager,
 ) : BaseViewModel() {
     private val _viewEvents: MutableStateFlow<List<HomeViewEvent>> = MutableStateFlow(emptyList())
     val viewEvents = _viewEvents.asStateFlow()
@@ -30,6 +36,19 @@ class HomeViewModel @Inject constructor(
 
     private val _fromAddress = SingleLiveEvent<Any>()
     val fromAddress: SingleLiveEvent<Any> = _fromAddress
+
+    init {
+        sendDeviceToken()
+    }
+
+    fun sendDeviceToken() {
+        val userId = authRepository.authInfo!!.userId
+        viewModelScope.launch {
+            runCatching { userinfoRepository.updateDeviceToken(userId, UserToken(batonSpfManager.getDeviceToken())) }
+                .onSuccess { }
+                .onFailure { Timber.e("토큰 전송 실패") }
+        }
+    }
 
     fun checkToolTipState(ticketCount: Int, location: String) {
         if (ticketCount == 0) {
