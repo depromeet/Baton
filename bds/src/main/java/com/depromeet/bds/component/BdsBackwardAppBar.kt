@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.withStyledAttributes
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import com.depromeet.bds.R
 import com.depromeet.bds.databinding.BdsComponentBackwardAppBarBinding
@@ -79,5 +80,9 @@ class BdsBackwardAppBar @JvmOverloads constructor(
 
     fun setTitleVisible(visibility : Int){
         binding.tvTitle.visibility =visibility
+    }
+
+    fun setImageIconInvisible(){
+        binding.imageIcon.visibility=View.INVISIBLE
     }
 }

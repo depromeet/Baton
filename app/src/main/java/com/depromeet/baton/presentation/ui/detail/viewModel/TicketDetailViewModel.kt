@@ -299,8 +299,9 @@ class TicketDetailViewModel @Inject constructor(
         val onAddLikeClick: () -> Unit
     ) {
 
+        val count=0 //TODO 문의 개수
         val isChatEnabled = false //TODO 문의했던 회원권인지 판단
-        val chatBtnText = if(ticket.isOwner)"문의목록" else if (isChatEnabled) "문의하기" else "이미 문의한 회원권이에요"
+        val chatBtnText = if(ticket.isOwner)"받은 문의 목록 보기 ($count)" else if (isChatEnabled) "문의하기" else "이미 문의한 회원권이에요"
 
         val priceStr = priceFormat(ticket.price.toFloat())+"원"
         val monthTagisVisible = if (ticket.remainDate!=null&& ticket.isMembership && ticket.remainDate > 30) View.VISIBLE else View.GONE

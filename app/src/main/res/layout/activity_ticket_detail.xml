@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="ticketDetailActivity"
+            type="com.depromeet.baton.presentation.ui.detail.TicketDetailActivity" />
+
+        <variable
             name="ticketState"
             type="com.depromeet.baton.presentation.ui.detail.viewModel.TicketDetailViewModel.DetailTicketInfoUiState" />
 
@@ -738,15 +742,17 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 android:enabled="@{ticketState.isChatEnabled}"
+
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_inquiry"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/dimen48"
                     android:layout_marginHorizontal="@dimen/dimen16"
                     android:background="@drawable/bds_button_background"
-
                     android:minWidth="0dp"
                     android:minHeight="0dp"
+                    android:enabled="@{!ticketState.ticket.isOwner || !ticketState.isChatEnabled}"
+                    android:onClick="@{!ticketState.ticket.isOwner ? ticketDetailActivity.setClickInquiryBySeller() : ticketDetailActivity.setClickInquiryByBuyer()}"
                     android:text="@{ticketState.chatBtnText}"
                     android:textColor="@color/selector_bds_button_text_color"
                     android:theme="@style/Theme.Bds.SecondaryButton"
