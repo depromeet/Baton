@@ -5,12 +5,16 @@
 
     <data>
 
+
+        <variable
+            name="ticketDetailViewModel"
+            type="com.depromeet.baton.presentation.ui.detail.viewModel.TicketDetailViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:background="@drawable/bg_bottomsheet"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_bottomsheet">
 
         <TextView
             android:id="@+id/inquiry_title"
@@ -49,6 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen8"
+            android:text="@{ticketDetailViewModel.name}"
             android:textAppearance="?body3"
             android:textColor="?grey_scale80"
             app:layout_constraintStart_toStartOf="@id/inquiry_my_info"
@@ -60,6 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen4"
+            android:text="@{ticketDetailViewModel.phoneNumber}"
             android:textAppearance="?body3"
             android:textColor="?grey_scale80"
             app:layout_constraintStart_toStartOf="@id/inquiry_nickname"
@@ -99,10 +105,10 @@
             android:gravity="top"
             android:hint="내용을 입력해주세요"
             android:includeFontPadding="false"
-            android:textColor="?grey_scale80"
             android:maxLength="100"
             android:padding="@dimen/dimen16"
             android:textAppearance="?body4"
+            android:textColor="?grey_scale80"
             android:textColorHint="?grey_scale50"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/inquiry_title"
@@ -120,7 +126,7 @@
             app:layout_constraintTop_toBottomOf="@id/et_description" />
 
         <com.depromeet.bds.component.BdsButton
-            android:id="@+id/btn_write_post_next"
+            android:id="@+id/btn_inquiry"
             android:layout_width="0dp"
             android:layout_height="@dimen/dimen48"
             android:layout_gravity="bottom"
