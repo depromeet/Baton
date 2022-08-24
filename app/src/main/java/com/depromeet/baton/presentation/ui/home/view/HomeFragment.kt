@@ -118,7 +118,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     homeViewModel.setFromAddress(true)
                     AddressActivity.start(requireContext())
                 }
-
                 HomeViewModel.HomeViewEvent.ToSearch -> (activity as MainActivity).moveToSearch() //todo 검색 keyword 초기화
 
                 HomeViewModel.HomeViewEvent.ToAlarm -> (activity as MainActivity).moveToChatting()
