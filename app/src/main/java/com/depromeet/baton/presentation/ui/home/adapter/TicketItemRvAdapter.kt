@@ -27,11 +27,11 @@ class TicketItemRvAdapter(
     }
 
     override fun onBindViewHolder(holder: TicketItemViewHolder, position: Int) {
-        return holder.bind(currentList[position], position)
+        return holder.bind(currentList[position], position, scrollType, clickListener)
     }
 
-    inner class TicketItemViewHolder(private val binding: ItemTicketBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: FilteredTicket, position: Int) {
+    class TicketItemViewHolder(private val binding: ItemTicketBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: FilteredTicket, position: Int, scrollType: String, clickListener: (FilteredTicket) -> Unit) {
             with(binding) {
                 ticket = item
                 executePendingBindings()
@@ -66,14 +66,14 @@ class TicketItemRvAdapter(
                 root.setOnClickListener { clickListener(item) }
             }
         }
-    }
 
-    private fun setEmptyImage(type: String, view: ImageView) {
-        when (type) {
-            "헬스" -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_health_86)
-            "기타" -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_etc_86)
-            "PT" -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_pt_86)
-            "필라테스" -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_pilates_86)
+        private fun setEmptyImage(type: String, view: ImageView) {
+            when (type) {
+                "헬스" -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_health_86)
+                "기타" -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_etc_86)
+                "PT" -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_pt_86)
+                "필라테스" -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_pilates_86)
+            }
         }
     }
 
