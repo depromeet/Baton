@@ -77,7 +77,7 @@ class SearchDetailFragment : BaseFragment<FragmentSearchDetailBinding>(R.layout.
     private fun setTicketItemRvAdapter() {
         with(binding) {
             ticketItemRvAdapter =
-                TicketItemRvAdapter(TicketItemRvAdapter.SCROLL_TYPE_VERTICAL, ::setTicketItemClickListener, ::setBookmarkDeleteClickListener, ::setBookmarkAddClickListener)
+                TicketItemRvAdapter(TicketItemRvAdapter.SCROLL_TYPE_VERTICAL, ::setTicketItemClickListener)
             val gridLayoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
 
             adapter = ticketItemRvAdapter
@@ -94,13 +94,5 @@ class SearchDetailFragment : BaseFragment<FragmentSearchDetailBinding>(R.layout.
 
     private fun setTicketItemClickListener(ticketItem: FilteredTicket) {
        TicketDetailActivity.start(requireContext(), ticketItem.id)
-    }
-
-    private fun setBookmarkDeleteClickListener(ticketItem: FilteredTicket) {
-        searchViewModel.postBookmark(ticketItem.id)
-    }
-
-    private fun setBookmarkAddClickListener(ticketItem: FilteredTicket) {
-        searchViewModel.deleteBookmark(ticketItem.id)
     }
 }

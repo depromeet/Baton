@@ -67,7 +67,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
 
     private lateinit var ticketTagAdapter: TicketTagAdapter<ItemPrimaryTagBinding>
     private lateinit var gymTagAdapter: TicketTagAdapter<ItemPrimaryOutlineTagBinding>
-    private val ticketItemRvAdapter = TicketItemRvAdapter(SCROLL_TYPE_HORIZONTAL, ::setTicketItemClickListener, ::setBookmarkDeleteClickListener, ::setBookmarkAddClickListener)
+    private val ticketItemRvAdapter = TicketItemRvAdapter(SCROLL_TYPE_HORIZONTAL, ::setTicketItemClickListener)
     private val ticketImgRvAdapter = TicketImgRvAdapter(this)
 
     @Inject
@@ -367,14 +367,6 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
 
     private fun setTicketItemClickListener(ticketItem: FilteredTicket) {
         TicketDetailActivity.start(this, ticketId = ticketItem.id)
-    }
-
-    private fun setBookmarkDeleteClickListener(ticketItem: FilteredTicket) {
-        ticketMoreViewModel.postMoreTicketBookmark(ticketItem.id)
-    }
-
-    private fun setBookmarkAddClickListener(ticketItem: FilteredTicket) {
-        ticketMoreViewModel.deleteMoreTicketBookmark(ticketItem.id)
     }
 
     /** Naver MAP Init **/
