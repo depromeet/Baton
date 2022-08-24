@@ -21,17 +21,26 @@ class TicketItemRvAdapter(
     private val clickListener: (FilteredTicket) -> Unit,
 ) : ListAdapter<FilteredTicket, TicketItemRvAdapter.TicketItemViewHolder>(SimpleDiffUtil()) {
 
+    private lateinit var inflater: LayoutInflater
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TicketItemViewHolder {
-        val binding = ItemTicketBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        if (!::inflater.isInitialized)
+            inflater = LayoutInflater.from(parent.context)
+
+        val binding = ItemTicketBinding.inflate(inflater, parent, false)
+
+        //이미지 라운드 처리
+        binding.ibtnItemTicket.clipToOutline = true
+
         return TicketItemViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: TicketItemViewHolder, position: Int) {
-        return holder.bind(currentList[position], position, scrollType, clickListener)
+        return holder.bind(currentList[position], scrollType, clickListener)
     }
 
     class TicketItemViewHolder(private val binding: ItemTicketBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: FilteredTicket, position: Int, scrollType: String, clickListener: (FilteredTicket) -> Unit) {
+        fun bind(item: FilteredTicket, scrollType: String, clickListener: (FilteredTicket) -> Unit) {
             with(binding) {
                 ticket = item
                 executePendingBindings()
@@ -42,9 +51,6 @@ class TicketItemRvAdapter(
                     lp.width = 156.toPx()
                     ctlItemTicketContainer.layoutParams = lp
                 }
-
-                //이미지 라운드 처리
-                ibtnItemTicket.clipToOutline = true
 
                 //태그
                 if ((item.tags?.size ?: 0) > 2) {
@@ -57,7 +63,6 @@ class TicketItemRvAdapter(
 
                 //좋아요 버튼 todo 서버연결
                 ctvItemTicketLike.visibility = View.INVISIBLE
-                // setLikeBtnClickListener(ctvItemTicketLike, item)
 
                 //엠티뷰
                 setEmptyImage(item.type ?: "기타", ivItemEmpty)
