@@ -6,6 +6,7 @@ import android.net.Uri
 import android.view.View
 import androidx.lifecycle.*
 import com.depromeet.baton.data.request.PostInquiryRequest
+import com.depromeet.baton.data.response.ResponseGetInquiryByTicket
 import com.depromeet.baton.domain.model.*
 import com.depromeet.baton.domain.repository.*
 import com.depromeet.baton.map.util.NetworkResult
@@ -54,6 +55,9 @@ class TicketDetailViewModel @Inject constructor(
 
     private val _phoneNumber = MutableLiveData("")
     val phoneNumber: LiveData<String> = _phoneNumber
+
+    private val _inquiryList = MutableLiveData<List<ResponseGetInquiryByTicket>>()
+    val inquiryList: LiveData<List<ResponseGetInquiryByTicket>> = _inquiryList
 
     init {
         initState()
@@ -332,17 +336,21 @@ class TicketDetailViewModel @Inject constructor(
     }
 
     fun getInquiryCount() {
+        viewModelScope.launch {
+            runCatching {
+            }.onSuccess {
+            }.onFailure { Timber.e(it.message) }
+        }
+    }
+
+
+    fun getInquiryList() {
         val temp = _ticketState.value!!
         viewModelScope.launch {
             runCatching {
-                bookmarkRepository.deleteBookmark(temp.ticket.bookmarkId!!)
+                inquiryRepository.getInquiryByTicket(temp.ticket.ticketId)
             }.onSuccess {
-                when (it) {
-                    is NetworkResult.Success -> {}
-                    is NetworkResult.Error -> {
-                        Timber.e(it.message)
-                    }
-                }
+                _inquiryList.value = listOf(it.body() ?: return@launch)
             }.onFailure { Timber.e(it.message) }
         }
     }

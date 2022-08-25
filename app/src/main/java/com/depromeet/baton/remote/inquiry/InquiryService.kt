@@ -23,7 +23,7 @@ interface InquiryService {
     ): Response<Int>
 
     //티켓에 들어온 문의 요청 리스트
-    @GET("ticket/{ticket_id}/inquiries_count")
+    @GET("ticket/{ticket_id}/inquiries")
     suspend fun getInquiryByTicket(
         @Path("ticket_id") ticketId: Int,
     ): Response<ResponseGetInquiryByTicket>
