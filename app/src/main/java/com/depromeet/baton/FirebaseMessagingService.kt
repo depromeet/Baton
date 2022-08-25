@@ -29,8 +29,6 @@ class FirebaseMessagingService : FirebaseMessagingService() {
         } else {
             Timber.d("pushAlarm", "메시지를 수신하지 못했습니다.")
         }
-
-
     }
 
     private fun sendNotification(remoteMessage: RemoteMessage) {
