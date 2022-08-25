@@ -29,13 +29,16 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/iv_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingStart="@dimen/dimen16"
+            android:paddingTop="@dimen/dimen26"
+            android:paddingEnd="@dimen/dimen16"
+            android:paddingBottom="@dimen/dimen16"
             android:src="@drawable/ic_close_line_24"
-            app:layout_constraintBottom_toBottomOf="@id/inquiry_title"
-            app:layout_constraintEnd_toEndOf="@+id/et_description"
-            app:layout_constraintTop_toTopOf="@id/inquiry_title" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/inquiry_my_info"

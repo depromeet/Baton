@@ -24,5 +24,8 @@ class BottomInquiryFragment : BaseBottomDialogFragment<FragmentBottomInQuiryBind
         binding.btnInquiry.setOnClickListener {
             ticketDetailViewModel.postInquiry(binding.etDescription.text.toString())
         }
+        binding.ivClose.setOnClickListener {
+            onDestroy()
+        }
     }
 }
