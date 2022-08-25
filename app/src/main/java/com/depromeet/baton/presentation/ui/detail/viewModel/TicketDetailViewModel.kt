@@ -6,6 +6,7 @@ import android.net.Uri
 import android.view.View
 import androidx.lifecycle.*
 import com.depromeet.baton.data.request.PostInquiryRequest
+import com.depromeet.baton.data.request.RequestPostFcm
 import com.depromeet.baton.data.response.ResponseGetInquiryByTicket
 import com.depromeet.baton.domain.model.*
 import com.depromeet.baton.domain.repository.*
@@ -33,7 +34,7 @@ class TicketDetailViewModel @Inject constructor(
     private val bookmarkRepository: BookmarkRepository,
     private val savedStateHandle: SavedStateHandle,
     private val userinfoRepository: UserinfoRepository,
-    private val inquiryRepository: InquiryRepository
+    private val searchRepository: SearchRepository
 ) : AndroidViewModel(application) {
 
     private var count = 0 //TODO 문의 개수
@@ -78,15 +79,6 @@ class TicketDetailViewModel @Inject constructor(
                         Timber.e(res.message)
                     }
                 }
-            }
-        }
-    }
-
-    fun postInquiry(text: String) {
-        val ticketId = savedStateHandle.get<Int>("ticketId")!!
-        viewModelScope.launch {
-            runCatching {
-                inquiryRepository.postInquiry(PostInquiryRequest(ticketId, text))
             }
         }
     }
@@ -348,53 +340,76 @@ class TicketDetailViewModel @Inject constructor(
         val temp = _ticketState.value!!
         viewModelScope.launch {
             runCatching {
-                inquiryRepository.getInquiryByTicket(temp.ticket.ticketId)
+                searchRepository.getInquiryByTicket(temp.ticket.ticketId)
             }.onSuccess {
                 _inquiryList.value = listOf(it.body() ?: return@launch)
             }.onFailure { Timber.e(it.message) }
         }
     }
 
-    data class DetailTicketInfoUiState(
-        val ticket: DetailTicketInfo,
-        val onAddChatBtnClick: () -> Unit,
-        val onAddLikeClick: () -> Unit
-    ) {
-
-        val isChatEnabled = false //TODO 문의했던 회원권인지 판단
-        val chatBtnText = if (ticket.isOwner) "받은 문의 목록 보기" else if (isChatEnabled) "문의하기" else "이미 문의한 회원권이에요"
-
-        val priceStr = priceFormat(ticket.price.toFloat()) + "원"
-        val monthTagisVisible = if (ticket.remainDate != null && ticket.isMembership && ticket.remainDate > 30) View.VISIBLE else View.GONE
-        val monthPrice = priceFormat(ticket.price / 30f) + "원"
-        val dayTagisVisible = if (ticket.isMembership) View.VISIBLE else View.GONE
-        val dayPrice = if (ticket.remainDate != null) priceFormat(ticket.price / ticket.remainDate!!.toFloat()) + "원" else ""
-
-        val sellViewisVisible = ticket.ticketStatus == TicketStatus.SALE && ticket.imgList.isEmpty()
-        val soldoutViewisVisible = ticket.ticketStatus == TicketStatus.DONE
-        val reservedViewisVisible = ticket.ticketStatus == TicketStatus.RESERVED
-
-        val canNegoStr = if (ticket.canNego) "가격제안 가능" else "가격제안 불가능"
-
-        val startImgIndex = if (ticket.imgList.isEmpty()) "0" else "1"
-        val totalImgIndex = ticket.imgList.size.toString()
-
-        val infoTagVisible = if (ticket.infoHashs.isEmpty()) View.GONE else View.VISIBLE
-        val additionalTagVisible = if (ticket.tags.isEmpty()) View.GONE else View.VISIBLE
-
-        val emptyInfoTagVisible = if (ticket.infoHashs.isNotEmpty()) View.GONE else View.VISIBLE
-        val emptyAdditionalTagVisible = if (ticket.tags.isNotEmpty()) View.GONE else View.VISIBLE
-
-        val remainText = if (ticket.isMembership) "남은 기간" else "남은 횟수"
-        val remainCount = if (ticket.isMembership) "${ticket.remainDate}일" else "${ticket.remainingNumber}회"
-
-        //bookmark id 가 null 이면 관심 상품 아님
-        val bookmarkState = ticket.isLikeTicket
-
+    fun postInquiry(text: String) {
+        val ticketId = savedStateHandle.get<Int>("ticketId")!!
+        viewModelScope.launch {
+            runCatching {
+                //문의 보내기
+                searchRepository.postInquiry(PostInquiryRequest(ticketId, text))
+            }.onSuccess {
+                //푸시알림
+                postPushMessage(text)
+            }.onFailure { Timber.e(it.message) }
+        }
     }
 
+    private fun postPushMessage(text: String) {
+        viewModelScope.launch {
+            runCatching {
+                //유저 토큰 얻기
+                val token = userinfoRepository.getUserDeviceToken(authRepository.authInfo!!.userId).body()?.fcmToken
+                searchRepository.postFcm(RequestPostFcm(token ?: return@launch, "문의 알림", text))
+            }.onSuccess {
+                Timber.e(it.body())
+            }.onFailure { Timber.e(it.message) }
+        }
+    }
 }
 
+data class DetailTicketInfoUiState(
+    val ticket: DetailTicketInfo,
+    val onAddChatBtnClick: () -> Unit,
+    val onAddLikeClick: () -> Unit
+) {
+
+    val isChatEnabled = false //TODO 문의했던 회원권인지 판단
+    val chatBtnText = if (ticket.isOwner) "받은 문의 목록 보기" else if (isChatEnabled) "문의하기" else "이미 문의한 회원권이에요"
+
+    val priceStr = priceFormat(ticket.price.toFloat()) + "원"
+    val monthTagisVisible = if (ticket.remainDate != null && ticket.isMembership && ticket.remainDate > 30) View.VISIBLE else View.GONE
+    val monthPrice = priceFormat(ticket.price / 30f) + "원"
+    val dayTagisVisible = if (ticket.isMembership) View.VISIBLE else View.GONE
+    val dayPrice = if (ticket.remainDate != null) priceFormat(ticket.price / ticket.remainDate!!.toFloat()) + "원" else ""
+
+    val sellViewisVisible = ticket.ticketStatus == TicketStatus.SALE && ticket.imgList.isEmpty()
+    val soldoutViewisVisible = ticket.ticketStatus == TicketStatus.DONE
+    val reservedViewisVisible = ticket.ticketStatus == TicketStatus.RESERVED
+
+    val canNegoStr = if (ticket.canNego) "가격제안 가능" else "가격제안 불가능"
+
+    val startImgIndex = if (ticket.imgList.isEmpty()) "0" else "1"
+    val totalImgIndex = ticket.imgList.size.toString()
+
+    val infoTagVisible = if (ticket.infoHashs.isEmpty()) View.GONE else View.VISIBLE
+    val additionalTagVisible = if (ticket.tags.isEmpty()) View.GONE else View.VISIBLE
+
+    val emptyInfoTagVisible = if (ticket.infoHashs.isNotEmpty()) View.GONE else View.VISIBLE
+    val emptyAdditionalTagVisible = if (ticket.tags.isNotEmpty()) View.GONE else View.VISIBLE
+
+    val remainText = if (ticket.isMembership) "남은 기간" else "남은 횟수"
+    val remainCount = if (ticket.isMembership) "${ticket.remainDate}일" else "${ticket.remainingNumber}회"
+
+    //bookmark id 가 null 이면 관심 상품 아님
+    val bookmarkState = ticket.isLikeTicket
+
+}
 
 sealed class TicketDetailNetWork() {
     object Success : TicketDetailNetWork()

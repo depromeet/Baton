@@ -13,6 +13,7 @@ import com.depromeet.baton.remote.ticket.MypageBasicResponse
 import com.depromeet.baton.remote.user.*
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.Path
 import timber.log.Timber
@@ -67,5 +68,9 @@ class UserInfoApi @Inject constructor(
 
     suspend fun updateDeviceToken(userIdx: Int, body: UserToken): Response<ResponseUserToken> {
         return service.updateDeviceToken(userIdx, body)
+    }
+
+    suspend fun getUserDeviceToken(userIdx: Int): Response<UserTokenResponse> {
+        return service.getUserDeviceToken(userIdx)
     }
 }

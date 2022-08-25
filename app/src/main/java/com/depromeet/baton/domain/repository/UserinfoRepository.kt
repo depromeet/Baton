@@ -9,6 +9,7 @@ import com.depromeet.baton.map.base.BaseApiResponse
 import com.depromeet.baton.map.util.NetworkResult
 import com.depromeet.baton.remote.ticket.MypageBasicResponse
 import com.depromeet.baton.remote.user.UserProfileRequest
+import com.depromeet.baton.remote.user.UserTokenResponse
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import retrofit2.Response
@@ -44,7 +45,11 @@ class UserinfoRepository @Inject constructor(
         return withContext(ioDispatcher) { safeApiCall { userInfoApi.deleteUser(userIdx) } }
     }
 
-    suspend fun updateDeviceToken(userIdx: Int, body: UserToken): NetworkResult<ResponseUserToken> {
-        return withContext(ioDispatcher) { safeApiCall { userInfoApi.updateDeviceToken(userIdx, body) } }
+    suspend fun updateDeviceToken(userIdx: Int, body: UserToken): Response<ResponseUserToken> {
+        return userInfoApi.updateDeviceToken(userIdx, body)
+    }
+
+    suspend fun getUserDeviceToken(userIdx: Int): Response<UserTokenResponse> {
+        return userInfoApi.getUserDeviceToken(userIdx)
     }
 }

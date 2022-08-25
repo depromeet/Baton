@@ -1,5 +1,9 @@
 package com.depromeet.baton.domain.api.search
 
+import com.depromeet.baton.data.request.PostInquiryRequest
+import com.depromeet.baton.data.request.PostInquiryResponse
+import com.depromeet.baton.data.request.RequestPostFcm
+import com.depromeet.baton.data.response.ResponseGetInquiryByTicket
 import com.depromeet.baton.data.response.ResponsePostTicket
 import com.depromeet.baton.data.response.ResponseTicketInfo
 import com.depromeet.baton.presentation.base.UIState
@@ -10,13 +14,30 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.Response
+import retrofit2.http.Body
+import retrofit2.http.POST
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class SearchApi @Inject constructor(private val searchService: SearchService) {
+    suspend fun postInquiry(request: PostInquiryRequest): Response<PostInquiryResponse> {
+        return searchService.postInquiry(request)
+    }
 
+    suspend fun getInquiryCount(ticketId: Int): Response<Int> {
+        return searchService.getInquiryCount(ticketId)
+    }
+
+    suspend fun getInquiryByTicket(ticketId: Int): Response<ResponseGetInquiryByTicket> {
+        return searchService.getInquiryByTicket(ticketId)
+    }
+
+    suspend fun postFcm(request: RequestPostFcm): Response<String> {
+        return searchService.postFcm(request)
+    }
 
     fun getFilteredTicketCount(
         page: Int,
@@ -81,7 +102,7 @@ class SearchApi @Inject constructor(private val searchService: SearchService) {
         )
         if (response.isSuccessful) {
             emit(UIState.Success(response.body()))
-          //  delay(INTERVAL_REFRESH)
+            //  delay(INTERVAL_REFRESH)
         } else {
             emit(UIState.Error("[${response.code()}] - ${response.raw()}"))
         }
@@ -149,7 +170,7 @@ class SearchApi @Inject constructor(private val searchService: SearchService) {
         )
         return if (response.isSuccessful) {
             UIState.Success(response.body())
-        } else   UIState.Error("[${response.code()}] - ${response.raw()}")
+        } else UIState.Error("[${response.code()}] - ${response.raw()}")
     }
 
     suspend fun getTicketInfo(
@@ -173,7 +194,7 @@ class SearchApi @Inject constructor(private val searchService: SearchService) {
         val response = searchService.getTicketSearchResult(page, size, latitude, longitude, query, maxDistance)
         return if (response.isSuccessful) {
             UIState.Success(response.body())
-        } else   UIState.Error("[${response.code()}] - ${response.raw()}")
+        } else UIState.Error("[${response.code()}] - ${response.raw()}")
     }
 
     suspend fun postTicket(
