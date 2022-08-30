@@ -1,17 +1,24 @@
 package com.depromeet.baton.presentation.ui.ask.viewModel
 
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import com.depromeet.baton.R
+import com.depromeet.baton.data.mapper.MsgMapper
+import com.depromeet.baton.domain.model.MsgType
+import com.depromeet.baton.domain.repository.AskRepository
 import com.depromeet.baton.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class MsgRcvViewModel @Inject constructor(
-    val savedStateHandle: SavedStateHandle
+    val savedStateHandle: SavedStateHandle,
+    private val askRepository: AskRepository
 ) : BaseViewModel(){
     private val _uiState = MutableStateFlow(RcvMessageUiState( onBackClick = ::handleBackClick, onCopyClick = ::handleCopyClick, onUrlClick = ::handleUrlClick))
     val uiState get() = _uiState
@@ -22,6 +29,20 @@ class MsgRcvViewModel @Inject constructor(
     private fun getMessage(){
         val messageId : Int? = savedStateHandle.get<Int>("messageId")
         //Todo api 호출
+        viewModelScope.launch {
+                runCatching {
+                    askRepository.getRcvMsgList()
+                }
+                .onSuccess {
+                    val res = it.data
+                    res?.map{it-> MsgMapper.msgMapper(it,MsgType.RCV)}
+                }
+                .onFailure {
+                    Timber.e(it.message)
+                }
+
+        }
+
     }
 
     private fun handleBackClick(){
