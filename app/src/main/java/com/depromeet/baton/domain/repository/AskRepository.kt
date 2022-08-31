@@ -4,6 +4,7 @@ import com.depromeet.baton.domain.api.ticket.InquiriesApi
 import com.depromeet.baton.domain.di.IoDispatcher
 import com.depromeet.baton.map.base.BaseApiResponse
 import com.depromeet.baton.map.util.NetworkResult
+import com.depromeet.baton.remote.ticket.InquiryRequest
 import com.depromeet.baton.remote.ticket.InquiryService
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -18,4 +19,6 @@ class AskRepository @Inject constructor(
    suspend fun getRcvMsgList() = withContext(ioDispatcher){ safeApiCall { InquiryApi.getRcvMsgList() }}
    suspend fun getSendMSgList() = withContext(ioDispatcher){ safeApiCall { InquiryApi.getSendMsgList()}}
    suspend fun getMsgDetail (id : Int) = withContext(ioDispatcher){safeApiCall { InquiryApi.getMsgDetail(id) }}
+   suspend fun postInquiry (ticketId : Int, content : String)
+   = withContext(ioDispatcher){safeApiCall { InquiryApi.postInquiry(InquiryRequest(ticketId,content)) }}
 }

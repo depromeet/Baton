@@ -13,9 +13,11 @@ import com.depromeet.baton.presentation.base.WebActivity
 import com.depromeet.baton.presentation.main.MainActivity
 import com.depromeet.baton.presentation.ui.ask.viewModel.MsgSendViewModel
 import com.depromeet.baton.presentation.ui.ask.viewModel.SendMessageViewEvent
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
+@AndroidEntryPoint
 class MsgSendActivity : BaseActivity<ActivitySendMessageBinding>(R.layout.activity_send_message) {
     val viewModel by viewModels<MsgSendViewModel>()
 
@@ -25,7 +27,6 @@ class MsgSendActivity : BaseActivity<ActivitySendMessageBinding>(R.layout.activi
     }
 
     private fun setObserver() {
-
         viewModel.uiState.flowWithLifecycle(lifecycle)
             .onEach { binding.uiState = it }
             .launchIn(lifecycleScope)

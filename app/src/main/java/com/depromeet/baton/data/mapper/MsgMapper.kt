@@ -4,6 +4,7 @@ import com.depromeet.baton.data.response.InquiryResponse
 import com.depromeet.baton.domain.model.Message
 import com.depromeet.baton.domain.model.MsgType
 import com.depromeet.baton.domain.model.TicketKind
+import com.depromeet.baton.presentation.util.getMsgDate
 
 object MsgMapper {
     fun msgMapper(inquiryResponse: InquiryResponse ,msgType: MsgType):Message{
@@ -23,7 +24,7 @@ object MsgMapper {
             gymName = inquiryResponse.ticketResponse.location,
             nickName = inquiryResponse.user.nickname,
             content = inquiryResponse.content,
-            date= "",
+            date= getMsgDate(inquiryResponse.createdAt?:""),
             isChecked = inquiryResponse.isRead,
         )
     }

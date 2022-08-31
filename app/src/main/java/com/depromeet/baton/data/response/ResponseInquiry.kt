@@ -5,19 +5,21 @@ import com.squareup.moshi.Json
 
 @Keep
 data class InquiryResponse(
-    val id : Int,
+    @Json(name="id") val id : Int,
     @Json(name="user") val user : InquiryUserResponse,
     @Json(name="ticket") val ticketResponse: InquiryTicketResponse,
     @Json(name="content") val content : String,
-    @Json(name="isRead") val isRead : Boolean
+    @Json(name="isRead") val isRead : Boolean?,
+    @Json(name="createdAt") val createdAt :String?
 )
 
 @Keep
 data class InquiryUserResponse (
     @Json(name = "id") val id: Int,
-    @Json(name = "name") val name: String,
+    @Json(name = "name") val name: String?,
     @Json(name = "nickname") val nickname: String,
-    @Json(name = "image") val image : String
+    @Json(name = "image") val image : String,
+    @Json(name = "phoneNumber") val phoneNumber: String?
 )
 
 @Keep

@@ -6,7 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.depromeet.baton.R
-import com.depromeet.baton.databinding.FragmentAskTabBinding
+import com.depromeet.baton.databinding.FragmentAskRecvTabBinding
 import com.depromeet.baton.domain.model.Message
 import com.depromeet.baton.presentation.base.BaseFragment
 import com.depromeet.baton.presentation.ui.ask.viewModel.AskViewModel
@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 
 @AndroidEntryPoint
-class AskRecvFragment : BaseFragment<FragmentAskTabBinding>(R.layout.fragment_ask_tab) {
+class AskRecvFragment : BaseFragment<FragmentAskRecvTabBinding>(R.layout.fragment_ask_recv_tab) {
     private val askViewModel by viewModels<AskViewModel>()
     private val messageAdapter : MessageitemAdapter by lazy{
         MessageitemAdapter( ::onClickMessage )
@@ -27,18 +27,19 @@ class AskRecvFragment : BaseFragment<FragmentAskTabBinding>(R.layout.fragment_as
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val mLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        binding.messageRv.apply{
+        binding.messageRecvRv.apply{
             adapter = messageAdapter
             layoutManager = mLayoutManager
         }
+        askViewModel.getRecvMsgList()
         setObserver()
-
     }
 
     private fun setObserver() {
         askViewModel.recvUiState
             .flowWithLifecycle(viewLifecycle)
             .onEach {
+                binding.uistate = it
                 messageAdapter.submitList(it.recvList)
             }
             .launchIn(viewLifecycleScope)

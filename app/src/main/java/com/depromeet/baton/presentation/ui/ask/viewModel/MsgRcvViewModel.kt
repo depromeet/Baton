@@ -1,12 +1,19 @@
 package com.depromeet.baton.presentation.ui.ask.viewModel
 
+import android.net.Uri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.depromeet.baton.R
 import com.depromeet.baton.data.mapper.MsgMapper
 import com.depromeet.baton.domain.model.MsgType
+import com.depromeet.baton.domain.model.TradeType
 import com.depromeet.baton.domain.repository.AskRepository
+import com.depromeet.baton.map.util.NetworkResult
 import com.depromeet.baton.presentation.base.BaseViewModel
+import com.depromeet.baton.presentation.util.RegexConstant
+import com.depromeet.baton.presentation.util.getHyphenPhone
+import com.depromeet.baton.presentation.util.priceFormat
+import com.depromeet.baton.presentation.util.uriConverter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,16 +33,37 @@ class MsgRcvViewModel @Inject constructor(
     private val _viewEvents: MutableStateFlow<List<RcvMessageViewEvent>> = MutableStateFlow(emptyList())
     val viewEvents = _viewEvents.asStateFlow()
 
+    init {
+        getMessage()
+    }
+
     private fun getMessage(){
         val messageId : Int? = savedStateHandle.get<Int>("messageId")
-        //Todo api 호출
         viewModelScope.launch {
                 runCatching {
-                    askRepository.getRcvMsgList()
+                    askRepository.getMsgDetail(messageId!!)
                 }
                 .onSuccess {
-                    val res = it.data
-                    res?.map{it-> MsgMapper.msgMapper(it,MsgType.RCV)}
+                    when(it){
+                        is NetworkResult.Success ->{
+                            if(it.data!=null){
+                                _uiState.update { ui -> ui.copy(
+                                    type=it.data!!.ticketResponse.type,
+                                    tradeType = it.data!!.ticketResponse.tradeType,
+                                    gymName = it.data!!.ticketResponse.location,
+                                    price= priceFormat(it.data!!.ticketResponse.price.toFloat())+"원",
+                                    canNego = it.data!!.ticketResponse.canNego,
+                                    nickName = it.data!!.user.nickname,
+                                    phoneNumber = getHyphenPhone(it.data!!.user.phoneNumber.toString()),
+                                    content = it.data!!.content
+                                ) }
+                            }
+
+                        }
+                        is NetworkResult.Error->{
+                            Timber.e(it.message)
+                        }
+                    }
                 }
                 .onFailure {
                     Timber.e(it.message)
@@ -50,7 +78,8 @@ class MsgRcvViewModel @Inject constructor(
     }
 
     private fun handleUrlClick(){
-        addViewEvent(RcvMessageViewEvent.EventUrlClick(uiState.value!!.address?:""))
+        addViewEvent(RcvMessageViewEvent.EventUrlClick(
+            "https://map.naver.com/v5/search/${uiState.value!!.address!!.replace(" ","")}"))
     }
 
     private fun handleCopyClick(){
@@ -67,20 +96,28 @@ class MsgRcvViewModel @Inject constructor(
 }
 
 data class RcvMessageUiState(
-    val image : String ? ="",
-    val gymName : String? ="석촌 어딘가",
+    val image : String? = null,
+    val gymName : String? ="",
+    val type : String?="",
     val status : String?= "삭제됨",
     val address: String ? ="",
-    val price : String ? ="20,000",
-    val canNego : Boolean =true,
-    val nickName: String? = "닉네임 여기",
-    val phoneNumber: String? = "000000",
-    var content : String = "무언가의 내용",
+    val price : String ? ="",
+    val canNego : Boolean =false,
+    val tradeType: String?=null,
+    val nickName: String? = "",
+    val phoneNumber: String? = "",
+    var content : String = "",
     val onBackClick : ()-> Unit,
     val onCopyClick :()->Unit,
     val onUrlClick :()->Unit
 ){
     val canNegoStr = if(canNego) "가격 제안 가능" else ""
+    val tradeStr
+        = when(tradeType){
+            "UNTECT" -> {" · 선결제 가능"}
+            "CONTECT" ->{" · 현장거래 가능"}
+             else -> {" · 현장거래/선결제 가능"}
+         }
     val urlColor = if(status=="삭제됨") com.depromeet.bds.R.color.gy60 else com.depromeet.bds.R.color.gy80
 
 }

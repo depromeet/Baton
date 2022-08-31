@@ -98,7 +98,7 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideInquiryService(@Server(ServerType.User) retrofit: Retrofit): InquiryService {
+    fun provideInquiryService(@Server(ServerType.Search) retrofit: Retrofit): InquiryService {
         return retrofit.create()
     }
 

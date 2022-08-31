@@ -10,18 +10,18 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface InquiryService{
-    @GET("/inquiries/receive")
+    @GET("inquiries/receive")
     suspend fun getRcvInquiryList() : Response<List<InquiryResponse>>
 
-    @GET("/inquiries/send")
+    @GET("inquiries/send")
     suspend fun getSendInquiryList() : Response<List<InquiryResponse>>
 
-    @GET("/inquiries/{id}")
+    @GET("inquiries/{id}")
     suspend fun getInquiryDetail(
         @Path("id") id : Int
     ) : Response<InquiryResponse>
 
-    @POST("/inquiries")
+    @POST("inquiries")
     suspend fun postInquiry(
         @Body inquiryRequest : InquiryRequest
     ):Response<*>

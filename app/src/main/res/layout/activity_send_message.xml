@@ -59,6 +59,9 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:background="@drawable/background_radius_4dp"
+                image="@{uiState.image}"
+                ticketType="@{uiState.type}"
+                app:tint="?grey_scale50"
                 />
 
             <View
@@ -89,6 +92,7 @@
                 android:layout_height="wrap_content"
                 android:text="@{uiState.gymName}"
                 android:textColor="?grey_scale80"
+                messageTextStatus="@{uiState.status}"
                 android:textAppearance="?caption1"
                 android:paddingRight="@dimen/dimen2"
                 app:layout_constraintStart_toEndOf="@id/message_status_tv"
@@ -112,10 +116,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dimen8"
-                android:text="@{uiState.canNegoStr}"
+                android:text="@{uiState.canNegoStr + uiState.tradeStr}"
                 android:textAppearance="?caption3"
                 android:textColor="?secondary50"
-                messageTextStatus="@{uiState.status}"
+                tradeTextStatus="@{uiState.status}"
                 android:textAlignment="center"
                 app:layout_constraintTop_toTopOf="@id/message_price_tv"
                 app:layout_constraintBottom_toBottomOf="@id/message_price_tv"
@@ -145,7 +149,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?body3"
+            android:textAppearance="?body4"
             android:layout_marginTop="@dimen/dimen12"
             android:text="@{uiState.nickName}"
             android:textColor="?grey_scale80"

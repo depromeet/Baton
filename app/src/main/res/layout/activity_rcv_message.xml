@@ -59,11 +59,14 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         android:layout_marginEnd="@dimen/dimen12"
+                        android:background="@drawable/background_radius_4dp"
+                        image="@{uiState.image}"
+                        ticketType="@{uiState.type}"
+                        app:tint="?grey_scale50"
                         />
                     <View
                         android:id="@+id/message_padding"
                         app:layout_constraintStart_toEndOf="@id/message_iv"
-                        android:background="@drawable/background_radius_4dp"
                         app:layout_constraintTop_toTopOf="parent"
                         android:layout_width="@dimen/dimen12"
                         android:layout_height="40dp"/>
@@ -115,7 +118,7 @@
                         android:text="@{uiState.canNegoStr}"
                         android:textAppearance="?caption3"
                         android:textColor="?secondary50"
-                        messageTextStatus="@{uiState.status}"
+                        tradeTextStatus="@{uiState.status}"
                         android:textAlignment="center"
                         app:layout_constraintTop_toTopOf="@id/message_price_tv"
                         app:layout_constraintBottom_toBottomOf="@id/message_price_tv"
@@ -145,7 +148,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?body3"
+                    android:textAppearance="?body4"
                     android:layout_marginTop="@dimen/dimen12"
                     android:text="@{uiState.nickName}"
                     android:textColor="?grey_scale80"

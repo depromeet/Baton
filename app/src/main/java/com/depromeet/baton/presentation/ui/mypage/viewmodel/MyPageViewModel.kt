@@ -49,7 +49,7 @@ class MyPageViewModel @Inject constructor(
                                 nickName = res.data!!.nickname,
                                 phoneNumber = res.data!!.phone_number.replace(Regex("[^0-9]*"), ""),
                                 joinDate = res.data!!.created_on,
-                                profileImage = Uri.parse(spfManager.getProfileIcon()), //TODO img null 일때 처리
+                                profileImage = Uri.parse(spfManager.getProfileIcon()),
                                 account = res.data!!.account
                             )
                         }

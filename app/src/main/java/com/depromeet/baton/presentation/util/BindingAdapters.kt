@@ -2,6 +2,7 @@ package com.depromeet.baton.presentation.util
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
+import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -16,11 +17,13 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.signature.ObjectKey
+import com.depromeet.baton.R
 import com.depromeet.baton.chat.ChatController
 import com.depromeet.baton.domain.model.Message
 import com.depromeet.baton.presentation.ui.chatting.ChatMessageAdapter
 import com.depromeet.bds.component.*
 import com.depromeet.bds.utils.toPx
+import timber.log.Timber
 
 
 @BindingAdapter("bds_text", "isSelected")
@@ -149,6 +152,16 @@ fun setMessageTextStatus(text: TextView, status : String?) {
     }
 }
 
+@SuppressLint("ResourceAsColor")
+@BindingAdapter("tradeTextStatus")
+fun setTradeTextStatus(text: TextView, status : String?) {
+    if(status =="삭제됨" ){
+        text.setTextColor(com.depromeet.bds.R.attr.grey_scale60)
+    }else if(status =="거래완료"){
+        text.setTextColor(com.depromeet.bds.R.attr.grey_scale70)
+    }
+}
+
 @BindingAdapter("tint")
 fun bindImageTint(imageView: ImageView, colorId: Int) {
     if (colorId == 0) {
@@ -156,4 +169,30 @@ fun bindImageTint(imageView: ImageView, colorId: Int) {
     }
     val tint = ContextCompat.getColor(imageView.context, colorId)
     ImageViewCompat.setImageTintList(imageView, ColorStateList.valueOf(tint))
+}
+
+
+@BindingAdapter("image", "ticketType")
+fun ImageView.bindImage(uri: String?, ticketType : String?) {
+    Timber.e(ticketType.toString())
+    if (uri != null ) {
+        Glide.with(context)
+            .load(uri)
+            .centerCrop()
+            .transform(RoundedCorners(4.toPx()))
+            .into(this)
+    }else{
+        var icon = when(ticketType){
+            "HEALTH" -> {com.depromeet.bds.R.drawable.ic_empty_health_86}
+            "PT" ->{  com.depromeet.bds.R.drawable.ic_empty_pt_86}
+            "PILATES_YOGA"->{ com.depromeet.bds.R.drawable.ic_empty_pilates_86}
+            else ->{
+                com.depromeet.bds.R.drawable.ic_empty_etc_86}
+        }
+
+        Glide.with(context)
+            .load(icon)
+            .centerCrop()
+            .into(this)
+    }
 }

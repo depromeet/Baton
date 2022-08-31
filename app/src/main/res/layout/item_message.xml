@@ -76,6 +76,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?headline4"
                     android:text="@{message.nickName}"
+                    android:lineHeight="@dimen/dimen18"
                     />
 
                 <LinearLayout
