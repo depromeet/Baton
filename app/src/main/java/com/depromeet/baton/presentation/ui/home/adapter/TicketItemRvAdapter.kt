@@ -1,5 +1,6 @@
 package com.depromeet.baton.presentation.ui.home.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,14 +24,20 @@ class TicketItemRvAdapter(
 
     private lateinit var inflater: LayoutInflater
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TicketItemViewHolder {
-        if (!::inflater.isInitialized)
-            inflater = LayoutInflater.from(parent.context)
+    override fun onViewRecycled(holder: TicketItemViewHolder) {
+        Log.e("ㅡㅡㅡ", holder.bindingAdapterPosition.toString())
+        super.onViewRecycled(holder)
+    }
 
-        val binding = ItemTicketBinding.inflate(inflater, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TicketItemViewHolder {
+        Log.e("ㅡㅡㅡ", "onCreateViewHolder")
+     //   if (!::inflater.isInitialized)
+     //       inflater = LayoutInflater.from(parent.context)
+
+        val binding = ItemTicketBinding.inflate( LayoutInflater.from(parent.context), parent, false)
 
         //이미지 라운드 처리
-        binding.ibtnItemTicket.clipToOutline = true
+     //   binding.ibtnItemTicket.clipToOutline = true
 
         return TicketItemViewHolder(binding)
     }
@@ -59,7 +66,7 @@ class TicketItemRvAdapter(
                 }
 
                 //거리
-                tvItemTicketDistance.text = distanceFormatUtil(item.distance!!.toDouble())
+//                tvItemTicketDistance.text = distanceFormatUtil(item.distance!!.toDouble())
 
                 //좋아요 버튼 todo 서버연결
                 ctvItemTicketLike.visibility = View.INVISIBLE
