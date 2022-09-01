@@ -34,13 +34,13 @@ class BatonApp : Application() {
     }
 
     private fun getDeviceToken() {
-        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+      /*  FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
                 return@OnCompleteListener
             }
             val token = task.result
             spfManager.setDeviceToken(token.toString())
-        })
+        })*/
     }
 
     companion object {

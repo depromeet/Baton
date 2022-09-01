@@ -21,7 +21,7 @@ class ChatRoomListFragment : BaseFragment<FragmentChattingBinding>(R.layout.frag
     }
 
     private fun setChatRoomRvAdapter() {
-        with(binding) {
+/*        with(binding) {
             chatRoomAdapter = ChatRoomAdapter(::setRoomClickListener)
             rvChatList.adapter = chatRoomAdapter
         }
@@ -29,7 +29,7 @@ class ChatRoomListFragment : BaseFragment<FragmentChattingBinding>(R.layout.frag
         //todo 채팅 이력 리스트 넘기기
         chatViewModel.chatRoomList.observe(viewLifecycleOwner) { chatRoomList ->
             chatRoomAdapter.submitList(chatRoomList)
-        }
+        }*/
     }
 
     private fun setRoomClickListener(chatRoom: ChatRoom) {

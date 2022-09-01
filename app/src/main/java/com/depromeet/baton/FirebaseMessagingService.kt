@@ -1,4 +1,4 @@
-package org.cardna
+package com.depromeet.baton
 
 import android.app.NotificationChannel
 import android.app.NotificationManager

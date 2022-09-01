@@ -131,7 +131,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     }
 
 
-    private fun handleTicketUiState(uiState: TicketDetailViewModel.DetailTicketInfoUiState) {
+    private fun handleTicketUiState(uiState: DetailTicketInfoUiState) {
         binding.ticketState = uiState
         if (naverMap != null) setMarkerPosition()
         bottomViewModel.updateBottomUistate(uiState.ticket.isOwner)
