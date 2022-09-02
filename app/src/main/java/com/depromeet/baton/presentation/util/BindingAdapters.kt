@@ -127,7 +127,7 @@ fun RecyclerView.bindingItem(uiState: ChatController.MessageUiState) {
 @BindingAdapter("messageImg")
 fun ImageView.bindImage(message: Message) {
     Glide.with(context)
-        .load(message.image ?:message.empty)
+        .load(message.image ?:com.depromeet.bds.R.drawable.ic_img_profile_basic_smile_56)
         .transform(CircleCrop())
         .apply{
             this.signature(ObjectKey("ask-profile"))
@@ -148,18 +148,18 @@ fun setMessageDayText(text: TextView, message: Message) {
 @BindingAdapter("messageTextStatus")
 fun setMessageTextStatus(text: TextView, status : String?) {
     if(status =="삭제됨" ){
-        text.setTextColor(com.depromeet.bds.R.attr.grey_scale60)
+        text.setTextColor(ContextCompat.getColor(text.context, com.depromeet.bds.R.color.gy60))
     }
 }
 
 @SuppressLint("ResourceAsColor")
 @BindingAdapter("tradeTextStatus")
 fun setTradeTextStatus(text: TextView, status : String?) {
-    if(status =="삭제됨" ){
-        text.setTextColor(com.depromeet.bds.R.attr.grey_scale60)
-    }else if(status =="거래완료"){
-        text.setTextColor(com.depromeet.bds.R.attr.grey_scale70)
-    }
+    if(status == "삭제됨" ){
+        text.setTextColor(ContextCompat.getColor(text.context, com.depromeet.bds.R.color.gy60))
+    }else if(status == "거래완료"){
+        text.setTextColor(ContextCompat.getColor(text.context, com.depromeet.bds.R.color.gy70))
+    }else text.setTextColor(ContextCompat.getColor(text.context, com.depromeet.bds.R.color.orange50))
 }
 
 @BindingAdapter("tint")
@@ -174,13 +174,13 @@ fun bindImageTint(imageView: ImageView, colorId: Int) {
 
 @BindingAdapter("image", "ticketType")
 fun ImageView.bindImage(uri: String?, ticketType : String?) {
-    Timber.e(ticketType.toString())
     if (uri != null ) {
         Glide.with(context)
             .load(uri)
             .centerCrop()
             .transform(RoundedCorners(4.toPx()))
             .into(this)
+
     }else{
         var icon = when(ticketType){
             "HEALTH" -> {com.depromeet.bds.R.drawable.ic_empty_health_86}

@@ -16,6 +16,7 @@ import com.depromeet.baton.presentation.base.WebActivity
 import com.depromeet.baton.presentation.main.MainActivity
 import com.depromeet.baton.presentation.ui.ask.viewModel.MsgRcvViewModel
 import com.depromeet.baton.presentation.ui.ask.viewModel.RcvMessageViewEvent
+import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
 import com.depromeet.bds.component.BdsToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -55,6 +56,9 @@ class MsgRcvActivity : BaseActivity<ActivityRcvMessageBinding>(R.layout.activity
                 }
                 is RcvMessageViewEvent.EventUrlClick -> {
                     startActivity(WebActivity.start(this, viewEvent.address))
+                }
+                is RcvMessageViewEvent.EventTicketClick ->{
+                    TicketDetailActivity.start(this,viewEvent.id!!)
                 }
             }
             viewModel.consumeViewEvent(viewEvent)

@@ -13,6 +13,7 @@ import com.depromeet.baton.presentation.base.WebActivity
 import com.depromeet.baton.presentation.main.MainActivity
 import com.depromeet.baton.presentation.ui.ask.viewModel.MsgSendViewModel
 import com.depromeet.baton.presentation.ui.ask.viewModel.SendMessageViewEvent
+import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -47,6 +48,9 @@ class MsgSendActivity : BaseActivity<ActivitySendMessageBinding>(R.layout.activi
                 }
                 is SendMessageViewEvent .EventUrlClick -> {
                     startActivity(WebActivity.start(this, viewEvent.address))
+                }
+                is SendMessageViewEvent.EventTicketClick ->{
+                   TicketDetailActivity.start(this,viewEvent.id!!)
                 }
             }
             viewModel.consumeViewEvent(viewEvent)

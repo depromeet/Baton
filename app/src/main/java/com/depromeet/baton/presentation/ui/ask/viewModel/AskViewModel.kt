@@ -53,7 +53,7 @@ class AskViewModel @Inject constructor(
         viewModelScope.launch {
             runCatching {
                 _sendUiState.update { it.copy(isLoading = true) }
-                askRepository.getSendMSgList()
+                askRepository.getSendMsgList()
             }.onSuccess {
                 when(it){
                     is NetworkResult.Success ->{

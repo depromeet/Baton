@@ -20,7 +20,7 @@ class MsgSendViewModel @Inject constructor(
     val savedStateHandle: SavedStateHandle,
     private val askRepository: AskRepository
 ) : BaseViewModel(){
-    private val _uiState = MutableStateFlow(SendMessageUiState( onBackClick = ::handleBackClick, onUrlClick = ::handleUrlClick))
+    private val _uiState = MutableStateFlow(SendMessageUiState( onBackClick = ::handleBackClick, onUrlClick = ::handleUrlClick, onTicketClick = ::handleTicketClick))
     val uiState get() = _uiState
 
     private val _viewEvents: MutableStateFlow<List<SendMessageViewEvent >> = MutableStateFlow(emptyList())
@@ -41,6 +41,7 @@ class MsgSendViewModel @Inject constructor(
                         is NetworkResult.Success ->{
                             if(it.data!=null){
                                 _uiState.update { ui -> ui.copy(
+                                    ticketId = it.data!!.ticketResponse.id,
                                     type=it.data!!.ticketResponse.type,
                                     tradeType = it.data!!.ticketResponse.tradeType,
                                     gymName = it.data!!.ticketResponse.location,
@@ -48,7 +49,15 @@ class MsgSendViewModel @Inject constructor(
                                     canNego = it.data!!.ticketResponse.canNego,
                                     nickName = it.data!!.user.nickname,
                                     phoneNumber = getHyphenPhone(it.data!!.user.phoneNumber.toString()),
-                                    content = it.data!!.content
+                                    content = it.data!!.content,
+                                    image = it.data!!.ticketResponse.image,
+                                    address = it.data!!.ticketResponse.address,
+                                    status = when(it.data!!.ticketResponse.state){
+                                        "SALE" -> ""
+                                        "RESERVED"->"예약중"
+                                        "DONE" ->"거래완료"
+                                         else -> "삭제됨"
+                                    }
                                 ) }
                             }
 
@@ -69,8 +78,16 @@ class MsgSendViewModel @Inject constructor(
         addViewEvent(SendMessageViewEvent.EventBack)
     }
     private fun handleUrlClick(){
-        addViewEvent(SendMessageViewEvent.EventUrlClick(uiState.value!!.address?:""))
+        addViewEvent(SendMessageViewEvent.EventUrlClick(
+            "https://map.naver.com/v5/search/${uiState.value!!.gymName!!.replace(" ","")}"))
     }
+
+    private fun handleTicketClick(){
+       uiState.value?.let {
+           addViewEvent(SendMessageViewEvent.EventTicketClick(uiState.value!!.ticketId))
+       }
+    }
+
     private fun addViewEvent(viewEvent: SendMessageViewEvent ) {
         _viewEvents.update { it + viewEvent }
     }
@@ -81,10 +98,11 @@ class MsgSendViewModel @Inject constructor(
 }
 
 data class SendMessageUiState(
+    val ticketId : Int?=null,
     val image : String? = null,
     val gymName : String? ="",
     val type : String?="",
-    val status : String? ="거래완료",
+    val status : String? ="",
     val address: String?="",
     val price : String ? ="",
     val canNego : Boolean =false,
@@ -93,7 +111,8 @@ data class SendMessageUiState(
     val nickName: String? = "",
     var content : String = "",
     val onBackClick : ()-> Unit,
-    val onUrlClick :()->Unit
+    val onUrlClick :()->Unit,
+    val onTicketClick :()->Unit
 ){
     val canNegoStr = if(canNego) "가격 제안 가능" else ""
     val tradeStr
@@ -109,4 +128,5 @@ data class SendMessageUiState(
 sealed class  SendMessageViewEvent {
     data class EventUrlClick(val address: String) : SendMessageViewEvent()
     object EventBack : SendMessageViewEvent()
+    data class EventTicketClick (val id : Int?) :SendMessageViewEvent()
 }

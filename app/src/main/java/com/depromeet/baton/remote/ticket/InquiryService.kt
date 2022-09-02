@@ -20,15 +20,5 @@ interface InquiryService{
     suspend fun getInquiryDetail(
         @Path("id") id : Int
     ) : Response<InquiryResponse>
-
-    @POST("inquiries")
-    suspend fun postInquiry(
-        @Body inquiryRequest : InquiryRequest
-    ):Response<*>
 }
 
-@Keep
-data class InquiryRequest(
-    val ticketId : Int,
-    val content : String?=""
-)

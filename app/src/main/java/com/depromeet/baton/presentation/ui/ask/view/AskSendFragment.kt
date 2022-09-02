@@ -47,7 +47,6 @@ class AskSendFragment : BaseFragment<FragmentAskSendTabBinding>(R.layout.fragmen
     }
 
     private fun onClickMessage(message : Message){
-        Timber.e(message.id.toString())
         MsgSendActivity.start(requireContext(),message.id!!)
     }
 }

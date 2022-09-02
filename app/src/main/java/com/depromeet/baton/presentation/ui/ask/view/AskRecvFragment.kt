@@ -46,7 +46,6 @@ class AskRecvFragment : BaseFragment<FragmentAskRecvTabBinding>(R.layout.fragmen
     }
 
     private fun onClickMessage(message : Message){
-        Timber.e(message.id.toString())
         MsgRcvActivity.start(requireContext() , message.id!!)
     }
 }

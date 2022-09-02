@@ -27,7 +27,7 @@ class MsgRcvViewModel @Inject constructor(
     val savedStateHandle: SavedStateHandle,
     private val askRepository: AskRepository
 ) : BaseViewModel(){
-    private val _uiState = MutableStateFlow(RcvMessageUiState( onBackClick = ::handleBackClick, onCopyClick = ::handleCopyClick, onUrlClick = ::handleUrlClick))
+    private val _uiState = MutableStateFlow(RcvMessageUiState( onBackClick = ::handleBackClick, onCopyClick = ::handleCopyClick, onUrlClick = ::handleUrlClick, onTicketClick = ::handleTicketClick))
     val uiState get() = _uiState
 
     private val _viewEvents: MutableStateFlow<List<RcvMessageViewEvent>> = MutableStateFlow(emptyList())
@@ -48,6 +48,7 @@ class MsgRcvViewModel @Inject constructor(
                         is NetworkResult.Success ->{
                             if(it.data!=null){
                                 _uiState.update { ui -> ui.copy(
+                                    ticketId = it.data!!.ticketResponse.id,
                                     type=it.data!!.ticketResponse.type,
                                     tradeType = it.data!!.ticketResponse.tradeType,
                                     gymName = it.data!!.ticketResponse.location,
@@ -55,7 +56,15 @@ class MsgRcvViewModel @Inject constructor(
                                     canNego = it.data!!.ticketResponse.canNego,
                                     nickName = it.data!!.user.nickname,
                                     phoneNumber = getHyphenPhone(it.data!!.user.phoneNumber.toString()),
-                                    content = it.data!!.content
+                                    content = it.data!!.content,
+                                    image = it.data!!.ticketResponse.image,
+                                    address = it.data!!.ticketResponse.address,
+                                    status = when(it.data!!.ticketResponse.state){
+                                        "SALE" -> ""
+                                        "RESERVED"->"예약중"
+                                        "DONE" ->"거래완료"
+                                        else -> "삭제됨"
+                                    }
                                 ) }
                             }
 
@@ -79,13 +88,15 @@ class MsgRcvViewModel @Inject constructor(
 
     private fun handleUrlClick(){
         addViewEvent(RcvMessageViewEvent.EventUrlClick(
-            "https://map.naver.com/v5/search/${uiState.value!!.address!!.replace(" ","")}"))
+            "https://map.naver.com/v5/search/${uiState.value!!.gymName!!.replace(" ","")}"))
     }
 
     private fun handleCopyClick(){
         addViewEvent(RcvMessageViewEvent.EventCopy(uiState.value.phoneNumber?:""))
     }
-
+    private fun handleTicketClick(){
+        addViewEvent(RcvMessageViewEvent.EventTicketClick(uiState.value!!.ticketId))
+    }
     private fun addViewEvent(viewEvent: RcvMessageViewEvent) {
         _viewEvents.update { it + viewEvent }
     }
@@ -96,10 +107,11 @@ class MsgRcvViewModel @Inject constructor(
 }
 
 data class RcvMessageUiState(
+    val ticketId : Int?=null,
     val image : String? = null,
     val gymName : String? ="",
     val type : String?="",
-    val status : String?= "삭제됨",
+    val status : String?= "",
     val address: String ? ="",
     val price : String ? ="",
     val canNego : Boolean =false,
@@ -109,7 +121,8 @@ data class RcvMessageUiState(
     var content : String = "",
     val onBackClick : ()-> Unit,
     val onCopyClick :()->Unit,
-    val onUrlClick :()->Unit
+    val onUrlClick :()->Unit,
+    val onTicketClick :()->Unit
 ){
     val canNegoStr = if(canNego) "가격 제안 가능" else ""
     val tradeStr
@@ -126,4 +139,5 @@ sealed class  RcvMessageViewEvent {
     data class EventCopy(val phoneNum: String) : RcvMessageViewEvent()
     object EventBack : RcvMessageViewEvent()
     data class EventUrlClick(val address :String) : RcvMessageViewEvent()
+    data class EventTicketClick (val id : Int?) : RcvMessageViewEvent()
 }

@@ -30,4 +30,7 @@ data class InquiryTicketResponse(
     @Json(name = "tradeType") val tradeType : String,
     @Json(name = "price") val price: Int,
     @Json(name = "canNego") val canNego: Boolean,
+    @Json(name = "mainImage") val image : String?=null,
+    @Json(name = "address") val address : String?,
+    @Json(name = "state") val state : String?,
 )

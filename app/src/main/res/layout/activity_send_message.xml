@@ -61,7 +61,7 @@
                 android:background="@drawable/background_radius_4dp"
                 image="@{uiState.image}"
                 ticketType="@{uiState.type}"
-                app:tint="?grey_scale50"
+                android:onClick="@{_->uiState.onTicketClick.invoke()}"
                 />
 
             <View
