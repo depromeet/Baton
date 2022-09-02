@@ -50,6 +50,7 @@ data class TicketInfo(
         @Json(name="id")val id: Int,
         @Json(name="name")val name : String?="",
         @Json(name="nickname")val nickname: String,
-        @Json(name="createdOn")val createdOn: String
+        @Json(name="createdOn")val createdOn: String,
+        @Json(name="image")val image: String?
     )
 }

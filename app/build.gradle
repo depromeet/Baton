@@ -98,7 +98,6 @@ dependencies {
     implementation(Dep.Dagger.hiltAndroid)
     kapt(Dep.Dagger.hiltCompiler)
 
-
     implementation(Dep.OkHttp.core)
     implementation(Dep.OkHttp.loggingInterceptor)
     implementation(Dep.OkHttp.mockWebServer)
@@ -117,9 +116,10 @@ dependencies {
     implementation(Dep.timber)
     implementation(Dep.ballon)
     implementation(Dep.glide)
+    implementation(Dep.glideTovector)
     kapt(Dep.glide_compiler)
+    annotationProcessor(Dep.glide_compiler)
     implementation(Dep.imagepicker)
-
     implementation(Dep.stickyScrollView)
     implementation(Dep.circleimageview)
 

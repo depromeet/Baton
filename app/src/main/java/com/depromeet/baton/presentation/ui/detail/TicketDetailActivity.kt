@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import androidx.activity.viewModels
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.Observer
@@ -14,6 +15,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.depromeet.baton.BatonApp
 import com.depromeet.baton.BatonApp.Companion.TAG
 import com.depromeet.baton.R
@@ -134,6 +137,13 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         ticketTagAdapter.initList(uiState.ticket.infoHashs)
         gymTagAdapter.initList(uiState.ticket.tags)
         ticketImgRvAdapter.submitList(uiState.ticket.imgList.map { it.url })
+        uiState.ticket.seller.image?.let {
+            Glide.with(this)
+                .load(it)
+                .error(com.depromeet.bds.R.drawable.ic_img_profile_basic_smile_96)
+                .transform(CircleCrop())
+                .into(binding.ticketDetailProfileIv)
+        }
     }
 
     private fun handleTicketNetwork(status: TicketDetailNetWork) {
@@ -164,6 +174,10 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
                     binding.ticketDetailLikeBtn.toggle()
                 }
                 DetailViewEvent.EventClickDelete -> {
+                    finish()
+                }
+                DetailViewEvent.EventReportDone->{
+                    this@TicketDetailActivity.BdsToast("신고가 접수되었습니다.", binding.ticketDetailFooter.top).show()
                     finish()
                 }
             }
@@ -328,18 +342,14 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     /** bottom Item Click Listener **/
     private val reportItemClick = object : BottomSheetFragment.Companion.OnItemClick {
         override fun onSelectedItem(selected: BottomMenuItem, index: Int) {
-            this@TicketDetailActivity.BdsToast("신고가 접수되었습니다.", binding.ticketDetailFooter.top).show()
-            viewModel.deleteTicket()
-            //viewModel.reportTicket(index)
+            viewModel.reportTicket(selected.listItem!!)
         }
     }
 
     /** bottom Item Click Listener **/
     private val reportSellerItemClick = object : BottomSheetFragment.Companion.OnItemClick {
         override fun onSelectedItem(selected: BottomMenuItem, index: Int) {
-            this@TicketDetailActivity.BdsToast("신고가 접수되었습니다.", binding.ticketDetailFooter.top).show()
-            viewModel.deleteTicket()
-            //viewModel.reportSeller(index) // TODO 글과 유저 신고 분리
+            viewModel.reportSeller(selected.listItem!!)
         }
     }
 

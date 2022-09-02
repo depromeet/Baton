@@ -49,7 +49,7 @@ class MyPageViewModel @Inject constructor(
                                 nickName = res.data!!.nickname,
                                 phoneNumber = res.data!!.phone_number.replace(Regex("[^0-9]*"), ""),
                                 joinDate = res.data!!.created_on,
-                                profileImage = Uri.parse(spfManager.getProfileIcon()),
+                                profileImage = res.data!!.profileImg,
                                 account = res.data!!.account
                             )
                         }
@@ -63,12 +63,8 @@ class MyPageViewModel @Inject constructor(
     }
 
 
-    fun updateProfile(nickName: String, phoneNumber: String) {
-        _uiState.update { it.copy(nickName = nickName, phoneNumber = phoneNumber) }
-    }
-
-    fun updateProfileImg(profileImage: Uri) {
-        _uiState.update { it.copy(profileImage = profileImage) }
+    fun updateProfile(nickName: String, phoneNumber: String,profileImage: String?) {
+        _uiState.update { it.copy(nickName = nickName, phoneNumber = phoneNumber,profileImage = profileImage) }
     }
 
     fun logout() {
@@ -117,8 +113,9 @@ data class MypageUiState(
     val nickName: String? = "",
     val phoneNumber: String? = "",
     val joinDate: String? = "",
-    val profileImage: Uri?,
+    val profileImage: String?,
     val account: UserAccount?,
 ) {
     val isLoading = nickName == ""
+    val img = if(profileImage !=null) Uri.parse(profileImage) else null
 }

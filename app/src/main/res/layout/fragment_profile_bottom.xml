@@ -48,18 +48,39 @@
                 android:src="@{temporaryUiState.profileImage}"
                 />
 
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <ImageView
-            android:id="@+id/profile_bottom_my_iv"
-            android:layout_width="@dimen/dimen96"
-            android:layout_height="@dimen/dimen96"
-            android:scaleType="centerCrop"
-            android:src="@drawable/img_profile_basic_smile_96"
-            android:layout_gravity="center"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen26"
             android:layout_marginBottom="@dimen/dimen16"
-            />
+            android:gravity="center"
+            >
+            <ImageView
+                android:id="@+id/profile_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/profile_bottom_my_iv"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_point"
+
+                />
+            <ImageView
+                android:id="@+id/profile_bottom_my_iv"
+                android:layout_width="@dimen/dimen96"
+                android:layout_height="@dimen/dimen96"
+                android:scaleType="centerCrop"
+                android:layout_gravity="center"
+                android:src="@drawable/img_profile_basic_smile_96"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/profile_point"
+                />
+        </RelativeLayout>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/profile_bottom_rv"
@@ -69,7 +90,6 @@
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             android:overScrollMode="never"
             android:paddingHorizontal="@dimen/dimen16"
-
             />
         <LinearLayout
             android:layout_width="match_parent"
@@ -77,17 +97,32 @@
             android:layout_weight="1"
             android:layout_marginBottom="@dimen/dimen16"
             android:layout_marginHorizontal="@dimen/dimen16"
+            android:orientation="horizontal"
             >
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/profile_bottom_remove_btn"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:theme="@style/Theme.Bds.TertiaryButton"
+                android:background="@drawable/bds_button_background"
+                android:text="지우기"
+                android:textColor="@color/selector_bds_button_text_color"
+                android:layout_marginRight="8dp"
+                />
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/profile_bottom_check_btn"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:theme="@style/Theme.Bds.PrimaryButton"
                 android:enabled="false"
                 android:background="@drawable/bds_button_background"
                 android:text="확인"
                 android:textColor="@color/selector_bds_button_text_color"
+                android:layout_marginLeft="8dp"
                 />
+
 
         </LinearLayout>
     </LinearLayout >

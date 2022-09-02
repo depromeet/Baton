@@ -12,5 +12,6 @@ data class UserProfileResponse(
     @Json(name = "nickname") val nickname: String,
     @Json(name = "phone_number") val phone_number: String,
     @Json(name = "created_on") val created_on : String,
-    @Json(name = "account") val account: UserAccount?
+    @Json(name = "account") val account: UserAccount?,
+    @Json(name="image") val profileImg : String?
 )

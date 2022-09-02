@@ -7,9 +7,15 @@ import com.depromeet.baton.domain.model.MypageTicketResponse
 import com.depromeet.baton.map.base.BaseApiResponse
 import com.depromeet.baton.map.util.NetworkResult
 import com.depromeet.baton.remote.ticket.MypageBasicResponse
+import com.depromeet.baton.remote.user.UserProfileImg
 import com.depromeet.baton.remote.user.UserProfileRequest
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import retrofit2.http.Multipart
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -39,5 +45,25 @@ class UserinfoRepository @Inject constructor(
 
     suspend fun deleteUser(userIdx: Int) :NetworkResult<MypageBasicResponse>{
         return withContext(ioDispatcher){safeApiCall { userInfoApi.deleteUser(userIdx) }}
+    }
+
+    suspend fun updateProfileImage(userIdx: Int, url : MultipartBody.Part) :NetworkResult<UserProfileImg>{
+        return withContext(ioDispatcher){safeApiCall { userInfoApi.updateProfileImage(userIdx, url) }}
+    }
+
+
+    suspend fun updateProfileIcon(token:String,userIdx: Int, url : String) :NetworkResult<UserProfileImg>{
+        return withContext(ioDispatcher){safeApiCall { userInfoApi.updateProfileIcon(getHeaderMap(token),userIdx, url) }}
+    }
+
+    suspend fun deleteProfileImage(userIdx: Int) :NetworkResult<MypageBasicResponse>{
+        return withContext(ioDispatcher) {safeApiCall { userInfoApi.deleteProfileImage(userIdx) }}
+    }
+
+    private fun getHeaderMap(token :String): Map<String, String> {
+        val headerMap = mutableMapOf<String, String>()
+      //  headerMap.put("Authorization", "Bearer $token")
+        headerMap.put("Content-type", "application/json")
+        return headerMap
     }
 }
