@@ -1,5 +1,7 @@
 package com.depromeet.baton.data.mapper
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.depromeet.baton.data.response.InquiryResponse
 import com.depromeet.baton.domain.model.Message
 import com.depromeet.baton.domain.model.MsgType
@@ -7,7 +9,8 @@ import com.depromeet.baton.domain.model.TicketKind
 import com.depromeet.baton.presentation.util.getMsgDate
 
 object MsgMapper {
-    fun msgMapper(inquiryResponse: InquiryResponse ,msgType: MsgType):Message{
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun msgMapper(inquiryResponse: InquiryResponse, msgType: MsgType):Message{
         return Message(
             id =inquiryResponse.id,
             type = msgType,
