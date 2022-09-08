@@ -1,8 +1,10 @@
 package com.depromeet.baton.presentation.ui.home.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.CheckedTextView
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -18,21 +20,34 @@ import com.depromeet.bds.utils.toPx
 class TicketItemRvAdapter(
     private val scrollType: String,
     private val clickListener: (FilteredTicket) -> Unit,
-    private val bookMarkDeleteClickListener: (FilteredTicket) -> Unit,
-    private val bookMarkAddClickListener: (FilteredTicket) -> Unit
 ) : ListAdapter<FilteredTicket, TicketItemRvAdapter.TicketItemViewHolder>(SimpleDiffUtil()) {
 
+    private lateinit var inflater: LayoutInflater
+
+    override fun onViewRecycled(holder: TicketItemViewHolder) {
+        Log.e("ㅡㅡㅡ", holder.bindingAdapterPosition.toString())
+        super.onViewRecycled(holder)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TicketItemViewHolder {
-        val binding = ItemTicketBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        Log.e("ㅡㅡㅡ", "onCreateViewHolder")
+     //   if (!::inflater.isInitialized)
+     //       inflater = LayoutInflater.from(parent.context)
+
+        val binding = ItemTicketBinding.inflate( LayoutInflater.from(parent.context), parent, false)
+
+        //이미지 라운드 처리
+     //   binding.ibtnItemTicket.clipToOutline = true
+
         return TicketItemViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: TicketItemViewHolder, position: Int) {
-        return holder.bind(currentList[position], position)
+        return holder.bind(currentList[position], scrollType, clickListener)
     }
 
-    inner class TicketItemViewHolder(private val binding: ItemTicketBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: FilteredTicket, position: Int) {
+    class TicketItemViewHolder(private val binding: ItemTicketBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: FilteredTicket, scrollType: String, clickListener: (FilteredTicket) -> Unit) {
             with(binding) {
                 ticket = item
                 executePendingBindings()
@@ -44,9 +59,6 @@ class TicketItemRvAdapter(
                     ctlItemTicketContainer.layoutParams = lp
                 }
 
-                //이미지 라운드 처리
-                ibtnItemTicket.clipToOutline = true
-
                 //태그
                 if ((item.tags?.size ?: 0) > 2) {
                     val etcSize = (item.tags?.size ?: 0) - 2
@@ -54,11 +66,10 @@ class TicketItemRvAdapter(
                 }
 
                 //거리
-                tvItemTicketDistance.text = distanceFormatUtil(item.distance!!.toDouble())
+//                tvItemTicketDistance.text = distanceFormatUtil(item.distance!!.toDouble())
 
                 //좋아요 버튼 todo 서버연결
                 ctvItemTicketLike.visibility = View.INVISIBLE
-                // setLikeBtnClickListener(ctvItemTicketLike, item)
 
                 //엠티뷰
                 setEmptyImage(item.type ?: "기타", ivItemEmpty)
@@ -67,22 +78,14 @@ class TicketItemRvAdapter(
                 root.setOnClickListener { clickListener(item) }
             }
         }
-    }
 
-    private fun setEmptyImage(type: String, view: ImageView) {
-        when (type) {
-            "헬스" -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_health_86)
-            "기타" -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_etc_86)
-            "PT" -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_pt_86)
-            "필라테스" -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_pilates_86)
-        }
-    }
-
-    private fun setLikeBtnClickListener(view: CheckedTextView, item: FilteredTicket) {
-        view.setOnClickListener {
-            if (view.isChecked) bookMarkAddClickListener(item)
-            else bookMarkDeleteClickListener(item)
-            view.toggle()
+        private fun setEmptyImage(type: String, view: ImageView) {
+            when (type) {
+                "헬스" -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_health_86)
+                "기타" -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_etc_86)
+                "PT" -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_pt_86)
+                "필라테스" -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_pilates_86)
+            }
         }
     }
 
