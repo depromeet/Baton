@@ -136,12 +136,17 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.appbar.MaterialToolbar>
+<androidx.fragment.app.FragmentContainerView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/test_fcv"
 
+    app:layout_constraintTop_toBottomOf="@+id/mt_home_title"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/mt_home_title" />
+            app:layout_constraintTop_toBottomOf="@+id/test_fcv" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

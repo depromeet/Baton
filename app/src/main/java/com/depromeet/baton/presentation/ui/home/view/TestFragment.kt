@@ -3,18 +3,16 @@ package com.depromeet.baton.presentation.ui.home.view
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.baton.R
-import com.depromeet.baton.databinding.FragmentHomeBinding
 import com.depromeet.baton.databinding.FragmentTestBinding
 import com.depromeet.baton.domain.model.FilteredTicket
 import com.depromeet.baton.domain.model.TicketKind
@@ -52,7 +50,8 @@ class TestFragment : BaseFragment<FragmentTestBinding>(R.layout.fragment_test) {
         super.onViewCreated(view, savedInstanceState)
         binding.filterViewModel = filterViewModel
         initView()
-        recyclerView2Adapter = RecyclerView2Adapter(requireContext())
+
+        recyclerView2Adapter = RecyclerView2Adapter(parentFragmentManager,requireContext())
         binding.rvHome.adapter = recyclerView2Adapter
         binding.rvHome.layoutManager = LinearLayoutManager(requireContext())
 
@@ -86,6 +85,28 @@ class TestFragment : BaseFragment<FragmentTestBinding>(R.layout.fragment_test) {
     private fun initView() {
         initLayout()
         setObserve()
+
+        //FragmentTransaction.add()에 전달된 ID(예: R.id.feedContentContainer)는 setContentView()에 지정된 레이아웃의 자식이어야 합니다.
+        //아무리 inflate해도  java.lang.IllegalArgumentException: No view found for id for fragment filterchipfragment뜬이유유
+   // LayoutInflter.from(context).inflate(R.layout.fragment_header2, null)
+        binding.rvHome.addItemDecoration(StickyHeaderItemDecoration(getSectionCallback()))
+    }
+
+
+    private fun getSectionCallback(): StickyHeaderItemDecoration.SectionCallback {
+        return object : StickyHeaderItemDecoration.SectionCallback {
+            override fun isHeader(position: Int): Boolean {
+                return recyclerView2Adapter.isHeader(position)
+            }
+
+            override fun getHeaderLayoutView(list: RecyclerView, position: Int): View? {
+                return recyclerView2Adapter.getHeaderView(list, position)
+            }
+
+            override fun getFragmentManager(): FragmentManager {
+                return childFragmentManager
+            }
+        }
     }
 
     private fun setObserve() {

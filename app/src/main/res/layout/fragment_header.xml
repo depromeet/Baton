@@ -6,12 +6,11 @@
     android:layout_height="wrap_content">
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv"
-            android:layout_marginHorizontal="@dimen/dimen10"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+<androidx.fragment.app.FragmentContainerView
+    android:layout_width="match_parent"
+    android:id="@+id/fcv"
+    android:name="com.depromeet.baton.presentation.ui.filter.view.FilterChipFragment"
+    app:layout_constraintTop_toTopOf="parent"
+    android:layout_height="wrap_content"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

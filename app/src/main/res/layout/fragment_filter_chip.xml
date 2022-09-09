@@ -21,6 +21,7 @@
         android:layout_height="wrap_content"
         android:background="?wh100"
         android:paddingBottom="@dimen/dimen12"
+
         tools:context="FilterChipFragment">
 
         <com.depromeet.bds.component.BdsActionChip
