@@ -5,10 +5,11 @@ import android.content.Context
 import android.net.Uri
 import android.view.View
 import androidx.lifecycle.*
+import com.depromeet.baton.data.request.PostInquiryRequest
+import com.depromeet.baton.data.request.RequestPostFcm
+import com.depromeet.baton.data.response.ResponseGetInquiryByTicket
 import com.depromeet.baton.domain.model.*
-import com.depromeet.baton.domain.repository.AuthRepository
-import com.depromeet.baton.domain.repository.BookmarkRepository
-import com.depromeet.baton.domain.repository.TicketInfoRepository
+import com.depromeet.baton.domain.repository.*
 import com.depromeet.baton.map.util.NetworkResult
 import com.depromeet.baton.presentation.ui.detail.model.*
 import com.depromeet.baton.presentation.util.dateFormatUtil
@@ -31,10 +32,12 @@ class TicketDetailViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val ticketInfoRepository: TicketInfoRepository,
     private val bookmarkRepository: BookmarkRepository,
-    private val savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle,
+    private val userinfoRepository: UserinfoRepository,
+    private val searchRepository: SearchRepository
 ) : AndroidViewModel(application) {
 
-
+    private var count = 0 //TODO 문의 개수
     private val context: Context = application
 
     //추후 변경
@@ -47,8 +50,37 @@ class TicketDetailViewModel @Inject constructor(
     private val _netWorkState = MutableStateFlow<TicketDetailNetWork>(TicketDetailNetWork.Loading)
     val netWorkState = _netWorkState.asStateFlow()
 
+    //현재 정렬
+    private val _name = MutableLiveData("")
+    val name: LiveData<String> = _name
+
+    private val _phoneNumber = MutableLiveData("")
+    val phoneNumber: LiveData<String> = _phoneNumber
+
+    private val _inquiryList = MutableLiveData<List<ResponseGetInquiryByTicket>>()
+    val inquiryList: LiveData<List<ResponseGetInquiryByTicket>> = _inquiryList
+
     init {
         initState()
+        getProfile()
+    }
+
+
+    private fun getProfile() {
+        viewModelScope.launch {
+            runCatching {
+                val res = userinfoRepository.getUserProfile(authRepository.authInfo!!.userId)
+                when (res) {
+                    is NetworkResult.Success -> {
+                        _name.value = res.data?.nickname
+                        _phoneNumber.value = res.data?.phone_number
+                    }
+                    is NetworkResult.Error -> {
+                        Timber.e(res.message)
+                    }
+                }
+            }
+        }
     }
 
     private fun initState() {
@@ -57,17 +89,17 @@ class TicketDetailViewModel @Inject constructor(
             //API 호출
             runCatching {
                 val ticketId = savedStateHandle.get<Int>("ticketId")!!
-                val res =  ticketInfoRepository.getTicketInfo(
+                val res = ticketInfoRepository.getTicketInfo(
                     ticketId = ticketId,
                     spfManager.getMyLongitude(),
                     spfManager.getMyLatitude()
                 )
-                when(res){
-                    is NetworkResult.Error ->{
+                when (res) {
+                    is NetworkResult.Error -> {
                         Timber.e(res.message)
                         _netWorkState.update { TicketDetailNetWork.Failure(res.message.toString()) }
                     }
-                    is NetworkResult.Success->{
+                    is NetworkResult.Success -> {
                         if (res.data != null) {
                             val ticket = res.data!!
                             val userId = authRepository.authInfo!!.userId
@@ -83,7 +115,7 @@ class TicketDetailViewModel @Inject constructor(
                                         ticket.seller.image
                                     ),
                                     isOwner = userId == sellerId,
-                                    detailUrl = "https://map.naver.com/v5/search/${ticket.location.replace(" ","")}",
+                                    detailUrl = "https://map.naver.com/v5/search/${ticket.location.replace(" ", "")}",
                                     mapUrl = "https://map.naver.com/index.nhn?slng=${spfManager.getMyLongitude()}&slat=${spfManager.getMyLatitude()}" +
                                             "&stext=내 위치&elng=${ticket!!.longitude}&elat=${ticket!!.latitude}" +
                                             "&pathType=3&showMap=true&etext=${ticket!!.location}&menu=route",
@@ -118,8 +150,8 @@ class TicketDetailViewModel @Inject constructor(
                                     remainDate = ticket.remainingDay,
                                     remainingNumber = ticket.remainingNumber,
                                     bookmarkId = ticket.bookmarkId,
-                                    isLikeTicket = ticket.bookmarkId!=null,
-                                    bookmarkView = ticket.bookmarkCount ?:0,
+                                    isLikeTicket = ticket.bookmarkId != null,
+                                    bookmarkView = ticket.bookmarkCount ?: 0,
                                     countView = ticket.viewCount
                                 ),
                                 onAddChatBtnClick = ::onClickChat,
@@ -149,7 +181,7 @@ class TicketDetailViewModel @Inject constructor(
                 context,
                 com.depromeet.bds.R.drawable.ic_empty_pilates_86
             )
-            TicketKind.PT.name -> uriConverter(context , com.depromeet.bds.R.drawable.ic_empty_pt_86)
+            TicketKind.PT.name -> uriConverter(context, com.depromeet.bds.R.drawable.ic_empty_pt_86)
             else -> uriConverter(context, com.depromeet.bds.R.drawable.ic_empty_etc_86)
         }
     }
@@ -176,12 +208,12 @@ class TicketDetailViewModel @Inject constructor(
                 _netWorkState.update { TicketDetailNetWork.Loading }
                 ticketInfoRepository.updateTicketState(temp.ticket.ticketId, status.name)
             }.onSuccess {
-                when(it){
-                    is NetworkResult.Success ->{
+                when (it) {
+                    is NetworkResult.Success -> {
                         _netWorkState.update { TicketDetailNetWork.Success }
                         _ticketState.postValue(temp.copy(ticket = temp.ticket.copy(ticketStatus = status)))
                     }
-                    is NetworkResult.Error->{
+                    is NetworkResult.Error -> {
                         Timber.e("${it.message}")
                         _netWorkState.update { TicketDetailNetWork.Failure("판매상태 변경에 실패했습니다.") }
                     }
@@ -250,51 +282,53 @@ class TicketDetailViewModel @Inject constructor(
         //bookmark API 호출
         val temp = ticketState.value!!
         ticketState.value?.let {
-            if(it.ticket.isLikeTicket){
-                _ticketState.postValue(temp.copy(ticket = temp.ticket.copy( isLikeTicket = false,  bookmarkView= temp.ticket.bookmarkView!! -1 )))
+            if (it.ticket.isLikeTicket) {
+                _ticketState.postValue(temp.copy(ticket = temp.ticket.copy(isLikeTicket = false, bookmarkView = temp.ticket.bookmarkView!! - 1)))
                 addViewEvent(DetailViewEvent.EventClickUnLike)
-            }else{
-                _ticketState.postValue(temp.copy(ticket = temp.ticket.copy(isLikeTicket = true, bookmarkView= temp.ticket.bookmarkView!! +1,)))
+            } else {
+                _ticketState.postValue(temp.copy(ticket = temp.ticket.copy(isLikeTicket = true, bookmarkView = temp.ticket.bookmarkView!! + 1)))
                 addViewEvent(DetailViewEvent.EventClickLike)
             }
         }
     }
 
-    fun checkLikeStatus(){
-        if(ticketState.value!!.ticket.bookmarkId == null && ticketState.value!!.ticket.isLikeTicket) addBookmark()
-        else if(ticketState.value!!.ticket.bookmarkId != null && !ticketState.value!!.ticket.isLikeTicket) deleteBookmark()
+    fun checkLikeStatus() {
+        if (ticketState.value!!.ticket.bookmarkId == null && ticketState.value!!.ticket.isLikeTicket) addBookmark()
+        else if (ticketState.value!!.ticket.bookmarkId != null && !ticketState.value!!.ticket.isLikeTicket) deleteBookmark()
     }
 
-    private fun addBookmark(){
+    private fun addBookmark() {
         val temp = ticketState.value!!
         viewModelScope.launch {
             runCatching {
                 val userId = authRepository.authInfo!!.userId
-                bookmarkRepository.postBookmark(userId,temp.ticket.ticketId)
-            }.onSuccess { res->
-                when(res){
-                    is NetworkResult.Success ->{_ticketState.postValue(temp.copy(ticket = temp.ticket.copy( bookmarkId = res.data!!.id)))}
-                    is NetworkResult.Error->{
+                bookmarkRepository.postBookmark(userId, temp.ticket.ticketId)
+            }.onSuccess { res ->
+                when (res) {
+                    is NetworkResult.Success -> {
+                        _ticketState.postValue(temp.copy(ticket = temp.ticket.copy(bookmarkId = res.data!!.id)))
+                    }
+                    is NetworkResult.Error -> {
                         Timber.e(res.message)
                     }
                 }
-            }.onFailure {  Timber.e(it.message) }
+            }.onFailure { Timber.e(it.message) }
         }
     }
 
-    private fun deleteBookmark(){
+    private fun deleteBookmark() {
         val temp = _ticketState.value!!
-       viewModelScope.launch {
+        viewModelScope.launch {
             runCatching {
                 bookmarkRepository.deleteBookmark(temp.ticket.bookmarkId!!)
             }.onSuccess {
-                when(it){
-                    is NetworkResult.Success ->{}
-                    is NetworkResult.Error->{
+                when (it) {
+                    is NetworkResult.Success -> {}
+                    is NetworkResult.Error -> {
                         Timber.e(it.message)
                     }
                 }
-            }.onFailure {  Timber.e(it.message) }
+            }.onFailure { Timber.e(it.message) }
         }
     }
 
@@ -306,46 +340,89 @@ class TicketDetailViewModel @Inject constructor(
         _viewEvents.update { it - viewEvent }
     }
 
-    data class DetailTicketInfoUiState(
-        val ticket: DetailTicketInfo,
-        val onAddChatBtnClick: () -> Unit,
-        val onAddLikeClick: () -> Unit
-    ) {
-
-        val isChatEnabled = true //TODO 문의했던 회원권인지 판단
-        val chatBtnText = if(ticket.isOwner)"채팅목록" else if (isChatEnabled) "채팅하기" else "이미 문의 회원권이에요"
-
-        val priceStr = priceFormat(ticket.price.toFloat())+"원"
-        val monthTagisVisible = if (ticket.remainDate!=null&& ticket.isMembership && ticket.remainDate > 30) View.VISIBLE else View.GONE
-        val monthPrice = priceFormat(ticket.price / 30f) + "원"
-        val dayTagisVisible = if (ticket.isMembership) View.VISIBLE else View.GONE
-        val dayPrice = if(ticket.remainDate!=null) priceFormat(ticket.price / ticket.remainDate!!.toFloat()) + "원" else ""
-
-        val sellViewisVisible = ticket.ticketStatus == TicketStatus.SALE && ticket.imgList.isEmpty()
-        val soldoutViewisVisible = ticket.ticketStatus == TicketStatus.DONE
-        val reservedViewisVisible = ticket.ticketStatus == TicketStatus.RESERVED
-
-        val canNegoStr = if (ticket.canNego) "가격제안 가능" else "가격제안 불가능"
-
-        val startImgIndex = if (ticket.imgList.isEmpty()) "0" else "1"
-        val totalImgIndex = ticket.imgList.size.toString()
-
-        val infoTagVisible = if (ticket.infoHashs.isEmpty()) View.GONE else View.VISIBLE
-        val additionalTagVisible = if (ticket.tags.isEmpty()) View.GONE else View.VISIBLE
-
-        val emptyInfoTagVisible = if (ticket.infoHashs.isNotEmpty()) View.GONE else View.VISIBLE
-        val emptyAdditionalTagVisible = if (ticket.tags.isNotEmpty()) View.GONE else View.VISIBLE
-
-        val remainText = if (ticket.isMembership) "남은 기간" else "남은 횟수"
-        val remainCount = if (ticket.isMembership) "${ticket.remainDate}일" else "${ticket.remainingNumber}회"
-
-        //bookmark id 가 null 이면 관심 상품 아님
-        val bookmarkState  = ticket.isLikeTicket
-
+    fun getInquiryCount() {
+        viewModelScope.launch {
+            runCatching {
+            }.onSuccess {
+            }.onFailure { Timber.e(it.message) }
+        }
     }
 
+
+    fun getInquiryList() {
+        val temp = _ticketState.value!!
+        viewModelScope.launch {
+            runCatching {
+                searchRepository.getInquiryByTicket(temp.ticket.ticketId)
+            }.onSuccess {
+                _inquiryList.value = listOf(it.body() ?: return@launch)
+            }.onFailure { Timber.e(it.message) }
+        }
+    }
+
+    fun postInquiry(text: String) {
+        val ticketId = savedStateHandle.get<Int>("ticketId")!!
+        viewModelScope.launch {
+            runCatching {
+                //문의 보내기
+                searchRepository.postInquiry(PostInquiryRequest(ticketId, text))
+            }.onSuccess {
+                //푸시알림
+                postPushMessage(text)
+            }.onFailure { Timber.e(it.message) }
+        }
+    }
+
+    private fun postPushMessage(text: String) {
+        viewModelScope.launch {
+            runCatching {
+                //유저 토큰 얻기
+                val token = userinfoRepository.getUserDeviceToken(authRepository.authInfo!!.userId).body()?.fcmToken
+                searchRepository.postFcm(RequestPostFcm(token ?: return@launch, "문의 알림", text))
+            }.onSuccess {
+                Timber.e(it.body())
+            }.onFailure { Timber.e(it.message) }
+        }
+    }
 }
 
+data class DetailTicketInfoUiState(
+    val ticket: DetailTicketInfo,
+    val onAddChatBtnClick: () -> Unit,
+    val onAddLikeClick: () -> Unit
+) {
+
+    val isChatEnabled = false //TODO 문의했던 회원권인지 판단
+    val chatBtnText = if (ticket.isOwner) "받은 문의 목록 보기" else if (isChatEnabled) "문의하기" else "이미 문의한 회원권이에요"
+
+    val priceStr = priceFormat(ticket.price.toFloat()) + "원"
+    val monthTagisVisible = if (ticket.remainDate != null && ticket.isMembership && ticket.remainDate > 30) View.VISIBLE else View.GONE
+    val monthPrice = priceFormat(ticket.price / 30f) + "원"
+    val dayTagisVisible = if (ticket.isMembership) View.VISIBLE else View.GONE
+    val dayPrice = if (ticket.remainDate != null) priceFormat(ticket.price / ticket.remainDate!!.toFloat()) + "원" else ""
+
+    val sellViewisVisible = ticket.ticketStatus == TicketStatus.SALE && ticket.imgList.isEmpty()
+    val soldoutViewisVisible = ticket.ticketStatus == TicketStatus.DONE
+    val reservedViewisVisible = ticket.ticketStatus == TicketStatus.RESERVED
+
+    val canNegoStr = if (ticket.canNego) "가격제안 가능" else "가격제안 불가능"
+
+    val startImgIndex = if (ticket.imgList.isEmpty()) "0" else "1"
+    val totalImgIndex = ticket.imgList.size.toString()
+
+    val infoTagVisible = if (ticket.infoHashs.isEmpty()) View.GONE else View.VISIBLE
+    val additionalTagVisible = if (ticket.tags.isEmpty()) View.GONE else View.VISIBLE
+
+    val emptyInfoTagVisible = if (ticket.infoHashs.isNotEmpty()) View.GONE else View.VISIBLE
+    val emptyAdditionalTagVisible = if (ticket.tags.isNotEmpty()) View.GONE else View.VISIBLE
+
+    val remainText = if (ticket.isMembership) "남은 기간" else "남은 횟수"
+    val remainCount = if (ticket.isMembership) "${ticket.remainDate}일" else "${ticket.remainingNumber}회"
+
+    //bookmark id 가 null 이면 관심 상품 아님
+    val bookmarkState = ticket.isLikeTicket
+
+}
 
 sealed class TicketDetailNetWork() {
     object Success : TicketDetailNetWork()

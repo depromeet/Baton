@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import android.widget.ImageView
 import androidx.activity.viewModels
 import androidx.core.widget.NestedScrollView
@@ -21,6 +22,7 @@ import com.depromeet.baton.BatonApp
 import com.depromeet.baton.BatonApp.Companion.TAG
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ActivityTicketDetailBinding
+import com.depromeet.baton.databinding.FragmentBottomInQuiryBinding
 import com.depromeet.baton.databinding.ItemPrimaryOutlineTagBinding
 import com.depromeet.baton.databinding.ItemPrimaryTagBinding
 import com.depromeet.baton.domain.model.FilteredTicket
@@ -34,9 +36,11 @@ import com.depromeet.baton.presentation.bottom.BottomSheetFragment.Companion.DEF
 import com.depromeet.baton.presentation.ui.detail.adapter.TicketImgRvAdapter
 import com.depromeet.baton.presentation.ui.detail.adapter.TicketTagAdapter
 import com.depromeet.baton.presentation.ui.detail.viewModel.*
+import com.depromeet.baton.presentation.ui.filter.view.BottomFilterFragment
 import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter
 import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter.Companion.SCROLL_TYPE_HORIZONTAL
 import com.depromeet.baton.presentation.util.TicketIteHorizontalDecoration
+import com.depromeet.baton.presentation.util.shortToast
 import com.depromeet.baton.util.BatonSpfManager
 import com.depromeet.bds.component.BdsToast
 import com.depromeet.bds.utils.toPx
@@ -66,7 +70,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
 
     private lateinit var ticketTagAdapter: TicketTagAdapter<ItemPrimaryTagBinding>
     private lateinit var gymTagAdapter: TicketTagAdapter<ItemPrimaryOutlineTagBinding>
-    private val ticketItemRvAdapter = TicketItemRvAdapter(SCROLL_TYPE_HORIZONTAL, ::setTicketItemClickListener, ::setBookmarkDeleteClickListener, ::setBookmarkAddClickListener)
+    private val ticketItemRvAdapter = TicketItemRvAdapter(SCROLL_TYPE_HORIZONTAL, ::setTicketItemClickListener)
     private val ticketImgRvAdapter = TicketImgRvAdapter(this)
 
     @Inject
@@ -130,7 +134,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     }
 
 
-    private fun handleTicketUiState(uiState: TicketDetailViewModel.DetailTicketInfoUiState) {
+    private fun handleTicketUiState(uiState: DetailTicketInfoUiState) {
         binding.ticketState = uiState
         if (naverMap != null) setMarkerPosition()
         bottomViewModel.updateBottomUistate(uiState.ticket.isOwner)
@@ -168,7 +172,9 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
                 DetailViewEvent.EventClickChat -> {
                     //TODO showChatBottom
                 }
-                DetailViewEvent.EventClickUnLike->{ binding.ticketDetailLikeBtn.toggle() }
+                DetailViewEvent.EventClickUnLike -> {
+                    binding.ticketDetailLikeBtn.toggle()
+                }
                 DetailViewEvent.EventClickLike -> {
                     this@TicketDetailActivity.BdsToast("관심 상품이 등록되었습니다.", binding.ticketDetailFooter.top).show()
                     binding.ticketDetailLikeBtn.toggle()
@@ -374,14 +380,6 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         TicketDetailActivity.start(this, ticketId = ticketItem.id)
     }
 
-    private fun setBookmarkDeleteClickListener(ticketItem: FilteredTicket) {
-        ticketMoreViewModel.postMoreTicketBookmark(ticketItem.id)
-    }
-
-    private fun setBookmarkAddClickListener(ticketItem: FilteredTicket) {
-        ticketMoreViewModel.deleteMoreTicketBookmark(ticketItem.id)
-    }
-
     /** Naver MAP Init **/
     override fun onMapReady(map: NaverMap) {
         runBlocking {
@@ -430,6 +428,20 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         marker.height = 30.toPx()
         marker.width = 30.toPx()
 
+    }
+
+    fun setClickInquiryByBuyer() {
+        binding.btnInquiry.setOnClickListener {
+            val bottomInquiryFragment = BottomInquiryFragment()
+            bottomInquiryFragment.show(
+                supportFragmentManager,
+                bottomInquiryFragment.tag
+            )
+        }
+    }
+
+    fun setClickInquiryBySeller() {
+        startActivity(Intent(this, InquiryActivity::class.java))
     }
 
     override fun onStart() {

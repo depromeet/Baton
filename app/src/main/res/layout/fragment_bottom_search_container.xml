@@ -13,7 +13,7 @@
         <androidx.fragment.app.FragmentContainerView
             android:layout_width="match_parent"
             android:id="@+id/fcv_bottom_search"
-            android:layout_height="@dimen/dimen594"
+            android:layout_height="@dimen/dimen614"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

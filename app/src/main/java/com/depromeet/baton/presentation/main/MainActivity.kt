@@ -15,6 +15,7 @@ import com.depromeet.baton.presentation.base.BaseActivity
 import com.depromeet.baton.presentation.ui.ask.view.AskFragment
 import com.depromeet.baton.presentation.ui.chatting.ChatRoomListFragment
 import com.depromeet.baton.presentation.ui.home.view.HomeFragment
+import com.depromeet.baton.presentation.ui.home.view.TestFragment
 import com.depromeet.baton.presentation.ui.mypage.view.MyPageFragment
 import com.depromeet.baton.presentation.ui.search.view.SearchFragment
 import com.depromeet.bds.component.BdsToast
@@ -22,6 +23,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 import dagger.hilt.android.AndroidEntryPoint
+import org.junit.Test
 import timber.log.Timber
 import timber.log.Timber.Forest.tag
 import kotlin.system.exitProcess

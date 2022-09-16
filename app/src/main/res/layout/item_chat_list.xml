@@ -7,7 +7,7 @@
 
         <variable
             name="chatRoom"
-            type="com.depromeet.baton.chat.ChatRoom" />
+            type="com.depromeet.baton.data.response.ResponseGetInquiryByTicket" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,7 +18,7 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_profile"
-            image="@{chatRoom.receiverProfileImg}"
+            image="@{chatRoom.user.image}"
             roundedCorners="@{false}"
             android:layout_width="46dp"
             android:layout_height="46dp"
@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dimen10"
-            android:text="@{chatRoom.shopName}"
+            android:text="@{chatRoom.ticket.location}"
             android:textAppearance="?caption3"
             android:textColor="?grey_scale60"
             app:layout_constraintStart_toEndOf="@+id/iv_profile"
@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/dimen4"
-            android:text="@{chatRoom.receiverName}"
+            android:text="@{chatRoom.user.name}"
             android:textAppearance="?headline4"
             android:textColor="?grey_scale80"
             app:layout_constraintStart_toStartOf="@+id/tv_shopname"
@@ -60,7 +60,7 @@
             android:layout_marginEnd="@dimen/dimen10"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@{chatRoom.lastMessage}"
+            android:text="@{chatRoom.content}"
             android:textAppearance="?caption2"
             android:textColor="?grey_scale80"
             app:layout_constraintEnd_toStartOf="@+id/tv_count"
@@ -73,7 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/dimen16"
-            android:text="@{@string/chatHowOldFormat(chatRoom.howOld)}"
+            android:text="@{@string/chatHowOldFormat(chatRoom.user.createdOn)}"
             android:textAppearance="?caption4"
             android:textColor="?grey_scale70"
             app:layout_constraintEnd_toEndOf="parent"
@@ -84,9 +84,8 @@
             android:id="@+id/tv_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@{chatRoom.messageCount&lt;=10 ? @drawable/bacground_circle_alert_1_9 : @drawable/bacground_circle_alert_10_99}"
             android:gravity="center"
-            android:text="@{chatRoom.messageCount.toString()}"
+            android:text="@{chatRoom.isRead ? `읽음` : `안읽음`}"
             android:textAppearance="?caption3"
             android:textColor="?wh100"
             app:layout_constraintBottom_toBottomOf="@+id/tv_message"

@@ -5,20 +5,21 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.baton.chat.ChatRoom
+import com.depromeet.baton.data.response.ResponseGetInquiryByTicket
 import com.depromeet.baton.databinding.ItemChatListBinding
 import com.depromeet.baton.util.SimpleDiffUtil
 
 
 class ChatRoomAdapter(
-    private val onClick: (ChatRoom) -> Unit,
-) : ListAdapter<ChatRoom, ChatRoomAdapter.ViewHolder>(SimpleDiffUtil()) {
+    private val onClick: (ResponseGetInquiryByTicket) -> Unit,
+) : ListAdapter<ResponseGetInquiryByTicket, ChatRoomAdapter.ViewHolder>(SimpleDiffUtil()) {
 
     inner class ViewHolder(
         private val binding: ItemChatListBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun onBind(item: ChatRoom) {
+        fun onBind(item: ResponseGetInquiryByTicket) {
             with(binding) {
-                chatRoom=item
+                chatRoom = item
                 executePendingBindings()
                 root.setOnClickListener { onClick(item) }
             }

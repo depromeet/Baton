@@ -202,6 +202,9 @@ class WritePostViewModel @Inject constructor(
     private val _isPeriodTextInit = SingleLiveEvent<Any>()
     val isPeriodTextInit: SingleLiveEvent<Any> = _isPeriodTextInit
 
+    private val _isDateError = MutableLiveData(false)
+    val isDateError: LiveData<Boolean> = _isDateError
+
 
     /*추가옵션*/
     private var additionalOptionsCheckedList = MapListLiveData<AdditionalOptions, Boolean>()
@@ -534,15 +537,15 @@ class WritePostViewModel @Inject constructor(
         when (kind) {
             Term.PERIOD -> {
                 _isPeriodChecked.value = isChecked
-                if(isChecked)
+                if (isChecked)
                     _isNumberTextInit.call()
             }
             Term.NUMBER -> {
                 _isNumberChecked.value = isChecked
-                if(isChecked)
-                _isPeriodTextInit.call()
+                if (isChecked)
+                    _isPeriodTextInit.call()
             }
-        } 
+        }
 
         handleTermDetailChanged(Editable.Factory.getInstance().newEditable(""))
         setLevelTwoNextBtnEnable()
@@ -560,11 +563,14 @@ class WritePostViewModel @Inject constructor(
 
 
         //만료일로부터 남은 날
-        if (term.length == 8) {
+        if (term.length == 8 && _isDateError.value == false) {
             _periodFormatted.value = dateDifferenceFormat(term) + "일"
+        } else if (_isDateError.value == true) {
+            _periodFormatted.value = "0일"
         } else {
             _periodFormatted.value = "0일"
         }
+
 
         //버튼
         _isLevelTwoNextBtnEnable.value =
@@ -582,6 +588,9 @@ class WritePostViewModel @Inject constructor(
         ) {
             _isLevelTwoNextBtnEnable.value = false
         }
+
+        //지난 날짜 입력시 에러 텍스트
+        _isDateError.value = _isPeriodChecked.value == true && term.length == 8 && todayDate > term
 
 
         setNextLevelEnable()

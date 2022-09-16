@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+
+        <variable
+            name="ticketDetailViewModel"
+            type="com.depromeet.baton.presentation.ui.detail.viewModel.TicketDetailViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_bottomsheet">
+
+        <TextView
+            android:id="@+id/inquiry_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen16"
+            android:layout_marginTop="@dimen/dimen26"
+            android:text="판매자에게 문의하기"
+            android:textAppearance="?headline2"
+            android:textColor="?grey_scale90"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/dimen16"
+            android:paddingTop="@dimen/dimen26"
+            android:paddingEnd="@dimen/dimen16"
+            android:paddingBottom="@dimen/dimen16"
+            android:src="@drawable/ic_close_line_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/inquiry_my_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen26"
+            android:text="내정보"
+            android:textAppearance="?headline3"
+            android:textColor="?grey_scale80"
+            app:layout_constraintStart_toStartOf="@+id/inquiry_title"
+            app:layout_constraintTop_toBottomOf="@+id/inquiry_title" />
+
+        <TextView
+            android:id="@+id/inquiry_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen8"
+            android:text="@{ticketDetailViewModel.name}"
+            android:textAppearance="?body3"
+            android:textColor="?grey_scale80"
+            app:layout_constraintStart_toStartOf="@id/inquiry_my_info"
+            app:layout_constraintTop_toBottomOf="@+id/inquiry_my_info"
+            tools:text="울라라라" />
+
+        <TextView
+            android:id="@+id/inquiry_phone_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen4"
+            android:text="@{ticketDetailViewModel.phoneNumber}"
+            android:textAppearance="?body3"
+            android:textColor="?grey_scale80"
+            app:layout_constraintStart_toStartOf="@id/inquiry_nickname"
+            app:layout_constraintTop_toBottomOf="@id/inquiry_nickname"
+            tools:text="010-1111-1111" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen8"
+            android:text="연락처는 판매자에게만 노출됩니다"
+            android:textAppearance="?caption2"
+            android:textColor="?like"
+            app:layout_constraintBottom_toBottomOf="@id/inquiry_phone_number"
+            app:layout_constraintStart_toEndOf="@id/inquiry_phone_number"
+            app:layout_constraintTop_toTopOf="@id/inquiry_phone_number" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen16"
+            android:text="문의내용을 입력해주세요."
+            android:textAppearance="?headline3"
+            android:textColor="?grey_scale80"
+            app:layout_constraintStart_toStartOf="@id/inquiry_phone_number"
+            app:layout_constraintTop_toBottomOf="@id/inquiry_phone_number" />
+
+        <EditText
+            android:id="@+id/et_description"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="@dimen/dimen8"
+            android:layout_marginEnd="@dimen/dimen16"
+            android:background="@drawable/temp_textfield_background"
+            android:gravity="top"
+            android:hint="내용을 입력해주세요"
+            android:includeFontPadding="false"
+            android:maxLength="100"
+            android:padding="@dimen/dimen16"
+            android:textAppearance="?body4"
+            android:textColor="?grey_scale80"
+            android:textColorHint="?grey_scale50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/inquiry_title"
+            app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+        <TextView
+            android:id="@+id/tv_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen8"
+            android:layout_marginEnd="@dimen/dimen4"
+            android:textAppearance="?body4"
+            android:textColor="?grey_scale50"
+            app:layout_constraintEnd_toEndOf="@id/et_description"
+            app:layout_constraintTop_toBottomOf="@id/et_description" />
+
+        <com.depromeet.bds.component.BdsButton
+            android:id="@+id/btn_inquiry"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dimen48"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="@dimen/dimen26"
+            android:layout_marginBottom="@dimen/dimen16"
+            android:theme="@style/Theme.Bds.PrimaryButton.Large"
+            app:bds_text="확인"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/et_description"
+            app:layout_constraintStart_toStartOf="@+id/et_description"
+            app:layout_constraintTop_toBottomOf="@id/tv_count" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

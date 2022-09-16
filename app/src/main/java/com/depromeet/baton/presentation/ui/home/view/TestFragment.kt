@@ -3,13 +3,19 @@ package com.depromeet.baton.presentation.ui.home.view
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentHomeBinding
+import com.depromeet.baton.databinding.FragmentTestBinding
 import com.depromeet.baton.domain.model.FilteredTicket
 import com.depromeet.baton.domain.model.TicketKind
 import com.depromeet.baton.presentation.base.BaseFragment
@@ -17,6 +23,7 @@ import com.depromeet.baton.presentation.main.MainActivity
 import com.depromeet.baton.presentation.ui.address.view.AddressActivity
 import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
 import com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel
+import com.depromeet.baton.presentation.ui.home.adapter.RecyclerView2Adapter
 import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter
 import com.depromeet.baton.presentation.ui.home.viewmodel.HomeViewModel
 import com.depromeet.baton.presentation.ui.search.viewmodel.SearchViewModel
@@ -29,9 +36,10 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
-@AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
+@AndroidEntryPoint
+class TestFragment : BaseFragment<FragmentTestBinding>(R.layout.fragment_test) {
+    private lateinit var recyclerView2Adapter: RecyclerView2Adapter
     private val homeViewModel: HomeViewModel by activityViewModels()
     private val searchViewModel: SearchViewModel by activityViewModels()
     private val filterViewModel: FilterViewModel by activityViewModels()
@@ -44,7 +52,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
         binding.filterViewModel = filterViewModel
         initView()
+        recyclerView2Adapter = RecyclerView2Adapter(requireContext())
+        binding.rvHome.adapter = recyclerView2Adapter
+        binding.rvHome.layoutManager = LinearLayoutManager(requireContext())
+
+  // recyclerView2Adapter.post(events)
+
+/*        filterViewModel.filteredTicketList.observe(viewLifecycleOwner) {
+            Log.e("ㅡㅡ", it?.forEach { it.id.toString() }.toString())
+            Log.e("ㅡㅡ", "dd")
+       //     recyclerView2Adapter.post(it ?: return@observe)
+        }*/
     }
+
 
     override fun onResume() {
         super.onResume()
@@ -65,7 +85,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private fun initView() {
         initLayout()
-        setTicketItemRvAdapter()
         setObserve()
     }
 
@@ -167,6 +186,4 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         TicketDetailActivity.start(requireContext(), ticketItem.id)
     }
 }
-
-
 
