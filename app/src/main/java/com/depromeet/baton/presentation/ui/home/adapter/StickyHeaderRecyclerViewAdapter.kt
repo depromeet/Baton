@@ -7,42 +7,31 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.*
 import com.depromeet.baton.domain.model.FilteredTicket
 import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
 import com.depromeet.baton.presentation.ui.filter.view.FilterChipFragment
-import com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel
 import com.depromeet.baton.presentation.ui.home.view.BlankFragment
-import com.depromeet.baton.presentation.ui.home.view.TestFragment
-import com.depromeet.baton.presentation.ui.home.view.TopFragment
-import com.depromeet.baton.presentation.ui.search.view.SearchFragment
 import com.depromeet.baton.presentation.util.TicketItemVerticalDecoration
+import com.depromeet.baton.util.SimpleDiffUtil
 
 data class AdapterItem(var type: Int, val isHeader:Boolean)
 
-class RecyclerView2Adapter constructor(
+class StickyHeaderRecyclerViewAdapter constructor(
     val fragmentManager:FragmentManager,
-
     val context: Context,
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private val recyclerItemList: ArrayList<AdapterItem> = ArrayList()
-
-    init{
-            recyclerItemList.add(AdapterItem(ITEM1,false))
-            recyclerItemList.add(AdapterItem(ITEM2,true))
-              for (data in 0..50) {
-                    recyclerItemList.add(AdapterItem(ITEM3,false))
-                }
-
-    }
+)  : ListAdapter<AdapterItem, RecyclerView.ViewHolder>(SimpleDiffUtil()) {
+var count=1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-
-        return if (viewType == ITEM1) {
+        Log.e("+++onCreateViewHolder: ", "$count 번째 생성")
+      count+=1
+        return if (viewType == TOP) {
             return Item1ViewHolder(FragmentTopBinding.inflate(LayoutInflater.from(parent.context), parent, false))
-        } else if (viewType == ITEM2) {
+        } else if (viewType == HEADER) {
             return Item2ViewHolder(FragmentHeaderBinding.inflate(LayoutInflater.from(parent.context), parent, false))
         } else {
             return Item3ViewHolder(FragmentBottomBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -50,18 +39,18 @@ class RecyclerView2Adapter constructor(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val type = getItemViewType(position)
-        if (recyclerItemList[position].type==ITEM1) {
+
+        if (currentList[position].type==TOP) {
             (holder as Item1ViewHolder).bind()
-        } else if (recyclerItemList[position].type==ITEM2) {
+        } else if (currentList[position].type== HEADER) {
             (holder as Item2ViewHolder)
-        } else if (recyclerItemList[position].type==ITEM3) {
+        } else if (currentList[position].type== BOTTOM) {
             (holder as Item3ViewHolder)
         }
     }
 
     override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
-        Log.e("onViewRecycled", "onViewRecycled: ${holder.bindingAdapterPosition}")
+        Log.e("+++onViewRecycled", "onViewRecycled: ${holder.bindingAdapterPosition}")
         super.onViewRecycled(holder)
     }
 
@@ -69,12 +58,9 @@ class RecyclerView2Adapter constructor(
         TicketDetailActivity.start(context, ticketItem.id)
     }
 
-    override fun getItemCount(): Int {
-        return recyclerItemList.size
-    }
 
     override fun getItemViewType(position: Int): Int {
-        return recyclerItemList[position].type
+        return currentList[position].type
     }
 
 
@@ -115,38 +101,25 @@ class RecyclerView2Adapter constructor(
         }
 
 
-    fun isHeader(position: Int) = recyclerItemList[position].isHeader
-
-
    lateinit  var binding:FragmentTestBinding
     fun getHeaderView(list: RecyclerView, position: Int): View? {
-         binding= FragmentTestBinding.inflate(LayoutInflater.from(list.context), list, false)
-        if(recyclerItemList[position].type==ITEM2 || recyclerItemList[position].type==ITEM3){
+      binding= FragmentTestBinding.inflate(LayoutInflater.from(list.context), list, false)
+        return if(currentList[position].type== HEADER || currentList[position].type== BOTTOM){
 
-           // LayoutInflater.from(context).inflate(R.layout.fragment_header2, null)
-            Log.e("ㅡ-ㅡ", "getHeaderView : 트루")
-            fragmentManager.beginTransaction().replace(R.id.test_fcv,FilterChipFragment(),"hi").commit()
-        binding.mtHomeTitle.visibility=View.GONE
-
+            fragmentManager.beginTransaction().replace(R.id.test_fcv,FilterChipFragment()).commit()
+            binding.mtHomeTitle.visibility=View.GONE
             binding.rvHome.visibility=View.GONE
-            binding.testFcv.visibility=View.GONE
-        return  binding.root
+            binding.root
 
+        } else {
+            fragmentManager.beginTransaction().replace(R.id.test_fcv,BlankFragment()).commit()
+            null
         }
-       else {
-            fragmentManager.beginTransaction().replace(R.id.test_fcv,BlankFragment(),"hi").commit()
-            return  null
-
-       }
     }
 
-init{
-   // LayoutInflater.from(context).inflate(R.layout.fragment_header2, null)
-}
-
     companion object {
-        private const val ITEM1 = 1
-        private const val ITEM2 = 2
-        private const val ITEM3 = 3
+         const val TOP = 1
+         const val HEADER = 2
+         const val BOTTOM = 3
     }
 }

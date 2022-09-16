@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
@@ -21,7 +20,8 @@ import com.depromeet.baton.presentation.main.MainActivity
 import com.depromeet.baton.presentation.ui.address.view.AddressActivity
 import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
 import com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel
-import com.depromeet.baton.presentation.ui.home.adapter.RecyclerView2Adapter
+import com.depromeet.baton.presentation.ui.home.adapter.AdapterItem
+import com.depromeet.baton.presentation.ui.home.adapter.StickyHeaderRecyclerViewAdapter
 import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter
 import com.depromeet.baton.presentation.ui.home.viewmodel.HomeViewModel
 import com.depromeet.baton.presentation.ui.search.viewmodel.SearchViewModel
@@ -37,7 +37,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class TestFragment : BaseFragment<FragmentTestBinding>(R.layout.fragment_test) {
-    private lateinit var recyclerView2Adapter: RecyclerView2Adapter
+    private lateinit var recyclerView2Adapter: StickyHeaderRecyclerViewAdapter
     private val homeViewModel: HomeViewModel by activityViewModels()
     private val searchViewModel: SearchViewModel by activityViewModels()
     private val filterViewModel: FilterViewModel by activityViewModels()
@@ -51,17 +51,20 @@ class TestFragment : BaseFragment<FragmentTestBinding>(R.layout.fragment_test) {
         binding.filterViewModel = filterViewModel
         initView()
 
-        recyclerView2Adapter = RecyclerView2Adapter(parentFragmentManager,requireContext())
+        recyclerView2Adapter = StickyHeaderRecyclerViewAdapter(parentFragmentManager,requireContext())
         binding.rvHome.adapter = recyclerView2Adapter
         binding.rvHome.layoutManager = LinearLayoutManager(requireContext())
 
-  // recyclerView2Adapter.post(events)
+         val recyclerItemList: ArrayList<AdapterItem> = ArrayList()
 
-/*        filterViewModel.filteredTicketList.observe(viewLifecycleOwner) {
-            Log.e("ㅡㅡ", it?.forEach { it.id.toString() }.toString())
-            Log.e("ㅡㅡ", "dd")
-       //     recyclerView2Adapter.post(it ?: return@observe)
-        }*/
+
+            recyclerItemList.add(AdapterItem(StickyHeaderRecyclerViewAdapter.TOP,false))
+            recyclerItemList.add(AdapterItem(StickyHeaderRecyclerViewAdapter.HEADER,true))
+            for (data in 0..50) {
+                recyclerItemList.add(AdapterItem(StickyHeaderRecyclerViewAdapter.BOTTOM,false))
+            }
+
+        recyclerView2Adapter.submitList(recyclerItemList)
     }
 
 
@@ -88,23 +91,16 @@ class TestFragment : BaseFragment<FragmentTestBinding>(R.layout.fragment_test) {
 
         //FragmentTransaction.add()에 전달된 ID(예: R.id.feedContentContainer)는 setContentView()에 지정된 레이아웃의 자식이어야 합니다.
         //아무리 inflate해도  java.lang.IllegalArgumentException: No view found for id for fragment filterchipfragment뜬이유유
-   // LayoutInflter.from(context).inflate(R.layout.fragment_header2, null)
+       // LayoutInflter.from(context).inflate(R.layout.fragment_header2, null)
         binding.rvHome.addItemDecoration(StickyHeaderItemDecoration(getSectionCallback()))
     }
 
 
     private fun getSectionCallback(): StickyHeaderItemDecoration.SectionCallback {
         return object : StickyHeaderItemDecoration.SectionCallback {
-            override fun isHeader(position: Int): Boolean {
-                return recyclerView2Adapter.isHeader(position)
-            }
 
             override fun getHeaderLayoutView(list: RecyclerView, position: Int): View? {
                 return recyclerView2Adapter.getHeaderView(list, position)
-            }
-
-            override fun getFragmentManager(): FragmentManager {
-                return childFragmentManager
             }
         }
     }

@@ -22,14 +22,27 @@
         android:theme="@style/Theme.MyApplication"
         tools:replace="android:name">
         <activity
+            android:name=".presentation.ui.home.view.LibraryActivity"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name=".presentation.ui.chatting.ChatRoomActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
-            <!--            <intent-filter>
+
+            <!--
+                            <intent-filter>
                             <action android:name="android.intent.action.MAIN" />
 
                             <category android:name="android.intent.category.LAUNCHER" />
-                        </intent-filter>-->
+                        </intent-filter>
+            -->
         </activity>
         <activity
             android:name=".presentation.ui.sign.SignUpCurrentLocationActivity"
@@ -49,22 +62,28 @@
         <activity
             android:name=".presentation.ui.sign.SignActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustPan" >
-<!--            <intent-filter>
+            android:windowSoftInputMode="adjustPan">
+
+            <!--
+                <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
+            -->
         </activity>
         <activity
             android:name="com.depromeet.baton.presentation.ui.routing.RoutingActivity"
             android:exported="true"
             android:theme="@style/Theme.App.Starting">
-       <!--     <intent-filter>
+
+            <!--
+                <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
+            -->
         </activity>
         <activity
             android:name=".presentation.ui.writepost.view.WritePostActivity"
@@ -105,24 +124,18 @@
         <activity
             android:name=".presentation.ui.mypage.view.EmptyAccountActivity"
             android:exported="false" />
-
         <activity
             android:name=".presentation.ui.mypage.view.PostAccountActivity"
             android:exported="false" />
-
         <activity
             android:name=".presentation.main.MainActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustPan" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:windowSoftInputMode="adjustPan">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
 
-        <!-- BEAN: android:launchMode="singleTask" 넣어야 동작하네; -->
 
+
+        </activity> <!-- BEAN: android:launchMode="singleTask" 넣어야 동작하네; -->
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true"

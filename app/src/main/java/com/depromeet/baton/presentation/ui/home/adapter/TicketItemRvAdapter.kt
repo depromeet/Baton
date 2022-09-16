@@ -25,12 +25,12 @@ class TicketItemRvAdapter(
     private lateinit var inflater: LayoutInflater
 
     override fun onViewRecycled(holder: TicketItemViewHolder) {
-        Log.e("ㅡㅡㅡ", holder.bindingAdapterPosition.toString())
+        Log.e("ㅡㅡㅡonViewRecycled", holder.bindingAdapterPosition.toString())
         super.onViewRecycled(holder)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TicketItemViewHolder {
-        Log.e("ㅡㅡㅡ", "onCreateViewHolder")
+        Log.e("ㅡㅡㅡonCreateViewHolder", "onCreateViewHolder")
      //   if (!::inflater.isInitialized)
      //       inflater = LayoutInflater.from(parent.context)
 
