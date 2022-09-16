@@ -1,5 +1,9 @@
 package com.depromeet.baton.domain.repository
 
+import com.depromeet.baton.data.request.PostInquiryRequest
+import com.depromeet.baton.data.request.PostInquiryResponse
+import com.depromeet.baton.data.request.RequestPostFcm
+import com.depromeet.baton.data.response.ResponseGetInquiryByTicket
 import com.depromeet.baton.data.response.ResponsePostTicket
 import com.depromeet.baton.data.response.ResponseTicketInfo
 import com.depromeet.baton.domain.api.search.SearchApi
@@ -14,6 +18,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -26,6 +31,22 @@ class SearchRepository @Inject constructor(
 
     private val keywords: MutableStateFlow<List<RecentSearchKeyword>> =
         MutableStateFlow(emptyList())
+
+    suspend fun postInquiry(request: PostInquiryRequest): Response<PostInquiryResponse> {
+        return searchApi.postInquiry(request)
+    }
+
+    suspend fun getInquiryCount(ticketId: Int): Response<Int> {
+        return searchApi.getInquiryCount(ticketId)
+    }
+
+    suspend fun getInquiryByTicket(ticketId: Int): Response<ResponseGetInquiryByTicket> {
+        return searchApi.getInquiryByTicket(ticketId)
+    }
+
+    suspend fun postFcm(request: RequestPostFcm): Response<String> {
+        return searchApi.postFcm(request)
+    }
 
     fun getRecentSearchKeywords(): Flow<List<RecentSearchKeyword>> {
         return keywords

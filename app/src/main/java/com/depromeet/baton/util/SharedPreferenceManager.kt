@@ -93,7 +93,7 @@ class BatonSpfManager @Inject constructor(@ApplicationContext context: Context) 
         editor.apply()
     }
 
-    fun setInitToolTip(state:Boolean) {
+    fun setInitToolTip(state: Boolean) {
         val editor = mSharedPreferences.edit()
         editor.putBoolean("initToolTip", state)
         editor.apply()
@@ -103,4 +103,13 @@ class BatonSpfManager @Inject constructor(@ApplicationContext context: Context) 
         return mSharedPreferences.getBoolean("initToolTip", false)
     }
 
+    fun setDeviceToken(token: String) {
+        val editor = mSharedPreferences.edit()
+        editor.putString("deviceToken", token)
+        editor.apply()
+    }
+
+    fun getDeviceToken():String {
+        return mSharedPreferences.getString("deviceToken", "")!!
+    }
 }

@@ -89,7 +89,6 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         initView()
         setListener()
         setObserver()
-        setClickInquiry()
     }
 
 
@@ -132,7 +131,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     }
 
 
-    private fun handleTicketUiState(uiState: TicketDetailViewModel.DetailTicketInfoUiState) {
+    private fun handleTicketUiState(uiState: DetailTicketInfoUiState) {
         binding.ticketState = uiState
         if (naverMap != null) setMarkerPosition()
         bottomViewModel.updateBottomUistate(uiState.ticket.isOwner)
@@ -163,7 +162,9 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
                 DetailViewEvent.EventClickChat -> {
                     //TODO showChatBottom
                 }
-                DetailViewEvent.EventClickUnLike->{ binding.ticketDetailLikeBtn.toggle() }
+                DetailViewEvent.EventClickUnLike -> {
+                    binding.ticketDetailLikeBtn.toggle()
+                }
                 DetailViewEvent.EventClickLike -> {
                     this@TicketDetailActivity.BdsToast("관심 상품이 등록되었습니다.", binding.ticketDetailFooter.top).show()
                     binding.ticketDetailLikeBtn.toggle()
@@ -419,7 +420,7 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
 
     }
 
-    private fun setClickInquiry(){
+    fun setClickInquiryByBuyer() {
         binding.btnInquiry.setOnClickListener {
             val bottomInquiryFragment = BottomInquiryFragment()
             bottomInquiryFragment.show(
@@ -427,6 +428,10 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
                 bottomInquiryFragment.tag
             )
         }
+    }
+
+    fun setClickInquiryBySeller() {
+        startActivity(Intent(this, InquiryActivity::class.java))
     }
 
     override fun onStart() {

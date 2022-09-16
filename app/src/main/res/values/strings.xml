@@ -149,7 +149,7 @@
     <string name="ticket_price_format">%s원</string>
     <string name="ticket_remaining_day">%s일 남음</string>
     <string name="ticket_remaining_number">%s회 남음</string>
-    <string name="chatHowOldFormat">%1$d일 전</string>
+    <string name="chatHowOldFormat">%1$s일 전</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

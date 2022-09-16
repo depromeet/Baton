@@ -35,9 +35,9 @@ class NetworkModule {
         }
 
         return OkHttpClient.Builder()
-            .connectTimeout(3000, TimeUnit.MILLISECONDS)
-            .readTimeout(3000, TimeUnit.MILLISECONDS)
-            .writeTimeout(3000, TimeUnit.MILLISECONDS)
+            .connectTimeout(5000, TimeUnit.MILLISECONDS)
+            .readTimeout(5000, TimeUnit.MILLISECONDS)
+            .writeTimeout(5000, TimeUnit.MILLISECONDS)
             .addInterceptor(logging)
             .addNetworkInterceptor(authNetworkInterceptor)
             .build()
@@ -93,7 +93,6 @@ class NetworkModule {
     fun provideBookmarkService(@Server(ServerType.User) retrofit: Retrofit): BookmarkService {
         return retrofit.create()
     }
-
 
     private fun internalCreateRetrofit(
         baseUrl: String,
