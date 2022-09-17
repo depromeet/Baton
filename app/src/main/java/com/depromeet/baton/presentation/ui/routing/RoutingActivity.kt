@@ -36,7 +36,7 @@ class RoutingActivity : BaseActivity<ActivityRoutingBinding>(R.layout.activity_r
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
+        MainActivity.start(this)
 
 
         splashScreen.setOnExitAnimationListener {

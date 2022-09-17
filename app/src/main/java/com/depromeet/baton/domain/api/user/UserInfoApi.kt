@@ -1,6 +1,8 @@
 package com.depromeet.baton.domain.api.user
 
+import com.depromeet.baton.data.request.UserToken
 import com.depromeet.baton.data.response.BookmarkTicket
+import com.depromeet.baton.data.response.ResponseUserToken
 import com.depromeet.baton.data.response.UserBuyListResponse
 import com.depromeet.baton.data.response.UserProfileResponse
 import com.depromeet.baton.domain.model.MypageTicketResponse
@@ -65,5 +67,12 @@ class UserInfoApi @Inject constructor(
 
     suspend fun deleteProfileImage(userIdx: Int) : Response<MypageBasicResponse>{
         return service.deleteUserProfileImg(userIdx)
+    }
+    suspend fun updateDeviceToken(userIdx: Int, body: UserToken): Response<ResponseUserToken> {
+        return service.updateDeviceToken(userIdx, body)
+    }
+
+    suspend fun getUserDeviceToken(userIdx: Int): Response<UserTokenResponse> {
+        return service.getUserDeviceToken(userIdx)
     }
 }

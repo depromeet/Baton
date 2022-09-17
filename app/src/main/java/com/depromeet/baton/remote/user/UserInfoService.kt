@@ -15,7 +15,9 @@ import retrofit2.http.*
 
 interface UserInfoService {
     @GET("user/users/{id}")
-    suspend fun getUserProfile(@Path("id") userIdx: Int): Response<UserProfileResponse>
+    suspend fun getUserProfile(
+        @Path("id") userIdx: Int
+    ): Response<UserProfileResponse>
 
     @PATCH("user/users/{id}")
     suspend fun updateUserProfile(
@@ -65,16 +67,12 @@ interface UserInfoService {
         @Path("id") userIdx: Int,
         @Body body: UserAccount,
     ): Response<UserAccount>
+
     @DELETE("user/users/{id}/account")
     suspend fun deleteUserAccount(
         @Path("id") userIdx : Int,
     ) : Response<MypageBasicResponse>
 
-    @PATCH("user/users/{id}")
-    suspend fun updateDeviceToken(
-        @Path("id") userIdx: Int,
-        @Body body: UserToken,
-    ): Response<ResponseUserToken>
     @Multipart
     @PATCH("user/users/{id}/image")
     suspend fun updateUserProfileImg(
@@ -82,12 +80,7 @@ interface UserInfoService {
         @Part image: MultipartBody.Part?,
     ) : Response<UserProfileImg>
 
-    @GET("user/users/{id}")
-    suspend fun getUserDeviceToken(
-        @Path("id") userIdx: Int,
-    ): Response<UserTokenResponse>
     @PUT("user/users/{id}/image")
-
     suspend fun updateUserProfileImgByUrl(
         @HeaderMap headers: Map<String, String>,
         @Path("id") userIdx : Int,
@@ -105,7 +98,16 @@ interface UserInfoService {
         @Path("id") userIdx : Int,
     ) : Response<MypageBasicResponse>
 
+    @PATCH("user/users/{id}")
+    suspend fun updateDeviceToken(
+        @Path("id") userIdx: Int,
+        @Body body: UserToken,
+    ): Response<ResponseUserToken>
 
+    @GET("user/users/{id}")
+    suspend fun getUserDeviceToken(
+        @Path("id") userIdx: Int,
+    ): Response<UserTokenResponse>
 
 }
 
