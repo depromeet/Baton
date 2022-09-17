@@ -45,3 +45,4 @@
 -keepclasseswithmembernames class * {
     @com.tickaroo.tikxml.* <methods>;
 }
+-keep class com.google.firebase.** { *; }

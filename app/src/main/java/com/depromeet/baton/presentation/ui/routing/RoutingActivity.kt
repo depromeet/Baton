@@ -43,15 +43,18 @@ class RoutingActivity : BaseActivity<ActivityRoutingBinding>(R.layout.activity_r
             Timber.d("beanbean > splash 종료")
             onSplashEnd.tryEmit(Unit)
         }
-
+        //TODO : 왜 노트10에서 하면 흰 화면만 로드될까요...?
         onSplashEnd
             .onEach { delay(300L) }
             .combine(viewModel.viewEvents) { _, events -> events }
             .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-            .onEach { handleViewEvents(it) }
+            .onEach {
+                handleViewEvents(it) }
             .launchIn(lifecycleScope)
-    }
 
+
+    }
+    
     private fun handleViewEvents(viewEvents: List<ViewEvent>) {
         viewEvents.firstOrNull()?.let { viewEvent ->
             when (viewEvent) {
