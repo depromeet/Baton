@@ -5,18 +5,21 @@ import androidx.annotation.Keep
 import com.depromeet.baton.data.request.UserToken
 import com.depromeet.baton.data.response.*
 import com.depromeet.baton.domain.model.MypageTicketResponse
-import com.depromeet.baton.domain.model.TicketSimpleInfo
 import com.depromeet.baton.remote.ticket.MypageBasicResponse
 import com.squareup.moshi.Json
 import kotlinx.parcelize.Parcelize
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 
 interface UserInfoService {
     @GET("user/users/{id}")
-    suspend fun getUserProfile(@Path("id") userIdx: Int): Response<UserProfileResponse>
+    suspend fun getUserProfile(
+        @Path("id") userIdx: Int
+    ): Response<UserProfileResponse>
 
-    @PUT("user/users/{id}")
+    @PATCH("user/users/{id}")
     suspend fun updateUserProfile(
         @Path("id") userIdx: Int,
         @Body body: UserProfileRequest
@@ -48,7 +51,7 @@ interface UserInfoService {
         @Body body: UserAddressRequest
     ): Response<UserAddressResponse>
 
-    @PATCH("user/users/{id}/account")
+    @PUT("user/users/{id}/account")
     suspend fun updateUserAccount(
         @Path("id") userIdx: Int,
         @Body body: UserAccount
@@ -65,6 +68,36 @@ interface UserInfoService {
         @Body body: UserAccount,
     ): Response<UserAccount>
 
+    @DELETE("user/users/{id}/account")
+    suspend fun deleteUserAccount(
+        @Path("id") userIdx : Int,
+    ) : Response<MypageBasicResponse>
+
+    @Multipart
+    @PATCH("user/users/{id}/image")
+    suspend fun updateUserProfileImg(
+        @Path("id") userIdx : Int,
+        @Part image: MultipartBody.Part?,
+    ) : Response<UserProfileImg>
+
+    @PUT("user/users/{id}/image")
+    suspend fun updateUserProfileImgByUrl(
+        @HeaderMap headers: Map<String, String>,
+        @Path("id") userIdx : Int,
+        @Body image: UserProfileImg,
+    ) : Response<UserProfileImg>
+
+
+    @GET("user/users/{id}/image")
+    suspend fun getUserProfileImg(
+        @Path("id") userIdx : Int,
+    ) : Response<UserProfileImg>
+
+    @DELETE("user/users/{id}/image")
+    suspend fun deleteUserProfileImg(
+        @Path("id") userIdx : Int,
+    ) : Response<MypageBasicResponse>
+
     @PATCH("user/users/{id}")
     suspend fun updateDeviceToken(
         @Path("id") userIdx: Int,
@@ -75,6 +108,7 @@ interface UserInfoService {
     suspend fun getUserDeviceToken(
         @Path("id") userIdx: Int,
     ): Response<UserTokenResponse>
+
 }
 
 @Keep
@@ -82,6 +116,12 @@ data class UserProfileRequest(
     @Json(name = "nickname") val nickname: String,
     @Json(name = "phone_number") val phoneNum: String
 )
+
+@Keep
+data class UserProfileImg(
+    @Json(name="image") val image:String?
+)
+
 
 @Keep
 data class UserAddressRequest(

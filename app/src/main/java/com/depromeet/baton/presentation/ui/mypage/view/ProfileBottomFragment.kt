@@ -11,9 +11,7 @@ import android.widget.Button
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.flowWithLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -75,10 +73,12 @@ class ProfileBottomFragment(): BottomSheetDialogFragment() {
         setObserver()
         setCheckBtnOnClickListener()
         setBackBtnOnClickListener()
+        setRemoveBtnOnClickListener()
 
     }
 
     private fun setObserver(){
+        //TODO CHECK
         profileViewModel.uiState
             .flowWithLifecycle(viewLifecycle)
             .onEach { uiState -> setImage(uiState.profileImage) }
@@ -93,6 +93,7 @@ class ProfileBottomFragment(): BottomSheetDialogFragment() {
             val mLayoutManager = GridLayoutManager(requireContext(),4,GridLayoutManager.VERTICAL,false)
             layoutManager = mLayoutManager
             addItemDecoration(ProfileIconDecoration())
+            itemAnimator=null
         }
         profileAdapter!!.submitList(list)
     }
@@ -106,11 +107,16 @@ class ProfileBottomFragment(): BottomSheetDialogFragment() {
         return list
     }
 
-    private fun setImage(uri : Uri){
-        if(nowImgUrl==null) nowImgUrl=profileViewModel.uiState.value.profileImage
+    private fun setImage(uri : Uri?){
+        nowImgUrl.apply {
+            if(this==null && profileViewModel.uiState.value.profileImage ==null)
+                uriConverter(requireContext(), com.depromeet.bds.R.drawable.ic_img_profile_basic_smile_96)
+            else uri
+        }
+
         Glide.with(requireContext())
             .load(nowImgUrl?:uri)
-            .error(com.depromeet.bds.R.drawable.img_profile_basic_smile_56)
+            .error(com.depromeet.bds.R.drawable.ic_img_profile_basic_smile_96)
             .transform(CircleCrop())
             .into(view?.findViewById<ImageView>(R.id.profile_bottom_my_iv)!!)
     }
@@ -122,12 +128,23 @@ class ProfileBottomFragment(): BottomSheetDialogFragment() {
     private fun onClickEmotion(profileIcon: ProfileIcon, pos: Int){
         view?.findViewById<ImageView>(R.id.profile_bottom_my_iv)?.setImageResource(profileIcon.size56)
         view?.findViewById<Button>(R.id.profile_bottom_check_btn)?.isEnabled=true
-        nowImgUrl = uriConverter(requireContext(),profileIcon.size56)
+        nowImgUrl = Uri.parse(profileIcon.url)
+    }
+
+    private fun setRemoveBtnOnClickListener(){
+        view?.findViewById<Button>(R.id.profile_bottom_remove_btn)?.setOnClickListener {
+            val empty = uriConverter(requireContext(), com.depromeet.bds.R.drawable.ic_img_profile_basic_smile_96)
+            with(empty){
+                view?.findViewById<ImageView>(R.id.profile_bottom_my_iv)?.setImageURI(this)
+                nowImgUrl= null
+            }
+            view?.findViewById<Button>(R.id.profile_bottom_check_btn)?.isEnabled=true
+        }
     }
 
     private fun setCheckBtnOnClickListener(){
         view?.findViewById<Button>(R.id.profile_bottom_check_btn)?.setOnClickListener {
-            if(nowImgUrl!=null)profileViewModel.submitProfileImg(nowImgUrl!!)
+            profileViewModel.submitProfileImg(nowImgUrl)
             dialog?.dismiss()
         }
     }

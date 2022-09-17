@@ -35,11 +35,15 @@ class TicketInfoRepository  @Inject constructor(
         }
     }
 
-    suspend fun getMoreTicket(size : Int,  log :Float, lat :Float, distance: Int) :NetworkResult<TicketQueryResponse>{
-        return withContext(ioDispatcher){ safeApiCall { ticketApi.getMoreTicket(size,log,lat,distance) }}
-    }
-
     suspend fun updateTicketState(ticketId: Int, state : String) : NetworkResult<ResponseTicketInfo>{
         return withContext(ioDispatcher){safeApiCall { ticketApi.updateTicketState(ticketId, state) }}
+    }
+
+    suspend fun reportTicket(ticketId: Int, content: String)  : NetworkResult<String>{
+        return withContext(ioDispatcher){safeApiCall { ticketApi.reportTicket(ticketId,content) }}
+    }
+
+    suspend fun reportUser(userId: Int, content: String) : NetworkResult<String>{
+        return withContext(ioDispatcher){safeApiCall { ticketApi.reportUser(userId,content) }}
     }
 }

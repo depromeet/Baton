@@ -11,6 +11,12 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- ssl 오류 대응-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <application
         android:name=".BatonApp"
@@ -21,7 +27,8 @@
         android:roundIcon="@mipmap/ic_baton_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
-        tools:replace="android:name">
+        tools:replace="android:label"
+    >
         <activity
             android:name=".presentation.ui.detail.InquiryActivity"
             android:exported="false" />
@@ -93,7 +100,7 @@
             android:exported="false" />
         <activity
             android:name="com.nguyenhoanglam.imagepicker.ui.imagepicker.ImagePickerActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".presentation.base.WebActivity"
             android:exported="false" />
@@ -109,6 +116,12 @@
         <activity
             android:name=".presentation.ui.mypage.view.PostAccountActivity"
             android:exported="false" />
+
+        <activity android:name=".presentation.ui.ask.view.MsgRcvActivity"
+            android:exported="false" />
+        <activity android:name=".presentation.ui.ask.view.MsgSendActivity"
+            android:exported="false" />
+
         <activity
             android:name=".presentation.main.MainActivity"
             android:exported="false"

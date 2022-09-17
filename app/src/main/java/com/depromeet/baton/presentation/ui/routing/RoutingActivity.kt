@@ -1,7 +1,6 @@
 package com.depromeet.baton.presentation.ui.routing
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
@@ -11,6 +10,8 @@ import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ActivityRoutingBinding
 import com.depromeet.baton.presentation.base.BaseActivity
 import com.depromeet.baton.presentation.main.MainActivity
+import com.depromeet.baton.presentation.ui.ask.view.MsgRcvActivity
+import com.depromeet.baton.presentation.ui.ask.view.MsgSendActivity
 import com.depromeet.baton.presentation.ui.routing.RoutingViewModel.ViewEvent
 import com.depromeet.baton.presentation.ui.sign.SignActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,20 +36,25 @@ class RoutingActivity : BaseActivity<ActivityRoutingBinding>(R.layout.activity_r
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        MainActivity.start(this)
+
 
         splashScreen.setOnExitAnimationListener {
             Timber.d("beanbean > splash 종료")
             onSplashEnd.tryEmit(Unit)
         }
-
+        //TODO : 왜 노트10에서 하면 흰 화면만 로드될까요...?
         onSplashEnd
             .onEach { delay(300L) }
             .combine(viewModel.viewEvents) { _, events -> events }
             .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-            .onEach { handleViewEvents(it) }
+            .onEach {
+                handleViewEvents(it) }
             .launchIn(lifecycleScope)
-    }
 
+
+    }
+    
     private fun handleViewEvents(viewEvents: List<ViewEvent>) {
         viewEvents.firstOrNull()?.let { viewEvent ->
             when (viewEvent) {

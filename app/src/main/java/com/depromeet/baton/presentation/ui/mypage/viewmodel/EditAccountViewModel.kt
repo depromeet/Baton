@@ -2,6 +2,7 @@ package com.depromeet.baton.presentation.ui.mypage.viewmodel
 
 import android.os.Bundle
 import android.text.Editable
+import android.view.View
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.depromeet.baton.R
@@ -23,11 +24,12 @@ data class EditAccountUiState(
     val name: String,
     val bank: String,
     val account: String,
-    val checkEdit : Boolean,
     val onNameChanged: (Editable?) -> Unit,
     val onBankSelected: (String) -> Unit,
     val onAccountChanged: (Editable?) -> Unit,
     val onBankSelectionClick: () -> Unit,
+    val removeAccount : () ->Unit,
+    val submit : ()-> Unit
 ) {
     private val isNameValid = name.isNotEmpty() && RegexConstant.ONLY_COMPLETE_HANGLE.matches(name)
 
@@ -36,8 +38,7 @@ data class EditAccountUiState(
     val nameErrorReason = if (isNameValid) null else "올바른 예금주명을 입력해주세요."
     val accountErrorReason = if (isAccountValid) null else "올바른 계좌번호를 입력해주세요."
 
-    val isEnabled =  checkEdit && isNameValid && isAccountValid && bank.isNotBlank()
-    val isCheckedStr = if(checkEdit)"완료" else "수정"
+    val isEnabled =   isNameValid && isAccountValid && bank.isNotBlank()
 }
 
 
@@ -62,15 +63,16 @@ class EditAccountViewModel @Inject constructor(
             name = info.holder,
             bank = info.bank,
             account = info.number,
-            checkEdit = false,
             onNameChanged = ::handleNameChanged,
             onBankSelected = ::handleBankSelected,
             onAccountChanged = ::handleAccountChanged,
             onBankSelectionClick = ::handleBankSelectionClick,
+            removeAccount = ::removeAccount,
+            submit = ::submit
         )
     }
 
-    fun editAccount(){
+    private fun editAccount(){
         viewModelScope.launch {
             val userId = authRepository.authInfo!!.userId
             runCatching {
@@ -89,13 +91,28 @@ class EditAccountViewModel @Inject constructor(
         }
     }
 
-    fun checkEditOption(){
+    fun submit(){
         if(uiState.value.isEnabled) editAccount()
-        else if(uiState.value.checkEdit)  {
-            addViewEvent(ViewEvent.EditAccountFailure("입력 정보를 확인해주세요."))
-            return
+    }
+
+    private fun removeAccount() {
+        viewModelScope.launch {
+            val userId = authRepository.authInfo!!.userId
+            runCatching {
+                uiState?.let {
+                    accountRepository.deleteAccount(userId)
+                }
+            }.onSuccess {
+                when(it){
+                    is NetworkResult.Success ->{ addViewEvent(ViewEvent.RemoveAccountDone)}
+                    is NetworkResult.Error ->{
+                        Timber.e(it.message)
+                        addViewEvent(ViewEvent.EditAccountFailure("계좌삭제 실패"))
+                    }
+                }
+            }
         }
-        _uiState.update { it.copy(checkEdit = !it.checkEdit) }
+
     }
 
     private fun handleNameChanged(editable: Editable?) {
@@ -125,6 +142,7 @@ class EditAccountViewModel @Inject constructor(
 
     sealed interface ViewEvent {
         object EditAccountDone : ViewEvent
+        object RemoveAccountDone : ViewEvent
         data class EditAccountFailure(val msg: String) : ViewEvent
         data class OpenBankSelection(val selectedBank: String) : ViewEvent
     }

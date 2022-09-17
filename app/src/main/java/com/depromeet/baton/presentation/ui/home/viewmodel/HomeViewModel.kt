@@ -42,7 +42,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun sendDeviceToken() {
-        val userId = authRepository.authInfo!!.userId
+        val userId = 70//authRepository.authInfo!!.userId
         viewModelScope.launch {
             runCatching { userinfoRepository.updateDeviceToken(userId, UserToken(batonSpfManager.getDeviceToken())) }
                 .onSuccess { }

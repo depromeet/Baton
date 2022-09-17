@@ -1,18 +1,30 @@
 package com.depromeet.baton.presentation.util
 
+import android.annotation.SuppressLint
+import android.content.res.ColorStateList
+import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.ImageViewCompat
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.signature.ObjectKey
+import com.depromeet.baton.R
 import com.depromeet.baton.chat.ChatController
-import com.depromeet.baton.chat.Message
+import com.depromeet.baton.domain.model.Message
 import com.depromeet.baton.presentation.ui.chatting.ChatMessageAdapter
 import com.depromeet.bds.component.*
 import com.depromeet.bds.utils.toPx
+import timber.log.Timber
+
 
 @BindingAdapter("bds_text", "isSelected")
 fun setBdsFilterChip(view: BdsFilter, text: String?, isSelected: Boolean) {
@@ -112,3 +124,75 @@ fun RecyclerView.bindingItem(uiState: ChatController.MessageUiState) {
 }
 
 
+@BindingAdapter("messageImg")
+fun ImageView.bindImage(message: Message) {
+    Glide.with(context)
+        .load(message.image ?:com.depromeet.bds.R.drawable.ic_img_profile_basic_smile_56)
+        .transform(CircleCrop())
+        .apply{
+            this.signature(ObjectKey("ask-profile"))
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+        }
+        .into(this)
+}
+
+@BindingAdapter("messageText")
+fun setMessageDayText(text: TextView, message: Message) {
+    if(message.isChecked == null ) text.setText("")
+    else if(message.isChecked ) text.setText("읽음")
+    else text.setText("안읽음")
+}
+
+@SuppressLint("ResourceAsColor")
+@BindingAdapter("messageTextStatus")
+fun setMessageTextStatus(text: TextView, status : String?) {
+    if(status =="삭제됨" ){
+        text.setTextColor(ContextCompat.getColor(text.context, com.depromeet.bds.R.color.gy60))
+    }
+}
+
+@SuppressLint("ResourceAsColor")
+@BindingAdapter("tradeTextStatus")
+fun setTradeTextStatus(text: TextView, status : String?) {
+    if(status == "삭제됨" ){
+        text.setTextColor(ContextCompat.getColor(text.context, com.depromeet.bds.R.color.gy60))
+    }else if(status == "거래완료"){
+        text.setTextColor(ContextCompat.getColor(text.context, com.depromeet.bds.R.color.gy70))
+    }else text.setTextColor(ContextCompat.getColor(text.context, com.depromeet.bds.R.color.orange50))
+}
+
+@BindingAdapter("tint")
+fun bindImageTint(imageView: ImageView, colorId: Int) {
+    if (colorId == 0) {
+        return
+    }
+    val tint = ContextCompat.getColor(imageView.context, colorId)
+    ImageViewCompat.setImageTintList(imageView, ColorStateList.valueOf(tint))
+}
+
+
+@BindingAdapter("image", "ticketType")
+fun ImageView.bindImage(uri: String?, ticketType : String?) {
+    if (uri != null ) {
+        Glide.with(context)
+            .load(uri)
+            .centerCrop()
+            .transform(RoundedCorners(4.toPx()))
+            .into(this)
+
+    }else{
+        var icon = when(ticketType){
+            "HEALTH" -> {com.depromeet.bds.R.drawable.ic_empty_health_86}
+            "PT" ->{  com.depromeet.bds.R.drawable.ic_empty_pt_86}
+            "PILATES_YOGA"->{ com.depromeet.bds.R.drawable.ic_empty_pilates_86}
+            else ->{
+                com.depromeet.bds.R.drawable.ic_empty_etc_86}
+        }
+
+        Glide.with(context)
+            .load(icon)
+            .centerCrop()
+            .into(this)
+    }
+}

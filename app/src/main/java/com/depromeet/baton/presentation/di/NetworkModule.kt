@@ -5,6 +5,7 @@ import com.depromeet.baton.annotation.ServerType
 import com.depromeet.baton.remote.AuthNetworkInterceptor
 import com.depromeet.baton.remote.search.SearchService
 import com.depromeet.baton.remote.ticket.BookmarkService
+import com.depromeet.baton.remote.ticket.InquiryService
 import com.depromeet.baton.remote.ticket.TicketInfoService
 import com.depromeet.baton.remote.user.SignService
 import com.depromeet.baton.remote.user.UserInfoService
@@ -93,6 +94,14 @@ class NetworkModule {
     fun provideBookmarkService(@Server(ServerType.User) retrofit: Retrofit): BookmarkService {
         return retrofit.create()
     }
+
+
+    @Provides
+    @Singleton
+    fun provideInquiryService(@Server(ServerType.Search) retrofit: Retrofit): InquiryService {
+        return retrofit.create()
+    }
+
 
     private fun internalCreateRetrofit(
         baseUrl: String,

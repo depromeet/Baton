@@ -17,13 +17,29 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.depromeet.bds.component.BdsBackwardAppBar
-                android:id="@+id/appbar"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:bds_title="계좌설정"
-                app:bds_button="수정"
-                />
+                android:layout_height="wrap_content">
+                <com.depromeet.bds.component.BdsBackwardAppBar
+                    android:id="@+id/appbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:bds_title="계좌설정"
+                    />
+                <TextView
+                    android:id="@+id/edit_account_remove_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="삭제"
+                    android:layout_gravity="right"
+                    android:gravity="center"
+                    android:textAppearance="?body1"
+                    android:textColor="@color/error"
+                    android:layout_marginRight="@dimen/dimen16"
+                    android:onClick="@{_->uiState.removeAccount.invoke()}"
+                    />
+            </FrameLayout>
+
 
             <View
                 android:layout_width="match_parent"
@@ -45,8 +61,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="24dp"
-                        android:enabled="@{uiState.checkEdit}"
-                        android:clickable="@{uiState.checkEdit}"
                         app:bds_error_message="@{uiState.nameErrorReason}"
                         app:bds_label="예금주">
 
@@ -55,8 +69,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@{uiState.name}"
-                            android:clickable="@{uiState.checkEdit}"
-                            android:enabled="@{uiState.checkEdit}"
                             android:afterTextChanged="@{it -> uiState.onNameChanged.invoke(it)}"
                             android:hint="예금주명을 입력해주세요." />
                     </com.depromeet.bds.component.BdsComponentTextField>
@@ -66,8 +78,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="24dp"
                         android:onClick="@{_ -> uiState.onBankSelectionClick.invoke()}"
-                        android:enabled="@{uiState.checkEdit}"
-                        android:clickable="@{uiState.checkEdit}"
                         app:bds_label="은행"
                         app:bds_right_icon="@drawable/ic_less_line_20">
 
@@ -77,7 +87,6 @@
                             android:layout_height="wrap_content"
                             android:text="@{uiState.bank}"
                             android:onClick="@{_ -> uiState.onBankSelectionClick.invoke()}"
-                            android:enabled="@{uiState.checkEdit}"
                             android:focusable="false"
                             android:hint="은행을 선택해주세요."
                             android:inputType="none" />
@@ -87,8 +96,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="24dp"
-                        android:enabled="@{uiState.checkEdit}"
-                        android:clickable="@{uiState.checkEdit}"
                         app:bds_error_message="@{uiState.accountErrorReason}"
                         app:bds_label="계좌번호">
 
@@ -100,12 +107,19 @@
                             android:hint="‘-’를 제외한 번호를 입력해주세요."
                             android:text="@{uiState.account}"
                             android:inputType="number"
-                            android:clickable="@{uiState.checkEdit}"
-                            android:enabled="@{uiState.checkEdit}"
                             />
                     </com.depromeet.bds.component.BdsComponentTextField>
                 </LinearLayout>
             </ScrollView>
         </LinearLayout>
+        <com.depromeet.bds.component.BdsButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="16dp"
+            android:enabled="@{uiState.isEnabled}"
+            android:theme="@style/Theme.Bds.PrimaryButton.Large"
+            android:onClick="@{_ -> uiState.submit.invoke()}"
+            app:bds_text="완료" />
     </FrameLayout>
 </layout>

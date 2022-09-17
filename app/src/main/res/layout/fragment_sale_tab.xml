@@ -26,7 +26,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:listitem="@layout/item_ticket_sale"
-                tools:itemCount="10"
                 android:overScrollMode="never"
                 android:background="?wh100"
                 app:isVisible="@{!uistate.emptyState}"

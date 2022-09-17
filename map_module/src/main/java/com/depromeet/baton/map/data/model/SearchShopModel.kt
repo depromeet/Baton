@@ -20,7 +20,7 @@ class SearchShopModel(_response : ResponseNaverLocal) {
                     val name = it.title
                         .replace("<b>", "")
                         .replace("</b>", " ")
-                        .replace(":&amp","")
+                        .replace("&amp;","")
                     val gps= Tm128(it.mapx.toDouble(), it.mapy.toDouble()).toLatLng()
                     val location = LocationEntity(gps.latitude, gps.longitude,it.address, it.roadAddress )
                     result.add(ShopEntity(name,it.link,it.category,location))

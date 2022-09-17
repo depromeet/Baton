@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ActivityMainBinding
 import com.depromeet.baton.presentation.base.BaseActivity
+import com.depromeet.baton.presentation.ui.ask.view.AskFragment
 import com.depromeet.baton.presentation.ui.chatting.ChatRoomListFragment
 import com.depromeet.baton.presentation.ui.home.view.HomeFragment
 import com.depromeet.baton.presentation.ui.home.view.TestFragment
@@ -32,8 +33,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private val homeFragment: HomeFragment by lazy { HomeFragment() }
     private val searchFragment: SearchFragment by lazy { SearchFragment() }
-
-    // private val chattingFragment: ChatRoomListFragment by lazy { ChatRoomListFragment() }
+    private val askFragment : AskFragment by lazy { AskFragment()}
     private val myPageFragment: MyPageFragment by lazy { MyPageFragment() }
     private var backBtnWaitTime = 0L
     private val toast: Toast by lazy { this.BdsToast("'뒤로' 버튼을 한번 더 누르시면 종료됩니다.") }
@@ -68,10 +68,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                     return@setOnItemSelectedListener true
                 }
 
-/*                R.id.menu_main_chatting -> {
-                    replace(chattingFragment)
+                R.id.menu_main_chatting -> {
+                    replace(askFragment)
                     return@setOnItemSelectedListener true
-                }*/
+                }
                 R.id.menu_main_mypage -> {
                     replace(myPageFragment, "myPageFragment")
                     return@setOnItemSelectedListener true

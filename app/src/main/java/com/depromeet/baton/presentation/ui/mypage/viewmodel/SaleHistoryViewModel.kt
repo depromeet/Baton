@@ -100,7 +100,6 @@ class SaleHistoryViewModel @Inject constructor(
     }
 
 
-    //TODO 판매상태변경 => removeItem 처리할지 재로딩 할지 결정
     fun changeStatus(ticketId: Int, status: Int) {
         //변경후 초기화
         viewModelScope.launch {
