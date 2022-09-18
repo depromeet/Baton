@@ -36,14 +36,11 @@ class RoutingActivity : BaseActivity<ActivityRoutingBinding>(R.layout.activity_r
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        MainActivity.start(this)
-
 
         splashScreen.setOnExitAnimationListener {
             Timber.d("beanbean > splash 종료")
             onSplashEnd.tryEmit(Unit)
         }
-        //TODO : 왜 노트10에서 하면 흰 화면만 로드될까요...?
         onSplashEnd
             .onEach { delay(300L) }
             .combine(viewModel.viewEvents) { _, events -> events }

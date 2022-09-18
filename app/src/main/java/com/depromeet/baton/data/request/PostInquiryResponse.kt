@@ -11,7 +11,7 @@ data class PostInquiryResponse(
 ) {
     data class User(
         val id: Int,
-        val name: String,
+        val name: String?,
         val nickname: String,
         val createdOn: String,
         val image: String
