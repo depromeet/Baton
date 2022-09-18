@@ -30,13 +30,14 @@ data class DetailTicketInfo (
     val isLikeTicket :Boolean,
     val bookmarkId : Int?,
     val bookmarkView : Int? =0,
-    val countView :Int? =0
+    val countView :Int? =0,
+    val isInquired : Boolean
 ){
     data class Seller(
         val userId : Int,
         val nickname : String,
         val create_on :String,
-        val image :String?
+        val image : String?,
     )
 }
 

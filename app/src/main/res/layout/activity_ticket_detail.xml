@@ -639,7 +639,6 @@
                             android:layout_width="@dimen/dimen40"
                             android:layout_height="@dimen/dimen40"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/img_profile_basic_smile_56"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -752,7 +751,8 @@
                     android:background="@drawable/bds_button_background"
                     android:minWidth="0dp"
                     android:minHeight="0dp"
-
+                    android:enabled="@{ ticketState.isChatEnabled}"
+                    android:onClick="@{_-> ticketState.ticket.isOwner ? ticketDetailActivity.setClickInquiryBySeller() : ticketDetailActivity.setClickInquiryByBuyer()}"
                     android:text="@{ticketState.chatBtnText}"
                     android:textColor="@color/selector_bds_button_text_color"
                     android:theme="@style/Theme.Bds.SecondaryButton"

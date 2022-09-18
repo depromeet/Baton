@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.Toast
 import android.widget.ImageView
 import androidx.activity.viewModels
+import androidx.core.os.bundleOf
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.flowWithLifecycle
@@ -88,6 +89,8 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         mapView = findViewById(R.id.ticket_detail_mapView)
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(this)
+        binding.ticketDetailActivity=this
+        binding.ticketViewmodel=viewModel
 
         initView()
         setListener()
@@ -431,17 +434,16 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     }
 
     fun setClickInquiryByBuyer() {
-        binding.btnInquiry.setOnClickListener {
-            val bottomInquiryFragment = BottomInquiryFragment()
-            bottomInquiryFragment.show(
-                supportFragmentManager,
-                bottomInquiryFragment.tag
-            )
-        }
+        Timber.e("click inqury buyer")
+        val bottomInquiryFragment = BottomInquiryFragment()
+        bottomInquiryFragment.show(
+            supportFragmentManager,
+            bottomInquiryFragment.tag
+        )
     }
 
     fun setClickInquiryBySeller() {
-        startActivity(Intent(this, InquiryActivity::class.java))
+        InquiryActivity.start(this,intent.getIntExtra("ticketId",0))
     }
 
     override fun onStart() {
