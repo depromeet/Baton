@@ -18,29 +18,10 @@ import com.depromeet.baton.presentation.main.MainActivity
 import com.depromeet.baton.presentation.ui.address.view.AddressActivity
 import com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel
 import com.depromeet.baton.presentation.ui.home.adapter.AdapterItem
-import com.depromeet.baton.presentation.ui.home.adapter.HomeAdapter
 import com.depromeet.baton.presentation.ui.home.adapter.StickyHeaderRecyclerViewAdapter
 import com.depromeet.baton.presentation.ui.home.viewmodel.HomeViewModel
 import com.depromeet.baton.presentation.ui.search.viewmodel.SearchViewModel
 import com.depromeet.baton.presentation.ui.writepost.view.WritePostActivity
-import com.depromeet.baton.util.BatonSpfManager
-import com.skydoves.balloon.*
-import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import javax.inject.Inject
-
-<<<<<<< HEAD
-import com.depromeet.baton.presentation.ui.home.adapter.HomeAdapter
-=======
-import com.depromeet.baton.presentation.ui.home.adapter.AdapterItem
-import com.depromeet.baton.presentation.ui.home.adapter.StickyHeaderRecyclerViewAdapter
->>>>>>> dabin/refactor
-import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter
-import com.depromeet.baton.presentation.ui.home.viewmodel.HomeViewModel
-import com.depromeet.baton.presentation.ui.search.viewmodel.SearchViewModel
-import com.depromeet.baton.presentation.ui.writepost.view.WritePostActivity
-import com.depromeet.baton.presentation.util.TicketItemVerticalDecoration
 import com.depromeet.baton.util.BatonSpfManager
 import com.skydoves.balloon.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -51,15 +32,13 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class TestFragment : BaseFragment<FragmentTestBinding>(R.layout.fragment_test) {
-<<<<<<< HEAD
 
-=======
     private lateinit var recyclerView2Adapter: StickyHeaderRecyclerViewAdapter
 
     private val homeViewModel: HomeViewModel by activityViewModels()
     private val searchViewModel: SearchViewModel by activityViewModels()
     private val filterViewModel: FilterViewModel by activityViewModels()
-    private lateinit var homeAdapter: StickyHeaderRecyclerViewAdapter
+
 
     @Inject
     lateinit var spfManager: BatonSpfManager
@@ -67,11 +46,6 @@ class TestFragment : BaseFragment<FragmentTestBinding>(R.layout.fragment_test) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-<<<<<<< HEAD
-        homeAdapter = HomeAdapter(requireContext())
-        binding.rvHome.adapter = homeAdapter
-        binding.rvHome.layoutManager = LinearLayoutManager(requireContext())
-=======
 
         recyclerView2Adapter = StickyHeaderRecyclerViewAdapter(parentFragmentManager,requireContext())
         binding.rvHome.adapter = recyclerView2Adapter
@@ -87,7 +61,7 @@ class TestFragment : BaseFragment<FragmentTestBinding>(R.layout.fragment_test) {
             }
 
         recyclerView2Adapter.submitList(recyclerItemList)
->>>>>>> dabin/refactor
+
     }
 
 
