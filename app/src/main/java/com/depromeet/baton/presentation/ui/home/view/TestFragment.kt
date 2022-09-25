@@ -55,14 +55,6 @@ class TestFragment : BaseFragment<FragmentTestBinding>(R.layout.fragment_test) {
         recyclerView2Adapter = RecyclerView2Adapter(requireContext())
         binding.rvHome.adapter = recyclerView2Adapter
         binding.rvHome.layoutManager = LinearLayoutManager(requireContext())
-
-  // recyclerView2Adapter.post(events)
-
-/*        filterViewModel.filteredTicketList.observe(viewLifecycleOwner) {
-            Log.e("ㅡㅡ", it?.forEach { it.id.toString() }.toString())
-            Log.e("ㅡㅡ", "dd")
-       //     recyclerView2Adapter.post(it ?: return@observe)
-        }*/
     }
 
 
