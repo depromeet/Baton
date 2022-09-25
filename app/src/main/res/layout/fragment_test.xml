@@ -4,24 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
-        <import type="com.depromeet.baton.domain.model.TicketKind" />
-
         <variable
             name="uiState"
             type="com.depromeet.baton.presentation.ui.home.viewmodel.HomeViewModel.HomeUiState" />
-
-        <variable
-            name="filterViewModel"
-            type="com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel" />
-
-        <variable
-            name="itemDecoration"
-            type="com.depromeet.baton.presentation.util.TicketItemVerticalDecoration" />
-
-        <variable
-            name="adapter"
-            type="com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

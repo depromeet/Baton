@@ -16,7 +16,7 @@ import com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel
 import com.depromeet.baton.presentation.ui.home.view.TopFragment
 import com.depromeet.baton.presentation.util.TicketItemVerticalDecoration
 
-class RecyclerView2Adapter constructor(
+class HomeAdapter constructor(
     val context: Context,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -40,11 +40,6 @@ class RecyclerView2Adapter constructor(
         } else if (type == ITEM3) {
             (holder as Item3ViewHolder)
         }
-    }
-
-    override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
-        Log.e("ggggggggggggg", "onViewRecycled: ${holder.bindingAdapterPosition}")
-        super.onViewRecycled(holder)
     }
 
     private fun setTicketItemClickListener(ticketItem: FilteredTicket) {
