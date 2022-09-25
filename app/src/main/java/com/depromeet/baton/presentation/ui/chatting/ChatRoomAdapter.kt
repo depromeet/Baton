@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.baton.chat.ChatRoom
 import com.depromeet.baton.data.response.ResponseGetInquiryByTicket
 import com.depromeet.baton.databinding.ItemChatListBinding
+import com.depromeet.baton.presentation.util.getMsgDate
 import com.depromeet.baton.util.SimpleDiffUtil
 
 
@@ -20,6 +21,7 @@ class ChatRoomAdapter(
         fun onBind(item: ResponseGetInquiryByTicket) {
             with(binding) {
                 chatRoom = item
+                binding.listWhen.text = getMsgDate(item.createdAt?:"")
                 executePendingBindings()
                 root.setOnClickListener { onClick(item) }
             }

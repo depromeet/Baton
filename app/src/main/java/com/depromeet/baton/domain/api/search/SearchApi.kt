@@ -31,11 +31,11 @@ class SearchApi @Inject constructor(private val searchService: SearchService) {
         return searchService.getInquiryCount(ticketId)
     }
 
-    suspend fun getInquiryByTicket(ticketId: Int): Response<ResponseGetInquiryByTicket> {
+    suspend fun getInquiryByTicket(ticketId: Int): Response<List<ResponseGetInquiryByTicket>> {
         return searchService.getInquiryByTicket(ticketId)
     }
 
-    suspend fun postFcm(request: RequestPostFcm): Response<String> {
+    suspend fun postFcm(request: RequestPostFcm) {
         return searchService.postFcm(request)
     }
 

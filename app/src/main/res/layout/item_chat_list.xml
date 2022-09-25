@@ -69,11 +69,10 @@
             tools:text="판매중인디용판재용판재용용판용판재용용판용판재용용판용판재용용판용판재용용판용용판재용판" />
 
         <TextView
-            android:id="@+id/when"
+            android:id="@+id/list_when"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/dimen16"
-            android:text="@{@string/chatHowOldFormat(chatRoom.user.createdOn)}"
             android:textAppearance="?caption4"
             android:textColor="?grey_scale70"
             app:layout_constraintEnd_toEndOf="parent"
@@ -89,7 +88,7 @@
             android:textAppearance="?caption3"
             android:textColor="?wh100"
             app:layout_constraintBottom_toBottomOf="@+id/tv_message"
-            app:layout_constraintEnd_toEndOf="@+id/when"
+            app:layout_constraintEnd_toEndOf="@+id/list_when"
             app:layout_constraintTop_toTopOf="@+id/tv_message" />
 
         <View

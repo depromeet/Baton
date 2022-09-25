@@ -31,13 +31,13 @@ interface SearchService {
     @GET("ticket/{ticket_id}/inquiries")
     suspend fun getInquiryByTicket(
         @Path("ticket_id") ticketId: Int,
-    ): Response<ResponseGetInquiryByTicket>
+    ): Response<List<ResponseGetInquiryByTicket>>
 
     //문의 요청 fcm 보내기
     @POST("fcm")
     suspend fun postFcm(
         @Body request: RequestPostFcm
-    ): Response<String>
+    )
 
     @GET("ticket/count_query")
     suspend fun getFilteredTicketCount(

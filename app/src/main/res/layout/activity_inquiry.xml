@@ -2,6 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="android.view.View"/>
+
+        <variable
+            name="ticketViewmodel"
+            type="com.depromeet.baton.presentation.ui.detail.viewModel.TicketDetailViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -12,7 +19,6 @@
             android:id="@+id/ticket_detail_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:bds_icon="@drawable/ic_more_vert_filled_24"
             app:bds_title="받은 문의"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -23,6 +29,7 @@
             android:id="@+id/rv"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ticket_detail_toolbar"
             tools:listitem="@layout/item_chat_list" />
@@ -33,7 +40,7 @@
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/recyclerView2"
+            app:layout_constraintStart_toStartOf="@+id/rv"
             app:layout_constraintTop_toBottomOf="@id/ticket_detail_toolbar">
 
             <ImageView
@@ -62,16 +69,17 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            isVisible="@{ ticketViewmodel.msgCount == 0 }"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/recyclerView2"
+            app:layout_constraintStart_toStartOf="@+id/rv"
             app:layout_constraintTop_toBottomOf="@id/ticket_detail_toolbar">
 
             <ImageView
                 android:id="@+id/ic_inquiry_error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_inquiry_error"
+                android:src="@drawable/ic_img_empty_filter_gray"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -80,25 +88,13 @@
                 android:id="@+id/tv_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="이미 삭제된 글이에요"
+                android:text="받은 내역이 없어요."
                 android:textAppearance="?body1"
                 android:textColor="?grey_scale90"
                 app:layout_constraintEnd_toEndOf="@+id/ic_inquiry_error"
                 app:layout_constraintStart_toStartOf="@+id/ic_inquiry_error"
                 app:layout_constraintTop_toBottomOf="@id/ic_inquiry_error" />
 
-            <TextView
-                android:layout_width="@dimen/dimen128"
-                android:layout_height="@dimen/dimen40"
-                android:layout_marginTop="@dimen/dimen20"
-                android:background="?bg"
-                android:gravity="center_horizontal|center_vertical"
-                android:text="메인화면으로"
-                android:textAppearance="?body3"
-                android:textColor="?grey_scale80"
-                app:layout_constraintEnd_toEndOf="@+id/tv_delete"
-                app:layout_constraintStart_toStartOf="@+id/tv_delete"
-                app:layout_constraintTop_toBottomOf="@+id/tv_delete" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
