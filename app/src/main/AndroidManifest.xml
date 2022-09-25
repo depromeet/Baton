@@ -12,11 +12,11 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!-- ssl 오류 대응-->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <application
         android:name=".BatonApp"
@@ -27,26 +27,13 @@
         android:roundIcon="@mipmap/ic_baton_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
-        tools:replace="android:label">
+        tools:replace="android:label"
+        >
         <activity
             android:name=".presentation.ui.detail.InquiryActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.ui.home.view.LibraryActivity"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-        <activity
             android:name=".presentation.ui.chatting.ChatRoomActivity"
-<<<<<<< HEAD
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize"/>
-=======
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
 
@@ -58,7 +45,6 @@
                         </intent-filter>
             -->
         </activity>
->>>>>>> dabin/refactor
         <activity
             android:name=".presentation.ui.sign.SignUpCurrentLocationActivity"
             android:exported="false" />
@@ -76,29 +62,17 @@
             android:exported="false" />
         <activity
             android:name=".presentation.ui.sign.SignActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustPan">
-
-            <!--
-                <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            -->
-        </activity>
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.depromeet.baton.presentation.ui.routing.RoutingActivity"
             android:exported="true"
             android:theme="@style/Theme.App.Starting">
-
-            <!--
-                <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            -->
         </activity>
         <activity
             android:name=".presentation.ui.writepost.view.WritePostActivity"
@@ -142,27 +116,16 @@
         <activity
             android:name=".presentation.ui.mypage.view.PostAccountActivity"
             android:exported="false" />
-        <activity
-            android:name=".presentation.ui.ask.view.MsgRcvActivity"
+
+        <activity android:name=".presentation.ui.ask.view.MsgRcvActivity"
             android:exported="false" />
-        <activity
-            android:name=".presentation.ui.ask.view.MsgSendActivity"
+        <activity android:name=".presentation.ui.ask.view.MsgSendActivity"
             android:exported="false" />
 
         <activity
             android:name=".presentation.main.MainActivity"
-<<<<<<< HEAD
             android:exported="false"
             android:windowSoftInputMode="adjustPan" /> <!-- BEAN: android:launchMode="singleTask" 넣어야 동작하네; -->
-=======
-            android:exported="true"
-            android:windowSoftInputMode="adjustPan">
-
-
-
-
-        </activity> <!-- BEAN: android:launchMode="singleTask" 넣어야 동작하네; -->
->>>>>>> dabin/refactor
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true"

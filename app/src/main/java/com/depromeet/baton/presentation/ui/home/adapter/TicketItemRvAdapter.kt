@@ -24,20 +24,14 @@ class TicketItemRvAdapter(
 
     private lateinit var inflater: LayoutInflater
 
-    override fun onViewRecycled(holder: TicketItemViewHolder) {
-        Log.e("ㅡㅡㅡonViewRecycled", holder.bindingAdapterPosition.toString())
-        super.onViewRecycled(holder)
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TicketItemViewHolder {
-        Log.e("ㅡㅡㅡonCreateViewHolder", "onCreateViewHolder")
-     //   if (!::inflater.isInitialized)
-     //       inflater = LayoutInflater.from(parent.context)
+        if (!::inflater.isInitialized)
+            inflater = LayoutInflater.from(parent.context)
 
-        val binding = ItemTicketBinding.inflate( LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemTicketBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
         //이미지 라운드 처리
-     //   binding.ibtnItemTicket.clipToOutline = true
+        binding.ibtnItemTicket.clipToOutline = true
 
         return TicketItemViewHolder(binding)
     }
@@ -46,8 +40,13 @@ class TicketItemRvAdapter(
         return holder.bind(currentList[position], scrollType, clickListener)
     }
 
-    class TicketItemViewHolder(private val binding: ItemTicketBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: FilteredTicket, scrollType: String, clickListener: (FilteredTicket) -> Unit) {
+    class TicketItemViewHolder(private val binding: ItemTicketBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(
+            item: FilteredTicket,
+            scrollType: String,
+            clickListener: (FilteredTicket) -> Unit
+        ) {
             with(binding) {
                 ticket = item
                 executePendingBindings()
@@ -66,7 +65,7 @@ class TicketItemRvAdapter(
                 }
 
                 //거리
-//                tvItemTicketDistance.text = distanceFormatUtil(item.distance!!.toDouble())
+                tvItemTicketDistance.text = distanceFormatUtil(item.distance!!.toDouble())
 
                 //좋아요 버튼 todo 서버연결
                 ctvItemTicketLike.visibility = View.INVISIBLE
