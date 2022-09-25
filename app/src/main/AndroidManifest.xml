@@ -32,9 +32,33 @@
             android:name=".presentation.ui.detail.InquiryActivity"
             android:exported="false" />
         <activity
+            android:name=".presentation.ui.home.view.LibraryActivity"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name=".presentation.ui.chatting.ChatRoomActivity"
+<<<<<<< HEAD
             android:exported="false"
             android:windowSoftInputMode="adjustResize"/>
+=======
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
+
+            <!--
+                            <intent-filter>
+                            <action android:name="android.intent.action.MAIN" />
+
+                            <category android:name="android.intent.category.LAUNCHER" />
+                        </intent-filter>
+            -->
+        </activity>
+>>>>>>> dabin/refactor
         <activity
             android:name=".presentation.ui.sign.SignUpCurrentLocationActivity"
             android:exported="false" />
@@ -52,17 +76,29 @@
             android:exported="false" />
         <activity
             android:name=".presentation.ui.sign.SignActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name="com.depromeet.baton.presentation.ui.routing.RoutingActivity"
             android:exported="true"
-            android:theme="@style/Theme.App.Starting">
-            <intent-filter>
+            android:windowSoftInputMode="adjustPan">
+
+            <!--
+                <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            -->
+        </activity>
+        <activity
+            android:name="com.depromeet.baton.presentation.ui.routing.RoutingActivity"
+            android:exported="true"
+            android:theme="@style/Theme.App.Starting">
+
+            <!--
+                <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
         </activity>
         <activity
             android:name=".presentation.ui.writepost.view.WritePostActivity"
@@ -106,7 +142,6 @@
         <activity
             android:name=".presentation.ui.mypage.view.PostAccountActivity"
             android:exported="false" />
-
         <activity
             android:name=".presentation.ui.ask.view.MsgRcvActivity"
             android:exported="false" />
@@ -116,8 +151,18 @@
 
         <activity
             android:name=".presentation.main.MainActivity"
+<<<<<<< HEAD
             android:exported="false"
             android:windowSoftInputMode="adjustPan" /> <!-- BEAN: android:launchMode="singleTask" 넣어야 동작하네; -->
+=======
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan">
+
+
+
+
+        </activity> <!-- BEAN: android:launchMode="singleTask" 넣어야 동작하네; -->
+>>>>>>> dabin/refactor
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true"
