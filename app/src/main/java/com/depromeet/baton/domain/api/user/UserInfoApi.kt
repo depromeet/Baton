@@ -1,10 +1,7 @@
 package com.depromeet.baton.domain.api.user
 
 import com.depromeet.baton.data.request.UserToken
-import com.depromeet.baton.data.response.BookmarkTicket
-import com.depromeet.baton.data.response.ResponseUserToken
-import com.depromeet.baton.data.response.UserBuyListResponse
-import com.depromeet.baton.data.response.UserProfileResponse
+import com.depromeet.baton.data.response.*
 import com.depromeet.baton.domain.model.MypageTicketResponse
 import com.depromeet.baton.remote.ticket.MypageBasicResponse
 import com.depromeet.baton.remote.user.*
@@ -15,8 +12,9 @@ import javax.inject.Singleton
 
 @Singleton
 class UserInfoApi @Inject constructor(
-    private val service : UserInfoService
+    private val service : UserInfoService,
 ){
+
     suspend fun getUserProfile(userIdx : Int) : Response<UserProfileResponse> {
        return service.getUserProfile(userIdx)
     }

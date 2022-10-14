@@ -47,7 +47,6 @@ class BottomSheetFragment:
         BottomSheetBehavior.from<View>(bottomSheet!!).apply {
             isFitToContents = true
             maxHeight =1000
-            state = BottomSheetBehavior.STATE_DRAGGING
         }
         view.findViewById<TextView>(R.id.bottom_sheet_title_tv).text= arguments?.getString("bottomTitle")
         initAdapter()

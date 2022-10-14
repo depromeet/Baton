@@ -4,11 +4,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.depromeet.baton.data.request.UserToken
 import com.depromeet.baton.data.response.ResponseUserToken
+import com.depromeet.baton.domain.api.user.TokenApi
 import com.depromeet.baton.domain.model.TicketKind
 import com.depromeet.baton.domain.repository.AuthRepository
 import com.depromeet.baton.domain.repository.BookmarkRepository
 import com.depromeet.baton.domain.repository.UserinfoRepository
 import com.depromeet.baton.presentation.base.BaseViewModel
+import com.depromeet.baton.presentation.ui.routing.RoutingViewModel
+import com.depromeet.baton.presentation.ui.sign.WelcomeViewModel
 import com.depromeet.baton.presentation.util.SingleLiveEvent
 import com.depromeet.baton.util.BatonSpfManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -46,7 +49,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             runCatching { userinfoRepository.updateDeviceToken(userId, UserToken(batonSpfManager.getDeviceToken())) }
                 .onSuccess {
-                    Timber.e(it.body().toString())
+                    Timber.d(it.body().toString())
                 }
                 .onFailure {
                     Timber.e(it.message)
@@ -146,6 +149,7 @@ class HomeViewModel @Inject constructor(
         object ToQuickEtc : HomeViewEvent
         object ToWritePost : HomeViewEvent
         object ShowToolTip : HomeViewEvent
+        object ShowAuthError : HomeViewEvent
     }
 
     data class HomeUiState(

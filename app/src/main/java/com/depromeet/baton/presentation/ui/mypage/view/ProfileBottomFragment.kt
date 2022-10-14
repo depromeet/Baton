@@ -67,8 +67,6 @@ class ProfileBottomFragment(): BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         val bottomSheet =
             dialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
-        val behavior = BottomSheetBehavior.from<View>(bottomSheet!!)
-        behavior.state = BottomSheetBehavior.STATE_DRAGGING
         initAdapter()
         setObserver()
         setCheckBtnOnClickListener()

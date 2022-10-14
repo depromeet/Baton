@@ -20,9 +20,11 @@ import com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel
 import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter
 import com.depromeet.baton.presentation.ui.home.viewmodel.HomeViewModel
 import com.depromeet.baton.presentation.ui.search.viewmodel.SearchViewModel
+import com.depromeet.baton.presentation.ui.sign.SignActivity
 import com.depromeet.baton.presentation.ui.writepost.view.WritePostActivity
 import com.depromeet.baton.presentation.util.TicketItemVerticalDecoration
 import com.depromeet.baton.util.BatonSpfManager
+import com.depromeet.bds.component.BdsToast
 import com.skydoves.balloon.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -49,6 +51,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     override fun onResume() {
         super.onResume()
         initLayout()
+        filterViewModel.authValidation()
         filterViewModel.updateFilteredTicketList()
         if (homeViewModel.fromAddress.value == true) {
             Handler(Looper.getMainLooper())
@@ -135,6 +138,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 HomeViewModel.HomeViewEvent.ToWritePost -> WritePostActivity.start(requireContext())
 
                 HomeViewModel.HomeViewEvent.ShowToolTip -> showToolTip()
+
+                HomeViewModel.HomeViewEvent.ShowAuthError->{
+                    (activity as MainActivity).run {
+                        BdsToast("유저 세션이 만료되었습니다. 다시 로그인 해주세요").show()
+                        SignActivity.start(this)
+                    }
+                }
             }
             homeViewModel.consumeViewEvent(viewEvent)
         }

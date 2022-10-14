@@ -97,6 +97,11 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         setObserver()
     }
 
+    override fun onRestart() {
+        super.onRestart()
+        viewModel.authValidation()
+    }
+
 
     private fun initView() {
         binding.ticketDetailToolbar.setTitleVisible(View.INVISIBLE)
@@ -434,7 +439,6 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     }
 
     fun setClickInquiryByBuyer() {
-        Timber.e("click inqury buyer")
         val bottomInquiryFragment = BottomInquiryFragment()
         bottomInquiryFragment.show(
             supportFragmentManager,

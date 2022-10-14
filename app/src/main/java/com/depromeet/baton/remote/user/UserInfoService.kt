@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.annotation.Keep
 import com.depromeet.baton.data.request.UserToken
 import com.depromeet.baton.data.response.*
+import com.depromeet.baton.domain.api.user.SignApi
 import com.depromeet.baton.domain.model.MypageTicketResponse
 import com.depromeet.baton.remote.ticket.MypageBasicResponse
 import com.squareup.moshi.Json
@@ -108,8 +109,8 @@ interface UserInfoService {
     suspend fun getUserDeviceToken(
         @Path("id") userIdx: Int,
     ): Response<UserTokenResponse>
-
 }
+
 
 @Keep
 data class UserProfileRequest(
@@ -144,6 +145,7 @@ data class UserAccount(
     @Json(name = "bank") val bank: String,
     @Json(name = "number") val number: String
 ) : Parcelable
+
 
 
 @Keep

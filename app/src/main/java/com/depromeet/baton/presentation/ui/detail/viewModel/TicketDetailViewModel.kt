@@ -8,6 +8,7 @@ import androidx.lifecycle.*
 import com.depromeet.baton.data.request.PostInquiryRequest
 import com.depromeet.baton.data.request.RequestPostFcm
 import com.depromeet.baton.data.response.ResponseGetInquiryByTicket
+import com.depromeet.baton.domain.api.user.TokenApi
 import com.depromeet.baton.domain.model.*
 import com.depromeet.baton.domain.repository.*
 import com.depromeet.baton.map.util.NetworkResult
@@ -17,6 +18,8 @@ import com.depromeet.baton.presentation.util.priceFormat
 import com.depromeet.baton.presentation.util.uriConverter
 import com.depromeet.baton.util.BatonSpfManager
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -34,7 +37,7 @@ class TicketDetailViewModel @Inject constructor(
     private val bookmarkRepository: BookmarkRepository,
     private val savedStateHandle: SavedStateHandle,
     private val userinfoRepository: UserinfoRepository,
-    private val searchRepository: SearchRepository
+    private val searchRepository: SearchRepository,
 ) : AndroidViewModel(application) {
 
     private val context: Context = application
@@ -63,8 +66,24 @@ class TicketDetailViewModel @Inject constructor(
     val msgCount: LiveData<Int> = _msgCount
 
     init {
-        initState()
-        getProfile()
+        authValidation()
+    }
+
+    fun authValidation(){
+        viewModelScope.launch {
+            userinfoRepository.authValidation(authRepository.authInfo?.accessToken!!,authRepository.authInfo?.refreshToken!!).let{
+                when(it){
+                    is TokenApi.RefreshResult.Success ->{
+                        authRepository.setAuthInfo(it.response.access_token!!,it.response.refresh_token!!)
+                        initState()
+                        getProfile()
+                    }
+                    is TokenApi.RefreshResult.Failure-> {
+
+                    }
+                }
+            }
+        }
     }
 
     private fun initState() {

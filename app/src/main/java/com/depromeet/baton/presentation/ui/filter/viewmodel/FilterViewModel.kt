@@ -3,12 +3,16 @@ package com.depromeet.baton.presentation.ui.filter.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.depromeet.baton.domain.api.user.TokenApi
 import com.depromeet.baton.domain.model.*
+import com.depromeet.baton.domain.repository.AuthRepository
 import com.depromeet.baton.domain.repository.SearchRepository
+import com.depromeet.baton.domain.repository.UserinfoRepository
 import com.depromeet.baton.domain.usecase.GetFilteredTicketUseCase
 import com.depromeet.baton.presentation.base.BaseViewModel
 import com.depromeet.baton.presentation.base.UIState
 import com.depromeet.baton.presentation.ui.filter.view.TermFragment
+import com.depromeet.baton.presentation.ui.home.viewmodel.HomeViewModel
 import com.depromeet.baton.presentation.util.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -19,7 +23,9 @@ import javax.inject.Inject
 
 class FilterViewModel @Inject constructor(
     private val getFilteredTicketUseCase: GetFilteredTicketUseCase,
-    private val searchRepository: SearchRepository
+    private val searchRepository: SearchRepository,
+    private val authRepository: AuthRepository,
+    private val userinfoRepository: UserinfoRepository
 ) : BaseViewModel() {
 
     //현재 정렬
@@ -231,11 +237,34 @@ class FilterViewModel @Inject constructor(
 
     /** ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ필터들 순서 총괄ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
     init {
-        //filterReset()
-        setFilterPosition()
-        //바텀 탭레이아웃에게 그려야하는 필터순서 리스트로 전달하기 위함
-        setFilterTypeOrderList()
+        authValidation()
     }
+
+
+    fun authValidation(){
+        viewModelScope.launch {
+            userinfoRepository.authValidation(authRepository.authInfo?.accessToken!!,authRepository.authInfo?.refreshToken!!).let{
+                Timber.e(it.toString())
+                when(it){
+                    is TokenApi.RefreshResult.Success ->{
+                        authRepository.setAuthInfo(it.response.access_token!!,it.response.refresh_token!!)
+                        /** 토큰 갱신 후 재로드 **/
+                        //filterReset()
+                        setFilterPosition()
+                        //바텀 탭레이아웃에게 그려야하는 필터순서 리스트로 전달하기 위함
+                        setFilterTypeOrderList()
+
+                        //TODO update list
+                        updateFilteredTicketList()
+                    }
+                    else ->{
+
+                    }
+                }
+            }
+        }
+    }
+
 
     fun setFilterTypeOrderList() {
         filterTypeOrderList.value = _filterChipList.value?.toMap()?.keys?.toMutableList()

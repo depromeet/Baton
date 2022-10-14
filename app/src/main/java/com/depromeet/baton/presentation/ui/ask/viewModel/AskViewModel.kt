@@ -2,11 +2,15 @@ package com.depromeet.baton.presentation.ui.ask.viewModel
 
 import androidx.lifecycle.viewModelScope
 import com.depromeet.baton.data.mapper.MsgMapper
+import com.depromeet.baton.domain.api.user.TokenApi
 import com.depromeet.baton.domain.model.Message
 import com.depromeet.baton.domain.model.MsgType
 import com.depromeet.baton.domain.repository.AskRepository
+import com.depromeet.baton.domain.repository.AuthRepository
+import com.depromeet.baton.domain.repository.UserinfoRepository
 import com.depromeet.baton.map.util.NetworkResult
 import com.depromeet.baton.presentation.base.BaseViewModel
+import com.depromeet.baton.presentation.ui.home.viewmodel.HomeViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,7 +22,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AskViewModel @Inject constructor(
-    private val askRepository: AskRepository
+    private val askRepository: AskRepository,
+    private val authRepository: AuthRepository,
+    private val userinfoRepository: UserinfoRepository
 ) : BaseViewModel(){
 
     private val _sendUiState: MutableStateFlow<AskSendUiState> =
@@ -29,6 +35,25 @@ class AskViewModel @Inject constructor(
         MutableStateFlow(AskRecvUiState(emptyList()))
     val recvUiState = _recvUiState.asStateFlow()
 
+    init {
+        authValidation()
+    }
+    fun authValidation(){
+        viewModelScope.launch {
+            userinfoRepository.authValidation(authRepository.authInfo?.accessToken!!,authRepository.authInfo?.refreshToken!!).let{
+                when(it){
+                    is TokenApi.RefreshResult.Success ->{
+                        authRepository.setAuthInfo(it.response.access_token!!,it.response.refresh_token!!)
+                        getSendMsgList()
+                        getRecvMsgList()
+                    }
+                    is TokenApi.RefreshResult.Failure-> {
+
+                    }
+                }
+            }
+        }
+    }
 
     fun getRecvMsgList (){
         viewModelScope.launch {

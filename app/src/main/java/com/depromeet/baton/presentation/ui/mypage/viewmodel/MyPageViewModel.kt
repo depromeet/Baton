@@ -5,10 +5,12 @@ import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.depromeet.baton.domain.api.user.TokenApi
 import com.depromeet.baton.domain.repository.AuthRepository
 import com.depromeet.baton.domain.repository.UserinfoRepository
 import com.depromeet.baton.map.util.NetworkResult
 import com.depromeet.baton.presentation.base.BaseViewModel
+import com.depromeet.baton.presentation.ui.sign.WelcomeViewModel
 import com.depromeet.baton.remote.user.UserAccount
 import com.depromeet.baton.util.BatonSpfManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -37,6 +39,27 @@ class MyPageViewModel @Inject constructor(
     private val _viewEvents: MutableStateFlow<List<ViewEvent>> = MutableStateFlow(emptyList())
     val viewEvents = _viewEvents.asStateFlow()
 
+    init {
+        authValidation()
+    }
+
+    fun authValidation(){
+        viewModelScope.launch {
+            userinfoRepository.authValidation(authRepository.authInfo?.accessToken!!,authRepository.authInfo?.refreshToken!!).let{
+                Timber.e(it.toString())
+                when(it){
+                    is TokenApi.RefreshResult.Success ->{
+                        authRepository.setAuthInfo(it.response.access_token!!,it.response.refresh_token!!)
+                        getProfile()
+                    }
+                    is TokenApi.RefreshResult.Failure-> {
+                        authRepository.logout()
+                        addViewEvent(ViewEvent.EventAuthError)
+                    }
+                }
+            }
+        }
+    }
 
     fun getProfile() {
         viewModelScope.launch {
@@ -104,7 +127,8 @@ class MyPageViewModel @Inject constructor(
 
 
     sealed class ViewEvent {
-       data class EventWithdrawal(val msg :String): ViewEvent()
+        data class EventWithdrawal(val msg :String): ViewEvent()
+        object EventAuthError :ViewEvent()
     }
 
 }

@@ -23,6 +23,7 @@ open class FilterSearchViewModel @Inject constructor(
     private val getTicketSearchResultUseCase: GetTicketSearchResultUseCase
 ) : BaseViewModel() {
 
+
     //현재 정렬
     private val _currentAlignment = MutableLiveData("정렬순")
     val currentAlignment: LiveData<String> = _currentAlignment

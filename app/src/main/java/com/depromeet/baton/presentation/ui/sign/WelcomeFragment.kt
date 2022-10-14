@@ -11,9 +11,11 @@ import androidx.navigation.fragment.findNavController
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentWelcomeBinding
 import com.depromeet.baton.domain.api.user.SignApi
+import com.depromeet.baton.domain.api.user.TokenApi
 import com.depromeet.baton.domain.model.AuthInfo
 import com.depromeet.baton.domain.model.LoginKakaoRequest
 import com.depromeet.baton.domain.repository.AuthRepository
+import com.depromeet.baton.domain.repository.UserinfoRepository
 import com.depromeet.baton.presentation.base.BaseFragment
 import com.depromeet.baton.presentation.base.BaseViewModel
 import com.depromeet.baton.presentation.main.MainActivity
@@ -88,7 +90,8 @@ data class WelcomeUiState(
 @HiltViewModel
 class WelcomeViewModel @Inject constructor(
     private val signApi: SignApi,
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val userinfoRepository: UserinfoRepository
 ) : BaseViewModel() {
 
     private val _uiState: MutableStateFlow<WelcomeUiState> = MutableStateFlow(createState())
@@ -103,7 +106,21 @@ class WelcomeViewModel @Inject constructor(
             onNaverClick = { handleNaverClick() }
         )
     }
-
+    private fun authValidation(){
+        viewModelScope.launch {
+            userinfoRepository.authValidation(authRepository.authInfo?.accessToken!!,authRepository.authInfo?.refreshToken!!).let{
+                Timber.e(it.toString())
+                when(it){
+                    is TokenApi.RefreshResult.Success ->{
+                        authRepository.setAuthInfo(it.response.access_token!!,it.response.refresh_token!!)
+                    }
+                    is TokenApi.RefreshResult.Failure-> {
+                        addViewEvent(ViewEvent.ShowToast(it.error.message ?: "알 수 없는 에러"))
+                    }
+                }
+            }
+        }
+    }
     private fun handleNaverClick() {
         // 아직 없음.
     }
@@ -140,7 +157,8 @@ class WelcomeViewModel @Inject constructor(
                 }
                 is SignApi.KakaoLoginResult.Failure -> {
                     Timber.e(result.error)
-                    addViewEvent(ViewEvent.ShowToast(result.error.message ?: "알 수 없는 에러"))
+                    authValidation()
+
                 }
             }
         }

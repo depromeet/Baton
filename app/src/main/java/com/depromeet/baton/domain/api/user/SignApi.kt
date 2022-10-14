@@ -1,5 +1,6 @@
 package com.depromeet.baton.domain.api.user
 
+import com.depromeet.baton.data.response.ResponseAuthToken
 import com.depromeet.baton.domain.model.LoginKakaoNoSocialUserResponse
 import com.depromeet.baton.domain.model.LoginKakaoRequest
 import com.depromeet.baton.domain.model.LoginKakaoResponse
@@ -7,6 +8,7 @@ import com.depromeet.baton.domain.model.SignUpKakaoRequest
 import com.depromeet.baton.remote.user.SignService
 import com.squareup.moshi.Moshi
 import retrofit2.HttpException
+import retrofit2.Response
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -60,4 +62,5 @@ class SignApi @Inject constructor(
         data class Success(val response: LoginKakaoResponse) : KakaoSignUpResult()
         data class Failure(val error: Throwable) : KakaoSignUpResult()
     }
+
 }

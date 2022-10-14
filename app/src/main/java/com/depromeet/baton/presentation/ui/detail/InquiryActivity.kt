@@ -24,6 +24,15 @@ class InquiryActivity : BaseActivity<ActivityInquiryBinding>(R.layout.activity_i
         ticketDetailViewModel.getInquiryList()
         ticketDetailViewModel.getInquiryCount()
         setChatRoomRvAdapter()
+        setClickListener()
+    }
+
+    private fun setClickListener(){
+        with(binding){
+            ticketDetailToolbar.setOnBackwardClick{
+                onBackPressed()
+            }
+        }
     }
 
     private fun setChatRoomRvAdapter() {
@@ -40,7 +49,6 @@ class InquiryActivity : BaseActivity<ActivityInquiryBinding>(R.layout.activity_i
 
     private fun setRoomClickListener(chatRoom: ResponseGetInquiryByTicket) {
         MsgRcvActivity.start(this@InquiryActivity,chatRoom.id)
-
     }
 
     companion object {

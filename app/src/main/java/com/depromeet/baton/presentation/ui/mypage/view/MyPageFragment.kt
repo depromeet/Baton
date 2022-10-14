@@ -51,7 +51,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
 
     override fun onResume() {
         super.onResume()
-        myPageViewModel.getProfile()
+        myPageViewModel.authValidation()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -157,6 +157,10 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             when (viewEvent) {
                is MyPageViewModel.ViewEvent.EventWithdrawal ->{
                    requireContext().BdsToast(viewEvent.msg).show()
+               }
+               is MyPageViewModel.ViewEvent.EventAuthError->{
+                   requireContext().BdsToast("유저 세션이 만료되었습니다. 다시 로그인 해주세요").show()
+                   SignActivity.start(requireContext())
                }
             }
            myPageViewModel.consumeViewEvent(viewEvent)

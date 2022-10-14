@@ -13,11 +13,11 @@ abstract class BaseApiResponse {
                     return NetworkResult.Success(body)
                 }
             }
-            return error("${response.code()} ${response.message()}")
+            return error("${response.code()} ${response.message()}",code =response.code())
         } catch (e: Exception) {
             return error(e.message ?: e.toString())
         }
     }
-    private fun <T> error(errorMessage: String): NetworkResult<T> =
-        NetworkResult.Error("Api call failed $errorMessage")
+    private fun <T> error(errorMessage: String,code:Int?=null): NetworkResult<T> =
+        NetworkResult.Error("Api call failed $errorMessage",code=code)
 }
