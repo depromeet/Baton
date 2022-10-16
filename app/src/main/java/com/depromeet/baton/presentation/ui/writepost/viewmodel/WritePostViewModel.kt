@@ -8,8 +8,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.depromeet.baton.data.request.RequestTicketPost
+import com.depromeet.baton.domain.api.user.TokenApi
 import com.depromeet.baton.domain.model.*
+import com.depromeet.baton.domain.repository.AuthRepository
+import com.depromeet.baton.domain.repository.AuthTokenRepository
 import com.depromeet.baton.domain.repository.SearchRepository
+import com.depromeet.baton.domain.repository.UserinfoRepository
 import com.depromeet.baton.map.domain.entity.ShopEntity
 import com.depromeet.baton.map.domain.usecase.SearchItem
 import com.depromeet.baton.map.domain.usecase.SearchShopUseCase
@@ -20,6 +24,8 @@ import com.depromeet.baton.presentation.util.SingleLiveEvent
 import com.depromeet.baton.presentation.util.dateDifferenceFormat
 import com.depromeet.baton.util.BatonSpfManager
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -35,6 +41,7 @@ import javax.inject.Inject
 class WritePostViewModel @Inject constructor(
     private val searchShopUseCase: SearchShopUseCase,
     private val searchRepository: SearchRepository,
+    private val tokenRepository: AuthTokenRepository,
     private val spfManager: BatonSpfManager,
 ) : BaseViewModel() {
 
@@ -124,6 +131,8 @@ class WritePostViewModel @Inject constructor(
     private val _postSuccess = SingleLiveEvent<Any>()
     val postSuccess: SingleLiveEvent<Any> = _postSuccess
 
+    /**Access Toeken **/
+    val tokenError: SingleLiveEvent<Any> = tokenRepository.tokenError
 
     private val _postId = MutableLiveData<Int>()
     val postId: LiveData<Int> = _postId
@@ -781,18 +790,24 @@ class WritePostViewModel @Inject constructor(
         ).toRequestBody()
 
         viewModelScope.launch {
-            runCatching {
-                searchRepository.postTicket(body, _selectedPhotoMultipartList.value)
-            }
-                .onSuccess {
-                    _postId.value = it.id
-                    _postSuccess.call()
-                    _uiState.value = (UIState.Init)
-                }
-                .onFailure {
-                    _uiState.value = (UIState.Init)
-                    Timber.e(it)
-                }
+            /** TOKEN Validation API **/
+           tokenRepository.authValidation {
+               runCatching {
+                   searchRepository.postTicket(body, _selectedPhotoMultipartList.value)
+               }
+                   .onSuccess {
+                       CoroutineScope(Dispatchers.Main).launch{
+                           _postId.value = it.id
+                           _postSuccess.call()
+                           _uiState.value = (UIState.Init)
+                       }
+
+                   }
+                   .onFailure {
+                       _uiState.value = (UIState.Init)
+                       Timber.e(it)
+                   }
+           }
         }
     }
 }

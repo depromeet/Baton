@@ -38,9 +38,12 @@ class TicketDetailViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val userinfoRepository: UserinfoRepository,
     private val searchRepository: SearchRepository,
+    private val tokenRepository: AuthTokenRepository
 ) : AndroidViewModel(application) {
 
     private val context: Context = application
+
+    val tokenError = tokenRepository.tokenError
 
     //추후 변경
     private val _ticketState = MutableLiveData<DetailTicketInfoUiState>()
@@ -66,111 +69,97 @@ class TicketDetailViewModel @Inject constructor(
     val msgCount: LiveData<Int> = _msgCount
 
     init {
-        authValidation()
-    }
-
-    fun authValidation(){
-        viewModelScope.launch {
-            userinfoRepository.authValidation(authRepository.authInfo?.accessToken!!,authRepository.authInfo?.refreshToken!!).let{
-                when(it){
-                    is TokenApi.RefreshResult.Success ->{
-                        authRepository.setAuthInfo(it.response.access_token!!,it.response.refresh_token!!)
-                        initState()
-                        getProfile()
-                    }
-                    is TokenApi.RefreshResult.Failure-> {
-
-                    }
-                }
-            }
-        }
+        initState()
+        getProfile()
     }
 
     private fun initState() {
         _netWorkState.update { TicketDetailNetWork.Loading }
         viewModelScope.launch {
             //API 호출
-            runCatching {
-                val ticketId = savedStateHandle.get<Int>("ticketId")!!
-                val res = ticketInfoRepository.getTicketInfo(
-                    ticketId = ticketId,
-                    spfManager.getMyLongitude(),
-                    spfManager.getMyLatitude()
-                )
-                when (res) {
-                    is NetworkResult.Error -> {
-                        Timber.e(res.message)
-                        _netWorkState.update { TicketDetailNetWork.Failure(res.message.toString()) }
-                    }
-                    is NetworkResult.Success -> {
-                        if (res.data != null) {
-                            Timber.e(res.data.toString())
-                            val ticket = res.data!!
-                            val userId = authRepository.authInfo!!.userId
-                            val sellerId = ticket.seller.id
-                            val state = DetailTicketInfoUiState(
-                                DetailTicketInfo(
-                                    ticketId = ticket.id,
-                                    ticketType = TicketKind.valueOf(ticket.type),
-                                    seller = DetailTicketInfo.Seller(
-                                        sellerId,
-                                        ticket.seller.nickname,
-                                        ticket.seller.createdOn,
-                                        ticket.seller.image,
+            tokenRepository.authValidation {
+                runCatching {
+                    val ticketId = savedStateHandle.get<Int>("ticketId")!!
+                    val res = ticketInfoRepository.getTicketInfo(
+                        ticketId = ticketId,
+                        spfManager.getMyLongitude(),
+                        spfManager.getMyLatitude()
+                    )
+                    when (res) {
+                        is NetworkResult.Error -> {
+                            Timber.e(res.message)
+                            _netWorkState.update { TicketDetailNetWork.Failure(res.message.toString()) }
+                        }
+                        is NetworkResult.Success -> {
+                            if (res.data != null) {
+                                Timber.e(res.data.toString())
+                                val ticket = res.data!!
+                                val userId = authRepository.authInfo!!.userId
+                                val sellerId = ticket.seller.id
+                                val state = DetailTicketInfoUiState(
+                                    DetailTicketInfo(
+                                        ticketId = ticket.id,
+                                        ticketType = TicketKind.valueOf(ticket.type),
+                                        seller = DetailTicketInfo.Seller(
+                                            sellerId,
+                                            ticket.seller.nickname,
+                                            ticket.seller.createdOn,
+                                            ticket.seller.image,
+                                        ),
+                                        isOwner = userId == sellerId,
+                                        detailUrl = "https://map.naver.com/v5/search/${ticket.location.replace(" ", "")}",
+                                        mapUrl = "https://map.naver.com/index.nhn?slng=${spfManager.getMyLongitude()}&slat=${spfManager.getMyLatitude()}" +
+                                                "&stext=내 위치&elng=${ticket!!.longitude}&elat=${ticket!!.latitude}" +
+                                                "&pathType=3&showMap=true&etext=${ticket!!.location}&menu=route",
+                                        emptyIcon = initEmptyIcon(ticket.type),
+                                        location = DetailLocationInfo(
+                                            location = ticket.location,
+                                            ticket.address,
+                                            ticket.longitude,
+                                            ticket.latitude,
+                                            ticket.distance.toFloat()
+                                        ),
+                                        createdDate = dateFormatUtil(ticket.createAt),
+                                        price = ticket.price,
+                                        ticketStatus = TicketStatus.valueOf(ticket.state),
+                                        transferFee = TransferFee.valueOf(ticket.transferFee),
+                                        transMethod = TradeType.valueOf(ticket.tradeType),
+                                        canNego = ticket.canNego,
+                                        infoHashs = DetailHash(
+                                            ticket.hasShower,
+                                            ticket.hasLocker,
+                                            ticket.hasClothes,
+                                            ticket.hasGx,
+                                            ticket.canResell,
+                                            ticket.canRefund,
+                                            ticket.isHolding
+                                        ).mapToHashList(),
+                                        description = ticket.description,
+                                        tags = initTagByString(ticket.tags),//enum으로 오는 index
+                                        imgList = ticket.images as List<TicketInfo.Image>,
+                                        isHolding = ticket.isHolding,
+                                        isMembership = ticket.isMembership,
+                                        remainDate = ticket.remainingDay,
+                                        remainingNumber = ticket.remainingNumber,
+                                        bookmarkId = ticket.bookmarkId,
+                                        isLikeTicket = ticket.bookmarkId != null,
+                                        bookmarkView = ticket.bookmarkCount ?: 0,
+                                        countView = ticket.viewCount,
+                                        isInquired = ticket.isInquired
                                     ),
-                                    isOwner = userId == sellerId,
-                                    detailUrl = "https://map.naver.com/v5/search/${ticket.location.replace(" ", "")}",
-                                    mapUrl = "https://map.naver.com/index.nhn?slng=${spfManager.getMyLongitude()}&slat=${spfManager.getMyLatitude()}" +
-                                            "&stext=내 위치&elng=${ticket!!.longitude}&elat=${ticket!!.latitude}" +
-                                            "&pathType=3&showMap=true&etext=${ticket!!.location}&menu=route",
-                                    emptyIcon = initEmptyIcon(ticket.type),
-                                    location = DetailLocationInfo(
-                                        location = ticket.location,
-                                        ticket.address,
-                                        ticket.longitude,
-                                        ticket.latitude,
-                                        ticket.distance.toFloat()
-                                    ),
-                                    createdDate = dateFormatUtil(ticket.createAt),
-                                    price = ticket.price,
-                                    ticketStatus = TicketStatus.valueOf(ticket.state),
-                                    transferFee = TransferFee.valueOf(ticket.transferFee),
-                                    transMethod = TradeType.valueOf(ticket.tradeType),
-                                    canNego = ticket.canNego,
-                                    infoHashs = DetailHash(
-                                        ticket.hasShower,
-                                        ticket.hasLocker,
-                                        ticket.hasClothes,
-                                        ticket.hasGx,
-                                        ticket.canResell,
-                                        ticket.canRefund,
-                                        ticket.isHolding
-                                    ).mapToHashList(),
-                                    description = ticket.description,
-                                    tags = initTagByString(ticket.tags),//enum으로 오는 index
-                                    imgList = ticket.images as List<TicketInfo.Image>,
-                                    isHolding = ticket.isHolding,
-                                    isMembership = ticket.isMembership,
-                                    remainDate = ticket.remainingDay,
-                                    remainingNumber = ticket.remainingNumber,
-                                    bookmarkId = ticket.bookmarkId,
-                                    isLikeTicket = ticket.bookmarkId != null,
-                                    bookmarkView = ticket.bookmarkCount ?: 0,
-                                    countView = ticket.viewCount,
-                                    isInquired = ticket.isInquired
-                                ),
-                                onAddChatBtnClick = ::onClickChat,
-                                onAddLikeClick = ::onClickLike
-                            )
-                            _ticketState.postValue(state)
-                            _netWorkState.update { TicketDetailNetWork.Success }
+                                    onAddChatBtnClick = ::onClickChat,
+                                    onAddLikeClick = ::onClickLike
+                                )
+                                _ticketState.postValue(state)
+                                _netWorkState.update { TicketDetailNetWork.Success }
+                            }
                         }
                     }
-                }
 
-            }.onFailure { error ->
-                Timber.e(error.message)
-                _netWorkState.update { TicketDetailNetWork.Failure(error.message.toString()) }
+                }.onFailure { error ->
+                    Timber.e(error.message)
+                    _netWorkState.update { TicketDetailNetWork.Failure(error.message.toString()) }
+                }
             }
         }
     }
@@ -209,15 +198,17 @@ class TicketDetailViewModel @Inject constructor(
 
     private fun getProfile() {
         viewModelScope.launch {
-            runCatching {
-                val res = userinfoRepository.getUserProfile(authRepository.authInfo!!.userId)
-                when (res) {
-                    is NetworkResult.Success -> {
-                        _name.value = res.data?.nickname
-                        _phoneNumber.value = res.data?.phone_number
-                    }
-                    is NetworkResult.Error -> {
-                        Timber.e(res.message)
+            tokenRepository.authValidation {
+                runCatching {
+                    val res = userinfoRepository.getUserProfile(authRepository.authInfo!!.userId)
+                    when (res) {
+                        is NetworkResult.Success -> {
+                            _name.value = res.data?.nickname
+                            _phoneNumber.value = res.data?.phone_number
+                        }
+                        is NetworkResult.Error -> {
+                            Timber.e(res.message)
+                        }
                     }
                 }
             }
@@ -251,8 +242,10 @@ class TicketDetailViewModel @Inject constructor(
     fun deleteTicket() {
         //Api
         viewModelScope.launch {
-            val ticketId = savedStateHandle.get<Int>("ticketId")!!
-            ticketInfoRepository.deleteTicket(ticketId = ticketId)
+            tokenRepository.authValidation {
+                val ticketId = savedStateHandle.get<Int>("ticketId")!!
+                ticketInfoRepository.deleteTicket(ticketId = ticketId)
+            }
         }
         addViewEvent(DetailViewEvent.EventClickDelete)
     }
@@ -260,18 +253,20 @@ class TicketDetailViewModel @Inject constructor(
     fun reportTicket(option: String) {
         val ticketId = savedStateHandle.get<Int>("ticketId")!!
         viewModelScope.launch {
-            runCatching {
-                ticketInfoRepository.reportTicket(
-                    ticketId = ticketId,
-                    content = option
-                )
-            }.onSuccess {
-                when(it){
-                    is NetworkResult.Success ->{
-                        addViewEvent(DetailViewEvent.EventReportDone)
-                    }
-                    is NetworkResult.Error->{
-                        Timber.e(it.message)
+            tokenRepository.authValidation {
+                runCatching {
+                    ticketInfoRepository.reportTicket(
+                        ticketId = ticketId,
+                        content = option
+                    )
+                }.onSuccess {
+                    when(it){
+                        is NetworkResult.Success ->{
+                            addViewEvent(DetailViewEvent.EventReportDone)
+                        }
+                        is NetworkResult.Error->{
+                            Timber.e(it.message)
+                        }
                     }
                 }
             }
@@ -280,18 +275,20 @@ class TicketDetailViewModel @Inject constructor(
 
     fun reportSeller(option: String){
         viewModelScope.launch {
-            runCatching {
-                ticketInfoRepository.reportUser(
-                    userId = ticketState.value!!.ticket.seller.userId,
-                    content = option
-                )
-            }.onSuccess {
-                when(it){
-                    is NetworkResult.Success ->{
-                        addViewEvent(DetailViewEvent.EventReportDone)
-                    }
-                    is NetworkResult.Error->{
-                        Timber.e(it.message)
+            tokenRepository.authValidation {
+                runCatching {
+                    ticketInfoRepository.reportUser(
+                        userId = ticketState.value!!.ticket.seller.userId,
+                        content = option
+                    )
+                }.onSuccess {
+                    when(it){
+                        is NetworkResult.Success ->{
+                            addViewEvent(DetailViewEvent.EventReportDone)
+                        }
+                        is NetworkResult.Error->{
+                            Timber.e(it.message)
+                        }
                     }
                 }
             }
@@ -381,26 +378,31 @@ class TicketDetailViewModel @Inject constructor(
     fun getInquiryList() {
         val ticketId = savedStateHandle.get<Int>("ticketId")!!
         viewModelScope.launch {
-            runCatching {
-                searchRepository.getInquiryByTicket(ticketId)
-            }.onSuccess {
-                _inquiryList.value = (it.body() ?: return@launch)
-            }.onFailure { Timber.e(it.message) }
+            tokenRepository.authValidation {
+               runCatching {
+                    searchRepository.getInquiryByTicket(ticketId)
+                }.onSuccess {
+                    CoroutineScope(Dispatchers.Main).launch{
+                        _inquiryList.value = (it.body() ?: return@launch)
+                    }
+                }.onFailure { Timber.e(it.message) }
+            }
         }
     }
 
     fun postInquiry(text: String) {
         val ticketId = savedStateHandle.get<Int>("ticketId")!!
-        Timber.e("inquiry post go")
         viewModelScope.launch {
-            runCatching {
-                //문의 보내기
-                searchRepository.postInquiry(PostInquiryRequest(authRepository.authInfo!!.userId,ticketId, text))
-            }.onSuccess {
-                //푸시알림
-                searchRepository.postFcm(
-                    RequestPostFcm(ticketState.value!!.ticket.seller.userId?: return@launch, "${name}님의 문의가 도착했습니다", text))
-            }.onFailure { Timber.e(it.message) }
+            tokenRepository.authValidation {
+                runCatching {
+                    //문의 보내기
+                    searchRepository.postInquiry(PostInquiryRequest(authRepository.authInfo!!.userId,ticketId, text))
+                }.onSuccess {
+                    //푸시알림
+                    searchRepository.postFcm(
+                        RequestPostFcm(ticketState.value!!.ticket.seller.userId?: return@onSuccess, "${name}님의 문의가 도착했습니다", text))
+                }.onFailure { Timber.e(it.message) }
+            }
         }
     }
 

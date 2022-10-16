@@ -51,7 +51,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
 
     override fun onResume() {
         super.onResume()
-        myPageViewModel.authValidation()
+        myPageViewModel.getProfile()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -150,6 +150,10 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             .flowWithLifecycle(viewLifecycle)
             .onEach(::handleViewEvents)
             .launchIn(viewLifecycleScope)
+
+        myPageViewModel.tokenError.observe(requireActivity()){
+            (requireActivity() as MainActivity).showExpireToast()
+        }
     }
 
     private fun handleViewEvents( events: List<MyPageViewModel.ViewEvent>) {

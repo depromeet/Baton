@@ -149,7 +149,6 @@ class HomeViewModel @Inject constructor(
         object ToQuickEtc : HomeViewEvent
         object ToWritePost : HomeViewEvent
         object ShowToolTip : HomeViewEvent
-        object ShowAuthError : HomeViewEvent
     }
 
     data class HomeUiState(

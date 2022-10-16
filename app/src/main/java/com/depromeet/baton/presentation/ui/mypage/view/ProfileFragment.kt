@@ -12,6 +12,7 @@ import com.depromeet.baton.BatonApp
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentProfileBinding
 import com.depromeet.baton.presentation.base.BaseFragment
+import com.depromeet.baton.presentation.main.MainActivity
 import com.depromeet.baton.presentation.ui.mypage.viewmodel.MyPageViewModel
 import com.depromeet.baton.presentation.ui.mypage.viewmodel.ProfileViewModel
 import com.depromeet.baton.presentation.util.viewLifecycle
@@ -33,6 +34,9 @@ class ProfileFragment() :BaseFragment<FragmentProfileBinding>(R.layout.fragment_
         initView()
         setObserver()
         setListener()
+        profileViewModel.tokenError.observe(requireActivity()){
+            (requireActivity() as MainActivity).showExpireToast()
+        }
     }
 
 

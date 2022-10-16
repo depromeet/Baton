@@ -22,11 +22,6 @@ class AskFragment: BaseFragment<FragmentAskBinding>(R.layout.fragment_ask),MainA
         "받은 내역"
     )
 
-    override fun onResume() {
-        super.onResume()
-        askViewModel.authValidation()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewPager()

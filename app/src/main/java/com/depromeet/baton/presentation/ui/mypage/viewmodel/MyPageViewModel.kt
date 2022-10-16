@@ -7,6 +7,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.depromeet.baton.domain.api.user.TokenApi
 import com.depromeet.baton.domain.repository.AuthRepository
+import com.depromeet.baton.domain.repository.AuthTokenRepository
 import com.depromeet.baton.domain.repository.UserinfoRepository
 import com.depromeet.baton.map.util.NetworkResult
 import com.depromeet.baton.presentation.base.BaseViewModel
@@ -27,10 +28,13 @@ class MyPageViewModel @Inject constructor(
     private val spfManager: BatonSpfManager,
     private val authRepository: AuthRepository,
     private val savedStateHandle: SavedStateHandle,
-    private val userinfoRepository: UserinfoRepository
+    private val userinfoRepository: UserinfoRepository,
+    private val tokenRepository: AuthTokenRepository
 ) : BaseViewModel() {
 
     private val context: Context = application
+
+    val tokenError = tokenRepository.tokenError
 
     private val _uiState: MutableStateFlow<MypageUiState> =
         MutableStateFlow(MypageUiState(profileImage = null, account = null))
@@ -40,45 +44,32 @@ class MyPageViewModel @Inject constructor(
     val viewEvents = _viewEvents.asStateFlow()
 
     init {
-        authValidation()
-    }
-
-    fun authValidation(){
-        viewModelScope.launch {
-            userinfoRepository.authValidation(authRepository.authInfo?.accessToken!!,authRepository.authInfo?.refreshToken!!).let{
-                Timber.e(it.toString())
-                when(it){
-                    is TokenApi.RefreshResult.Success ->{
-                        authRepository.setAuthInfo(it.response.access_token!!,it.response.refresh_token!!)
-                        getProfile()
-                    }
-                    is TokenApi.RefreshResult.Failure-> {
-                        authRepository.logout()
-                        addViewEvent(ViewEvent.EventAuthError)
-                    }
-                }
-            }
-        }
+        getProfile()
     }
 
     fun getProfile() {
         viewModelScope.launch {
-            runCatching {
-                val res = userinfoRepository.getUserProfile(authRepository.authInfo!!.userId)
-                when (res) {
-                    is NetworkResult.Success -> {
-                        _uiState.update {
-                            MypageUiState(
-                                nickName = res.data!!.nickname,
-                                phoneNumber = res.data!!.phone_number.replace(Regex("[^0-9]*"), ""),
-                                joinDate = res.data!!.created_on,
-                                profileImage = res.data!!.profileImg,
-                                account = res.data!!.account
-                            )
+            tokenRepository.authValidation {
+                runCatching {
+                    val res = userinfoRepository.getUserProfile(authRepository.authInfo!!.userId)
+                    when (res) {
+                        is NetworkResult.Success -> {
+                            _uiState.update {
+                                MypageUiState(
+                                    nickName = res.data!!.nickname,
+                                    phoneNumber = res.data!!.phone_number.replace(
+                                        Regex("[^0-9]*"),
+                                        ""
+                                    ),
+                                    joinDate = res.data!!.created_on,
+                                    profileImage = res.data!!.profileImg,
+                                    account = res.data!!.account
+                                )
+                            }
                         }
-                    }
-                    is NetworkResult.Error -> {
-                        Timber.e(res.message)
+                        is NetworkResult.Error -> {
+                            Timber.e(res.message)
+                        }
                     }
                 }
             }
@@ -96,25 +87,26 @@ class MyPageViewModel @Inject constructor(
 
     fun deleteUser() {
        viewModelScope.launch {
-            runCatching {
-               val userId = authRepository.authInfo!!.userId
-               userinfoRepository.deleteUser(userId)
-            }.onSuccess {
-                when (it) {
-                    is NetworkResult.Success -> {
-                        addViewEvent(ViewEvent.EventWithdrawal("탈퇴 되었습니다."))
-                          authRepository.logout()
-                          spfManager.clearAll()
-                    }
-                    is NetworkResult.Error -> {
-                        Timber.e(it.message)
-                        addViewEvent(ViewEvent.EventWithdrawal("탈퇴에 실패했습니다."))
-                    }
-                }
-            }
-                .onFailure { it -> Timber.e(it.message) }
-        }
-
+           tokenRepository.authValidation {
+               runCatching {
+                   val userId = authRepository.authInfo!!.userId
+                   userinfoRepository.deleteUser(userId)
+               }.onSuccess {
+                   when (it) {
+                       is NetworkResult.Success -> {
+                           addViewEvent(ViewEvent.EventWithdrawal("탈퇴 되었습니다."))
+                           authRepository.logout()
+                           spfManager.clearAll()
+                       }
+                       is NetworkResult.Error -> {
+                           Timber.e(it.message)
+                           addViewEvent(ViewEvent.EventWithdrawal("탈퇴에 실패했습니다."))
+                       }
+                   }
+               }
+                   .onFailure { it -> Timber.e(it.message) }
+           }
+       }
     }
 
     fun consumeViewEvent(viewEvent: ViewEvent) {

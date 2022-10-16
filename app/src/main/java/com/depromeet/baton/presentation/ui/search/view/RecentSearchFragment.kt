@@ -7,11 +7,15 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentRecentSearchBinding
 import com.depromeet.baton.domain.model.RecentSearchKeyword
 import com.depromeet.baton.presentation.base.BaseFragment
+import com.depromeet.baton.presentation.main.AuthViewModel
+import com.depromeet.baton.presentation.main.TokenState
 import com.depromeet.baton.presentation.ui.search.adapter.HashTagAdapter
 import com.depromeet.baton.presentation.ui.search.adapter.RecentKeywordAdapter
 import com.depromeet.baton.presentation.ui.search.viewmodel.FilterSearchViewModel
@@ -28,6 +32,8 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -37,6 +43,7 @@ class RecentSearchFragment :
 
     private val viewModel: RecentSearchViewModel by activityViewModels()
     private val searchViewModel: SearchViewModel by activityViewModels()
+
     private val hashTagAdapter by lazy {
         HashTagAdapter {
             searchViewModel.searchKeyword(it.title)
@@ -81,6 +88,7 @@ class RecentSearchFragment :
             val itemDecoration = ListPaddingDecoration(8)
             addItemDecoration(itemDecoration)
         }
+
 
         viewLifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {

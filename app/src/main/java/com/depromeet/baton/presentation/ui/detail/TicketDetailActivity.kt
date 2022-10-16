@@ -5,6 +5,8 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.Toast
 import android.widget.ImageView
@@ -40,6 +42,7 @@ import com.depromeet.baton.presentation.ui.detail.viewModel.*
 import com.depromeet.baton.presentation.ui.filter.view.BottomFilterFragment
 import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter
 import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter.Companion.SCROLL_TYPE_HORIZONTAL
+import com.depromeet.baton.presentation.ui.sign.SignActivity
 import com.depromeet.baton.presentation.util.TicketIteHorizontalDecoration
 import com.depromeet.baton.presentation.util.shortToast
 import com.depromeet.baton.util.BatonSpfManager
@@ -97,11 +100,6 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         setObserver()
     }
 
-    override fun onRestart() {
-        super.onRestart()
-        viewModel.authValidation()
-    }
-
 
     private fun initView() {
         binding.ticketDetailToolbar.setTitleVisible(View.INVISIBLE)
@@ -114,6 +112,14 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         viewModel.ticketState.observe(
             this@TicketDetailActivity, Observer { uiState -> handleTicketUiState(uiState) }
         )
+
+        viewModel.tokenError.observe(this){
+            BdsToast("유저 세션이 만료되었습니다. 다시 로그인 해주세요").show()
+            Handler(Looper.getMainLooper()).postDelayed({
+                SignActivity.start(this)
+                finish()
+            }, 1500)
+        }
 
         viewModel.netWorkState
             .flowWithLifecycle(lifecycle)
