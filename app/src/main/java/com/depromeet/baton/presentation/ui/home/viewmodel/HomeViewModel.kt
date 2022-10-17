@@ -42,11 +42,15 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun sendDeviceToken() {
-        val userId = 70//authRepository.authInfo!!.userId
+        val userId = authRepository.authInfo!!.userId
         viewModelScope.launch {
             runCatching { userinfoRepository.updateDeviceToken(userId, UserToken(batonSpfManager.getDeviceToken())) }
-                .onSuccess { }
-                .onFailure { Timber.e("토큰 전송 실패") }
+                .onSuccess {
+                    Timber.e(it.body().toString())
+                }
+                .onFailure {
+                    Timber.e(it.message)
+                    Timber.e("토큰 전송 실패") }
         }
     }
 

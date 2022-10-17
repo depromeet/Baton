@@ -8,6 +8,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.depromeet.baton.presentation.main.MainActivity
+import com.depromeet.baton.presentation.ui.ask.view.MsgRcvActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import timber.log.Timber
@@ -35,7 +36,7 @@ class FirebaseMessagingService : FirebaseMessagingService() {
         val uniId = remoteMessage.sentTime.toInt()
 
         //todo 문의하기 Activity로 변경
-        val intent = Intent(this, MainActivity::class.java).apply {
+        val intent = Intent(this, MsgRcvActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

@@ -40,11 +40,11 @@ class SearchRepository @Inject constructor(
         return searchApi.getInquiryCount(ticketId)
     }
 
-    suspend fun getInquiryByTicket(ticketId: Int): Response<ResponseGetInquiryByTicket> {
+    suspend fun getInquiryByTicket(ticketId: Int): Response<List<ResponseGetInquiryByTicket>> {
         return searchApi.getInquiryByTicket(ticketId)
     }
 
-    suspend fun postFcm(request: RequestPostFcm): Response<String> {
+    suspend fun postFcm(request: RequestPostFcm){
         return searchApi.postFcm(request)
     }
 

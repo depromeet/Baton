@@ -37,6 +37,7 @@ data class TicketInfo(
     @Json(name="bookmarkId")  val bookmarkId : Int?,
     @Json(name="bookmarkCount")  val bookmarkCount : Int,
     @Json(name="viewCount")  val viewCount: Int,
+    @Json(name="isInquired")  val isInquired: Boolean,
 ) {
     @Keep
     data class Image(
@@ -51,6 +52,6 @@ data class TicketInfo(
         @Json(name="name")val name : String?="",
         @Json(name="nickname")val nickname: String,
         @Json(name="createdOn")val createdOn: String,
-        @Json(name="image")val image: String?
+        @Json(name="image")val image: String?,
     )
 }

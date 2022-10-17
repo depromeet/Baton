@@ -196,3 +196,4 @@ fun ImageView.bindImage(uri: String?, ticketType : String?) {
             .into(this)
     }
 }
+

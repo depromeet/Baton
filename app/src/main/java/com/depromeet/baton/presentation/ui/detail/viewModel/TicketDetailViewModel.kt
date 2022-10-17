@@ -37,7 +37,6 @@ class TicketDetailViewModel @Inject constructor(
     private val searchRepository: SearchRepository
 ) : AndroidViewModel(application) {
 
-    private var count = 0 //TODO 문의 개수
     private val context: Context = application
 
     //추후 변경
@@ -60,27 +59,12 @@ class TicketDetailViewModel @Inject constructor(
     private val _inquiryList = MutableLiveData<List<ResponseGetInquiryByTicket>>()
     val inquiryList: LiveData<List<ResponseGetInquiryByTicket>> = _inquiryList
 
+    private val _msgCount = MutableLiveData(0)
+    val msgCount: LiveData<Int> = _msgCount
+
     init {
         initState()
         getProfile()
-    }
-
-
-    private fun getProfile() {
-        viewModelScope.launch {
-            runCatching {
-                val res = userinfoRepository.getUserProfile(authRepository.authInfo!!.userId)
-                when (res) {
-                    is NetworkResult.Success -> {
-                        _name.value = res.data?.nickname
-                        _phoneNumber.value = res.data?.phone_number
-                    }
-                    is NetworkResult.Error -> {
-                        Timber.e(res.message)
-                    }
-                }
-            }
-        }
     }
 
     private fun initState() {
@@ -101,6 +85,7 @@ class TicketDetailViewModel @Inject constructor(
                     }
                     is NetworkResult.Success -> {
                         if (res.data != null) {
+                            Timber.e(res.data.toString())
                             val ticket = res.data!!
                             val userId = authRepository.authInfo!!.userId
                             val sellerId = ticket.seller.id
@@ -112,7 +97,7 @@ class TicketDetailViewModel @Inject constructor(
                                         sellerId,
                                         ticket.seller.nickname,
                                         ticket.seller.createdOn,
-                                        ticket.seller.image
+                                        ticket.seller.image,
                                     ),
                                     isOwner = userId == sellerId,
                                     detailUrl = "https://map.naver.com/v5/search/${ticket.location.replace(" ", "")}",
@@ -152,7 +137,8 @@ class TicketDetailViewModel @Inject constructor(
                                     bookmarkId = ticket.bookmarkId,
                                     isLikeTicket = ticket.bookmarkId != null,
                                     bookmarkView = ticket.bookmarkCount ?: 0,
-                                    countView = ticket.viewCount
+                                    countView = ticket.viewCount,
+                                    isInquired = ticket.isInquired
                                 ),
                                 onAddChatBtnClick = ::onClickChat,
                                 onAddLikeClick = ::onClickLike
@@ -199,6 +185,26 @@ class TicketDetailViewModel @Inject constructor(
         }
         return tags
     }
+
+
+
+    private fun getProfile() {
+        viewModelScope.launch {
+            runCatching {
+                val res = userinfoRepository.getUserProfile(authRepository.authInfo!!.userId)
+                when (res) {
+                    is NetworkResult.Success -> {
+                        _name.value = res.data?.nickname
+                        _phoneNumber.value = res.data?.phone_number
+                    }
+                    is NetworkResult.Error -> {
+                        Timber.e(res.message)
+                    }
+                }
+            }
+        }
+    }
+
 
 
     fun ticketStatusHandler(status: TicketStatus) {
@@ -340,50 +346,58 @@ class TicketDetailViewModel @Inject constructor(
         _viewEvents.update { it - viewEvent }
     }
 
-    fun getInquiryCount() {
+    fun getInquiryCount()   {
+        val ticketId = savedStateHandle.get<Int>("ticketId")!!
         viewModelScope.launch {
             runCatching {
+                searchRepository.getInquiryCount(ticketId)
             }.onSuccess {
+                _msgCount.value= it.body()
             }.onFailure { Timber.e(it.message) }
+
         }
     }
 
 
     fun getInquiryList() {
-        val temp = _ticketState.value!!
+        val ticketId = savedStateHandle.get<Int>("ticketId")!!
         viewModelScope.launch {
             runCatching {
-                searchRepository.getInquiryByTicket(temp.ticket.ticketId)
+                searchRepository.getInquiryByTicket(ticketId)
             }.onSuccess {
-                _inquiryList.value = listOf(it.body() ?: return@launch)
+                _inquiryList.value = (it.body() ?: return@launch)
             }.onFailure { Timber.e(it.message) }
         }
     }
 
     fun postInquiry(text: String) {
         val ticketId = savedStateHandle.get<Int>("ticketId")!!
+        Timber.e("inquiry post go")
         viewModelScope.launch {
             runCatching {
                 //문의 보내기
-                searchRepository.postInquiry(PostInquiryRequest(ticketId, text))
+                searchRepository.postInquiry(PostInquiryRequest(authRepository.authInfo!!.userId,ticketId, text))
             }.onSuccess {
                 //푸시알림
-                postPushMessage(text)
+                searchRepository.postFcm(
+                    RequestPostFcm(ticketState.value!!.ticket.seller.userId?: return@launch, "${name}님의 문의가 도착했습니다", text))
             }.onFailure { Timber.e(it.message) }
         }
     }
 
+    /*
     private fun postPushMessage(text: String) {
         viewModelScope.launch {
             runCatching {
                 //유저 토큰 얻기
-                val token = userinfoRepository.getUserDeviceToken(authRepository.authInfo!!.userId).body()?.fcmToken
+                val token = spfManager.getDeviceToken()
                 searchRepository.postFcm(RequestPostFcm(token ?: return@launch, "문의 알림", text))
             }.onSuccess {
-                Timber.e(it.body())
+                Timber.e("success fcm token")
             }.onFailure { Timber.e(it.message) }
         }
     }
+    */
 }
 
 data class DetailTicketInfoUiState(
@@ -392,7 +406,7 @@ data class DetailTicketInfoUiState(
     val onAddLikeClick: () -> Unit
 ) {
 
-    val isChatEnabled = false //TODO 문의했던 회원권인지 판단
+    val isChatEnabled = !ticket.isInquired //TODO 문의했던 회원권인지 판단
     val chatBtnText = if (ticket.isOwner) "받은 문의 목록 보기" else if (isChatEnabled) "문의하기" else "이미 문의한 회원권이에요"
 
     val priceStr = priceFormat(ticket.price.toFloat()) + "원"
@@ -419,8 +433,7 @@ data class DetailTicketInfoUiState(
     val remainText = if (ticket.isMembership) "남은 기간" else "남은 횟수"
     val remainCount = if (ticket.isMembership) "${ticket.remainDate}일" else "${ticket.remainingNumber}회"
 
-    //bookmark id 가 null 이면 관심 상품 아님
-    val bookmarkState = ticket.isLikeTicket
+    val sellerImage = Uri.parse(ticket.seller.image)
 
 }
 

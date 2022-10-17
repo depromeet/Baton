@@ -4,5 +4,5 @@ import androidx.annotation.Keep
 
 @Keep
 data class UserToken(
-    val fcmToken: String
+    val fcm_token: String
 )
