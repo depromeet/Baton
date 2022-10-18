@@ -31,7 +31,7 @@ import kotlin.system.exitProcess
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
-    private val homeFragment: TestFragment by lazy { TestFragment() }
+    private val homeFragment: HomeFragment by lazy { HomeFragment() }
     private val searchFragment: SearchFragment by lazy { SearchFragment() }
     private val askFragment : AskFragment by lazy { AskFragment()}
     private val myPageFragment: MyPageFragment by lazy { MyPageFragment() }

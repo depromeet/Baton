@@ -1,11 +1,8 @@
 package com.depromeet.baton.presentation.ui.home.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
-import android.widget.CheckedTextView
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.ListAdapter
