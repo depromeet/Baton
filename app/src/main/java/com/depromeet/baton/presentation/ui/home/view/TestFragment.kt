@@ -1,34 +1,25 @@
 package com.depromeet.baton.presentation.ui.home.view
 
+
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.baton.R
-import com.depromeet.baton.databinding.FragmentHomeBinding
 import com.depromeet.baton.databinding.FragmentTestBinding
-import com.depromeet.baton.domain.model.FilteredTicket
-import com.depromeet.baton.domain.model.TicketKind
 import com.depromeet.baton.presentation.base.BaseFragment
 import com.depromeet.baton.presentation.main.MainActivity
 import com.depromeet.baton.presentation.ui.address.view.AddressActivity
-import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
 import com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel
-import com.depromeet.baton.presentation.ui.home.adapter.RecyclerView2Adapter
-import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter
+import com.depromeet.baton.presentation.ui.home.adapter.AdapterItem
+import com.depromeet.baton.presentation.ui.home.adapter.StickyHeaderRecyclerViewAdapter
 import com.depromeet.baton.presentation.ui.home.viewmodel.HomeViewModel
-import com.depromeet.baton.presentation.ui.search.viewmodel.SearchViewModel
 import com.depromeet.baton.presentation.ui.writepost.view.WritePostActivity
-import com.depromeet.baton.presentation.util.TicketItemVerticalDecoration
 import com.depromeet.baton.util.BatonSpfManager
 import com.skydoves.balloon.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,32 +30,19 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class TestFragment : BaseFragment<FragmentTestBinding>(R.layout.fragment_test) {
-    private lateinit var recyclerView2Adapter: RecyclerView2Adapter
+
+    private lateinit var stickyHeaderRecyclerViewAdapter: StickyHeaderRecyclerViewAdapter
+
     private val homeViewModel: HomeViewModel by activityViewModels()
-    private val searchViewModel: SearchViewModel by activityViewModels()
     private val filterViewModel: FilterViewModel by activityViewModels()
-    private lateinit var ticketItemRvAdapter: TicketItemRvAdapter
 
     @Inject
     lateinit var spfManager: BatonSpfManager
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.filterViewModel = filterViewModel
         initView()
-        recyclerView2Adapter = RecyclerView2Adapter(requireContext())
-        binding.rvHome.adapter = recyclerView2Adapter
-        binding.rvHome.layoutManager = LinearLayoutManager(requireContext())
-
-  // recyclerView2Adapter.post(events)
-
-/*        filterViewModel.filteredTicketList.observe(viewLifecycleOwner) {
-            Log.e("ㅡㅡ", it?.forEach { it.id.toString() }.toString())
-            Log.e("ㅡㅡ", "dd")
-       //     recyclerView2Adapter.post(it ?: return@observe)
-        }*/
     }
-
 
     override fun onResume() {
         super.onResume()
@@ -73,7 +51,10 @@ class TestFragment : BaseFragment<FragmentTestBinding>(R.layout.fragment_test) {
         if (homeViewModel.fromAddress.value == true) {
             Handler(Looper.getMainLooper())
                 .postDelayed({
-                    homeViewModel.checkToolTipState(filterViewModel.ticketCount.value!!, spfManager.getAddress().roadAddress)
+                    homeViewModel.checkToolTipState(
+                        filterViewModel.ticketCount.value!!,
+                        spfManager.getAddress().roadAddress
+                    )
                 }, 600)
             homeViewModel.setFromAddress(false)
         }
@@ -86,6 +67,10 @@ class TestFragment : BaseFragment<FragmentTestBinding>(R.layout.fragment_test) {
     private fun initView() {
         initLayout()
         setObserve()
+        initAdapter()
+        /*FragmentTransaction.add()에 전달된 ID(예: R.id.feedContentContainer)는 setContentView()에 지정된 레이아웃의 자식이어야 한다.
+        아무리 inflate해도  java.lang.IllegalArgumentException: No view found for id for fragment filterchipfragment뜬이유
+        LayoutInflter.from(context).inflate(R.layout.fragment_header2, null)*/
     }
 
     private fun setObserve() {
@@ -106,6 +91,34 @@ class TestFragment : BaseFragment<FragmentTestBinding>(R.layout.fragment_test) {
         binding.tvHomeLocation.text = if (roadAddress != "") {
             roadAddress.slice(0..9) + "..."
         } else "위치 설정"
+    }
+
+    private fun initAdapter() {
+        val recyclerItemList: ArrayList<AdapterItem> = ArrayList()
+
+        stickyHeaderRecyclerViewAdapter = StickyHeaderRecyclerViewAdapter(
+            filterViewModel,
+            viewLifecycleOwner,
+            parentFragmentManager,
+            requireContext()
+        )
+        binding.rvHome.adapter = stickyHeaderRecyclerViewAdapter
+        binding.rvHome.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvHome.addItemDecoration(StickyHeaderItemDecoration(getSectionCallback()))
+
+        recyclerItemList.add(AdapterItem(StickyHeaderRecyclerViewAdapter.TOP, false))
+        recyclerItemList.add(AdapterItem(StickyHeaderRecyclerViewAdapter.HEADER, true))
+        recyclerItemList.add(AdapterItem(StickyHeaderRecyclerViewAdapter.BOTTOM, false))
+
+        stickyHeaderRecyclerViewAdapter.submitList(recyclerItemList)
+    }
+
+    private fun getSectionCallback(): StickyHeaderItemDecoration.SectionCallback {
+        return object : StickyHeaderItemDecoration.SectionCallback {
+            override fun getHeaderLayoutView(list: RecyclerView, position: Int): View? {
+                return stickyHeaderRecyclerViewAdapter.getHeaderView(list, position)
+            }
+        }
     }
 
     private fun showToolTip() {
@@ -141,49 +154,12 @@ class TestFragment : BaseFragment<FragmentTestBinding>(R.layout.fragment_test) {
 
                 HomeViewModel.HomeViewEvent.ToAlarm -> (activity as MainActivity).moveToChatting()
 
-                HomeViewModel.HomeViewEvent.ToHowTo -> HowToUseActivity.start(requireContext())
-
-                HomeViewModel.HomeViewEvent.ToQuickHealth -> goToQuick(TicketKind.HEALTH.value)
-
-                HomeViewModel.HomeViewEvent.ToQuickPt -> goToQuick(TicketKind.PT.value)
-
-                HomeViewModel.HomeViewEvent.ToQuickPilates -> goToQuick(TicketKind.PILATES_YOGA.value)
-
-                HomeViewModel.HomeViewEvent.ToQuickEtc -> goToQuick(TicketKind.ETC.value)
-
                 HomeViewModel.HomeViewEvent.ToWritePost -> WritePostActivity.start(requireContext())
 
                 HomeViewModel.HomeViewEvent.ShowToolTip -> showToolTip()
             }
             homeViewModel.consumeViewEvent(viewEvent)
         }
-    }
-
-    private fun goToQuick(type: String) {
-        searchViewModel.searchKeyword(type)
-        (activity as MainActivity).moveToSearch()
-    }
-
-    //필터 아이템 어댑터
-    private fun setTicketItemRvAdapter() {
-        with(binding) {
-            ticketItemRvAdapter =
-                TicketItemRvAdapter(TicketItemRvAdapter.SCROLL_TYPE_VERTICAL, ::setTicketItemClickListener)
-            val gridLayoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
-            adapter = ticketItemRvAdapter
-            rvHome.itemAnimator = null
-            itemDecoration = TicketItemVerticalDecoration()
-            rvHome.layoutManager = gridLayoutManager
-        }
-
-
-        filterViewModel.filteredTicketList.observe(viewLifecycleOwner) {
-            ticketItemRvAdapter.submitList(it)
-        }
-    }
-
-    private fun setTicketItemClickListener(ticketItem: FilteredTicket) {
-        TicketDetailActivity.start(requireContext(), ticketItem.id)
     }
 }
 

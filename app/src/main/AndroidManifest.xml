@@ -28,7 +28,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         tools:replace="android:label"
-    >
+        >
         <activity
             android:name=".presentation.ui.detail.InquiryActivity"
             android:exported="false" />

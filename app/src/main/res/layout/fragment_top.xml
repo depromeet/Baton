@@ -3,6 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <import type="com.depromeet.baton.domain.model.TicketKind" />
+
+        <variable
+            name="uiState"
+            type="com.depromeet.baton.presentation.ui.home.viewmodel.HomeViewModel.HomeUiState" />
+
+        <variable
+            name="filterViewModel"
+            type="com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel" />
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
@@ -59,6 +72,7 @@
                 android:layout_marginBottom="@dimen/dimen40"
                 android:background="@drawable/temp_home_see_more"
                 android:minWidth="0dp"
+                android:onClick="@{_ -> uiState.onHowToClick.invoke()}"
                 android:minHeight="0dp"
                 android:paddingHorizontal="@dimen/dimen16"
                 android:paddingVertical="@dimen/dimen12"
