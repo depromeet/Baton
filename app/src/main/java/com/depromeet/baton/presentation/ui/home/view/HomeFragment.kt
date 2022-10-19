@@ -53,8 +53,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         if (homeViewModel.fromAddress.value == true) {
             Handler(Looper.getMainLooper())
                 .postDelayed({
-                    homeViewModel.checkToolTipState(filterViewModel.ticketCount.value!!, spfManager.getAddress().roadAddress)
-                }, 600)
+                    homeViewModel.checkToolTipState(
+                        filterViewModel.ticketCount.value ?: 0,
+                        spfManager.getAddress().roadAddress
+                    )
+                }, TOOLTIP_SHOW_TIME)
             homeViewModel.setFromAddress(false)
         }
         if (spfManager.getInitToolTip()) {
@@ -84,31 +87,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private fun initLayout() {
         val roadAddress = spfManager.getAddress().roadAddress
 
-        binding.tvHomeLocation.text = if (roadAddress != "") {
-            roadAddress.slice(0..9) + "..."
-        } else "위치 설정"
-    }
-
-    private fun showToolTip() {
-        val balloon = Balloon.Builder(requireContext())
-            .setWidthRatio(0.0f)
-            .setHeight(BalloonSizeSpec.WRAP)
-            .setElevation(3)
-            .setMarginBottom(10)
-            .setMarginLeft(16)
-            .setTextSize(10f)
-            .setArrowPositionRules(ArrowPositionRules.ALIGN_ANCHOR)
-            .setArrowDrawableResource(com.depromeet.bds.R.drawable.ic_tooltip_subtract)
-            .setArrowSize(10)
-            .setArrowPosition(0.57f)
-            .setPadding(10)
-            .setCornerRadius(4f)
-            .setBackgroundColorResource(com.depromeet.bds.R.color.bg)
-            .setBalloonAnimation(BalloonAnimation.ELASTIC)
-            .setLayout(com.depromeet.baton.R.layout.tooltip_home)
-            .setLifecycleOwner(this)
-            .build()
-        binding.viewTooltip.showAlignBottom(balloon, 0, 0)
+        binding.tvHomeLocation.text = if (roadAddress.isNotEmpty()) {
+            roadAddress.slice(0..9) + MORE_CHAR
+        } else SETTING_LOCATION
     }
 
     private fun handleViewEvents(viewEvents: List<HomeViewModel.HomeViewEvent>) {
@@ -145,18 +126,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         (activity as MainActivity).moveToSearch()
     }
 
-    //필터 아이템 어댑터
     private fun setTicketItemRvAdapter() {
         with(binding) {
             ticketItemRvAdapter =
-                TicketItemRvAdapter(TicketItemRvAdapter.SCROLL_TYPE_VERTICAL, ::setTicketItemClickListener)
-            val gridLayoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
+                TicketItemRvAdapter(
+                    TicketItemRvAdapter.SCROLL_TYPE_VERTICAL,
+                    ::setTicketItemClickListener
+                )
+            val gridLayoutManager =
+                GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
             adapter = ticketItemRvAdapter
             rvHome.itemAnimator = null
             itemDecoration = TicketItemVerticalDecoration()
             rvHome.layoutManager = gridLayoutManager
         }
-
 
         filterViewModel.filteredTicketList.observe(viewLifecycleOwner) {
             ticketItemRvAdapter.submitList(it)
@@ -165,6 +148,34 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private fun setTicketItemClickListener(ticketItem: FilteredTicket) {
         TicketDetailActivity.start(requireContext(), ticketItem.id)
+    }
+
+    private fun showToolTip() {
+        val balloon = Balloon.Builder(requireContext())
+            .setWidthRatio(0.0f)
+            .setHeight(BalloonSizeSpec.WRAP)
+            .setElevation(3)
+            .setMarginBottom(10)
+            .setMarginLeft(16)
+            .setTextSize(10f)
+            .setArrowPositionRules(ArrowPositionRules.ALIGN_ANCHOR)
+            .setArrowDrawableResource(com.depromeet.bds.R.drawable.ic_tooltip_subtract)
+            .setArrowSize(10)
+            .setArrowPosition(0.57f)
+            .setPadding(10)
+            .setCornerRadius(4f)
+            .setBackgroundColorResource(com.depromeet.bds.R.color.bg)
+            .setBalloonAnimation(BalloonAnimation.ELASTIC)
+            .setLayout(com.depromeet.baton.R.layout.tooltip_home)
+            .setLifecycleOwner(this)
+            .build()
+        binding.viewTooltip.showAlignBottom(balloon, 0, 0)
+    }
+
+    companion object {
+        const val SETTING_LOCATION = "위치 설정"
+        const val MORE_CHAR = "..."
+        const val TOOLTIP_SHOW_TIME = 600L
     }
 }
 
