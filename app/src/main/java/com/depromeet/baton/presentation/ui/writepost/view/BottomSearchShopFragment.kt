@@ -23,7 +23,8 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 
 
 @AndroidEntryPoint
-class BottomSearchShopFragment : BaseBottomDialogFragment<FragmentBottomSearchShopBinding>(R.layout.fragment_bottom_search_shop) {
+class BottomSearchShopFragment :
+    BaseBottomDialogFragment<FragmentBottomSearchShopBinding>(R.layout.fragment_bottom_search_shop) {
 
     private val writePostViewModel: WritePostViewModel by activityViewModels()
     private lateinit var searchShopRvAdapter: SearchShopRvAdapter
@@ -47,8 +48,7 @@ class BottomSearchShopFragment : BaseBottomDialogFragment<FragmentBottomSearchSh
             .onEach { uiState -> binding.uiState = uiState }
             .launchIn(lifecycleScope)
 
-        //리사이클러뷰에서 선택한 경우
-        writePostViewModel.isShopSelected.observe(this) {
+        writePostViewModel.isShopSelected.observe(viewLifecycleOwner) {
             writePostViewModel.bottomSearchUiState.value.setBottomDialogDismiss.invoke()
         }
     }
@@ -64,15 +64,21 @@ class BottomSearchShopFragment : BaseBottomDialogFragment<FragmentBottomSearchSh
     }
 
     private fun setInputField() {
-        writePostViewModel.searchPlace("")
+        writePostViewModel.searchPlace(KEYWORD_INIT)
         with(binding.bdsSearchbarBottomPlace) {
             textListener = object : BdsSearchBar.TextListener {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     val query = s.toString()
                     if (query.isNotEmpty()) writePostViewModel.searchPlace(query)
-                    if (query == "") writePostViewModel.searchPlace("")
+                    if (query.isEmpty()) writePostViewModel.searchPlace(KEYWORD_INIT)
                 }
 
                 override fun afterTextChanged(s: Editable?) {}
@@ -82,9 +88,9 @@ class BottomSearchShopFragment : BaseBottomDialogFragment<FragmentBottomSearchSh
                 searchBarKeyBoardListener(it)
             }
 
-            setHint("헬스장 이름이나 도로명 주소 검색")
+            setHint(SEARCH_HINT)
 
-           lifecycleScope.launch {
+            lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     writePostViewModel.shopInfoList.collect { shopInfoList ->
                         if (isNotEmpty()) searchShopRvAdapter.submitList(shopInfoList)
@@ -92,5 +98,10 @@ class BottomSearchShopFragment : BaseBottomDialogFragment<FragmentBottomSearchSh
                 }
             }
         }
+    }
+
+    companion object {
+        const val SEARCH_HINT = "헬스장 이름이나 도로명 주소 검색"
+        const val KEYWORD_INIT = ""
     }
 }

@@ -1,10 +1,8 @@
 package com.depromeet.baton.presentation.ui.writepost.view
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -13,7 +11,10 @@ import com.depromeet.baton.domain.model.TransferFee
 import com.depromeet.baton.presentation.base.BaseFragment
 import com.depromeet.baton.presentation.ui.writepost.viewmodel.WritePostViewModel
 import com.depromeet.bds.R
-import com.skydoves.balloon.*
+import com.skydoves.balloon.ArrowPositionRules
+import com.skydoves.balloon.Balloon
+import com.skydoves.balloon.BalloonAnimation
+import com.skydoves.balloon.BalloonSizeSpec
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -28,7 +29,6 @@ class TransactionMethodRegisterFragment : BaseFragment<FragmentTransactionMethod
         writePostViewModel.setNextLevelEnable()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.transactionMethodRegisterFragment = this
@@ -36,14 +36,12 @@ class TransactionMethodRegisterFragment : BaseFragment<FragmentTransactionMethod
         initView()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun initView() {
         setObserve()
         setTermIsChecked()
         setCheckboxOnClickListener()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun setObserve() {
         writePostViewModel.transactionMethodUiState
             .flowWithLifecycle(lifecycle)
@@ -104,7 +102,6 @@ class TransactionMethodRegisterFragment : BaseFragment<FragmentTransactionMethod
         balloon.showAsDropDown(binding.tvTransactionMethodInfo, 0, 0)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun setCheckboxOnClickListener() {
         with(binding) {
             checkboxSeller.setOnClickListener {

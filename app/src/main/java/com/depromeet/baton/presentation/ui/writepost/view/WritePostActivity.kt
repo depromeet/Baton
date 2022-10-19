@@ -2,11 +2,8 @@ package com.depromeet.baton.presentation.ui.writepost.view
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -25,7 +22,6 @@ import kotlinx.coroutines.flow.onEach
 class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activity_write_post) {
     private val writePostViewModel: WritePostViewModel by viewModels()
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.writePost = this
@@ -34,8 +30,6 @@ class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activi
         setInitOnClickListener()
     }
 
-
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun setObserve() {
         writePostViewModel.writePostPositionViewEvents
             .flowWithLifecycle(lifecycle)
@@ -52,12 +46,10 @@ class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activi
         }
         binding.bdsBackwardAppbarWritePost.setOnBackwardClick {
             //todo 임시저장
-            //  this.BdsToast("작성하던 글이 임시저장 됐어요.", binding.btnWritePostBack.top).show()
             finish()
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun handleViewEvents(viewEvents: List<WritePostViewModel.WritePostPositionViewEvent>) {
         viewEvents.firstOrNull()?.let { viewEvent ->
             when (viewEvent) {
@@ -80,16 +72,15 @@ class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activi
         writePostViewModel.currentLevel.observe(this) { currentLevel ->
             when (currentLevel) {
                 0 -> finish()
-                in 4..5 -> binding.btnWritePostNext.setText("완료")
-                else -> binding.btnWritePostNext.setText("다음")
+                in 4..5 -> binding.btnWritePostNext.setText(WRITE_DONE)
+                else -> binding.btnWritePostNext.setText(NEXT)
             }
         }
 
         writePostViewModel.postSuccess.observe(this) {
-            //  this.BdsToast("판매글 등록이 완료됐어요.", binding.btnWritePostBack.top).show()
-            this.BdsToast("판매글 등록이 완료됐어요").show()
+            this.BdsToast(WRITE_SUCCESS).show()
             TicketDetailActivity.start(this@WritePostActivity, writePostViewModel.postId.value!!)
-         
+
             finish()
         }
     }
@@ -116,6 +107,10 @@ class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activi
             val intent = Intent(context, WritePostActivity::class.java)
             context.startActivity(intent)
         }
+
+        const val WRITE_DONE = "완료"
+        const val NEXT = "다음"
+        const val WRITE_SUCCESS = "판매글 등록이 완료됐어요"
     }
 }
 

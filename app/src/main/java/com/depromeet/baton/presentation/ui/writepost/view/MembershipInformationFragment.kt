@@ -1,10 +1,8 @@
 package com.depromeet.baton.presentation.ui.writepost.view
 
-import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -27,7 +25,6 @@ class MembershipInformationFragment : BaseFragment<FragmentMembershipInformation
         writePostViewModel.setNextLevelEnable()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.membershipInformationFragment = this
@@ -35,7 +32,6 @@ class MembershipInformationFragment : BaseFragment<FragmentMembershipInformation
         initView()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun initView() {
         writePostViewModel.setNextLevelEnable()
         setObserve()
@@ -46,7 +42,6 @@ class MembershipInformationFragment : BaseFragment<FragmentMembershipInformation
         binding.etTerm.addTextChangedListener(CustomTextWatcher(binding.etTerm))
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun setObserve() {
         writePostViewModel.membershipInfoUiState
             .flowWithLifecycle(lifecycle)
@@ -86,7 +81,6 @@ class MembershipInformationFragment : BaseFragment<FragmentMembershipInformation
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun setCheckboxOnClickListener() {
         with(binding) {
             checkboxBargaining.setOnClickListener {
@@ -116,7 +110,6 @@ class MembershipInformationFragment : BaseFragment<FragmentMembershipInformation
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun setEditText() {
         with(binding) {
             writePostViewModel.isPeriodChecked.observe(viewLifecycleOwner) {
