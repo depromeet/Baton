@@ -5,19 +5,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.baton.databinding.ItemTicketBinding
 import com.depromeet.baton.domain.model.FilteredTicket
 import com.depromeet.baton.presentation.util.distanceFormatUtil
-import com.depromeet.baton.util.SimpleDiffUtil
 import com.depromeet.bds.utils.toPx
 
 
 class TicketItemRvAdapter(
     private val scrollType: String,
     private val clickListener: (FilteredTicket) -> Unit,
-) : ListAdapter<FilteredTicket, TicketItemRvAdapter.TicketItemViewHolder>(SimpleDiffUtil()) {
+) : ListAdapter<FilteredTicket, TicketItemRvAdapter.TicketItemViewHolder>(TicketItemComparator()) {
 
     private lateinit var inflater: LayoutInflater
 
@@ -25,9 +25,8 @@ class TicketItemRvAdapter(
         if (!::inflater.isInitialized)
             inflater = LayoutInflater.from(parent.context)
 
-        val binding = ItemTicketBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemTicketBinding.inflate(inflater, parent, false)
 
-        //이미지 라운드 처리
         binding.ibtnItemTicket.clipToOutline = true
 
         return TicketItemViewHolder(binding)
@@ -46,41 +45,35 @@ class TicketItemRvAdapter(
         ) {
             with(binding) {
                 ticket = item
-                executePendingBindings()
 
-                //가로스크롤뷰
                 if (scrollType == SCROLL_TYPE_HORIZONTAL) {
                     val lp = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT)
-                    lp.width = 156.toPx()
+                    lp.width = SCROLL_VIEW_WIDTH.toPx()
                     ctlItemTicketContainer.layoutParams = lp
                 }
 
-                //태그
                 if ((item.tags?.size ?: 0) > 2) {
                     val etcSize = (item.tags?.size ?: 0) - 2
                     itemTicketTagEtc.text = "+$etcSize"
                 }
 
-                //거리
                 tvItemTicketDistance.text = distanceFormatUtil(item.distance!!.toDouble())
 
-                //좋아요 버튼 todo 서버연결
+                //TODO 좋아요 버튼
                 ctvItemTicketLike.visibility = View.INVISIBLE
 
-                //엠티뷰
-                setEmptyImage(item.type ?: "기타", ivItemEmpty)
+                setEmptyImage(item.type ?: ETC, ivItemEmpty)
 
-                //상세페이지로
                 root.setOnClickListener { clickListener(item) }
             }
         }
 
         private fun setEmptyImage(type: String, view: ImageView) {
             when (type) {
-                "헬스" -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_health_86)
-                "기타" -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_etc_86)
-                "PT" -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_pt_86)
-                "필라테스" -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_pilates_86)
+                HEALTH -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_health_86)
+                ETC -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_etc_86)
+                PT -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_pt_86)
+                PILATES -> view.setImageResource(com.depromeet.bds.R.drawable.ic_empty_pilates_86)
             }
         }
     }
@@ -88,5 +81,26 @@ class TicketItemRvAdapter(
     companion object {
         const val SCROLL_TYPE_VERTICAL = "VERTICAL"
         const val SCROLL_TYPE_HORIZONTAL = "HORIZONTAL"
+        const val HEALTH = "헬스"
+        const val ETC = "기타"
+        const val PT = "PT"
+        const val PILATES = "필라테스"
+        const val SCROLL_VIEW_WIDTH = 156
+    }
+}
+
+private class TicketItemComparator : DiffUtil.ItemCallback<FilteredTicket>() {
+    override fun areItemsTheSame(
+        oldItem: FilteredTicket,
+        newItem: FilteredTicket
+    ): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(
+        oldItem: FilteredTicket,
+        newItem: FilteredTicket
+    ): Boolean {
+        return oldItem == newItem
     }
 }

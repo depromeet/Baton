@@ -1,17 +1,20 @@
 package com.depromeet.baton.presentation.ui.home.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.baton.R
-import com.depromeet.baton.databinding.*
+import com.depromeet.baton.databinding.FragmentBottomBinding
+import com.depromeet.baton.databinding.FragmentHeaderBinding
+import com.depromeet.baton.databinding.FragmentTestBinding
+import com.depromeet.baton.databinding.FragmentTopBinding
 import com.depromeet.baton.domain.model.FilteredTicket
 import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
 import com.depromeet.baton.presentation.ui.filter.view.FilterChipFragment
@@ -19,81 +22,88 @@ import com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel
 import com.depromeet.baton.presentation.ui.home.view.BlankFragment
 import com.depromeet.baton.presentation.ui.home.view.HowToUseActivity
 import com.depromeet.baton.presentation.util.TicketItemVerticalDecoration
-import com.depromeet.baton.util.SimpleDiffUtil
-
-
-data class AdapterItem(var type: Int, val isHeader: Boolean)
 
 class StickyHeaderRecyclerViewAdapter constructor(
-    val filterViewModel: FilterViewModel,
-    val lifeCycleOwner: LifecycleOwner,
-    val fragmentManager: FragmentManager,
-    val context: Context,
-) : ListAdapter<AdapterItem, RecyclerView.ViewHolder>(SimpleDiffUtil()) {
+    private val filterViewModel: FilterViewModel,
+    private val lifeCycleOwner: LifecycleOwner,
+    private val fragmentManager: FragmentManager,
+    private val context: Context,
+) : ListAdapter<AdapterItem, RecyclerView.ViewHolder>(AdapterItemComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == TOP) {
-            return TopViewHolder(
-                FragmentTopBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
+        when (viewType) {
+            TOP -> {
+                return TopViewHolder(
+                    FragmentTopBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
                 )
-            )
-        } else if (viewType == HEADER) {
-            return HeaderViewHolder(
-                FragmentHeaderBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
+            }
+            HEADER -> {
+                return HeaderViewHolder(
+                    FragmentHeaderBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
                 )
-            )
-        } else {
-            return BottomViewHolder(
-                FragmentBottomBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
+            }
+            else -> {
+                return BottomViewHolder(
+                    FragmentBottomBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    ), context, filterViewModel, lifeCycleOwner
                 )
-            )
+            }
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (currentList[position].type == TOP) {
-            (holder as TopViewHolder).bind()
-        } else if (currentList[position].type == HEADER) {
-            (holder as HeaderViewHolder)
-        } else if (currentList[position].type == BOTTOM) {
-            (holder as BottomViewHolder)
+        when (currentList[position].type) {
+            TOP -> {
+                (holder as TopViewHolder).bind(context)
+            }
+            HEADER -> {
+                (holder as HeaderViewHolder)
+            }
+            BOTTOM -> {
+                (holder as BottomViewHolder)
+            }
         }
     }
-
-    private fun setTicketItemClickListener(ticketItem: FilteredTicket) {
-        TicketDetailActivity.start(context, ticketItem.id)
-    }
-
 
     override fun getItemViewType(position: Int): Int {
         return currentList[position].type
     }
 
-    inner class TopViewHolder(var binding: FragmentTopBinding) :
+    class TopViewHolder(var binding: FragmentTopBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind() {
+        fun bind(context: Context) {
             binding.btnHomeMore.setOnClickListener {
-                Log.e("ㅡㅡㅡㄷㄱ","ㅎㅇ")
                 HowToUseActivity.start(context)
             }
         }
     }
 
-    inner class HeaderViewHolder(var binding: FragmentHeaderBinding) :
+    class HeaderViewHolder(var binding: FragmentHeaderBinding) :
         RecyclerView.ViewHolder(binding.root) {
     }
 
-    inner class BottomViewHolder(var binding: FragmentBottomBinding) :
+    class BottomViewHolder(
+        binding: FragmentBottomBinding,
+        private val context: Context,
+        filterViewModel: FilterViewModel,
+        lifeCycleOwner: LifecycleOwner
+    ) :
         RecyclerView.ViewHolder(binding.root) {
+        private fun setTicketItemClickListener(ticketItem: FilteredTicket) {
+            TicketDetailActivity.start(context, ticketItem.id)
+        }
+
         init {
             val adapter = TicketItemRvAdapter(
                 TicketItemRvAdapter.SCROLL_TYPE_VERTICAL,
@@ -128,5 +138,21 @@ class StickyHeaderRecyclerViewAdapter constructor(
         const val TOP = 1
         const val HEADER = 2
         const val BOTTOM = 3
+    }
+}
+
+private class AdapterItemComparator : DiffUtil.ItemCallback<AdapterItem>() {
+    override fun areItemsTheSame(
+        oldItem: AdapterItem,
+        newItem: AdapterItem
+    ): Boolean {
+        return oldItem.type == newItem.type
+    }
+
+    override fun areContentsTheSame(
+        oldItem: AdapterItem,
+        newItem: AdapterItem
+    ): Boolean {
+        return oldItem == newItem
     }
 }
