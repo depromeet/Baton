@@ -155,7 +155,8 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         ticketTagAdapter.initList(uiState.ticket.infoHashs)
         gymTagAdapter.initList(uiState.ticket.tags)
         ticketImgRvAdapter.submitList(uiState.ticket.imgList.map { it.url })
-        uiState.ticket.seller.image?.let {
+        uiState.sellerImage?.let {
+            Timber.e(it)
             Glide.with(this)
                 .load(it)
                 .error(com.depromeet.bds.R.drawable.ic_img_profile_basic_smile_96)

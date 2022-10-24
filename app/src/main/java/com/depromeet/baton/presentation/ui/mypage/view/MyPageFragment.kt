@@ -76,6 +76,10 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                 replaceFragment(purchaseHistoryFragment)
             }
             mypageLikeCd.setOnClickListener {
+                if(likeTicketFragment.isAdded){
+                    requireActivity().supportFragmentManager.beginTransaction().remove(likeTicketFragment)
+                    likeTicketFragment = LikeTicketFragment()
+                }
                 replaceFragment(likeTicketFragment)
             }
             mypageProfileEditIc.setOnClickListener {

@@ -454,7 +454,7 @@ data class DetailTicketInfoUiState(
     val remainText = if (ticket.isMembership) "남은 기간" else "남은 횟수"
     val remainCount = if (ticket.isMembership) "${ticket.remainDate}일" else "${ticket.remainingNumber}회"
 
-    val sellerImage = Uri.parse(ticket.seller.image)
+    val sellerImage = if(ticket.seller.image != null)"https://baton-bucket.s3.ap-northeast-2.amazonaws.com/media/user-api/"+ticket.seller.image else null
 
 }
 

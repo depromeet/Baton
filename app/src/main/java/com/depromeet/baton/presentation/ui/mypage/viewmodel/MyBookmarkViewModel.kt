@@ -5,6 +5,7 @@ import com.depromeet.baton.data.response.BookmarkTicket
 import com.depromeet.baton.domain.di.IoDispatcher
 import com.depromeet.baton.domain.di.MainDispatcher
 import com.depromeet.baton.domain.repository.AuthRepository
+import com.depromeet.baton.domain.repository.AuthTokenRepository
 import com.depromeet.baton.domain.repository.BookmarkRepository
 import com.depromeet.baton.domain.repository.UserinfoRepository
 import com.depromeet.baton.map.util.NetworkResult
@@ -24,7 +25,11 @@ class MyBookmarkViewModel @Inject constructor(
     @IoDispatcher private val Dispatcher: CoroutineDispatcher,
     private val bookmarkRepository: BookmarkRepository,
     private val authRepository: AuthRepository,
-    private val userinfoRepository: UserinfoRepository) : BaseViewModel() {
+    private val userinfoRepository: UserinfoRepository,
+    private val tokenRepository: AuthTokenRepository
+    ) : BaseViewModel() {
+
+    val tokenError = tokenRepository.tokenError
 
     private val _uiState = MutableStateFlow<BookmarkUiState>(BookmarkUiState(emptyList(),true))
     val uiState = _uiState.asStateFlow()
@@ -35,40 +40,44 @@ class MyBookmarkViewModel @Inject constructor(
 
     fun getBookMarkList(){
        viewModelScope.launch{
-            runCatching {
-                userinfoRepository.getUserBookmarks(authRepository.authInfo!!.userId,0)
-            }.onSuccess {
-                    result -> _netWorkState.update { result }
-                        when(result) {
-                            is NetworkResult.Success -> {
-                                _uiState.update { it.copy(list = result.data!!, isLoading = false) }
-                            }
-                            is NetworkResult.Error -> {
-                                _uiState.update { it.copy(isLoading = false) }
-                                Timber.e(result.message)
-                            }
-                        }
-            }.onFailure {
-                Timber.e(it.message)
-                _netWorkState.update { NetworkResult.Error(it.message.toString()) }
-            }
+           tokenRepository.authValidation {
+               runCatching {
+                   userinfoRepository.getUserBookmarks(authRepository.authInfo!!.userId,0)
+               }.onSuccess {
+                       result -> _netWorkState.update { result }
+                   when(result) {
+                       is NetworkResult.Success -> {
+                           _uiState.update { it.copy(list = result.data!!, isLoading = false) }
+                       }
+                       is NetworkResult.Error -> {
+                           _uiState.update { it.copy(isLoading = false) }
+                           Timber.e(result.message)
+                       }
+                   }
+               }.onFailure {
+                   Timber.e(it.message)
+                   _netWorkState.update { NetworkResult.Error(it.message.toString()) }
+               }
+           }
         }
     }
 
 
     fun deleteBookMark(bookmarkId : Int){
         viewModelScope.launch {
-            runCatching {
-                bookmarkRepository.deleteBookmark(bookmarkId)
-            }.onSuccess {
-                res ->
+            tokenRepository.authValidation {
+                runCatching {
+                    bookmarkRepository.deleteBookmark(bookmarkId)
+                }.onSuccess {
+                        res ->
                     when(res){
                         is NetworkResult.Success->  {  }
                         is NetworkResult.Error->  Timber.e("${res.message}")
                     }
-                getBookMarkList()
-            }.onFailure {
-                Timber.e(it.message)
+                    getBookMarkList()
+                }.onFailure {
+                    Timber.e(it.message)
+                }
             }
         }
     }
