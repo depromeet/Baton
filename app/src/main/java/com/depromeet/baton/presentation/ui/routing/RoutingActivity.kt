@@ -14,6 +14,7 @@ import com.depromeet.baton.presentation.ui.ask.view.MsgRcvActivity
 import com.depromeet.baton.presentation.ui.ask.view.MsgSendActivity
 import com.depromeet.baton.presentation.ui.routing.RoutingViewModel.ViewEvent
 import com.depromeet.baton.presentation.ui.sign.SignActivity
+import com.depromeet.bds.component.BdsToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.delay
@@ -59,6 +60,10 @@ class RoutingActivity : BaseActivity<ActivityRoutingBinding>(R.layout.activity_r
                     MainActivity.start(this)
                 }
                 ViewEvent.ToLogIn -> {
+                    SignActivity.start(this)
+                }
+                ViewEvent.AuthToast ->{
+                    BdsToast("유저 세션이 만료되었습니다. 다시 로그인 해주세요").show()
                     SignActivity.start(this)
                 }
             }

@@ -11,11 +11,15 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentSearchBinding
 import com.depromeet.baton.presentation.base.BaseFragment
+import com.depromeet.baton.presentation.main.AuthViewModel
 import com.depromeet.baton.presentation.main.MainActivity
+import com.depromeet.baton.presentation.main.TokenState
 import com.depromeet.baton.presentation.ui.search.viewmodel.FilterSearchViewModel
 import com.depromeet.baton.presentation.ui.search.viewmodel.SearchViewModel
+import com.depromeet.baton.presentation.ui.sign.SignActivity
 import com.depromeet.baton.presentation.util.viewLifecycleScope
 import com.depromeet.bds.component.BdsSearchBar
+import com.depromeet.bds.component.BdsToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -33,10 +37,11 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     private val recentFragment = RecentSearchFragment()
     private val detailFragment = SearchDetailFragment()
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         searchKeyword()
+
         searchViewModel.searchUiState
             .flowWithLifecycle(lifecycle)
             .onEach { uiState -> binding.uiState = uiState }

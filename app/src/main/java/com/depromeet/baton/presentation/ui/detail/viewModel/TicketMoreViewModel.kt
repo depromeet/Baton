@@ -8,10 +8,7 @@ import com.depromeet.baton.domain.model.FilteredTicket
 import com.depromeet.baton.R
 import com.depromeet.baton.data.response.ResponseFilteredTicket
 import com.depromeet.baton.domain.model.TicketSimpleInfo
-import com.depromeet.baton.domain.repository.AuthRepository
-import com.depromeet.baton.domain.repository.BookmarkRepository
-import com.depromeet.baton.domain.repository.SearchRepository
-import com.depromeet.baton.domain.repository.TicketInfoRepository
+import com.depromeet.baton.domain.repository.*
 import com.depromeet.baton.domain.usecase.GetFilteredTicketUseCase
 import com.depromeet.baton.map.util.NetworkResult
 import com.depromeet.baton.presentation.base.BaseViewModel
@@ -31,7 +28,7 @@ class TicketMoreViewModel @Inject constructor(
     private val spfManager: BatonSpfManager,
     private val savedStateHandle: SavedStateHandle,
     private val getFilteredTicketUseCase: GetFilteredTicketUseCase,
-    private val ticketInfoRepository: TicketInfoRepository,
+    private val tokenRepository: AuthTokenRepository,
     private val authRepository: AuthRepository,
     private val bookmarkRepository: BookmarkRepository,
 ) : BaseViewModel() {
@@ -49,29 +46,31 @@ class TicketMoreViewModel @Inject constructor(
 
     fun initState() {
         viewModelScope.launch {
-            runCatching {
-                //TODO 추천 아이템 불러오기
-                getFilteredTicketUseCase.execute(
-                    page = 0,
-                    size = MAX_ITEM,
-                    longitude = spfManager.getMyLongitude(),
-                    latitude = spfManager.getMyLatitude(),
-                    maxDistance = spfManager.getMaxDistance().getDistance(),
-                    sortType = "DISTANCE"
-                )
-            }.onSuccess {
-                when (it) {
-                    is UIState.Success<*> -> {
-                        @Suppress("UNCHECKED_CAST")
-                        val list = it.data as List<FilteredTicket>
-                        if (list.isNotEmpty()) {
-                            _uiState.update { list }
+            tokenRepository.authValidation {
+                runCatching {
+                    //TODO 추천 아이템 불러오기
+                    getFilteredTicketUseCase.execute(
+                        page = 0,
+                        size = MAX_ITEM,
+                        longitude = spfManager.getMyLongitude(),
+                        latitude = spfManager.getMyLatitude(),
+                        maxDistance = spfManager.getMaxDistance().getDistance(),
+                        sortType = "DISTANCE"
+                    )
+                }.onSuccess {
+                    when (it) {
+                        is UIState.Success<*> -> {
+                            @Suppress("UNCHECKED_CAST")
+                            val list = it.data as List<FilteredTicket>
+                            if (list.isNotEmpty()) {
+                                _uiState.update { list }
+                            }
                         }
                     }
+                }.onFailure { error ->
+                    Timber.e(error.message)
+                    _networkState.update { TicketMoreNetwork.Failure(error.message.toString()) }
                 }
-            }.onFailure { error ->
-                Timber.e(error.message)
-                _networkState.update { TicketMoreNetwork.Failure(error.message.toString()) }
             }
         }
     }

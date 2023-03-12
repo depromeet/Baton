@@ -14,9 +14,11 @@ import com.depromeet.baton.R
 import com.depromeet.baton.databinding.ActivityWritePostBinding
 import com.depromeet.baton.presentation.base.BaseActivity
 import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
+import com.depromeet.baton.presentation.ui.sign.SignActivity
 import com.depromeet.baton.presentation.ui.writepost.viewmodel.WritePostViewModel
 import com.depromeet.bds.component.BdsToast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -90,6 +92,12 @@ class WritePostActivity : BaseActivity<ActivityWritePostBinding>(R.layout.activi
             this.BdsToast("판매글 등록이 완료됐어요").show()
             TicketDetailActivity.start(this@WritePostActivity, writePostViewModel.postId.value!!)
          
+            finish()
+        }
+
+        writePostViewModel.tokenError.observe(this){
+            BdsToast("유저 세션이 만료되었습니다. 다시 로그인 해주세요").show()
+            SignActivity.start(this)
             finish()
         }
     }

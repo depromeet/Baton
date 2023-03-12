@@ -1,5 +1,7 @@
 package com.depromeet.baton.presentation.di
 
+
+
 import com.depromeet.baton.annotation.Server
 import com.depromeet.baton.annotation.ServerType
 import com.depromeet.baton.remote.AuthNetworkInterceptor
@@ -8,6 +10,7 @@ import com.depromeet.baton.remote.ticket.BookmarkService
 import com.depromeet.baton.remote.ticket.InquiryService
 import com.depromeet.baton.remote.ticket.TicketInfoService
 import com.depromeet.baton.remote.user.SignService
+import com.depromeet.baton.remote.user.TokenService
 import com.depromeet.baton.remote.user.UserInfoService
 import com.squareup.moshi.Moshi
 import dagger.Module
@@ -25,7 +28,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class NetworkModule {
-
     @Provides
     @Singleton
     fun provideOkHttpClient(
@@ -63,6 +65,7 @@ class NetworkModule {
     ): Retrofit {
         return internalCreateRetrofit("https://baton.yonghochoi.com/", okHttpClient, moshi)
     }
+
 
     @Provides
     @Singleton
@@ -102,6 +105,12 @@ class NetworkModule {
         return retrofit.create()
     }
 
+
+    @Provides
+    @Singleton
+    fun provideAuthTokenService(@Server(ServerType.User) retrofit: Retrofit): TokenService {
+        return retrofit.create()
+    }
 
     private fun internalCreateRetrofit(
         baseUrl: String,

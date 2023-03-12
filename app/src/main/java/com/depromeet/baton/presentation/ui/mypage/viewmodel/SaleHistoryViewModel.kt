@@ -7,6 +7,7 @@ import com.depromeet.baton.domain.model.TicketInfo
 import com.depromeet.baton.domain.model.TicketSimpleInfo
 import com.depromeet.baton.domain.model.TicketStatus
 import com.depromeet.baton.domain.repository.AuthRepository
+import com.depromeet.baton.domain.repository.AuthTokenRepository
 import com.depromeet.baton.domain.repository.TicketInfoRepository
 import com.depromeet.baton.domain.repository.UserinfoRepository
 import com.depromeet.baton.map.util.NetworkResult
@@ -29,8 +30,12 @@ class SaleHistoryViewModel @Inject constructor(
     private val userinfoRepository: UserinfoRepository,
     private val ticketinfoRepository: TicketInfoRepository,
     private val authRepository: AuthRepository,
+    private val tokenRepository: AuthTokenRepository,
     val spfManager: BatonSpfManager
 ) : BaseViewModel() {
+
+    val tokenError = tokenRepository.tokenError
+
     private val _uiState: MutableStateFlow<SaleHistoryUiState> =
         MutableStateFlow(SaleHistoryUiState())
     val uiState = _uiState.asStateFlow()
@@ -42,24 +47,25 @@ class SaleHistoryViewModel @Inject constructor(
 
     fun getSaleHistory() {
         viewModelScope.launch {
-            //authRepository.authInfo!!.userId
-            runCatching {
-                _uiState.update { it.copy( isLoading = true) }
-                userinfoRepository.getUserSellList(authRepository.authInfo!!.userId, TicketState.SALE.option)
-            }.onSuccess { res ->
-                run {
-                    when (res) {
-                        is NetworkResult.Success -> {
-                            val list = res.data?.toListItems()
-                            _uiState.update { it.copy(list = list, isLoading = false) }
-                        }
-                        is NetworkResult.Error -> {
-                            Timber.e(res.message)
+            tokenRepository.authValidation {
+                runCatching {
+                    _uiState.update { it.copy( isLoading = true) }
+                    userinfoRepository.getUserSellList(authRepository.authInfo!!.userId, TicketState.SALE.option)
+                }.onSuccess { res ->
+                    run {
+                        when (res) {
+                            is NetworkResult.Success -> {
+                                val list = res.data?.toListItems()
+                                _uiState.update { it.copy(list = list, isLoading = false) }
+                            }
+                            is NetworkResult.Error -> {
+                                Timber.e(res.message)
+                            }
                         }
                     }
+                }.onFailure { e ->
+                    Timber.e(e.toString())
                 }
-            }.onFailure { e ->
-                Timber.e(e.toString())
             }
         }
     }
@@ -78,23 +84,25 @@ class SaleHistoryViewModel @Inject constructor(
 
     fun getSoldoutHistory() {
         viewModelScope.launch {
-            runCatching {
-                _soldoutUiState.update { it.copy( isLoading = true) }
-                userinfoRepository.getUserSellList(authRepository.authInfo!!.userId, TicketState.SOLDOUT.option)
-            }.onSuccess { res ->
-                run {
-                    when (res) {
-                        is NetworkResult.Success -> {
-                            val list = res.data?.toListItems()
-                            _soldoutUiState.update { it.copy(list = list, isLoading = false) }
-                        }
-                        is NetworkResult.Error -> {
-                            Timber.e( res.message)
+            tokenRepository.authValidation {
+                runCatching {
+                    _soldoutUiState.update { it.copy( isLoading = true) }
+                    userinfoRepository.getUserSellList(authRepository.authInfo!!.userId, TicketState.SOLDOUT.option)
+                }.onSuccess { res ->
+                    run {
+                        when (res) {
+                            is NetworkResult.Success -> {
+                                val list = res.data?.toListItems()
+                                _soldoutUiState.update { it.copy(list = list, isLoading = false) }
+                            }
+                            is NetworkResult.Error -> {
+                                Timber.e( res.message)
+                            }
                         }
                     }
+                }.onFailure { e ->
+                    Timber.e(e.message)
                 }
-            }.onFailure { e ->
-                Timber.e(e.message)
             }
         }
     }

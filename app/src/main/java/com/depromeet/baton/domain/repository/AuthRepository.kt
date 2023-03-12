@@ -4,12 +4,17 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
+import com.depromeet.baton.domain.api.user.TokenApi
 import com.depromeet.baton.domain.model.AuthInfo
+import com.depromeet.baton.remote.user.TokenService
 import com.depromeet.baton.util.SerializedPref
 import com.squareup.moshi.Moshi
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.math.sign
 
 @Singleton
 class AuthRepository @Inject constructor(
@@ -31,6 +36,13 @@ class AuthRepository @Inject constructor(
     }
 
     var authInfo by SerializedPref(pref, moshi.adapter(AuthInfo::class.java))
+
+    fun setAuthInfo(accessToken:String, refreshToken :String){
+        authInfo?.let{
+            it.accessToken = accessToken
+            it.refreshToken = refreshToken
+        }
+    }
 
     suspend fun isLoggedIn() : Boolean {
         return authInfo != null

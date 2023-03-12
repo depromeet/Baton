@@ -8,9 +8,12 @@ import com.depromeet.baton.domain.repository.SearchRepository
 import com.depromeet.baton.domain.usecase.GetFilteredTicketUseCase
 import com.depromeet.baton.presentation.base.BaseViewModel
 import com.depromeet.baton.presentation.base.UIState
+import com.depromeet.baton.domain.repository.AuthTokenRepository
 import com.depromeet.baton.presentation.ui.filter.view.TermFragment
 import com.depromeet.baton.presentation.util.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -19,8 +22,13 @@ import javax.inject.Inject
 
 class FilterViewModel @Inject constructor(
     private val getFilteredTicketUseCase: GetFilteredTicketUseCase,
-    private val searchRepository: SearchRepository
+    private val searchRepository: SearchRepository,
+    private val tokenRepository: AuthTokenRepository
 ) : BaseViewModel() {
+
+    /** AUTH TOKEN STATE **/
+    /** Access Token validation **/
+    val tokenError: SingleLiveEvent<Any> = tokenRepository.tokenError
 
     //현재 정렬
     private val _currentAlignment = MutableLiveData("정렬순")
@@ -230,12 +238,15 @@ class FilterViewModel @Inject constructor(
     val isResetClick: LiveData<Boolean> = _isResetClick
 
     /** ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ필터들 순서 총괄ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
+
+
+
     init {
-        //filterReset()
         setFilterPosition()
         //바텀 탭레이아웃에게 그려야하는 필터순서 리스트로 전달하기 위함
         setFilterTypeOrderList()
     }
+
 
     fun setFilterTypeOrderList() {
         filterTypeOrderList.value = _filterChipList.value?.toMap()?.keys?.toMutableList()
@@ -612,98 +623,103 @@ class FilterViewModel @Inject constructor(
     /** 필터링된 양도권 개수 가져오기 */
     private fun updateFilteredTicketCount() {
 
-        viewModelScope.launch {
-            kotlin.runCatching {
-                searchRepository.getFilteredTicketCount(
-                    page = 0,
-                    size = 100,
-                    hashtag = hashTagCheckedList.value?.filter { it.value }?.map { it.key.toString() },
-                    minPrice = if (priceRange.value?.first?.toInt() == 0) null else priceRange.value?.first?.toInt(),
-                    maxPrice = if (priceRange.value?.second?.toInt() == 1500000) null else priceRange.value?.second?.toInt(),
-                    minRemainNumber = setTermFormattedData().first,
-                    maxRemainNumber = setFormattedMonth().first,
-                    minRemainMonth = setTermFormattedData().second,
-                    maxRemainMonth = setFormattedMonth().second,
-                    ticketTypes = ticketKindCheckedList.value?.filter { it.value }?.map { it.key.toString() },
-                    ticketTradeType = setTicketTypeFormattedData().first,
-                    transferFee = setTicketTypeFormattedData().second,
-                    sortType = alignmentCheckedOption.value?.toString(),
-                    hasClothes = if (isSportWearChecked.value == false) null else isSportWearChecked.value,
-                    hasLocker = if (isLockerRoomChecked.value == false) null else isLockerRoomChecked.value,
-                    hasShower = if (isShowerRoomChecked.value == false) null else isShowerRoomChecked.value,
-                    hasGx = if (isGxChecked.value == false) null else isGxChecked.value,
-                    canResell = if (isReTransferChecked.value == false) null else isReTransferChecked.value,
-                    canRefund = if (isRefundChecked.value == false) null else isRefundChecked.value,
-                    isHold = if (isHoldingChecked.value == false) null else isHoldingChecked.value,
-                    canNego = if (isBargainingChecked.value == false) null else isBargainingChecked.value,
-                )
-            }.onSuccess {
-                it.collect { UiState ->
-                    when (UiState) {
-                        is UIState.Success<*> -> {
-                            _filteredTicketCount.value = UiState.data as Int
-                            _filteredTicketCountUiState.value = UIState.HasData
-                        }
-                        else -> {
-                            _filteredTicketCountUiState.value = UIState.Loading
+        viewModelScope.launch{
+            tokenRepository.authValidation {
+                kotlin.runCatching {
+                    searchRepository.getFilteredTicketCount(
+                        page = 0,
+                        size = 100,
+                        hashtag = hashTagCheckedList.value?.filter { it.value }?.map { it.key.toString() },
+                        minPrice = if (priceRange.value?.first?.toInt() == 0) null else priceRange.value?.first?.toInt(),
+                        maxPrice = if (priceRange.value?.second?.toInt() == 1500000) null else priceRange.value?.second?.toInt(),
+                        minRemainNumber = setTermFormattedData().first,
+                        maxRemainNumber = setFormattedMonth().first,
+                        minRemainMonth = setTermFormattedData().second,
+                        maxRemainMonth = setFormattedMonth().second,
+                        ticketTypes = ticketKindCheckedList.value?.filter { it.value }?.map { it.key.toString() },
+                        ticketTradeType = setTicketTypeFormattedData().first,
+                        transferFee = setTicketTypeFormattedData().second,
+                        sortType = alignmentCheckedOption.value?.toString(),
+                        hasClothes = if (isSportWearChecked.value == false) null else isSportWearChecked.value,
+                        hasLocker = if (isLockerRoomChecked.value == false) null else isLockerRoomChecked.value,
+                        hasShower = if (isShowerRoomChecked.value == false) null else isShowerRoomChecked.value,
+                        hasGx = if (isGxChecked.value == false) null else isGxChecked.value,
+                        canResell = if (isReTransferChecked.value == false) null else isReTransferChecked.value,
+                        canRefund = if (isRefundChecked.value == false) null else isRefundChecked.value,
+                        isHold = if (isHoldingChecked.value == false) null else isHoldingChecked.value,
+                        canNego = if (isBargainingChecked.value == false) null else isBargainingChecked.value,
+                    )
+                }.onSuccess {
+                    it.collect { UiState ->
+                        when (UiState) {
+                            is UIState.Success<*> -> {
+                                _filteredTicketCount.value = UiState.data as Int
+                                _filteredTicketCountUiState.value = UIState.HasData
+                            }
+                            else -> {
+                                _filteredTicketCountUiState.value = UIState.Loading
+                            }
                         }
                     }
+                }.onFailure {
+                    _filteredTicketCountUiState.value = UIState.Loading
+                    Timber.e(it)
                 }
-            }.onFailure {
-                _filteredTicketCountUiState.value = UIState.Loading
-                Timber.e(it)
             }
         }
     }
 
     /** 필터링된 양도권 리스트 가져오기 */
     fun updateFilteredTicketList() {
-        viewModelScope.launch {
+        viewModelScope.launch{
             _filteredTicketUiState.value = UIState.Loading
+            tokenRepository.authValidation {
+                kotlin.runCatching {
+                    getFilteredTicketUseCase.execute(
+                        page = 0,
+                        size = 100,
+                        hashtag = hashTagCheckedList.value?.filter { it.value }?.map { it.key.toString() },
+                        minPrice = if (priceRange.value?.first?.toInt() == 0) null else priceRange.value?.first?.toInt(),
+                        maxPrice = if (priceRange.value?.second?.toInt() == 1500000) null else priceRange.value?.second?.toInt(),
+                        minRemainNumber = setTermFormattedData().first,
+                        maxRemainNumber = setFormattedMonth().first,
+                        minRemainMonth = setTermFormattedData().second,
+                        maxRemainMonth = setFormattedMonth().second,
+                        ticketTypes = ticketKindCheckedList.value?.filter { it.value }?.map { it.key.toString() },
+                        ticketTradeType = setTicketTypeFormattedData().first,
+                        transferFee = setTicketTypeFormattedData().second,
+                        sortType = alignmentCheckedOption.value?.toString(),
+                        hasClothes = if (isSportWearChecked.value == false) null else isSportWearChecked.value,
+                        hasLocker = if (isLockerRoomChecked.value == false) null else isLockerRoomChecked.value,
+                        hasShower = if (isShowerRoomChecked.value == false) null else isShowerRoomChecked.value,
+                        hasGx = if (isGxChecked.value == false) null else isGxChecked.value,
+                        canResell = if (isReTransferChecked.value == false) null else isReTransferChecked.value,
+                        canRefund = if (isRefundChecked.value == false) null else isRefundChecked.value,
+                        isHold = if (isHoldingChecked.value == false) null else isHoldingChecked.value,
+                        canNego = if (isBargainingChecked.value == false) null else isBargainingChecked.value,
+                    )
+                }.onSuccess {
+                    when (it) {
+                        is UIState.Success<*> -> {
+                            @Suppress("UNCHECKED_CAST")
+                            _filteredTicketList.value = it.data as List<FilteredTicket>
+                            _ticketCount.value = _filteredTicketList.value!!.size
 
-            kotlin.runCatching {
-                getFilteredTicketUseCase.execute(
-                    page = 0,
-                    size = 100,
-                    hashtag = hashTagCheckedList.value?.filter { it.value }?.map { it.key.toString() },
-                    minPrice = if (priceRange.value?.first?.toInt() == 0) null else priceRange.value?.first?.toInt(),
-                    maxPrice = if (priceRange.value?.second?.toInt() == 1500000) null else priceRange.value?.second?.toInt(),
-                    minRemainNumber = setTermFormattedData().first,
-                    maxRemainNumber = setFormattedMonth().first,
-                    minRemainMonth = setTermFormattedData().second,
-                    maxRemainMonth = setFormattedMonth().second,
-                    ticketTypes = ticketKindCheckedList.value?.filter { it.value }?.map { it.key.toString() },
-                    ticketTradeType = setTicketTypeFormattedData().first,
-                    transferFee = setTicketTypeFormattedData().second,
-                    sortType = alignmentCheckedOption.value?.toString(),
-                    hasClothes = if (isSportWearChecked.value == false) null else isSportWearChecked.value,
-                    hasLocker = if (isLockerRoomChecked.value == false) null else isLockerRoomChecked.value,
-                    hasShower = if (isShowerRoomChecked.value == false) null else isShowerRoomChecked.value,
-                    hasGx = if (isGxChecked.value == false) null else isGxChecked.value,
-                    canResell = if (isReTransferChecked.value == false) null else isReTransferChecked.value,
-                    canRefund = if (isRefundChecked.value == false) null else isRefundChecked.value,
-                    isHold = if (isHoldingChecked.value == false) null else isHoldingChecked.value,
-                    canNego = if (isBargainingChecked.value == false) null else isBargainingChecked.value,
-                )
-            }.onSuccess {
-                when (it) {
-                    is UIState.Success<*> -> {
-                        @Suppress("UNCHECKED_CAST")
-                        _filteredTicketList.value = it.data as List<FilteredTicket>
-                        _ticketCount.value = _filteredTicketList.value!!.size
-
-                        if (_filteredTicketList.value!!.isNotEmpty()) {
-                            _filteredTicketUiState.value = UIState.HasData
-                        } else {
-                            _filteredTicketUiState.value = UIState.NoData
+                            if (_filteredTicketList.value!!.isNotEmpty()) {
+                                _filteredTicketUiState.value = UIState.HasData
+                            } else {
+                                _filteredTicketUiState.value = UIState.NoData
+                            }
                         }
+                        else -> _filteredTicketUiState.value = UIState.Loading
                     }
-                    else -> _filteredTicketUiState.value = UIState.Loading
+                }.onFailure {
+                    _filteredTicketUiState.value = UIState.Loading
+                    Timber.e(it)
                 }
-            }.onFailure {
-                _filteredTicketUiState.value = UIState.Loading
-                Timber.e(it)
             }
         }
     }
+
+
 }

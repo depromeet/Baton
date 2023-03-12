@@ -76,6 +76,10 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                 replaceFragment(purchaseHistoryFragment)
             }
             mypageLikeCd.setOnClickListener {
+                if(likeTicketFragment.isAdded){
+                    requireActivity().supportFragmentManager.beginTransaction().remove(likeTicketFragment)
+                    likeTicketFragment = LikeTicketFragment()
+                }
                 replaceFragment(likeTicketFragment)
             }
             mypageProfileEditIc.setOnClickListener {
@@ -150,6 +154,10 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             .flowWithLifecycle(viewLifecycle)
             .onEach(::handleViewEvents)
             .launchIn(viewLifecycleScope)
+
+        myPageViewModel.tokenError.observe(requireActivity()){
+            (requireActivity() as MainActivity).showExpireToast()
+        }
     }
 
     private fun handleViewEvents( events: List<MyPageViewModel.ViewEvent>) {
@@ -157,6 +165,10 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             when (viewEvent) {
                is MyPageViewModel.ViewEvent.EventWithdrawal ->{
                    requireContext().BdsToast(viewEvent.msg).show()
+               }
+               is MyPageViewModel.ViewEvent.EventAuthError->{
+                   requireContext().BdsToast("유저 세션이 만료되었습니다. 다시 로그인 해주세요").show()
+                   SignActivity.start(requireContext())
                }
             }
            myPageViewModel.consumeViewEvent(viewEvent)

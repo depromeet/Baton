@@ -9,6 +9,7 @@ import com.depromeet.baton.domain.model.Alignment
 import com.depromeet.baton.presentation.base.BaseFragment
 import com.depromeet.baton.presentation.bottom.BottomMenuItem
 import com.depromeet.baton.presentation.bottom.BottomSheetFragment
+import com.depromeet.baton.presentation.main.AuthViewModel
 import com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,7 +23,6 @@ class FilterChipFragment : BaseFragment<FragmentFilterChipBinding>(R.layout.frag
         binding.filterViewModel = filterViewModel
         binding.filterChipFragment = this
         setAlignClickListener()
-
     }
 
     fun setFilterChipClickListener(filterPosition: Int) {

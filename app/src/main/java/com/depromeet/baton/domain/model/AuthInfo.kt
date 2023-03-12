@@ -4,8 +4,8 @@ import androidx.annotation.Keep
 
 @Keep
 data class AuthInfo(
-    val accessToken: String,
-    val refreshToken: String,
+    var accessToken: String,
+    var refreshToken: String,
     val userId: Int
 )
 

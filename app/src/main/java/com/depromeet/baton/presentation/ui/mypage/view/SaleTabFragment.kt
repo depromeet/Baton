@@ -14,6 +14,7 @@ import com.depromeet.baton.presentation.base.BaseFragment
 import com.depromeet.baton.presentation.bottom.BottomMenuItem
 import com.depromeet.baton.presentation.bottom.BottomSheetFragment
 import com.depromeet.baton.presentation.bottom.BottomSheetFragment.Companion.CHECK_ITEM_VIEW
+import com.depromeet.baton.presentation.main.MainActivity
 import com.depromeet.baton.presentation.ui.mypage.model.SaleTicketListItem
 import com.depromeet.baton.presentation.ui.mypage.adapter.SaleTicketItemAdapter
 import com.depromeet.baton.presentation.ui.mypage.viewmodel.SaleHistoryViewModel
@@ -75,6 +76,10 @@ class SaleTabFragment : BaseFragment<FragmentSaleTabBinding>(R.layout.fragment_s
                 ticketItemRvAdapter.submitList(it.list)
             }
             .launchIn(viewLifecycleScope)
+
+        saleViewModel.tokenError.observe(requireActivity()){
+            (requireActivity() as MainActivity).showExpireToast()
+        }
     }
 
 

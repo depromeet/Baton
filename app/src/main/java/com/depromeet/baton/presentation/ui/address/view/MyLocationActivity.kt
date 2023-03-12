@@ -5,6 +5,8 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.widget.Button
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
@@ -15,7 +17,9 @@ import com.depromeet.baton.databinding.ActivityMylocationBinding
 import com.depromeet.baton.presentation.base.BaseActivity
 import com.depromeet.baton.presentation.base.UIState
 import com.depromeet.baton.presentation.ui.address.viewmodel.MyLocationViewModel
+import com.depromeet.baton.presentation.ui.sign.SignActivity
 import com.depromeet.baton.util.BatonSpfManager
+import com.depromeet.bds.component.BdsToast
 import com.google.android.material.snackbar.Snackbar
 import com.skydoves.balloon.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -62,12 +66,17 @@ class MyLocationActivity :BaseActivity<ActivityMylocationBinding>(R.layout.activ
             }
         })
 
-        locationViewModel.snackbarText.observe(this, Observer {
-            it.getContentIfNotHandled()?.let{
-                Snackbar.make(binding.root, it,Snackbar.LENGTH_SHORT).show()
-            }
+        locationViewModel.tokenError.observe(this, Observer {
+           showExpireToast()
         })
+    }
 
+    private fun showExpireToast(){
+        BdsToast("유저 세션이 만료되었습니다. 다시 로그인 해주세요").show()
+        Handler(Looper.getMainLooper()).postDelayed({
+            SignActivity.start(this)
+            finish()
+        }, 1500)
     }
 
     private fun fetchData() {

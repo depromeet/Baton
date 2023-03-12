@@ -4,6 +4,7 @@ import android.view.View
 import androidx.lifecycle.viewModelScope
 import com.depromeet.baton.data.response.UserBuyListResponse
 import com.depromeet.baton.domain.repository.AuthRepository
+import com.depromeet.baton.domain.repository.AuthTokenRepository
 import com.depromeet.baton.domain.repository.UserinfoRepository
 import com.depromeet.baton.map.util.NetworkResult
 import com.depromeet.baton.presentation.base.BaseViewModel
@@ -21,10 +22,13 @@ import javax.inject.Inject
 @HiltViewModel
 class PurchaseHistoryViewModel @Inject constructor(
     private val userinfoRepository: UserinfoRepository,
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val tokenRepository: AuthTokenRepository
 ) :BaseViewModel(){
     private val _uiState: MutableStateFlow<PurchaseHistoryUiState> = MutableStateFlow(PurchaseHistoryUiState())
     val uiState = _uiState.asStateFlow()
+
+    val tokenError = tokenRepository.tokenError
 
     init{
         getHistory()
@@ -32,22 +36,24 @@ class PurchaseHistoryViewModel @Inject constructor(
 
     private fun getHistory(){
         viewModelScope.launch {
-           runCatching {
-                userinfoRepository.getUserBuyList(authRepository.authInfo!!.userId)
-            }.onSuccess {
-                res ->
+            tokenRepository.authValidation {
+                runCatching {
+                    userinfoRepository.getUserBuyList(authRepository.authInfo!!.userId)
+                }.onSuccess {
+                        res ->
                     when(res){
                         is NetworkResult.Success -> {
-                             val list= res.data?.toListItems()
+                            val list= res.data?.toListItems()
                             _uiState.update { it.copy(list = list , isLoading = false) }
                         }
                         is NetworkResult.Error ->{ Timber.e(res.message)}
                     }
 
 
-           }.onFailure {
-               e -> Timber.e(e.toString())
-           }
+                }.onFailure {
+                        e -> Timber.e(e.toString())
+                }
+            }
         }
     }
 

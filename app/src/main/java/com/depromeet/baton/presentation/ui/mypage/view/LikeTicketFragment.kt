@@ -11,6 +11,7 @@ import com.depromeet.baton.R
 import com.depromeet.baton.data.response.BookmarkTicket
 import com.depromeet.baton.databinding.FragmentLikeTicketBinding
 import com.depromeet.baton.presentation.base.BaseFragment
+import com.depromeet.baton.presentation.main.MainActivity
 import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
 import com.depromeet.baton.presentation.ui.mypage.adapter.BookMarkItemRvAdapter
 import com.depromeet.baton.presentation.ui.mypage.viewmodel.MyBookmarkViewModel
@@ -53,6 +54,9 @@ class LikeTicketFragment : BaseFragment<FragmentLikeTicketBinding>(R.layout.frag
             }
             .launchIn(viewLifecycleScope)
 
+        viewModel.tokenError.observe(requireActivity()){
+            (requireActivity() as MainActivity).showExpireToast()
+        }
     }
 
     private fun initRecyclerView(){

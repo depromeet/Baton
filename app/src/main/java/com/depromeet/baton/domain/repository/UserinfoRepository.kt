@@ -2,6 +2,7 @@ package com.depromeet.baton.domain.repository
 
 import com.depromeet.baton.data.request.UserToken
 import com.depromeet.baton.data.response.*
+import com.depromeet.baton.domain.api.user.TokenApi
 import com.depromeet.baton.domain.api.user.UserInfoApi
 import com.depromeet.baton.domain.di.IoDispatcher
 import com.depromeet.baton.domain.model.MypageTicketResponse
@@ -11,20 +12,21 @@ import com.depromeet.baton.remote.ticket.MypageBasicResponse
 import com.depromeet.baton.remote.user.UserProfileImg
 import com.depromeet.baton.remote.user.UserProfileRequest
 import com.depromeet.baton.remote.user.UserTokenResponse
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import retrofit2.Response
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.http.Multipart
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class UserinfoRepository @Inject constructor(
     private val userInfoApi: UserInfoApi,
+    private val tokenApi: TokenApi,
     @IoDispatcher val ioDispatcher: CoroutineDispatcher
 ) : BaseApiResponse() {
     suspend fun getUserProfile(userIdx: Int): NetworkResult<UserProfileResponse> {
@@ -71,10 +73,11 @@ class UserinfoRepository @Inject constructor(
     suspend fun deleteProfileImage(userIdx: Int) :NetworkResult<MypageBasicResponse>{
         return withContext(ioDispatcher) {safeApiCall { userInfoApi.deleteProfileImage(userIdx) }}
     }
+    suspend fun authValidation(accessToken: String, refreshToken :String) : TokenApi.RefreshResult =
+        withContext(ioDispatcher){ tokenApi.tokenValidation(accessToken, refreshToken) }
 
     private fun getHeaderMap(token :String): Map<String, String> {
         val headerMap = mutableMapOf<String, String>()
-      //  headerMap.put("Authorization", "Bearer $token")
         headerMap.put("Content-type", "application/json")
         return headerMap
     }

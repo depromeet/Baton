@@ -5,6 +5,8 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.Toast
 import android.widget.ImageView
@@ -41,6 +43,7 @@ import com.depromeet.baton.presentation.ui.detail.viewModel.*
 import com.depromeet.baton.presentation.ui.filter.view.BottomFilterFragment
 import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter
 import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter.Companion.SCROLL_TYPE_HORIZONTAL
+import com.depromeet.baton.presentation.ui.sign.SignActivity
 import com.depromeet.baton.presentation.util.TicketIteHorizontalDecoration
 import com.depromeet.baton.presentation.util.shortToast
 import com.depromeet.baton.util.BatonSpfManager
@@ -111,6 +114,14 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
             this@TicketDetailActivity, Observer { uiState -> handleTicketUiState(uiState) }
         )
 
+        viewModel.tokenError.observe(this){
+            BdsToast("유저 세션이 만료되었습니다. 다시 로그인 해주세요").show()
+            Handler(Looper.getMainLooper()).postDelayed({
+                SignActivity.start(this)
+                finish()
+            }, 1500)
+        }
+
         viewModel.netWorkState
             .flowWithLifecycle(lifecycle)
             .onEach(::handleTicketNetwork)
@@ -145,7 +156,8 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
         ticketTagAdapter.initList(uiState.ticket.infoHashs)
         gymTagAdapter.initList(uiState.ticket.tags)
         ticketImgRvAdapter.submitList(uiState.ticket.imgList.map { it.url })
-        uiState.ticket.seller.image?.let {
+        uiState.sellerImage?.let {
+            Timber.e(it)
             Glide.with(this)
                 .load(it)
                 .error(com.depromeet.bds.R.drawable.ic_img_profile_basic_smile_96)
@@ -435,7 +447,6 @@ class TicketDetailActivity : BaseActivity<ActivityTicketDetailBinding>(R.layout.
     }
 
     fun setClickInquiryByBuyer() {
-        Timber.e("click inqury buyer")
         val bottomInquiryFragment = BottomInquiryFragment()
         bottomInquiryFragment.show(
             supportFragmentManager,

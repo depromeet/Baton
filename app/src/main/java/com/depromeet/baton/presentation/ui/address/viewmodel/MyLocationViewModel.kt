@@ -2,6 +2,7 @@ package com.depromeet.baton.presentation.ui.address.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.*
+import com.depromeet.baton.domain.repository.AuthTokenRepository
 import com.depromeet.baton.map.domain.entity.AddressEntity
 import com.depromeet.baton.map.domain.entity.LocationEntity
 import com.depromeet.baton.map.domain.usecase.GetAddressUseCase
@@ -22,6 +23,7 @@ import javax.inject.Inject
 class MyLocationViewModel @Inject constructor(
     private val addressUseCase: GetAddressUseCase,
     private val searchAddressUseCase: SearchAddressUseCase,
+    private val tokenRepository: AuthTokenRepository,
     private val spfManager: BatonSpfManager
 ) : ViewModel() {
 
@@ -38,8 +40,7 @@ class MyLocationViewModel @Inject constructor(
     private val _res: MutableLiveData<NetworkResult<LocationEntity>> = MutableLiveData()
     val res: LiveData<NetworkResult<LocationEntity>> = _res
 
-    private val _snackbarText = MutableLiveData<Event<String>>()
-    val snackbarText: LiveData<Event<String>> = _snackbarText
+    val tokenError = tokenRepository.tokenError
 
 
     init {
@@ -53,10 +54,10 @@ class MyLocationViewModel @Inject constructor(
     fun getMyAddress() = viewModelScope.launch {
         _res.value = NetworkResult.Loading()
         _uiState.value = (UIState.Loading)
-
-        addressUseCase.getMyAddress().collect { values ->
-            when (values) {
-                is NetworkResult.Success -> {
+        tokenRepository.authValidation {
+            addressUseCase.getMyAddress().collect { values ->
+                when (values) {
+                    is NetworkResult.Success -> {
                         _res.value = values
                         _roadState.value = values.data!!.address.roadAddress
                         _jibunState.value = "[지번]${values.data!!.address.address}"
@@ -64,14 +65,15 @@ class MyLocationViewModel @Inject constructor(
                         addressUseCase.stopLocationUpdate()
                         spfManager.saveAddress(values.data!!.address.roadAddress, values.data!!.address.address)
                         spfManager.saveLocation(values.data!!.location)
-                }
-                is NetworkResult.Error -> {
-                    Timber.e(values.message)
-                    _uiState.value = (UIState.Loading)
-                    //TODO : 에러처리
-                }
-                is NetworkResult.Loading -> {
-                    _uiState.value = (UIState.Loading)
+                    }
+                    is NetworkResult.Error -> {
+                        Timber.e(values.message)
+                        _uiState.value = (UIState.Loading)
+                        //TODO : 에러처리
+                    }
+                    is NetworkResult.Loading -> {
+                        _uiState.value = (UIState.Loading)
+                    }
                 }
             }
         }

@@ -2,8 +2,11 @@ package com.depromeet.baton.presentation.ui.search.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.depromeet.baton.domain.api.user.TokenApi
 import com.depromeet.baton.domain.repository.AuthRepository
+import com.depromeet.baton.domain.repository.AuthTokenRepository
 import com.depromeet.baton.domain.repository.BookmarkRepository
+import com.depromeet.baton.domain.repository.UserinfoRepository
 import com.depromeet.baton.presentation.base.BaseViewModel
 import com.depromeet.baton.presentation.ui.search.view.SearchUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,6 +22,7 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val bookmarkRepository: BookmarkRepository,
+    private val tokenRepository: AuthTokenRepository
 ) : BaseViewModel() {
 
     val lastSearchKeyword = MutableLiveData<String>("")
@@ -83,6 +87,7 @@ class SearchViewModel @Inject constructor(
                 .onFailure { Timber.e(it.message) }
         }
     }
+
 
     sealed interface ViewEvent {
         object ToRecentSearch : ViewEvent

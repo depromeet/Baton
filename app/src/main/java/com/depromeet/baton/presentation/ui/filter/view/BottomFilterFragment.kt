@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentBottomFilterBinding
 import com.depromeet.baton.domain.model.FilterType
+import com.depromeet.baton.presentation.main.AuthViewModel
+import com.depromeet.baton.presentation.main.MainActivity
 import com.depromeet.baton.presentation.ui.filter.adapter.FilteredChipRvAdapter
 import com.depromeet.baton.presentation.ui.filter.adapter.TabLayoutAdapter
 import com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel
@@ -123,6 +125,10 @@ class BottomFilterFragment : BottomSheetDialogFragment() {
                     binding.rvBottomFilter.scrollToPosition(filteredChipRvAdapter.itemCount - 1)
                 }
             }
+        }
+
+        filterViewModel.tokenError.observe(viewLifecycleOwner){
+            (requireActivity() as MainActivity).showExpireToast()
         }
     }
 

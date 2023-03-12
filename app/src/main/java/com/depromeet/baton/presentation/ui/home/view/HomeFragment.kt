@@ -5,28 +5,37 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentHomeBinding
 import com.depromeet.baton.domain.model.FilteredTicket
 import com.depromeet.baton.domain.model.TicketKind
 import com.depromeet.baton.presentation.base.BaseFragment
+import com.depromeet.baton.presentation.main.AuthViewModel
 import com.depromeet.baton.presentation.main.MainActivity
+import com.depromeet.baton.presentation.main.TokenState
 import com.depromeet.baton.presentation.ui.address.view.AddressActivity
 import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
 import com.depromeet.baton.presentation.ui.filter.viewmodel.FilterViewModel
 import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter
 import com.depromeet.baton.presentation.ui.home.viewmodel.HomeViewModel
 import com.depromeet.baton.presentation.ui.search.viewmodel.SearchViewModel
+import com.depromeet.baton.presentation.ui.sign.SignActivity
 import com.depromeet.baton.presentation.ui.writepost.view.WritePostActivity
 import com.depromeet.baton.presentation.util.TicketItemVerticalDecoration
+import com.depromeet.baton.presentation.util.viewLifecycleScope
 import com.depromeet.baton.util.BatonSpfManager
+import com.depromeet.bds.component.BdsToast
 import com.skydoves.balloon.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -35,6 +44,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private val homeViewModel: HomeViewModel by activityViewModels()
     private val searchViewModel: SearchViewModel by activityViewModels()
     private val filterViewModel: FilterViewModel by activityViewModels()
+
     private lateinit var ticketItemRvAdapter: TicketItemRvAdapter
 
     @Inject
@@ -50,6 +60,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         super.onResume()
         initLayout()
         filterViewModel.updateFilteredTicketList()
+
         if (homeViewModel.fromAddress.value == true) {
             Handler(Looper.getMainLooper())
                 .postDelayed({
@@ -79,6 +90,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             .flowWithLifecycle(lifecycle)
             .onEach { uiState -> binding.uiState = uiState }
             .launchIn(lifecycleScope)
+
     }
 
     private fun initLayout() {
@@ -135,6 +147,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 HomeViewModel.HomeViewEvent.ToWritePost -> WritePostActivity.start(requireContext())
 
                 HomeViewModel.HomeViewEvent.ShowToolTip -> showToolTip()
+
             }
             homeViewModel.consumeViewEvent(viewEvent)
         }

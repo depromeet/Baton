@@ -13,6 +13,7 @@ import com.depromeet.baton.domain.model.FilteredTicket
 import com.depromeet.baton.domain.model.HashTag
 import com.depromeet.baton.domain.model.TicketKind
 import com.depromeet.baton.presentation.base.BaseFragment
+import com.depromeet.baton.presentation.main.AuthViewModel
 import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
 import com.depromeet.baton.presentation.ui.home.adapter.TicketItemRvAdapter
 import com.depromeet.baton.presentation.ui.search.viewmodel.FilterSearchViewModel
@@ -28,6 +29,12 @@ class SearchDetailFragment : BaseFragment<FragmentSearchDetailBinding>(R.layout.
     private val filterSearchViewModel: FilterSearchViewModel by activityViewModels()
     private val searchViewModel: SearchViewModel by activityViewModels()
     private lateinit var ticketItemRvAdapter: TicketItemRvAdapter
+    private val authViewModel : AuthViewModel by activityViewModels()
+
+    override fun onResume() {
+        super.onResume()
+        authViewModel.authValidation()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -61,6 +68,7 @@ class SearchDetailFragment : BaseFragment<FragmentSearchDetailBinding>(R.layout.
                             }
                         }
                     }
+
             }
         }
     }

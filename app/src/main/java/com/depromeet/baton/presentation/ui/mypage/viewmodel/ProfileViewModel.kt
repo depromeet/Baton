@@ -8,6 +8,7 @@ import android.text.Editable
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.depromeet.baton.domain.repository.AuthRepository
+import com.depromeet.baton.domain.repository.AuthTokenRepository
 import com.depromeet.baton.domain.repository.UserinfoRepository
 import com.depromeet.baton.map.util.NetworkResult
 import com.depromeet.baton.presentation.util.MultiPartResolver
@@ -38,6 +39,7 @@ import javax.inject.Inject
 class ProfileViewModel@Inject constructor(
     private val userinfoRepository: UserinfoRepository,
     private val authRepository: AuthRepository,
+    private val tokenRepository: AuthTokenRepository,
     private val spfManager: BatonSpfManager,
     application: Application
 ): AndroidViewModel(application){
@@ -45,6 +47,8 @@ class ProfileViewModel@Inject constructor(
     private val context = application.baseContext
 
     private val multiPartResolver = MultiPartResolver(context)
+
+    val tokenError = tokenRepository.tokenError
 
     val emptyIcon = uriConverter(context, com.depromeet.bds.R.drawable.ic_img_profile_basic_smile_96)
 
@@ -71,18 +75,20 @@ class ProfileViewModel@Inject constructor(
 
     fun initProfileInfo(){
         viewModelScope.launch {
-            runCatching {
-                val res = userinfoRepository.getUserProfile(authRepository.authInfo!!.userId)
-                when (res) {
-                    is NetworkResult.Success -> {
-                        _uiState.update {
-                            it.copy(
-                                nickName = res.data!!.nickname,
-                                phoneNumber = res.data!!.phone_number ,
-                                profileImage = res.data!!.profileImg?.let { Uri.parse(it) }, isLoading = false) }
-                    }
-                    is NetworkResult.Error -> {
-                        Timber.e(res.message)
+            tokenRepository.authValidation {
+                runCatching {
+                    val res = userinfoRepository.getUserProfile(authRepository.authInfo!!.userId)
+                    when (res) {
+                        is NetworkResult.Success -> {
+                            _uiState.update {
+                                it.copy(
+                                    nickName = res.data!!.nickname,
+                                    phoneNumber = res.data!!.phone_number ,
+                                    profileImage = res.data!!.profileImg?.let { Uri.parse(it) }, isLoading = false) }
+                        }
+                        is NetworkResult.Error -> {
+                            Timber.e(res.message)
+                        }
                     }
                 }
             }
@@ -121,6 +127,7 @@ class ProfileViewModel@Inject constructor(
                  }
              }
     }
+
     private fun updateProfileImage(){
         viewModelScope.launch {
             val userId = authRepository.authInfo!!.userId

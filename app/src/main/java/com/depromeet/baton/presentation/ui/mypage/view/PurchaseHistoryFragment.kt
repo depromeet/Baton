@@ -9,6 +9,7 @@ import com.depromeet.baton.R
 import com.depromeet.baton.databinding.FragmentPurchaseHistoryBinding
 
 import com.depromeet.baton.presentation.base.BaseFragment
+import com.depromeet.baton.presentation.main.MainActivity
 import com.depromeet.baton.presentation.ui.detail.TicketDetailActivity
 import com.depromeet.baton.presentation.ui.mypage.model.SaleTicketItem
 import com.depromeet.baton.presentation.ui.mypage.model.SaleTicketListItem
@@ -55,6 +56,10 @@ class PurchaseHistoryFragment: BaseFragment<FragmentPurchaseHistoryBinding>(R.la
                 ticketItemRvAdapter.submitList(it.list)
             }
             .launchIn(viewLifecycleScope)
+
+        purchaseViewModel.tokenError.observe(requireActivity()){
+            (requireActivity() as MainActivity).showExpireToast()
+        }
     }
 
 
